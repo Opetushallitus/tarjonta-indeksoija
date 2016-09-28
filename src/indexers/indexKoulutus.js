@@ -1,7 +1,8 @@
 import indexGeneric from './indexGeneric'
+import config from '../config'
 
 const indexKoulutus = oid =>
-  indexGeneric(`https://testi.virkailija.opintopolku.fi/tarjonta-service/rest/v1/koulutus/${oid}`, {
+  indexGeneric(`${config.baseUrl}/koulutus/${oid}`, {
     type: 'koulutus',
     index: 'koulutus',
   })

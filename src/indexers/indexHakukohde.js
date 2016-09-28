@@ -1,7 +1,8 @@
 import indexGeneric from './indexGeneric'
+import config from '../config'
 
 const indexHakukohde = oid =>
-  indexGeneric(`https://testi.virkailija.opintopolku.fi/tarjonta-service/rest/v1/hakukohde/${oid}`, {
+  indexGeneric(`${config.baseUrl}/hakukohde/${oid}`, {
     type: 'hakukohde',
     index: 'hakukohde',
   })
