@@ -4,10 +4,12 @@
   "description": "",
   "main": ".eslintrc.js",
   "dependencies": {
+    "async": "^2.0.1",
     "elasticsearch": "^11.0.1",
     "express": "^4.14.0",
     "lodash": "^4.16.2",
-    "node-fetch": "^1.6.3"
+    "node-fetch": "^1.6.3",
+    "progress": "^1.1.8"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
