@@ -3,16 +3,19 @@ import pickIndexer from './lib/pickIndexer'
 import composeHakukohde from './composers/composeHakukohde'
 
 const app = express()
+const errors = {
+  internalServerError: res => res.status(500).send('Error indexing!'),
+  badRequest: res => res.status(400).send('Bad request!'),
+}
 
 app.get('/index/:entity/:oid', (req, res) => {
-  const indexer = pickIndexer(req.params.entity)
-
-  if (!indexer) {
-    res.status(400).send(`Indexer for entity ${req.params.entity} not found!`)
-  } else {
+  try {
+    const indexer = pickIndexer(req.params.entity)
     indexer(req.params.oid)
       .then(status => res.json(status))
-      .catch(() => res.status(500).send('Error indexing!'))
+      .catch(() => errors.internalServerError(res))
+  } catch (e) {
+    errors.badRequest(res)
   }
 })
 
