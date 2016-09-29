@@ -2,8 +2,8 @@ import fetch from 'node-fetch'
 import _ from 'lodash'
 import config from '../config'
 
-const tarjontaSearch = endpointWithQueryString =>
-  fetch(`${config.baseUrl}/${endpointWithQueryString}`)
+const tarjontaSearch = (entity, queryString) =>
+  fetch(`${config.baseUrl}/${entity}/search?${queryString}`)
     .then(response => response.json())
     .then(response => response.result.tulokset)
     .then(tuloksetByOrg => tuloksetByOrg.map(orgTulos =>

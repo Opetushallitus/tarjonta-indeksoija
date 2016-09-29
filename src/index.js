@@ -1,18 +1,11 @@
 import express from 'express'
-import indexKoulutus from './indexers/indexKoulutus'
-import indexHakukohde from './indexers/indexHakukohde'
-import indexHaku from './indexers/indexHaku'
+import pickIndexer from './lib/pickIndexer'
 import composeHakukohde from './composers/composeHakukohde'
 
-const indexers = {
-  haku: indexHaku,
-  koulutus: indexKoulutus,
-  hakukohde: indexHakukohde,
-}
 const app = express()
 
 app.get('/index/:entity/:oid', (req, res) => {
-  const indexer = indexers[req.params.entity]
+  const indexer = pickIndexer(req.params.entity)
 
   if (!indexer) {
     res.status(400).send(`Indexer for entity ${req.params.entity} not found!`)

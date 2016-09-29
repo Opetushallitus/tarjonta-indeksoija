@@ -1,15 +1,16 @@
 import eachSeries from 'async/eachSeries'
 import ProgressBar from 'progress'
 import tarjontaSearch from './lib/tarjontaSearch'
-import indexKoulutus from './indexers/indexKoulutus'
+import pickIndexer from './lib/pickIndexer'
 
-const endpointWithQueryString = process.argv[2]
+const entity = process.argv[2]
+const queryString = process.argv[3]
 
-tarjontaSearch(endpointWithQueryString).then((matchingOids) => {
+tarjontaSearch(entity, queryString).then((matchingOids) => {
   const progressBar = new ProgressBar(':bar', { total: matchingOids.length })
   eachSeries(matchingOids, (oid, done) => {
     progressBar.tick()
-    indexKoulutus(oid)
+    pickIndexer(entity)(oid)
       .then(() => done())
       .catch(e => done(e))
   }, (error) => {
