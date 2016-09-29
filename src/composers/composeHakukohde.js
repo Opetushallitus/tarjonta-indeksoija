@@ -9,7 +9,7 @@ const composeHakukohde = oid =>
   esClient.getSource({
     ...defaultOpts,
     id: oid,
-  }).then(hakukohdeEntity => new Promise((resolve) => {
+  }).then(hakukohdeEntity => {
     const koulutusDocs = hakukohdeEntity.koulutukset.map(k => ({
       _index: 'koulutus',
       _type: 'koulutus',
@@ -21,7 +21,7 @@ const composeHakukohde = oid =>
       _id: hakukohdeEntity.hakuOid,
     }
 
-    esClient.mget({
+    return esClient.mget({
       body: {
         docs: [hakuDoc, ...koulutusDocs],
       },
@@ -46,9 +46,9 @@ const composeHakukohde = oid =>
         }
       })
 
-      resolve(composedHakukohde)
+      return composedHakukohde
     })
-  }))
+  })
 
 
 export default composeHakukohde
