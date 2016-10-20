@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     semi: [2, 'never'],
     'no-console': 'off',
+    'comma-dangle': ['error', 'only-multiline']
   },
   parser: 'babel-eslint',
   parserOptions: {
