@@ -1,7 +1,8 @@
 import elasticsearch from 'elasticsearch'
+import config from '../config'
 
 const esClient = new elasticsearch.Client({
-  host: 'localhost:9200',
+  host: config.elasticSearchLocation,
 })
 
 export default esClient
