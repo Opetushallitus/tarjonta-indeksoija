@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": ".eslintrc.js",
+  "license": "EUPL-1.1",
   "dependencies": {
     "async": "^2.0.1",
     "elasticsearch": "^11.0.1",
@@ -29,7 +30,5 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d dist",
     "watch": "babel --watch src -d dist"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }
