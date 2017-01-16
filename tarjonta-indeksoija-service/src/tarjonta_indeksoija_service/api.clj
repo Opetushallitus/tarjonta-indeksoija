@@ -10,13 +10,9 @@
      {:ui   "/"
       :spec "/swagger.json"
       :data {:info {:title       "Tarjonta-indeksoija-service"
-                    :description "Compojure Api example"}
-             :tags [{:name "api", :description "some apis"}]}}}
+                    :description "TODO kunnon kuvaus"}}}}
 
     (context "/api" []
-      :tags ["api"]
-
-
       (GET "/koulutus" []
         :query-params [oid :- String]
         (ok {:result (ec/query oid)})))))
