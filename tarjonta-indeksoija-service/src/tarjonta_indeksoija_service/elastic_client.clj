@@ -13,8 +13,7 @@
     (esrsp/hits-from res)))
 
 (defn index
-  [& args]
-  (let [conn (esr/connect "http://127.0.0.1:9200")
-        doc {:oid "1.2.3.4"}]
-    (println (esd/create conn "koulutus" "koulutus" doc))))
+  [index mapping-type doc]
+  (let [conn (esr/connect "http://127.0.0.1:9200")]
+    (println (esd/create conn index mapping-type doc))))
 
