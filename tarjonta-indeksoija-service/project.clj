@@ -12,4 +12,6 @@
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
-                             [lein-kibit "0.1.3"]]}})
+                             [lein-kibit "0.1.3"]]}}
+  :aliases {"run" ["ring" "server"]
+            "lint" ["do" ["eastwood"] "kibit"]})
