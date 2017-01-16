@@ -7,7 +7,7 @@ const VALUE = 'value'
 const KOODI = 'koodi'
 const KOODILIST = 'koodilist'
 const KUVAUS = 'kuvaus'
-const KUVAUSVALMISTAVA = 'kuvausvalmistava'
+const VALMISTAVAKOULUTUS = 'valmistavakoulutus'
 const KIELIVALIKOIMA = 'kielivalikoima'
 
 
@@ -23,11 +23,10 @@ function extractKoodi(k) {
   }
 }
 function extractKoodiList(field) {
-  return _.chain(field).map(extractKoodi).values();
+  return _.chain(field).map(extractKoodi).values()
 }
 
 function copyField(nk, ok, fieldInfo) {
-
   switch (fieldInfo.type) {
     case VALUE:
       nk[fieldInfo.field] = _.get(ok, fieldInfo.field)
@@ -41,8 +40,8 @@ function copyField(nk, ok, fieldInfo) {
     case KUVAUS:
       nk[fieldInfo.field] = _.chain(_.get(ok, `${fieldInfo.field}`)).mapValues('tekstis').value()
       break
-    case KUVAUSVALMISTAVA: //FIXME painajainen
-//      nk[fieldInfo.field] = _.chain(_.get(ok, `${fieldInfo.field}.kuvaus`)).mapValues('tekstis').value()
+    case VALMISTAVAKOULUTUS:
+      nk[fieldInfo.field] = extractValmistavaKoulutus(ok, fieldInfo)
       break
     case KIELIVALIKOIMA:
       nk[fieldInfo.field] = _.chain(_.get(ok, `${fieldInfo.field}`)).mapValues('meta').mapValues(extractKoodiList).value()
@@ -50,6 +49,22 @@ function copyField(nk, ok, fieldInfo) {
     default:
       console.log(`Broken field: ${fieldInfo}`)
   }
+}
+
+function extractValmistavaKoulutus(ok, fieldInfo) {
+  const kv = {}
+  const okv = _.get(ok, `${fieldInfo.field}`)
+  copyField(kv, okv, { field: 'kuvaus', type: KUVAUS })
+  copyField(kv, okv, { field: 'suunniteltuKestoArvo', type: VALUE })
+  copyField(kv, okv, { field: 'hintaString', type: VALUE })
+  copyField(kv, okv, { field: 'hinta', type: VALUE })
+  copyField(kv, okv, { field: 'opintojenMaksullisuus', type: VALUE })
+  copyField(kv, okv, { field: 'linkkiOpetussuunnitelmaan', type: VALUE })
+  copyField(kv, okv, { field: 'opetusmuodos', type: KOODI })
+  copyField(kv, okv, { field: 'opetusAikas', type: KOODI })
+  copyField(kv, okv, { field: 'opetusPaikkas', type: KOODI })
+  copyField(kv, okv, { field: 'suunniteltuKestoTyyppi', type: KOODI })
+  return kv
 }
 
 const convertedFields = [
@@ -133,9 +148,7 @@ const convertedFields = [
   { field: 'koulutuksenLoppumisPvm', type: VALUE },
   { field: 'tarjoajanKoulutus', type: VALUE },
   { field: 'opintopolkuAlkamiskausi', type: VALUE },
-
-  // FIXME tämä on painajaismainen alaobjekti
-  { field: 'valmistavaKoulutus', type: KUVAUSVALMISTAVA },
+  { field: 'valmistavaKoulutus', type: VALMISTAVAKOULUTUS },
 ]
 
 const okToMissFieldNames = _.map(convertedFields, f => f.field).concat([
