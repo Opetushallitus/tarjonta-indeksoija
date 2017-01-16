@@ -1,4 +1,4 @@
-(ns tarjonta-indeksoija-service.handler
+(ns tarjonta-indeksoija-service.api
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]))
