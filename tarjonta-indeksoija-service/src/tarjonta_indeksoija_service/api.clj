@@ -14,11 +14,11 @@
                     :description "TODO kunnon kuvaus"}}}}
 
     (context "/api" []
-      (GET "/koulutus" []
+      (GET "/hakukohde" []
         :query-params [oid :- String]
         (ok {:result (ec/query "hakukohde_test" "hakukohde_test" :oid oid)}))
 
       ;; TODO poista
-      (POST "/koulutus" []
+      (POST "/hakukohde" []
         :body [body s/Any]
         (ok {:result (ec/index "hakukohde_test" "hakukohde_test" body)})))))

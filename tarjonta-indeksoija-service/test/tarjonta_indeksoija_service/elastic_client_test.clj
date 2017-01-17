@@ -11,7 +11,7 @@
 (defn delete-index
   []
   (let [conn (esr/connect "http://127.0.0.1:9200")]
-    (println (esi/delete conn "hakukohde_test"))))
+    (esi/delete conn "hakukohde_test")))
 
 (against-background [(before :contents (delete-index))]
   (fact "Elastic client should index hakukohde"

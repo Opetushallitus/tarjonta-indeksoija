@@ -16,4 +16,3 @@
   [index mapping-type doc & options]
   (let [conn (esr/connect "http://127.0.0.1:9200")]
     (apply esd/create conn index mapping-type doc options)))
-
