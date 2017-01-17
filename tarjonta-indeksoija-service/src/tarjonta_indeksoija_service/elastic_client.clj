@@ -7,13 +7,13 @@
             [clojurewerkz.elastisch.rest.index :as esi]))
 
 (defn query
-  [oid]
+  [index mapping-type & params]
   (let [conn (esr/connect "http://127.0.0.1:9200")
-        res (esd/search conn "koulutus" "koulutus" :query (q/term :oid oid))]
+        res (esd/search conn index mapping-type :query (apply q/terms params))]
     (esrsp/hits-from res)))
 
 (defn index
-  [index mapping-type doc]
+  [index mapping-type doc & options]
   (let [conn (esr/connect "http://127.0.0.1:9200")]
-    (println (esd/create conn index mapping-type doc))))
+    (apply esd/create conn index mapping-type doc options)))
 

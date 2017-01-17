@@ -10,15 +10,15 @@
     {:swagger
      {:ui   "/"
       :spec "/swagger.json"
-      :data {:info {:title       "Tarjonta-indeksoija-service"
+      :data {:info {:title "Tarjonta-indeksoija-service"
                     :description "TODO kunnon kuvaus"}}}}
 
     (context "/api" []
       (GET "/koulutus" []
         :query-params [oid :- String]
-        (ok {:result (ec/query oid)}))
+        (ok {:result (ec/query "hakukohde_test" "hakukohde_test" :oid oid)}))
 
       ;; TODO poista
       (POST "/koulutus" []
         :body [body s/Any]
-        (ok {:result (ec/index "koulutus" "koulutus" body)})))))
+        (ok {:result (ec/index "hakukohde_test" "hakukohde_test" body)})))))
