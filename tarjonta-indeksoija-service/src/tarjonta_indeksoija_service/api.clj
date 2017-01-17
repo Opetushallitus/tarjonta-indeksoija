@@ -2,8 +2,14 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
-            [tarjonta-indeksoija-service.elastic-client :as ec])
-  (:import (schema.core Recursive)))
+            [tarjonta-indeksoija-service.elastic-client :as ec]
+            [mount.core :as mount]))
+
+(defn init []
+  (mount/start))
+
+(defn stop []
+  (mount/stop))
 
 (def app
   (api

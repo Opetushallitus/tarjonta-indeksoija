@@ -1,6 +1,7 @@
 (ns tarjonta-indeksoija-service.elastic-client-test
-  (require [midje.sweet :refer :all]
+  (require [tarjonta-indeksoija-service.conf :refer [env]]
            [tarjonta-indeksoija-service.elastic-client :as client]
+           [midje.sweet :refer :all]
            [cheshire.core :as json]
            [clj-http.client :as http]
            [clojurewerkz.elastisch.rest :as esr]
@@ -10,7 +11,7 @@
 
 (defn delete-index
   []
-  (let [conn (esr/connect "http://127.0.0.1:9200")]
+  (let [conn (esr/connect (:elastic-url env))]
     (esi/delete conn "hakukohde_test")))
 
 (against-background [(before :contents (delete-index))]

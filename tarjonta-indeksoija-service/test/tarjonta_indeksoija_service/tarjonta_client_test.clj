@@ -7,5 +7,5 @@
 (fact "Tarjonta client should get Hakukohde"
   (select-keys (tarjonta/get-koulutus hakukohde-oid) [:oid :tarjoajaOids :koulutukset])
     => {:oid hakukohde-oid
-      :tarjoajaOids ["1.2.246.562.10.72985435253"]
-      :koulutukset [{:oid "1.2.246.562.17.974238694910"}]})
+        :tarjoajaOids ["1.2.246.562.10.72985435253"]
+        :koulutukset [{:oid "1.2.246.562.17.974238694910"}]})
