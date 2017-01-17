@@ -1,6 +1,6 @@
 (ns tarjonta-indeksoija-service.tarjonta-client
-  (require [tarjonta-indeksoija-service.conf :refer [env]]
-           [clj-http.client :as client]))
+  (:require [tarjonta-indeksoija-service.conf :refer [env]]
+            [clj-http.client :as client]))
 
 (defn get-koulutus
   [oid]

@@ -1,6 +1,6 @@
 (ns tarjonta-indeksoija-service.tarjonta-client-test
-  (require [midje.sweet :refer :all]
-           [tarjonta-indeksoija-service.tarjonta-client :as tarjonta]))
+  (:require [midje.sweet :refer :all]
+            [tarjonta-indeksoija-service.tarjonta-client :as tarjonta]))
 
 (def hakukohde-oid "1.2.246.562.20.14326014835")
 

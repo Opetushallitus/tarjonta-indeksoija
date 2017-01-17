@@ -1,13 +1,13 @@
 (ns tarjonta-indeksoija-service.elastic-client-test
-  (require [tarjonta-indeksoija-service.conf :refer [env]]
-           [tarjonta-indeksoija-service.elastic-client :as client]
-           [midje.sweet :refer :all]
-           [cheshire.core :as json]
-           [clj-http.client :as http]
-           [clojurewerkz.elastisch.rest :as esr]
-           [clojurewerkz.elastisch.rest.index :as esi]
-           [clojurewerkz.elastisch.rest.document :as esd]
-           [clojurewerkz.elastisch.query :as q]))
+  (:require [tarjonta-indeksoija-service.conf :refer [env]]
+            [tarjonta-indeksoija-service.elastic-client :as client]
+            [midje.sweet :refer :all]
+            [cheshire.core :as json]
+            [clj-http.client :as http]
+            [clojurewerkz.elastisch.rest :as esr]
+            [clojurewerkz.elastisch.rest.index :as esi]
+            [clojurewerkz.elastisch.rest.document :as esd]
+            [clojurewerkz.elastisch.query :as q]))
 
 (defn delete-index
   []
