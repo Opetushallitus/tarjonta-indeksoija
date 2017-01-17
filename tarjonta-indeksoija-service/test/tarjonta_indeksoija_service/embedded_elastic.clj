@@ -6,13 +6,7 @@
   (let [server (-> (EmbeddedElastic/builder)
                    (.withElasticVersion "5.0.0")
                    (.build)
-                   (.start))]
-    (println (str "Started embedded elasticsearch instance in port: "
-                  (.getHttpPort server)))
-    server))
-
-(defn stop-embedded-elastic
-  [server]
-  (println (str "Stopping embedded elasticsearch instance in port: "
-                (.getHttpPort server)))
-  (.stop server))
+                   (.start))
+        port (.getHttpPort server)]
+    (println (str "Started embedded elasticsearch instance in port: " port))
+    port))
