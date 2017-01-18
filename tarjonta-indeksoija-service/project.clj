@@ -15,14 +15,12 @@
                                   [cheshire "5.5.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [midje "1.8.3"]
-                                  [org.clojure/tools.namespace "0.2.11"]
-                                  [pl.allegro.tech/embedded-elasticsearch "2.1.0"]]
+                                  [org.clojure/tools.namespace "0.2.11"]]
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
-                             [lein-kibit "0.1.3"]]}
-             :dev-conf {:source-paths ["resources/dev"]}
-             :test-conf {:source-paths ["resources/test"]}}
-  :aliases {"run" ["with-profile" "+dev-conf" "ring" "server"]
-            "test" ["with-profile" "+test-conf" "midje"]
+                             [lein-kibit "0.1.3"]]
+                   :source-paths ["resources/dev"]}}
+  :aliases {"run" ["ring" "server"]
+            "test" ["midje"]
             "autotest" ["midje" ":autotest"]})

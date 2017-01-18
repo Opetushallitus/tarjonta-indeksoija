@@ -3,7 +3,7 @@
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta]))
 
 (def hakukohde-oid "1.2.246.562.20.14326014835")
-
+ ;;TODO: Remove this test so tests don't use external api
 (fact "Tarjonta client should get Hakukohde"
   (select-keys (tarjonta/get-koulutus hakukohde-oid) [:oid :tarjoajaOids :koulutukset])
     => {:oid hakukohde-oid
