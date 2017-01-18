@@ -4,5 +4,3 @@
             [mount.core :refer [defstate start]]))
 
 (defstate env :start (load-config :merge [(source/from-system-props) (source/from-env)]))
-
-(defstate elastic-port :start 9205)

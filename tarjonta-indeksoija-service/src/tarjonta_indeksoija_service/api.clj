@@ -1,8 +1,9 @@
 (ns tarjonta-indeksoija-service.api
-  (:require [compojure.api.sweet :refer :all]
+  (:require [tarjonta-indeksoija-service.elastic-client :as ec]
+            [tarjonta-indeksoija-service.conf :refer [env]]
+            [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
-            [tarjonta-indeksoija-service.elastic-client :as ec]
             [mount.core :as mount]))
 
 (defn init []

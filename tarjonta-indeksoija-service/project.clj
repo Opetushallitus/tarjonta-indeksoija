@@ -20,8 +20,9 @@
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
-                             [lein-kibit "0.1.3"]]
-                   :source-paths ["resources/dev"]}}
-  :aliases {"run" ["ring" "server"]
-            "test" ["midje"]
+                             [lein-kibit "0.1.3"]]}
+             :dev-conf {:source-paths ["resources/dev"]}
+             :test-conf {:source-paths ["resources/test"]}}
+  :aliases {"run" ["with-profile" "+dev-conf" "ring" "server"]
+            "test" ["with-profile" "+test-conf" "midje"]
             "autotest" ["midje" ":autotest"]})
