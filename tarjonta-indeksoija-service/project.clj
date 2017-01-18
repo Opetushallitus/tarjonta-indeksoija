@@ -10,7 +10,6 @@
          :init tarjonta-indeksoija-service.api/init
          :destroy tarjonta-indeksoija-service.api/stop}
   :uberjar-name "server.jar"
-  :omit-source true
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [cheshire "5.5.0"]
                                   [ring/ring-mock "0.3.0"]
@@ -20,7 +19,8 @@
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
                              [lein-kibit "0.1.3"]]
-                   :source-paths ["resources/dev"]}}
+                   :resource-paths ["dev_resources"]}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]
-            "autotest" ["midje" ":autotest"]})
+            "autotest" ["midje" ":autotest"]
+            "create-uberjar" ["ring" "uberjar"]})

@@ -23,10 +23,10 @@ To run tests from command line use commands `lein test` or `lein autotest`
 
 ### Packaging and running as standalone jar
 
-***TODO***
+To create a runable jar file, put a config.edn file to resources folder and run
 
 ```
-lein do clean, ring uberjar
+lein create-uberjar
 java -jar target/server.jar
 ```
 
