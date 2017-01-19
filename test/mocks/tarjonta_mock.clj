@@ -4,7 +4,6 @@
 
 (defn get-hakukohde
   [oid]
-  (println oid)
   (:result (tools/parse-body (str "test/resources/hakukohteet/" oid ".json"))))
 
 (defmacro with-mocked-hakukohde

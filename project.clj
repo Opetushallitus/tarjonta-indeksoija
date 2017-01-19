@@ -22,5 +22,6 @@
                    :resource-paths ["dev_resources"]}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]
+            "ci-test" ["midje" ":config" "ci/test_conf.clj"]
             "autotest" ["midje" ":autotest"]
             "create-uberjar" ["ring" "uberjar"]})
