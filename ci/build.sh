@@ -6,7 +6,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 test() {
   ./ci/lein clean
   ./ci/lein compile
-  ./ci/lein test
+  ./ci/lein ci-test
 }
 
 uberjar() {
