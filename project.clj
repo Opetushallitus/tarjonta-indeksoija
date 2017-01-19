@@ -18,8 +18,7 @@
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
-                             [lein-kibit "0.1.3"]
-                             [test2junit "1.2.5"]]
+                             [lein-kibit "0.1.3"]]
                    :resource-paths ["dev_resources"]}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]
