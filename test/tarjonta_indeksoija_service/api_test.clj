@@ -3,6 +3,3 @@
             [midje.sweet :refer :all]
             [tarjonta-indeksoija-service.api :refer :all]
             [ring.mock.request :as mock]))
-
-
-
