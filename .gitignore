@@ -6,3 +6,6 @@ target
 *.iml
 .nrepl-port
 .lein-repl-history
+test2junit
+build.xml
+.lein-failures
