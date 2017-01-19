@@ -1,2 +1,2 @@
 {:elastic-url "http://127.0.0.1:9200"
- :tarjonta-hakukohde-url "https://testi.virkailija.opintopolku.fi:443/tarjonta-service/rest/v1/hakukohde/"}
+ :tarjonta-service-url "https://testi.virkailija.opintopolku.fi:443/tarjonta-service/rest/v1/"}

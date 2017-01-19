@@ -4,7 +4,7 @@
 
 (defn get-koulutus
   [oid]
-  (-> (str (:tarjonta-hakukohde-url env) oid)
+  (-> (str (:tarjonta-service-url env) "hakukohde/" oid)
       (client/get {:as :json})
       :body
       :result))

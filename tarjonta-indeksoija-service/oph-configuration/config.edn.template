@@ -1,0 +1,2 @@
+{:elastic-url "{{tarjonta_indeksoija_elatic_url}}"
+ :tarjonta-hakukohde-url "{{tarjonta_indeksoija_tarjonta_service_url}}"}
