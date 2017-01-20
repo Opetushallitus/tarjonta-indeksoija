@@ -19,9 +19,10 @@
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
                              [lein-kibit "0.1.3"]]
-                   :resource-paths ["dev_resources"]}}
+                   :resource-paths ["dev_resources"]}
+             :uberjar {:ring {:port 8987}}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]
             "ci-test" ["midje" ":config" "ci/test_conf.clj"]
             "autotest" ["midje" ":autotest"]
-            "create-uberjar" ["ring" "uberjar"]})
+            "create-uberjar" ["do" "clean" ["ring" "uberjar"]]})
