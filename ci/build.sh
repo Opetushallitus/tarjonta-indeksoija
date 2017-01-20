@@ -11,6 +11,7 @@ test() {
 
 uberjar() {
   ./ci/lein clean
+  mkdir ./resources
   echo ${bamboo_buildResultKey} > ./resources/build.txt
   git rev-parse HEAD > ./resources/git-rev.txt
   ./ci/lein create-uberjar
