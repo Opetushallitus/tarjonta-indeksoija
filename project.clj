@@ -20,7 +20,7 @@
                              [jonase/eastwood "0.2.3"]
                              [lein-kibit "0.1.3"]]
                    :resource-paths ["dev_resources"]}
-             :uberjar {:ring {:port 8987}}}
+             :uberjar {:ring {:port 8359}}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]
             "ci-test" ["midje" ":config" "ci/test_conf.clj"]
