@@ -15,12 +15,12 @@
 (def app
   (api
     {:swagger
-     {:ui   "/"
-      :spec "/swagger.json"
+     {:ui   "/tarjonta-indeksoija"
+      :spec "/tarjonta-indeksoija/swagger.json"
       :data {:info {:title "Tarjonta-indeksoija-service"
                     :description "TODO kunnon kuvaus"}}}}
 
-    (context "/api" []
+    (context "/tarjonta-indeksoija/api" []
       (GET "/hakukohde" []
         :query-params [oid :- String]
         (ok {:result (ec/query "hakukohde_test" "hakukohde_test" :oid oid)}))
