@@ -4,17 +4,17 @@ export JAVA_HOME="${bamboo_capability_system_jdk_JDK_1_8}"
 export PATH=$JAVA_HOME/bin:$PATH
 
 test() {
-  ./ci/lein clean
-  ./ci/lein compile
-  ./ci/lein ci-test
+  ./bin/lein clean
+  ./bin/lein compile
+  ./bin/lein ci-test
 }
 
 uberjar() {
-  ./ci/lein clean
+  ./bin/lein clean
   mkdir ./resources
   echo ${bamboo_buildResultKey} > ./resources/build.txt
   git rev-parse HEAD > ./resources/git-rev.txt
-  ./ci/lein create-uberjar
+  ./bin/lein create-uberjar
 }
 
 command="$1"

@@ -23,6 +23,6 @@
              :uberjar {:ring {:port 8359}}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]
-            "ci-test" ["midje" ":config" "ci/test_conf.clj"]
+            "ci-test" ["midje" ":config" "bin/test_conf.clj"]
             "autotest" ["midje" ":autotest"]
             "create-uberjar" ["do" "clean" ["ring" "uberjar"]]})
