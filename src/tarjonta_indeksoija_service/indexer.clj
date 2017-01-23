@@ -1,6 +1,15 @@
 (ns tarjonta-indeksoija-service.indexer
   (:require [tarjonta-indeksoija-service.conf :refer [recur-pool]]
+            [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
+            [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [overtone.at-at :as at]))
+
+(defn index-hakukohde
+  [oid & {:keys [index type]
+         :or {index "hakukohde"
+              type "hakukohde"}}]
+  (let [hakukohde (tarjonta-client/get-hakukohde oid)]
+    (elastic-client/upsert index type oid hakukohde)))
 
 (defn start-indexer-job
   []
