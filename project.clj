@@ -5,7 +5,13 @@
                  [clojurewerkz/elastisch "2.2.2"]
                  [clj-http "2.3.0"]
                  [cprop "0.1.10"]
-                 [mount "0.1.11"]]
+                 [mount "0.1.11"]
+                 [environ "1.1.0"]
+
+                 ;;Logging
+                 [ring-logger "0.7.6"]
+                 [ring-logger-timbre "0.7.5"]
+                 [com.taoensso/timbre "4.8.0"]]
   :ring {:handler tarjonta-indeksoija-service.api/app
          :init tarjonta-indeksoija-service.api/init
          :destroy tarjonta-indeksoija-service.api/stop}
@@ -18,8 +24,10 @@
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
-                             [lein-kibit "0.1.3"]]
-                   :resource-paths ["dev_resources"]}
+                             [lein-kibit "0.1.3"]
+                             [lein-environ "1.1.0"]]
+                   :resource-paths ["dev_resources"]
+                   :env {:dev true}}
              :uberjar {:ring {:port 8359}}}
   :aliases {"run" ["ring" "server"]
             "test" ["midje"]

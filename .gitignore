@@ -9,3 +9,4 @@ target
 test2junit
 build.xml
 .lein-failures
+logs/
