@@ -15,4 +15,4 @@
 
 (defn reset []
   (stop)
-  (tn/refresh :after 'dev/go))
+  (tn/refresh :after 'user/go))

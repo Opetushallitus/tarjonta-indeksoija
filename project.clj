@@ -7,6 +7,7 @@
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
+                 [overtone/at-at "1.2.0"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]

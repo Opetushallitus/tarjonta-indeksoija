@@ -2,6 +2,7 @@
   (:require [tarjonta-indeksoija-service.elastic-client :as ec]
             [tarjonta-indeksoija-service.conf :refer [env]]
             [tarjonta-indeksoija-service.util.logging :as logging]
+            [tarjonta-indeksoija-service.indexer :as indexer]
             [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
@@ -32,7 +33,8 @@
           :query-params [oid :- String]
           (ok {:result (ec/query "hakukohde_test" "hakukohde_test" :oid oid)}))
 
-        ;; TODO poista
-        (POST "/hakukohde" []
-          :body [body s/Any]
-          (ok {:result (ec/index "hakukohde_test" "hakukohde_test" body)}))))))
+        (GET "/indexer/start" []
+          (ok {:result (indexer/start-stop-indexer true)}))
+
+        (GET "/indexer/stop" []
+          (ok {:result (indexer/start-stop-indexer false)}))))))
