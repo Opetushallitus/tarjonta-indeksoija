@@ -34,4 +34,4 @@
 
 (defn logging-config []
   {:level :info
-   :appenders (merge (get-rolling-appender "rolling-application-log-appender" "oph-tarjonta-indeksoija.log"))})
+   :appenders (get-rolling-appender "rolling-application-log-appender" "oph-tarjonta-indeksoija.log")})

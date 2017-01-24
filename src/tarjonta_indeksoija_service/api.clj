@@ -31,7 +31,7 @@
       (context "/tarjonta-indeksoija/api" []
         (GET "/hakukohde" []
           :query-params [oid :- String]
-          (ok {:result (ec/get-by-id "hakukohde_test" "hakukohde_test" :oid oid)}))
+          (ok {:result (ec/get-by-id "hakukohde_test" "hakukohde_test" oid)}))
 
         (GET "/indexer/start" []
           (ok {:result (indexer/start-stop-indexer true)}))

@@ -46,7 +46,7 @@
       (->> (esd/search conn index type :query (q/match-all) :sort {:timestamp "asc"})
           :hits
           :hits
-          (map #(:_source %)))
+          (map :_source))
       (catch Exception e [])))) ;; TODO: fixme
 
 (defn- upsert-operation
