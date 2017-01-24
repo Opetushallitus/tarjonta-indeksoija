@@ -9,36 +9,37 @@
   [base-name]
   (str base-name "_" index-identifier))
 
+(def indexdata (index-name "indexdata"))
+(def hakukohde-index (index-name "hakukohde_test"))
+
 (against-background [(after :contents (do (client/delete-index (index-name "hakukohde_test"))
                                           (client/delete-index (index-name "indexdata"))))]
   (facts "Index queue"
-    (fact "should return nil when non-existing index"
-      (client/get-first-from-queue :index (index-name "indexdata") :type (index-name "indexdata")) => nil)
+    (fact "should get queue"
+      (client/get-queue :index indexdata :type indexdata) => ()
+      (:result (client/push-to-indexing-queue "123" "hakukohde" :index indexdata :type indexdata)) => "created"
+      (:result (client/push-to-indexing-queue "1234" "hakukohde" :index indexdata :type indexdata)) => "created"
+      (:result (client/push-to-indexing-queue "12345" "hakukohde" :index indexdata :type indexdata)) => "created"
 
-    (fact "should insert"
-      (:result (client/push-to-indexing-queue "123" "hakukohde" :index (index-name "indexdata") :type (index-name "indexdata"))) => "created"
-      (:result (client/push-to-indexing-queue "1234" "hakukohde" :index (index-name "indexdata") :type (index-name "indexdata"))) => "created"
-      (:result (client/push-to-indexing-queue "123" "hakukohde" :index (index-name "indexdata") :type (index-name "indexdata"))) => "updated")
+      (client/refresh-index indexdata)
+      (count (client/get-queue :index indexdata :type indexdata)) => 3
+      (map #(select-keys % [:oid :type]) (client/get-queue :index indexdata :type indexdata)) => [{:oid "123" :type "hakukohde"}
+                                              {:oid "1234" :type "hakukohde"}
+                                              {:oid "12345" :type "hakukohde"}])
 
-    (fact "should get oldest"
-      (Thread/sleep 1000) ;; TODO figure out a way to do this smarter
-      (:oid (client/get-first-from-queue :index (index-name "indexdata") :type (index-name "indexdata"))) => "1234")
+    (fact "should delete handled oids"
+      (let [last-timestamp (:timestamp (last (client/get-queue :index indexdata :type indexdata)))]
+        (:result (client/push-to-indexing-queue "123456" "hakukohde" :index indexdata :type indexdata)) => "created"
+        (client/refresh-index indexdata)
+        (client/delete-handled-queue last-timestamp :index indexdata :type indexdata)
+        (client/refresh-index indexdata)
+        (count (client/get-queue :index indexdata :type indexdata)) => 1
+        (select-keys (first (client/get-queue :index (index-name "indexdata") :type (index-name "indexdata"))) [:oid :type]) =>
+          {:oid "123456" :type "hakukohde"})))
 
-    (fact "should delete oldest"
-      (client/delete-by-id (index-name "indexdata") (index-name "indexdata")
-                           (:oid (client/get-first-from-queue :index (index-name "indexdata") :type (index-name "indexdata"))))
-      (Thread/sleep 1000) ;; TODO figure out a way to do this smarter
-      (:oid (client/get-first-from-queue :index (index-name "indexdata") :type (index-name "indexdata"))) => "123")
-
-    (fact "should return nil when index is empty"
-      (client/delete-by-id (index-name "indexdata") (index-name "indexdata")
-                           (:oid (client/get-first-from-queue :index (index-name "indexdata") :type (index-name "indexdata"))))
-      (Thread/sleep 1000) ;; TODO figure out a way to do this smarter
-      (:oid (client/get-first-from-queue :index (index-name "indexdata") :type (index-name "indexdata"))) => nil))
-
-  (fact "Elastic client should index hakukohde"
-    (let [res (client/upsert (index-name "hakukohde_test") (index-name "hakukohde_test") "1234" {:oid "1234"})]
+  (facts "Elastic client should index hakukohde"
+    (let [res (client/upsert hakukohde-index hakukohde-index "1234" {:oid "1234"})]
       (:result res) => "created"
-      (Thread/sleep 1000) ;; TODO figure out a way to do this smarter
-      (:oid (client/get-by-id (index-name "hakukohde_test") (index-name "hakukohde_test") "1234")) => "1234")))
+      (client/refresh-index hakukohde-index)
+      (:oid (client/get-by-id hakukohde-index hakukohde-index "1234")) => "1234")))
 
