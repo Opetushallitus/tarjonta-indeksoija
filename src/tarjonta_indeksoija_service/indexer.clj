@@ -25,8 +25,7 @@
           (condp = (:type obj)
             "hakukohde" (index-hakukohde (:oid obj))
             (log/error (str "Unknown type for indexing: " obj))) ;; TODO: move or remove object causing trouble
-          (recur (rest objs))))))
-  )
+          (recur (rest objs)))))))
 
 (defn start-indexer-job
   []

@@ -12,31 +12,43 @@
 (def indexdata (index-name "indexdata"))
 (def hakukohde-index (index-name "hakukohde_test"))
 
-(against-background [(after :contents (do (client/delete-index (index-name "hakukohde_test"))
-                                          (client/delete-index (index-name "indexdata"))))]
-  (facts "Index queue"
-    (fact "should get queue"
-      (client/get-queue :index indexdata :type indexdata) => ()
-      (:result (client/push-to-indexing-queue "123" "hakukohde" :index indexdata :type indexdata)) => "created"
-      (:result (client/push-to-indexing-queue "1234" "hakukohde" :index indexdata :type indexdata)) => "created"
-      (:result (client/push-to-indexing-queue "12345" "hakukohde" :index indexdata :type indexdata)) => "created"
+(defn dummy-indexdata
+  [& {:keys [amount id-offset] :or {amount 10
+                                    id-offset 100}}]
+  (map #(hash-map :oid (+ % id-offset) :type "hakukohde") (range amount)))
 
+(against-background [(after :contents (client/delete-index indexdata))]
+  (facts "Index queue"
+    (fact "Should be empty"
+      (client/get-queue :index indexdata :type indexdata) => ())
+
+    (fact "should get queue"
+      (:errors (client/bulk-upsert indexdata indexdata (dummy-indexdata))) => false
       (client/refresh-index indexdata)
-      (count (client/get-queue :index indexdata :type indexdata)) => 3
-      (map #(select-keys % [:oid :type]) (client/get-queue :index indexdata :type indexdata)) => [{:oid "123" :type "hakukohde"}
-                                              {:oid "1234" :type "hakukohde"}
-                                              {:oid "12345" :type "hakukohde"}])
+      (count (client/get-queue :index indexdata :type indexdata)) => 10
+      (sort-by :oid (map #(select-keys % [:oid :type]) (client/get-queue :index indexdata :type indexdata)))
+        => (dummy-indexdata))
 
     (fact "should delete handled oids"
       (let [last-timestamp (:timestamp (last (client/get-queue :index indexdata :type indexdata)))]
-        (:result (client/push-to-indexing-queue "123456" "hakukohde" :index indexdata :type indexdata)) => "created"
-        (client/refresh-index indexdata)
+        (:errors (client/bulk-upsert indexdata indexdata (dummy-indexdata :amount 1 :id-offset 1000))) => false
         (client/delete-handled-queue last-timestamp :index indexdata :type indexdata)
         (client/refresh-index indexdata)
         (count (client/get-queue :index indexdata :type indexdata)) => 1
-        (select-keys (first (client/get-queue :index (index-name "indexdata") :type (index-name "indexdata"))) [:oid :type]) =>
-          {:oid "123456" :type "hakukohde"})))
+        (select-keys (first (client/get-queue :index indexdata :type indexdata)) [:oid :type]) =>
+          {:oid 1000 :type "hakukohde"}))
 
+    (fact "should avoid race condition"
+      (client/delete-index indexdata)
+      (client/get-queue :index indexdata :type indexdata) => ()
+      (:errors (client/bulk-upsert indexdata indexdata (dummy-indexdata :amount 1))) => false
+      (:errors (client/bulk-upsert indexdata indexdata (dummy-indexdata :amount 1 :id-offset 1000))) => false
+      (client/refresh-index indexdata)
+      (let [res (client/get-queue :index indexdata :type indexdata)]
+        (count res) =>  2
+        (:timestamp (first res)) =not=> (:timestamp (last res))))))
+
+(against-background [(after :contents (client/delete-index hakukohde-index))]
   (facts "Elastic client should index hakukohde"
     (let [res (client/upsert hakukohde-index hakukohde-index "1234" {:oid "1234"})]
       (:result res) => "created"

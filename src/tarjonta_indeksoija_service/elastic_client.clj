@@ -1,6 +1,7 @@
 (ns tarjonta-indeksoija-service.elastic-client
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
             [clj-http.client :as client]
+            [clojurewerkz.elastisch.rest.bulk :as bulk]
             [clojurewerkz.elastisch.rest :as esr]
             [clojurewerkz.elastisch.rest.index :as esi]
             [clojurewerkz.elastisch.rest.document :as esd]
@@ -47,6 +48,28 @@
           :hits
           (map #(:_source %)))
       (catch Exception e [])))) ;; TODO: fixme
+
+(defn- upsert-operation
+  [doc index type]
+  {"update" {:_index index :_type type :_id (:oid doc)}})
+
+(defn- upsert-doc
+  [doc now]
+  {:doc (assoc (dissoc doc :_index :_type) :timestamp now)
+   :doc_as_upsert true})
+
+(defn- bulk-upsert-data
+  [index type documents]
+  (let [operations (map #(upsert-operation % index type) documents)
+        now (System/currentTimeMillis)
+        documents  (map #(upsert-doc % now) documents)]
+   (interleave operations documents)))
+
+(defn bulk-upsert
+  [index type documents]
+  (let [conn (esr/connect (:elastic-url env))
+        data (bulk-upsert-data index type documents)]
+    (bulk/bulk conn data)))
 
 (defn push-to-indexing-queue
   [oid object-type & {:keys [index type]
