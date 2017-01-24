@@ -27,16 +27,6 @@
         res (esd/get conn index type id)]
     (:_source res)))
 
-(defn upsert
-  [index type id doc]
-  (let [conn (esr/connect (:elastic-url env))]
-    (esd/upsert conn index type id (assoc doc :timestamp (System/currentTimeMillis)))))
-
-(defn delete-by-id
-  [index type id]
-  (let [conn (esr/connect (:elastic-url env))]
-    (esd/delete conn index type id)))
-
 (defn get-queue
   [& {:keys [index type]
       :or {index "indexdata"
@@ -70,12 +60,6 @@
   (let [conn (esr/connect (:elastic-url env))
         data (bulk-upsert-data index type documents)]
     (bulk/bulk conn data)))
-
-(defn push-to-indexing-queue
-  [oid object-type & {:keys [index type]
-                      :or {index "indexdata"
-                           type "indexdata"}}]
-  (upsert index type oid {:oid oid :type object-type}))
 
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
