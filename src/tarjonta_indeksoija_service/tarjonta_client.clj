@@ -2,9 +2,16 @@
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
             [clj-http.client :as client]))
 
-(defn get-hakukohde
-  [oid]
-  (-> (str (:tarjonta-service-url env) "hakukohde/" oid)
-      (client/get {:as :json})
+(defn get-url
+  [obj]
+  (condp = (:type obj)
+    "hakukohde" (str (:tarjonta-service-url env) "hakukohde/" (:oid obj))
+    "koulutus" nil
+    "haku" nil))
+
+(defn get-doc
+  [obj]
+  (let [url (get-url obj)]
+  (-> (client/get url {:as :json})
       :body
-      :result))
+      :result)))

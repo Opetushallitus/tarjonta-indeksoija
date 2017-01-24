@@ -10,8 +10,11 @@
   [base-name]
   (str base-name "_" index-identifier))
 
-(fact "Indexer should save hakukohde"
-  (let [oid "1.2.246.562.20.99178639649"]
-    (mock/with-mocked-hakukohde oid
-      (indexer/index-hakukohde oid :index (index-name "hakukohde") :type (index-name "hakukohde"))
-      (elastic-client/get-by-id (index-name "hakukohde") (index-name "hakukohde") oid) => (contains {:oid oid}))))
+(def hakukohde-index (index-name "hakukohde_test"))
+
+(against-background [(after :contents (elastic-client/delete-index hakukohde-index))]
+  (fact "Indexer should save hakukohde"
+    (let [oid "1.2.246.562.20.99178639649"]
+      (mock/with-mocked-hakukohde {:oid oid :type hakukohde-index}
+        (indexer/index-object {:oid oid :type hakukohde-index}))
+        (elastic-client/get-by-id hakukohde-index hakukohde-index oid) => (contains {:oid oid}))))

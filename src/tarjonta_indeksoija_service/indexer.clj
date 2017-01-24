@@ -5,13 +5,11 @@
             [taoensso.timbre :as log]
             [overtone.at-at :as at]))
 
-(defn index-hakukohde
-  [oid & {:keys [index type]
-         :or {index "hakukohde"
-              type "hakukohde"}}]
-  (let [hakukohde (tarjonta-client/get-hakukohde oid)]
-    (elastic-client/upsert index type oid hakukohde)
-    (log/info (str "Hakukohde " oid " indexed succesfully."))))
+(defn index-object
+  [obj]
+  (let [doc (tarjonta-client/get-doc obj)]
+    (elastic-client/bulk-upsert (:type obj) (:type obj) [doc])
+    (log/info (str (.toUpperCase (:type obj)) " " (:oid obj) " indexed succesfully."))))
 
 (defn do-index
   []
@@ -19,12 +17,12 @@
   (loop [objs (elastic-client/get-queue)]
     (if (empty? objs)
       (log/info "The indexing queue was empty, stopping indexing.")
-        (let [obj (first objs)]
-          (log/info "Indexing" (:type obj) (:oid obj))
-          (condp = (:type obj)
-            "hakukohde" (index-hakukohde (:oid obj))
-            (log/error (str "Unknown type for indexing: " obj))) ;; TODO: move or remove object causing trouble
-          (recur (rest objs))))))
+      (let [obj (first objs)]
+        (log/info "Indexing" (:type obj) (:oid obj))
+        (try
+          (index-object obj)
+          (catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
+        (recur (rest objs))))))
 
 (defn start-indexer-job
   []

@@ -10,7 +10,6 @@
   (str base-name "_" index-identifier))
 
 (def indexdata (index-name "indexdata"))
-(def hakukohde-index (index-name "hakukohde_test"))
 
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10
@@ -47,11 +46,3 @@
       (let [res (client/get-queue :index indexdata :type indexdata)]
         (count res) =>  2
         (:timestamp (first res)) =not=> (:timestamp (last res))))))
-
-(against-background [(after :contents (client/delete-index hakukohde-index))]
-  (facts "Elastic client should index hakukohde"
-    (let [res (client/upsert hakukohde-index hakukohde-index "1234" {:oid "1234"})]
-      (:result res) => "created"
-      (client/refresh-index hakukohde-index)
-      (:oid (client/get-by-id hakukohde-index hakukohde-index "1234")) => "1234")))
-
