@@ -9,7 +9,7 @@
   [obj]
   (let [doc (tarjonta-client/get-doc obj)]
     (elastic-client/bulk-upsert (:type obj) (:type obj) [doc])
-    (log/info (str (.toUpperCase (:type obj)) " " (:oid obj) " indexed succesfully."))))
+    (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " indexed succesfully."))))
 
 (defn do-index
   []
