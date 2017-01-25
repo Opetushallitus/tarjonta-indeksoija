@@ -94,18 +94,18 @@
                                                                                          :kieliArvo   "FI"
                                                                                          :versio      1}}
                                                         :tekstis             {:kieli_sv "<p>TAVOITTEET_SV</p>"
-                                                                              :kieli_fi "<p>TAVOITTEET_FI</p>"}
-                                                        :KOULUTUKSEN_RAKENNE {:versio  1
-                                                                              :meta    {:kieli_sv {:kieliUri    "kieli_sv"
-                                                                                                   :kieliVersio 1
-                                                                                                   :kieliArvo   "SV"
-                                                                                                   :versio      1}
-                                                                                        :kieli_fi {:kieliUri    "kieli_fi"
-                                                                                                   :kieliVersio 1
-                                                                                                   :kieliArvo   "FI"
-                                                                                                   :versio      1}}
-                                                                              :tekstis {:kieli_sv "<p>KOULUTUKSEN_RAKENNE_SV</p>"
-                                                                                        :kieli_fi "<p>KOULUTUKSEN_RAKENNE_FI</p>"}}}}}
+                                                                              :kieli_fi "<p>TAVOITTEET_FI</p>"}}
+                           :KOULUTUKSEN_RAKENNE        {:versio                        1
+                                                        :meta    {:kieli_sv {:kieliUri    "kieli_sv"
+                                                                             :kieliVersio 1
+                                                                             :kieliArvo   "SV"
+                                                                             :versio      1}
+                                                                  :kieli_fi {:kieliUri    "kieli_fi"
+                                                                             :kieliVersio 1
+                                                                             :kieliArvo   "FI"
+                                                                             :versio      1}}
+                                                        :tekstis {:kieli_sv "<p>KOULUTUKSEN_RAKENNE_SV</p>"
+                                                                  :kieli_fi "<p>KOULUTUKSEN_RAKENNE_FI</p>"}}}}
       expected-kuvaus {:kuvausKomo {:TAVOITTEET                 {:kieli_sv "<p>TAVOITTEET_SV</p>"
                                                                  :kieli_fi "<p>TAVOITTEET_FI</p>"}
                                     :JATKOOPINTO_MAHDOLLISUUDET {:kieli_sv "<p>JATKOOPINTO_MAHDOLLISUUDET_SV</p>"
@@ -388,18 +388,18 @@
                                                          :hintaString "",
                                                          :opintojenMaksullisuus false,
                                                          :linkkiOpetussuunnitelmaan "",
-                                                         :opetusmuodos {:uri "opetusmuotokk_3"
+                                                         :opetusmuodos [{:uri "opetusmuotokk_3"
                                                                         :nimi {:fi "Monimuoto-opetus"
                                                                                :sv "Flerformsundervisning"
-                                                                               :en "Blended learning"}},
-                                                         :opetusAikas {:uri "opetusaikakk_1"
+                                                                               :en "Blended learning"}}],
+                                                         :opetusAikas [{:uri "opetusaikakk_1"
                                                                        :nimi {:fi "Päiväopetus"
                                                                               :sv "Dagundervisning"
-                                                                              :en "Day time teaching"}},
-                                                         :opetusPaikkas {:uri "opetuspaikkakk_1"
+                                                                              :en "Day time teaching"}}],
+                                                         :opetusPaikkas [{:uri "opetuspaikkakk_1"
                                                                          :nimi {:fi "Lähiopetus"
                                                                                 :sv "Närundervisning"
-                                                                                :en "Contact teaching"}},
+                                                                                :en "Contact teaching"}}],
                                                          :suunniteltuKestoTyyppi {:uri "suunniteltukesto_01",
                                                                                   :nimi {:fi "vuotta",
                                                                                          :sv "år",

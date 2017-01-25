@@ -1,13 +1,40 @@
 (ns tarjonta-indeksoija-service.converter.koulutus-converter)
 
 
-(defn- value [v] v)
-(defn- koodi [v] v)
-(defn- koodi-list [v] v)
-(defn- kuvaus [v] v)
-(defn- kielivalikoima [v] v)
-(defn- valmistava-koulutus [v] v)
+(defn- extract-koodi [value]
+  {:uri  (:uri value)
+   :nimi {:fi (get-in value [:meta :kieli_fi :nimi])
+          :sv (get-in value [:meta :kieli_sv :nimi])
+          :en (get-in value [:meta :kieli_en :nimi])}})
 
+(defn- extract-koodi-list [value path-to-koodi-list]
+  (map #(extract-koodi %) (vals (get-in value path-to-koodi-list))))
+
+(defn- value [value] value)
+
+(defn- koodi [value] (extract-koodi value))
+
+(defn- koodi-list [value] (extract-koodi-list value [:meta]))
+
+(defn- kuvaus
+  [value]
+  (reduce-kv #(assoc %1 %2 (:tekstis %3))
+             {}
+             value))
+
+(defn- kielivalikoima
+  [value]
+  (reduce-kv #(assoc %1 %2 (extract-koodi-list %3 [:meta]))
+             {}
+             value))
+
+(defn- valmistava-koulutus [value]
+  (merge {:kuvaus                 (kuvaus (:kuvaus value))
+          :opetusmuodos           (koodi-list (:opetusmuodos value))
+          :opetusAikas            (koodi-list (:opetusAikas value))
+          :opetusPaikkas          (koodi-list (:opetusPaikkas value))
+          :suunniteltuKestoTyyppi (koodi (:suunniteltuKestoTyyppi value))}
+         (select-keys value [:suunniteltuKestoArvo :hintaString :hinta :opintojenMaksullisuus :linkkiOpetussuunnitelmaan])))
 
 (def map-field-to-converter {:version               value
                       :modified                     value
