@@ -4,7 +4,6 @@
 
 (defn get-doc
   [obj]
-  (println obj)
   (cond
     (.contains (:type obj) "hakukohde") (:result (tools/parse-body (str "test/resources/hakukohteet/" (:oid obj) ".json")))
     (.contains (:type obj) "koulutus") (:result (tools/parse-body (str "test/resources/koulutukset/" (:oid obj) ".json")))

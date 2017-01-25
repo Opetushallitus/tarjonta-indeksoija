@@ -403,22 +403,20 @@
                                                          :suunniteltuKestoTyyppi {:uri "suunniteltukesto_01",
                                                                                   :nimi {:fi "vuotta",
                                                                                          :sv "år",
-                                                                                         :en "years"}}}}
-      ]
+                                                                                         :en "years"}}}}]
   (facts "Converter"
-         (fact
-           "should convert values"
-           (let [dto {:oid "1234"}
-                 expected {:oid "1234"}]
-             (converter/convert dto) => expected))
+    (fact
+    "should convert values"
+      (let [dto {:oid "1234"}
+            expected {:oid "1234"}]
+        (converter/convert dto) => expected))
 
-         (fact "should convert koodi" (converter/convert koodi) => expected-koodi)
+    (fact "should convert koodi" (converter/convert koodi) => expected-koodi)
 
-         (fact "should convert koodilist" (converter/convert koodi-list) => expected-koodi-list)
+    (fact "should convert koodilist" (converter/convert koodi-list) => expected-koodi-list)
 
-         (fact "should convert kuvaus" (converter/convert kuvaus) => expected-kuvaus)
+    (fact "should convert kuvaus" (converter/convert kuvaus) => expected-kuvaus)
 
-         (fact "should convert kielivalikoima" (converter/convert kielivalikoima) => expected-kielivalikoima)
+    (fact "should convert kielivalikoima" (converter/convert kielivalikoima) => expected-kielivalikoima)
 
-         (fact "should convert valmistava-koulutus" (converter/convert valmistava-koulutus) => expected-valmistava-koulutus)
-         ))
+    (fact "should convert valmistava-koulutus" (converter/convert valmistava-koulutus) => expected-valmistava-koulutus)))

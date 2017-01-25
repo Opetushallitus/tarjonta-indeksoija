@@ -21,11 +21,10 @@
 (def app
   (logger.timbre/wrap-with-logger
     (api
-      {:swagger
-                   {:ui   "/tarjonta-indeksoija"
-                    :spec "/tarjonta-indeksoija/swagger.json"
-                    :data {:info {:title       "Tarjonta-indeksoija-service"
-                                  :description "TODO kunnon kuvaus"}}}
+      {:swagger {:ui   "/tarjonta-indeksoija"
+                 :spec "/tarjonta-indeksoija/swagger.json"
+                 :data {:info {:title       "Tarjonta-indeksoija-service"
+                        :description "TODO kunnon kuvaus"}}}
        :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
 
       (context "/tarjonta-indeksoija/api" []
