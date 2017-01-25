@@ -1,7 +1,14 @@
 (defproject tarjonta-indeksoija-service "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [metosin/compojure-api "1.1.10"]
+                 [metosin/compojure-api "1.1.10" :exclusions [cheshire
+                                                              com.fasterxml.jackson.core/jackson-core
+                                                              com.fasterxml.jackson.dataformat/jackson-dataformat-smile
+                                                              com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
+                                                              ring/ring-codec
+                                                              clj-time
+                                                              org.yaml/snakeyaml
+                                                              joda-time]]
                  [clojurewerkz/elastisch "2.2.2"]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [clj-http "2.3.0"]
@@ -25,7 +32,7 @@
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
-                             [lein-kibit "0.1.3"]
+                             [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]]
                    :resource-paths ["dev_resources"]
                    :env {:dev true}}
