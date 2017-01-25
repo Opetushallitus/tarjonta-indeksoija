@@ -44,7 +44,7 @@
               (try
                 (index-object (first jobs))
                 (Thread/sleep 1000)
-                ( catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
+                (catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
               (recur (rest jobs)))))))))
 
 (defn start-indexing
@@ -70,7 +70,7 @@
                   (t/start-now)
                   (t/with-schedule
                     (schedule
-                      (cron-schedule "*/5 * * ? * *"))))]
+                      (cron-schedule "*/1 * * ? * *"))))] ;; TODO: Should be changed to something less/parameterized
     (qs/schedule job-pool job trigger)))
 
 (defn reset-jobs

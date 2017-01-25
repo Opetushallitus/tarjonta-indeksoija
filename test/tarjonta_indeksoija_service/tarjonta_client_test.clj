@@ -6,7 +6,7 @@
 
 (fact "Tarjonta client should get Hakukohde"
   (let [oid "1.2.246.562.20.99178639649"]
-    (mock/with-mock {:oid oid :type "hakukohde"}
+    (mock/with-tarjonta-mock {:oid oid :type "hakukohde"}
       (select-keys (tarjonta/get-doc {:oid oid :type "hakukohde"}) [:oid :tarjoajaOids :koulutukset])
         => {:oid oid
             :tarjoajaOids ["1.2.246.562.10.72985435253"]
