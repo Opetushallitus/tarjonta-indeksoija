@@ -14,6 +14,12 @@
 (def koulutus-index (index-name "koulutus_test"))
 (def indexdata (index-name "index-data"))
 
+(defn block-until-indexed
+  []
+  (elastic-client/refresh-index "indexdata")
+  (while (not (empty? (elastic-client/get-queue)))
+    (Thread/sleep 1000)))
+
 (against-background
   [(after :facts [(elastic-client/delete-index hakukohde-index)
                   (elastic-client/delete-index koulutus-index)])
@@ -49,7 +55,8 @@
         (elastic-client/bulk-upsert "indexdata" "indexdata" [{:oid hk1-oid :type hakukohde-index}
                                                              {:oid hk2-oid :type hakukohde-index}
                                                              {:oid k1-oid :type koulutus-index}])
-        (Thread/sleep 5000) ;; TODO: Be smarter about this also...
+        (block-until-indexed)
+
         (let [hk1-res (elastic-client/get-by-id hakukohde-index hakukohde-index hk1-oid)
               hk2-res (elastic-client/get-by-id hakukohde-index hakukohde-index hk2-oid)
               k1-res (elastic-client/get-by-id koulutus-index koulutus-index k1-oid)]
@@ -60,7 +67,9 @@
           (elastic-client/bulk-upsert "indexdata" "indexdata" [{:oid hk1-oid :type hakukohde-index}
                                                                {:oid hk2-oid :type hakukohde-index}
                                                                {:oid k1-oid :type koulutus-index}])
-          (Thread/sleep 5000) ;; TODO: Be smarter about this also...
+
+          (block-until-indexed)
+
           (< (:timestamp hk1-res) (:timestamp (elastic-client/get-by-id hakukohde-index hakukohde-index hk1-oid))) => true
           (< (:timestamp hk2-res) (:timestamp (elastic-client/get-by-id hakukohde-index hakukohde-index hk2-oid))) => true
           (< (:timestamp k1-res) (:timestamp (elastic-client/get-by-id koulutus-index koulutus-index k1-oid))) => true)))))
