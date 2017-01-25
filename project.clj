@@ -3,11 +3,11 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10"]
                  [clojurewerkz/elastisch "2.2.2"]
+                 [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [clj-http "2.3.0"]
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
-                 [overtone/at-at "1.2.0"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]

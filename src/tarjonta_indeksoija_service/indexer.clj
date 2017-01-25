@@ -1,10 +1,17 @@
 (ns tarjonta-indeksoija-service.indexer
-  (:require [tarjonta-indeksoija-service.conf :refer [recur-pool]]
+  (:require [tarjonta-indeksoija-service.conf :refer [job-pool]]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as converter]
             [taoensso.timbre :as log]
-            [overtone.at-at :as at]))
+            [clojurewerkz.quartzite.scheduler :as qs]
+            [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
+            [clojurewerkz.quartzite.triggers :as t]
+            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]]))
+
+(def running? (atom 0
+                :error-handler #(log/error %)
+                :validator #(or (= 1 %) (= 0 %))))
 
 (defn index-object
   [obj]
@@ -20,29 +27,55 @@
 (defn end-indexing
   [last-timestamp]
   (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
-  (elastic-client/delete-handled-queue last-timestamp))
+  (elastic-client/delete-handled-queue last-timestamp)
+  (elastic-client/refresh-index "indexdata"))
 
 (defn do-index
   []
-  (let [to-be-indexed (elastic-client/get-queue)
-        last-timestamp (apply max (map :timestamp to-be-indexed))]
-    (log/info (str "Starting indexing of " (count to-be-indexed) " items."))
-    (loop [jobs to-be-indexed]
-      (if (empty? jobs)
-        (end-indexing last-timestamp)
-        (do
-          (try
-            (index-object (first jobs))
-            (catch Exception e (log/error e)))              ;; TODO: move or remove object causing trouble
-          (recur (rest jobs)))))))
+  (let [to-be-indexed (elastic-client/get-queue)]
+    (if (empty? to-be-indexed)
+      (log/debug "Nothing to index.")
+      (do
+        (log/info (str "Starting indexing of " (count to-be-indexed) " items."))
+        (loop [jobs to-be-indexed]
+          (if (empty? jobs)
+            (end-indexing (apply max (map :timestamp to-be-indexed)))
+            (do
+              (try
+                (index-object (first jobs))
+                (Thread/sleep 1000)
+                ( catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
+              (recur (rest jobs)))))))))
+
+(defn start-indexing
+  []
+  (if (< 0 @running?)
+    (log/debug "Indexing already running.")
+    (do
+      (reset! running? 1)
+      (do-index)
+      (reset! running? 0))))
+
+(defjob indexing-job
+  [ctx]
+  (start-indexing))
 
 (defn start-indexer-job
   []
-  (at/every 10000 do-index recur-pool))
+  (let [job (j/build
+              (j/of-type indexing-job)
+              (j/with-identity "jobs.index.1"))
+        trigger (t/build
+                  (t/with-identity (t/key "crontirgger"))
+                  (t/start-now)
+                  (t/with-schedule
+                    (schedule
+                      (cron-schedule "*/5 * * ? * *"))))]
+    (qs/schedule job-pool job trigger)))
 
 (defn reset-jobs
   []
-  (at/stop-and-reset-pool! recur-pool))
+  (qs/clear! job-pool))
 
 (defn start-stop-indexer
   [start?]

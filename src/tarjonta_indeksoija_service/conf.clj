@@ -2,8 +2,8 @@
   (:require [cprop.core :refer [load-config]]
             [cprop.source :as source]
             [mount.core :refer [defstate start]]
-            [overtone.at-at :as at]))
+            [clojurewerkz.quartzite.scheduler :as qs]))
 
 (defstate env :start (load-config :merge [(source/from-system-props) (source/from-env)]))
 
-(defstate recur-pool :start (at/mk-pool))
+(defstate job-pool :start (-> (qs/initialize) qs/start))
