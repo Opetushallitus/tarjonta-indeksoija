@@ -11,7 +11,7 @@
 
 (def running? (atom 0
                 :error-handler #(log/error %)
-                :validator #(or (= 1 %) (= 0 %))))
+                :validator #(or (= 1 %) (zero? %))))
 
 (defn index-object
   [obj]
@@ -49,7 +49,7 @@
 
 (defn start-indexing
   []
-  (if (< 0 @running?)
+  (if (pos? @running?)
     (log/debug "Indexing already running.")
     (do
       (reset! running? 1)

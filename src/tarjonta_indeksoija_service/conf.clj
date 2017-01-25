@@ -6,4 +6,4 @@
 
 (defstate env :start (load-config :merge [(source/from-system-props) (source/from-env)]))
 
-(defstate job-pool :start (-> (qs/initialize) qs/start))
+(defstate job-pool :start (qs/start (qs/initialize)))

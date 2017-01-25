@@ -8,7 +8,7 @@
           :en (get-in value [:meta :kieli_en :nimi])}})
 
 (defn- extract-koodi-list [value path-to-koodi-list]
-  (map #(extract-koodi %) (vals (get-in value path-to-koodi-list))))
+  (map extract-koodi (vals (get-in value path-to-koodi-list))))
 
 (defn- value [value] value)
 
