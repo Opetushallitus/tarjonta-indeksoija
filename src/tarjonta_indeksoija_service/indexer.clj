@@ -2,6 +2,7 @@
   (:require [tarjonta-indeksoija-service.conf :refer [recur-pool]]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
+            [tarjonta-indeksoija-service.converter.koulutus-converter :as converter]
             [taoensso.timbre :as log]
             [overtone.at-at :as at]))
 
@@ -9,7 +10,11 @@
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
   (let [doc (tarjonta-client/get-doc obj)]
-    (elastic-client/bulk-upsert (:type obj) (:type obj) [doc])
+    (elastic-client/bulk-upsert (:type obj) (:type obj)
+                                [(if (.contains (:type obj) "koulutus")
+                                   (converter/convert doc)
+                                   doc)
+                                 ])
     (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " indexed succesfully."))))
 
 (defn end-indexing
@@ -28,7 +33,7 @@
         (do
           (try
             (index-object (first jobs))
-          ( catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
+            (catch Exception e (log/error e)))              ;; TODO: move or remove object causing trouble
           (recur (rest jobs)))))))
 
 (defn start-indexer-job

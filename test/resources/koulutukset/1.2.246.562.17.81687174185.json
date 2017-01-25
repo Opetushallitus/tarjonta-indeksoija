@@ -1,0 +1,863 @@
+{
+  "accessRights": {},
+  "result": {
+    "modified": 1452840642405,
+    "modifiedBy": "1.2.246.562.24.15338686712",
+    "oid": "1.2.246.562.17.81687174185",
+    "version": 4,
+    "koulutuskoodi": {
+      "uri": "koulutus_371101",
+      "versio": 4,
+      "arvo": "371101",
+      "nimi": "Sosiaali- ja terveysalan perustutkinto",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Grundexamen inom social- och hälsovård"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Sosiaali- ja terveysalan perustutkinto"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Practical Nurse, VQ"
+        }
+      }
+    },
+    "koulutusaste": {
+      "uri": "koulutusasteoph2002_32",
+      "versio": 1,
+      "arvo": "32",
+      "nimi": "Ammatillinen koulutus",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Yrkesutbildning"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Ammatillinen koulutus"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Vocational education and training"
+        }
+      }
+    },
+    "koulutusala": {
+      "uri": "koulutusalaoph2002_7",
+      "versio": 1,
+      "arvo": "7",
+      "nimi": "Sosiaali-, terveys- ja liikunta-ala",
+      "meta": {
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Sosiaali-, terveys- ja liikunta-ala"
+        },
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Social-, hälso- och idrottsområdet"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Social services, Health and Sports"
+        }
+      }
+    },
+    "opintoala": {
+      "uri": "opintoalaoph2002_703",
+      "versio": 1,
+      "arvo": "703",
+      "nimi": "Sosiaali- ja terveysala (alojen yhteiset ohjelmat)",
+      "meta": {
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Sosiaali- ja terveysala (alojen yhteiset ohjelmat)"
+        },
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Social- och hälsoområdet (gemensamma program)"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Health care and social services"
+        }
+      }
+    },
+    "tutkinto": {
+      "uri": "",
+      "versio": -1,
+      "arvo": "",
+      "nimi": ""
+    },
+    "eqf": {
+      "uri": "eqf_4",
+      "versio": 1,
+      "arvo": "4",
+      "nimi": "Taso 4",
+      "meta": {
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Taso 4"
+        },
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Nivå 4"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Level 4"
+        }
+      }
+    },
+    "nqf": {
+      "uri": "",
+      "versio": -1,
+      "arvo": "",
+      "nimi": ""
+    },
+    "opintojenLaajuusyksikko": {
+      "uri": "opintojenlaajuusyksikko_6",
+      "versio": 1,
+      "arvo": "6",
+      "nimi": "osaamispistettä",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "kompetenspoäng"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "osaamispistettä"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "ECVET competence points"
+        }
+      }
+    },
+    "koulutustyyppi": {
+      "uri": "koulutustyyppi_13",
+      "versio": 2,
+      "arvo": "13",
+      "nimi": "Ammatillinen perustutkinto näyttötutkintona",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Ammatillinen perustutkinto näyttötutkintona"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Ammatillinen perustutkinto näyttötutkintona"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Ammatillinen perustutkinto näyttötutkintona"
+        }
+      }
+    },
+    "ohjelmas": {
+      "versio": 1,
+      "uris": {}
+    },
+    "toteutustyyppi": "AMMATILLINEN_PERUSTUTKINTO_NAYTTOTUTKINTONA",
+    "moduulityyppi": "AMMATILLINEN_PERUSKOULUTUS",
+    "komoOid": "1.2.246.562.5.2013061010184136534472",
+    "organisaatio": {
+      "oid": "1.2.246.562.10.17053322602",
+      "nimi": "Hyria koulutus Oy, Hyvinkää, Kauppalankatu 18",
+      "nimet": []
+    },
+    "koulutusohjelma": {
+      "uri": "osaamisala_1511",
+      "versio": 3,
+      "arvo": "1511",
+      "nimi": "Sairaanhoidon ja huolenpidon osaamisala",
+      "meta": {
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Sairaanhoidon ja huolenpidon osaamisala"
+        },
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Kompetensområdet för sjukvård och omsorg"
+        }
+      },
+      "tekstis": {}
+    },
+    "tunniste": "",
+    "tila": "JULKAISTU",
+    "koulutusmoduuliTyyppi": "TUTKINTO_OHJELMA",
+    "kuvausKomo": {
+      "KOULUTUSOHJELMAN_TAVOITTEET": {
+        "versio": 1,
+        "meta": {
+          "kieli_sv": {
+            "kieliUri": "kieli_sv",
+            "kieliVersio": 1,
+            "kieliArvo": "SV",
+            "versio": 1
+          },
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_sv": "<p>Närvårdare som avlagt kompetensområdet för sjukvård och omsorg kan som medlem i en multiprofessionell arbetsgrupp samt självständigt planera, genomföra och utvärdera klientens och patientens sjukvård, omsorg och rehabilitering i olika verksamhetsmiljöer. De använder sig i sitt arbete av en tvärvetenskaplig kunskapsbas för sjukvård och omsorg. I arbetet poängteras främjande av klientens och patientens hälsa, funktionsförmåga, säkerhet och välfärd samt förebyggande och avvärjande av faktorer som utgör hot mot dem. De som avlagt  kompetensområdet för sjukvård och omsorg kan handleda patienten eller klienten i kostfrågor, sunda levnadsvanor och hälsofrämjande motion samt genomföra läkemedelsbehandling. De kan främja klientens eller patientens interaktion med sin omgivning, förmåga att klara av aktiviteterna i det dagliga livet samt handleda och ge stöd att utreda olika sociala problem. Sjukvården och omsorgen förutsätter att närvårdaren självständigt kan fatta beslut och fortgående upprätthåller sin yrkesskicklighet. Typiska arbetsplatser för närvårdare som avlagt detta kompetensområde är hälsocentraler, sjukhus, den privata hälsovården, åldringshem, servicecenters eller klientens hem.  </p> <p>Arbetsplatser: Hälsocentraler, sjukhus, den privata och offentliga social- och hälsovården, åldringshem, servicecentra eller klientens hem.</p>",
+          "kieli_fi": "<p>Sairaanhoidon ja huolenpidon osaamisalan suorittanut lähihoitaja osaa moniammatillisen työryhmän jäsenenä sekä itsenäisesti suunnitella, toteuttaa ja arvioida asiakkaan ja potilaan sairaanhoitoa, huolenpitoa ja kuntoutumista erilaisissa toimintaympäristöissä. Hän hyödyntää työssään sairaanhoidon ja huolenpidon monitieteistä tietoperustaa. Työssä korostuvat asiakkaan ja potilaan terveyden, toimintakyvyn, turvallisuuden ja hyvinvoinnin edistäminen sekä niitä uhkaavien tekijöiden ehkäisy ja torjuminen. Sairaanhoidon ja huolenpidon osaamisalan suorittanut lähihoitaja osaa ohjata potilasta tai asiakasta ravitsemuksessa, terveissä elintavoissa ja toimintakykyä edistävässä liikunnassa sekä toteuttaa lääkehoitoa. Lähihoitaja osaa edistää asiakkaan tai potilaan vuorovaikutusta ympäristönsä kanssa, päivittäisistä toimista selviytymistä sekä ohjata ja antaa tukea erilaisten sosiaalisisten ongelmien selvittämisessä. Sairaanhoito ja huolenpito edellyttävät lähihoitajalta itsenäistä päätöksentekoa ja jatkuvaa ammattitaidon ylläpitämistä. Tyypillisiä tämän osaamisalan suorittaneen lähihoitajan työpaikkoja ovat terveyskeskukset, sairaalat, yksityinen terveydenhuolto, vanhainkodit, palvelukeskukset tai asiakkaan koti. </p> <p>Työpaikat: Terveyskeskukset, sairaalat, julkinen ja yksityinen sosiaali- ja terveydenhuolto, vanhainkodit, palvelukeskukset tai asiakkaan koti.</p> "
+        }
+      },
+      "JATKOOPINTO_MAHDOLLISUUDET": {
+        "versio": 1,
+        "meta": {
+          "kieli_sv": {
+            "kieliUri": "kieli_sv",
+            "kieliVersio": 1,
+            "kieliArvo": "SV",
+            "versio": 1
+          },
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_sv": "<p>De yrkesinriktade grundexamina samt yrkesoch specialyrkesexamina ger allmän behörighet för fortsatta studier vid yrkeshögskolor och universitet. En naturlig väg till fortsatta studier för den som avlagt en yrkesinriktad grundexamen är en yrkeshögskoleexamen inom hälsovård och det sociala området, t.ex. sjukskötare YH, förstavårdare YH, socionom YH, estenom YH, tandtekniker YH, fysioterapeut YH. Vid universitet kan man avlägga kandidat- eller magisterexamen inom t.ex. hälsovetenskaper, medicin, farmaci, gymnastik- och idrottsvetenskaper, samhällsvetenskaper eller pedagogik. De pedagogiska studierna för yrkeslärare ger möjlighet till påbyggnadsutbildning för yrkeslärarens arbetsuppgifter.</p>",
+          "kieli_fi": "<p>Ammatillisista perustutkinnoista sekä ammatti ja erikoisammattitutkinnoista saa yleisen jatko-opintokelpoisuuden ammattikorkeakouluihin ja yliopistoihin. Luonteva jatko-opintoväylä esim. ammatillisen perustutkinnon suorittaneilla on sosiaali- ja terveysalan ammattikorkeakoulututkinto, esim. sairaanhoitaja AMK, ensihoitaja AMK, sosionomi AMK, estenomi AMK, hammasteknikko AMK, fysioterapeutti AMK. Yliopistossa voi suorittaa esimerkiksi terveystieteiden, lääketieteen, farmasian,  yhteiskuntatieteiden tai kasvatustieteiden kandidaatin tai maisterin tutkinnon. Ammatillisen opettajan pedagogiset opinnot antavat jatkokoulutusmahdollisuuden ammatillisen opettajan työtehtäviin.</p>"
+        }
+      },
+      "TAVOITTEET": {
+        "versio": 1,
+        "meta": {
+          "kieli_sv": {
+            "kieliUri": "kieli_sv",
+            "kieliVersio": 1,
+            "kieliArvo": "SV",
+            "versio": 1
+          },
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_sv": "<p>De som avlagt grundexamen inom social- och hälsovårdsbranschen arbetar med människor i olika åldrar och livssituationer. Närvårdarna arbetar i uppgifter inom vård, omsorg, fostran och rehabilitering. De möter klienter och patienter som individer och främjar deras hälsa, funktionsförmåga och välfärd. De planerar, genomför och utvärderar klientens eller patientens vård, omsorg och rehabilitering. De bistår och vägleder klienten eller patienten genom att använda sig av den mångsidiga kunskapen inom branschen. Närvårdarna arbetar i mångprofessionella team och nätverk. De utnyttjar sina språkkunskaper och sin kulturkännedom i arbetet. Dessutom specialiserar sig närvårdarna inom något av följande områden: kundbetjäning och informationshantering, akutvård, rehabilitering, vård och fostran av barn och unga, mentalhälsoarbete och missbrukarvård, sjukvård och omsorg, munhälsovård, handikappomsorg eller äldreomsorg.</p>",
+          "kieli_fi": "<p>Sosiaali- ja terveysalan perustutkinnon suorittanut työskentelee eri-ikäisten ja erilaisissa elämänvaiheissa olevien ihmisten kanssa. Lähihoitaja toimii sosiaali- ja terveysalan hoito-, huolenpito-, kasvatus- ja kuntoutustehtävissä. Hän kohtaa asiakkaat ja potilaat yksilöinä ja edistää toiminnallaan heidän terveyttään, toimintakykyään ja hyvinvointiaan. Hän suunnittelee, toteuttaa ja arvioi asiakkaan tai potilaan hoitoa, huolenpitoa ja kuntoutumista. Hän avustaa ja ohjaa asiakasta ja potilasta hyödyntäen työssään alan monipuolista tietoperustaa. Lähihoitaja työskentelee moniammatillisissa tiimeissä ja verkostoissa. Hän hyödyntää työssään kielitaitoaan ja kulttuurien tuntemustaan. Lisäksi lähihoitaja erikoistuu johonkin seuraavista työelämän alueista: asiakaspalvelu ja tietohallinta, ensihoito, kuntoutus, lasten ja nuorten hoito ja kasvatus, mielenterveys- ja päihdetyö, sairaanhoito ja huolenpito, suun terveydenhoito, vammaistyö tai vanhustyö ja jalkojenhoito.</p>"
+        }
+      },
+      "KOULUTUKSEN_RAKENNE": {
+        "versio": 1,
+        "meta": {
+          "kieli_sv": {
+            "kieliUri": "kieli_sv",
+            "kieliVersio": 1,
+            "kieliArvo": "SV",
+            "versio": 1
+          },
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_sv": "<p>Examensdelarna stöd för utveckling och handledning, vård och omsorg och stöd för rehabilitering  är obligatoriska för alla som avlägger grundexamen inom social- och hälsovårdsbranschen. I examen är ett utbildningsprogram obligatoriskt.</p>  <p>Kundbetjäning och informationshantering  är obligatorisk för de som genomför utbildningsprogrammet för kundbetjäning och informationshantering. Examensdelarna verksamhet i akutvårdstjänster, och jourpolikliniskt vårdarbete eller perioperativ vård är obligatoriska i utbildningsprogrammet för akutvård.</p> <p>Examensdelen rehabilitering är obligatorisk i utbildningsprogrammet för rehabilitering. Examensdelen vård och fostran av barn och unga är obligatorisk i utbildningsprogrammet för vård och fostran av barn och unga. I utbildningsprogrammet för mentalhälsoarbete och missbrukarvård ingår examensdelen mentalhälsoarbete och missbrukarvård som obligatorisk. Examensdelen sjukvård och omsorg  är obligatorisk för de som avlägger utbildningsprogrammet för sjukvård och omsorg. Examensdelen munhälsovård är obligatorisk i utbildningsprogrammet för munhälsovård. I utbildningsprogrammet för handikappomsorg ingår examendelen handikappomsorg som obligatorisk. Examensdelen äldreomsorg är obligatorisk i utbildningsprogrammet för äldreomsorg.Dessutom ska examinanderna avlägga valfria examensdelar som kompletterar yrkesinriktningen.</p>",
+          "kieli_fi": "<p>Tutkinnon kaikille pakolliset tutkinnon osat ovat kasvun tukeminen ja ohjaus, hoito ja huolenpito ja kuntoutumisen tukeminen.  Lisäksi suoritetaan valitun osaamisalan pakolliset tutkinnon osat. Asiakaspalvelun ja tietohallinnan osaamisalan pakollinen osa on asiakaspalvelu ja tietohallinta. Ensihoidon osaamisalan pakollinen tutkinnon osa on ensihoitopalvelussa toimiminen  ja lisäksi valinnainen joko päivystyspolikliininen hoitotyö tai perioperatiivinen hoitotyö. Kuntoutuksen osaamisalan pakollinen osa on kuntoutus. Lasten ja nuorten hoidon ja kasvatuksen osaamisalan pakollinen osa on lasten ja nuorten hoito ja kasvatus. Mielenterveys- ja päihdetyön osaamisalan pakollinen osa on mielenterveys- ja päihdetyö. Sairaanhoidon ja huolenpidon osaamisalan pakollinen osa on sairaanhoito ja huolenpito. Suun terveydenhoidon osaamisalalla pakollinen osa on suun terveydenhoito. Vammaistyön osaamisalan pakollinen osa on vammaistyö. Vanhustyön osaamisalan pakollinen osa on vanhustyö. Lisäksi suoritetaan valinnaisia ammattitaitoa tukevia tutkinnon osia.</p>"
+        }
+      }
+    },
+    "kuvausKomoto": {
+      "MAKSULLISUUS": {
+        "versio": 1,
+        "meta": {
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_fi": ""
+        }
+      },
+      "OSAAMISALAN_VALINTA": {
+        "versio": 1,
+        "meta": {
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_fi": ""
+        }
+      },
+      "SIJOITTUMINEN_TYOELAMAAN": {
+        "versio": 1,
+        "meta": {
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_fi": ""
+        }
+      },
+      "YHTEISTYO_MUIDEN_TOIMIJOIDEN_KANSSA": {
+        "versio": 1,
+        "meta": {
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_fi": ""
+        }
+      },
+      "NAYTTOTUTKINNON_SUORITTAMINEN": {
+        "versio": 1,
+        "meta": {
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1
+          }
+        },
+        "tekstis": {
+          "kieli_fi": ""
+        }
+      }
+    },
+    "koulutuksenAlkamiskausi": {
+      "uri": "kausi_s",
+      "versio": 1,
+      "arvo": "S",
+      "nimi": "Syksy",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Höst"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Syksy"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Autumn"
+        }
+      }
+    },
+    "koulutuksenAlkamisvuosi": 2016,
+    "koulutuksenAlkamisPvms": [
+      1470776400000
+    ],
+    "opetuskielis": {
+      "versio": 1,
+      "meta": {
+        "kieli_fi": {
+          "uri": "kieli_fi",
+          "versio": 1,
+          "arvo": "FI",
+          "nimi": "suomi",
+          "meta": {
+            "kieli_fi": {
+              "kieliUri": "kieli_fi",
+              "kieliVersio": 1,
+              "kieliArvo": "FI",
+              "versio": 1,
+              "nimi": "suomi"
+            },
+            "kieli_sv": {
+              "kieliUri": "kieli_sv",
+              "kieliVersio": 1,
+              "kieliArvo": "SV",
+              "versio": 1,
+              "nimi": "finska"
+            },
+            "kieli_en": {
+              "kieliUri": "kieli_en",
+              "kieliVersio": 1,
+              "kieliArvo": "EN",
+              "versio": 1,
+              "nimi": "Finnish"
+            }
+          }
+        }
+      },
+      "uris": {
+        "kieli_fi": 1
+      }
+    },
+    "opetusmuodos": {
+      "versio": 1,
+      "uris": {}
+    },
+    "opetusAikas": {
+      "versio": 1,
+      "uris": {}
+    },
+    "opetusPaikkas": {
+      "versio": 1,
+      "uris": {}
+    },
+    "opintojenLaajuusarvo": {
+      "uri": "opintojenlaajuus_180",
+      "versio": 1,
+      "arvo": "180",
+      "nimi": "180",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "180"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "180"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "180"
+        }
+      }
+    },
+    "opetusJarjestajat": [],
+    "opetusTarjoajat": [
+      "1.2.246.562.10.17053322602"
+    ],
+    "ammattinimikkeet": {
+      "versio": 1,
+      "uris": {}
+    },
+    "aihees": {
+      "versio": 1,
+      "uris": {}
+    },
+    "parents": [
+      "1.2.246.562.5.2013061010184131784105"
+    ],
+    "children": [],
+    "hintaString": "58",
+    "opintojenMaksullisuus": true,
+    "isAvoimenYliopistonKoulutus": false,
+    "oppiaineet": [],
+    "extraParams": {},
+    "koulutuslaji": {
+      "uri": "koulutuslaji_a",
+      "versio": 1,
+      "arvo": "A",
+      "nimi": "Aikuiskoulutus",
+      "meta": {
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Aikuiskoulutus"
+        },
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Vuxenutbildning"
+        },
+        "kieli_en": {
+          "kieliUri": "kieli_en",
+          "kieliVersio": 1,
+          "kieliArvo": "EN",
+          "versio": 1,
+          "nimi": "Adult education and training"
+        }
+      }
+    },
+    "yhteyshenkilos": [
+      {
+        "nimi": "Kati Karvonen",
+        "titteli": "koulutuspäällikkö",
+        "sahkoposti": "kati.karvonen@hyria.fi",
+        "puhelin": "050 341 6751",
+        "kielet": [],
+        "henkiloTyyppi": "YHTEYSHENKILO"
+      }
+    ],
+    "tutkintonimike": {
+      "uri": "tutkintonimikkeet_10008",
+      "versio": 1,
+      "arvo": "10008",
+      "nimi": "Lähihoitaja",
+      "meta": {
+        "kieli_sv": {
+          "kieliUri": "kieli_sv",
+          "kieliVersio": 1,
+          "kieliArvo": "SV",
+          "versio": 1,
+          "nimi": "Närvårdare"
+        },
+        "kieli_fi": {
+          "kieliUri": "kieli_fi",
+          "kieliVersio": 1,
+          "kieliArvo": "FI",
+          "versio": 1,
+          "nimi": "Lähihoitaja"
+        }
+      }
+    },
+    "jarjestavaOrganisaatio": {
+      "oid": "1.2.246.562.10.33076507145",
+      "nimi": "Hyria koulutus Oy",
+      "nimet": []
+    },
+    "valmistavaKoulutus": {
+      "kuvaus": {
+        "KOHDERYHMA": {
+          "versio": 1,
+          "meta": {
+            "kieli_fi": {
+              "kieliUri": "kieli_fi",
+              "kieliVersio": 1,
+              "kieliArvo": "FI",
+              "versio": 1
+            }
+          },
+          "tekstis": {
+            "kieli_fi": ""
+          }
+        },
+        "OPISKELUN_HENKILOKOHTAISTAMINEN": {
+          "versio": 1,
+          "meta": {
+            "kieli_fi": {
+              "kieliUri": "kieli_fi",
+              "kieliVersio": 1,
+              "kieliArvo": "FI",
+              "versio": 1
+            }
+          },
+          "tekstis": {
+            "kieli_fi": ""
+          }
+        },
+        "KANSAINVALISTYMINEN": {
+          "versio": 1,
+          "meta": {
+            "kieli_fi": {
+              "kieliUri": "kieli_fi",
+              "kieliVersio": 1,
+              "kieliArvo": "FI",
+              "versio": 1
+            }
+          },
+          "tekstis": {
+            "kieli_fi": ""
+          }
+        },
+        "SISALTO": {
+          "versio": 1,
+          "meta": {
+            "kieli_fi": {
+              "kieliUri": "kieli_fi",
+              "kieliVersio": 1,
+              "kieliArvo": "FI",
+              "versio": 1
+            }
+          },
+          "tekstis": {
+            "kieli_fi": "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>"
+          }
+        }
+      },
+      "suunniteltuKestoArvo": "0-2",
+      "suunniteltuKestoTyyppi": {
+        "uri": "suunniteltukesto_01",
+        "versio": 1,
+        "arvo": "01",
+        "nimi": "vuotta",
+        "meta": {
+          "kieli_fi": {
+            "kieliUri": "kieli_fi",
+            "kieliVersio": 1,
+            "kieliArvo": "FI",
+            "versio": 1,
+            "nimi": "vuotta"
+          },
+          "kieli_sv": {
+            "kieliUri": "kieli_sv",
+            "kieliVersio": 1,
+            "kieliArvo": "SV",
+            "versio": 1,
+            "nimi": "år"
+          },
+          "kieli_en": {
+            "kieliUri": "kieli_en",
+            "kieliVersio": 1,
+            "kieliArvo": "EN",
+            "versio": 1,
+            "nimi": "years"
+          }
+        }
+      },
+      "hintaString": "",
+      "opintojenMaksullisuus": false,
+      "linkkiOpetussuunnitelmaan": "",
+      "opetusmuodos": {
+        "versio": 1,
+        "meta": {
+          "opetusmuotokk_3": {
+            "uri": "opetusmuotokk_3",
+            "versio": 1,
+            "arvo": "3",
+            "nimi": "Monimuoto-opetus",
+            "meta": {
+              "kieli_sv": {
+                "kieliUri": "kieli_sv",
+                "kieliVersio": 1,
+                "kieliArvo": "SV",
+                "versio": 1,
+                "nimi": "Flerformsundervisning"
+              },
+              "kieli_fi": {
+                "kieliUri": "kieli_fi",
+                "kieliVersio": 1,
+                "kieliArvo": "FI",
+                "versio": 1,
+                "nimi": "Monimuoto-opetus"
+              },
+              "kieli_en": {
+                "kieliUri": "kieli_en",
+                "kieliVersio": 1,
+                "kieliArvo": "EN",
+                "versio": 1,
+                "nimi": "Blended learning"
+              }
+            }
+          }
+        },
+        "uris": {
+          "opetusmuotokk_3": 1
+        }
+      },
+      "opetusAikas": {
+        "versio": 1,
+        "meta": {
+          "opetusaikakk_1": {
+            "uri": "opetusaikakk_1",
+            "versio": 1,
+            "arvo": "1",
+            "nimi": "Päiväopetus",
+            "meta": {
+              "kieli_sv": {
+                "kieliUri": "kieli_sv",
+                "kieliVersio": 1,
+                "kieliArvo": "SV",
+                "versio": 1,
+                "nimi": "Dagundervisning"
+              },
+              "kieli_fi": {
+                "kieliUri": "kieli_fi",
+                "kieliVersio": 1,
+                "kieliArvo": "FI",
+                "versio": 1,
+                "nimi": "Päiväopetus"
+              },
+              "kieli_en": {
+                "kieliUri": "kieli_en",
+                "kieliVersio": 1,
+                "kieliArvo": "EN",
+                "versio": 1,
+                "nimi": "Day time teaching"
+              }
+            }
+          }
+        },
+        "uris": {
+          "opetusaikakk_1": 1
+        }
+      },
+      "opetusPaikkas": {
+        "versio": 1,
+        "meta": {
+          "opetuspaikkakk_1": {
+            "uri": "opetuspaikkakk_1",
+            "versio": 1,
+            "arvo": "1",
+            "nimi": "Lähiopetus",
+            "meta": {
+              "kieli_fi": {
+                "kieliUri": "kieli_fi",
+                "kieliVersio": 1,
+                "kieliArvo": "FI",
+                "versio": 1,
+                "nimi": "Lähiopetus"
+              },
+              "kieli_sv": {
+                "kieliUri": "kieli_sv",
+                "kieliVersio": 1,
+                "kieliArvo": "SV",
+                "versio": 1,
+                "nimi": "Närundervisning"
+              },
+              "kieli_en": {
+                "kieliUri": "kieli_en",
+                "kieliVersio": 1,
+                "kieliArvo": "EN",
+                "versio": 1,
+                "nimi": "Contact teaching"
+              }
+            }
+          }
+        },
+        "uris": {
+          "opetuspaikkakk_1": 1
+        }
+      },
+      "yhteyshenkilos": [
+        {
+          "nimi": "Hakutoimisto",
+          "sahkoposti": "hakutoimisto@hyria.fi",
+          "puhelin": "020 690 159",
+          "kielet": [],
+          "henkiloTyyppi": "YHTEYSHENKILO"
+        }
+      ]
+    },
+    "tarkenne": "",
+    "tutkintonimikes": {
+      "versio": 1,
+      "meta": {
+        "tutkintonimikkeet_10008": {
+          "uri": "tutkintonimikkeet_10008",
+          "versio": 1,
+          "arvo": "10008",
+          "nimi": "Lähihoitaja",
+          "meta": {
+            "kieli_sv": {
+              "kieliUri": "kieli_sv",
+              "kieliVersio": 1,
+              "kieliArvo": "SV",
+              "versio": 1,
+              "nimi": "Närvårdare"
+            },
+            "kieli_fi": {
+              "kieliUri": "kieli_fi",
+              "kieliVersio": 1,
+              "kieliArvo": "FI",
+              "versio": 1,
+              "nimi": "Lähihoitaja"
+            }
+          }
+        }
+      },
+      "uris": {
+        "tutkintonimikkeet_10008": 1
+      }
+    }
+  },
+  "status": "OK"
+}
