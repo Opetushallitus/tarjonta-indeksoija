@@ -7,22 +7,29 @@
 
 (defn index-object
   [obj]
+  (log/info "Indexing" (:type obj) (:oid obj))
   (let [doc (tarjonta-client/get-doc obj)]
     (elastic-client/bulk-upsert (:type obj) (:type obj) [doc])
     (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " indexed succesfully."))))
 
+(defn end-indexing
+  [last-timestamp]
+  (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
+  (elastic-client/delete-handled-queue last-timestamp))
+
 (defn do-index
   []
-  (log/info "Starting indexing")
-  (loop [objs (elastic-client/get-queue)]
-    (if (empty? objs)
-      (log/info "The indexing queue was empty, stopping indexing.")
-      (let [obj (first objs)]
-        (log/info "Indexing" (:type obj) (:oid obj))
-        (try
-          (index-object obj)
-          (catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
-        (recur (rest objs))))))
+  (let [to-be-indexed (elastic-client/get-queue)
+        last-timestamp (apply max (map :timestamp to-be-indexed))]
+    (log/info (str "Starting indexing of " (count to-be-indexed) " items."))
+    (loop [jobs to-be-indexed]
+      (if (empty? jobs)
+        (end-indexing last-timestamp)
+        (do
+          (try
+            (index-object (first jobs))
+          ( catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
+          (recur (rest jobs)))))))
 
 (defn start-indexer-job
   []

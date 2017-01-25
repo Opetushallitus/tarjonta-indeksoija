@@ -33,7 +33,7 @@
            type "indexdata"}}]
   (let [conn (esr/connect (:elastic-url env))]
     (try
-      (->> (esd/search conn index type :query (q/match-all) :sort {:timestamp "asc"})
+      (->> (esd/search conn index type :query (q/match-all) :sort {:timestamp "asc"} :size 10000)
           :hits
           :hits
           (map :_source))
