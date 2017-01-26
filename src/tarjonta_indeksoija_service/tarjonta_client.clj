@@ -41,6 +41,5 @@
     (find-haku-docs params)
     (let [params-with-defaults (merge {:TILA "NOT_POISTETTU"} params)
           url (get-url type "search")]
-      (->> (client/get url {:query-params params-with-defaults :as :json})
-           (extract-koulutus-hakukohde-docs type)))))
-
+      (extract-koulutus-hakukohde-docs type
+        (client/get url {:query-params params-with-defaults, :as :json})))))

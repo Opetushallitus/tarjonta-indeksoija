@@ -39,7 +39,7 @@
 (defn do-index
   []
   (let [to-be-indexed (elastic-client/get-queue)
-        agents (map #(agent %) to-be-indexed)]
+        agents (map agent to-be-indexed)]
     (if (empty? to-be-indexed)
       (log/info "Nothing to index.")
       (do

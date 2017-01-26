@@ -42,4 +42,5 @@
             "test" ["with-profile" "+test" "midje"]
             "ci-test" ["with-profile" "+test" "midje" ":config" "ci/test_conf.clj"]
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
+            "eastwood" ["with-profile" "+test" "eastwood"]
             "create-uberjar" ["do" "clean" ["ring" "uberjar"]]})
