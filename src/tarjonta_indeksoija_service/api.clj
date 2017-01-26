@@ -36,7 +36,7 @@
       (context "/tarjonta-indeksoija/api" []
         (GET "/hakukohde" []
           :query-params [oid :- String]
-          (ok {:result (elastic-client/get-by-id "hakukohde_test" "hakukohde_test" oid)}))
+          (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
 
         (context "/indexer" []
           (GET "/start" []

@@ -19,17 +19,17 @@
 
 (defn refresh-index
   [index]
-  (client/post (str (:elastic-url env) "/" index "/_refresh")))
+  (client/post (str (:elastic-url env) "/" (index-name index) "/_refresh")))
 
 (defn delete-index
-  [index-name]
+  [index]
   (let [conn (esr/connect (:elastic-url env))]
-    (esi/delete conn index-name)))
+    (esi/delete conn (index-name index))))
 
 (defn get-by-id
   [index type id]
   (let [conn (esr/connect (:elastic-url env))
-        res (esd/get conn index type id)]
+        res (esd/get conn (index-name index) (index-name type) id)]
     (:_source res)))
 
 (defn get-queue
@@ -44,7 +44,7 @@
 
 (defn- upsert-operation
   [doc index type]
-  {"update" {:_index index :_type type :_id (:oid doc)}})
+  {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
 
 (defn- upsert-doc
   [doc now]
@@ -57,6 +57,7 @@
         now (System/currentTimeMillis)
         documents  (map #(upsert-doc % now) documents)]
    (interleave operations documents)))
+
 
 (defn bulk-upsert
   [index type documents]

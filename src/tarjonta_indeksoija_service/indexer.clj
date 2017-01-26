@@ -32,7 +32,7 @@
   [last-timestamp]
   (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
   (elastic-client/delete-handled-queue last-timestamp)
-  (elastic-client/refresh-index (elastic-client/index-name "indexdata")))
+  (elastic-client/refresh-index "indexdata"))
 
 (defn agent-error-handler
   [agent e]
