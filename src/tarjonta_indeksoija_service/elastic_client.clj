@@ -1,5 +1,6 @@
 (ns tarjonta-indeksoija-service.elastic-client
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
+            [environ.core]
             [clj-http.client :as client]
             [clojurewerkz.elastisch.rest.bulk :as bulk]
             [clojurewerkz.elastisch.rest :as esr]
@@ -11,6 +12,10 @@
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.arguments :as ar])
   (:import (clojurewerkz.elastisch.rest Connection)))
+
+(defn index-name
+  [name]
+  (str name (when (:test environ.core/env) "_test")))
 
 (defn refresh-index
   [index]
@@ -28,12 +33,10 @@
     (:_source res)))
 
 (defn get-queue
-  [& {:keys [index type]
-      :or {index "indexdata"
-           type "indexdata"}}]
+  []
   (let [conn (esr/connect (:elastic-url env))]
     (try
-      (->> (esd/search conn index type :query (q/match-all) :sort {:timestamp "asc"} :size 10000)
+      (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 10000)
           :hits
           :hits
           (map :_source))
@@ -83,8 +86,6 @@
                :body         {:query query}})))
 
 (defn delete-handled-queue
-  [max-timestamp & {:keys [index type]
-                    :or {index "indexdata"
-                         type "indexdata"}}]
+  [max-timestamp]
   (let [conn (esr/connect (:elastic-url env))]
-    (delete-by-query* conn index type {:range {:timestamp {:lte max-timestamp}}})))
+    (delete-by-query* conn (index-name "indexdata") (index-name "indexdata") {:range {:timestamp {:lte max-timestamp}}})))

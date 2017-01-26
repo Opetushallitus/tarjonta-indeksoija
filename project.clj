@@ -36,9 +36,10 @@
                              [lein-environ "1.1.0"]]
                    :resource-paths ["dev_resources"]
                    :env {:dev true}}
+             :test {:env {:test true}}
              :uberjar {:ring {:port 8359}}}
   :aliases {"run" ["ring" "server"]
-            "test" ["midje"]
-            "ci-test" ["midje" ":config" "ci/test_conf.clj"]
-            "autotest" ["midje" ":autotest"]
+            "test" ["with-profile" "+test" "midje"]
+            "ci-test" ["with-profile" "+test" "midje" ":config" "ci/test_conf.clj"]
+            "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "create-uberjar" ["do" "clean" ["ring" "uberjar"]]})

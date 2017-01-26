@@ -13,6 +13,10 @@
                 :error-handler #(log/error %)
                 :validator #(or (= 1 %) (zero? %))))
 
+(defn index-name
+  [name]
+  (str name (when (:test environ.core/env) "_test")))
+
 (defn index-object
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
@@ -34,7 +38,7 @@
   [last-timestamp]
   (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
   (elastic-client/delete-handled-queue last-timestamp)
-  (elastic-client/refresh-index "indexdata"))
+  (elastic-client/refresh-index (index-name "indexdata")))
 
 (defn do-index
   []
@@ -49,7 +53,6 @@
             (do
               (try
                 (index-object (first jobs))
-                (Thread/sleep 1000)
                 (catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
               (recur (rest jobs)))))))))
 
