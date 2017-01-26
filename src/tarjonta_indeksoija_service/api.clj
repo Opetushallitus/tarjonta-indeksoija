@@ -1,8 +1,9 @@
 (ns tarjonta-indeksoija-service.api
-  (:require [tarjonta-indeksoija-service.elastic-client :as ec]
+  (:require [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.conf :refer [env]]
             [tarjonta-indeksoija-service.util.logging :as logging]
             [tarjonta-indeksoija-service.indexer :as indexer]
+            [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
@@ -18,22 +19,38 @@
 (defn stop []
   (mount/stop))
 
+(defn- reindex
+  [index params]
+  (let [docs (tarjonta-client/find-docs index params)]
+    (elastic-client/bulk-upsert "indexdata" "indexdata" docs)))
+
 (def app
   (logger.timbre/wrap-with-logger
     (api
       {:swagger {:ui   "/tarjonta-indeksoija"
                  :spec "/tarjonta-indeksoija/swagger.json"
-                 :data {:info {:title       "Tarjonta-indeksoija-service"
-                        :description "TODO kunnon kuvaus"}}}
+                 :data {:info {:title       "Tarjonta-indeksoija"
+                               :description "Elasticsearch wrapper for tarjonta api."}}}
        :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
 
       (context "/tarjonta-indeksoija/api" []
         (GET "/hakukohde" []
           :query-params [oid :- String]
-          (ok {:result (ec/get-by-id "hakukohde_test" "hakukohde_test" oid)}))
+          (ok {:result (elastic-client/get-by-id "hakukohde_test" "hakukohde_test" oid)}))
 
-        (GET "/indexer/start" []
-          (ok {:result (indexer/start-stop-indexer true)}))
+        (context "/indexer" []
+          (GET "/start" []
+            (ok {:result (indexer/start-stop-indexer true)}))
 
-        (GET "/indexer/stop" []
-          (ok {:result (indexer/start-stop-indexer false)}))))))
+          (GET "/stop" []
+            (ok {:result (indexer/start-stop-indexer false)})))
+
+        (context "/reindex" []
+          (GET "/koulutus" {params :params}
+            (ok {:result (reindex "koulutus" params)}))
+
+          (GET "/hakukohde" {params :params}
+            (ok {:result (reindex "hakukohde" params)}))
+
+          (GET "/haku" {params :params}
+            (ok {:result (reindex "haku" params)})))))))
