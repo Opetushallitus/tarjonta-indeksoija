@@ -9,9 +9,7 @@
             [clojurewerkz.quartzite.triggers :as t]
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]]))
 
-(def running? (atom 0
-                :error-handler #(log/error %)
-                :validator #(or (= 1 %) (zero? %))))
+(def running? (atom false :error-handler #(log/error %)))
 
 (defn index-object
   [obj]
@@ -36,10 +34,15 @@
   (elastic-client/delete-handled-queue last-timestamp)
   (elastic-client/refresh-index (elastic-client/index-name "indexdata")))
 
+(defn agent-error-handler
+  [agent e]
+  (log/error (str "Error with indexing agent: " agent))
+  (log/error e))
+
 (defn do-index
   []
   (let [to-be-indexed (elastic-client/get-queue)
-        agents (map agent to-be-indexed)]
+        agents (map #(agent % :error-handler agent-error-handler) to-be-indexed)]
     (if (empty? to-be-indexed)
       (log/info "Nothing to index.")
       (do
@@ -53,13 +56,13 @@
 (defn start-indexing
   []
   (try
-    (if (pos? @running?)
+    (if @running?
       (log/debug "Indexing already running.")
       (do
-        (reset! running? 1)
+        (reset! running? true)
         (do-index)))
     (catch Exception e (log/error e))
-    (finally (reset! running? 0))))
+    (finally (reset! running? false))))
 
 (defjob indexing-job
   [ctx]
@@ -80,7 +83,7 @@
 
 (defn reset-jobs
   []
-  (reset! running? 0)
+  (reset! running? false)
   (qs/clear! job-pool))
 
 (defn start-stop-indexer
