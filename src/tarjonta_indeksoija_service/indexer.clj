@@ -13,10 +13,6 @@
                 :error-handler #(log/error %)
                 :validator #(or (= 1 %) (zero? %))))
 
-(defn index-name
-  [name]
-  (str name (when (:test environ.core/env) "_test")))
-
 (defn index-object
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
@@ -27,34 +23,32 @@
                  doc)])
         errors (:errors res)
         status (:result (:update (first (:items res))))]
-    (println res)
     (if errors
       (log/error (str "Indexing failed for  "
                       (clojure.string/capitalize (:type obj)) " " (:oid obj)
                       "\n" errors))
-      (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully.")))))
+      (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully."))))
+  obj)
 
 (defn end-indexing
   [last-timestamp]
   (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
   (elastic-client/delete-handled-queue last-timestamp)
-  (elastic-client/refresh-index (index-name "indexdata")))
+  (elastic-client/refresh-index (elastic-client/index-name "indexdata")))
 
 (defn do-index
   []
-  (let [to-be-indexed (elastic-client/get-queue)]
+  (let [to-be-indexed (elastic-client/get-queue)
+        agents (map #(agent %) to-be-indexed)]
     (if (empty? to-be-indexed)
-      (log/debug "Nothing to index.")
+      (log/info "Nothing to index.")
       (do
-        (log/info (str "Starting indexing of " (count to-be-indexed) " items."))
-        (loop [jobs to-be-indexed]
-          (if (empty? jobs)
-            (end-indexing (apply max (map :timestamp to-be-indexed)))
-            (do
-              (try
-                (index-object (first jobs))
-                (catch Exception e (log/error e))) ;; TODO: move or remove object causing trouble
-              (recur (rest jobs)))))))))
+        (doseq [a agents]
+          (send-off a index-object))
+        (apply await agents)
+        (end-indexing (->> (map deref agents)
+                           (map :timestamp)
+                           (apply max)))))))
 
 (defn start-indexing
   []
@@ -84,6 +78,7 @@
 
 (defn reset-jobs
   []
+  (reset! running? 0)
   (qs/clear! job-pool))
 
 (defn start-stop-indexer

@@ -35,8 +35,8 @@
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]]
                    :resource-paths ["dev_resources"]
-                   :env {:dev true}}
-             :test {:env {:test true}}
+                   :env {:dev "true"}}
+             :test {:env {:test "true"}}
              :uberjar {:ring {:port 8359}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]

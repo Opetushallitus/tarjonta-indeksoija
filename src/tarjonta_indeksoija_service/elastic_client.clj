@@ -15,7 +15,7 @@
 
 (defn index-name
   [name]
-  (str name (when (:test environ.core/env) "_test")))
+  (str name (when (Boolean/valueOf (:test environ.core/env)) "_test")))
 
 (defn refresh-index
   [index]

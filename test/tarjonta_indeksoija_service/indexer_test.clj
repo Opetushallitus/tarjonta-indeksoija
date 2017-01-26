@@ -8,7 +8,7 @@
   []
   (elastic-client/refresh-index "indexdata_test")
   (while (not (empty? (elastic-client/get-queue)))
-    (Thread/sleep 1000)))
+    (Thread/sleep 100)))
 
 (against-background
   [(after :facts [(elastic-client/delete-index "hakukohde_test")
