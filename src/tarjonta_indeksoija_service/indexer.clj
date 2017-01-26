@@ -16,13 +16,19 @@
 (defn index-object
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
-  (let [doc (tarjonta-client/get-doc obj)]
-    (elastic-client/bulk-upsert (:type obj) (:type obj)
-                                [(if (.contains (:type obj) "koulutus")
-                                   (converter/convert doc)
-                                   doc)
-                                 ])
-    (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " indexed succesfully."))))
+  (let [doc (tarjonta-client/get-doc obj)
+        res (elastic-client/bulk-upsert (:type obj) (:type obj)
+              [(if (.contains (:type obj) "koulutus")
+                 (converter/convert doc)
+                 doc)])
+        errors (:errors res)
+        status (:result (:update (first (:items res))))]
+    (println res)
+    (if errors
+      (log/error (str "Indexing failed for  "
+                      (clojure.string/capitalize (:type obj)) " " (:oid obj)
+                      "\n" errors))
+      (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully.")))))
 
 (defn end-indexing
   [last-timestamp]
