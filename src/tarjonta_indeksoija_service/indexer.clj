@@ -52,12 +52,14 @@
 
 (defn start-indexing
   []
-  (if (pos? @running?)
-    (log/debug "Indexing already running.")
-    (do
-      (reset! running? 1)
-      (do-index)
-      (reset! running? 0))))
+  (try
+    (if (pos? @running?)
+      (log/debug "Indexing already running.")
+      (do
+        (reset! running? 1)
+        (do-index)))
+    (catch Exception e (log/error e))
+    (finally (reset! running? 0))))
 
 (defjob indexing-job
   [ctx]
