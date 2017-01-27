@@ -2,6 +2,7 @@
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
             [environ.core]
             [clj-http.client :as client]
+            [taoensso.timbre :as log]
             [clojurewerkz.elastisch.rest.bulk :as bulk]
             [clojurewerkz.elastisch.rest :as esr]
             [clojurewerkz.elastisch.rest.index :as esi]
@@ -12,6 +13,19 @@
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.arguments :as ar])
   (:import (clojurewerkz.elastisch.rest Connection)))
+
+(defn check-elastic-status
+  []
+  (try
+    (-> (:elastic-url env)
+        esr/connect
+        esr/cluster-state-url
+        client/get
+        :status
+        (= 200))
+    (catch Exception e
+      (log/error (.getMessage e))
+      false)))
 
 (defn index-name
   [name]
