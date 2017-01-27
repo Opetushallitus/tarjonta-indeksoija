@@ -14,7 +14,9 @@
 
 (defn init []
   (mount/start)
-  (timbre/set-config! (logging/logging-config)))
+  (timbre/set-config! (logging/logging-config))
+
+  (indexer/start-indexer-job))
 
 (defn stop []
   (mount/stop))

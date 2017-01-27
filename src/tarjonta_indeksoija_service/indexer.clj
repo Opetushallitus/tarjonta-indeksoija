@@ -44,7 +44,7 @@
   (let [to-be-indexed (elastic-client/get-queue)
         agents (map #(agent % :error-handler agent-error-handler) to-be-indexed)]
     (if (empty? to-be-indexed)
-      (log/info "Nothing to index.")
+      (log/debug "Nothing to index.")
       (do
         (doseq [a agents]
           (send-off a index-object))
@@ -73,13 +73,15 @@
   (let [job (j/build
               (j/of-type indexing-job)
               (j/with-identity "jobs.index.1"))
+        cron-string "*/1 * * ? * *"
         trigger (t/build
                   (t/with-identity (t/key "crontirgger"))
                   (t/start-now)
                   (t/with-schedule
                     (schedule
-                      (cron-schedule "*/1 * * ? * *"))))] ;; TODO: Should be changed to something less/parameterized
-    (qs/schedule job-pool job trigger)))
+                      (cron-schedule cron-string))))] ;; TODO: Should be changed to something less/parameterized
+    (log/info (str "Starting indexer with cron schedule " cron-string)
+    (qs/schedule job-pool job trigger))))
 
 (defn reset-jobs
   []
