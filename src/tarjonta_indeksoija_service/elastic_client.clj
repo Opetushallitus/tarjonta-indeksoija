@@ -24,7 +24,7 @@
         :status
         (= 200))
     (catch Exception e
-      (log/error (.getMessage e))
+      (log/error (str "Elastic search error: "(.getMessage e)))
       false)))
 
 (defn index-name

@@ -1,5 +1,5 @@
 (ns tarjonta-indeksoija-service.indexer
-  (:require [tarjonta-indeksoija-service.conf :refer [job-pool]]
+  (:require [tarjonta-indeksoija-service.conf :refer [env job-pool]]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as converter]
@@ -73,14 +73,13 @@
   (let [job (j/build
               (j/of-type indexing-job)
               (j/with-identity "jobs.index.1"))
-        cron-string "*/1 * * ? * *"
         trigger (t/build
                   (t/with-identity (t/key "crontirgger"))
                   (t/start-now)
                   (t/with-schedule
                     (schedule
-                      (cron-schedule cron-string))))] ;; TODO: Should be changed to something less/parameterized
-    (log/info (str "Starting indexer with cron schedule " cron-string)
+                      (cron-schedule (:cron-string env)))))] ;; TODO: Should be changed to something less/parameterized
+    (log/info (str "Starting indexer with cron schedule " (:cron-string env))
     (qs/schedule job-pool job trigger))))
 
 (defn reset-jobs

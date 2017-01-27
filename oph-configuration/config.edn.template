@@ -1,2 +1,3 @@
 {:elastic-url "{{tarjonta_indeksoija_elastic_url}}"
+ :cron-string "{{tarjonta_indeksoija_cron_string}}"
  :tarjonta-hakukohde-url "{{tarjonta_indeksoija_tarjonta_service_url}}"}

@@ -44,6 +44,16 @@ Running the app itself from the repl doesn't seem worth while.
 
 To run tests from command line use commands `lein test` or `lein autotest`
 
+### Configuration
+
+App config is handled with Mount, cprops and in (mostly dev) cases with environment variables. To add a conf parameter
+to the application, add it to dev_resources/config.edn (for development) AND oph-configuration/config.edn.template. In
+order for the template file to work in non-local environments, the variable must also be added to the variable file in
+git@git.oph.ware.fi:environment-{ophitest|ophp|ophprod|vagrant}.git in deploy/<env>_vars.yml.
+
+NOTE: The cron-string variable roughly follows cron scheduler syntax with a few alterations shown 
+[here](http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html).
+
 ### Packaging and running as standalone jar
 
 To create a runnable jar file, put a config.edn file to resources folder and run. 
