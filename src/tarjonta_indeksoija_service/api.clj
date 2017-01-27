@@ -52,10 +52,13 @@
 
         (context "/reindex" []
           (GET "/koulutus" {params :params}
+            :query-params [oid :- String]
             (ok {:result (reindex "koulutus" params)}))
 
           (GET "/hakukohde" {params :params}
+            :query-params [oid :- String]
             (ok {:result (reindex "hakukohde" params)}))
 
           (GET "/haku" {params :params}
+            :query-params [oid :- String]
             (ok {:result (reindex "haku" params)})))))))
