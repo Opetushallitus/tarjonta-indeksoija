@@ -3,4 +3,4 @@
 
 (defn parse-body
   [body]
-  (cheshire/parse-string (slurp body) true))
+  (:result (cheshire/parse-string (slurp body) true)))
