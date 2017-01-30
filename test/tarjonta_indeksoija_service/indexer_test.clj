@@ -10,7 +10,12 @@
     (elastic-client/refresh-index "indexdata")
     (while (and (> timeout (- (System/currentTimeMillis) start))
                 (not (empty? (elastic-client/get-queue))))
-      (Thread/sleep 500))))
+      (Thread/sleep 1000))))
+
+(defn refresh-and-wait
+  [indexname timeout]
+  (elastic-client/refresh-index indexname)
+  (Thread/sleep timeout))
 
 (against-background
   [(after :facts [(elastic-client/delete-index "hakukohde")
@@ -48,7 +53,7 @@
                                                              {:oid hk2-oid :type "hakukohde"}
                                                              {:oid k1-oid :type "koulutus"}])
         (block-until-indexed 10000)
-
+        (refresh-and-wait "hakukohde" 1000)
         (let [hk1-res (elastic-client/get-by-id "hakukohde" "hakukohde" hk1-oid)
               hk2-res (elastic-client/get-by-id "hakukohde" "hakukohde" hk2-oid)
               k1-res (elastic-client/get-by-id "koulutus" "koulutus" k1-oid)]
@@ -59,9 +64,8 @@
           (elastic-client/bulk-upsert "indexdata" "indexdata" [{:oid hk1-oid :type "hakukohde"}
                                                                {:oid hk2-oid :type "hakukohde"}
                                                                {:oid k1-oid :type "koulutus"}])
-
           (block-until-indexed 10000)
-
+          (refresh-and-wait "hakukohde" 1000)
           (< (:timestamp hk1-res) (:timestamp (elastic-client/get-by-id "hakukohde" "hakukohde" hk1-oid))) => true
           (< (:timestamp hk2-res) (:timestamp (elastic-client/get-by-id "hakukohde" "hakukohde" hk2-oid))) => true
           (< (:timestamp k1-res) (:timestamp (elastic-client/get-by-id "koulutus" "koulutus" k1-oid))) => true)))))
