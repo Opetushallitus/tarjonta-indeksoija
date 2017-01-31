@@ -12,8 +12,11 @@ test() {
 uberjar() {
   ./lein clean
   mkdir ./resources
-  echo ${bamboo_buildResultKey} > ./resources/build.txt
-  git rev-parse HEAD > ./resources/git-rev.txt
+  echo "artifactId=tarjonta-indeksoija-service" > ./resources/buildversion.txt
+  echo "version=0.1.0-SNAPSHOT" >> ./resources/buildversion.txt
+  echo "buildNumber=${bamboo.buildNumber}" >> ./resources/buildversion.txt
+  echo "vcsRevision=$(git rev-parse HEAD)" >> ./resources/buildversion.txt
+  echo "buildTime=${bamboo.buildTimeStamp}" >> ./resources/buildversion.txt
   ./lein create-uberjar
 }
 

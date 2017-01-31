@@ -11,3 +11,4 @@ build.xml
 .lein-failures
 logs/
 .lein-env
+buildversion.txt
