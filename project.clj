@@ -36,7 +36,8 @@
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]]
                    :resource-paths ["dev_resources"]
-                   :env {:dev "true"}}
+                   :env {:dev "true"}
+                   :ring {:reload-paths ["src"]}}
              :test {:env {:test "true"}}
              :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
