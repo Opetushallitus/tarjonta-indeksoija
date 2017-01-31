@@ -22,7 +22,8 @@
                  [com.taoensso/timbre "4.8.0"]]
   :ring {:handler tarjonta-indeksoija-service.api/app
          :init tarjonta-indeksoija-service.api/init
-         :destroy tarjonta-indeksoija-service.api/stop}
+         :destroy tarjonta-indeksoija-service.api/stop
+         :browser-uri "tarjonta-indeksoija"}
   :uberjar-name "tarjonta-indeksoija.jar"
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [cheshire "5.5.0"]
