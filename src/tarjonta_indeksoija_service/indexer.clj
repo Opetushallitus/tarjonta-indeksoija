@@ -33,11 +33,6 @@
   (elastic-client/delete-handled-queue last-timestamp)
   (elastic-client/refresh-index "indexdata"))
 
-(defn agent-error-handler
-  [agent e]
-  (log/error (str "Error with indexing agent: " agent))
-  (log/error e))
-
 (defn do-index
   []
   (let [queue (elastic-client/get-queue)]
@@ -71,8 +66,7 @@
                   (t/with-identity (t/key "crontirgger"))
                   (t/start-now)
                   (t/with-schedule
-                    (schedule
-                      (cron-schedule (:cron-string env)))))] ;; TODO: Should be changed to something less/parameterized
+                    (schedule (cron-schedule (:cron-string env)))))]
     (log/info (str "Starting indexer with cron schedule " (:cron-string env))
     (qs/schedule job-pool job trigger))))
 

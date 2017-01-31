@@ -15,7 +15,7 @@
     (fact "reindex hakukohde"
       (with-redefs [tarjonta-indeksoija-service.api/reindex reindex-mock]
         (indexer/start-indexer-job)
-        (let [response (app (-> (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?hakukohdeOid=1.2.246.562.20.28810946823")))
+        (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?hakukohdeOid=1.2.246.562.20.28810946823"))
               body     (parse-body (:body response))]
           (:status response) => 200))
       (tools/block-until-indexed 10000)
@@ -23,7 +23,7 @@
 
     (tools/refresh-and-wait "hakukohde" 2000)
     (fact "fetch hakukohde"
-      (let [response (app (-> (mock/request :get  "/tarjonta-indeksoija/api/hakukohde?oid=1.2.246.562.20.28810946823")))
+      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/hakukohde?oid=1.2.246.562.20.28810946823"))
             body     (parse-body (:body response))]
         (println response)
         (:hakuOid body) => "1.2.246.562.29.44465499083"))))
