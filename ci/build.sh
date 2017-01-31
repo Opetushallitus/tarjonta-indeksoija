@@ -11,12 +11,12 @@ test() {
 
 uberjar() {
   ./lein clean
-  mkdir ./resources
-  echo "artifactId=tarjonta-indeksoija-service" > ./resources/buildversion.txt
-  echo "version=0.1.0-SNAPSHOT" >> ./resources/buildversion.txt
-  echo "buildNumber=$bamboo_buildNumber" >> ./resources/buildversion.txt
-  echo "vcsRevision=$(git rev-parse HEAD)" >> ./resources/buildversion.txt
-  echo "buildTime=$bamboo_buildTimeStamp" >> ./resources/buildversion.txt
+  mkdir ./resources/public
+  echo "artifactId=tarjonta-indeksoija-service" > ./resources/public/buildversion.txt
+  echo "version=0.1.0-SNAPSHOT" >> ./resources/public/buildversion.txt
+  echo "buildNumber=$bamboo_buildNumber" >> ./resources/public/buildversion.txt
+  echo "vcsRevision=$(git rev-parse HEAD)" >> ./resources/public/buildversion.txt
+  echo "buildTime=$bamboo_buildTimeStamp" >> ./resources/public/buildversion.txt
   ./lein create-uberjar
 }
 

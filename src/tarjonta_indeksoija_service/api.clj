@@ -5,6 +5,7 @@
             [tarjonta-indeksoija-service.indexer :as indexer]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [compojure.api.sweet :refer :all]
+            [compojure.route :as route]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
             [mount.core :as mount]
@@ -22,6 +23,7 @@
       (System/exit 0))))
 
 (defn stop []
+  (indexer/reset-jobs)
   (mount/stop))
 
 (defn reindex
@@ -37,7 +39,6 @@
                  :data {:info {:title       "Tarjonta-indeksoija"
                                :description "Elasticsearch wrapper for tarjonta api."}}}
        :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
-
       (context "/tarjonta-indeksoija/api" []
         (GET "/hakukohde" []
           :query-params [oid :- String]
@@ -69,4 +70,8 @@
 
           (GET "/haku" {params :params}
             :query-params [oid :- String]
-            (ok {:result (reindex "haku" params)})))))))
+            (ok {:result (reindex "haku" params)}))))
+
+      (undocumented
+        (route/resources "/tarjonta-indeksoija/"))
+      )))
