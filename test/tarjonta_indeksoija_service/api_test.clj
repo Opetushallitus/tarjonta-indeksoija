@@ -15,7 +15,7 @@
     (fact "reindex hakukohde"
       (with-redefs [tarjonta-indeksoija-service.api/reindex reindex-mock]
         (indexer/start-indexer-job)
-        (let [response (app (-> (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823")))
+        (let [response (app (-> (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?hakukohdeOid=1.2.246.562.20.28810946823")))
               body     (parse-body (:body response))]
           (:status response) => 200))
       (tools/block-until-indexed 10000)

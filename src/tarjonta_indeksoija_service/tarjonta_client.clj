@@ -27,7 +27,8 @@
        (map #(assoc {} :type type :oid %))))
 
 (defn- find-haku-docs [params]
-  (let [params-with-defaults (merge {:tarjoajaoid "1.2.246.562.10.00000000001" :tila "NOT_POISTETTU"} params)
+  (let [params-with-defaults (merge {:tarjoajaoid "1.2.246.562.10.00000000001"
+                                     :tila "NOT_POISTETTU"} params)
         url (get-url "haku" "find")]
     (->> (client/get url {:query-params params-with-defaults :as :json})
          :body
@@ -37,7 +38,7 @@
 
 (defn find-docs
   [type params]
-  (if (.contains type "haku")
+  (if (= type "haku")
     (find-haku-docs params)
     (let [params-with-defaults (merge {:TILA "NOT_POISTETTU"} params)
           url (get-url type "search")]
