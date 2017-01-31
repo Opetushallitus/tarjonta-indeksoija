@@ -73,5 +73,4 @@
             (ok {:result (reindex "haku" params)}))))
 
       (undocumented
-        (route/resources "/tarjonta-indeksoija/"))
-      )))
+        (route/resources "/tarjonta-indeksoija/")))))

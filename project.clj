@@ -38,7 +38,7 @@
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}}
              :test {:env {:test "true"}}
-             :uberjar {:ring {:port 8359}}}
+             :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
             "ci-test" ["with-profile" "+test" "midje" ":config" "ci/test_conf.clj"]
