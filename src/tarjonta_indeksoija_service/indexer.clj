@@ -28,9 +28,9 @@
       (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully.")))))
 
 (defn end-indexing
-  [last-timestamp]
+  [oids last-timestamp]
   (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
-  (elastic-client/delete-handled-queue last-timestamp)
+  (elastic-client/delete-handled-queue oids last-timestamp)
   (elastic-client/refresh-index "indexdata"))
 
 (defn do-index
@@ -40,7 +40,8 @@
       (log/debug "Nothing to index.")
       (do
         (pmap index-object queue)
-        (end-indexing (apply max (map :timestamp queue)))))))
+        (end-indexing (map :oid queue)
+                      (apply max (map :timestamp queue)))))))
 
 (defn start-indexing
   []

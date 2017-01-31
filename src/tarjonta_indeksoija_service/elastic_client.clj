@@ -33,7 +33,12 @@
 
 (defn refresh-index
   [index]
-  (client/post (str (:elastic-url env) "/" (index-name index) "/_refresh")))
+  (try
+    (client/post (str (:elastic-url env) "/" (index-name index) "/_refresh"))
+    (catch Exception e
+      (if (Boolean/valueOf (:test environ.core/env))
+        (log/info (str "Refreshing index " index " failed, continuing test."))
+        (log/error e)))))
 
 (defn delete-index
   [index]
@@ -91,16 +96,26 @@
 (defn delete-by-query*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
   ([^Connection conn index mapping-type query]
-   (rest/post conn (delete-by-query-url*
-                       conn
-                       (join-names index) (join-names mapping-type)) {:body {:query query}}))
+   (rest/post conn (delete-by-query-url* conn
+                                         (join-names index)
+                                         (join-names mapping-type))
+              {:body {:query query}}))
+
   ([^Connection conn index mapping-type query & args]
    (rest/post conn (delete-by-query-url* conn
-                                               (join-names index) (join-names mapping-type))
-              {:query-params (select-keys (ar/->opts args) (conj esd/optional-delete-query-parameters :ignore_unavailable))
+                                         (join-names index)
+                                         (join-names mapping-type))
+              {:query-params (select-keys (ar/->opts args)
+                                          (conj esd/optional-delete-query-parameters :ignore_unavailable))
                :body         {:query query}})))
 
+
 (defn delete-handled-queue
-  [max-timestamp]
+  [oids max-timestamp]
   (let [conn (esr/connect (:elastic-url env))]
-    (delete-by-query* conn (index-name "indexdata") (index-name "indexdata") {:range {:timestamp {:lte max-timestamp}}})))
+    (delete-by-query* conn
+                      (index-name "indexdata")
+                      (index-name "indexdata")
+                      {:bool {:must {:ids {:values (map str oids)}}
+                       :filter {:range {:timestamp {:lte max-timestamp}}}}})))
+
