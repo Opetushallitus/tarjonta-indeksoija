@@ -1,7 +1,7 @@
 (ns tarjonta-indeksoija-service.indexer-test
   (:require [tarjonta-indeksoija-service.indexer :as indexer]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
-            [tarjonta-indeksoija-service.test-tools :as tools]
+            [tarjonta-indeksoija-service.test-tools :as tools :refer [after-tests]]
             [mocks.tarjonta-mock :as mock]
             [midje.sweet :refer :all]))
 
@@ -9,7 +9,7 @@
   [(after :facts [(elastic-client/delete-index "hakukohde")
                   (elastic-client/delete-index "koulutus")
                   (elastic-client/delete-index "indexdata")])
-   (after :contents [(indexer/reset-jobs)])]
+   (after :contents (after-tests))]
 
   (fact "Indexer should save hakukohde"
         (let [oid "1.2.246.562.20.99178639649"]

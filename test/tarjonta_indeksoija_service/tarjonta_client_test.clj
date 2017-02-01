@@ -1,6 +1,5 @@
 (ns tarjonta-indeksoija-service.tarjonta-client-test
   (:require [midje.sweet :refer :all]
-            [tarjonta-indeksoija-service.test-tools :as tools]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta]
             [mocks.tarjonta-mock :as mock]))
 

@@ -1,6 +1,7 @@
 (ns tarjonta-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
-            [tarjonta-indeksoija-service.elastic-client :as elastic-client]))
+            [tarjonta-indeksoija-service.elastic-client :as elastic-client]
+            [tarjonta-indeksoija-service.indexer :as indexer]))
 
 (defn parse-body
   [body]
@@ -18,3 +19,11 @@
   [indexname timeout]
   (elastic-client/refresh-index indexname)
   (Thread/sleep timeout))
+
+(defn after-tests
+  []
+  (indexer/reset-jobs)
+  (elastic-client/delete-index "hakukohde")
+  (elastic-client/delete-index "haku")
+  (elastic-client/delete-index "koulutus")
+  (elastic-client/delete-index "indexdata"))
