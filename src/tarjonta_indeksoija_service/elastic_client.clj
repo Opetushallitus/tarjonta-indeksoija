@@ -61,6 +61,20 @@
           (map :_source))
       (catch Exception e [])))) ;; TODO: fixme
 
+(defn get-hakukohteet-by-koulutus
+  [koulutus-oid]
+  (let [conn (esr/connect (:elastic-url env))
+        res (esd/search conn "hakukohde" "hakukohde" :query {:match {:koulutukset koulutus-oid}})]
+    ;; TODO: error handling
+    (map :_source (get-in res [:hits :hits]))))
+
+(defn get-haut-by-oids
+  [oids]
+  (let [conn (esr/connect (:elastic-url env))
+        res (esd/search conn "haku" "haku" :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
+    ;; TODO: error handling
+    (map :_source (get-in res [:hits :hits]))))
+
 (defn- upsert-operation
   [doc index type]
   {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})

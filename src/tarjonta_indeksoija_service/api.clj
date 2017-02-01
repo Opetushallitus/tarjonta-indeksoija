@@ -31,6 +31,15 @@
   (let [docs (tarjonta-client/find-docs index params)]
     (elastic-client/bulk-upsert "indexdata" "indexdata" docs)))
 
+(defn get-koulutus-tulos
+  [koulutus-oid]
+  (let [koulutus (elastic-client/get-by-id "koulutus" "koulutus" koulutus-oid)
+        hakukohteet (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
+        haut (elastic-client/get-haut-by-oids (map :hakuOid hakukohteet))]
+    {:koulutus koulutus
+     :haut haut
+     :hakukoteet hakukohteet}))
+
 (def app
   (logger.timbre/wrap-with-logger
     (api
@@ -40,17 +49,18 @@
                                :description "Elasticsearch wrapper for tarjonta api."}}}
        :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
       (context "/tarjonta-indeksoija/api" []
-        (GET "/hakukohde" []
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
+        (context "/august" []
+          (GET "/hakukohde" []
+            :query-params [oid :- String]
+            (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
 
-        (GET "/koulutus" []
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
+          (GET "/koulutus" []
+            :query-params [oid :- String]
+            (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
 
-        (GET "/haku" []
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
+          (GET "/haku" []
+            :query-params [oid :- String]
+            (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)})))
 
         (context "/indexer" []
           (GET "/start" []
@@ -70,7 +80,13 @@
 
           (GET "/haku" {params :params}
             :query-params [oid :- String]
-            (ok {:result (reindex "haku" params)}))))
+            (ok {:result (reindex "haku" params)})))
+
+        (context "/ui" []
+          (GET "/koulutus/:oid" []
+            :path-params [oid :- String]
+            (ok {:result (get-koulutus-tulos oid)}))))
+
 
       (undocumented
         (route/resources "/tarjonta-indeksoija/")))))

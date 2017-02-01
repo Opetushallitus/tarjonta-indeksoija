@@ -23,7 +23,7 @@
 
     (tools/refresh-and-wait "hakukohde" 2000)
     (fact "fetch hakukohde"
-      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/hakukohde?oid=1.2.246.562.20.28810946823"))
+      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/august/hakukohde?oid=1.2.246.562.20.28810946823"))
             body     (parse-body (:body response))]
         (println response)
         (:hakuOid body) => "1.2.246.562.29.44465499083"))))
