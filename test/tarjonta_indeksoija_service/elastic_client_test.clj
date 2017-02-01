@@ -12,6 +12,9 @@
 (against-background [(after :contents [(client/delete-index "hakukohde")
                                        (client/delete-index "koulutus")
                                        (client/delete-index "indexdata")])]
+  (fact "Elastic search should be alive"
+    (client/check-elastic-status) => true)
+  
   (facts "Index queue"
     (fact "Should be empty"
       (client/get-queue) => ())
