@@ -15,6 +15,7 @@
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
+                 [criterium "0.4.4"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]

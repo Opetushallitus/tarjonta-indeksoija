@@ -51,14 +51,14 @@
         res (esd/get conn (index-name index) (index-name type) id)]
     (:_source res)))
 
-(defn get-hakukohde [oid]
-  (get-by-id "hakukohde" "hakukohde" oid))
+(defmacro get-hakukohde [oid]
+  `(get-by-id "hakukohde" "hakukohde" ~oid))
 
-(defn get-koulutus [oid]
-  (get-by-id "koulutus" "koulutus" oid))
+(defmacro get-koulutus [oid]
+  `(get-by-id "koulutus" "koulutus" ~oid))
 
-(defn get-haku [oid]
-  (get-by-id "haku" "haku" oid))
+(defmacro get-haku [oid]
+  `(get-by-id "haku" "haku" ~oid))
 
 (defn get-queue
   []
@@ -106,9 +106,9 @@
         data (bulk-upsert-data index type documents)]
     (bulk/bulk conn data)))
 
-(defn upsert-indexdata
+(defmacro upsert-indexdata
   [docs]
-  (bulk-upsert "indexdata" "indexdata" docs))
+  `(bulk-upsert "indexdata" "indexdata" ~docs))
 
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
