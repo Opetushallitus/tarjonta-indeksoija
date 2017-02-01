@@ -2,7 +2,8 @@
   (:require [tarjonta-indeksoija-service.conf :refer [env job-pool]]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
-            [tarjonta-indeksoija-service.converter.koulutus-converter :as converter]
+            [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
+            [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
             [taoensso.timbre :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
@@ -13,9 +14,10 @@
 
 (defn convert-doc
   [type doc]
-  (if (.contains type "koulutus")
-      (converter/convert doc)
-      doc))
+  (cond
+    (.contains type "koulutus") (koulutus-converter/convert doc)
+    (.contains type "hakukohde") (hakukohde-converter/convert doc)
+    :else doc))
 
 (defn index-haku-hakukohteet
   [hakukohde-oids]

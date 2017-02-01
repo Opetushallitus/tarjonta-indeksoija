@@ -1,6 +1,5 @@
 (ns tarjonta-indeksoija-service.converter.koulutus-converter)
 
-
 (defn- extract-koodi
   [value]
   {:uri  (:uri value)
