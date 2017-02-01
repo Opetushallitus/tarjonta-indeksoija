@@ -46,3 +46,12 @@
           url (get-url type "search")]
       (extract-koulutus-hakukohde-docs type
         (client/get url {:query-params params-with-defaults, :as :json})))))
+
+(defn get-last-modified
+  [since]
+  (let [url (str (:tarjonta-service-url env) "lastmodified")
+        res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
+    (flatten
+      (conj
+        (map #(hash-map :type "haku" :oid %) (:haku res))
+        (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res))))))
