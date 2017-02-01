@@ -1,0 +1,153 @@
+{
+  "result": {
+    "modified": 1482925169313,
+    "modifiedBy": "1.2.246.562.24.42485718933",
+    "oid": "1.2.246.562.20.82790530479",
+    "version": 12,
+    "hakukohteenNimet": {
+      "kieli_sv": "Ansökan om överflyttning, Datateknik, teknologie kandidat och diplomingenjör (3 år + 2 år)",
+      "kieli_fi": "Siirtohaku, Tietotekniikka, tekniikan kandidaatti ja diplomi-insinööri (3 v + 2 v)",
+      "kieli_en": ""
+    },
+    "tarjoajaNimet": {
+      "fi": "Aalto-yliopisto, Perustieteiden korkeakoulu",
+      "sv": "Aalto-universitetet, Högskolan för teknikvetenskaper",
+      "en": "Aalto University, School of Science"
+    },
+    "koulutusmoduuliToteutusTarjoajatiedot": {
+      "1.2.246.562.17.53874141319": {
+        "tarjoajaOids": [
+          "1.2.246.562.10.39920288212"
+        ]
+      }
+    },
+    "tarjoajaOids": [
+      "1.2.246.562.10.39920288212"
+    ],
+    "hakuOid": "1.2.246.562.29.53522498558",
+    "hakuaikaId": "10630260",
+    "hakukelpoisuusvaatimusUris": [],
+    "opintoOikeusUris": [
+      "opintooikeus_3"
+    ],
+    "hakukohdeKoulutusOids": [
+      "1.2.246.562.17.53874141319"
+    ],
+    "koulutukset": [
+      {
+        "oid": "1.2.246.562.17.53874141319"
+      }
+    ],
+    "alinHyvaksyttavaKeskiarvo": 0,
+    "alinValintaPistemaara": 0,
+    "ylinValintapistemaara": 0,
+    "aloituspaikatLkm": 0,
+    "edellisenVuodenHakijatLkm": 0,
+    "valintojenAloituspaikatLkm": 0,
+    "tila": "JULKAISTU",
+    "koulutusAsteTyyppi": "KORKEAKOULUTUS",
+    "toteutusTyyppi": "KORKEAKOULUTUS",
+    "koulutusmoduuliTyyppi": "TUTKINTO",
+    "lisatiedot": {
+      "kieli_sv": "<p>Du kan ansöka om överflyttning genom att fylla i ansökningsblanketten i Studieinfo under ansökningstiden.</p>",
+      "kieli_fi": "<p>Haet siirto-opiskelijaksi täyttämällä hakulomakkeen Opintopolussa hakuaikana.</p>",
+      "kieli_en": ""
+    },
+    "valintaperusteKuvaukset": {
+      "kieli_sv": "<p>Bedömningen av dem som ansöker som överflyttande studerande till de tekniska högskolorna (ingenjörsbranschen) vid Aalto-universitetet kan fokusera på sökandenas studieframgång (medeltal), antalet närvaroterminer och studieprestationer samt den återstående studietiden och omfattningen av studier som räknas till godo. Om sökanden är första årets studerande ska hen fram till utgången av juli månad ha avlagt studier i en omfattning om minst 55 sp med minst 3,5 medeltal. Studierna ska kunna tillgodoräknas i grundstudierna eller huvudämnesstudierna i examen.</p> <p>Studeranden ska ha minst fyra år kvar i studietid för att avlägga lägre och högre högskoleexamen.<br /><br /></p>",
+      "kieli_fi": "<p>Tietotekniikan koulutukseen siirto-opiskelijaksi hakevien arvioinnissa noudatetaan seuraavia valintaperusteita: jos hakija on ensimmäisen vuoden opiskelija, hänellä tulee olla suoritettuna heinäkuun loppuun mennessä vähintään 3,5 keskiarvolla vähintään 55 op opintoja, jotka voidaan hyväksilukea tutkinnon perusopintoihin tai pääaineopintoihin. Mikäli siirtoa haetaan myöhemmin, hakijalla tulee olla suoritettuna 55 opintopistettä lukuvuosittain, vähintään keskiarvolla 3,5.</p> <p>Opiskelijalla tulee olla alemman ja ylemmän korkeakoulututkinnon tutkinnonsuoritusaikaa jäljellä vähintään neljä vuotta.</p>"
+    },
+    "hakukelpoisuusVaatimusKuvaukset": {
+      "kieli_sv": "<p>Du kan ansöka om överflyttning, om du har studierätt vid en finländsk högskola eller du har rätt att avlägga en annan examen vid Aalto-universitetet. Tröskelkrav för överflyttningen till utbildningen bestäms skilt för varje ansökningsalternativ.</p>",
+      "kieli_fi": "<p>Voit hakea siirto-opiskelijaksi kandidaattikoulutukseen, jos sinulla on alempaan korkeakoulututkintoon johtava opinto-oikeus toisessa suomalaisessa korkeakoulussa tai eri tutkintoon johtava opinto-oikeus Aalto-yliopistossa. Kynnysehdot koulutukseen siirtymiselle määritellään hakukohdekohtaisesti.</p>",
+      "kieli_en": ""
+    },
+    "kaytetaanJarjestelmanValintaPalvelua": true,
+    "kaytetaanHaunPaattymisenAikaa": false,
+    "kaytetaanHakukohdekohtaistaHakuaikaa": false,
+    "hakukohteenLiitteet": [],
+    "yhteystiedot": [
+      {
+        "version": 0,
+        "lang": "kieli_sv",
+        "osoiterivi1": "PB 11000",
+        "postinumero": "posti_00076",
+        "postinumeroArvo": "00076",
+        "postitoimipaikka": "AALTO",
+        "puhelinnumero": "0294429280",
+        "sahkopostiosoite": "opiskelijapalvelut@aalto.fi",
+        "hakutoimistonNimi": "Aalto-universitetets högskolan för naturvetenskaper",
+        "wwwOsoite": "http://www.aalto.fi/sv/studies/",
+        "kayntiosoite": {
+          "version": 0,
+          "osoiterivi1": "Otsvängen 1",
+          "postinumero": "posti_02150",
+          "postinumeroArvo": "02150",
+          "postitoimipaikka": "ESPOO"
+        },
+        "osoitemuoto": "SUOMALAINEN"
+      },
+      {
+        "version": 0,
+        "lang": "kieli_fi",
+        "osoiterivi1": "PL 11000",
+        "postinumero": "posti_00076",
+        "postinumeroArvo": "00076",
+        "postitoimipaikka": "AALTO",
+        "puhelinnumero": "0294429280",
+        "sahkopostiosoite": "opiskelijapalvelut@aalto.fi",
+        "hakutoimistonNimi": "Aalto-yliopiston perustieteiden korkekaoulu",
+        "wwwOsoite": "http://www.aalto.fi/fi/studies/",
+        "kayntiosoite": {
+          "version": 0,
+          "osoiterivi1": "Otakaari 1",
+          "postinumero": "posti_02150",
+          "postinumeroArvo": "02150",
+          "postitoimipaikka": "ESPOO"
+        },
+        "osoitemuoto": "SUOMALAINEN"
+      }
+    ],
+    "liitteidenToimitusOsoite": {
+      "version": 0,
+      "osoiterivi1": "PL 11110",
+      "postinumero": "posti_00076",
+      "postinumeroArvo": "00076",
+      "postitoimipaikka": "AALTO"
+    },
+    "valintakokeet": [],
+    "kaksoisTutkinto": false,
+    "opetusKielet": [
+      "kieli_fi",
+      "kieli_sv"
+    ],
+    "valintaPerusteKuvausKielet": [
+      "kieli_sv",
+      "kieli_fi"
+    ],
+    "soraKuvausKielet": [],
+    "painotettavatOppiaineet": [],
+    "hakuMenettelyKuvaukset": {},
+    "peruutusEhdotKuvaukset": {},
+    "ryhmaliitokset": [
+      {
+        "ryhmaOid": "1.2.246.562.28.80367652890"
+      }
+    ],
+    "organisaatioRyhmaOids": [
+      "1.2.246.562.28.80367652890"
+    ],
+    "ylioppilastutkintoAntaaHakukelpoisuuden": false,
+    "ensikertalaistenAloituspaikat": 0,
+    "pohjakoulutusliitteet": [],
+    "josYoEiMuitaLiitepyyntoja": false,
+    "overridesHaunHakulomakeUrl": false,
+    "yhdenPaikanSaanto": {
+      "voimassa": false,
+      "syy": "Haulla on kohdejoukon tarkenne, joka ei ole joukossa [haunkohdejoukontarkenne_3#] ja hakukohde ei kuulu jatkuvaan korkeakouluhakuun, jonka kohdejoukon tarkenne kuuluu joukkoon [haunkohdejoukontarkenne_3#] tai sitä ei ole"
+    },
+    "tutkintoonJohtava": false
+  },
+  "accessRights": {},
+  "status": "OK"
+}
