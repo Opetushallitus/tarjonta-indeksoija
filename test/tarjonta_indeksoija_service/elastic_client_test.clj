@@ -59,4 +59,15 @@
         (let [remaining (client/get-queue)]
           (count remaining) => 2
           (map :oid remaining) => [100 109]
-          (every? #(< last-timestamp (:timestamp %)) remaining) => true)))))
+          (every? #(< last-timestamp (:timestamp %)) remaining) => true))))
+
+  (fact "should keep last updated up to date"
+    (let [now (System/currentTimeMillis)
+          soon (+ now (* 1000 3600))]
+      (client/set-last-index-time now)
+      (refresh-and-wait "indexdata" 1000)
+      (client/get-last-index-time) => now
+
+      (client/set-last-index-time soon)
+      (refresh-and-wait "indexdata" 1000)
+      (client/get-last-index-time) => soon)))

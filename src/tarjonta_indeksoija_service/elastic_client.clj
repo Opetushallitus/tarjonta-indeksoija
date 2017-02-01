@@ -110,6 +110,20 @@
   [docs]
   `(bulk-upsert "indexdata" "indexdata" ~docs))
 
+(defn set-last-index-time
+  [timestamp]
+  (let [conn (esr/connect (:elastic-url env))]
+    (esd/upsert conn (index-name "indexdata") (index-name "lastindex") "1" {:timestamp timestamp})))
+
+(defn get-last-index-time
+  []
+  (let [conn (esr/connect (:elastic-url env))
+        res (esd/search conn (index-name "indexdata") (index-name "lastindex"))]
+    (-> (get-in res [:hits :hits])
+        first
+        :_source
+        :timestamp)))
+
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
   ([conn]
