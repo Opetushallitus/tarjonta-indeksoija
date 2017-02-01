@@ -50,6 +50,7 @@
        :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
       (context "/tarjonta-indeksoija/api" []
         (context "/august" []
+          :tags ["august"]
           (GET "/hakukohde" []
             :query-params [oid :- String]
             (ok {:result (elastic-client/get-hakukohde oid)}))
@@ -63,6 +64,7 @@
             (ok {:result (elastic-client/get-haku oid)})))
 
         (context "/indexer" []
+          :tags ["indexer"]
           (GET "/start" []
             (ok {:result (indexer/start-stop-indexer true)}))
 
@@ -70,6 +72,7 @@
             (ok {:result (indexer/start-stop-indexer false)})))
 
         (context "/reindex" []
+          :tags ["reindex"]
           (GET "/koulutus" {params :params}
             :query-params [koulutusOid :- String]
             (ok {:result (reindex "koulutus" params)}))
@@ -83,6 +86,7 @@
             (ok {:result (reindex "haku" params)})))
 
         (context "/ui" []
+          :tags ["ui"]
           (GET "/koulutus/:oid" []
             :path-params [oid :- String]
             (ok {:result (get-koulutus-tulos oid)}))))
