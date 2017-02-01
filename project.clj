@@ -15,7 +15,6 @@
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
-                 [criterium "0.4.4"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]
@@ -30,12 +29,14 @@
                                   [cheshire "5.5.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [midje "1.8.3"]
-                                  [org.clojure/tools.namespace "0.2.11"]]
+                                  [org.clojure/tools.namespace "0.2.11"]
+                                  [criterium "0.4.4"]]
                    :plugins [[lein-ring "0.10.0"]
                              [lein-midje "3.2"]
                              [jonase/eastwood "0.2.3"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
-                             [lein-environ "1.1.0"]]
+                             [lein-environ "1.1.0"]
+                             [lein-cloverage "1.0.9"]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
@@ -46,4 +47,5 @@
             "ci-test" ["with-profile" "+test" "midje" ":config" "ci/test_conf.clj"]
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
+            "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
             "create-uberjar" ["do" "clean" ["ring" "uberjar"]]})
