@@ -38,7 +38,7 @@
         haut (elastic-client/get-haut-by-oids (map :hakuOid hakukohteet))]
     {:koulutus koulutus
      :haut haut
-     :hakukoteet hakukohteet}))
+     :hakukohteet hakukohteet}))
 
 (def app
   (logger.timbre/wrap-with-logger

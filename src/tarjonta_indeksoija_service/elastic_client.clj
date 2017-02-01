@@ -73,14 +73,14 @@
 (defn get-hakukohteet-by-koulutus
   [koulutus-oid]
   (let [conn (esr/connect (:elastic-url env))
-        res (esd/search conn "hakukohde" "hakukohde" :query {:match {:koulutukset koulutus-oid}})]
+        res (esd/search conn (index-name "hakukohde") (index-name "hakukohde") :query {:match {:koulutukset koulutus-oid}})]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 
 (defn get-haut-by-oids
   [oids]
   (let [conn (esr/connect (:elastic-url env))
-        res (esd/search conn "haku" "haku" :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
+        res (esd/search conn (index-name "haku") (index-name "haku") :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 

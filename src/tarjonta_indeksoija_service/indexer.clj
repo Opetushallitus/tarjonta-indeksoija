@@ -28,9 +28,9 @@
 (defn index-related-docs
   ;; TODO: Make propagation work for all docs in all 'directions'. This is just a WIP.
   [type doc]
-  (log/debug "indexing docs related")
-  (when (= "haku" type)
-    (index-haku-hakukohteet (:hakukohdeOids doc))))
+  (log/debug "indexing docs related"))
+  ;(when (= "haku" type)
+  ;  (index-haku-hakukohteet (:hakukohdeOids doc))))
 
 (defn index-object
   [obj]
