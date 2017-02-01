@@ -11,21 +11,41 @@
 
 (def running? (atom false :error-handler #(log/error %)))
 
+(defn convert-doc
+  [type doc]
+  (if (.contains type "koulutus")
+      (converter/convert doc)
+      doc))
+
+(defn index-haku-hakukohteet
+  [hakukohde-oids]
+  (let [docs (map #(hash-map :oid % :type "hakukohde") (distinct hakukohde-oids))]
+    (elastic-client/bulk-upsert "indexdata" "indexdata" docs)))
+
+(defn index-related-docs
+  ;; TODO: Make propagation work for all docs in all 'directions'. This is just a WIP.
+  [type doc]
+  (log/debug "indexing docs related")
+  (when (= "haku" type)
+    (index-haku-hakukohteet (:hakukohdeOids doc))))
+
 (defn index-object
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
-  (let [doc (tarjonta-client/get-doc obj)
-        res (elastic-client/bulk-upsert (:type obj) (:type obj)
-              [(if (.contains (:type obj) "koulutus")
-                 (converter/convert doc)
-                 doc)])
-        errors (:errors res)
-        status (:result (:update (first (:items res))))]
-    (if errors
-      (log/error (str "Indexing failed for  "
-                      (clojure.string/capitalize (:type obj)) " " (:oid obj)
-                      "\n" errors))
-      (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully.")))))
+  (try
+    (let [doc (tarjonta-client/get-doc obj)
+          converted-doc (convert-doc (:type obj) doc)
+          res (elastic-client/bulk-upsert (:type obj) (:type obj) [converted-doc])
+          errors (:errors res)
+          status (:result (:update (first (:items res))))]
+      (if errors
+        (log/error (str "Indexing failed for  "
+                        (clojure.string/capitalize (:type obj)) " " (:oid obj)
+                        "\n" errors))
+        (do
+          (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully."))
+          (index-related-docs (:type obj) converted-doc))))
+    (catch Exception e (log/error e))))
 
 (defn end-indexing
   [oids last-timestamp]
@@ -39,7 +59,7 @@
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
-        (pmap index-object queue)
+        (doall (pmap index-object queue))
         (end-indexing (map :oid queue)
                       (apply max (map :timestamp queue)))))))
 
@@ -69,7 +89,7 @@
                   (t/with-schedule
                     (schedule (cron-schedule (:cron-string env)))))]
     (log/info (str "Starting indexer with cron schedule " (:cron-string env))
-    (qs/schedule job-pool job trigger))))
+     (qs/schedule job-pool job trigger))))
 
 (defn reset-jobs
   []

@@ -25,7 +25,7 @@
         indexed-koulutus => (contains {:oid oid})
         (get-in indexed-koulutus [:koulutuskoodi :uri]) => "koulutus_371101"
         (get-in indexed-koulutus [:valmistavaKoulutus :kuvaus :SISALTO :kieli_fi])
-          => "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>")))
+        => "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>")))
 
   (fact "Indexer should start scheduled indexing and index objects"
     (let [hk1-oid "1.2.246.562.20.99178639649"

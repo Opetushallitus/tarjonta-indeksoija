@@ -41,7 +41,7 @@
 (defn find-docs
   [type params]
   (if (= type "haku")
-    (find-haku-docs params)
+    [{:type "haku" :oid (:oid params)}]
     (let [params-with-defaults (merge {:TILA "NOT_POISTETTU"} params)
           url (get-url type "search")]
       (extract-koulutus-hakukohde-docs type

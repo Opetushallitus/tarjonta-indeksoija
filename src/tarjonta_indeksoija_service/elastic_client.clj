@@ -117,5 +117,5 @@
                       (index-name "indexdata")
                       (index-name "indexdata")
                       {:bool {:must {:ids {:values (map str oids)}}
-                       :filter {:range {:timestamp {:lte max-timestamp}}}}})))
+                              :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
