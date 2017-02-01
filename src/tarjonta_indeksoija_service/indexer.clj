@@ -8,7 +8,8 @@
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
             [clojurewerkz.quartzite.triggers :as t]
-            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]]))
+            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
+  (:import (org.quartz ObjectAlreadyExistsException)))
 
 (def running? (atom false :error-handler #(log/error %)))
 
@@ -100,10 +101,13 @@
 
 (defn start-stop-indexer
   [start?]
-  (if start?
-    (do
-      (start-indexer-job)
-      "Started indexer job")
-    (do
-      (reset-jobs)
-      "Stopped all jobs and reseted pool.")))
+  (try
+    (if start?
+      (do
+        (start-indexer-job)
+        "Started indexer job")
+      (do
+        (reset-jobs)
+        "Stopped all jobs and reseted pool."))
+    (catch ObjectAlreadyExistsException e "Indexer already running.")
+    (catch Exception e (str "Caught exception: " (.getMessage e)))))
