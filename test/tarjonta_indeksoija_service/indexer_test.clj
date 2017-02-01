@@ -15,13 +15,13 @@
     (let [oid "1.2.246.562.20.99178639649"]
       (mock/with-tarjonta-mock
         (indexer/index-object {:oid oid :type "hakukohde"}))
-      (elastic-client/get-by-id "hakukohde" "hakukohde" oid) => (contains {:oid oid})))
+      (elastic-client/get-hakukohde oid) => (contains {:oid oid})))
 
   (fact "Indexer should save koulutus"
     (let [oid "1.2.246.562.17.81687174185"]
       (mock/with-tarjonta-mock
         (indexer/index-object {:oid oid :type "koulutus"}))
-      (let [indexed-koulutus (elastic-client/get-by-id "koulutus" "koulutus" oid)]
+      (let [indexed-koulutus (elastic-client/get-koulutus oid)]
         indexed-koulutus => (contains {:oid oid})
         (get-in indexed-koulutus [:koulutuskoodi :uri]) => "koulutus_371101"
         (get-in indexed-koulutus [:valmistavaKoulutus :kuvaus :SISALTO :kieli_fi])
@@ -34,26 +34,26 @@
           oids [hk1-oid hk2-oid k1-oid]]
       (mock/with-tarjonta-mock
         (indexer/start-indexer-job)
-        (map #(elastic-client/get-by-id "hakukohde" "hakukohde" %) [hk1-oid hk2-oid]) => [nil nil]
-        (elastic-client/get-by-id "koulutus" "koulutus" k1-oid) => nil
+        (map #(elastic-client/get-hakukohde %) [hk1-oid hk2-oid]) => [nil nil]
+        (elastic-client/get-koulutus k1-oid) => nil
 
-        (elastic-client/bulk-upsert "indexdata" "indexdata" [{:oid hk1-oid :type "hakukohde"}
+        (elastic-client/upsert-indexdata [{:oid hk1-oid :type "hakukohde"}
                                                              {:oid hk2-oid :type "hakukohde"}
                                                              {:oid k1-oid :type "koulutus"}])
         (tools/block-until-indexed 10000)
         (tools/refresh-and-wait "hakukohde" 1000)
-        (let [hk1-res (elastic-client/get-by-id "hakukohde" "hakukohde" hk1-oid)
-              hk2-res (elastic-client/get-by-id "hakukohde" "hakukohde" hk2-oid)
-              k1-res (elastic-client/get-by-id "koulutus" "koulutus" k1-oid)]
+        (let [hk1-res (elastic-client/get-hakukohde hk1-oid)
+              hk2-res (elastic-client/get-hakukohde hk2-oid)
+              k1-res (elastic-client/get-koulutus k1-oid)]
           hk1-res => (contains {:oid hk1-oid})
           hk2-res => (contains {:oid hk2-oid})
           k1-res => (contains {:oid k1-oid})
 
-          (elastic-client/bulk-upsert "indexdata" "indexdata" [{:oid hk1-oid :type "hakukohde"}
+          (elastic-client/upsert-indexdata [{:oid hk1-oid :type "hakukohde"}
                                                                {:oid hk2-oid :type "hakukohde"}
                                                                {:oid k1-oid :type "koulutus"}])
           (tools/block-until-indexed 10000)
           (tools/refresh-and-wait "hakukohde" 1000)
-          (< (:timestamp hk1-res) (:timestamp (elastic-client/get-by-id "hakukohde" "hakukohde" hk1-oid))) => true
-          (< (:timestamp hk2-res) (:timestamp (elastic-client/get-by-id "hakukohde" "hakukohde" hk2-oid))) => true
-          (< (:timestamp k1-res) (:timestamp (elastic-client/get-by-id "koulutus" "koulutus" k1-oid))) => true)))))
+          (< (:timestamp hk1-res) (:timestamp (elastic-client/get-hakukohde hk1-oid))) => true
+          (< (:timestamp hk2-res) (:timestamp (elastic-client/get-hakukohde hk2-oid))) => true
+          (< (:timestamp k1-res) (:timestamp (elastic-client/get-koulutus k1-oid))) => true)))))

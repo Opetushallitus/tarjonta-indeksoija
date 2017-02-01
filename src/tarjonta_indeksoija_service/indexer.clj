@@ -22,7 +22,7 @@
 (defn index-haku-hakukohteet
   [hakukohde-oids]
   (let [docs (map #(hash-map :oid % :type "hakukohde") (distinct hakukohde-oids))]
-    (elastic-client/bulk-upsert "indexdata" "indexdata" docs)))
+    (elastic-client/upsert-indexdata docs)))
 
 (defn index-related-docs
   ;; TODO: Make propagation work for all docs in all 'directions'. This is just a WIP.
@@ -41,7 +41,7 @@
           errors (:errors res)
           status (:result (:update (first (:items res))))]
       (if errors
-        (log/error (str "Indexing failed for  "
+        (log/error (str "Indexing failed for "
                         (clojure.string/capitalize (:type obj)) " " (:oid obj)
                         "\n" errors))
         (do

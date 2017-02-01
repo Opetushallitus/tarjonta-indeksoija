@@ -29,11 +29,11 @@
 (defn reindex
   [index params]
   (let [docs (tarjonta-client/find-docs index params)]
-    (elastic-client/bulk-upsert "indexdata" "indexdata" docs)))
+    (elastic-client/upsert-indexdata docs)))
 
 (defn get-koulutus-tulos
   [koulutus-oid]
-  (let [koulutus (elastic-client/get-by-id "koulutus" "koulutus" koulutus-oid)
+  (let [koulutus (elastic-client/get-koulutus koulutus-oid)
         hakukohteet (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
         haut (elastic-client/get-haut-by-oids (map :hakuOid hakukohteet))]
     {:koulutus koulutus
@@ -52,15 +52,15 @@
         (context "/august" []
           (GET "/hakukohde" []
             :query-params [oid :- String]
-            (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
+            (ok {:result (elastic-client/get-hakukohde oid)}))
 
           (GET "/koulutus" []
             :query-params [oid :- String]
-            (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)}))
+            (ok {:result (elastic-client/get-koulutus oid)}))
 
           (GET "/haku" []
             :query-params [oid :- String]
-            (ok {:result (elastic-client/get-by-id "hakukohde" "hakukohde" oid)})))
+            (ok {:result (elastic-client/get-haku oid)})))
 
         (context "/indexer" []
           (GET "/start" []

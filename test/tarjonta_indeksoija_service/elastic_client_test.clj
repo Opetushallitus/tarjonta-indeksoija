@@ -17,7 +17,7 @@
       (client/get-queue) => ())
 
     (fact "should get queue"
-      (:errors (client/bulk-upsert "indexdata" "indexdata" (dummy-indexdata))) => false
+      (:errors (client/upsert-indexdata (dummy-indexdata))) => false
       (client/refresh-index "indexdata")
       (count (client/get-queue)) => 10
       (sort-by :oid (map #(select-keys % [:oid :type]) (client/get-queue)))
@@ -25,7 +25,7 @@
 
     (fact "should delete handled oids"
       (let [last-timestamp (:timestamp (last (client/get-queue)))]
-        (:errors (client/bulk-upsert "indexdata" "indexdata" (dummy-indexdata :amount 1 :id-offset 1000))) => false
+        (:errors (client/upsert-indexdata (dummy-indexdata :amount 1 :id-offset 1000))) => false
         (client/delete-handled-queue (range 100 110) last-timestamp)
         (client/refresh-index "indexdata")
         (count (client/get-queue)) => 1
@@ -35,8 +35,8 @@
     (fact "should avoid race condition"
       (client/delete-index "indexdata")
       (client/get-queue) => ()
-      (:errors (client/bulk-upsert "indexdata" "indexdata" (dummy-indexdata :amount 1))) => false
-      (:errors (client/bulk-upsert "indexdata" "indexdata" (dummy-indexdata :amount 1 :id-offset 1000))) => false
+      (:errors (client/upsert-indexdata (dummy-indexdata :amount 1))) => false
+      (:errors (client/upsert-indexdata (dummy-indexdata :amount 1 :id-offset 1000))) => false
       (client/refresh-index "indexdata")
       (let [res (client/get-queue)]
         (count res) =>  2
@@ -44,12 +44,12 @@
 
     (fact "should only remove oids from queue that haven't been updated after indexing started"
       (client/delete-index "indexdata")
-      (:errors (client/bulk-upsert "indexdata" "indexdata" (dummy-indexdata))) => false
+      (:errors (client/upsert-indexdata (dummy-indexdata))) => false
       (client/refresh-index "indexdata")
       (let [queue          (client/get-queue)
             last-timestamp (apply max (map :timestamp queue))]
         (count queue) => 10
-        (:errors (client/bulk-upsert "indexdata" "indexdata" [{:oid 100 :type "hakukohde"}
+        (:errors (client/upsert-indexdata [{:oid 100 :type "hakukohde"}
                                                               {:oid 109 :type "hakukohde"}])) => false
         (client/refresh-index "indexdata")
         (:deleted (client/delete-handled-queue (map :oid queue) last-timestamp)) => 8
