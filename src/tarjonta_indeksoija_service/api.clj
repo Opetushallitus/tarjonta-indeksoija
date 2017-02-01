@@ -51,43 +51,53 @@
       (context "/tarjonta-indeksoija/api" []
         (context "/august" []
           :tags ["august"]
-          (GET "/hakukohde" []
-            :query-params [oid :- String]
-            (ok {:result (elastic-client/get-hakukohde oid)}))
 
           (GET "/koulutus" []
+            :summary "Hakee yhden koulutuksen oidin perusteella."
             :query-params [oid :- String]
             (ok {:result (elastic-client/get-koulutus oid)}))
 
+          (GET "/hakukohde" []
+            :summary "Hakee yhden hakukohteen oidin perusteella."
+            :query-params [oid :- String]
+            (ok {:result (elastic-client/get-hakukohde oid)}))
+
           (GET "/haku" []
+            :summary "Hakee yhden haun oidin perusteella."
             :query-params [oid :- String]
             (ok {:result (elastic-client/get-haku oid)})))
 
         (context "/indexer" []
           :tags ["indexer"]
           (GET "/start" []
+            :summary "Käynnistää indeksoinnin taustaoperaation."
             (ok {:result (indexer/start-stop-indexer true)}))
 
           (GET "/stop" []
+            :summary "Sammuttaa indeksoinnin taustaoperaation."
             (ok {:result (indexer/start-stop-indexer false)})))
 
         (context "/reindex" []
           :tags ["reindex"]
           (GET "/koulutus" {params :params}
+            :summary "Lisää koulutuksen indeksoitavien listalle."
             :query-params [koulutusOid :- String]
             (ok {:result (reindex "koulutus" params)}))
 
           (GET "/hakukohde" {params :params}
+            :summary "Lisää hakukohteen indeksoitavien listalle."
             :query-params [hakukohdeOid :- String]
             (ok {:result (reindex "hakukohde" params)}))
 
           (GET "/haku" {params :params}
+            :summary "Lisää haun indeksoitavien listalle."
             :query-params [oid :- String]
             (ok {:result (reindex "haku" params)})))
 
         (context "/ui" []
           :tags ["ui"]
           (GET "/koulutus/:oid" []
+            :summary "Koostaa koulutuksen sekä siihen liittyien hakukohteiden ja hakujen tiedot."
             :path-params [oid :- String]
             (ok {:result (get-koulutus-tulos oid)}))))
 
