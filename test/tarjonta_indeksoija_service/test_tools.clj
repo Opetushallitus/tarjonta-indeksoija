@@ -12,7 +12,15 @@
   (let [start (System/currentTimeMillis)]
     (elastic-client/refresh-index "indexdata")
     (while (and (> timeout (- (System/currentTimeMillis) start))
-             (not (empty? (elastic-client/get-queue))))
+                (not (empty? (elastic-client/get-queue))))
+      (Thread/sleep 1000))))
+
+(defn block-until-latest-in-queue
+  [timeout]
+  (let [start (System/currentTimeMillis)]
+    (elastic-client/refresh-index "indexdata")
+    (while (and (> timeout (- (System/currentTimeMillis) start))
+                (empty? (elastic-client/get-queue)))
       (Thread/sleep 1000))))
 
 (defn refresh-and-wait

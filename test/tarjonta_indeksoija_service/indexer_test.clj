@@ -67,7 +67,7 @@
       ;; TODO: could this be done in a smarter way?
       (elastic-client/set-last-index-time 0)
       (indexer/start-indexer-job)
-      (Thread/sleep 2000)
+      (tools/block-until-latest-in-queue 10000)
       (tools/block-until-indexed 10000)
       (tools/refresh-and-wait "hakukohde" 1000)
       (let [hk1-res (elastic-client/get-hakukohde hk1-oid)
