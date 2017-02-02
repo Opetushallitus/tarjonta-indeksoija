@@ -1,0 +1,329 @@
+{
+  "yhteishaunKoulukoodi": "",
+  "oid": "1.2.246.562.10.39920288212",
+  "nimi": {
+    "fi": "Aalto-yliopisto, Perustieteiden korkeakoulu",
+    "sv": "Aalto-universitetet, Högskolan för teknikvetenskaper",
+    "en": "Aalto University, School of Science"
+  },
+  "maaUri": "maatjavaltiot1_fin",
+  "kotipaikkaUri": "kunta_049",
+  "toimipistekoodi": "1007601",
+  "kayntiosoite": {
+    "osavaltio": null,
+    "lng": null,
+    "postinumeroUri": "posti_02150",
+    "osoiteTyyppi": "kaynti",
+    "coordinateType": null,
+    "yhteystietoOid": "1.2.246.562.5.80452123989",
+    "lap": null,
+    "maaUri": null,
+    "postitoimipaikka": "ESPOO",
+    "osoite": "Konemiehentie 2",
+    "ytjPaivitysPvm": null,
+    "extraRivi": null
+  },
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1"
+  ],
+  "kuvaus2": {},
+  "metadata": {
+    "nimi": {},
+    "hakutoimistonNimi": {
+      "kieli_en#1": "Aalto University Admission Services",
+      "kieli_sv#1": "Aalto-universitetets ansökningsservice",
+      "kieli_fi#1": "Aalto-yliopiston hakijapalvelut"
+    },
+    "yhteystiedot": [
+      {
+        "osavaltio": null,
+        "lng": null,
+        "osoiteTyyppi": "kaynti",
+        "coordinateType": null,
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_02150",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231290606",
+        "lap": null,
+        "id": "1332192",
+        "maaUri": null,
+        "postitoimipaikka": "ESPOO",
+        "osoite": "Otakaari 1",
+        "ytjPaivitysPvm": null,
+        "extraRivi": null
+      },
+      {
+        "osavaltio": null,
+        "lng": null,
+        "osoiteTyyppi": "posti",
+        "coordinateType": null,
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_00076",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231280266",
+        "lap": null,
+        "id": "1332193",
+        "maaUri": null,
+        "postitoimipaikka": "AALTO",
+        "osoite": "PL 11110",
+        "ytjPaivitysPvm": null,
+        "extraRivi": null
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "13995444923100.32733352198904275",
+        "id": "1332194",
+        "email": "hakijapalvelut@aalto.fi"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.aalto.fi/fi/studies/",
+        "yhteystietoOid": "13995444923100.18548559754588656",
+        "id": "1332195"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "0294429290",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231294896",
+        "id": "1332196"
+      },
+      {
+        "osavaltio": null,
+        "lng": null,
+        "osoiteTyyppi": "kaynti",
+        "coordinateType": null,
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_02150",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231296952",
+        "lap": null,
+        "id": "1332197",
+        "maaUri": null,
+        "postitoimipaikka": "ESBO",
+        "osoite": "Otsvängen 1",
+        "ytjPaivitysPvm": null,
+        "extraRivi": null
+      },
+      {
+        "osavaltio": null,
+        "lng": null,
+        "osoiteTyyppi": "posti",
+        "coordinateType": null,
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_00076",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231265098",
+        "lap": null,
+        "id": "1332198",
+        "maaUri": null,
+        "postitoimipaikka": "AALTO",
+        "osoite": "PB 11110",
+        "ytjPaivitysPvm": null,
+        "extraRivi": null
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "yhteystietoOid": "13995444923100.5895628375906207",
+        "id": "1332199",
+        "email": "ansokningsservice@aalto.fi"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "www": "http://www.aalto.fi/sv/studies/",
+        "yhteystietoOid": "13995444923100.24195763256346947",
+        "id": "1332200"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "numero": "0294429290",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231289612",
+        "id": "1332201"
+      },
+      {
+        "osavaltio": null,
+        "lng": null,
+        "osoiteTyyppi": "ulkomainen_kaynti",
+        "coordinateType": null,
+        "kieli": "kieli_en#1",
+        "postinumeroUri": null,
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231356349",
+        "lap": null,
+        "id": "1332202",
+        "maaUri": null,
+        "postitoimipaikka": null,
+        "osoite": "Otakaari 1\nFI-02150 Espoo\nFinland",
+        "ytjPaivitysPvm": null,
+        "extraRivi": null
+      },
+      {
+        "osavaltio": null,
+        "lng": null,
+        "osoiteTyyppi": "ulkomainen_posti",
+        "coordinateType": null,
+        "kieli": "kieli_en#1",
+        "postinumeroUri": null,
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231385161",
+        "lap": null,
+        "id": "1332203",
+        "maaUri": null,
+        "postitoimipaikka": null,
+        "osoite": "P.O. Box 11110\nFI-00076 Aalto\nFinland",
+        "ytjPaivitysPvm": null,
+        "extraRivi": null
+      },
+      {
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "13995444923100.20710924578248346",
+        "id": "1332204",
+        "email": "admissions@aalto.fi"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "www": "http://www.aalto.fi/en/studies/",
+        "yhteystietoOid": "13995444923100.4080230172078324",
+        "id": "1332205"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "numero": "+358294429290",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.2014050813213231396552",
+        "id": "1332206"
+      }
+    ],
+    "hakutoimistoEctsNimi": {},
+    "hakutoimistoEctsEmail": {},
+    "hakutoimistoEctsPuhelin": {},
+    "hakutoimistoEctsTehtavanimike": {},
+    "luontiPvm": 1395651080736,
+    "muokkausPvm": 1395651080736,
+    "data": {
+      "KANSAINVALISET_KOULUTUSOHJELMAT": {},
+      "YLEISKUVAUS": {
+        "kieli_en#1": "Creating tomorrow's science <p>The School of Science offers a pioneering and applied approach to multidisciplinary research, which it closely connects to its inspirational teaching. The research conducted at the school meets all the world-class requirements <a href=\"http://sci.aalto.fi/en/research/\">across a range of subject areas</a>. We see it as our mission to boldly and responsibly expand the realms of scientific knowledge and understanding. Hence, our research aims at responding to a variety of sustainable development challenges.</p> <p>The school strives to educate high-quality experts who have the ability to solve society’s increasingly complex problems relating to energy, the environment, wellbeing, and decision-making. Many of our M.Sc. and Ph.D. graduates in technology graduates go on to work in leadership and expert positions in Finnish and international companies. In recent years many graduates have started their own research based businesses and companies.</p>",
+        "kieli_sv#1": "Skapar framtidens vetenskap <p>Högskolan för teknikvetenskaper erbjuder en banbrytande och tillämpad metod för tvärvetenskaplig forskning, som är nära bunden med skolans inspirerande undervisning. Den forskning som bedrivs på skolan uppfyller alla krav i världsklass <a href=\"http://sci.aalto.fi/sv/research/\">inom en rad ämnesområden</a>. Skolans uppgift är att med mod och ansvar utveckla sfärer av vetenskaplig kunskap och förståelse. Forskning strävar följaktligen till att möta en rad olika utmaningar inom hållbar utveckling.</p> <p>Högskolan utbildar högklassiga experter som har förmågan att lösa allt mer komplexa samhällsproblem som berör energi, miljö, välfärd och beslutsfattande. Många av högskolans diplomingenjörer och tekn. dr fortsätter att arbeta med ledarskap och specialistpositioner i finska företag.</p>",
+        "kieli_fi#1": "Ylihuomisen tekijä <p>Perustieteiden korkeakoulussa monialainen ja uraauurtava perus- ja soveltava tutkimus sekä innostava opetus yhdistyvät tiiviisti toisiinsa. Koulun tutkimus täyttää maailmanluokan kansainväliset vaatimukset<a href=\"http://sci.aalto.fi/fi/research/\">useilla tieteen aloilla</a>. Laajennamme rohkeasti ja vastuullisesti tieteellisen tiedon ja ymmärryksen rajoja. Tutkimuksemme vastaa myös moniin kestävän kehityksen haasteisiin.</p> <p>Koulun tavoitteena on kouluttaa korkeatasoisia asiantuntijoita, joilla on kyky ratkoa monitieteisesti yhteiskunnan entistä vaativampia energiaan, ympäristöön, hyvinvointiin ja päätöksentekoon liittyviä haasteita. Valmistuneet diplomi-insinöörit ja tekniikan tohtorit työskentelevät suomalaisten ja kansainvälisen yritysten johto- ja asiantuntijatehtävissä. Viime vuosina yhä useammat koulustamme valmistuneet osaajat ovat perustaneet omia tutkimuslähtöisiä yrityksiä.</p>"
+      },
+      "KIELIOPINNOT": {},
+      "TERVEYDENHUOLTOPALVELUT": {},
+      "TEHTAVANIMIKE": {},
+      "SAHKOPOSTIOSOITE": {},
+      "RAHOITUS": {},
+      "AIEMMIN_HANKITTU_OSAAMINEN": {},
+      "sosiaalinenmedia_7#1": {},
+      "sosiaalinenmedia_5#1": {},
+      "sosiaalinenmedia_6#1": {},
+      "OPISKELIJALIIKKUVUUS": {},
+      "VAKUUTUKSET": {},
+      "OPISKELIJA_JARJESTOT": {},
+      "VALINTAMENETTELY": {},
+      "sosiaalinenmedia_3#1": {},
+      "sosiaalinenmedia_4#1": {},
+      "sosiaalinenmedia_1#1": {},
+      "VASTUUHENKILOT": {},
+      "KUSTANNUKSET": {},
+      "OPPIMISYMPARISTO": {},
+      "sosiaalinenmedia_2#1": {},
+      "PUHELINNUMERO": {},
+      "NIMI": {},
+      "OPISKELIJALIIKUNTA": {},
+      "VUOSIKELLO": {
+        "kieli_en#1": "<p>The academic year at Aalto University is divided into two semesters. During autumn term there are two teaching periods, seven weeks each and during spring term there are three teaching periods. The academic year starts in the beginning of September and ends in May. A summer teaching period is organised from June to August.</p> <ul> <li><a href=\"https://into.aalto.fi/display/en/Homepage\">Read more about Aalto University's Academic calendar in Into - portal for Aalto students</a></li> </ul>",
+        "kieli_sv#1": "<p>Läsåret vid Aalto-universitetet är uppdelat i två terminer. Under höstterminen finns det två undervisningsperioder och under vårterminen finns det tre undervisningsperioder. Läsåret börjar i början av september och slutar i slutet av maj. Från juni till augusti ordnas det skild sommarundervisning.</p> <ul> <li><a href=\"https://into.aalto.fi/display/sv/Startsida\">Läs mer om läsårskalender i Into, portal för Aalto studerande</a></li> </ul>",
+        "kieli_fi#1": "<p>Aalto-yliopiston lukuvuosi jakautuu kahteen lukukauteen, joista syyslukukaudella on kaksi seitsemän viikon mittaista opetusperiodia ja kevätlukukaudella on kolme opetusperiodia. Lukukausi alkaa yleensä elo-syyskuun vaihteessa ja päättyy toukokuun lopussa. Kesä- ja heinäkuussa järjestetään erillinen kesäopetusjakso.</p> <ul> <li><a href=\"https://into.aalto.fi/\">Lisätietoa lukuvuosikalentereista löydät opiskelijoille suunnatusta Into-portaalistamme</a></li> </ul>"
+      },
+      "OPISKELIJARUOKAILU": {},
+      "VAPAA_AIKA": {},
+      "ESTEETOMYYS": {
+        "kieli_en#1": "<p>Teaching and research can be best developed in a multifaceted, accessible and creative community.</p> <ul> <li><a href=\"http://www.aalto.fi/en/about/strategy/accessibility/\">Read more about Aalto University as an accessible university</a></li> </ul> <p>Aalto students have access to a large spectrum of services from study counselling and support in the planning of studies to housing and physical recreation services.</p> <ul> <li><a href=\"http://www.aalto.fi/en/studies/about/student_services/\">Read more about Aalto University's student services</a></li> </ul>",
+        "kieli_sv#1": "<p>Vid Aalto-universitetet tror vi att undervisning och forskning utvecklas bäst i ett mångfasetterat, tillgängligt och kreativt samfund.</p> <ul> <li><a href=\"http://www.aalto.fi/sv/about/strategy/accessibility/\">Läs mer om Aalto-universitetet som ett tillgängligt universtet</a></li> </ul> <p>Aalto-universitetets studerande har tillgång till ett brett spektrum av tjänster, alltifrån studierådgivning och planeringsstöd till boende- och motionstjänster.</p> <ul> <li><a href=\"http://www.aalto.fi/sv/studies/about/student_services/\">Läs mer om Aalto-universitetets tjänster för studerande</a></li> </ul>",
+        "kieli_fi#1": "<p>Aalto-yliopistossa opetus ja tutkimus kehittyvät parhaiten yhteisössä, jossa saavutettavuus on huomioitu.</p> <ul> <li><a href=\"http://www.aalto.fi/fi/about/strategy/accessibility/\">Lue lisää saavutettavuudesta Aallosta</a> </li> </ul> <p>Aalto-yliopiston valinnat pyritään järjestemään esteettömästi ja esimerkiksi on mahdollista saada tiettyjä erityisjärjestelyitä esimerkiksi valintakokeisiin.</p> <ul> <li><a href=\"http://www.aalto.fi/fi/studies/admissions/erityisjarjestelyt_valinnoissa/\">Lue lisää erityisjärjestelyistä ja esteettömyydestä valinnoissa</a> </li> </ul> <p>Opiskelijoidemme käytettävissä on laaja kirjo palveluita aina opintoneuvonnasta ja opintojen suunnittelun tuesta IT- ja kirjastopalveluihin.</p> <ul> <li><a href=\"http://www.aalto.fi/fi/studies/about/student_services/\">Lue lisää opiskelijapalveluistamme</a> </li> </ul>"
+      },
+      "TIETOA_ASUMISESTA": {},
+      "TYOHARJOITTELU": {}
+    }
+  },
+  "nimet": [
+    {
+      "nimi": {
+        "fi": "Aalto-yliopisto, Perustieteiden korkeakoulu",
+        "sv": "Aalto-universitetet, Högskolan för teknikvetenskaper",
+        "en": "Aalto University, School of Science"
+      },
+      "alkuPvm": "2010-01-01",
+      "version": 1
+    }
+  ],
+  "parentOid": "1.2.246.562.10.56753942459",
+  "yhteystiedot": [
+    {
+      "kieli": "kieli_fi#1",
+      "numero": "0503616443 0505699264",
+      "tyyppi": "puhelin",
+      "yhteystietoOid": "1.2.246.562.5.82549651972",
+      "id": "1332209"
+    },
+    {
+      "osavaltio": null,
+      "lng": null,
+      "osoiteTyyppi": "posti",
+      "coordinateType": null,
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_00076",
+      "yhteystietoOid": "1.2.246.562.5.32649569558",
+      "lap": null,
+      "id": "1332210",
+      "maaUri": null,
+      "postitoimipaikka": "AALTO",
+      "osoite": "PL 1540",
+      "ytjPaivitysPvm": null,
+      "extraRivi": null
+    },
+    {
+      "osavaltio": null,
+      "lng": null,
+      "osoiteTyyppi": "kaynti",
+      "coordinateType": null,
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_02150",
+      "yhteystietoOid": "1.2.246.562.5.80452123989",
+      "lap": null,
+      "id": "1332211",
+      "maaUri": null,
+      "postitoimipaikka": "ESPOO",
+      "osoite": "Konemiehentie 2",
+      "ytjPaivitysPvm": null,
+      "extraRivi": null
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "www": "http://sci.aalto.fi/fi/",
+      "yhteystietoOid": "14104316776050.15731307747137346",
+      "id": "1332212"
+    }
+  ],
+  "alkuPvm": "2010-01-01",
+  "tyypit": [
+    "Toimipiste"
+  ],
+  "postiosoite": {
+    "osavaltio": null,
+    "lng": null,
+    "postinumeroUri": "posti_00076",
+    "osoiteTyyppi": "posti",
+    "coordinateType": null,
+    "yhteystietoOid": "1.2.246.562.5.32649569558",
+    "lap": null,
+    "maaUri": null,
+    "postitoimipaikka": "AALTO",
+    "osoite": "PL 1540",
+    "ytjPaivitysPvm": null,
+    "extraRivi": null
+  },
+  "opetuspisteenJarjNro": "01",
+  "yhteystietoArvos": [],
+  "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.82388989657|1.2.246.562.10.56753942459|",
+  "vuosiluokat": [],
+  "ryhmatyypit": [],
+  "kayttoryhmat": [],
+  "version": 35,
+  "status": "AKTIIVINEN"
+}

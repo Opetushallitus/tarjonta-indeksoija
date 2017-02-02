@@ -7,6 +7,10 @@
   [body]
   (:result (cheshire/parse-string (slurp body) true)))
 
+(defn parse
+  [body]
+  (cheshire/parse-string (slurp body) true))
+
 (defn block-until-indexed
   [timeout]
   (let [start (System/currentTimeMillis)]

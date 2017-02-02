@@ -27,6 +27,12 @@
         (get-in indexed-koulutus [:valmistavaKoulutus :kuvaus :SISALTO :kieli_fi])
           => "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>")))
 
+  (fact "Indexer should save organisaatio"
+        (let [oid "1.2.246.562.10.39920288212"]
+          (mock/with-organisaatio-mock
+            (indexer/index-object {:oid oid :type "organisaatio"}))
+          (elastic-client/get-organisaatio oid) => (contains {:oid oid})))
+
   (fact "Indexer should start scheduled indexing and index objects"
     (let [hk1-oid "1.2.246.562.20.99178639649"
           hk2-oid "1.2.246.562.20.28810946823"

@@ -60,6 +60,9 @@
 (defmacro get-haku [oid]
   `(get-by-id "haku" "haku" ~oid))
 
+(defmacro get-organisaatio [oid]
+  `(get-by-id "organisaatio" "organisaatio" ~oid))
+
 (defn get-queue
   []
   (let [conn (esr/connect (:elastic-url env))]

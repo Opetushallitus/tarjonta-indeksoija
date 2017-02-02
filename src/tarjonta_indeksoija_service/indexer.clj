@@ -1,6 +1,7 @@
 (ns tarjonta-indeksoija-service.indexer
   (:require [tarjonta-indeksoija-service.conf :refer [env job-pool]]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
+            [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
@@ -32,11 +33,18 @@
   (when (= "haku" type)
     (index-haku-hakukohteet (:hakukohdeOids doc))))
 
+(defn- get-doc [obj]
+  (cond
+    (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
+    (= (:type obj) "koulutus") (tarjonta-client/get-doc obj)
+    (= (:type obj) "hakukohde") (tarjonta-client/get-doc obj)
+    (= (:type obj) "haku") (tarjonta-client/get-doc obj)))
+
 (defn index-object
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
   (try
-    (let [doc (tarjonta-client/get-doc obj)
+    (let [doc (get-doc obj)
           converted-doc (convert-doc (:type obj) doc)
           res (elastic-client/bulk-upsert (:type obj) (:type obj) [converted-doc])
           errors (:errors res)
