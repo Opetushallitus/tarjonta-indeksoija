@@ -117,12 +117,18 @@
 
 (defn get-last-index-time
   []
-  (let [conn (esr/connect (:elastic-url env))
-        res (esd/search conn (index-name "indexdata") (index-name "lastindex"))]
-    (-> (get-in res [:hits :hits])
-        first
-        :_source
-        :timestamp)))
+  (try
+    (let [conn (esr/connect (:elastic-url env))
+          res (esd/search conn (index-name "indexdata") (index-name "lastindex"))]
+      (-> (get-in res [:hits :hits])
+          first
+          :_source
+          :timestamp))
+    (catch Exception e
+      (if (Boolean/valueOf (:test environ.core/env))
+        (log/info "Couldn't get latest indexing timestamp, continuing test.")
+        (log/error e))
+      (System/currentTimeMillis))))
 
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
@@ -148,7 +154,6 @@
               {:query-params (select-keys (ar/->opts args)
                                           (conj esd/optional-delete-query-parameters :ignore_unavailable))
                :body         {:query query}})))
-
 
 (defn delete-handled-queue
   [oids max-timestamp]

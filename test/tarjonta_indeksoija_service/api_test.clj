@@ -14,16 +14,18 @@
     (fact "reindex hakukohde"
       ;; This test uses tarjonta QA
       ;; TODO: try to mock tarjonta in this test..
-      (with-redefs [tarjonta-indeksoija-service.api/reindex reindex-mock]
-        (indexer/start-indexer-job)
-        (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?hakukohdeOid=1.2.246.562.20.28810946823"))
-              body     (parse-body (:body response))]
-          (:status response) => 200))
+      (with-tarjonta-mock
+        (with-redefs [tarjonta-indeksoija-service.api/reindex reindex-mock]
+          (indexer/start-indexer-job)
+          (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?hakukohdeOid=1.2.246.562.20.28810946823"))
+                body     (parse-body (:body response))]
+            (:status response) => 200)))
       (tools/block-until-indexed 10000)
       (elastic-client/get-queue) => [])
 
     (tools/refresh-and-wait "hakukohde" 2000)
     (fact "fetch hakukohde"
+      ;; uses result from previous test.
       (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/august/hakukohde?oid=1.2.246.562.20.28810946823"))
             body     (parse-body (:body response))]
         (:hakuOid body) => "1.2.246.562.29.44465499083"))

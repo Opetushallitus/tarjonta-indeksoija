@@ -12,5 +12,10 @@
 
 (defmacro with-tarjonta-mock
   [& body]
-  `(with-redefs [tarjonta/get-doc mocks.tarjonta-mock/get-doc]
+  `(with-redefs [tarjonta/get-doc mocks.tarjonta-mock/get-doc
+                 tarjonta/get-last-modified mocks.tarjonta-mock/get-last-modified]
      (do ~@body)))
+
+(defn get-last-modified
+  [since]
+  [])

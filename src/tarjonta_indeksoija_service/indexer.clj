@@ -28,9 +28,9 @@
 (defn index-related-docs
   ;; TODO: Make propagation work for all docs in all 'directions'. This is just a WIP.
   [type doc]
-  (log/debug "indexing docs related"))
-  ;(when (= "haku" type)
-  ;  (index-haku-hakukohteet (:hakukohdeOids doc))))
+  (log/debug "indexing docs related")
+  (when (= "haku" type)
+    (index-haku-hakukohteet (:hakukohdeOids doc))))
 
 (defn index-object
   [obj]
@@ -45,9 +45,7 @@
         (log/error (str "Indexing failed for "
                         (clojure.string/capitalize (:type obj)) " " (:oid obj)
                         "\n" errors))
-        (do
-          (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully."))
-          (index-related-docs (:type obj) converted-doc))))
+        (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully."))))
     (catch Exception e (log/error e))))
 
 (defn end-indexing
@@ -79,7 +77,13 @@
 
 (defjob indexing-job
   [ctx]
-  (start-indexing))
+  (try
+    (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
+          now (System/currentTimeMillis)]
+      (elastic-client/upsert-indexdata last-modified)
+      (elastic-client/set-last-index-time now)
+      (start-indexing))
+    (catch Exception e (log/error e))))
 
 (defn start-indexer-job
   []
