@@ -11,7 +11,7 @@ test() {
 
 uberjar() {
   ./lein clean
-  mkdir ./resources/public
+  mkdir -p ./resources/public
   echo "artifactId=tarjonta-indeksoija-service" > ./resources/public/buildversion.txt
   echo "version=0.1.0-SNAPSHOT" >> ./resources/public/buildversion.txt
   echo "buildNumber=$bamboo_buildNumber" >> ./resources/public/buildversion.txt
