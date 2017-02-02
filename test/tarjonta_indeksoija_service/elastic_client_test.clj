@@ -1,7 +1,7 @@
 (ns tarjonta-indeksoija-service.elastic-client-test
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
             [tarjonta-indeksoija-service.elastic-client :as client]
-            [tarjonta-indeksoija-service.test-tools :refer [refresh-and-wait after-tests]]
+            [tarjonta-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
             [midje.sweet :refer :all]))
 
 (defn dummy-indexdata
@@ -9,7 +9,7 @@
                                     id-offset 100}}]
   (map #(hash-map :oid (+ % id-offset) :type "hakukohde") (range amount)))
 
-(against-background [(after :contents (after-tests))]
+(against-background [(after :contents (reset-test-data))]
   (fact "Elastic search should be alive"
     (client/check-elastic-status) => true)
 

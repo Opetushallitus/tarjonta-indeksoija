@@ -1,7 +1,7 @@
 (ns tarjonta-indeksoija-service.api-test
   (:require [tarjonta-indeksoija-service.api :refer :all]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
-            [tarjonta-indeksoija-service.test-tools :as tools :refer [parse-body after-tests]]
+            [tarjonta-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
             [tarjonta-indeksoija-service.indexer :as indexer]
             [mocks.tarjonta-mock :refer [get-doc with-tarjonta-mock]]
             [mocks.index-mock :refer [reindex-mock]]
@@ -10,7 +10,7 @@
             [ring.mock.request :as mock]))
 
 (facts "Api should"
-  (against-background [(after :contents (after-tests))]
+  (against-background [(after :contents (reset-test-data))]
     (fact "reindex hakukohde"
       ;; This test uses tarjonta QA
       ;; TODO: try to mock tarjonta in this test..

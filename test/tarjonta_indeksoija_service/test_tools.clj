@@ -20,10 +20,18 @@
   (elastic-client/refresh-index indexname)
   (Thread/sleep timeout))
 
-(defn after-tests
+(defn reset-test-data
   []
   (indexer/reset-jobs)
   (elastic-client/delete-index "hakukohde")
   (elastic-client/delete-index "haku")
   (elastic-client/delete-index "koulutus")
   (elastic-client/delete-index "indexdata"))
+
+(defn parse-args
+  [& args]
+  (let [aps (partition-all 2 args)
+        [opts-and-vals ps] (split-with #(keyword? (first %)) aps)
+        options (into {} (map vec opts-and-vals))
+        positionals (reduce into [] ps)]
+    [options positionals]))
