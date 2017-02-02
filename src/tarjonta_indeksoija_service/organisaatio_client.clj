@@ -23,5 +23,4 @@
   [params]
   (let [params-with-defaults (merge {:aktiiviset true :suunnitellut true :lakkautetut true} params)
         url (str (:organisaatio-service-url env) "v2/hae")]
-    (println url)
     (extract-docs (client/get url {:query-params params-with-defaults, :as :json}))))

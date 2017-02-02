@@ -11,7 +11,8 @@
             [mount.core :as mount]
             [taoensso.timbre :as timbre]
             [ring.logger.timbre :as logger.timbre]
-            [compojure.api.exception :as ex]))
+            [compojure.api.exception :as ex]
+            [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]))
 
 (defn init []
   (mount/start)
@@ -26,9 +27,16 @@
   (indexer/reset-jobs)
   (mount/stop))
 
+
+
+(defn find-docs [index params]
+  (cond
+    (= "organisaatio" index) (organisaatio-client/find-docs params)
+    :else (tarjonta-client/find-docs index params)))
+
 (defn reindex
   [index params]
-  (let [docs (tarjonta-client/find-docs index params)]
+  (let [docs (find-docs index params)]
     (elastic-client/upsert-indexdata docs)))
 
 (defn get-koulutus-tulos
@@ -65,7 +73,12 @@
           (GET "/haku" []
             :summary "Hakee yhden haun oidin perusteella."
             :query-params [oid :- String]
-            (ok {:result (elastic-client/get-haku oid)})))
+            (ok {:result (elastic-client/get-haku oid)}))
+
+          (GET "/orgaisaatio" []
+            :summary "Hakee yhden organisaation oidin perusteella."
+            :query-params [oid :- String]
+            (ok {:result (elastic-client/get-organisaatio oid)})))
 
         (context "/indexer" []
           :tags ["indexer"]
@@ -92,7 +105,12 @@
           (GET "/haku" {params :params}
             :summary "Lisää haun indeksoitavien listalle."
             :query-params [oid :- String]
-            (ok {:result (reindex "haku" params)})))
+            (ok {:result (reindex "haku" params)}))
+
+          (GET "/organisaatio" {params :params}
+            :summary "Lisää organisaation indeksoitavien listalle."
+            :query-params [oid :- String]
+            (ok {:result (reindex "organisaatio" params)})))
 
         (context "/ui" []
           :tags ["ui"]
