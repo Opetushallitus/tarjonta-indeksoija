@@ -60,15 +60,9 @@ To create a runnable jar file, put a config.edn file to resources folder and run
 This is just for testing the jar, DO NOT DO THIS IN BAMBOO!
 
 ```
-lein create-uberjar
+./ci/build.sh uberjar
 java -jar target/server.jar
 ```
-
-### Packaging as war
-
-***TODO***
-
-`lein ring uberwar`
 
 ## License
 
