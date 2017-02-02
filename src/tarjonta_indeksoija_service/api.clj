@@ -97,20 +97,36 @@
             :query-params [koulutusOid :- String]
             (ok {:result (reindex "koulutus" params)}))
 
+          (GET "/koulutus/all" {params :params}
+            :summary "Lisää kaikki koulutukset indeksoitavien listalle."
+            (ok {:result (reindex "koulutus" {})}))
+
           (GET "/hakukohde" {params :params}
             :summary "Lisää hakukohteen indeksoitavien listalle."
             :query-params [hakukohdeOid :- String]
             (ok {:result (reindex "hakukohde" params)}))
+
+          (GET "/hakukohde/all" {params :params}
+            :summary "Lisää kaikki hakukohteet indeksoitavien listalle."
+            (ok {:result (reindex "hakukohde" {})}))
 
           (GET "/haku" {params :params}
             :summary "Lisää haun indeksoitavien listalle."
             :query-params [oid :- String]
             (ok {:result (reindex "haku" params)}))
 
+          (GET "/haku/all" {params :params}
+            :summary "Lisää kaikki haut indeksoitavien listalle."
+            (ok {:result (reindex "haku" {})}))
+
           (GET "/organisaatio" {params :params}
             :summary "Lisää organisaation indeksoitavien listalle."
             :query-params [oid :- String]
-            (ok {:result (reindex "organisaatio" params)})))
+            (ok {:result (reindex "organisaatio" params)}))
+
+          (GET "/organisaatio/all" {params :params}
+            :summary "Lisää kaikki organisaatiot indeksoitavien listalle."
+            (ok {:result (reindex "organisaatio" {})})))
 
         (context "/ui" []
           :tags ["ui"]
