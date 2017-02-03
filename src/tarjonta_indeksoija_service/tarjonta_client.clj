@@ -30,7 +30,7 @@
 (defn- find-haku-docs
   [params]
   (if (contains? params :oid)
-    {:type "haku" :oid (:oid params)}
+    [{:type "haku" :oid (:oid params)}]
     (let [params-with-defaults (merge {:tarjoajaoid "1.2.246.562.10.00000000001"
                                        :tila "NOT_POISTETTU"} params)
           url (get-url "haku" "find")]
