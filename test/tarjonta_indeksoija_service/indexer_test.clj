@@ -8,7 +8,8 @@
 (against-background
   [(after :facts [(elastic-client/delete-index "hakukohde")
                   (elastic-client/delete-index "koulutus")
-                  (elastic-client/delete-index "indexdata")])
+                  (elastic-client/delete-index "indexdata")
+                  (elastic-client/delete-index "organisaatio")])
    (after :contents (reset-test-data))]
 
   (fact "Indexer should save hakukohde"
