@@ -9,14 +9,17 @@ test() {
   ./lein ci-test
 }
 
-uberjar() {
-  ./lein clean
+create_buildversion() {
   mkdir -p ./resources/public
   echo "artifactId=tarjonta-indeksoija-service" > ./resources/public/buildversion.txt
   echo "version=0.1.0-SNAPSHOT" >> ./resources/public/buildversion.txt
   echo "buildNumber=$bamboo_buildNumber" >> ./resources/public/buildversion.txt
   echo "vcsRevision=$(git rev-parse HEAD)" >> ./resources/public/buildversion.txt
   echo "buildTime=$bamboo_buildTimeStamp" >> ./resources/public/buildversion.txt
+}
+
+uberjar() {
+  ./lein clean
   ./lein create-uberjar
 }
 
@@ -28,6 +31,9 @@ case "$command" in
         ;;
     "uberjar" )
         uberjar
+        ;;
+    "buildversion" )
+        create_buildversion
         ;;
     *)
         echo "Unknown command $command"
