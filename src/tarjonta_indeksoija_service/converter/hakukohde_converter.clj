@@ -7,4 +7,4 @@
       (update-in [:koulutusmoduuliToteutusTarjoajatiedot]
                  #(flatten
                     (for [[k v] %]
-                      [{:koulutus (name k) :tarjoajaOids v}])))))
+                      [{:koulutus (name k) :tarjoajaOids (:tarjoajaOids v)}])))))
