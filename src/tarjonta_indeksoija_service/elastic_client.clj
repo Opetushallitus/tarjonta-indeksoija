@@ -87,6 +87,15 @@
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 
+;; TODO refactor with get-haut-by-oids
+(defn get-organisaatios-by-oids
+  [oids]
+  (let [conn (esr/connect (:elastic-url env))
+        query {:constant_score {:filter {:terms {:oid (map str oids)}}}}
+        res (esd/search conn (index-name "organisaatio") (index-name "organisaatio") :query query)]
+    ;; TODO: error handling
+    (map :_source (get-in res [:hits :hits]))))
+
 (defn- upsert-operation
   [doc index type]
   {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})

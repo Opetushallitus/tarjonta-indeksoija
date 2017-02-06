@@ -43,10 +43,12 @@
   [koulutus-oid]
   (let [koulutus (elastic-client/get-koulutus koulutus-oid)
         hakukohteet (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
-        haut (elastic-client/get-haut-by-oids (map :hakuOid hakukohteet))]
+        haut (elastic-client/get-haut-by-oids (map :hakuOid hakukohteet))
+        organiosaatiot (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])])]
     {:koulutus koulutus
      :haut haut
-     :hakukohteet hakukohteet}))
+     :hakukohteet hakukohteet
+     :organisaatiot organiosaatiot}))
 
 (def app
   (logger.timbre/wrap-with-logger
