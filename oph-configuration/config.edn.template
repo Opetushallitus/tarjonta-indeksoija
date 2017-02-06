@@ -1,3 +1,4 @@
 {:elastic-url "{{tarjonta_indeksoija_elastic_url}}"
  :cron-string "{{tarjonta_indeksoija_cron_string}}"
- :tarjonta-service-url "{{tarjonta_indeksoija_tarjonta_service_url}}"}
+ :tarjonta-service-url "{{tarjonta_indeksoija_tarjonta_service_url}}"
+ :organisaatio-service-url "{{tarjonta_indeksoija_organisaatio_service_url}}"}
