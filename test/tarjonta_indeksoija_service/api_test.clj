@@ -62,9 +62,9 @@
 
         (empty? koulutus) => false?
 
-        (:oid koulutus) => "1.2.246.562.17.53874141319"
+        (:oid (:1.2.246.562.17.53874141319 koulutus)) => "1.2.246.562.17.53874141319"
 
-        (doseq [x (map :koulutukset hakukohteet)]
+        (doseq [x (map :koulutukset (vals hakukohteet))]
           x => (contains "1.2.246.562.17.53874141319"))
 
-        (sort (distinct (map :hakuOid hakukohteet))) => (sort (map :oid haut))))))
+        (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut)))))))

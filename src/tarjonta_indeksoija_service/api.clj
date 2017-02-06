@@ -43,14 +43,19 @@
 
 (defn get-koulutus-tulos
   [koulutus-oid]
-  (let [koulutus (elastic-client/get-koulutus koulutus-oid)
-        hakukohteet (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
-        haut (elastic-client/get-haut-by-oids (map :hakuOid hakukohteet))
-        organiosaatiot (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])])]
-    {:koulutus koulutus
+  (let [koulutus (#(assoc {} (:oid %) %) (elastic-client/get-koulutus koulutus-oid))
+        hakukohteet-list (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
+        hakukohteet (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec hakukohteet-list))
+        haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
+        haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
+        organisaatiot-list (#(assoc {} (:oid %) %)  (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
+        organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))
+        ]
+    {
+     :koulutus koulutus
      :haut haut
      :hakukohteet hakukohteet
-     :organisaatiot organiosaatiot}))
+     :organisaatiot organisaatiot}))
 
 (def service-api
   (api
