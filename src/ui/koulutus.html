@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demokäli</title>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.js"
+            integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+            crossorigin="anonymous"></script>
+</head>
+<script>
+    $(function() {
+        $("#get-koulutus").on("click", function() {
+          getKoulutus($("#koulutus-oid").val());
+        });
+    });
+
+    var getKoulutus = function(oid) {
+        $.ajax("http://localhost:3000/tarjonta-indeksoija/api/ui/koulutus/" + oid)
+          .done(function(data) {
+            console.log(data);
+            var formattedData = JSON.stringify(data.result, null, 2);
+            $('#koulutus-res').eq(0).html(formattedData);
+          });
+    }
+</script>
+<body>
+    <input id="koulutus-oid" type="text" placeholder="Koulutuksen Oid">
+    <button id="get-koulutus">Hae</button><br>
+    <pre id="koulutus-res"></pre>
+</body>
+</html>
