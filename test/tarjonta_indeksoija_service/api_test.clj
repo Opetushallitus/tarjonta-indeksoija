@@ -31,6 +31,7 @@
         (:hakuOid body) => "1.2.246.562.29.44465499083"))
 
     (fact "fetch koulutus tulos"
+      ;; This test uses tarjonta QA and organisaatio
       (elastic-client/delete-index "hakukohde")
       (with-tarjonta-mock
         (elastic-client/upsert-indexdata [{:type "koulutus" :oid "1.2.246.562.17.53874141319"}
@@ -58,6 +59,7 @@
         (count hakukohteet) => 4
         (count haut) => 3
         (count organisaatiot) => 1
+
         (empty? koulutus) => false?
 
         (:oid koulutus) => "1.2.246.562.17.53874141319"
