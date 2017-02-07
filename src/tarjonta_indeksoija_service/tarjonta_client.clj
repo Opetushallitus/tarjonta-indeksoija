@@ -1,6 +1,7 @@
 (ns tarjonta-indeksoija-service.tarjonta-client
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
-            [clj-http.client :as client]))
+            [clj-http.client :as client]
+            [taoensso.timbre :as log]))
 
 (defn get-url
   [type path]
@@ -51,9 +52,14 @@
 
 (defn get-last-modified
   [since]
-  (let [url (str (:tarjonta-service-url env) "lastmodified")
-        res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
-    (flatten
-      (conj
-        (map #(hash-map :type "haku" :oid %) (:haku res))
-        (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res))))))
+  (try
+    (let [url (str (:tarjonta-service-url env) "lastmodified")
+          res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
+      (flatten
+        (conj
+          (map #(hash-map :type "haku" :oid %) (:haku res))
+          (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res)))))
+    (catch Exception e
+      (do
+        (log/error e)
+        []))))
