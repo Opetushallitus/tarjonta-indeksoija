@@ -57,7 +57,7 @@
 (defn initialize-index-settings
   []
   (let [conn (esr/connect (:elastic-url env))
-        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"]
+        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex"]
         index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
@@ -165,13 +165,13 @@
 (defn set-last-index-time
   [timestamp]
   (let [conn (esr/connect (:elastic-url env))]
-    (esd/upsert conn (index-name "indexdata") (index-name "lastindex") "1" {:timestamp timestamp})))
+    (esd/upsert conn (index-name "lastindex") (index-name "lastindex") "1" {:timestamp timestamp})))
 
 (defn get-last-index-time
   []
   (try
     (let [conn (esr/connect (:elastic-url env))
-          res (esd/search conn (index-name "indexdata") (index-name "lastindex"))]
+          res (esd/search conn (index-name "lastindex") (index-name "lastindex"))]
       (-> (get-in res [:hits :hits])
           first
           :_source
