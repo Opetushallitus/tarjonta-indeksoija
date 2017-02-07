@@ -173,11 +173,8 @@
   []
   (try
     (let [conn (esr/connect (:elastic-url env))
-          res (esd/search conn (index-name "lastindex") (index-name "lastindex"))]
-      (-> (get-in res [:hits :hits])
-          first
-          :_source
-          :timestamp))
+          res (esd/get conn (index-name "lastindex") (index-name "lastindex") "1")]
+      (get-in res [:_source :timestamp]))
     (catch Exception e
       (if (Boolean/valueOf (:test environ.core/env))
         (log/info "Couldn't get latest indexing timestamp, continuing test.")
