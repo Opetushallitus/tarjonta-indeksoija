@@ -3,6 +3,7 @@
             [environ.core]
             [clj-http.client :as client]
             [taoensso.timbre :as log]
+            [cheshire.core :refer [generate-string]]
             [clojurewerkz.elastisch.rest.bulk :as bulk]
             [clojurewerkz.elastisch.rest :as esr]
             [clojurewerkz.elastisch.rest.index :as esi]
@@ -44,6 +45,26 @@
   [index]
   (let [conn (esr/connect (:elastic-url env))]
     (esi/delete conn (index-name index))))
+
+(defn update-index-settings
+  [index settings]
+  (let [conn (esr/connect (:elastic-url env))]
+    (esi/close conn (index-name index))
+    (let [res (esi/update-settings conn (index-name index) settings)]
+      (esi/open conn (index-name index))
+      (:acknowledged res))))
+
+(defn update-index-mappings
+  [index type mappings]
+  (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
+    (try
+      (-> url
+          (client/put {:body (generate-string mappings) :as :json})
+          :body
+          :acknowledged)
+      (catch Exception e
+        (log/error (str "Elastic search error: "(.getMessage e)))
+        false))))
 
 (defn get-by-id
   [index type id]

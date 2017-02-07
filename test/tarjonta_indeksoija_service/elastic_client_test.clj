@@ -1,7 +1,9 @@
 (ns tarjonta-indeksoija-service.elastic-client-test
-  (:require [tarjonta-indeksoija-service.conf :refer [env]]
+  (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
             [tarjonta-indeksoija-service.elastic-client :as client]
             [tarjonta-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
+            [tarjonta-indeksoija-service.test-tools :as tools]
+            [clj-http.client :as http]
             [midje.sweet :refer :all]))
 
 (defn dummy-indexdata
@@ -12,6 +14,21 @@
 (against-background [(after :contents (reset-test-data))]
   (fact "Elastic search should be alive"
     (client/check-elastic-status) => true)
+
+  (fact "Should set index analyzer settings"
+    ;; Initialize an index to put settings into:
+    (http/put (str (:elastic-url env) "/hakukohde_test/hakukohde_test/10000") {:body "{}"})
+    (client/update-index-settings "hakukohde" conf/analyzer-settings) => true
+    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
+              {:as :json})]
+      (get-in res [:body :hakukohde_test :settings :index :analysis])
+        => (:analysis conf/analyzer-settings)))
+
+  (fact "Should set index stemmer settings"
+    (client/update-index-mappings "hakukohde" "hakukohde" conf/stemmer-settings) => true
+    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
+              {:as :json})]
+      (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 
   (facts "Index queue"
     (fact "Should be empty"

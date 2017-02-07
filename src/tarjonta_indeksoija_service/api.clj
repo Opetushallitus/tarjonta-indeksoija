@@ -29,8 +29,6 @@
   (indexer/reset-jobs)
   (mount/stop))
 
-
-
 (defn find-docs [index params]
   (cond
     (= "organisaatio" index) (organisaatio-client/find-docs params)
@@ -49,10 +47,8 @@
         haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
         haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
         organisaatiot-list (#(assoc {} (:oid %) %)  (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
-        organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))
-        ]
-    {
-     :koulutus koulutus
+        organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))]
+    {:koulutus koulutus
      :haut haut
      :hakukohteet hakukohteet
      :organisaatiot organisaatiot}))
