@@ -1,5 +1,5 @@
 (ns tarjonta-indeksoija-service.elastic-client
-  (:require [tarjonta-indeksoija-service.conf :refer [env]]
+  (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
             [environ.core]
             [clj-http.client :as client]
             [taoensso.timbre :as log]
@@ -12,7 +12,8 @@
             [clojurewerkz.elastisch.query :as q]
             [clojurewerkz.elastisch.rest.response :as esrsp]
             [clojurewerkz.elastisch.rest :as rest]
-            [clojurewerkz.elastisch.arguments :as ar])
+            [clojurewerkz.elastisch.arguments :as ar]
+            [clj-http.client :as http])
   (:import (clojurewerkz.elastisch.rest Connection)))
 
 (defn check-elastic-status
@@ -46,25 +47,43 @@
   (let [conn (esr/connect (:elastic-url env))]
     (esi/delete conn (index-name index))))
 
-(defn update-index-settings
-  [index settings]
-  (let [conn (esr/connect (:elastic-url env))]
-    (esi/close conn (index-name index))
-    (let [res (esi/update-settings conn (index-name index) settings)]
-      (esi/open conn (index-name index))
+(defn- create-index [index]
+  (http/put (str (:elastic-url env) "/" (index-name index) "/" (index-name index) "/init") {:body "{}"})
+  (http/delete (str (:elastic-url env) "/" (index-name index) "/" (index-name index) "/init")))
+
+(defn- create-indices [index-names]
+  (doall (map create-index index-names)))
+
+(defn initialize-index-settings
+  []
+  (let [conn (esr/connect (:elastic-url env))
+        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"]
+        index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
+    (create-indices index-names)
+    (esi/close conn index-names-joined)
+    (let [res (esi/update-settings conn index-names-joined conf/analyzer-settings)]
+      (esi/open conn index-names-joined)
       (:acknowledged res))))
 
-(defn update-index-mappings
-  [index type mappings]
+(defn- update-index-mappings
+  [index type]
   (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
     (try
       (-> url
-          (client/put {:body (generate-string mappings) :as :json})
+          (client/put {:body (generate-string conf/stemmer-settings) :as :json})
           :body
           :acknowledged)
       (catch Exception e
         (log/error (str "Elastic search error: "(.getMessage e)))
         false))))
+
+(defn initialize-index-mappings []
+  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"]]
+    (every? true? (doall (map #(update-index-mappings % %) index-names)))))
+
+(defn initialize-indices []
+  (and (initialize-index-settings)
+       (initialize-index-mappings)))
 
 (defn get-by-id
   [index type id]

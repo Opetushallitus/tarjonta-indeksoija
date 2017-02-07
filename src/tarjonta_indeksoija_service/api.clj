@@ -19,7 +19,8 @@
 (defn init []
   (mount/start)
   (timbre/set-config! (logging/logging-config))
-  (if (elastic-client/check-elastic-status)
+  (if (and (elastic-client/check-elastic-status)
+           (elastic-client/initialize-indices))
     (indexer/start-indexer-job)
     (do
       (timbre/error "Application startup canceled due to Elastic client error or absence.")

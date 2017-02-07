@@ -16,17 +16,16 @@
     (client/check-elastic-status) => true)
 
   (fact "Should set index analyzer settings"
-    ;; Initialize an index to put settings into:
-    (http/put (str (:elastic-url env) "/hakukohde_test/hakukohde_test/10000") {:body "{}"})
-    (client/update-index-settings "hakukohde" conf/analyzer-settings) => true
-    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
+        ;; Initialize an index to put settings into:
+        (client/initialize-index-settings) => true
+        (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
               {:as :json})]
       (get-in res [:body :hakukohde_test :settings :index :analysis])
         => (:analysis conf/analyzer-settings)))
 
   (fact "Should set index stemmer settings"
-    (client/update-index-mappings "hakukohde" "hakukohde" conf/stemmer-settings) => true
-    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
+        (client/initialize-index-mappings) => true
+        (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
               {:as :json})]
       (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 
