@@ -39,6 +39,7 @@
   (elastic-client/delete-index "haku")
   (elastic-client/delete-index "koulutus")
   (elastic-client/delete-index "indexdata")
+  (elastic-client/delete-index "organisaatio")
   (elastic-client/delete-index "lastindex"))
 
 (defn parse-args
