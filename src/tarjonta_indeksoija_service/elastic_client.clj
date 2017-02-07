@@ -48,6 +48,7 @@
     (esi/delete conn (index-name index))))
 
 (defn- create-index [index]
+  (log/info "Creating index" index)
   (http/put (str (:elastic-url env) "/" (index-name index) "/" (index-name index) "/init") {:body "{}"})
   (http/delete (str (:elastic-url env) "/" (index-name index) "/" (index-name index) "/init")))
 
@@ -67,6 +68,7 @@
 
 (defn- update-index-mappings
   [index type]
+  (log/info "Creating mappings for" index type)
   (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
     (try
       (-> url
