@@ -3,9 +3,9 @@
 (defn- extract-koodi
   [value]
   {:uri  (:uri value)
-   :nimi {:fi (get-in value [:meta :kieli_fi :nimi])
-          :sv (get-in value [:meta :kieli_sv :nimi])
-          :en (get-in value [:meta :kieli_en :nimi])}})
+   :nimi {:kieli_fi (get-in value [:meta :kieli_fi :nimi])
+          :kieli_sv (get-in value [:meta :kieli_sv :nimi])
+          :kieli_en (get-in value [:meta :kieli_en :nimi])}})
 
 (defn- extract-koodi-list
   [value path-to-koodi-list]

@@ -18,9 +18,9 @@
                                                   :versio      1
                                                   :nimi        "Korkeakoulutus"}}}}
       expected-koodi {:koulutustyyppi {:uri  "koulutustyyppi_3"
-                                       :nimi {:fi "Korkeakoulutus"
-                                              :sv "Högskoleexamen"
-                                              :en nil}}}
+                                       :nimi {:kieli_fi "Korkeakoulutus"
+                                              :kieli_sv "Högskoleexamen"
+                                              :kieli_en nil}}}
 
       koodi-list {:opetuskielis {:versio 1
                                  :meta   {:kieli_fi {:uri    "kieli_fi"
@@ -64,13 +64,13 @@
                                  :uris   {:kieli_fi 1
                                           :kieli_sv 1}}}
       expected-koodi-list {:opetuskielis [{:uri  "kieli_fi"
-                                           :nimi {:fi "suomi"
-                                                  :sv "finska"
-                                                  :en "Finnish"}},
+                                           :nimi {:kieli_fi "suomi"
+                                                  :kieli_sv "finska"
+                                                  :kieli_en "Finnish"}},
                                           {:uri  "kieli_sv"
-                                           :nimi {:fi "ruotsi"
-                                                  :sv "svenska"
-                                                  :en "Swedish"}}]}
+                                           :nimi {:kieli_fi "ruotsi"
+                                                  :kieli_sv "svenska"
+                                                  :kieli_en "Swedish"}}]}
 
 
       kuvaus {:kuvausKomo {:JATKOOPINTO_MAHDOLLISUUDET {:versio  1
@@ -240,29 +240,29 @@
                                                         :kieli_en 1}}}}
       expected-kielivalikoima {:kielivalikoima {
                                                 :B2KIELI [{:uri "kieli_la"
-                                                           :nimi {:fi "latina"
-                                                                  :sv "latin"
-                                                                  :en "Latin"}}]
+                                                           :nimi {:kieli_fi "latina"
+                                                                  :kieli_sv "latin"
+                                                                  :kieli_en "Latin"}}]
                                                 :B3KIELI [{:uri "kieli_es"
-                                                           :nimi {:fi "espanja"
-                                                                  :sv "spanska"
-                                                                  :en "Spanish"}}
+                                                           :nimi {:kieli_fi "espanja"
+                                                                  :kieli_sv "spanska"
+                                                                  :kieli_en "Spanish"}}
                                                           {:uri "kieli_de"
-                                                           :nimi {:fi "saksa"
-                                                                  :sv "tyska"
-                                                                  :en "German"}}]
+                                                           :nimi {:kieli_fi "saksa"
+                                                                  :kieli_sv "tyska"
+                                                                  :kieli_en "German"}}]
                                                 :A1A2KIELI [{:uri "kieli_de"
-                                                             :nimi {:fi "saksa"
-                                                                    :sv "tyska"
-                                                                    :en "German"}}]
+                                                             :nimi {:kieli_fi "saksa"
+                                                                    :kieli_sv "tyska"
+                                                                    :kieli_en "German"}}]
                                                 :B1KIELI [{:uri "kieli_sv"
-                                                           :nimi {:fi "ruotsi"
-                                                                  :sv "svenska"
-                                                                  :en "Swedish"}}
+                                                           :nimi {:kieli_fi "ruotsi"
+                                                                  :kieli_sv "svenska"
+                                                                  :kieli_en "Swedish"}}
                                                           {:uri "kieli_en"
-                                                           :nimi {:fi "englanti"
-                                                                  :sv "engelska"
-                                                                  :en "English"}}]}}
+                                                           :nimi {:kieli_fi "englanti"
+                                                                  :kieli_sv "engelska"
+                                                                  :kieli_en "English"}}]}}
       valmistava-koulutus {:valmistavaKoulutus {:kuvaus {:KOHDERYHMA {:versio 1,
                                                                       :meta {:kieli_fi {:kieliUri "kieli_fi",
                                                                                         :kieliVersio 1,
@@ -389,21 +389,21 @@
                                                          :opintojenMaksullisuus false,
                                                          :linkkiOpetussuunnitelmaan "",
                                                          :opetusmuodos [{:uri "opetusmuotokk_3"
-                                                                        :nimi {:fi "Monimuoto-opetus"
-                                                                               :sv "Flerformsundervisning"
-                                                                               :en "Blended learning"}}],
+                                                                        :nimi {:kieli_fi "Monimuoto-opetus"
+                                                                               :kieli_sv "Flerformsundervisning"
+                                                                               :kieli_en "Blended learning"}}],
                                                          :opetusAikas [{:uri "opetusaikakk_1"
-                                                                       :nimi {:fi "Päiväopetus"
-                                                                              :sv "Dagundervisning"
-                                                                              :en "Day time teaching"}}],
+                                                                       :nimi {:kieli_fi "Päiväopetus"
+                                                                              :kieli_sv "Dagundervisning"
+                                                                              :kieli_en "Day time teaching"}}],
                                                          :opetusPaikkas [{:uri "opetuspaikkakk_1"
-                                                                         :nimi {:fi "Lähiopetus"
-                                                                                :sv "Närundervisning"
-                                                                                :en "Contact teaching"}}],
+                                                                         :nimi {:kieli_fi "Lähiopetus"
+                                                                                :kieli_sv "Närundervisning"
+                                                                                :kieli_en "Contact teaching"}}],
                                                          :suunniteltuKestoTyyppi {:uri "suunniteltukesto_01",
-                                                                                  :nimi {:fi "vuotta",
-                                                                                         :sv "år",
-                                                                                         :en "years"}}}}]
+                                                                                  :nimi {:kieli_fi "vuotta",
+                                                                                         :kieli_sv "år",
+                                                                                         :kieli_en "years"}}}}]
   (facts "Converter"
     (fact
     "should convert values"
