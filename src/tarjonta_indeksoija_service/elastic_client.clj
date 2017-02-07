@@ -80,7 +80,7 @@
         false))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"]]
+  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku"]]
     (every? true? (doall (map #(update-index-mappings % %) index-names)))))
 
 (defn initialize-indices []
