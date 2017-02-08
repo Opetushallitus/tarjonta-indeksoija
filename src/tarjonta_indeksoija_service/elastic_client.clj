@@ -67,12 +67,12 @@
       (:acknowledged res))))
 
 (defn- update-index-mappings
-  [index type]
+  [index type settings]
   (log/info "Creating mappings for" index type)
   (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
     (try
       (-> url
-          (client/put {:body (generate-string conf/stemmer-settings) :as :json})
+          (client/put {:body (generate-string settings) :as :json})
           :body
           :acknowledged)
       (catch Exception e
@@ -81,11 +81,12 @@
 
 (defn initialize-index-mappings []
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku"]]
-    (every? true? (doall (map #(update-index-mappings % %) index-names)))))
+    (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
   (and (initialize-index-settings)
-       (initialize-index-mappings)))
+       (initialize-index-mappings)
+       (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
 
 (defn get-by-id
   [index type id]
@@ -109,7 +110,7 @@
   []
   (let [conn (esr/connect (:elastic-url env))]
     (try
-      (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 10000)
+      (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 1000)
            :hits
            :hits
            (map :_source))

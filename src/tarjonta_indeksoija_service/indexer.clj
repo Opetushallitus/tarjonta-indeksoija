@@ -42,7 +42,6 @@
 
 (defn get-coverted-doc
   [obj]
-  (log/info "Indexing" (:type obj) (:oid obj))
   (try
     (let [doc (get-doc obj)
           converted-doc (convert-doc (:type obj) doc)]
@@ -50,12 +49,17 @@
     (catch Exception e (log/error e))))
 
 (defn end-indexing
-  [oids last-timestamp]
-  (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
+  [oids last-timestamp start]
+  (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.\nIndexed"
+            (count oids)
+            "objects in"
+            (int (/ (- (System/currentTimeMillis) start) 1000))
+            "seconds.")
   (elastic-client/delete-handled-queue oids last-timestamp)
   (elastic-client/refresh-index "indexdata"))
 
 (defn index-objects [objects]
+  (log/info "Indexing" (count objects) "items")
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
@@ -67,13 +71,15 @@
 
 (defn do-index
   []
-  (let [queue (elastic-client/get-queue)]
+  (let [queue (elastic-client/get-queue)
+        now (System/currentTimeMillis)]
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
         (index-objects (doall (pmap get-coverted-doc queue)))
         (end-indexing (map :oid queue)
-                      (apply max (map :timestamp queue)))))))
+                      (apply max (map :timestamp queue))
+                      now)))))
 
 (defn start-indexing
   []

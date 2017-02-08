@@ -59,3 +59,12 @@
                              :match_mapping_type "string"
                              :mapping {:type "string"
                                        :analyzer "english"}}}]})
+
+(def indexdata-mappings
+  {:properties {:oid {:type "text"
+                                             :fields {:keyword {:type "keyword"
+                                                                :ignore_above 256}}}
+                                       :timestamp {:type "long"}
+                                       :type {:type "text"
+                                              :fields {:keyword {:type "keyword"
+                                                                 :ignore_above 256}}}}})
