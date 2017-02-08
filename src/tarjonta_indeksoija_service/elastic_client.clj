@@ -26,7 +26,7 @@
         :status
         (= 200))
     (catch Exception e
-      (log/error (str "Elastic search error: "(.getMessage e)))
+      (log/error (str "Elastic search error: " (.getMessage e)))
       false)))
 
 (defn index-name
@@ -76,7 +76,7 @@
           :body
           :acknowledged)
       (catch Exception e
-        (log/error (str "Elastic search error: "(.getMessage e)))
+        (log/error (str "Elastic search error: " (.getMessage e)))
         false))))
 
 (defn initialize-index-mappings []
@@ -110,10 +110,10 @@
   (let [conn (esr/connect (:elastic-url env))]
     (try
       (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 10000)
-          :hits
-          :hits
-          (map :_source))
-      (catch Exception e [])))) ;; TODO: fixme
+           :hits
+           :hits
+           (map :_source))
+      (catch Exception e []))))                             ;; TODO: fixme
 
 (defn get-hakukohteet-by-koulutus
   [koulutus-oid]
@@ -144,15 +144,15 @@
 
 (defn- upsert-doc
   [doc type now]
-  {:doc (assoc (dissoc doc :_index :_type) :timestamp now :tyyppi type)
+  {:doc           (assoc (dissoc doc :_index :_type) :timestamp now)
    :doc_as_upsert true})
 
 (defn- bulk-upsert-data
   [index type documents]
   (let [operations (map #(upsert-operation % index type) documents)
         now (System/currentTimeMillis)
-        documents  (map #(upsert-doc % type now) documents)]
-   (interleave operations documents)))
+        documents (map #(upsert-doc % type now) documents)]
+    (interleave operations documents)))
 
 (defn bulk-upsert
   [index type documents]
@@ -212,7 +212,7 @@
     (delete-by-query* conn
                       (index-name "indexdata")
                       (index-name "indexdata")
-                      {:bool {:must {:ids {:values (map str oids)}}
+                      {:bool {:must   {:ids {:values (map str oids)}}
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
 ;; TODO merge with get-queue
@@ -224,4 +224,4 @@
            :hits
            :hits
            (map :_source))
-      (catch Exception e [])))) ;; TODO: fixme
+      (catch Exception e []))))                             ;; TODO: fixme

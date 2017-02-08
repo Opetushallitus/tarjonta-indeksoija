@@ -40,20 +40,13 @@
     (= (:type obj) "hakukohde") (tarjonta-client/get-doc obj)
     (= (:type obj) "haku") (tarjonta-client/get-doc obj)))
 
-(defn index-object
+(defn get-coverted-doc
   [obj]
   (log/info "Indexing" (:type obj) (:oid obj))
   (try
     (let [doc (get-doc obj)
-          converted-doc (convert-doc (:type obj) doc)
-          res (elastic-client/bulk-upsert (:type obj) (:type obj) [converted-doc])
-          errors (:errors res)
-          status (:result (:update (first (:items res))))]
-      (if errors
-        (log/error (str "Indexing failed for "
-                        (clojure.string/capitalize (:type obj)) " " (:oid obj)
-                        "\n" errors))
-        (log/info (str (clojure.string/capitalize (:type obj)) " " (:oid obj) " " status " succesfully."))))
+          converted-doc (convert-doc (:type obj) doc)]
+      (assoc converted-doc :tyyppi (:type obj)))
     (catch Exception e (log/error e))))
 
 (defn end-indexing
@@ -62,13 +55,23 @@
   (elastic-client/delete-handled-queue oids last-timestamp)
   (elastic-client/refresh-index "indexdata"))
 
+(defn index-objects [objects]
+  (let [docs-by-type (group-by :tyyppi objects)
+        res (doall (map (fn [[type docs]]
+                          (elastic-client/bulk-upsert type type docs)) docs-by-type))
+        errors (:errors res)
+        status (:result (:update (first (:items res))))]
+    (when errors
+      (log/error (str "Indexing failed\n" errors)))))
+
+
 (defn do-index
   []
   (let [queue (elastic-client/get-queue)]
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
-        (doall (pmap index-object queue))
+        (index-objects (doall (pmap get-coverted-doc queue)))
         (end-indexing (map :oid queue)
                       (apply max (map :timestamp queue)))))))
 
@@ -104,7 +107,7 @@
                   (t/with-schedule
                     (schedule (cron-schedule (:cron-string env)))))]
     (log/info (str "Starting indexer with cron schedule " (:cron-string env))
-     (qs/schedule job-pool job trigger))))
+              (qs/schedule job-pool job trigger))))
 
 (defn reset-jobs
   []

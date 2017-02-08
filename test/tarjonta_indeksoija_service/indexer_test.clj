@@ -12,13 +12,13 @@
   (fact "Indexer should save hakukohde"
     (let [oid "1.2.246.562.20.99178639649"]
       (mock/with-tarjonta-mock
-        (indexer/index-object {:oid oid :type "hakukohde"}))
+        (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "hakukohde"})]))
       (elastic-client/get-hakukohde oid) => (contains {:oid oid})))
 
   (fact "Indexer should save koulutus"
     (let [oid "1.2.246.562.17.81687174185"]
       (mock/with-tarjonta-mock
-        (indexer/index-object {:oid oid :type "koulutus"}))
+        (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "koulutus"})]))
       (let [indexed-koulutus (elastic-client/get-koulutus oid)]
         indexed-koulutus => (contains {:oid oid})
         (get-in indexed-koulutus [:koulutuskoodi :uri]) => "koulutus_371101"
@@ -28,7 +28,7 @@
   (fact "Indexer should save organisaatio"
         (let [oid "1.2.246.562.10.39920288212"]
           (mock/with-organisaatio-mock
-            (indexer/index-object {:oid oid :type "organisaatio"}))
+            (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "organisaatio"})]))
           (elastic-client/get-organisaatio oid) => (contains {:oid oid})))
 
   (fact "Indexer should start scheduled indexing and index objects"
