@@ -152,9 +152,5 @@
       (route/resources "/tarjonta-indeksoija/"))))
 
 (def app
-  (let [service (logger.timbre/wrap-with-logger service-api)]
-    (if (Boolean/valueOf (:test environ.core/env))
-      (wrap-cors service
-                 :access-control-allow-origin #".*"
-                 :access-control-allow-methods [:get :post :put :delete])
-      service)))
+  (-> service-api
+      logger.timbre/wrap-with-logger))
