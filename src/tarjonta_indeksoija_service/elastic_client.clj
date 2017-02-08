@@ -143,15 +143,15 @@
   {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
 
 (defn- upsert-doc
-  [doc now]
-  {:doc (assoc (dissoc doc :_index :_type) :timestamp now)
+  [doc type now]
+  {:doc (assoc (dissoc doc :_index :_type) :timestamp now :tyyppi type)
    :doc_as_upsert true})
 
 (defn- bulk-upsert-data
   [index type documents]
   (let [operations (map #(upsert-operation % index type) documents)
         now (System/currentTimeMillis)
-        documents  (map #(upsert-doc % now) documents)]
+        documents  (map #(upsert-doc % type now) documents)]
    (interleave operations documents)))
 
 (defn bulk-upsert
@@ -215,3 +215,13 @@
                       {:bool {:must {:ids {:values (map str oids)}}
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
+;; TODO merge with get-queue
+(defn text-search [index query]
+  (let [conn (esr/connect (:elastic-url env))]
+    (try
+      (->> (esd/search conn (index-name index) (index-name index)
+                       :query (q/match "_all" query))
+           :hits
+           :hits
+           (map :_source))
+      (catch Exception e [])))) ;; TODO: fixme

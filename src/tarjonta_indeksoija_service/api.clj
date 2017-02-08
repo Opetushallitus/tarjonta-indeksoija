@@ -54,6 +54,9 @@
      :hakukohteet hakukohteet
      :organisaatiot organisaatiot}))
 
+(defn search [query]
+  (elastic-client/text-search "koulutus,hakukohde,haku,organisaatio" query))
+
 (def service-api
   (api
     {:swagger {:ui   "/tarjonta-indeksoija"
@@ -138,7 +141,12 @@
         (GET "/koulutus/:oid" []
           :summary "Koostaa koulutuksen sekä siihen liittyien hakukohteiden ja hakujen tiedot."
           :path-params [oid :- String]
-          (ok {:result (get-koulutus-tulos oid)}))))
+          (ok {:result (get-koulutus-tulos oid)}))
+
+        (GET "/search" []
+          :summary "Tekstihaku."
+          :query-params [query :- String]
+          (ok {:result (search query)}))))
 
     (undocumented
       (route/resources "/tarjonta-indeksoija/"))))
