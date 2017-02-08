@@ -58,7 +58,7 @@
 (defn initialize-index-settings
   []
   (let [conn (esr/connect (:elastic-url env))
-        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex"]
+        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "searchdata"]
         index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
@@ -80,7 +80,7 @@
         false))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku"]]
+  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "searchdata"]]
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
@@ -217,12 +217,13 @@
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
 ;; TODO merge with get-queue
-(defn text-search [index query]
+(defn text-search [query]
   (let [conn (esr/connect (:elastic-url env))]
     (try
-      (->> (esd/search conn (index-name index) (index-name index)
-                       :query (q/match "_all" query))
+      (->> (esd/search conn "searchdata" "searchdata"
+                       :query {:match {:_all query}})
            :hits
            :hits
-           (map :_source))
+           (map :_source)
+           (map #(dissoc % :search-data)))
       (catch Exception e []))))                             ;; TODO: fixme

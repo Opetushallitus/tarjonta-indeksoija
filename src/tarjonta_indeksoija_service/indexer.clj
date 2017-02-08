@@ -63,10 +63,30 @@
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
-        errors (:errors res)
-        status (:result (:update (first (:items res))))]
+        errors (:errors res)]
     (when errors
       (log/error (str "Indexing failed\n" errors)))))
+
+
+(defn- create-hakutulos [koulutus hakukohteet haut organisaatio]
+  {:search-data {:koulutus     koulutus
+                 :hakukohde    hakukohteet
+                 :organisaatio organisaatio
+                 :haku         haut}
+   :oid         (:oid koulutus)
+   :nimi        (get-in koulutus [:koulutuskoodi :nimi])})
+
+(defn- create-hakutulos-koulutus [oid]
+  (let [koulutus (elastic-client/get-koulutus oid)
+        orgoid (get-in koulutus [:organisaatio :oid])
+        organisaatio (elastic-client/get-organisaatio orgoid)
+        hakukohteet (elastic-client/get-hakukohteet-by-koulutus oid)
+        haut (->> hakukohteet
+                  (map :hakuOid)
+                  distinct
+                  (map #(elastic-client/get-haku %)))]
+    (create-hakutulos koulutus hakukohteet haut organisaatio)))
+
 
 
 (defn do-index
@@ -77,6 +97,14 @@
       (log/debug "Nothing to index.")
       (do
         (index-objects (doall (pmap get-coverted-doc queue)))
+        (try
+          (let
+            [oids (->> queue
+                       (filter #(= "koulutus" (:type %)))
+                       (map :oid))
+             docs (map create-hakutulos-koulutus oids)]
+            (elastic-client/bulk-upsert "searchdata" "searchdata" docs))
+          (catch Exception e (log/error e)))
         (end-indexing (map :oid queue)
                       (apply max (map :timestamp queue))
                       now)))))
