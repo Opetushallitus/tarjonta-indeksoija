@@ -37,7 +37,7 @@
           :suunniteltuKestoTyyppi (koodi (:suunniteltuKestoTyyppi value))}
          (select-keys value [:suunniteltuKestoArvo :hintaString :hinta :opintojenMaksullisuus :linkkiOpetussuunnitelmaan])))
 
-(def map-field-to-converter {:version               value
+(def map-field-to-converter {:version                      value
                              :modified                     value
                              :modifiedBy                   value
                              :nimi                         value

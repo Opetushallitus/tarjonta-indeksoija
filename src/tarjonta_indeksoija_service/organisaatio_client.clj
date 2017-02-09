@@ -1,17 +1,17 @@
 (ns tarjonta-indeksoija-service.organisaatio-client
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [clj-http.client :as client]
             [clojure.string :as str]
             [taoensso.timbre :as log]))
 
 (defn get-doc
   [obj]
-  (try
+  (with-error-logging
     (let [url (str (:organisaatio-service-url env) (:oid obj))
           params {:includeImage false}]
       (-> (client/get url {:query-params params :as :json})
-          :body))
-    (catch Exception e (log/error e))))
+          :body))))
 
 (defn- extract-docs [result]
   (->> result
@@ -24,8 +24,7 @@
 
 (defn find-docs
   [params]
-  (try
+  (with-error-logging
     (let [params-with-defaults (merge {:aktiiviset true :suunnitellut true :lakkautetut true} params)
           url (str (:organisaatio-service-url env) "v2/hae")]
-      (extract-docs (client/get url {:query-params params-with-defaults, :as :json})))
-    (catch Exception e (log/error e))))
+      (extract-docs (client/get url {:query-params params-with-defaults, :as :json})))))

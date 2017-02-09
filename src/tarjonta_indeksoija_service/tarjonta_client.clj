@@ -1,5 +1,6 @@
 (ns tarjonta-indeksoija-service.tarjonta-client
   (:require [tarjonta-indeksoija-service.conf :refer [env]]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [clj-http.client :as client]
             [taoensso.timbre :as log]))
 
@@ -12,12 +13,11 @@
 
 (defn get-doc
   [obj]
-  (try
+  (with-error-logging
     (let [url (get-url (:type obj) (:oid obj))]
       (-> (client/get url {:as :json})
           :body
-          :result))
-    (catch Exception e (log/error e))))
+          :result))))
 
 (defn- extract-koulutus-hakukohde-docs
   [type result]
@@ -54,14 +54,10 @@
 
 (defn get-last-modified
   [since]
-  (try
+  (with-error-logging
     (let [url (str (:tarjonta-service-url env) "lastmodified")
           res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
       (flatten
         (conj
           (map #(hash-map :type "haku" :oid %) (:haku res))
-          (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res)))))
-    (catch Exception e
-      (do
-        (log/error e)
-        []))))
+          (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res)))))))

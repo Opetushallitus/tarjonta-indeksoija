@@ -5,6 +5,7 @@
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [taoensso.timbre :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
@@ -42,14 +43,13 @@
 
 (defn get-coverted-doc
   [obj]
-  (try
+  (with-error-logging
     (let [doc (get-doc obj)]
       (if (nil? doc)
         (log/error "Couldn't fetch " (:type obj) "oid:" (:oid obj))
         (-> doc
             (convert-doc (:type obj))
-            (assoc :tyyppi (:type obj)))))
-    (catch Exception e (log/error e))))
+            (assoc :tyyppi (:type obj)))))))
 
 (defn end-indexing
   [oids last-timestamp start]
@@ -92,14 +92,13 @@
 
 (defn- create-search-data
   [queue]
-  (try
+  (with-error-logging
     (let
       [oids (->> queue
             (filter #(= "koulutus" (:type %)))
             (map :oid))
        docs (map create-hakutulos-koulutus oids)]
-      (elastic-client/bulk-upsert "searchdata" "searchdata" docs))
-    (catch Exception e (log/error e))))
+      (elastic-client/bulk-upsert "searchdata" "searchdata" docs))))
 
 (defn do-index
   []
@@ -127,13 +126,13 @@
 
 (defjob indexing-job
   [ctx]
-  (try
+  (with-error-logging
     (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
           now (System/currentTimeMillis)]
-      (elastic-client/upsert-indexdata last-modified)
-      (elastic-client/set-last-index-time now)
-      (start-indexing))
-    (catch Exception e (log/error e))))
+      (when-not (nil? last-modified)
+        (elastic-client/upsert-indexdata last-modified)
+        (elastic-client/set-last-index-time now)
+        (start-indexing)))))
 
 (defn start-indexer-job
   []
@@ -164,4 +163,4 @@
         (reset-jobs)
         "Stopped all jobs and reseted pool."))
     (catch ObjectAlreadyExistsException e "Indexer already running.")
-    (catch Exception e (str "Caught exception: " (.getMessage e)))))
+    (catch Exception e)))

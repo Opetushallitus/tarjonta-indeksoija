@@ -1,5 +1,6 @@
 (ns tarjonta-indeksoija-service.elastic-client
   (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [environ.core]
             [clj-http.client :as http]
             [taoensso.timbre :as log]
@@ -17,16 +18,13 @@
 
 (defn check-elastic-status
   []
-  (try
+  (with-error-logging
     (-> (:elastic-url env)
         esr/connect
         esr/cluster-state-url
         http/get
         :status
-        (= 200))
-    (catch Exception e
-      (log/error (str "Elastic search error: " (.getMessage e)))
-      false)))
+        (= 200))))
 
 (defn index-name
   [name]
@@ -69,14 +67,11 @@
   [index type settings]
   (log/info "Creating mappings for" index type)
   (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
-    (try
+    (with-error-logging
       (-> url
           (http/put {:body (generate-string settings) :as :json})
           :body
-          :acknowledged)
-      (catch Exception e
-        (log/error (str "Elastic search error: " (.getMessage e)))
-        false))))
+          :acknowledged))))
 
 (defn initialize-index-mappings []
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "searchdata"]]
@@ -108,12 +103,11 @@
 (defn get-queue
   []
   (let [conn (esr/connect (:elastic-url env))]
-    (try
+    (with-error-logging
       (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 1000)
            :hits
            :hits
-           (map :_source))
-      (catch Exception e []))))                             ;; TODO: fixme
+           (map :_source)))))
 
 (defn get-hakukohteet-by-koulutus
   [koulutus-oid]
@@ -218,11 +212,10 @@
 ;; TODO merge with get-queue
 (defn text-search [query]
   (let [conn (esr/connect (:elastic-url env))]
-    (try
+    (with-error-logging
       (->> (esd/search conn "searchdata" "searchdata"
                        :query {:match {:_all query}})
            :hits
            :hits
            (map :_source)
-           (map #(dissoc % :search-data)))
-      (catch Exception e []))))                             ;; TODO: fixme
+           (map #(dissoc % :search-data))))))

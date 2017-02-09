@@ -31,7 +31,7 @@
 
   (facts "Index queue"
     (fact "Should be empty"
-      (client/get-queue) => ())
+      (client/get-queue) => nil)
 
     (fact "should get queue"
       (:errors (client/upsert-indexdata (dummy-indexdata))) => false
@@ -51,7 +51,7 @@
 
     (fact "should avoid race condition"
       (client/delete-index "indexdata")
-      (client/get-queue) => ()
+      (client/get-queue) => nil
       (:errors (client/upsert-indexdata (dummy-indexdata :amount 1))) => false
       (:errors (client/upsert-indexdata (dummy-indexdata :amount 1 :id-offset 1000))) => false
       (client/refresh-index "indexdata")
