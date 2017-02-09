@@ -3,13 +3,17 @@
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.indexer :as indexer]))
 
-(defn parse-body
-  [body]
-  (:result (cheshire/parse-string (slurp body) true)))
-
 (defn parse
   [body]
-  (cheshire/parse-string (slurp body) true))
+  (try
+    (cheshire/parse-string (slurp body) true)
+    (catch Exception e nil)))
+
+(defn parse-body
+  [body]
+  (-> body
+      parse
+      :result))
 
 (defn block-until-indexed
   [timeout]

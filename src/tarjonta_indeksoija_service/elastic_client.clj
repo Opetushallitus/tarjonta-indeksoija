@@ -1,7 +1,7 @@
 (ns tarjonta-indeksoija-service.elastic-client
   (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
             [environ.core]
-            [clj-http.client :as client]
+            [clj-http.client :as http]
             [taoensso.timbre :as log]
             [cheshire.core :refer [generate-string]]
             [clojurewerkz.elastisch.rest.bulk :as bulk]
@@ -12,8 +12,7 @@
             [clojurewerkz.elastisch.query :as q]
             [clojurewerkz.elastisch.rest.response :as esrsp]
             [clojurewerkz.elastisch.rest :as rest]
-            [clojurewerkz.elastisch.arguments :as ar]
-            [clj-http.client :as http])
+            [clojurewerkz.elastisch.arguments :as ar])
   (:import (clojurewerkz.elastisch.rest Connection)))
 
 (defn check-elastic-status
@@ -22,7 +21,7 @@
     (-> (:elastic-url env)
         esr/connect
         esr/cluster-state-url
-        client/get
+        http/get
         :status
         (= 200))
     (catch Exception e
@@ -36,7 +35,7 @@
 (defn refresh-index
   [index]
   (try
-    (client/post (str (:elastic-url env) "/" (index-name index) "/_refresh"))
+    (http/post (str (:elastic-url env) "/" (index-name index) "/_refresh"))
     (catch Exception e
       (if (Boolean/valueOf (:test environ.core/env))
         (log/info (str "Refreshing index " index " failed, continuing test."))
@@ -72,7 +71,7 @@
   (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
     (try
       (-> url
-          (client/put {:body (generate-string settings) :as :json})
+          (http/put {:body (generate-string settings) :as :json})
           :body
           :acknowledged)
       (catch Exception e

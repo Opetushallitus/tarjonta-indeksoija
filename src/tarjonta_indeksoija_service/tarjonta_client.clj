@@ -12,10 +12,12 @@
 
 (defn get-doc
   [obj]
-  (let [url (get-url (:type obj) (:oid obj))]
-    (-> (client/get url {:as :json})
-        :body
-        :result)))
+  (try
+    (let [url (get-url (:type obj) (:oid obj))]
+      (-> (client/get url {:as :json})
+          :body
+          :result))
+    (catch Exception e (log/error e))))
 
 (defn- extract-koulutus-hakukohde-docs
   [type result]

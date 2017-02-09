@@ -15,7 +15,7 @@
 (def running? (atom false :error-handler #(log/error %)))
 
 (defn convert-doc
-  [type doc]
+  [doc type]
   (cond
     (.contains type "koulutus") (koulutus-converter/convert doc)
     (.contains type "hakukohde") (hakukohde-converter/convert doc)
@@ -43,9 +43,12 @@
 (defn get-coverted-doc
   [obj]
   (try
-    (let [doc (get-doc obj)
-          converted-doc (convert-doc (:type obj) doc)]
-      (assoc converted-doc :tyyppi (:type obj)))
+    (let [doc (get-doc obj)]
+      (if (nil? doc)
+        (log/error "Couldn't fetch " (:type obj) "oid:" (:oid obj))
+        (-> doc
+            (convert-doc (:type obj))
+            (assoc :tyyppi (:type obj)))))
     (catch Exception e (log/error e))))
 
 (defn end-indexing
@@ -87,7 +90,16 @@
                   (map #(elastic-client/get-haku %)))]
     (create-hakutulos koulutus hakukohteet haut organisaatio)))
 
-
+(defn- create-search-data
+  [queue]
+  (try
+    (let
+      [oids (->> queue
+            (filter #(= "koulutus" (:type %)))
+            (map :oid))
+       docs (map create-hakutulos-koulutus oids)]
+      (elastic-client/bulk-upsert "searchdata" "searchdata" docs))
+    (catch Exception e (log/error e))))
 
 (defn do-index
   []
@@ -96,15 +108,8 @@
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
-        (index-objects (doall (pmap get-coverted-doc queue)))
-        (try
-          (let
-            [oids (->> queue
-                       (filter #(= "koulutus" (:type %)))
-                       (map :oid))
-             docs (map create-hakutulos-koulutus oids)]
-            (elastic-client/bulk-upsert "searchdata" "searchdata" docs))
-          (catch Exception e (log/error e)))
+        (index-objects (remove nil? (doall (pmap get-coverted-doc queue))))
+        (create-search-data queue)
         (end-indexing (map :oid queue)
                       (apply max (map :timestamp queue))
                       now)))))
