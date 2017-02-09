@@ -12,7 +12,6 @@
             [mount.core :as mount]
             [taoensso.timbre :as timbre]
             [ring.logger.timbre :as logger.timbre]
-            [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.exception :as ex]
             [environ.core]))
 

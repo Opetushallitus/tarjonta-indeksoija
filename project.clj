@@ -15,7 +15,6 @@
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
-                 [ring-cors "0.1.9"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]
@@ -37,7 +36,7 @@
                              [jonase/eastwood "0.2.3"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
-                             [lein-cloverage "1.0.9"]]
+                             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
