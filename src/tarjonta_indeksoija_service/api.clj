@@ -5,6 +5,7 @@
             [tarjonta-indeksoija-service.indexer :as indexer]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [compojure.api.sweet :refer :all]
             [compojure.route :as route]
             [ring.util.http-response :refer :all]
@@ -41,17 +42,18 @@
 
 (defn get-koulutus-tulos
   [koulutus-oid]
-  (let [koulutus (#(assoc {} (:oid %) %) (elastic-client/get-koulutus koulutus-oid))
-        hakukohteet-list (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
-        hakukohteet (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec hakukohteet-list))
-        haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
-        haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
-        organisaatiot-list (#(assoc {} (:oid %) %)  (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
-        organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))]
-    {:koulutus koulutus
-     :haut haut
-     :hakukohteet hakukohteet
-     :organisaatiot organisaatiot}))
+  (with-error-logging
+    (let [koulutus (#(assoc {} (:oid %) %) (elastic-client/get-koulutus koulutus-oid))
+          hakukohteet-list (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
+          hakukohteet (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec hakukohteet-list))
+          haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
+          haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
+          organisaatiot-list (#(assoc {} (:oid %) %)  (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
+          organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))]
+      {:koulutus koulutus
+       :haut haut
+       :hakukohteet hakukohteet
+       :organisaatiot organisaatiot})))
 
 (def service-api
   (api

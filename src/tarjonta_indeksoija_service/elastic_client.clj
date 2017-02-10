@@ -36,7 +36,7 @@
     (http/post (str (:elastic-url env) "/" (index-name index) "/_refresh"))
     (catch Exception e
       (if (Boolean/valueOf (:test environ.core/env))
-        (log/info (str "Refreshing index " index " failed, continuing test."))
+        (log/info "Refreshing index" index "failed, continuing test.")
         (log/error e)))))
 
 (defn delete-index
@@ -84,9 +84,10 @@
 
 (defn get-by-id
   [index type id]
-  (let [conn (esr/connect (:elastic-url env))
-        res (esd/get conn (index-name index) (index-name type) id)]
-    (:_source res)))
+  (with-error-logging
+    (let [conn (esr/connect (:elastic-url env))
+          res (esd/get conn (index-name index) (index-name type) id)]
+      (:_source res))))
 
 (defmacro get-hakukohde [oid]
   `(get-by-id "hakukohde" "hakukohde" ~oid))
@@ -150,9 +151,10 @@
 
 (defn bulk-upsert
   [index type documents]
-  (let [conn (esr/connect (:elastic-url env))
-        data (bulk-upsert-data index type documents)]
-    (bulk/bulk conn data)))
+  (with-error-logging
+    (let [conn (esr/connect (:elastic-url env))
+          data (bulk-upsert-data index type documents)]
+      (bulk/bulk conn data))))
 
 (defmacro upsert-indexdata
   [docs]

@@ -32,25 +32,27 @@
 
 (defn- find-haku-docs
   [params]
-  (if (contains? params :oid)
-    [{:type "haku" :oid (:oid params)}]
-    (let [params-with-defaults (merge {:tarjoajaoid "1.2.246.562.10.00000000001"
-                                       :tila "NOT_POISTETTU"} params)
-          url (get-url "haku" "find")]
-      (->> (client/get url {:query-params params-with-defaults :as :json})
-           :body
-           :result
-           (map :oid)
-           (map #(assoc {} :type "haku" :oid %))))))
+  (with-error-logging
+    (if (contains? params :oid)
+      [{:type "haku" :oid (:oid params)}]
+      (let [params-with-defaults (merge {:tarjoajaoid "1.2.246.562.10.00000000001"
+                                         :tila "NOT_POISTETTU"} params)
+            url (get-url "haku" "find")]
+        (->> (client/get url {:query-params params-with-defaults :as :json})
+             :body
+             :result
+             (map :oid)
+             (map #(assoc {} :type "haku" :oid %)))))))
 
 (defn find-docs
   [type params]
-  (if (= type "haku")
-    (find-haku-docs params)
-    (let [params-with-defaults (merge {:TILA "NOT_POISTETTU"} params)
-          url (get-url type "search")]
-      (extract-koulutus-hakukohde-docs type
-        (client/get url {:query-params params-with-defaults, :as :json})))))
+  (with-error-logging
+    (if (= type "haku")
+      (find-haku-docs params)
+      (let [params-with-defaults (merge {:TILA "NOT_POISTETTU"} params)
+            url (get-url type "search")]
+        (extract-koulutus-hakukohde-docs type
+          (client/get url {:query-params params-with-defaults, :as :json}))))))
 
 (defn get-last-modified
   [since]
