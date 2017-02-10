@@ -55,7 +55,7 @@
 (defn initialize-index-settings
   []
   (let [conn (esr/connect (:elastic-url env))
-        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "searchdata"]
+        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex"]
         index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
@@ -74,7 +74,7 @@
           :acknowledged))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "searchdata"]]
+  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku"]]
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
