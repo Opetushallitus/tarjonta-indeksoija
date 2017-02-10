@@ -209,6 +209,10 @@
                       {:bool {:must   {:ids {:values (map str oids)}}
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
+(defn- create-hakutulos [koulutus]
+  {:oid         (:oid koulutus)
+   :nimi        (get-in koulutus [:koulutuskoodi :nimi])})
+
 (defn text-search [query]
   (let [conn (esr/connect (:elastic-url env))]
     (with-error-logging
@@ -217,4 +221,4 @@
            :hits
            :hits
            (map :_source)
-           (map #(dissoc % :searchData))))))
+           (map create-hakutulos)))))
