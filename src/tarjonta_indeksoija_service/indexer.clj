@@ -15,10 +15,21 @@
 
 (def running? (atom false :error-handler #(log/error %)))
 
+(defn append-search-data
+  [koulutus]
+  (let [hakukohteet-raw (tarjonta-client/get-hakukohteet-for-koulutus (:oid koulutus))
+        hakukohteet (doall (map #(clojure.set/rename-keys % {:relatedOid :hakuOid}) hakukohteet-raw))
+        haut-raw (tarjonta-client/get-haut-by-oids (distinct (map :hakuOid hakukohteet)))
+        haut (doall (map #(dissoc % [:hakukohdeOidsYlioppilastutkintoAntaaHakukelpoisuuden
+                                     :hakukohdeOids]) haut-raw))]
+    (assoc koulutus :searchData {:hakukohteet hakukohteet :haut haut})))
+
 (defn convert-doc
   [doc type]
   (cond
-    (.contains type "koulutus") (koulutus-converter/convert doc)
+    (.contains type "koulutus") (->> doc
+                                     koulutus-converter/convert
+                                     append-search-data)
     (.contains type "hakukohde") (hakukohde-converter/convert doc)
     :else doc))
 
@@ -70,36 +81,6 @@
     (when errors
       (log/error (str "Indexing failed\n" errors)))))
 
-
-(defn- create-hakutulos [koulutus hakukohteet haut organisaatio]
-  {:search-data {:koulutus     koulutus
-                 :hakukohde    hakukohteet
-                 :organisaatio organisaatio
-                 :haku         haut}
-   :oid         (:oid koulutus)
-   :nimi        (get-in koulutus [:koulutuskoodi :nimi])})
-
-(defn- create-hakutulos-koulutus [oid]
-  (let [koulutus (elastic-client/get-koulutus oid)
-        orgoid (get-in koulutus [:organisaatio :oid])
-        organisaatio (elastic-client/get-organisaatio orgoid)
-        hakukohteet (elastic-client/get-hakukohteet-by-koulutus oid)
-        haut (->> hakukohteet
-                  (map :hakuOid)
-                  distinct
-                  (map #(elastic-client/get-haku %)))]
-    (create-hakutulos koulutus hakukohteet haut organisaatio)))
-
-(defn- create-search-data
-  [queue]
-  (with-error-logging
-    (let
-      [oids (->> queue
-            (filter #(= "koulutus" (:type %)))
-            (map :oid))
-       docs (map create-hakutulos-koulutus oids)]
-      (elastic-client/bulk-upsert "searchdata" "searchdata" docs))))
-
 (defn do-index
   []
   (let [queue (elastic-client/get-queue)
@@ -108,7 +89,6 @@
       (log/debug "Nothing to index.")
       (do
         (index-objects (remove nil? (doall (pmap get-coverted-doc queue))))
-        (create-search-data queue)
         (end-indexing (map :oid queue)
                       (apply max (map :timestamp queue))
                       now)))))

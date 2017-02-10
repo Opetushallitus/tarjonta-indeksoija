@@ -92,7 +92,7 @@
   `(get-by-id "hakukohde" "hakukohde" ~oid))
 
 (defmacro get-koulutus [oid]
-  `(get-by-id "koulutus" "koulutus" ~oid))
+  `(dissoc (get-by-id "koulutus" "koulutus" ~oid) :searchData))
 
 (defmacro get-haku [oid]
   `(get-by-id "haku" "haku" ~oid))
@@ -209,13 +209,12 @@
                       {:bool {:must   {:ids {:values (map str oids)}}
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
-;; TODO merge with get-queue
 (defn text-search [query]
   (let [conn (esr/connect (:elastic-url env))]
     (with-error-logging
-      (->> (esd/search conn "searchdata" "searchdata"
+      (->> (esd/search conn "koulutus" "koulutus"
                        :query {:match {:_all query}})
            :hits
            :hits
            (map :_source)
-           (map #(dissoc % :search-data))))))
+           (map #(dissoc % :searchData))))))
