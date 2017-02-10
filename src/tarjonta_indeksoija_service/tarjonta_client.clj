@@ -61,3 +61,19 @@
         (conj
           (map #(hash-map :type "haku" :oid %) (:haku res))
           (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res)))))))
+
+(defn get-hakukohteet-for-koulutus
+  [koulutus-oid]
+  (with-error-logging
+    (let [url (str (:tarjonta-service-url env) "koulutus/" koulutus-oid "/hakukohteet")]
+      (-> (client/get url {:as :json})
+          :body
+          :result))))
+
+(defn get-haut-by-oids
+  [oid-list]
+  (with-error-logging
+    (let [url (str (:tarjonta-service-url env) "haku/multi?oid=" (clojure.string/join "&oid=" oid-list))]
+      (-> (client/get url {:as :json})
+          :body
+          :result))))
