@@ -77,8 +77,8 @@
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
-        errors (:errors res)]
-    (when errors
+        errors (remove false? (map :errors res))]
+    (when-not (empty? errors)
       (log/error (str "Indexing failed\n" errors)))))
 
 (defn do-index
