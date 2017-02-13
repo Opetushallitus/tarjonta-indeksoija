@@ -68,3 +68,10 @@
                                        :type {:type "text"
                                               :fields {:keyword {:type "keyword"
                                                                  :ignore_above 256}}}}})
+
+(def boost-values
+  ["_all"
+   "*_fi^3"
+   "*_sv^3"
+   "*_en^3"
+   ])

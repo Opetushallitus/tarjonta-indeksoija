@@ -1,5 +1,5 @@
 (ns tarjonta-indeksoija-service.elastic-client
-  (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
+  (:require [tarjonta-indeksoija-service.conf :as conf :refer [env boost-values]]
             [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [environ.core]
             [clj-http.client :as http]
@@ -211,16 +211,20 @@
                       {:bool {:must   {:ids {:values (map str oids)}}
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
-(defn- create-hakutulos [koulutus]
-  {:oid         (:oid koulutus)
-   :nimi        (get-in koulutus [:koulutuskoodi :nimi])})
+(defn- create-hakutulos [koulutushakutulos]
+  (let [koulutus (:_source koulutushakutulos)
+        score (:_score koulutushakutulos)]
+  {:score       score
+   :oid         (:oid koulutus)
+   :nimi        (get-in koulutus [:koulutuskoodi :nimi])
+   :tarjoaja    (get-in koulutus [:organisaatio :nimi])}))
 
 (defn text-search [query]
   (let [conn (esr/connect (:elastic-url env))]
     (with-error-logging
       (->> (esd/search conn "koulutus" "koulutus"
-                       :query {:match {:_all query}})
+                       :query {:multi_match {:query query :fields boost-values}})
            :hits
            :hits
-           (map :_source)
            (map create-hakutulos)))))
+
