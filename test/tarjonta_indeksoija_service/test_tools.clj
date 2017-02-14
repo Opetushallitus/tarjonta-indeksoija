@@ -44,6 +44,8 @@
   (elastic-client/delete-index "koulutus")
   (elastic-client/delete-index "indexdata")
   (elastic-client/delete-index "organisaatio")
+  (elastic-client/delete-index "indexing_perf")
+  (elastic-client/delete-index "query_perf")
   (elastic-client/delete-index "lastindex"))
 
 (defn parse-args

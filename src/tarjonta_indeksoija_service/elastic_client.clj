@@ -55,7 +55,7 @@
 (defn initialize-index-settings
   []
   (let [conn (esr/connect (:elastic-url env))
-        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf"]
+        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf"]
         index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
@@ -192,6 +192,19 @@
                    :indexed_amount indexed-amount
                    :avg_mills_per_object (/ duration indexed-amount)}))))
 
+(defn insert-query-perf
+  [query duration started res-size]
+  (with-error-logging
+    (let [conn (esr/connect (:elastic-url env))]
+      (esd/create conn
+        (index-name "query_perf")
+        (index-name "query_perf")
+        {:created (System/currentTimeMillis)
+         :started started
+         :duration_mills duration
+         :query query
+         :response_size res-size}))))
+
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
   ([conn]
@@ -234,12 +247,18 @@
    :nimi        (get-in koulutus [:koulutuskoodi :nimi])
    :tarjoaja    (get-in koulutus [:organisaatio :nimi])}))
 
-(defn text-search [query]
-  (let [conn (esr/connect (:elastic-url env))]
-    (with-error-logging
-      (->> (esd/search conn "koulutus" "koulutus"
-                       :query {:multi_match {:query query :fields boost-values}})
-           :hits
-           :hits
-           (map create-hakutulos)))))
+(defn text-search
+  [query]
+  (with-error-logging
+    (let [conn (esr/connect (:elastic-url env))
+          start (System/currentTimeMillis)
+          res  (->> (esd/search conn
+                                (index-name "koulutus")
+                                (index-name "koulutus")
+                                :query {:multi_match {:query query :fields boost-values}})
+                    :hits
+                    :hits
+                    (map create-hakutulos))]
+      (insert-query-perf query (- (System/currentTimeMillis) start) start (count res))
+      res)))
 
