@@ -54,7 +54,6 @@
   [oids last-timestamp start]
   (let [amount-indexed (count oids)
         duration (- (System/currentTimeMillis) start)]
-    (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
     (log/info "Indexed" amount-indexed "objects in" (int (/ duration 1000)) "seconds.")
     (elastic-client/insert-indexing-perf amount-indexed duration start)
     (elastic-client/delete-handled-queue oids last-timestamp)

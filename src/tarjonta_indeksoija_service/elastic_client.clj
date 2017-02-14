@@ -41,7 +41,7 @@
 
 (defn delete-index
   [index]
-  (let [conn (esr/connect (:elastic-url env))]
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
     (esi/delete conn (index-name index))))
 
 (defn- create-index [index]
@@ -54,7 +54,7 @@
 
 (defn initialize-index-settings
   []
-  (let [conn (esr/connect (:elastic-url env))
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
         index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf"]
         index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
     (create-indices index-names)
@@ -85,7 +85,7 @@
 (defn get-by-id
   [index type id]
   (with-error-logging
-    (let [conn (esr/connect (:elastic-url env))
+    (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
           res (esd/get conn (index-name index) (index-name type) id)]
       (:_source res))))
 
@@ -103,7 +103,7 @@
 
 (defn get-queue
   []
-  (let [conn (esr/connect (:elastic-url env))]
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
     (with-error-logging
       (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 1000)
            :hits
@@ -112,14 +112,14 @@
 
 (defn get-hakukohteet-by-koulutus
   [koulutus-oid]
-  (let [conn (esr/connect (:elastic-url env))
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
         res (esd/search conn (index-name "hakukohde") (index-name "hakukohde") :query {:match {:koulutukset koulutus-oid}})]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 
 (defn get-haut-by-oids
   [oids]
-  (let [conn (esr/connect (:elastic-url env))
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
         res (esd/search conn (index-name "haku") (index-name "haku") :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
@@ -127,7 +127,7 @@
 ;; TODO refactor with get-haut-by-oids
 (defn get-organisaatios-by-oids
   [oids]
-  (let [conn (esr/connect (:elastic-url env))
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
         query {:constant_score {:filter {:terms {:oid (map str oids)}}}}
         res (esd/search conn (index-name "organisaatio") (index-name "organisaatio") :query query)]
     ;; TODO: error handling
@@ -152,7 +152,7 @@
 (defn bulk-upsert
   [index type documents]
   (with-error-logging
-    (let [conn (esr/connect (:elastic-url env))
+    (let [conn (esr/connect (:elastic-url env {:conn-timeout (:elastic-timeout env)}))
           data (bulk-upsert-data index type documents)]
       (bulk/bulk conn data))))
 
@@ -162,13 +162,13 @@
 
 (defn set-last-index-time
   [timestamp]
-  (let [conn (esr/connect (:elastic-url env))]
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
     (esd/upsert conn (index-name "lastindex") (index-name "lastindex") "1" {:timestamp timestamp})))
 
 (defn get-last-index-time
   []
   (try
-    (let [conn (esr/connect (:elastic-url env))
+    (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
           res (esd/get conn (index-name "lastindex") (index-name "lastindex") "1")]
       (if (:found res)
         (get-in res [:_source :timestamp])
@@ -182,7 +182,7 @@
 (defn insert-indexing-perf
   [indexed-amount duration started]
   (with-error-logging
-    (let [conn (esr/connect (:elastic-url env))]
+    (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
       (esd/create conn
                   (index-name "indexing_perf")
                   (index-name "indexing_perf")
@@ -195,7 +195,7 @@
 (defn insert-query-perf
   [query duration started res-size]
   (with-error-logging
-    (let [conn (esr/connect (:elastic-url env))]
+    (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
       (esd/create conn
         (index-name "query_perf")
         (index-name "query_perf")
@@ -232,7 +232,7 @@
 
 (defn delete-handled-queue
   [oids max-timestamp]
-  (let [conn (esr/connect (:elastic-url env))]
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
     (delete-by-query* conn
                       (index-name "indexdata")
                       (index-name "indexdata")
@@ -250,7 +250,7 @@
 (defn text-search
   [query]
   (with-error-logging
-    (let [conn (esr/connect (:elastic-url env))
+    (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
           start (System/currentTimeMillis)
           res  (->> (esd/search conn
                                 (index-name "koulutus")
