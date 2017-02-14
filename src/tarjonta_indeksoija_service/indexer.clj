@@ -33,18 +33,6 @@
     (.contains type "hakukohde") (hakukohde-converter/convert doc)
     :else doc))
 
-(defn index-haku-hakukohteet
-  [hakukohde-oids]
-  (let [docs (map #(hash-map :oid % :type "hakukohde") (distinct hakukohde-oids))]
-    (elastic-client/upsert-indexdata docs)))
-
-(defn index-related-docs
-  ;; TODO: Make propagation work for all docs in all 'directions'. This is just a WIP.
-  [type doc]
-  (log/debug "indexing docs related")
-  (when (= "haku" type)
-    (index-haku-hakukohteet (:hakukohdeOids doc))))
-
 (defn- get-doc [obj]
   (cond
     (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
@@ -104,15 +92,24 @@
     (catch Exception e (log/error e))
     (finally (reset! running? false))))
 
+(defn get-related-koulutus [obj]
+  (cond
+    (= (:type obj) "organisaatio") (tarjonta-client/find-docs "koulutus" {:organisationOid (:oid obj)})
+    (= (:type obj) "hakukohde") (tarjonta-client/find-docs "koulutus" {:hakukohdeOid (:oid obj)})
+    (= (:type obj) "haku") (tarjonta-client/find-docs "koulutus" {:hakuOid (:oid obj)})
+    (= (:type obj) "koulutus") ()))
+
 (defjob indexing-job
   [ctx]
   (with-error-logging
     (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
           now (System/currentTimeMillis)]
       (when-not (nil? last-modified)
-        (elastic-client/upsert-indexdata last-modified)
-        (elastic-client/set-last-index-time now)
-        (start-indexing)))))
+        (let [related-koulutus (flatten (map get-related-koulutus last-modified))
+              last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
+          (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
+          (elastic-client/set-last-index-time now)
+          (start-indexing))))))
 
 (defn start-indexer-job
   []

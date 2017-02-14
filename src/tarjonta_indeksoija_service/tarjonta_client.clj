@@ -19,7 +19,7 @@
           :body
           :result))))
 
-(defn- extract-koulutus-hakukohde-docs
+(defn- extract-koulutus-hakutulos-docs
   [type result]
   (->> result
        :body
@@ -51,8 +51,8 @@
       (find-haku-docs params)
       (let [params-with-defaults (merge {:TILA "NOT_POISTETTU"} params)
             url (get-url type "search")]
-        (extract-koulutus-hakukohde-docs type
-          (client/get url {:query-params params-with-defaults, :as :json}))))))
+        (extract-koulutus-hakutulos-docs
+          type (client/get url {:query-params params-with-defaults, :as :json}))))))
 
 (defn get-last-modified
   [since]
