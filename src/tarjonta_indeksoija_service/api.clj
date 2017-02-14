@@ -37,8 +37,10 @@
 
 (defn reindex
   [index params]
-  (let [docs (find-docs index params)]
-    (elastic-client/upsert-indexdata docs)))
+  (let [docs (find-docs index params)
+        related-koulutus (flatten (map indexer/get-related-koulutus docs))
+        docs-with-related-koulutus (clojure.set/union docs related-koulutus)]
+    (elastic-client/upsert-indexdata docs-with-related-koulutus)))
 
 (defn get-koulutus-tulos
   [koulutus-oid]
