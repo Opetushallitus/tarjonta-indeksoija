@@ -147,6 +147,7 @@
           (ok {:result (elastic-client/text-search query)}))))
 
     (undocumented
+      ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
       (route/resources "/tarjonta-indeksoija/"))))
 
 (def app
