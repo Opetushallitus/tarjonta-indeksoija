@@ -55,7 +55,7 @@
 (defn initialize-index-settings
   []
   (let [conn (esr/connect (:elastic-url env))
-        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex"]
+        index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf"]
         index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
@@ -178,6 +178,19 @@
         (log/info "Couldn't get latest indexing timestamp, continuing test.")
         (log/error e))
       (System/currentTimeMillis))))
+
+(defn insert-indexing-perf
+  [indexed-amount duration started]
+  (with-error-logging
+    (let [conn (esr/connect (:elastic-url env))]
+      (esd/create conn
+                  (index-name "indexing_perf")
+                  (index-name "indexing_perf")
+                  {:created (System/currentTimeMillis)
+                   :started started
+                   :duration_mills duration
+                   :indexed_amount indexed-amount
+                   :avg_mills_per_object (/ duration indexed-amount)}))))
 
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"

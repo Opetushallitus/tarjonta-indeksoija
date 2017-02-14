@@ -64,13 +64,13 @@
 
 (defn end-indexing
   [oids last-timestamp start]
-  (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.\nIndexed"
-            (count oids)
-            "objects in"
-            (int (/ (- (System/currentTimeMillis) start) 1000))
-            "seconds.")
-  (elastic-client/delete-handled-queue oids last-timestamp)
-  (elastic-client/refresh-index "indexdata"))
+  (let [amount-indexed (count oids)
+        duration (- (System/currentTimeMillis) start)]
+    (log/info "The indexing queue was empty, stopping indexing and deleting indexed items from queue.")
+    (log/info "Indexed" amount-indexed "objects in" (int (/ duration 1000)) "seconds.")
+    (elastic-client/insert-indexing-perf amount-indexed duration start)
+    (elastic-client/delete-handled-queue oids last-timestamp)
+    (elastic-client/refresh-index "indexdata")))
 
 (defn index-objects [objects]
   (log/info "Indexing" (count objects) "items")
