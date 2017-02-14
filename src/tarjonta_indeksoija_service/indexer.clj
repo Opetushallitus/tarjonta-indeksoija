@@ -83,14 +83,12 @@
 
 (defn start-indexing
   []
+  (if (compare-and-set! running? false true)
   (try
-    (if @running?
-      (log/debug "Indexing already running.")
-      (do
-        (reset! running? true)
-        (do-index)))
+    (do-index)
     (catch Exception e (log/error e))
-    (finally (reset! running? false))))
+    (finally (reset! running? false)))
+  (log/debug "Indexing already running.")))
 
 (defn get-related-koulutus [obj]
   (cond
