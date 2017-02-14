@@ -58,6 +58,7 @@
   [since]
   (with-error-logging
     (let [url (str (:tarjonta-service-url env) "lastmodified")
+
           res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
       (flatten
         (conj
