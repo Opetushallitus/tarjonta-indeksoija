@@ -11,22 +11,25 @@
 <script>
     $(function() {
         $("#get-koulutus").on("click", function() {
-          getKoulutus($("#koulutus-oid").val());
+          getKoulutus($("#query").val());
         });
     });
 
-    var getKoulutus = function(oid) {
-        $.ajax("http://localhost:3000/tarjonta-indeksoija/api/ui/koulutus/" + oid)
+    var getKoulutus = function(query) {
+        $.ajax("http://localhost:3000/tarjonta-indeksoija/api/ui/search?query=" + query)
           .done(function(data) {
-            console.log(data);
-            var formattedData = JSON.stringify(data.result, null, 2);
-            $('#koulutus-res').eq(0).html(formattedData);
+            $('#koulutus-res').append(
+                data.result.map(function(item) {
+                    var formattedData = JSON.stringify(item, null, 2);
+                    return $('<pre></pre>').html(formattedData);
+                })
+            );
           });
     }
 </script>
 <body>
-    <input id="koulutus-oid" type="text" placeholder="Koulutuksen Oid">
+    Hae koulutuksia: <input id="query" type="text" placeholder="Hakusana">
     <button id="get-koulutus">Hae</button><br>
-    <pre id="koulutus-res"></pre>
+    <div id="koulutus-res"></div>
 </body>
 </html>
