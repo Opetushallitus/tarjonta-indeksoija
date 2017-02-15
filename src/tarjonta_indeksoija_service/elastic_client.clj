@@ -1,6 +1,6 @@
 (ns tarjonta-indeksoija-service.elastic-client
   (:require [tarjonta-indeksoija-service.conf :as conf :refer [env boost-values]]
-            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging with-error-logging-value wait-elastic-lock]]
             [environ.core]
             [clj-http.client :as http]
             [taoensso.timbre :as log]
@@ -32,12 +32,8 @@
 
 (defn refresh-index
   [index]
-  (try
-    (http/post (str (:elastic-url env) "/" (index-name index) "/_refresh"))
-    (catch Exception e
-      (if (Boolean/valueOf (:test environ.core/env))
-        (log/info "Refreshing index" index "failed, continuing test.")
-        (log/error e)))))
+  (with-error-logging
+    (http/post (str (:elastic-url env) "/" (index-name index) "/_refresh"))))
 
 (defn delete-index
   [index]
@@ -78,7 +74,7 @@
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
-  (and (initialize-index-settings)
+    (and (initialize-index-settings)
        (initialize-index-mappings)
        (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
 
@@ -167,17 +163,12 @@
 
 (defn get-last-index-time
   []
-  (try
+  (with-error-logging-value (System/currentTimeMillis)
     (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
           res (esd/get conn (index-name "lastindex") (index-name "lastindex") "1")]
       (if (:found res)
         (get-in res [:_source :timestamp])
-        (System/currentTimeMillis)))
-    (catch Exception e
-      (if (Boolean/valueOf (:test environ.core/env))
-        (log/info "Couldn't get latest indexing timestamp, continuing test.")
-        (log/error e))
-      (System/currentTimeMillis))))
+        (System/currentTimeMillis)))))
 
 (defn insert-indexing-perf
   [indexed-amount duration started]

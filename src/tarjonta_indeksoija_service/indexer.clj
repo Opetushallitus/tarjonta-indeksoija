@@ -5,15 +5,13 @@
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
-            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+            [tarjonta-indeksoija-service.util.tools :as tools :refer [with-error-logging wait-elastic-lock]]
             [taoensso.timbre :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
             [clojurewerkz.quartzite.triggers :as t]
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
   (:import (org.quartz ObjectAlreadyExistsException)))
-
-(def running? (atom false :error-handler #(log/error %)))
 
 (defn append-search-data
   [koulutus]
@@ -80,16 +78,8 @@
                       (apply max (map :timestamp queue))
                       now)))))
 
-(defn start-indexing
-  []
-  (if (compare-and-set! running? false true)
-  (try
-    (do-index)
-    (catch Exception e (log/error e))
-    (finally (reset! running? false)))
-  (log/debug "Indexing already running.")))
-
 (defn get-related-koulutus [obj]
+  (log/debug "Fetching related koulutus for" obj)
   (cond
     (= (:type obj) "organisaatio") (tarjonta-client/find-docs "koulutus" {:organisationOid (:oid obj)})
     (= (:type obj) "hakukohde") (tarjonta-client/find-docs "koulutus" {:hakukohdeOid (:oid obj)})
@@ -99,14 +89,15 @@
 (defjob indexing-job
   [ctx]
   (with-error-logging
-    (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
-          now (System/currentTimeMillis)]
-      (when-not (nil? last-modified)
-        (let [related-koulutus (flatten (map get-related-koulutus last-modified))
-              last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
-          (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
-          (elastic-client/set-last-index-time now)
-          (start-indexing))))))
+    (wait-elastic-lock
+      (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
+              now (System/currentTimeMillis)]
+          (when-not (nil? last-modified)
+            (let [related-koulutus (flatten (pmap get-related-koulutus last-modified))
+                  last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
+              (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
+              (elastic-client/set-last-index-time now)
+              (do-index)))))))
 
 (defn start-indexer-job
   []
@@ -123,7 +114,7 @@
 
 (defn reset-jobs
   []
-  (reset! running? false)
+  (reset! tools/lastindex-lock? false)
   (qs/clear! job-pool))
 
 (defn start-stop-indexer
