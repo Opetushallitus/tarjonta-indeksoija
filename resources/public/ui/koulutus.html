@@ -21,7 +21,7 @@
 
     var getKoulutus = function() {
         var query = $('#query').val();
-        $.ajax('http://localhost:3000/tarjonta-indeksoija/api/ui/search?query=' + query)
+        $.ajax('/tarjonta-indeksoija/api/ui/search?query=' + query)
           .done(function(data) {
             $('#koulutus-res')
               .empty()
