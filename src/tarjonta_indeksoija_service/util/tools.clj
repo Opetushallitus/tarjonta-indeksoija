@@ -16,14 +16,3 @@
 (defmacro with-error-logging
   [& body]
   `(with-error-logging-value nil ~@body))
-
-(def lastindex-lock? (atom false :error-handler #(log/error %)))
-(reset! lastindex-lock? false)
-
-(defmacro wait-elastic-lock
-  [& body]
-  `(while (not (compare-and-set! lastindex-lock? false true))
-     (Thread/sleep 100)
-     (try
-       (do ~@body)
-       (finally (reset! lastindex-lock? false)))))

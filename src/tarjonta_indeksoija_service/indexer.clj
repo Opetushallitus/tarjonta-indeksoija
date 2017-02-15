@@ -5,7 +5,7 @@
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
-            [tarjonta-indeksoija-service.util.tools :as tools :refer [with-error-logging wait-elastic-lock]]
+            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [taoensso.timbre :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
@@ -86,10 +86,19 @@
     (= (:type obj) "haku") (tarjonta-client/find-docs "koulutus" {:hakuOid (:oid obj)})
     (= (:type obj) "koulutus") ()))
 
+(def elastic-lock? (atom false :error-handler #(log/error %)))
+(defmacro wait-for-elastic-lock
+  [& body]
+  `(while (not (compare-and-set! elastic-lock? false true))
+     (Thread/sleep 100)
+     (try
+       (do ~@body)
+       (finally (reset! elastic-lock? false)))))
+
 (defjob indexing-job
   [ctx]
   (with-error-logging
-    (wait-elastic-lock
+    (wait-for-elastic-lock
       (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
               now (System/currentTimeMillis)]
           (when-not (nil? last-modified)
@@ -114,7 +123,7 @@
 
 (defn reset-jobs
   []
-  (reset! tools/lastindex-lock? false)
+  (reset! elastic-lock? false)
   (qs/clear! job-pool))
 
 (defn start-stop-indexer
