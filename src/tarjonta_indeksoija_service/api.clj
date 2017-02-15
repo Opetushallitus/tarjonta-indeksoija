@@ -30,15 +30,17 @@
   (indexer/reset-jobs)
   (mount/stop))
 
-(defn find-docs [index params]
+(defn find-docs
+  [index oid]
   (cond
-    (= "organisaatio" index) (organisaatio-client/find-docs params)
-    :else (tarjonta-client/find-docs index params)))
+    (= "organisaatio" index) (organisaatio-client/find-docs oid)
+    (nil? oid) (tarjonta-client/find-docs index)
+    :else [{:type index :oid oid}]))
 
 (defn reindex
-  [index params]
-  (let [docs (find-docs index params)
-        related-koulutus (flatten (map indexer/get-related-koulutus docs))
+  [index oid]
+  (let [docs (find-docs index oid)
+        related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
         docs-with-related-koulutus (clojure.set/union docs related-koulutus)]
     (elastic-client/upsert-indexdata docs-with-related-koulutus)))
 
@@ -100,41 +102,41 @@
 
       (context "/reindex" []
         :tags ["reindex"]
-        (GET "/koulutus" {params :params}
+        (GET "/koulutus" []
           :summary "Lisää koulutuksen indeksoitavien listalle."
-          :query-params [koulutusOid :- String]
-          (ok {:result (reindex "koulutus" params)}))
+          :query-params [oid :- String]
+          (ok {:result (reindex "koulutus" oid)}))
 
-        (GET "/koulutus/all" {params :params}
+        (GET "/koulutus/all" []
           :summary "Lisää kaikki koulutukset indeksoitavien listalle."
-          (ok {:result (reindex "koulutus" {})}))
+          (ok {:result (reindex "koulutus" nil)}))
 
-        (GET "/hakukohde" {params :params}
+        (GET "/hakukohde" []
           :summary "Lisää hakukohteen indeksoitavien listalle."
-          :query-params [hakukohdeOid :- String]
-          (ok {:result (reindex "hakukohde" params)}))
+          :query-params [oid :- String]
+          (ok {:result (reindex "hakukohde" oid)}))
 
-        (GET "/hakukohde/all" {params :params}
+        (GET "/hakukohde/all" []
           :summary "Lisää kaikki hakukohteet indeksoitavien listalle."
-          (ok {:result (reindex "hakukohde" {})}))
+          (ok {:result (reindex "hakukohde" nil)}))
 
-        (GET "/haku" {params :params}
+        (GET "/haku" []
           :summary "Lisää haun indeksoitavien listalle."
           :query-params [oid :- String]
-          (ok {:result (reindex "haku" params)}))
+          (ok {:result (reindex "haku" oid)}))
 
-        (GET "/haku/all" {params :params}
+        (GET "/haku/all" []
           :summary "Lisää kaikki haut indeksoitavien listalle."
-          (ok {:result (reindex "haku" {})}))
+          (ok {:result (reindex "haku" nil)}))
 
-        (GET "/organisaatio" {params :params}
+        (GET "/organisaatio" []
           :summary "Lisää organisaation indeksoitavien listalle."
           :query-params [oid :- String]
-          (ok {:result (reindex "organisaatio" params)}))
+          (ok {:result (reindex "organisaatio" oid)}))
 
-        (GET "/organisaatio/all" {params :params}
+        (GET "/organisaatio/all" []
           :summary "Lisää kaikki organisaatiot indeksoitavien listalle."
-          (ok {:result (reindex "organisaatio" {})})))
+          (ok {:result (reindex "organisaatio" nil)})))
 
       (context "/ui" []
         :tags ["ui"]

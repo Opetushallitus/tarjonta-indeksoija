@@ -21,12 +21,9 @@ var runOptions = {
   iterations: 1000
 };
 
-var start = new Date().getTime();
-
 benchrest(requests, runOptions)
   .on('error', function (err, ctxName) { console.error('Failed in %s with err: ', ctxName, err); })
   .on('end', function (stats, errorCount) {
     console.log('error count: ', errorCount);
-    console.log('test took:', new Date().getTime() - start);
     console.log('stats', stats);
   });

@@ -23,8 +23,8 @@
        (map #(assoc {} :type "organisaatio" :oid %))))
 
 (defn find-docs
-  [params]
+  [oid]
   (with-error-logging
-    (let [params-with-defaults (merge {:aktiiviset true :suunnitellut true :lakkautetut true} params)
+    (let [params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}
           url (str (:organisaatio-service-url env) "v2/hae")]
-      (extract-docs (client/get url {:query-params params-with-defaults, :as :json})))))
+      (extract-docs (client/get url {:query-params params, :as :json})))))

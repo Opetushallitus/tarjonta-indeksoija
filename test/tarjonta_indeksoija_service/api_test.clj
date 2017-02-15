@@ -13,7 +13,7 @@
       ;; This test uses tarjonta QA
       ;; TODO: try to mock tarjonta in this test..
       (indexer/start-indexer-job)
-      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?hakukohdeOid=1.2.246.562.20.28810946823"))
+      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
             body     (parse-body (:body response))]
         (:status response) => 200)
       (tools/block-until-indexed 10000)

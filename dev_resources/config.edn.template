@@ -2,4 +2,9 @@
  :cron-string "*/1 * * ? * *"
  :tarjonta-service-url "https://testi.virkailija.opintopolku.fi:443/tarjonta-service/rest/v1/"
  :organisaatio-service-url "https://testi.virkailija.opintopolku.fi/organisaatio-service/rest/organisaatio/"
- :elastic-timeout 100000}
+ :elastic-timeout 100000
+ :tarjonta-db {:dbtype "postgresql"
+               :dbname "tarjonta"
+               :host <fillme>
+               :user <fillme>
+               :password <fillme>}}

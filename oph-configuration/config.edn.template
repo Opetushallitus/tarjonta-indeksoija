@@ -2,4 +2,9 @@
  :cron-string "{{tarjonta_indeksoija_cron_string}}"
  :tarjonta-service-url "{{tarjonta_indeksoija_tarjonta_service_url}}"
  :organisaatio-service-url "{{tarjonta_indeksoija_organisaatio_service_url}}"
- :elastic-timeout 100000}
+ :elastic-timeout 100000
+ :tarjonta-db {:dbtype "postgresql"
+               :dbname "tarjonta"
+               :host "{{tarjonta_indeksoija_tarjonta_db_url}}"
+               :user "{{tarjonta_indeksoija_tarjonta_db_user}}"
+               :password "{{tarjonta_indeksoija_tarjonta_db_password}}"}}

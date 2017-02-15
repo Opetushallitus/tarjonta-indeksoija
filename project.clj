@@ -15,6 +15,8 @@
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
+                 [org.clojure/java.jdbc "0.7.0-alpha1"]
+                 [org.postgresql/postgresql "9.4-1200-jdbc41"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]

@@ -78,14 +78,6 @@
                       (apply max (map :timestamp queue))
                       now)))))
 
-(defn get-related-koulutus [obj]
-  (log/debug "Fetching related koulutus for" obj)
-  (cond
-    (= (:type obj) "organisaatio") (tarjonta-client/find-docs "koulutus" {:organisationOid (:oid obj)})
-    (= (:type obj) "hakukohde") (tarjonta-client/find-docs "koulutus" {:hakukohdeOid (:oid obj)})
-    (= (:type obj) "haku") (tarjonta-client/find-docs "koulutus" {:hakuOid (:oid obj)})
-    (= (:type obj) "koulutus") ()))
-
 (def elastic-lock? (atom false :error-handler #(log/error %)))
 (defmacro wait-for-elastic-lock
   [& body]
@@ -102,7 +94,7 @@
       (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
               now (System/currentTimeMillis)]
           (when-not (nil? last-modified)
-            (let [related-koulutus (flatten (pmap get-related-koulutus last-modified))
+            (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus last-modified))
                   last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
               (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
               (elastic-client/set-last-index-time now)

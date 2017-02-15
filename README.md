@@ -2,6 +2,12 @@
 
 ## Usage
 
+### Pre configuration
+
+To run the application locally, copy dev_resources/config.edn.template to dev_resources/config.edn 
+and replace all `<fillme>` fields with actual values (get from QA common.properties). This config file is ignored in 
+Git and should not be committed in the future.
+
 ### REPL
 
 The dev and test profiles configurations are separated for the repl to ensure that
