@@ -34,8 +34,14 @@
   [index oid]
   (cond
     (= "organisaatio" index) (organisaatio-client/find-docs oid)
-    (nil? oid) (tarjonta-client/find-docs index)
     :else [{:type index :oid oid}]))
+
+(defn reindex-all
+  []
+  (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
+        organisaatio-docs (organisaatio-client/find-docs nil)
+        docs (clojure.set/union tarjonta-docs organisaatio-docs)]
+    (map #(elastic-client/upsert-indexdata %) (partition 1000 docs))))
 
 (defn reindex
   [index oid]
@@ -102,41 +108,29 @@
 
       (context "/reindex" []
         :tags ["reindex"]
+        (GET "/all" []
+          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
+          (ok {:result (reindex-all)}))
+
         (GET "/koulutus" []
           :summary "Lisää koulutuksen indeksoitavien listalle."
           :query-params [oid :- String]
           (ok {:result (reindex "koulutus" oid)}))
-
-        (GET "/koulutus/all" []
-          :summary "Lisää kaikki koulutukset indeksoitavien listalle."
-          (ok {:result (reindex "koulutus" nil)}))
 
         (GET "/hakukohde" []
           :summary "Lisää hakukohteen indeksoitavien listalle."
           :query-params [oid :- String]
           (ok {:result (reindex "hakukohde" oid)}))
 
-        (GET "/hakukohde/all" []
-          :summary "Lisää kaikki hakukohteet indeksoitavien listalle."
-          (ok {:result (reindex "hakukohde" nil)}))
-
         (GET "/haku" []
           :summary "Lisää haun indeksoitavien listalle."
           :query-params [oid :- String]
           (ok {:result (reindex "haku" oid)}))
 
-        (GET "/haku/all" []
-          :summary "Lisää kaikki haut indeksoitavien listalle."
-          (ok {:result (reindex "haku" nil)}))
-
         (GET "/organisaatio" []
           :summary "Lisää organisaation indeksoitavien listalle."
           :query-params [oid :- String]
-          (ok {:result (reindex "organisaatio" oid)}))
-
-        (GET "/organisaatio/all" []
-          :summary "Lisää kaikki organisaatiot indeksoitavien listalle."
-          (ok {:result (reindex "organisaatio" nil)})))
+          (ok {:result (reindex "organisaatio" oid)})))
 
       (context "/ui" []
         :tags ["ui"]

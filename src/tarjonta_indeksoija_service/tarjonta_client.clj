@@ -54,6 +54,9 @@
   (let [query (str "select oid from " (get db-mappings (keyword type)))]
     (map #(assoc % :type type) (db/query (:tarjonta-db env) [query]))))
 
+(defn find-all-tarjonta-docs []
+  (flatten (map find-docs ["koulutus" "hakukohde" "haku"])))
+
 (defn find-koulutus-for-organisaatio
   [organisaatio-oid]
   (let [query (str "SELECT a.koulutusmoduuli_toteutus_oid AS oid "
