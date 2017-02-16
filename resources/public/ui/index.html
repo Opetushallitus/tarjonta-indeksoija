@@ -8,7 +8,35 @@
             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
             crossorigin="anonymous"></script>
 </head>
+<script>
+  $(function() {
+    $('#search').on('click', function() {
+      getKoulutus();
+    });
+
+    $('#query').on('keyup', function(e) {
+      if(e.keyCode == 13) getKoulutus();
+    });
+  });
+
+  var getKoulutus = function() {
+    var query = $('#query').val();
+    $.ajax('/tarjonta-indeksoija/api/ui/search?query=' + query)
+      .done(function(data) {
+        $('#res')
+          .empty()
+          .append(
+            data.result.map(function(item) {
+              var formattedData = JSON.stringify(item, null, 2);
+              return $('<a href="koulutus.html?oid=' + item.oid + '">' + item.oid + '</a><pre>' + formattedData + '</pre>');
+            })
+          );
+      });
+  }
+</script>
 <body>
-    <a href="/tarjonta-indeksoija/ui/koulutus.html">Koulutus</a>
+Hae koulutuksia: <input id="query" type="text" placeholder="Hakusana">
+<button id="search">Hae</button><br>
+<div id="res"></div>
 </body>
 </html>

@@ -10,33 +10,28 @@
 </head>
 <script>
     $(function() {
-        $('#get-koulutus').on('click', function() {
-          getKoulutus();
-        });
+        var getParameterByName = function(name) {
+          var url = window.location.href;
+          name = name.replace(/[\[\]]/g, "\\$&");
+          var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, " "));
+        };
 
-        $('#query').on('keyup', function(e) {
-          if(e.keyCode == 13) getKoulutus();
-        });
+        console.log(getParameterByName('oid'));
+
+        $.ajax('/tarjonta-indeksoija/api/ui/koulutus/' + getParameterByName('oid'))
+          .done(function(data) {
+            $('#koulutus')
+              .empty()
+              .html(JSON.stringify(data, null, 2));
+          })
     });
 
-    var getKoulutus = function() {
-        var query = $('#query').val();
-        $.ajax('/tarjonta-indeksoija/api/ui/search?query=' + query)
-          .done(function(data) {
-            $('#koulutus-res')
-              .empty()
-              .append(
-                data.result.map(function(item) {
-                    var formattedData = JSON.stringify(item, null, 2);
-                    return $('<pre></pre>').html(formattedData);
-                })
-            );
-          });
-    }
 </script>
 <body>
-    Hae koulutuksia: <input id="query" type="text" placeholder="Hakusana">
-    <button id="get-koulutus">Hae</button><br>
-    <div id="koulutus-res"></div>
+    <pre id="koulutus"></pre>
 </body>
 </html>
