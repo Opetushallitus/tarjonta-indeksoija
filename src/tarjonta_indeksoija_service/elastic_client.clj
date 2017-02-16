@@ -106,7 +106,7 @@
                        (index-name "indexdata")
                        :query (q/match-all)
                        :sort {:timestamp "asc"}
-                       :size 100)
+                       :size 1000)
            :hits
            :hits
            (map :_source)))))

@@ -56,32 +56,32 @@
     (elastic-client/refresh-index "indexdata")))
 
 (defn index-objects [objects]
-  (log/info "Indexing" (count objects) "items")
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
         errors (remove false? (map :errors res))]
     (when-not (empty? errors)
-      (log/error (str "Indexing failed\n" errors)))))
+      (log/error (str "Indexing failed\n" (vec errors))))))
 
 (defn do-index
   []
   (let [queue (elastic-client/get-queue)
-        now (System/currentTimeMillis)]
+        start (System/currentTimeMillis)]
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
+        (log/info "Indexing" (count queue) "items")
         (index-objects (remove nil? (doall (pmap get-coverted-doc queue))))
         (end-indexing (map :oid queue)
                       (apply max (map :timestamp queue))
-                      now)))))
+                      start)))))
 
 (def elastic-lock? (atom false :error-handler #(log/error %)))
 
 (defmacro wait-for-elastic-lock
   [& body]
-  `(while (not (compare-and-set! elastic-lock? false true))
-     (Thread/sleep 100)
+  `(if-not (compare-and-set! elastic-lock? false true)
+     (log/debug "Indexing job already running, skipping job.")
      (try
        (do ~@body)
        (finally (reset! elastic-lock? false)))))
