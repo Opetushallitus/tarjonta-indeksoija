@@ -101,7 +101,12 @@
   []
   (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
     (with-error-logging
-      (->> (esd/search conn (index-name "indexdata") (index-name "indexdata") :query (q/match-all) :sort {:timestamp "asc"} :size 1000)
+      (->> (esd/search conn
+                       (index-name "indexdata")
+                       (index-name "indexdata")
+                       :query (q/match-all)
+                       :sort {:timestamp "asc"}
+                       :size 100)
            :hits
            :hits
            (map :_source)))))

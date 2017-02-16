@@ -61,7 +61,9 @@
                    "LEFT JOIN koulutusmoduuli_toteutus_tarjoajatiedot_tarjoaja_oid AS b "
                    "ON a.koulutusmoduuli_toteutus_tarjoajatiedot_id = b.koulutusmoduuli_toteutus_tarjoajatiedot_id "
                    "WHERE b.tarjoaja_oid = '" organisaatio-oid "' AND oid IS NOT NULL")]
-    (db/query (:tarjonta-db env) [query])))
+    (->> query
+         (db/query (:tarjonta-db env))
+         (map #(assoc % :type "koulutus")))))
 
 
 (defn find-koulutus-for-hakukohde
@@ -71,7 +73,9 @@
                    "LEFT JOIN koulutus_hakukohde as kh ON h.id = kh.hakukohde_id "
                    "LEFT JOIN koulutusmoduuli_toteutus as k ON k.id = kh.koulutus_id "
                    "WHERE h.oid = '" hakukohde-oid "' AND k.oid IS NOT NULL")]
-    (db/query (:tarjonta-db env) [query])))
+    (->> query
+         (db/query (:tarjonta-db env))
+         (map #(assoc % :type "koulutus")))))
 
 (defn find-koulutus-for-haku
   [haku-oid]
@@ -81,7 +85,9 @@
                    "LEFT JOIN koulutus_hakukohde as kh ON kh.hakukohde_id = hk.id "
                    "LEFT JOIN koulutusmoduuli_toteutus as k ON k.id = kh.koulutus_id "
                    "WHERE h.oid = '" haku-oid "' AND k.oid IS NOT null")]
-    (db/query (:tarjonta-db env) [query])))
+    (->> query
+         (db/query (:tarjonta-db env))
+         (map #(assoc % :type "koulutus")))))
 
 (defn get-related-koulutus [obj]
   (log/debug "Fetching related koulutus for" obj)

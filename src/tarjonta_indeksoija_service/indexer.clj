@@ -34,16 +34,14 @@
 (defn- get-doc [obj]
   (cond
     (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
-    (= (:type obj) "koulutus") (tarjonta-client/get-doc obj)
-    (= (:type obj) "hakukohde") (tarjonta-client/get-doc obj)
-    (= (:type obj) "haku") (tarjonta-client/get-doc obj)))
+    :else (tarjonta-client/get-doc obj)))
 
 (defn get-coverted-doc
   [obj]
   (with-error-logging
     (let [doc (get-doc obj)]
       (if (nil? doc)
-        (log/error "Couldn't fetch " (:type obj) "oid:" (:oid obj))
+        (log/error "Couldn't fetch" (:type obj) "oid:" (:oid obj))
         (-> doc
             (convert-doc (:type obj))
             (assoc :tyyppi (:type obj)))))))
@@ -79,6 +77,7 @@
                       now)))))
 
 (def elastic-lock? (atom false :error-handler #(log/error %)))
+
 (defmacro wait-for-elastic-lock
   [& body]
   `(while (not (compare-and-set! elastic-lock? false true))
