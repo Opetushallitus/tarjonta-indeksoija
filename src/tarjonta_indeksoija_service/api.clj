@@ -53,17 +53,20 @@
 (defn get-koulutus-tulos
   [koulutus-oid]
   (with-error-logging
-    (let [koulutus (#(assoc {} (:oid %) %) (elastic-client/get-koulutus koulutus-oid))
+    (let [start (System/currentTimeMillis)
+          koulutus (#(assoc {} (:oid %) %) (elastic-client/get-koulutus koulutus-oid))
           hakukohteet-list (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
           hakukohteet (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec hakukohteet-list))
           haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
           haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
           organisaatiot-list (#(assoc {} (:oid %) %)  (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
-          organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))]
-      {:koulutus koulutus
-       :haut haut
-       :hakukohteet hakukohteet
-       :organisaatiot organisaatiot})))
+          organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))
+          res {:koulutus koulutus
+               :haut haut
+               :hakukohteet hakukohteet
+               :organisaatiot organisaatiot}]
+      (elastic-client/insert-query-perf (str "koulutus: " koulutus-oid) (- (System/currentTimeMillis) start) start (count res))
+      res)))
 
 (def service-api
   (api

@@ -247,8 +247,8 @@
 (defn text-search
   [query]
   (with-error-logging
-    (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
-          start (System/currentTimeMillis)
+    (let [start (System/currentTimeMillis)
+          conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
           res  (->> (esd/search conn
                                 (index-name "koulutus")
                                 (index-name "koulutus")

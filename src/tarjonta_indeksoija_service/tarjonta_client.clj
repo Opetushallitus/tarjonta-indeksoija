@@ -7,10 +7,7 @@
 
 (defn get-url
   [type path]
-  (condp = type
-    "hakukohde" (str (:tarjonta-service-url env) "hakukohde/" path)
-    "koulutus" (str (:tarjonta-service-url env) "koulutus/" path)
-    "haku" (str (:tarjonta-service-url env) "haku/" path)))
+  (str (:tarjonta-service-url env) type "/" path))
 
 (defn get-doc
   [obj]
