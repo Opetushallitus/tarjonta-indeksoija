@@ -52,7 +52,7 @@
   []
   (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
         index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf"]
-        index-names-joined (clojure.string/join "," (map #(index-name %) index-names))]
+        index-names-joined (clojure.string/join "," (map index-name index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
     (let [res (esi/update-settings conn index-names-joined conf/analyzer-settings)]

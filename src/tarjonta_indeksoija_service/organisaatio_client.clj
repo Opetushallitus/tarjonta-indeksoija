@@ -10,8 +10,7 @@
   (with-error-logging
     (let [url (str (:organisaatio-service-url env) (:oid obj))
           params {:includeImage false}]
-      (-> (client/get url {:query-params params :as :json})
-          :body))))
+      (:body (client/get url {:query-params params :as :json})))))
 
 (defn- extract-docs [result]
   (->> result

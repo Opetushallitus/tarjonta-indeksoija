@@ -152,5 +152,4 @@
       (route/resources "/tarjonta-indeksoija/"))))
 
 (def app
-  (-> service-api
-      logger.timbre/wrap-with-logger))
+  (logger.timbre/wrap-with-logger service-api))

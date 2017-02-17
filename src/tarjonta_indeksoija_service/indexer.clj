@@ -60,8 +60,8 @@
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
         errors (remove false? (map :errors res))]
-    (when-not (empty? errors)
-      (log/error (str "Indexing failed\n" (vec errors))))))
+    (when (seq errors)
+      (log/error (str "Following errors occurred during indexing:\n" (vec errors))))))
 
 (defn do-index
   []

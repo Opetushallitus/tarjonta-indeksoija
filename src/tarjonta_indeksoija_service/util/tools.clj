@@ -1,5 +1,5 @@
 (ns tarjonta-indeksoija-service.util.tools
-  (require [taoensso.timbre :as log]
+  (:require [taoensso.timbre :as log]
            [environ.core :as env]
            [slingshot.slingshot :refer [try+]]))
 
