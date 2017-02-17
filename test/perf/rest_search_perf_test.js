@@ -1,10 +1,19 @@
 /*
-* Usage instructions and how to interpred test results available at:
+* npm install bench-rest
+*
+* Usage instructions and how to interpret test results available at:
 * https://github.com/jeffbski/bench-rest
 * */
 
 var benchrest = require('bench-rest'),
-    baseUrl = process.argv[2] || 'http://localhost:3000/tarjonta-indeksoija';
+    baseUrl = process.argv[2];
+
+if (process.argv.length < 3) {
+  console.log('Usage: node rest_koulutus_perf_test.js <service-url> oid1 oid2 oid3.\nUse "localhost" for default url');
+  process.exit(1);
+}
+
+if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/tarjonta-indeksoija';
 
 var requests = {
   main: [
