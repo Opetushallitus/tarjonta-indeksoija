@@ -60,7 +60,7 @@
                    "FROM hakukohde_koulutusmoduuli_toteutus_tarjoajatiedot AS a "
                    "LEFT JOIN koulutusmoduuli_toteutus_tarjoajatiedot_tarjoaja_oid AS b "
                    "ON a.koulutusmoduuli_toteutus_tarjoajatiedot_id = b.koulutusmoduuli_toteutus_tarjoajatiedot_id "
-                   "WHERE b.tarjoaja_oid = '" organisaatio-oid "' AND oid IS NOT NULL")]
+                   "WHERE b.tarjoaja_oid = '" organisaatio-oid "' AND a.koulutusmoduuli_toteutus_oid IS NOT NULL")]
     (->> query
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
