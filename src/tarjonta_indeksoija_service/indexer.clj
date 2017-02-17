@@ -47,21 +47,24 @@
             (assoc :tyyppi (:type obj)))))))
 
 (defn end-indexing
-  [oids last-timestamp start]
-  (let [amount-indexed (count oids)
-        duration (- (System/currentTimeMillis) start)]
-    (log/info "Indexed" amount-indexed "objects in" (int (/ duration 1000)) "seconds.")
-    (elastic-client/insert-indexing-perf amount-indexed duration start)
+  [oids successful failed-oids last-timestamp start]
+  (let [duration (- (System/currentTimeMillis) start)
+        msg (str "Indexed " successful " objects in " (int (/ duration 1000)) " seconds.")]
+    (log/info msg)
+    (when (seq failed-oids) (log/info "Failed oids:" (seq failed-oids)))
+    (elastic-client/insert-indexing-perf successful duration start)
     (elastic-client/delete-handled-queue oids last-timestamp)
-    (elastic-client/refresh-index "indexdata")))
+    (elastic-client/refresh-index "indexdata")
+    msg))
 
-(defn index-objects [objects]
+(defn index-objects
+  [objects]
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
         errors (remove false? (map :errors res))]
     (when (seq errors)
-      (log/error (str "Following errors occurred during indexing:\n" (vec errors))))))
+      (log/error (str "Following errors occurred when saving to elastic:\n" (vec errors))))))
 
 (defn do-index
   []
@@ -71,10 +74,16 @@
       (log/debug "Nothing to index.")
       (do
         (log/info "Indexing" (count queue) "items")
-        (index-objects (remove nil? (doall (pmap get-coverted-doc queue))))
-        (end-indexing (map :oid queue)
-                      (apply max (map :timestamp queue))
-                      start)))))
+        (let [converted-docs (remove nil? (doall (pmap get-coverted-doc queue)))
+              queue-oids (map :oid queue)
+              failed-oids (clojure.set/difference (set queue-oids)
+                                                  (set (map :oid converted-docs)))]
+          (index-objects converted-docs)
+          (end-indexing queue-oids
+                        (count converted-docs)
+                        failed-oids
+                        (apply max (map :timestamp queue))
+                        start))))))
 
 (def elastic-lock? (atom false :error-handler #(log/error %)))
 

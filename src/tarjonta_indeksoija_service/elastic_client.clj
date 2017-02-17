@@ -155,7 +155,7 @@
   (with-error-logging
     (let [conn (esr/connect (:elastic-url env {:conn-timeout (:elastic-timeout env)}))
           data (bulk-upsert-data index type documents)]
-      (bulk/bulk conn data))))
+      (select-keys (bulk/bulk conn data) [:took :errors]))))
 
 (defmacro upsert-indexdata
   [docs]

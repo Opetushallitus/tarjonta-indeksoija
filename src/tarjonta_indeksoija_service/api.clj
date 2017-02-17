@@ -41,7 +41,7 @@
   (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
         organisaatio-docs (organisaatio-client/find-docs nil)
         docs (clojure.set/union tarjonta-docs organisaatio-docs)]
-    (map #(elastic-client/upsert-indexdata %) (partition 1000 docs))))
+    (elastic-client/upsert-indexdata docs)))
 
 (defn reindex
   [index oid]
