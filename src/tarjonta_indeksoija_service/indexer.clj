@@ -20,7 +20,7 @@
         haut-raw (tarjonta-client/get-haut-by-oids (distinct (map :hakuOid hakukohteet)))
         haut (doall (map #(dissoc % [:hakukohdeOidsYlioppilastutkintoAntaaHakukelpoisuuden
                                      :hakukohdeOids]) haut-raw))]
-    (assoc koulutus :searchData {:hakukohteet hakukohteet :haut haut})))
+    (assoc koulutus :searchData {:koulutus koulutus :hakukohteet hakukohteet :haut haut})))
 
 (defn convert-doc
   [doc type]

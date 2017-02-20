@@ -70,8 +70,9 @@
                                                                  :ignore_above 256}}}}})
 
 (def boost-values
-  ["_all"
-   "*_fi^3"
-   "*_sv^3"
-   "*_en^3"
+  [
+   "searchData.*_fi"
+   "searchData.*_sv"
+   "searchData.*_en"
+   "searchData.organisaatio.nimi^30"
    ])
