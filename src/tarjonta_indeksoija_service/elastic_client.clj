@@ -16,19 +16,53 @@
             [clojurewerkz.elastisch.arguments :as ar])
   (:import (clojurewerkz.elastisch.rest Connection)))
 
-(defn check-elastic-status
-  []
-  (with-error-logging
-    (-> (:elastic-url env)
-        esr/connect
-        esr/cluster-state-url
-        http/get
-        :status
-        (= 200))))
-
 (defn index-name
   [name]
   (str name (when (Boolean/valueOf (:test environ.core/env)) "_test")))
+
+(defn get-cluster-health
+  []
+  (with-error-logging
+    (-> (:elastic-url env)
+        (str "/_cluster/health")
+        (http/get {:as :json}))))
+
+(defn check-elastic-status
+  []
+  (with-error-logging
+    (-> (get-cluster-health)
+        :status
+        (= 200))))
+
+(defn get-indices-info
+  []
+  (with-error-logging
+    (-> (:elastic-url env)
+        (str "/_cat/indices?v&format=json")
+        (http/get {:as :json})
+        :body)))
+
+(defn get-perf
+  [type since]
+  (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
+        res (esd/search conn (index-name type)
+                             (index-name type)
+                             :query {:range {:created {:gte since}}}
+                             :sort [{:started "desc"} {:created "desc"}]
+                             :aggs {:max_time {:max {:field "duration_mills"}}}
+                             :size 10000)]
+    (merge (:aggregations res)
+           {:results (map :_source (get-in res [:hits :hits]))})))
+
+(defn get-elastic-performance-info
+  [since]
+  {:indexing_performance (get-perf "indexing_perf" since)
+   :query_performance (get-perf "query_perf" since)})
+
+(defn get-elastic-status
+  []
+  {:cluster_health (:body (get-cluster-health))
+   :indices-info (get-indices-info)})
 
 (defn refresh-index
   [index]

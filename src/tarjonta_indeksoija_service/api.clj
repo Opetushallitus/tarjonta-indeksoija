@@ -97,7 +97,16 @@
         (GET "/orgaisaatio" []
           :summary "Hakee yhden organisaation oidin perusteella."
           :query-params [oid :- String]
-          (ok {:result (elastic-client/get-organisaatio oid)})))
+          (ok {:result (elastic-client/get-organisaatio oid)}))
+
+        (GET "/status" []
+          :summary "Hakee klusterin ja indeksien tiedot."
+          (ok {:result (elastic-client/get-elastic-status)}))
+
+        (GET "/performance_info" []
+          :summary "Hakee tietoja performanssista"
+          :query-params [{since :- Long 0}]
+          (ok {:result (elastic-client/get-elastic-performance-info since)})))
 
       (context "/indexer" []
         :tags ["indexer"]
