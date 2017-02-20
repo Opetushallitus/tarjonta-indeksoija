@@ -59,8 +59,10 @@
   (let [query (str "SELECT a.koulutusmoduuli_toteutus_oid AS oid "
                    "FROM hakukohde_koulutusmoduuli_toteutus_tarjoajatiedot AS a "
                    "LEFT JOIN koulutusmoduuli_toteutus_tarjoajatiedot_tarjoaja_oid AS b "
-                   "ON a.koulutusmoduuli_toteutus_tarjoajatiedot_id = b.koulutusmoduuli_toteutus_tarjoajatiedot_id "
-                   "WHERE b.tarjoaja_oid = '" organisaatio-oid "' AND a.koulutusmoduuli_toteutus_oid IS NOT NULL")]
+                    "ON a.koulutusmoduuli_toteutus_tarjoajatiedot_id = b.koulutusmoduuli_toteutus_tarjoajatiedot_id "
+                   "LEFT JOIN koulutusmoduuli_toteutus as k ON a.koulutusmoduuli_toteutus_oid = k.oid "
+                   "WHERE b.tarjoaja_oid = '" organisaatio-oid "' AND a.koulutusmoduuli_toteutus_oid IS NOT NULL "
+                   "AND k.tila != 'POISTETTU'")]
     (->> query
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
@@ -72,7 +74,7 @@
                    "FROM hakukohde as h "
                    "LEFT JOIN koulutus_hakukohde as kh ON h.id = kh.hakukohde_id "
                    "LEFT JOIN koulutusmoduuli_toteutus as k ON k.id = kh.koulutus_id "
-                   "WHERE h.oid = '" hakukohde-oid "' AND k.oid IS NOT NULL")]
+                   "WHERE h.oid = '" hakukohde-oid "' AND k.oid IS NOT NULL AND k.tila != 'POISTETTU'")]
     (->> query
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
@@ -84,7 +86,7 @@
                    "LEFT JOIN hakukohde as hk ON hk.haku_id = h.id "
                    "LEFT JOIN koulutus_hakukohde as kh ON kh.hakukohde_id = hk.id "
                    "LEFT JOIN koulutusmoduuli_toteutus as k ON k.id = kh.koulutus_id "
-                   "WHERE h.oid = '" haku-oid "' AND k.oid IS NOT null")]
+                   "WHERE h.oid = '" haku-oid "' AND k.oid IS NOT null AND k.tila != 'POISTETTU'")]
     (->> query
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
