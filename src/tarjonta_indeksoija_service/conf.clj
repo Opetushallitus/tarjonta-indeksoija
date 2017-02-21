@@ -70,8 +70,13 @@
                                           :ignore_above 256}}}}})
 
 (def boost-values
-  [
-   "searchData.*_fi"
-   "searchData.*_sv"
-   "searchData.*_en"
-   "searchData.organisaatio.nimi^30"])
+  ["*fi"
+   "*sv"
+   "*en"
+   "organisaatio.nimi^30"
+   "tutkintonimikes.nimi*^30"
+   "koulutusohjelma.nimi*^30"
+   "koulutusohjelmanNimiKannassa*^30"
+   "koulutuskoodi.nimi^30"
+   "ammattinimikkeet.nimi*^30"
+   "aihees.nimi*^30"])
