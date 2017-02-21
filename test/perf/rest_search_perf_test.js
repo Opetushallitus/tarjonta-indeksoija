@@ -16,22 +16,28 @@ if (process.argv.length < 3) {
 
 if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/tarjonta-indeksoija';
 
-var requests = {
-    main: queries.map(function (query) {
-        return {get: baseUrl + '/api/ui/search?query=' + query}
-    })
-};
+var urls = queries.map(function (query) {
+    return {get: baseUrl + '/api/ui/search?query=' + query}
+});
 
-var runOptions = {
-    limit: 10,     // concurrent connections
-    iterations: 10
-};
+var results = {};
 
-benchrest(requests, runOptions)
-    .on('error', function (err, ctxName) {
-        console.error('Failed in %s with err: ', ctxName, err);
-    })
-    .on('end', function (stats, errorCount) {
-        console.log('error count: ', errorCount);
-        console.log('stats', stats);
-    });
+urls.forEach(function(url) {
+    var requests = {
+        main: [url]
+    };
+
+    var runOptions = {
+        limit: 10,     // concurrent connections
+        iterations: 20
+    };
+
+    benchrest(requests, runOptions)
+        .on('error', function (err, ctxName) {
+            console.error('Failed in %s with err: ', ctxName, err);
+        })
+        .on('end', function (stats, errorCount) {
+            results[url.get] = [stats.main.histogram.min, stats.main.histogram.max, stats.main.histogram.mean];
+            if (urls.indexOf(url) == urls.length-1) console.log(results);
+        });
+});
