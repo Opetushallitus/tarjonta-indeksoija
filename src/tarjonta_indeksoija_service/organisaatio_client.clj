@@ -27,8 +27,8 @@
     (if (nil? oid)
       (let [res (client/get (str (:organisaatio-service-url env)) {:as :json})]
         (->> res
-            :body
-            (map #(assoc {} :type "organisaatio" :oid %))))
+             :body
+             (map #(assoc {} :type "organisaatio" :oid %))))
       (let [params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}
             url (str (:organisaatio-service-url env) "v2/hae")]
         (extract-docs (client/get url {:query-params params, :as :json}))))))

@@ -62,17 +62,16 @@
 
 (def indexdata-mappings
   {:properties {:oid {:type "text"
-                                             :fields {:keyword {:type "keyword"
-                                                                :ignore_above 256}}}
-                                       :timestamp {:type "long"}
-                                       :type {:type "text"
-                                              :fields {:keyword {:type "keyword"
-                                                                 :ignore_above 256}}}}})
+                      :fields {:keyword {:type "keyword"
+                                         :ignore_above 256}}}
+                :timestamp {:type "long"}
+                :type {:type "text"
+                       :fields {:keyword {:type "keyword"
+                                          :ignore_above 256}}}}})
 
 (def boost-values
   [
    "searchData.*_fi"
    "searchData.*_sv"
    "searchData.*_en"
-   "searchData.organisaatio.nimi^30"
-   ])
+   "searchData.organisaatio.nimi^30"])

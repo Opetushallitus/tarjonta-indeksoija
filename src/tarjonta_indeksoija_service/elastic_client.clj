@@ -50,12 +50,13 @@
 (defn get-perf
   [type since]
   (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
-        res (esd/search conn (index-name type)
-                             (index-name type)
-                             :query {:range {:created {:gte since}}}
-                             :sort [{:started "desc"} {:created "desc"}]
-                             :aggs {:max_time {:max {:field "duration_mills"}}}
-                             :size 10000)]
+        res (esd/search conn
+                        (index-name type)
+                        (index-name type)
+                        :query {:range {:created {:gte since}}}
+                        :sort [{:started "desc"} {:created "desc"}]
+                        :aggs {:max_time {:max {:field "duration_mills"}}}
+                        :size 10000)]
     (merge (:aggregations res)
            {:results (map :_source (get-in res [:hits :hits]))})))
 
@@ -108,9 +109,9 @@
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
-    (and (initialize-index-settings)
-         (initialize-index-mappings)
-         (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
+  (and (initialize-index-settings)
+       (initialize-index-mappings)
+    (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
 
 (defn get-by-id
   [index type id]
@@ -174,7 +175,7 @@
 
 (defn- upsert-doc
   [doc type now]
-  {:doc           (assoc (dissoc doc :_index :_type) :timestamp now)
+  {:doc (assoc (dissoc doc :_index :_type) :timestamp now)
    :doc_as_upsert true})
 
 (defn- bulk-upsert-data
@@ -228,13 +229,13 @@
   (with-error-logging
     (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})]
       (esd/create conn
-        (index-name "query_perf")
-        (index-name "query_perf")
-        {:created (System/currentTimeMillis)
-         :started started
-         :duration_mills duration
-         :query query
-         :response_size res-size}))))
+                  (index-name "query_perf")
+                  (index-name "query_perf")
+                  {:created (System/currentTimeMillis)
+                   :started started
+                   :duration_mills duration
+                   :query query
+                   :response_size res-size}))))
 
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
@@ -259,7 +260,7 @@
                                          (join-names mapping-type))
               {:query-params (select-keys (ar/->opts args)
                                           (conj esd/optional-delete-query-parameters :ignore_unavailable))
-               :body         {:query query}})))
+               :body {:query query}})))
 
 (defn delete-handled-queue
   [oids max-timestamp]
@@ -267,29 +268,29 @@
     (delete-by-query* conn
                       (index-name "indexdata")
                       (index-name "indexdata")
-                      {:bool {:must   {:ids {:values (map str oids)}}
+                      {:bool {:must {:ids {:values (map str oids)}}
                               :filter {:range {:timestamp {:lte max-timestamp}}}}})))
 
 (defn- create-hakutulos [koulutushakutulos]
   (let [koulutus (:_source koulutushakutulos)
         score (:_score koulutushakutulos)]
-  {:score       score
-   :oid         (:oid koulutus)
-   :nimi        (get-in koulutus [:koulutuskoodi :nimi])
-   :tarjoaja    (get-in koulutus [:organisaatio :nimi])}))
+    {:score score
+     :oid (:oid koulutus)
+     :nimi (get-in koulutus [:koulutuskoodi :nimi])
+     :tarjoaja (get-in koulutus [:organisaatio :nimi])}))
 
 (defn text-search
   [query]
   (with-error-logging
     (let [start (System/currentTimeMillis)
           conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
-          res  (->> (esd/search conn
-                                (index-name "koulutus")
-                                (index-name "koulutus")
-                                :query {:multi_match {:query query :fields boost-values}})
-                    :hits
-                    :hits
-                    (map create-hakutulos))]
+          res (->> (esd/search conn
+                               (index-name "koulutus")
+                               (index-name "koulutus")
+                               :query {:multi_match {:query query :fields boost-values}})
+                   :hits
+                   :hits
+                   (map create-hakutulos))]
       (insert-query-perf query (- (System/currentTimeMillis) start) start (count res))
       res)))
 

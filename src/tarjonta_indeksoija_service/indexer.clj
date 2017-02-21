@@ -99,25 +99,25 @@
   [ctx]
   (with-error-logging
     (wait-for-elastic-lock
-      (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
-              now (System/currentTimeMillis)]
-          (when-not (nil? last-modified)
-            (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus last-modified))
-                  last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
-              (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
-              (elastic-client/set-last-index-time now)
-              (do-index)))))))
+     (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
+           now (System/currentTimeMillis)]
+       (when-not (nil? last-modified)
+         (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus last-modified))
+               last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
+           (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
+           (elastic-client/set-last-index-time now)
+           (do-index)))))))
 
 (defn start-indexer-job
   []
   (let [job (j/build
-              (j/of-type indexing-job)
-              (j/with-identity "jobs.index.1"))
+             (j/of-type indexing-job)
+             (j/with-identity "jobs.index.1"))
         trigger (t/build
-                  (t/with-identity (t/key "crontirgger"))
-                  (t/start-now)
-                  (t/with-schedule
-                    (schedule (cron-schedule (:cron-string env)))))]
+                 (t/with-identity (t/key "crontirgger"))
+                 (t/start-now)
+                 (t/with-schedule
+                  (schedule (cron-schedule (:cron-string env)))))]
     (log/info (str "Starting indexer with cron schedule " (:cron-string env))
               (qs/schedule job-pool job trigger))))
 

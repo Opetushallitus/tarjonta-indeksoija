@@ -59,7 +59,7 @@
   (let [query (str "SELECT a.koulutusmoduuli_toteutus_oid AS oid "
                    "FROM hakukohde_koulutusmoduuli_toteutus_tarjoajatiedot AS a "
                    "LEFT JOIN koulutusmoduuli_toteutus_tarjoajatiedot_tarjoaja_oid AS b "
-                    "ON a.koulutusmoduuli_toteutus_tarjoajatiedot_id = b.koulutusmoduuli_toteutus_tarjoajatiedot_id "
+                   "ON a.koulutusmoduuli_toteutus_tarjoajatiedot_id = b.koulutusmoduuli_toteutus_tarjoajatiedot_id "
                    "LEFT JOIN koulutusmoduuli_toteutus as k ON a.koulutusmoduuli_toteutus_oid = k.oid "
                    "WHERE b.tarjoaja_oid = '" organisaatio-oid "' AND a.koulutusmoduuli_toteutus_oid IS NOT NULL "
                    "AND k.tila != 'POISTETTU'")]
@@ -105,10 +105,10 @@
     (let [url (str (:tarjonta-service-url env) "lastmodified")
           res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
       (flatten
-        (conj
-          (map #(hash-map :type "haku" :oid %) (:haku res))
-          (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res))
-          (map #(hash-map :type "koulutus" :oid %) (:koulutusmoduuliToteutus res)))))))
+       (conj
+        (map #(hash-map :type "haku" :oid %) (:haku res))
+        (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res))
+        (map #(hash-map :type "koulutus" :oid %) (:koulutusmoduuliToteutus res)))))))
 
 (defn get-hakukohteet-for-koulutus
   [koulutus-oid]

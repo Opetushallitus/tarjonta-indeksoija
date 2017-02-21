@@ -59,7 +59,7 @@
           hakukohteet (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec hakukohteet-list))
           haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
           haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
-          organisaatiot-list (#(assoc {} (:oid %) %)  (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
+          organisaatiot-list (#(assoc {} (:oid %) %) (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
           organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))
           res {:koulutus koulutus
                :haut haut
@@ -70,95 +70,95 @@
 
 (def service-api
   (api
-    {:swagger {:ui   "/tarjonta-indeksoija"
-               :spec "/tarjonta-indeksoija/swagger.json"
-               :data {:info {:title       "Tarjonta-indeksoija"
-                             :description "Elasticsearch wrapper for tarjonta api."}}}
-     :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
-    (context "/tarjonta-indeksoija/api" []
-      (context "/august" []
-        :tags ["august"]
+   {:swagger {:ui "/tarjonta-indeksoija"
+              :spec "/tarjonta-indeksoija/swagger.json"
+              :data {:info {:title "Tarjonta-indeksoija"
+                            :description "Elasticsearch wrapper for tarjonta api."}}}
+    :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
+   (context "/tarjonta-indeksoija/api" []
+     (context "/august" []
+       :tags ["august"]
 
-        (GET "/koulutus" []
-          :summary "Hakee yhden koulutuksen oidin perusteella."
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-koulutus oid)}))
+       (GET "/koulutus" []
+         :summary "Hakee yhden koulutuksen oidin perusteella."
+         :query-params [oid :- String]
+         (ok {:result (elastic-client/get-koulutus oid)}))
 
-        (GET "/hakukohde" []
-          :summary "Hakee yhden hakukohteen oidin perusteella."
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-hakukohde oid)}))
+       (GET "/hakukohde" []
+         :summary "Hakee yhden hakukohteen oidin perusteella."
+         :query-params [oid :- String]
+         (ok {:result (elastic-client/get-hakukohde oid)}))
 
-        (GET "/haku" []
-          :summary "Hakee yhden haun oidin perusteella."
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-haku oid)}))
+       (GET "/haku" []
+         :summary "Hakee yhden haun oidin perusteella."
+         :query-params [oid :- String]
+         (ok {:result (elastic-client/get-haku oid)}))
 
-        (GET "/orgaisaatio" []
-          :summary "Hakee yhden organisaation oidin perusteella."
-          :query-params [oid :- String]
-          (ok {:result (elastic-client/get-organisaatio oid)}))
+       (GET "/orgaisaatio" []
+         :summary "Hakee yhden organisaation oidin perusteella."
+         :query-params [oid :- String]
+         (ok {:result (elastic-client/get-organisaatio oid)}))
 
-        (GET "/status" []
-          :summary "Hakee klusterin ja indeksien tiedot."
-          (ok {:result (elastic-client/get-elastic-status)}))
+       (GET "/status" []
+         :summary "Hakee klusterin ja indeksien tiedot."
+         (ok {:result (elastic-client/get-elastic-status)}))
 
-        (GET "/performance_info" []
-          :summary "Hakee tietoja performanssista"
-          :query-params [{since :- Long 0}]
-          (ok {:result (elastic-client/get-elastic-performance-info since)})))
+       (GET "/performance_info" []
+         :summary "Hakee tietoja performanssista"
+         :query-params [{since :- Long 0}]
+         (ok {:result (elastic-client/get-elastic-performance-info since)})))
 
-      (context "/indexer" []
-        :tags ["indexer"]
-        (GET "/start" []
-          :summary "Käynnistää indeksoinnin taustaoperaation."
-          (ok {:result (indexer/start-stop-indexer true)}))
+     (context "/indexer" []
+       :tags ["indexer"]
+       (GET "/start" []
+         :summary "Käynnistää indeksoinnin taustaoperaation."
+         (ok {:result (indexer/start-stop-indexer true)}))
 
-        (GET "/stop" []
-          :summary "Sammuttaa indeksoinnin taustaoperaation."
-          (ok {:result (indexer/start-stop-indexer false)})))
+       (GET "/stop" []
+         :summary "Sammuttaa indeksoinnin taustaoperaation."
+         (ok {:result (indexer/start-stop-indexer false)})))
 
-      (context "/reindex" []
-        :tags ["reindex"]
-        (GET "/all" []
-          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
-          (ok {:result (reindex-all)}))
+     (context "/reindex" []
+       :tags ["reindex"]
+       (GET "/all" []
+         :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
+         (ok {:result (reindex-all)}))
 
-        (GET "/koulutus" []
-          :summary "Lisää koulutuksen indeksoitavien listalle."
-          :query-params [oid :- String]
-          (ok {:result (reindex "koulutus" oid)}))
+       (GET "/koulutus" []
+         :summary "Lisää koulutuksen indeksoitavien listalle."
+         :query-params [oid :- String]
+         (ok {:result (reindex "koulutus" oid)}))
 
-        (GET "/hakukohde" []
-          :summary "Lisää hakukohteen indeksoitavien listalle."
-          :query-params [oid :- String]
-          (ok {:result (reindex "hakukohde" oid)}))
+       (GET "/hakukohde" []
+         :summary "Lisää hakukohteen indeksoitavien listalle."
+         :query-params [oid :- String]
+         (ok {:result (reindex "hakukohde" oid)}))
 
-        (GET "/haku" []
-          :summary "Lisää haun indeksoitavien listalle."
-          :query-params [oid :- String]
-          (ok {:result (reindex "haku" oid)}))
+       (GET "/haku" []
+         :summary "Lisää haun indeksoitavien listalle."
+         :query-params [oid :- String]
+         (ok {:result (reindex "haku" oid)}))
 
-        (GET "/organisaatio" []
-          :summary "Lisää organisaation indeksoitavien listalle."
-          :query-params [oid :- String]
-          (ok {:result (reindex "organisaatio" oid)})))
+       (GET "/organisaatio" []
+         :summary "Lisää organisaation indeksoitavien listalle."
+         :query-params [oid :- String]
+         (ok {:result (reindex "organisaatio" oid)})))
 
-      (context "/ui" []
-        :tags ["ui"]
-        (GET "/koulutus/:oid" []
-          :summary "Koostaa koulutuksen sekä siihen liittyien hakukohteiden ja hakujen tiedot."
-          :path-params [oid :- String]
-          (ok {:result (get-koulutus-tulos oid)}))
+     (context "/ui" []
+       :tags ["ui"]
+       (GET "/koulutus/:oid" []
+         :summary "Koostaa koulutuksen sekä siihen liittyien hakukohteiden ja hakujen tiedot."
+         :path-params [oid :- String]
+         (ok {:result (get-koulutus-tulos oid)}))
 
-        (GET "/search" []
-          :summary "Tekstihaku."
-          :query-params [query :- String]
-          (ok {:result (elastic-client/text-search query)}))))
+       (GET "/search" []
+         :summary "Tekstihaku."
+         :query-params [query :- String]
+         (ok {:result (elastic-client/text-search query)}))))
 
-    (undocumented
-      ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
-      (route/resources "/tarjonta-indeksoija/"))))
+   (undocumented
+    ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
+    (route/resources "/tarjonta-indeksoija/"))))
 
 (def app
   (logger.timbre/wrap-with-logger service-api))

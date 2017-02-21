@@ -6,5 +6,5 @@
       (update-in [:koulutukset] #(map :oid %))
       (update-in [:koulutusmoduuliToteutusTarjoajatiedot]
                  #(flatten
-                    (for [[k v] %]
-                      [{:koulutus (name k) :tarjoajaOids (:tarjoajaOids v)}])))))
+                   (for [[k v] %]
+                     [{:koulutus (name k) :tarjoajaOids (:tarjoajaOids v)}])))))

@@ -26,10 +26,10 @@
           => "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>")))
 
   (fact "Indexer should save organisaatio"
-        (let [oid "1.2.246.562.10.39920288212"]
-          (mock/with-organisaatio-mock
-            (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "organisaatio"})]))
-          (elastic-client/get-organisaatio oid) => (contains {:oid oid})))
+    (let [oid "1.2.246.562.10.39920288212"]
+      (mock/with-organisaatio-mock
+        (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "organisaatio"})]))
+      (elastic-client/get-organisaatio oid) => (contains {:oid oid})))
 
   (fact "Indexer should start scheduled indexing and index objects"
     (let [hk1-oid "1.2.246.562.20.99178639649"
@@ -66,16 +66,16 @@
     (reset-test-data)
     (let [hk1-oid "1.2.246.562.20.99178639649"
           k1-oid "1.2.246.562.17.81687174185"]
-    (mock/with-tarjonta-mock
-      ;; Do this to activate mock!
-      ;; TODO: could this be done in a smarter way?
-      (elastic-client/set-last-index-time 0)
-      (indexer/start-indexer-job)
-      (tools/block-until-latest-in-queue 10000)
-      (tools/block-until-indexed 10000)
-      (tools/refresh-and-wait "hakukohde" 1000)
-      (let [hk1-res (elastic-client/get-hakukohde hk1-oid)
-            k1-res (elastic-client/get-koulutus k1-oid)]
-        hk1-res => (contains {:oid hk1-oid})
-        k1-res => (contains {:oid k1-oid})
-        (< 0 (elastic-client/get-last-index-time)) => true)))))
+      (mock/with-tarjonta-mock
+        ;; Do this to activate mock!
+        ;; TODO: could this be done in a smarter way?
+        (elastic-client/set-last-index-time 0)
+        (indexer/start-indexer-job)
+        (tools/block-until-latest-in-queue 10000)
+        (tools/block-until-indexed 10000)
+        (tools/refresh-and-wait "hakukohde" 1000)
+        (let [hk1-res (elastic-client/get-hakukohde hk1-oid)
+              k1-res (elastic-client/get-koulutus k1-oid)]
+          hk1-res => (contains {:oid hk1-oid})
+          k1-res => (contains {:oid k1-oid})
+          (< 0 (elastic-client/get-last-index-time)) => true)))))

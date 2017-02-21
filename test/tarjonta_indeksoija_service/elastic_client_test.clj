@@ -19,14 +19,14 @@
     (client/initialize-indices) => true)
 
   (fact "Should have index analyzer settings set"
-        (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
-              {:as :json})]
+    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
+                {:as :json})]
       (get-in res [:body :hakukohde_test :settings :index :analysis])
         => (:analysis conf/analyzer-settings)))
 
   (fact "Should have index stemmer settings set"
-        (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
-              {:as :json})]
+    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
+                {:as :json})]
       (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 
   (fact "Should get elastic-status"
@@ -49,8 +49,8 @@
         (client/delete-handled-queue (range 100 110) last-timestamp)
         (client/refresh-index "indexdata")
         (count (client/get-queue)) => 1
-        (select-keys (first (client/get-queue)) [:oid :type]) =>
-          {:oid 1000 :type "hakukohde"}))
+        (select-keys (first (client/get-queue)) [:oid :type])
+          => {:oid 1000 :type "hakukohde"}))
 
     (fact "should avoid race condition"
       (client/delete-index "indexdata")
@@ -59,14 +59,14 @@
       (:errors (client/upsert-indexdata (dummy-indexdata :amount 1 :id-offset 1000))) => false
       (client/refresh-index "indexdata")
       (let [res (client/get-queue)]
-        (count res) =>  2
+        (count res) => 2
         (:timestamp (first res)) =not=> (:timestamp (last res))))
 
     (fact "should only remove oids from queue that haven't been updated after indexing started"
       (client/delete-index "indexdata")
       (:errors (client/upsert-indexdata (dummy-indexdata))) => false
       (client/refresh-index "indexdata")
-      (let [queue          (client/get-queue)
+      (let [queue (client/get-queue)
             last-timestamp (apply max (map :timestamp queue))]
         (count queue) => 10
         (:errors (client/upsert-indexdata [{:oid 100 :type "hakukohde"}

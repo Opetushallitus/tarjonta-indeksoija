@@ -12,8 +12,8 @@
 (defn parse-body
   [body]
   (-> body
-      parse
-      :result))
+    parse
+    :result))
 
 (defn block-until-indexed
   [timeout]
@@ -28,7 +28,7 @@
   (let [start (System/currentTimeMillis)]
     (elastic-client/refresh-index "indexdata")
     (while (and (> timeout (- (System/currentTimeMillis) start))
-                (empty? (elastic-client/get-queue)))
+             (empty? (elastic-client/get-queue)))
       (Thread/sleep 1000))))
 
 (defn refresh-and-wait

@@ -1,6 +1,5 @@
 {
   "accessRights": {
-
   },
   "result": {
     "modified": 1446635805452,
@@ -38,7 +37,6 @@
       "pohjakoulutusvaatimuskorkeakoulut_103"
     ],
     "opintoOikeusUris": [
-
     ],
     "hakukohdeKoulutusOids": [
       "1.2.246.562.17.67630282753"
@@ -77,10 +75,8 @@
     "kaytetaanHaunPaattymisenAikaa": false,
     "kaytetaanHakukohdekohtaistaHakuaikaa": false,
     "hakukohteenLiitteet": [
-
     ],
     "yhteystiedot": [
-
     ],
     "liitteidenToimitusOsoite": {
       "version": 0,
@@ -90,7 +86,6 @@
       "postitoimipaikka": "AALTO"
     },
     "valintakokeet": [
-
     ],
     "valintaPerusteKuvausTunniste": 3623843,
     "kaksoisTutkinto": false,
@@ -103,22 +98,16 @@
       "kieli_en"
     ],
     "soraKuvausKielet": [
-
     ],
     "painotettavatOppiaineet": [
-
     ],
     "hakuMenettelyKuvaukset": {
-
     },
     "peruutusEhdotKuvaukset": {
-
     },
     "ryhmaliitokset": [
-
     ],
     "organisaatioRyhmaOids": [
-
     ],
     "ylioppilastutkintoAntaaHakukelpoisuuden": false,
     "kelaLinjaKoodi": "Y15",

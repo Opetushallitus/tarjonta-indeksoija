@@ -3,115 +3,115 @@
             [tarjonta-indeksoija-service.converter.koulutus-converter :as converter]))
 
 ;; Abysmal data structures from tarjonta koulutus api
-(let [koodi {:koulutustyyppi {:uri    "koulutustyyppi_3"
+(let [koodi {:koulutustyyppi {:uri "koulutustyyppi_3"
                               :versio 2
-                              :arvo   "3"
-                              :nimi   "Korkeakoulutus"
-                              :meta   {:kieli_sv {:kieliUri    "kieli_sv"
-                                                  :kieliVersio 1
-                                                  :kieliArvo   "SV"
-                                                  :versio      1
-                                                  :nimi        "Högskoleexamen"}
-                                       :kieli_fi {:kieliUri    "kieli_fi"
-                                                  :kieliVersio 1
-                                                  :kieliArvo   "FI"
-                                                  :versio      1
-                                                  :nimi        "Korkeakoulutus"}}}}
-      expected-koodi {:koulutustyyppi {:uri  "koulutustyyppi_3"
+                              :arvo "3"
+                              :nimi "Korkeakoulutus"
+                              :meta {:kieli_sv {:kieliUri "kieli_sv"
+                                                :kieliVersio 1
+                                                :kieliArvo "SV"
+                                                :versio 1
+                                                :nimi "Högskoleexamen"}
+                                     :kieli_fi {:kieliUri "kieli_fi"
+                                                :kieliVersio 1
+                                                :kieliArvo "FI"
+                                                :versio 1
+                                                :nimi "Korkeakoulutus"}}}}
+      expected-koodi {:koulutustyyppi {:uri "koulutustyyppi_3"
                                        :nimi {:kieli_fi "Korkeakoulutus"
                                               :kieli_sv "Högskoleexamen"
                                               :kieli_en nil}}}
 
       koodi-list {:opetuskielis {:versio 1
-                                 :meta   {:kieli_fi {:uri    "kieli_fi"
-                                                     :versio 1
-                                                     :arvo   "FI"
-                                                     :nimi   "suomi"
-                                                     :meta   {:kieli_fi {:kieliUri    "kieli_fi"
-                                                                         :kieliVersio 1
-                                                                         :kieliArvo   "FI"
-                                                                         :versio      1
-                                                                         :nimi        "suomi"}
-                                                              :kieli_sv {:kieliUri    "kieli_sv"
-                                                                         :kieliVersio 1
-                                                                         :kieliArvo   "SV"
-                                                                         :versio      1
-                                                                         :nimi        "finska"}
-                                                              :kieli_en {:kieliUri    "kieli_en"
-                                                                         :kieliVersio 1
-                                                                         :kieliArvo   "EN"
-                                                                         :versio      1
-                                                                         :nimi        "Finnish"}}}
-                                          :kieli_sv {:uri    "kieli_sv"
-                                                     :versio 1
-                                                     :arvo   "SV"
-                                                     :nimi   "ruotsi"
-                                                     :meta   {:kieli_fi {:kieliUri    "kieli_fi"
-                                                                         :kieliVersio 1
-                                                                         :kieliArvo   "FI"
-                                                                         :versio      1
-                                                                         :nimi        "ruotsi"}
-                                                              :kieli_sv {:kieliUri    "kieli_sv"
-                                                                         :kieliVersio 1
-                                                                         :kieliArvo   "SV"
-                                                                         :versio      1
-                                                                         :nimi        "svenska"}
-                                                              :kieli_en {:kieliUri    "kieli_en"
-                                                                         :kieliVersio 1
-                                                                         :kieliArvo   "EN"
-                                                                         :versio      1
-                                                                         :nimi        "Swedish"}}}}
-                                 :uris   {:kieli_fi 1
-                                          :kieli_sv 1}}}
-      expected-koodi-list {:opetuskielis [{:uri  "kieli_fi"
+                                 :meta {:kieli_fi {:uri "kieli_fi"
+                                                   :versio 1
+                                                   :arvo "FI"
+                                                   :nimi "suomi"
+                                                   :meta {:kieli_fi {:kieliUri "kieli_fi"
+                                                                     :kieliVersio 1
+                                                                     :kieliArvo "FI"
+                                                                     :versio 1
+                                                                     :nimi "suomi"}
+                                                          :kieli_sv {:kieliUri "kieli_sv"
+                                                                     :kieliVersio 1
+                                                                     :kieliArvo "SV"
+                                                                     :versio 1
+                                                                     :nimi "finska"}
+                                                          :kieli_en {:kieliUri "kieli_en"
+                                                                     :kieliVersio 1
+                                                                     :kieliArvo "EN"
+                                                                     :versio 1
+                                                                     :nimi "Finnish"}}}
+                                        :kieli_sv {:uri "kieli_sv"
+                                                   :versio 1
+                                                   :arvo "SV"
+                                                   :nimi "ruotsi"
+                                                   :meta {:kieli_fi {:kieliUri "kieli_fi"
+                                                                     :kieliVersio 1
+                                                                     :kieliArvo "FI"
+                                                                     :versio 1
+                                                                     :nimi "ruotsi"}
+                                                          :kieli_sv {:kieliUri "kieli_sv"
+                                                                     :kieliVersio 1
+                                                                     :kieliArvo "SV"
+                                                                     :versio 1
+                                                                     :nimi "svenska"}
+                                                          :kieli_en {:kieliUri "kieli_en"
+                                                                     :kieliVersio 1
+                                                                     :kieliArvo "EN"
+                                                                     :versio 1
+                                                                     :nimi "Swedish"}}}}
+                                 :uris {:kieli_fi 1
+                                        :kieli_sv 1}}}
+      expected-koodi-list {:opetuskielis [{:uri "kieli_fi"
                                            :nimi {:kieli_fi "suomi"
                                                   :kieli_sv "finska"
                                                   :kieli_en "Finnish"}},
-                                          {:uri  "kieli_sv"
+                                          {:uri "kieli_sv"
                                            :nimi {:kieli_fi "ruotsi"
                                                   :kieli_sv "svenska"
                                                   :kieli_en "Swedish"}}]}
 
 
-      kuvaus {:kuvausKomo {:JATKOOPINTO_MAHDOLLISUUDET {:versio  1
-                                                        :meta    {:kieli_sv {:kieliUri    "kieli_sv"
-                                                                             :kieliVersio 1
-                                                                             :kieliArvo   "SV"
-                                                                             :versio      1}
-                                                                  :kieli_fi {:kieliUri    "kieli_fi"
-                                                                             :kieliVersio 1
-                                                                             :kieliArvo   "FI"
-                                                                             :versio      1}}
+      kuvaus {:kuvausKomo {:JATKOOPINTO_MAHDOLLISUUDET {:versio 1
+                                                        :meta {:kieli_sv {:kieliUri "kieli_sv"
+                                                                          :kieliVersio 1
+                                                                          :kieliArvo "SV"
+                                                                          :versio 1}
+                                                               :kieli_fi {:kieliUri "kieli_fi"
+                                                                          :kieliVersio 1
+                                                                          :kieliArvo "FI"
+                                                                          :versio 1}}
                                                         :tekstis {:kieli_sv "<p>JATKOOPINTO_MAHDOLLISUUDET_SV</p>"
                                                                   :kieli_fi "<p>JATKOOPINTO_MAHDOLLISUUDET_FI</p>"}}
-                           :TAVOITTEET                 {:versio              1
-                                                        :meta                {:kieli_sv {:kieliUri    "kieli_sv"
-                                                                                         :kieliVersio 1
-                                                                                         :kieliArvo   "SV"
-                                                                                         :versio      1}
-                                                                              :kieli_fi {:kieliUri    "kieli_fi"
-                                                                                         :kieliVersio 1
-                                                                                         :kieliArvo   "FI"
-                                                                                         :versio      1}}
-                                                        :tekstis             {:kieli_sv "<p>TAVOITTEET_SV</p>"
-                                                                              :kieli_fi "<p>TAVOITTEET_FI</p>"}}
-                           :KOULUTUKSEN_RAKENNE        {:versio                        1
-                                                        :meta    {:kieli_sv {:kieliUri    "kieli_sv"
-                                                                             :kieliVersio 1
-                                                                             :kieliArvo   "SV"
-                                                                             :versio      1}
-                                                                  :kieli_fi {:kieliUri    "kieli_fi"
-                                                                             :kieliVersio 1
-                                                                             :kieliArvo   "FI"
-                                                                             :versio      1}}
-                                                        :tekstis {:kieli_sv "<p>KOULUTUKSEN_RAKENNE_SV</p>"
-                                                                  :kieli_fi "<p>KOULUTUKSEN_RAKENNE_FI</p>"}}}}
-      expected-kuvaus {:kuvausKomo {:TAVOITTEET                 {:kieli_sv "<p>TAVOITTEET_SV</p>"
-                                                                 :kieli_fi "<p>TAVOITTEET_FI</p>"}
+                           :TAVOITTEET {:versio 1
+                                        :meta {:kieli_sv {:kieliUri "kieli_sv"
+                                                          :kieliVersio 1
+                                                          :kieliArvo "SV"
+                                                          :versio 1}
+                                               :kieli_fi {:kieliUri "kieli_fi"
+                                                          :kieliVersio 1
+                                                          :kieliArvo "FI"
+                                                          :versio 1}}
+                                        :tekstis {:kieli_sv "<p>TAVOITTEET_SV</p>"
+                                                  :kieli_fi "<p>TAVOITTEET_FI</p>"}}
+                           :KOULUTUKSEN_RAKENNE {:versio 1
+                                                 :meta {:kieli_sv {:kieliUri "kieli_sv"
+                                                                   :kieliVersio 1
+                                                                   :kieliArvo "SV"
+                                                                   :versio 1}
+                                                        :kieli_fi {:kieliUri "kieli_fi"
+                                                                   :kieliVersio 1
+                                                                   :kieliArvo "FI"
+                                                                   :versio 1}}
+                                                 :tekstis {:kieli_sv "<p>KOULUTUKSEN_RAKENNE_SV</p>"
+                                                           :kieli_fi "<p>KOULUTUKSEN_RAKENNE_FI</p>"}}}}
+      expected-kuvaus {:kuvausKomo {:TAVOITTEET {:kieli_sv "<p>TAVOITTEET_SV</p>"
+                                                 :kieli_fi "<p>TAVOITTEET_FI</p>"}
                                     :JATKOOPINTO_MAHDOLLISUUDET {:kieli_sv "<p>JATKOOPINTO_MAHDOLLISUUDET_SV</p>"
                                                                  :kieli_fi "<p>JATKOOPINTO_MAHDOLLISUUDET_FI</p>"}
-                                    :KOULUTUKSEN_RAKENNE        {:kieli_sv "<p>KOULUTUKSEN_RAKENNE_SV</p>"
-                                                                 :kieli_fi "<p>KOULUTUKSEN_RAKENNE_FI</p>"}}}
+                                    :KOULUTUKSEN_RAKENNE {:kieli_sv "<p>KOULUTUKSEN_RAKENNE_SV</p>"
+                                                          :kieli_fi "<p>KOULUTUKSEN_RAKENNE_FI</p>"}}}
 
 
       kielivalikoima {:kielivalikoima {:B2KIELI {:versio 1
@@ -389,24 +389,24 @@
                                                          :opintojenMaksullisuus false,
                                                          :linkkiOpetussuunnitelmaan "",
                                                          :opetusmuodos [{:uri "opetusmuotokk_3"
-                                                                        :nimi {:kieli_fi "Monimuoto-opetus"
-                                                                               :kieli_sv "Flerformsundervisning"
-                                                                               :kieli_en "Blended learning"}}],
+                                                                         :nimi {:kieli_fi "Monimuoto-opetus"
+                                                                                :kieli_sv "Flerformsundervisning"
+                                                                                :kieli_en "Blended learning"}}],
                                                          :opetusAikas [{:uri "opetusaikakk_1"
-                                                                       :nimi {:kieli_fi "Päiväopetus"
-                                                                              :kieli_sv "Dagundervisning"
-                                                                              :kieli_en "Day time teaching"}}],
+                                                                        :nimi {:kieli_fi "Päiväopetus"
+                                                                               :kieli_sv "Dagundervisning"
+                                                                               :kieli_en "Day time teaching"}}],
                                                          :opetusPaikkas [{:uri "opetuspaikkakk_1"
-                                                                         :nimi {:kieli_fi "Lähiopetus"
-                                                                                :kieli_sv "Närundervisning"
-                                                                                :kieli_en "Contact teaching"}}],
+                                                                          :nimi {:kieli_fi "Lähiopetus"
+                                                                                 :kieli_sv "Närundervisning"
+                                                                                 :kieli_en "Contact teaching"}}],
                                                          :suunniteltuKestoTyyppi {:uri "suunniteltukesto_01",
                                                                                   :nimi {:kieli_fi "vuotta",
                                                                                          :kieli_sv "år",
                                                                                          :kieli_en "years"}}}}]
   (facts "Converter"
     (fact
-    "should convert values"
+      "should convert values"
       (let [dto {:oid "1234"}
             expected {:oid "1234"}]
         (converter/convert dto) => expected))

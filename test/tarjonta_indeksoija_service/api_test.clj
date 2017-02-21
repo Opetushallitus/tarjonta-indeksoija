@@ -13,16 +13,16 @@
       ;; This test uses tarjonta QA
       ;; TODO: try to mock tarjonta in this test..
       (indexer/start-indexer-job)
-      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
-            body     (parse-body (:body response))]
+      (let [response (app (mock/request :get "/tarjonta-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
+            body (parse-body (:body response))]
         (:status response) => 200)
       (tools/block-until-indexed 10000)
       (elastic-client/get-queue) => [])
 
     (fact "fetch hakukohde"
       ;; uses result from previous test.
-      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/august/hakukohde?oid=1.2.246.562.20.28810946823"))
-            body     (parse-body (:body response))]
+      (let [response (app (mock/request :get "/tarjonta-indeksoija/api/august/hakukohde?oid=1.2.246.562.20.28810946823"))
+            body (parse-body (:body response))]
         (:hakuOid body) => "1.2.246.562.29.44465499083"))
 
     (fact "fetch koulutus tulos"
@@ -43,7 +43,7 @@
       (tools/refresh-and-wait "haku" 0)
       (tools/refresh-and-wait "organisaatio" 0)
       (tools/refresh-and-wait "koulutus" 1000)
-      (let [response (app (mock/request :get  "/tarjonta-indeksoija/api/ui/koulutus/1.2.246.562.17.53874141319"))
+      (let [response (app (mock/request :get "/tarjonta-indeksoija/api/ui/koulutus/1.2.246.562.17.53874141319"))
             body (parse-body (:body response))
             koulutus (:koulutus body)
             haut (:haut body)

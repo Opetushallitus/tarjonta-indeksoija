@@ -28,10 +28,10 @@
   [name file-name]
   {(keyword name) (assoc (rolling-appender {:path (str (logs-path) "/" file-name)
                                             :pattern :daily})
-                         :timestamp-opts {:pattern "yyyy-MM-dd'T'HH:mm:ss.SSSX"
-                                          :locale (Locale. "fi")
-                                          :timezone (TimeZone/getTimeZone "Europe/Helsinki")}
-                         :min-level :info)})
+                    :timestamp-opts {:pattern "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+                                     :locale (Locale. "fi")
+                                     :timezone (TimeZone/getTimeZone "Europe/Helsinki")}
+                    :min-level :info)})
 
 (defn logging-config []
   {:level :info
