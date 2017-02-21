@@ -7,6 +7,7 @@
 
 var benchrest = require('bench-rest'),
     baseUrl = process.argv[2];
+    queries = require('./words.json');
 
 if (process.argv.length < 3) {
     console.log('Usage: node rest_koulutus_perf_test.js <service-url> oid1 oid2 oid3.\nUse "localhost" for default url');
@@ -16,18 +17,14 @@ if (process.argv.length < 3) {
 if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/tarjonta-indeksoija';
 
 var requests = {
-    main: [
-        // Queries for fairly common letters that should appear often in all documents.
-        {get: baseUrl + '/api/ui/search?query=a'},
-        {get: baseUrl + '/api/ui/search?query=i'},
-        {get: baseUrl + '/api/ui/search?query=t'},
-        {get: baseUrl + '/api/ui/search?query=n'}
-    ]
+    main: queries.map(function (query) {
+        return {get: baseUrl + '/api/ui/search?query=' + query}
+    })
 };
 
 var runOptions = {
     limit: 10,     // concurrent connections
-    iterations: 1000
+    iterations: 10
 };
 
 benchrest(requests, runOptions)
