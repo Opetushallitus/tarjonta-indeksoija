@@ -15,23 +15,26 @@
   (fact "Elastic search should be alive"
     (client/check-elastic-status) => true)
 
-  (fact "Should set index analyzer settings"
-        ;; Initialize an index to put settings into:
-        (client/initialize-index-settings) => true
+  (fact "Elastic client should initialize indices"
+    (client/initialize-indices) => true)
+
+  (fact "Should have index analyzer settings set"
         (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
               {:as :json})]
       (get-in res [:body :hakukohde_test :settings :index :analysis])
         => (:analysis conf/analyzer-settings)))
 
-  (fact "Should set index stemmer settings"
-        (client/initialize-index-mappings) => true
+  (fact "Should have index stemmer settings set"
         (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
               {:as :json})]
       (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 
+  (fact "Should get elastic-status"
+    (keys (client/get-elastic-status)) => [:cluster_health :indices-info])
+
   (facts "Index queue"
     (fact "Should be empty"
-      (client/get-queue) => nil)
+      (client/get-queue) => ())
 
     (fact "should get queue"
       (:errors (client/upsert-indexdata (dummy-indexdata))) => false
@@ -67,7 +70,7 @@
             last-timestamp (apply max (map :timestamp queue))]
         (count queue) => 10
         (:errors (client/upsert-indexdata [{:oid 100 :type "hakukohde"}
-                                                              {:oid 109 :type "hakukohde"}])) => false
+                                           {:oid 109 :type "hakukohde"}])) => false
         (client/refresh-index "indexdata")
         (:deleted (client/delete-handled-queue (map :oid queue) last-timestamp)) => 8
         (client/refresh-index "indexdata")

@@ -42,6 +42,11 @@
         (http/get {:as :json})
         :body)))
 
+(defn get-elastic-status
+  []
+  {:cluster_health (:body (get-cluster-health))
+   :indices-info (get-indices-info)})
+
 (defn get-perf
   [type since]
   (let [conn (esr/connect (:elastic-url env) {:conn-timeout (:elastic-timeout env)})
@@ -58,11 +63,6 @@
   [since]
   {:indexing_performance (get-perf "indexing_perf" since)
    :query_performance (get-perf "query_perf" since)})
-
-(defn get-elastic-status
-  []
-  {:cluster_health (:body (get-cluster-health))
-   :indices-info (get-indices-info)})
 
 (defn refresh-index
   [index]
@@ -109,8 +109,8 @@
 
 (defn initialize-indices []
     (and (initialize-index-settings)
-       (initialize-index-mappings)
-       (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
+         (initialize-index-mappings)
+         (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
 
 (defn get-by-id
   [index type id]
