@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value>
+        <ClojureCodeStyleSettings>{
+  :clojure.core/and 2
+  :cursive.formatting/align-conditionals false
+  :cursive.formatting/align-maps false
+  :cursive.formatting/one-space-lists true
+  :midje.sweet/against-background :only-indent
+  :midje.sweet/fact :only-indent
+  :midje.sweet/facts :only-indent
+  :tarjonta-indeksoija-service.util.tools/with-error-logging :only-indent
+  :tarjonta-indeksoija-service.util.tools/with-error-logging-value :only-indent
+}</ClojureCodeStyleSettings>
+      </value>
+    </option>
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default (1)" />
+  </component>
+</project>
