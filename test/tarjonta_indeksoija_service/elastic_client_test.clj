@@ -20,13 +20,12 @@
 
   (fact "Should have index analyzer settings set"
     (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
-                {:as :json})]
-      (get-in res [:body :hakukohde_test :settings :index :analysis])
-        => (:analysis conf/analyzer-settings)))
+                        {:as :json})]
+      (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis conf/analyzer-settings)))
 
   (fact "Should have index stemmer settings set"
     (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
-                {:as :json})]
+                        {:as :json})]
       (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 
   (fact "Should get elastic-status"
@@ -40,8 +39,7 @@
       (:errors (client/upsert-indexdata (dummy-indexdata))) => false
       (client/refresh-index "indexdata")
       (count (client/get-queue)) => 10
-      (sort-by :oid (map #(select-keys % [:oid :type]) (client/get-queue)))
-        => (dummy-indexdata))
+      (sort-by :oid (map #(select-keys % [:oid :type]) (client/get-queue))) => (dummy-indexdata))
 
     (fact "should delete handled oids"
       (let [last-timestamp (:timestamp (last (client/get-queue)))]
@@ -49,8 +47,7 @@
         (client/delete-handled-queue (range 100 110) last-timestamp)
         (client/refresh-index "indexdata")
         (count (client/get-queue)) => 1
-        (select-keys (first (client/get-queue)) [:oid :type])
-          => {:oid 1000 :type "hakukohde"}))
+        (select-keys (first (client/get-queue)) [:oid :type]) => {:oid 1000 :type "hakukohde"}))
 
     (fact "should avoid race condition"
       (client/delete-index "indexdata")

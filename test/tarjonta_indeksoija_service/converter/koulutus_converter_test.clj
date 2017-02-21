@@ -238,8 +238,7 @@
                                                                                      :nimi "English"}}}}
                                                  :uris {:kieli_sv 1
                                                         :kieli_en 1}}}}
-      expected-kielivalikoima {:kielivalikoima {
-                                                :B2KIELI [{:uri "kieli_la"
+      expected-kielivalikoima {:kielivalikoima {:B2KIELI [{:uri "kieli_la"
                                                            :nimi {:kieli_fi "latina"
                                                                   :kieli_sv "latin"
                                                                   :kieli_en "Latin"}}]
