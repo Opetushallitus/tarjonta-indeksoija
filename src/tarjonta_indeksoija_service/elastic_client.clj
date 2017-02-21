@@ -55,7 +55,10 @@
                         (index-name type)
                         :query {:range {:created {:gte since}}}
                         :sort [{:started "desc"} {:created "desc"}]
-                        :aggs {:max_time {:max {:field "duration_mills"}}}
+                        :aggs {:max_avg_mills_per_object {:max {:field "avg_mills_per_object"}}
+                               :avg_mills_per_object {:avg {:field "avg_mills_per_object"}}
+                               :max_time {:max {:field "duration_mills"}}
+                               :avg_time {:avg {:field "duration_mills"}}}
                         :size 10000)]
     (merge (:aggregations res)
            {:results (map :_source (get-in res [:hits :hits]))})))
