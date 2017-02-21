@@ -197,8 +197,7 @@
 
 (defmacro upsert-indexdata
   [docs]
-  `(do (log/info "Pushing indexdata" (count ~docs))
-       (bulk-upsert "indexdata" "indexdata" ~docs)))
+  `(bulk-upsert "indexdata" "indexdata" ~docs))
 
 (defn set-last-index-time
   [timestamp]
