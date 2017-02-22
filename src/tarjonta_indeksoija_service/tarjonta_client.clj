@@ -48,7 +48,7 @@
 
 (defn find-docs
   [type]
-  (let [query (str "select oid from " (get db-mappings (keyword type)))]
+  (let [query (str "SELECT oid FROM " (get db-mappings (keyword type)) " WHERE tila != 'POISTETTU'")]
     (map #(assoc % :type type) (db/query (:tarjonta-db env) [query]))))
 
 (defn find-all-tarjonta-docs []

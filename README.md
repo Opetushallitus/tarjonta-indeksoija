@@ -24,13 +24,14 @@ If this is not the case, right click project.clj and select run. Then edit the c
 
 * Name it something like Dev REPL
 * Add a JVM argument `-Dtest=false`
+* When you start the repl type `(go)` to activate mount.core (brings settings to namespaces).
 
 #### Repl for autotesting
 
 Create another repl configuration, e.g. Test repl and add JVM argument `-Dtest=true`.
 
 To run tests every time code is changed:
-* `(use 'midje.repl)`
+* `(use 'midje.repl)` (no need to use `(go)` here)
 * `(autotest)`
 
 ### Command line
