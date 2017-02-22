@@ -21,7 +21,7 @@
   (fact "Should have index analyzer settings set"
     (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
                         {:as :json})]
-      (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis conf/analyzer-settings)))
+      (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis conf/index-settings)))
 
   (fact "Should have index stemmer settings set"
     (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")

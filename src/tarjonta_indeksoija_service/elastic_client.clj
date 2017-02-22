@@ -93,7 +93,7 @@
         index-names-joined (clojure.string/join "," (map index-name index-names))]
     (create-indices index-names)
     (esi/close conn index-names-joined)
-    (let [res (esi/update-settings conn index-names-joined conf/analyzer-settings)]
+    (let [res (esi/update-settings conn index-names-joined conf/index-settings)]
       (esi/open conn index-names-joined)
       (:acknowledged res))))
 

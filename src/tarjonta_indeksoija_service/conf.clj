@@ -8,8 +8,9 @@
 
 (defstate job-pool :start (qs/start (qs/initialize)))
 
-(def analyzer-settings
-  {:analysis {:filter {:finnish_stop {:type "stop"
+(def index-settings
+  {:index.mapping.total_fields.limit 2000
+   :analysis {:filter {:finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
                        :finnish_keywords {:type "keyword_marker"
                                           :keywords "_finnish_keywords_"}
