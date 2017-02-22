@@ -5,42 +5,13 @@
             [taoensso.timbre :as log]
             [clojure.java.jdbc :as db]))
 
-(defn get-url
-  [type path]
-  (str (:tarjonta-service-url env) type "/" path))
-
 (defn get-doc
   [obj]
   (with-error-logging
-    (let [url (get-url (:type obj) (:oid obj))]
+    (let [url (str (:tarjonta-service-url env) (:type obj) "/" (:oid obj))]
       (-> (client/get url {:as :json})
           :body
           :result))))
-
-(defn- extract-koulutus-hakutulos-docs
-  [type result]
-  (->> result
-       :body
-       :result
-       :tulokset
-       (map :tulokset)
-       (flatten)
-       (map :oid)
-       (map #(assoc {} :type type :oid %))))
-
-(defn- find-haku-docs
-  [params]
-  (with-error-logging
-    (if (contains? params :oid)
-      [{:type "haku" :oid (:oid params)}]
-      (let [params-with-defaults (merge {:tarjoajaoid "1.2.246.562.10.00000000001"
-                                         :tila "NOT_POISTETTU"} params)
-            url (get-url "haku" "find")]
-        (->> (client/get url {:query-params params-with-defaults :as :json})
-             :body
-             :result
-             (map :oid)
-             (map #(assoc {} :type "haku" :oid %)))))))
 
 (def db-mappings {:koulutus "koulutusmoduuli_toteutus"
                   :hakukohde "hakukohde"
