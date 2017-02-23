@@ -61,4 +61,19 @@
           (doseq [x (map :koulutukset (vals hakukohteet))]
             x => (contains "1.2.246.562.17.53874141319"))
 
-          (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut))))))))
+          (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut)))))
+
+      (fact "fetch text search result"
+        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/ui/search?query=Tekn.%20kand.,%20tietotekniikka"))
+              body (parse-body (:body response))]
+          body => [{:nimi {:kieli_en "MSc, Information Technology"
+                           :kieli_fi "Dipl.ins., tietotekniikka"
+                           :kieli_sv "Dipl.ing., datateknik"}, :oid "1.2.246.562.17.53874141319"
+                    :score 0.7594807, :tarjoaja "Aalto-yliopisto, Perustieteiden korkeakoulu"}] ))
+
+      (fact "fetch performance info"
+        (tools/refresh-and-wait "query_perf" 1000)
+        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/august/performance_info"))
+              body (parse-body (:body response))]
+          (empty? (get-in body [:indexing_performance :results]))=> false
+          (empty? (get-in body [:query_performance :results]))=> false)))))

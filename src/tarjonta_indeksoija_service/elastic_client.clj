@@ -11,7 +11,6 @@
             [clojurewerkz.elastisch.rest.document :as esd]
             [clojurewerkz.elastisch.rest.utils :refer [join-names]]
             [clojurewerkz.elastisch.query :as q]
-            [clojurewerkz.elastisch.rest.response :as esrsp]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.arguments :as ar])
   (:import (clojurewerkz.elastisch.rest Connection)))
