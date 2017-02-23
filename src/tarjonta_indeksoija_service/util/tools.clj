@@ -12,7 +12,7 @@
     (catch Object ~'_
       (if (Boolean/valueOf (:test ~environ.core/env))
         (log/info "Error during test:" (:message ~'&throw-context))
-        ;(log/error ~'e)
+        ;(log/error (:throwable ~'&throw-context))
         ; ^- during test if you want to see stack trace
         (log/error (:throwable ~'&throw-context)))
       ~value)))

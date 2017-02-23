@@ -2,7 +2,7 @@
   (:require [tarjonta-indeksoija-service.indexer :as indexer]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.test-tools :as tools :refer [reset-test-data]]
-            [mocks.tarjonta-mock :as mock]
+            [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]))
 
 (against-background
@@ -11,13 +11,13 @@
 
   (fact "Indexer should save hakukohde"
     (let [oid "1.2.246.562.20.99178639649"]
-      (mock/with-tarjonta-mock
+      (with-externals-mock
         (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "hakukohde"})]))
       (elastic-client/get-hakukohde oid) => (contains {:oid oid})))
 
   (fact "Indexer should save koulutus"
     (let [oid "1.2.246.562.17.81687174185"]
-      (mock/with-tarjonta-mock
+      (with-externals-mock
         (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "koulutus"})]))
       (let [indexed-koulutus (elastic-client/get-koulutus oid)]
         indexed-koulutus => (contains {:oid oid})
@@ -27,7 +27,7 @@
 
   (fact "Indexer should save organisaatio"
     (let [oid "1.2.246.562.10.39920288212"]
-      (mock/with-organisaatio-mock
+      (with-externals-mock
         (indexer/index-objects [(indexer/get-coverted-doc {:oid oid :type "organisaatio"})]))
       (elastic-client/get-organisaatio oid) => (contains {:oid oid})))
 
@@ -36,7 +36,7 @@
           hk2-oid "1.2.246.562.20.28810946823"
           k1-oid "1.2.246.562.17.81687174185"
           oids [hk1-oid hk2-oid k1-oid]]
-      (mock/with-tarjonta-mock
+      (with-externals-mock
         (indexer/start-indexer-job)
         (map #(elastic-client/get-hakukohde %) [hk1-oid hk2-oid]) => [nil nil]
         (elastic-client/get-koulutus k1-oid) => nil
@@ -66,7 +66,7 @@
     (reset-test-data)
     (let [hk1-oid "1.2.246.562.20.99178639649"
           k1-oid "1.2.246.562.17.81687174185"]
-      (mock/with-tarjonta-mock
+      (with-externals-mock
         ;; Do this to activate mock!
         ;; TODO: could this be done in a smarter way?
         (elastic-client/set-last-index-time 0)

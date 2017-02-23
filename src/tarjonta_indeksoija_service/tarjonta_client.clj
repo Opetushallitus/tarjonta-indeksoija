@@ -68,7 +68,7 @@
     (= (:type obj) "organisaatio") (find-koulutus-for-organisaatio (:oid obj))
     (= (:type obj) "hakukohde") (find-koulutus-for-hakukohde (:oid obj))
     (= (:type obj) "haku") (find-koulutus-for-haku (:oid obj))
-    (= (:type obj) "koulutus") ()))
+    (= (:type obj) "koulutus") []))
 
 (defn get-last-modified
   [since]
