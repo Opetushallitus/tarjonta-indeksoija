@@ -76,8 +76,8 @@
                             :description "Elasticsearch wrapper for tarjonta api."}}}
     :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
    (context "/tarjonta-indeksoija/api" []
-     (context "/august" []
-       :tags ["august"]
+     (context "/admin" []
+       :tags ["admin"]
 
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella."

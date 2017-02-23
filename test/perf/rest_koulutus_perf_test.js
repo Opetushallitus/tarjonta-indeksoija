@@ -43,6 +43,6 @@ benchrest(requests, runOptions)
     .on('end', function (stats, errorCount) {
         console.log('error count: ', errorCount);
         console.log("Started at: " + start + ", end: " + new Date().getTime());
-        console.log("Get perf tests statistics from elastic with:\nhttp://localhost:3000/tarjonta-indeksoija/api/august/performance_info?since=" + start);
+        console.log("Get perf tests statistics from elastic with:\nhttp://localhost:3000/tarjonta-indeksoija/api/admin/performance_info?since=" + start);
         console.log('stats', stats);
     });

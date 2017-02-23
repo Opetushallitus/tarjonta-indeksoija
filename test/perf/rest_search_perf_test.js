@@ -44,7 +44,7 @@ urls.forEach(function(url) {
                 var end = new Date().getTime();
                 console.log('error count: ', errorCount);
                 console.log('Started at: ' + start + ', end: ' + end + ' total time ' + ((end - start) / 1000) + ' seconds.');
-                console.log('Get more perf tests statistics from elastic with:\nhttp://localhost:3000/tarjonta-indeksoija/api/august/performance_info?since=' + start);
+                console.log('Get more perf tests statistics from elastic with:\nhttp://localhost:3000/tarjonta-indeksoija/api/admin/performance_info?since=' + start);
                 console.log('Results below are in format <query: [minTime, maxTime, meanTime]>.');
                 console.log('The numbers represent the total time for ' + runOptions.iterations + ' requests, not a single request.');
                 console.log(results);

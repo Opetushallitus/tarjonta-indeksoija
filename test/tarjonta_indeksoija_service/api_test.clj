@@ -21,7 +21,7 @@
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.
-        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/august/hakukohde?oid=1.2.246.562.20.28810946823"))
+        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))
               body (parse-body (:body response))]
           (:hakuOid body) => "1.2.246.562.29.44465499083"))
 
@@ -73,7 +73,7 @@
 
       (fact "fetch performance info"
         (tools/refresh-and-wait "query_perf" 1000)
-        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/august/performance_info"))
+        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/admin/performance_info"))
               body (parse-body (:body response))]
           (empty? (get-in body [:indexing_performance :results]))=> false
           (empty? (get-in body [:query_performance :results]))=> false)))))
