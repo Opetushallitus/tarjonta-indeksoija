@@ -33,12 +33,15 @@
   [oid-list]
   [])
 
+(defn reindex-mock
+  [index oid]
+  (elastic-client/upsert-indexdata
+   [{:type index :oid oid}]))
+
 (defmacro with-externals-mock
   [& body]
   `(with-redefs [tarjonta-indeksoija-service.api/reindex
-                 (fn [~'index ~'oid]
-                   (elastic-client/upsert-indexdata
-                    [{:type "hakukohde" :oid "1.2.246.562.20.28810946823"}]))
+                 mocks.externals-mock/reindex-mock
 
                  tarjonta-indeksoija-service.tarjonta-client/get-last-modified
                  mocks.externals-mock/get-last-modified

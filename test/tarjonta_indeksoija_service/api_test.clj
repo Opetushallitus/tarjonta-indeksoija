@@ -9,7 +9,7 @@
             [ring.mock.request :as mock]))
 
 (with-externals-mock
-  (facts "Api should" :external-api
+  (facts "Api should"
     (against-background [(after :contents (reset-test-data))]
         (fact "reindex hakukohde"
           (indexer/start-indexer-job)

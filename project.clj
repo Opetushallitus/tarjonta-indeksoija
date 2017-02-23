@@ -46,7 +46,7 @@
              :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
-            "ci-test" ["with-profile" "+test" "midje" ":config" "ci/test_conf.clj" ":filter" "-external-api"]
+            "ci-test" ["with-profile" "+test" "midje" ":config" "ci/test_conf.clj"]
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
