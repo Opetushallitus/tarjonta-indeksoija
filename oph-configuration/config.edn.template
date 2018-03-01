@@ -5,6 +5,7 @@
  :elastic-timeout 100000
  :tarjonta-db {:dbtype "postgresql"
                :dbname "tarjonta"
+               :port "{{tarjonta_indeksoija_tarjonta_db_port}}"
                :host "{{tarjonta_indeksoija_tarjonta_db_url}}"
                :user "{{tarjonta_indeksoija_tarjonta_db_user}}"
                :password "{{tarjonta_indeksoija_tarjonta_db_password}}"}}

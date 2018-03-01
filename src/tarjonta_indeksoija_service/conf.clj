@@ -50,15 +50,15 @@
 (def stemmer-settings
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
-                             :mapping {:type "string"
+                             :mapping {:type "text"
                                        :analyzer "finnish"}}}
                        {:sv {:match "kieli_sv"
                              :match_mapping_type "string"
-                             :mapping {:type "string"
+                             :mapping {:type "text"
                                        :analyzer "swedish"}}}
                        {:en {:match "kieli_en"
                              :match_mapping_type "string"
-                             :mapping {:type "string"
+                             :mapping {:type "text"
                                        :analyzer "english"}}}]})
 
 (def indexdata-mappings

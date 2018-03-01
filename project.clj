@@ -7,10 +7,9 @@
                                                               com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
                                                               ring/ring-codec
                                                               clj-time
-                                                              org.yaml/snakeyaml
                                                               joda-time]]
-                 [clojurewerkz/elastisch "2.2.2"]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
+                 [cheshire "5.8.0"]
                  [clj-http "2.3.0"]
                  [cprop "0.1.10"]
                  [mount "0.1.11"]
@@ -28,7 +27,6 @@
          :browser-uri "tarjonta-indeksoija"}
   :uberjar-name "tarjonta-indeksoija.jar"
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
-                                  [cheshire "5.5.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [midje "1.8.3"]
                                   [org.clojure/tools.namespace "0.2.11"]

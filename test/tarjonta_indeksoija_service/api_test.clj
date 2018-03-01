@@ -69,7 +69,7 @@
           body => [{:nimi {:kieli_en "MSc, Information Technology"
                            :kieli_fi "Dipl.ins., tietotekniikka"
                            :kieli_sv "Dipl.ing., datateknik"}, :oid "1.2.246.562.17.53874141319"
-                    :score 0.7594807, :tarjoaja "Aalto-yliopisto, Perustieteiden korkeakoulu"}] ))
+                    :score 0.8630463, :tarjoaja "Aalto-yliopisto, Perustieteiden korkeakoulu"}] )) ;TODO: scoring was 0.7594807 -> scoring changed due to Elastic version difference?
 
       (fact "fetch performance info"
         (tools/refresh-and-wait "query_perf" 1000)

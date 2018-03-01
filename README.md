@@ -45,11 +45,15 @@ project.clj.
 
 To run the application: `lein run`
 
+Ui can be found in: [http://localhost:3000/tarjonta-indeksoija/ui/index.html]
+
 Running the app itself from the repl doesn't seem worth while.
 
 #### Run the tests
 
 To run tests from command line use commands `lein test` or `lein autotest`
+
+TO run single test from command line use command `lein with-profile +test midje tarjonta-indeksoija-service.elastic-client-test`
 
 ### Configuration
 
