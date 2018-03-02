@@ -76,6 +76,11 @@
                             :description "Elasticsearch wrapper for tarjonta api."}}}
     :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
    (context "/tarjonta-indeksoija/api" []
+
+     (GET "/healthcheck" []
+       :summary "Healthcheck API."
+       (ok "OK"))
+
      (context "/admin" []
        :tags ["admin"]
 
