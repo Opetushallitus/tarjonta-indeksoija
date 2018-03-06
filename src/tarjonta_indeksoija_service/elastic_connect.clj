@@ -52,7 +52,10 @@
     (elastic-post (elastic-url index mapping-type "_search") query-map)))
 
 (defn get-document [index mapping-type id] ;TODO URL encoding
-  (elastic-get (elastic-url index mapping-type id)))
+  (try
+    (elastic-get (elastic-url index mapping-type id))
+    (catch Exception e
+      (if (= 404 ((ex-data e) :status)) {:found false} (throw e)))))
 
 (defn bulk [index mapping-type data]
   (if (not (empty? data))
@@ -68,4 +71,4 @@
         (:status)
         (= 200))
     (catch Exception e
-      (if (= 404((ex-data e) :status)) false (throw e)))))
+      (if (= 404 ((ex-data e) :status)) false (throw e)))))
