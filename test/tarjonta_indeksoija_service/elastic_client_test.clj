@@ -1,6 +1,7 @@
 (ns tarjonta-indeksoija-service.elastic-client-test
   (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
             [tarjonta-indeksoija-service.elastic-client :as client]
+            [tarjonta-indeksoija-service.elastic-connect :refer [max-payload-size bulk-partitions]]
             [tarjonta-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
             [tarjonta-indeksoija-service.test-tools :as tools]
             [clj-http.client :as http]
@@ -10,6 +11,21 @@
   [& {:keys [amount id-offset] :or {amount 10
                                     id-offset 100}}]
   (map #(hash-map :oid (+ % id-offset) :type "hakukohde") (range amount)))
+
+(fact "Payload for bulk operation should be partitioned correctly"
+  (with-redefs [max-payload-size 500]
+    (let [data (dummy-indexdata :amount 50 :id-offset 1000)
+          bulk-data (bulk-partitions data)]
+      (count bulk-data) => 4
+      (println (first bulk-data))
+      (println "=======")
+      (println (second bulk-data))
+      (println "=======")
+      (println (nth bulk-data 2))
+      (println "=======")
+      (println (last bulk-data))
+      (count (.getBytes (first bulk-data))) => 480
+      (count (.getBytes (last bulk-data))) => 160)))
 
 (against-background [(after :contents (reset-test-data))]
   (fact "Elastic search should be alive"

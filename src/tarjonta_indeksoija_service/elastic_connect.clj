@@ -57,13 +57,28 @@
     (catch Exception e
       (if (= 404 ((ex-data e) :status)) {:found false} (throw e)))))
 
+;MAX request payload size in AWS ElasticSearch
+(defonce max-payload-size 10485760)
+
+(defn bulk-partitions [data]
+  (let [bulk-entries (map #(str (json/encode %) "\n") data)
+        cur-bytes (atom 0)
+        partitioner (fn [e]
+                      (let [bytes (count (.getBytes e))]
+                        (if (> max-payload-size (+ @cur-bytes bytes))
+                          (do (reset! cur-bytes (+ @cur-bytes bytes)) true)
+                          (do (reset! cur-bytes 0) false))))]
+    (map #(clojure.string/join %) (partition-by partitioner bulk-entries))))
+
 (defn bulk [index mapping-type data]
+  (log/info "Executing bulk operation....")
   (if (not (empty? data))
-    (let [bulk-json (map json/encode data)
-          bulk-json (-> bulk-json
-                        (interleave (repeat "\n"))
-                        (clojure.string/join))]
-      (elastic-post (elastic-url index mapping-type "_bulk") bulk-json))))
+    (let [partitions (bulk-partitions data)]
+      (doall (map #(elastic-post (elastic-url index mapping-type "_bulk") %) partitions)))))
+
+(comment defn bulk [index mapping-type data]
+  (if (not (empty? data))
+    (elastic-post (elastic-url index mapping-type "_bulk") data)))
 
 (defn index-exists [index]
   (try

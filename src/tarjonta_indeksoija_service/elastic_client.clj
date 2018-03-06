@@ -169,8 +169,9 @@
 (defn bulk-upsert
   [index type documents]
   (with-error-logging
-    (let [data (bulk-upsert-data index type documents)]
-      (select-keys (bulk index type data) [:took :errors]))))
+    (let [data (bulk-upsert-data index type documents)
+          res (bulk index type data)]
+      {:errors (not (every? false? (:errors res)))})))
 
 (defmacro upsert-indexdata
   [docs]
