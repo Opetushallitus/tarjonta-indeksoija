@@ -23,19 +23,19 @@
 
 (defn elastic-post
   [url body]
-  (-> (http/post url {:body (if (instance? String body) body (json/encode body)) :content-type :json})
+  (-> (http/post url {:body (if (instance? String body) body (json/encode body)) :content-type :json :socket-timeout 120000})
       (:body)
       (json/decode true)))
 
 (defn elastic-put
   [url body]
-  (-> (http/put url {:body (if (instance? String body) body (json/encode body)) :content-type :json})
+  (-> (http/put url {:body (if (instance? String body) body (json/encode body)) :content-type :json :socket-timeout 120000})
   (:body)
   (json/decode true)))
 
 (defn elastic-get
   [url]
-  (-> (http/get url)
+  (-> (http/get url {:socket-timeout 120000})
   (:body)
   (json/decode true)))
 
