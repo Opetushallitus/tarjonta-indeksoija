@@ -64,32 +64,12 @@
   (try (http/delete (str (:elastic-url env) "/" (index-name index)) {:content-type :json :body "{}"})
        (catch Exception e (if (not (= 404((ex-data e) :status))) (throw e)))))
 
-(defn- create-index [index]
-  (let [url (elastic-url (index-name index) (index-name index) "init")]
-    (http/put url {:body "{}" :content-type :json})
-    (http/delete url)))
-
-(defn- create-indices [index-names]
-  (doall (map create-index index-names)))
-
-(defn- close-index [index-names-joined]
-  (http/post (str (:elastic-url env) "/" index-names-joined "/_close") {:body "{}" :content-type :json}))
-
-(defn- open-index [index-names-joined]
-  (http/post (str (:elastic-url env) "/" index-names-joined "/_open") {:body "{}" :content-type :json}))
-
-(defn- update-indice-settings [index-names-joined]
-  (elastic-put (str (:elastic-url env) "/" index-names-joined "/_settings") conf/index-settings))
-
-(defn initialize-index-settings
-  []
+(defn initialize-index-settings []
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf"]
-        index-names-joined (clojure.string/join "," (map index-name index-names))]
-    (create-indices index-names)
-    (close-index index-names-joined)
-    (let [res (update-indice-settings index-names-joined)]
-      (open-index index-names-joined)
-      (:acknowledged res))))
+        new-indexes (filter #(not (index-exists %)) (map index-name index-names))
+        results (map #(create-index % conf/index-settings) new-indexes)
+        ack (map #(:acknowledged %) results)]
+    (every? true? ack)))
 
 (defn- ->opts
   "Coerces arguments to a map"

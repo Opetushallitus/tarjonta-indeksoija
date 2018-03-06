@@ -42,6 +42,11 @@
 (defn create [index mapping-type document]
   (elastic-post (elastic-url index mapping-type) document))
 
+(defn create-index [index settings]            ;TODO mappings can be also created here
+  (log/info (str "Creating new index ") index)
+  (let [json {:settings settings}]
+    (elastic-put (str (:elastic-url env) "/" index) json)))
+
 (defn search [index mapping-type & query-params]
   (let [query-map (apply array-map query-params)]
     (elastic-post (elastic-url index mapping-type "_search") query-map)))
@@ -56,3 +61,11 @@
                         (interleave (repeat "\n"))
                         (clojure.string/join))]
       (elastic-post (elastic-url index mapping-type "_bulk") bulk-json))))
+
+(defn index-exists [index]
+  (try
+    (-> (http/head (str (:elastic-url env) "/" index))
+        (:status)
+        (= 200))
+    (catch Exception e
+      (if (= 404((ex-data e) :status)) false (throw e)))))
