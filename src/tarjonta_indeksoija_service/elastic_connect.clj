@@ -76,10 +76,6 @@
     (let [partitions (bulk-partitions data)]
       (doall (map #(elastic-post (elastic-url index mapping-type "_bulk") %) partitions)))))
 
-(comment defn bulk [index mapping-type data]
-  (if (not (empty? data))
-    (elastic-post (elastic-url index mapping-type "_bulk") data)))
-
 (defn index-exists [index]
   (try
     (-> (http/head (str (:elastic-url env) "/" index))
