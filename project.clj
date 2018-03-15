@@ -16,6 +16,8 @@
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
                  [org.postgresql/postgresql "9.4-1200-jdbc41"]
+                 [com.amazonaws/aws-java-sdk-s3 "1.11.205"]
+                 [base64-clj "0.1.1"]
 
                  ;;Logging
                  [ring-logger "0.7.6"]
@@ -40,7 +42,8 @@
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
-             :test {:env {:test "true"}}
+             :test {:env {:test "true"}
+                    :dependencies [[io.findify/s3mock_2.11 "0.2.4"]]}
              :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]

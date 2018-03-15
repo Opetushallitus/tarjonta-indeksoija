@@ -4,7 +4,8 @@
             [tarjonta-indeksoija-service.organisaatio-client :as organisaatio]
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.api]
-            [tarjonta-indeksoija-service.indexer]))
+            [tarjonta-indeksoija-service.indexer]
+            [base64-clj.core :as b64]))
 
 (defn get-doc
   [obj]
@@ -13,6 +14,13 @@
     (.contains (:type obj) "koulutus") (tools/parse-body (str "test/resources/koulutukset/" (:oid obj) ".json"))
     (.contains (:type obj) "haku") (tools/parse-body (str "test/resources/haut/" (:oid obj) ".json"))
     (.contains (:type obj) "organisaatio") (tools/parse (str "test/resources/organisaatiot/" (:oid obj) ".json"))))
+
+(defn get-pic
+  [obj]
+  (cond
+    (.contains (:type obj) "koulutus") [{:kieliUri "kieli_fi", :filename "vuh.txt", :mimeType "text/plain", :base64data (b64/encode "vuh")},
+                                        {:kieliUri "kieli_sv", :filename "vuh.txt", :mimeType "text/plain", :base64data (b64/encode "vuf")},
+                                        {:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data (b64/encode "hau")}]))
 
 (defn get-last-modified
   [since]
@@ -32,6 +40,10 @@
 (defn get-haut-by-oids
   [oid-list]
   [])
+
+(defn refresh-s3
+  [obj pics]
+  true)
 
 (defn reindex-mock
   [index oid]
@@ -55,6 +67,9 @@
                  tarjonta-indeksoija-service.tarjonta-client/get-doc
                  mocks.externals-mock/get-doc
 
+                 tarjonta-indeksoija-service.tarjonta-client/get-pic
+                 mocks.externals-mock/get-pic
+
                  tarjonta-indeksoija-service.organisaatio-client/get-doc
                  mocks.externals-mock/get-doc
 
@@ -62,5 +77,8 @@
                  mocks.externals-mock/get-hakukohteet-for-koulutus
 
                  tarjonta-indeksoija-service.tarjonta-client/get-haut-by-oids
-                 mocks.externals-mock/get-haut-by-oids]
+                 mocks.externals-mock/get-haut-by-oids
+
+                 tarjonta-indeksoija-service.s3.s3-client/refresh-s3
+                 mocks.externals-mock/refresh-s3]
      (do ~@body)))

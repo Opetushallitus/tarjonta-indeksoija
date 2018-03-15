@@ -6,6 +6,7 @@
             [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
             [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+            [tarjonta-indeksoija-service.s3.s3-client :as s3-client]
             [taoensso.timbre :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
@@ -65,6 +66,21 @@
     (when (some true? (map :errors res))
       (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
 
+(defn store-pictures
+  [queue]
+
+  (defn- store-koulutus-pics [obj]
+    (let [pics (flatten (tarjonta-client/get-pic obj))]
+      (if (not (empty? pics))
+        (s3-client/refresh-s3 obj pics)
+        (log/debug (str "No pictures for koulutus " (:oid obj))))))
+
+    (let [store-pic-fn (fn [obj] (cond
+                                   (= (:type obj) "koulutus") (store-koulutus-pics obj))
+                                   (= (:type obj) "organisaatio") true
+                                   :else true)]
+      (doall (pmap store-pic-fn queue))))
+
 (defn do-index
   []
   (let [queue (elastic-client/get-queue)
@@ -78,6 +94,7 @@
               failed-oids (clojure.set/difference (set queue-oids)
                                                   (set (map :oid converted-docs)))]
           (index-objects converted-docs)
+          (store-pictures queue)
           (end-indexing queue-oids
                         (count converted-docs)
                         failed-oids

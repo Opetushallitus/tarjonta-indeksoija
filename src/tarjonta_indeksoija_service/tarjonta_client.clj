@@ -13,6 +13,15 @@
           :body
           :result))))
 
+(defn get-pic
+  [obj]
+  (with-error-logging
+    (when (= "koulutus" (:type obj))
+      (let [url (str (:tarjonta-service-url env) "koulutus/" (:oid obj) " /kuva")]
+        (-> (client/get url {:as :json})
+            :body
+            :result)))))
+
 (def db-mappings {:koulutus "koulutusmoduuli_toteutus"
                   :hakukohde "hakukohde"
                   :haku "haku"})
