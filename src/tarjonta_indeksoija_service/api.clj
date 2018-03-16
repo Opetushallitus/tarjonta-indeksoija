@@ -3,6 +3,7 @@
             [tarjonta-indeksoija-service.conf :refer [env]]
             [tarjonta-indeksoija-service.util.logging :as logging]
             [tarjonta-indeksoija-service.indexer :as indexer]
+            [tarjonta-indeksoija-service.s3.s3-connect :as s3]
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]
             [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
@@ -18,6 +19,7 @@
 
 (defn init []
   (mount/start)
+  (s3/init-s3-client)
   (timbre/set-config! (logging/logging-config))
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))

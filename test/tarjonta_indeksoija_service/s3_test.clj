@@ -33,12 +33,13 @@
       s3-url (str "http://localhost:" port)
       endpoint-config (new AwsClientBuilder$EndpointConfiguration s3-url, (:s3-region env))]
 
-  (with-redefs [s3/s3-client (-> (AmazonS3ClientBuilder/standard)
+  (let [client (-> (AmazonS3ClientBuilder/standard)
                                  (.withPathStyleAccessEnabled true)
                                  (.withEndpointConfiguration endpoint-config)
                                  (.withCredentials (new AWSStaticCredentialsProvider (new AnonymousAWSCredentials)))
                                  (.build))]
-    (.createBucket s3/s3-client (new CreateBucketRequest (:s3-bucket env) (:s3-region env)))
+    (reset! s3/s3-client client)
+    (.createBucket @s3/s3-client (new CreateBucketRequest (:s3-bucket env) (:s3-region env)))
 
     (facts "s3 connect should"
       (fact "return empty list"
