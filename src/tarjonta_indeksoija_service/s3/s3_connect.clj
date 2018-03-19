@@ -25,7 +25,7 @@
                            (.setContentLength (count bytes)))
            request (new PutObjectRequest (:s3-bucket env) key (new ByteArrayInputStream bytes) metadata)]
        (log/info key)
-       (.putObject @s3-client request)))
+       (some? (.putObject @s3-client request))))
 
   (defn list [& path-parts]
      (let [request (-> (new ListObjectsV2Request)

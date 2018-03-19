@@ -12,7 +12,7 @@
           mimetype (:mimeType pic)]
       (log/info (str "Updating picture " filename " with lang " kieli " for koulutus " oid))
       (with-error-logging
-        (s3/upload data mimetype filename oid kieli))))
+        false (s3/upload data mimetype filename oid kieli))))
 
   (defn- update-koulutus-pics [oid pics]
     (with-error-logging
