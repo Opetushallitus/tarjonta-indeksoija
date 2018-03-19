@@ -43,34 +43,34 @@
 
     (facts "s3 connect should"
       (fact "return empty list"
-        (count (s3/list koulutus-oid)) => 0)
+        (count (s3/list "koulutus" koulutus-oid)) => 0)
 
       (fact "upload documents"
-        (s3/upload (.getBytes "moi") "text/plain" "moi.txt" koulutus-oid "kieli_fi")
-        (s3/upload (.getBytes "hej") "text/plain" "moi.txt" koulutus-oid "kieli_sv")
-        (s3/upload (.getBytes "terve") "text/plain" "terve.txt" koulutus-oid "kieli_fi")
-        (count (s3/list koulutus-oid)) => 3)
+        (s3/upload (.getBytes "moi") "text/plain" "moi.txt" "koulutus" koulutus-oid "kieli_fi")
+        (s3/upload (.getBytes "hej") "text/plain" "moi.txt" "koulutus" koulutus-oid "kieli_sv")
+        (s3/upload (.getBytes "terve") "text/plain" "terve.txt" "koulutus" koulutus-oid "kieli_fi")
+        (count (s3/list "koulutus" koulutus-oid)) => 3)
 
       (fact "list documents in specific language"
-        (count (s3/list koulutus-oid "kieli_fi")) => 2)
+        (count (s3/list "koulutus" koulutus-oid "kieli_fi")) => 2)
 
       (fact "delete documents"
-        (let [resp (s3/list koulutus-oid)]
+        (let [resp (s3/list "koulutus" koulutus-oid)]
           (s3/delete resp))
-        (count (s3/list koulutus-oid)) => 0))
+        (count (s3/list "koulutus" koulutus-oid)) => 0))
 
     (facts "s3 client should"
       (fact "store pictures"
-        (count (s3/list koulutus-oid)) => 0
+        (count (s3/list "koulutus" koulutus-oid)) => 0
         (let [obj {:oid koulutus-oid :type "koulutus"}
               pics [{:kieliUri "kieli_fi", :filename "vuh.txt", :mimeType "text/plain", :base64data (b64/encode "vuh")},
                     {:kieliUri "kieli_sv", :filename "vuh.txt", :mimeType "text/plain", :base64data (b64/encode "vuf")},
                     {:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data (b64/encode "hau")}]]
           (client/refresh-s3 obj pics))
-        (count (s3/list koulutus-oid)) => 3)
+        (count (s3/list "koulutus" koulutus-oid)) => 3)
       (fact "refresh all pictures"
-        (count (s3/list koulutus-oid)) => 3
+        (count (s3/list "koulutus" koulutus-oid)) => 3
         (let [obj {:oid koulutus-oid :type "koulutus"}
               pics [{:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data (b64/encode "hau")}]]
           (client/refresh-s3 obj pics))
-        (count (s3/list koulutus-oid)) => 1))))
+        (count (s3/list "koulutus" koulutus-oid)) => 1))))
