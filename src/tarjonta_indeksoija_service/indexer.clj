@@ -66,15 +66,14 @@
     (when (some true? (map :errors res))
       (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
 
+(defn store-koulutus-pics [obj]
+  (let [pics (flatten (tarjonta-client/get-pic obj))]
+    (if (not (empty? pics))
+      (s3-client/refresh-s3 obj pics)
+      (log/debug (str "No pictures for koulutus " (:oid obj))))))
+
 (defn store-pictures
   [queue]
-
-  (defn- store-koulutus-pics [obj]
-    (let [pics (flatten (tarjonta-client/get-pic obj))]
-      (if (not (empty? pics))
-        (s3-client/refresh-s3 obj pics)
-        (log/debug (str "No pictures for koulutus " (:oid obj))))))
-
     (let [store-pic-fn (fn [obj] (cond
                                    (= (:type obj) "koulutus") (store-koulutus-pics obj))
                                    (= (:type obj) "organisaatio") true

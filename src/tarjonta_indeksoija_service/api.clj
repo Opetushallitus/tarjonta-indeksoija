@@ -113,7 +113,12 @@
        (GET "/performance_info" []
          :summary "Hakee tietoja performanssista"
          :query-params [{since :- Long 0}]
-         (ok {:result (elastic-client/get-elastic-performance-info since)})))
+         (ok {:result (elastic-client/get-elastic-performance-info since)}))
+
+       (GET "/s3/koulutus" []
+         :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
+         :query-params [oid :- String]
+         (ok {:result (indexer/store-koulutus-pics {:oid oid :type "koulutus"})})))
 
      (context "/indexer" []
        :tags ["indexer"]
