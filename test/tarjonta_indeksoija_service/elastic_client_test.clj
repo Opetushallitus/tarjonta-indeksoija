@@ -13,19 +13,32 @@
   (map #(hash-map :oid (+ % id-offset) :type "hakukohde") (range amount)))
 
 (fact "Payload for bulk operation should be partitioned correctly"
-  (with-redefs [max-payload-size 500]
-    (let [data (dummy-indexdata :amount 50 :id-offset 1000)
+  (with-redefs [max-payload-size 2025]
+    (let [docs (dummy-indexdata :amount 50 :id-offset 1000)
+          data (client/bulk-upsert-data "indexdata" "indexdata" docs)
           bulk-data (bulk-partitions data)]
-      (count bulk-data) => 4
-      (println (first bulk-data))
+      (count bulk-data) => 5
+      (println (nth bulk-data 0))
       (println "=======")
-      (println (second bulk-data))
+      (println (nth bulk-data 1))
       (println "=======")
       (println (nth bulk-data 2))
       (println "=======")
-      (println (last bulk-data))
-      (count (.getBytes (first bulk-data))) => 480
-      (count (.getBytes (last bulk-data))) => 160)))
+      (println (nth bulk-data 3))
+      (println "=======")
+      (println (nth bulk-data 4))
+
+      (< (count (.getBytes (nth bulk-data 0))) 2025) => true
+      (< (count (.getBytes (nth bulk-data 1))) 2025) => true
+      (< (count (.getBytes (nth bulk-data 2))) 2025) => true
+      (< (count (.getBytes (nth bulk-data 3))) 2025) => true
+      (< (count (.getBytes (nth bulk-data 4))) 2025) => true
+
+      (.startsWith (nth bulk-data 0) "{\"update")  => true
+      (.startsWith (nth bulk-data 1) "{\"update")  => true
+      (.startsWith (nth bulk-data 2) "{\"update")  => true
+      (.startsWith (nth bulk-data 3) "{\"update")  => true
+      (.startsWith (nth bulk-data 4) "{\"update")  => true)))
 
 (against-background [(after :contents (reset-test-data))]
   (fact "Elastic search should be alive"

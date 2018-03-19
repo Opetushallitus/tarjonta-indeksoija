@@ -159,7 +159,7 @@
   {:doc (assoc (dissoc doc :_index :_type) :timestamp now)
    :doc_as_upsert true})
 
-(defn- bulk-upsert-data
+(defn bulk-upsert-data
   [index type documents]
   (let [operations (map #(upsert-operation % index type) documents)
         now (System/currentTimeMillis)

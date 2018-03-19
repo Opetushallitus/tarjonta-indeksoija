@@ -61,7 +61,9 @@
 (defonce max-payload-size 10485760)
 
 (defn bulk-partitions [data]
-  (let [bulk-entries (map #(str (json/encode %) "\n") data)
+  (let [encoded-data (map #(str (json/encode %) "\n") data)
+        action-and-data-entries (partition 2 encoded-data)
+        bulk-entries (map (fn [e] (str (first e) (second e))) action-and-data-entries)
         cur-bytes (atom 0)
         partitioner (fn [e]
                       (let [bytes (count (.getBytes e))]
