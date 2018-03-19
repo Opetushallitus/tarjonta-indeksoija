@@ -9,6 +9,7 @@
   [obj]
   (with-error-logging
     (let [url (str (:tarjonta-service-url env) (:type obj) "/" (:oid obj))]
+      (log/info (str "GET => " url))
       (-> (client/get url {:as :json})
           :body
           :result))))
@@ -17,7 +18,8 @@
   [obj]
   (with-error-logging
     (when (= "koulutus" (:type obj))
-      (let [url (str (:tarjonta-service-url env) "koulutus/" (:oid obj) " /kuva")]
+      (let [url (str (:tarjonta-service-url env) "koulutus/" (:oid obj) "/kuva")]
+        (log/info (str "GET => " url))
         (-> (client/get url {:as :json})
             :body
             :result)))))
