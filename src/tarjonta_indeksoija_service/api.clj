@@ -118,7 +118,12 @@
        (GET "/s3/koulutus" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (indexer/store-koulutus-pics {:oid oid :type "koulutus"})})))
+         (ok {:result (indexer/store-koulutus-pics {:oid oid :type "koulutus"})}))
+
+       (GET "/s3/organisaatio" []
+         :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
+         :query-params [oid :- String]
+         (ok {:result (indexer/store-organisaatio-pic {:oid oid :type "organisaatio"})})))
 
      (context "/indexer" []
        :tags ["indexer"]

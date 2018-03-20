@@ -5,25 +5,27 @@
             [base64-clj.core :as b64]
             [taoensso.timbre :as log]))
 
-  (defn- upload-koulutus-pic [oid pic]
+  (defn- upload-pic [oid type pic]
     (let [data (b64/decode-bytes (.getBytes (:base64data pic)))
           filename (:filename pic)
           kieli (:kieliUri pic)
           mimetype (:mimeType pic)]
-      (log/info (str "Updating picture " filename " with lang " kieli " for koulutus " oid))
-      (with-error-logging
-        false (s3/upload data mimetype filename "koulutus" oid kieli))))
+      (log/info (str "Updating picture " filename (if (nil? kieli) "" (str " with lang " kieli)) " for " type " " oid))
+      (with-error-logging false
+        (if (nil? kieli)
+          (s3/upload data mimetype filename type oid)
+          (s3/upload data mimetype filename type oid kieli)))))
 
-  (defn- update-koulutus-pics [oid pics]
+  (defn- update-pics [oid type pics]
     (with-error-logging
-      (let [old-pics (s3/list "koulutus" oid)]
+      (let [old-pics (s3/list type oid)]
         (if (not (empty? old-pics))
           (s3/delete old-pics))))
-    (log/info (str "Updating " (count pics) " pics for koulutus " oid "..."))
-    (doall (map #(upload-koulutus-pic oid %) pics)))
+    (log/info (str "Updating " (count pics) " pics for " type " " oid "..."))
+    (doall (map #(upload-pic oid type %) pics)))
 
   (defn refresh-s3 [obj pics]
     (cond
-      (= (:type obj) "koulutus") (update-koulutus-pics (:oid obj) pics)
-      (= (:type obj) "organisaatio") true
+      (= (:type obj) "koulutus") (update-pics (:oid obj) (:type obj) pics)
+      (= (:type obj) "organisaatio") (update-pics (:oid obj) (:type obj) pics)
       :else true))

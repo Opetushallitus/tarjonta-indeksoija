@@ -5,6 +5,7 @@
             [tarjonta-indeksoija-service.elastic-client :as elastic-client]
             [tarjonta-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [tarjonta-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
+            [tarjonta-indeksoija-service.converter.organisaatio-converter :as organisaatio-converter]
             [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
             [tarjonta-indeksoija-service.s3.s3-client :as s3-client]
             [taoensso.timbre :as log]
@@ -72,11 +73,20 @@
       (s3-client/refresh-s3 obj pics)
       (log/debug (str "No pictures for koulutus " (:oid obj))))))
 
+(defn store-organisaatio-pic [obj]
+  (let [pic (-> obj
+                (organisaatio-client/get-doc true)          ;TODO lue kuva samasta kyselystä, jonka get-coverted-doc tekee
+                (:metadata)
+                (:kuvaEncoded))]
+    (if (not (nil? pic))
+      (s3-client/refresh-s3 obj [{:base64data pic :filename (str (:oid obj) ".jpg")}])
+      (log/debug (str "No picture for organisaatio " (:oid obj))))))
+
 (defn store-pictures
   [queue]
     (let [store-pic-fn (fn [obj] (cond
                                    (= (:type obj) "koulutus") (store-koulutus-pics obj))
-                                   (= (:type obj) "organisaatio") true
+                                   (= (:type obj) "organisaatio") (store-organisaatio-pic obj)
                                    :else true)]
       (doall (pmap store-pic-fn queue))))
 

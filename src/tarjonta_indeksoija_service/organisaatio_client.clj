@@ -6,11 +6,13 @@
             [taoensso.timbre :as log]))
 
 (defn get-doc
-  [obj]
-  (with-error-logging
-    (let [url (str (:organisaatio-service-url env) (:oid obj))
-          params {:includeImage false}]
-      (:body (client/get url {:query-params params :as :json})))))
+  ([obj include-image]
+   (with-error-logging
+     (let [url (str (:organisaatio-service-url env) (:oid obj) "?includeImage=" include-image)
+           params {:includeImage false}]
+       (:body (client/get url {:query-params params :as :json})))))
+  ([obj]
+   (get-doc obj false)))
 
 (defn- extract-docs [result]
   (->> result
