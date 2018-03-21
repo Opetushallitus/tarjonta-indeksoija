@@ -7,6 +7,7 @@
             [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
             [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]
             [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+            [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
             [compojure.route :as route]
             [ring.util.http-response :refer :all]
@@ -178,4 +179,7 @@
     (route/resources "/tarjonta-indeksoija/"))))
 
 (def app
-  (logger.timbre/wrap-with-logger service-api))
+  (-> service-api
+      (logger.timbre/wrap-with-logger)
+      ;TODO REMOVE CORS SUPPORT WHEN ui APIs are moved to another project
+      (wrap-cors :access-control-allow-origin [#"http://localhost:3005"] :access-control-allow-methods [:get])))

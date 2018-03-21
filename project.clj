@@ -22,6 +22,7 @@
                  ;;Logging
                  [ring-logger "0.7.6"]
                  [ring-logger-timbre "0.7.5"]
+                 [ring-cors "0.1.11"]
                  [com.taoensso/timbre "4.8.0"]]
   :ring {:handler tarjonta-indeksoija-service.api/app
          :init tarjonta-indeksoija-service.api/init
