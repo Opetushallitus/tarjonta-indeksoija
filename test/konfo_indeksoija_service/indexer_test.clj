@@ -23,7 +23,7 @@
         indexed-koulutus => (contains {:oid oid})
         (get-in indexed-koulutus [:koulutuskoodi :uri]) => "koulutus_371101"
         (get-in indexed-koulutus [:valmistavaKoulutus :kuvaus :SISALTO :kieli_fi])
-          => "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>")))
+        => "<p><a href=\"http://www.hyria.fi/koulutukset/aikuiskoulutukset/koulutushaku?e=3807&amp;i=3061\">Tutustu tästä tarkemmin koulutuksen sisältöön.</a></p> <p> </p> <p>Oppisopimuskoulutus mahdollinen</p>")))
 
   (fact "Indexer should save organisaatio"
     (let [oid "1.2.246.562.10.39920288212"]

@@ -6,7 +6,7 @@
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
             [konfo-indeksoija-service.converter.organisaatio-converter :as organisaatio-converter]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
+            [konfo-indeksoija-service.util.tools :refer [with-error-logging, to-date-string]]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [taoensso.timbre :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
@@ -84,11 +84,12 @@
 
 (defn store-pictures
   [queue]
-    (let [store-pic-fn (fn [obj] (cond
-                                   (= (:type obj) "koulutus") (store-koulutus-pics obj))
-                                   (= (:type obj) "organisaatio") (store-organisaatio-pic obj)
-                                   :else true)]
-      (doall (pmap store-pic-fn queue))))
+  (log/info "Storing pictures, queue length:" (count queue))
+  (let [store-pic-fn (fn [obj] (cond
+                                 (= (:type obj) "koulutus") (store-koulutus-pics obj))
+                                 (= (:type obj) "organisaatio") (store-organisaatio-pic obj)
+                                 :else true)]
+    (doall (pmap store-pic-fn queue))))
 
 (defn do-index
   []
@@ -103,7 +104,9 @@
               failed-oids (clojure.set/difference (set queue-oids)
                                                   (set (map :oid converted-docs)))]
           (index-objects converted-docs)
-          (store-pictures queue)
+          (if (not= (:s3-dev-disabled env) "true")
+            (store-pictures queue)
+            (log/info "Skipping store-pictures because of env value"))
           (end-indexing queue-oids
                         (count converted-docs)
                         failed-oids
@@ -124,11 +127,15 @@
   [ctx]
   (with-error-logging
     (wait-for-elastic-lock
-     (let [last-modified (tarjonta-client/get-last-modified (elastic-client/get-last-index-time))
-           now (System/currentTimeMillis)]
-       (when-not (nil? last-modified)
-         (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus last-modified))
-               last-modified-with-related-koulutus (clojure.set/union last-modified related-koulutus)]
+     (let [now (System/currentTimeMillis)
+           last-modified (elastic-client/get-last-index-time)
+           changes-since (tarjonta-client/get-last-modified last-modified)]
+       (when-not (nil? changes-since)
+         (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
+         (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus changes-since))
+               last-modified-with-related-koulutus (clojure.set/union changes-since related-koulutus)]
+           (if-not (empty? related-koulutus)
+             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes:"))
            (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
            (elastic-client/set-last-index-time now)
            (do-index)))))))
@@ -156,10 +163,10 @@
   (try
     (if start?
       (do
-        (start-indexer-job)
-        "Started indexer job")
+        (log/info "Starting indexer job")
+        (start-indexer-job))
       (do
         (reset-jobs)
-        "Stopped all jobs and reseted pool."))
+        (log/info "Stopped all jobs and reset pool.")))
     (catch ObjectAlreadyExistsException e "Indexer already running.")
     (catch Exception e)))

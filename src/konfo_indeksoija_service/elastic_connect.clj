@@ -19,7 +19,7 @@
   ([index mapping-type]
    (str (:elastic-url env) "/" index "/" mapping-type))
   ([index mapping-type operation]
-   (str (elastic-url index mapping-type) "/" operation )))
+   (str (elastic-url index mapping-type) "/" operation)))
 
 (defn elastic-post
   [url body]
@@ -30,14 +30,14 @@
 (defn elastic-put
   [url body]
   (-> (http/put url {:body (if (instance? String body) body (json/encode body)) :content-type :json :socket-timeout 120000})
-  (:body)
-  (json/decode true)))
+   (:body)
+   (json/decode true)))
 
 (defn elastic-get
   [url]
   (-> (http/get url {:socket-timeout 120000})
-  (:body)
-  (json/decode true)))
+   (:body)
+   (json/decode true)))
 
 (defn create [index mapping-type document]
   (elastic-post (elastic-url index mapping-type) document))
@@ -73,10 +73,11 @@
     (map #(clojure.string/join %) (partition-by partitioner bulk-entries))))
 
 (defn bulk [index mapping-type data]
-  (log/info "Executing bulk operation....")
   (if (not (empty? data))
-    (let [partitions (bulk-partitions data)]
-      (doall (map #(elastic-post (elastic-url index mapping-type "_bulk") %) partitions)))))
+    (do (let [partitions (bulk-partitions data)]
+          ;(log/info "Executing bulk operation for data: " (pr-str data :as :json))
+          (log/info "Number of partitions for data in bulk operation:" (count partitions))
+          (doall (map #(elastic-post (elastic-url index mapping-type "_bulk") %) partitions))))))
 
 (defn index-exists [index]
   (try

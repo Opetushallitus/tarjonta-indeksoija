@@ -20,3 +20,7 @@
 (defmacro with-error-logging
   [& body]
   `(with-error-logging-value nil ~@body))
+
+(defn to-date-string [timestamp]
+  (def date (.format (java.text.SimpleDateFormat."HH:mm:ss 'on' dd-MM-yyyy") timestamp))
+  (pr-str date))

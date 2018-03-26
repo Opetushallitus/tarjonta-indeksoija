@@ -3,6 +3,7 @@
  :tarjonta-service-url "https://testi.virkailija.opintopolku.fi/tarjonta-service/rest/v1/"
  :organisaatio-service-url "https://testi.virkailija.opintopolku.fi/organisaatio-service/rest/organisaatio/"
  :elastic-timeout 100000
+ :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
  :tarjonta-db {:dbtype "postgresql"

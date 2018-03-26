@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.tarjonta-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
+            [konfo-indeksoija-service.util.tools :refer [with-error-logging to-date-string]]
             [clj-http.client :as client]
             [taoensso.timbre :as log]
             [clojure.java.jdbc :as db]))
@@ -83,6 +83,7 @@
 
 (defn get-last-modified
   [since]
+  (log/info "Fetching last-modified since" (to-date-string since))
   (with-error-logging
     (let [url (str (:tarjonta-service-url env) "lastmodified")
           res (:body (client/get url {:query-params {:lastModified since} :as :json}))]

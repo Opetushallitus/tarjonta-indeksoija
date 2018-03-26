@@ -17,6 +17,7 @@
 
 (defn check-elastic-status
   []
+  (log/info "Checking elastic status")
   (with-error-logging
     (-> (get-cluster-health)
         :status
@@ -39,7 +40,7 @@
   [type since]
   (let [res (search (index-name type)
                     (index-name type)
-                        :query {:range {:created {:gte since}}}
+                    :query {:range {:created {:gte since}}}
                         :sort [{:started "desc"} {:created "desc"}]
                         :aggs {:max_avg_mills_per_object {:max {:field "avg_mills_per_object"}}
                                :avg_mills_per_object {:avg {:field "avg_mills_per_object"}}
@@ -94,6 +95,7 @@
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
+  (log/info "Initializing indices")
   (and (initialize-index-settings)
        (initialize-index-mappings)
     (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
@@ -236,13 +238,13 @@
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
   ([index mapping-type query]
    (post (delete-by-query-url* (join-names index) (join-names mapping-type))
-              {:body {:query query} :content-type :json}))
+         {:body {:query query} :content-type :json}))
 
   ([index mapping-type query & args]
    (post (delete-by-query-url* (join-names index) (join-names mapping-type))
-              {:query-params (select-keys (->opts args)
-                                          (conj [:df :analyzer :default_operator :consistency] :ignore_unavailable))
-               :body {:query query} :content-type :json})))
+         {:query-params (select-keys (->opts args)
+                                     (conj [:df :analyzer :default_operator :consistency] :ignore_unavailable))
+          :body {:query query} :content-type :json})))
 
 (defn delete-handled-queue
   [oids max-timestamp]

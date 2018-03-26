@@ -13,20 +13,25 @@
             [ring.util.http-response :refer :all]
             [schema.core :as s]
             [mount.core :as mount]
-            [taoensso.timbre :as timbre]
+            [taoensso.timbre :as log]
             [ring.logger.timbre :as logger.timbre]
             [compojure.api.exception :as ex]
             [environ.core]))
 
 (defn init []
   (mount/start)
-  (s3/init-s3-client)
-  (timbre/set-config! (logging/logging-config))
+  (log/info "Running init")
+  (if (not= (:s3-dev-disabled env) "true")
+    (s3/init-s3-client)
+    (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
+  (log/set-config! (logging/logging-config))
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))
-    (indexer/start-indexer-job)
     (do
-      (timbre/error "Application startup canceled due to Elastic client error or absence.")
+      (log/info "Starting indexer job!")
+      (indexer/start-indexer-job))
+    (do
+      (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))
 
 (defn stop []
