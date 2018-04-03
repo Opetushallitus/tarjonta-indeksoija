@@ -1,6 +1,6 @@
-(ns tarjonta-indeksoija-service.elastic-connect
-  (:require [tarjonta-indeksoija-service.conf :as conf :refer [env boost-values]]
-            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging with-error-logging-value]]
+(ns konfo-indeksoija-service.elastic-connect
+  (:require [konfo-indeksoija-service.conf :as conf :refer [env boost-values]]
+            [konfo-indeksoija-service.util.tools :refer [with-error-logging with-error-logging-value]]
             [environ.core]
             [cheshire.core :as json]
             [clj-http.client :as http]

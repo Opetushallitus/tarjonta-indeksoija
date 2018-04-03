@@ -1,6 +1,6 @@
 (ns user
   (:require [clojure.tools.namespace.repl :as tn]
-            [tarjonta-indeksoija-service.conf]
+            [konfo-indeksoija-service.conf]
             [mount.core :as mount]))
 
 (defn start []

@@ -1,6 +1,6 @@
-(ns tarjonta-indeksoija-service.tarjonta-client
-  (:require [tarjonta-indeksoija-service.conf :refer [env]]
-            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+(ns konfo-indeksoija-service.tarjonta-client
+  (:require [konfo-indeksoija-service.conf :refer [env]]
+            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
             [clj-http.client :as client]
             [taoensso.timbre :as log]
             [clojure.java.jdbc :as db]))

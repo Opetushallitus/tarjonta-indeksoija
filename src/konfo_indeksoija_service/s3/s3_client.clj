@@ -1,7 +1,7 @@
-(ns tarjonta-indeksoija-service.s3.s3-client
-  (:require [tarjonta-indeksoija-service.conf :refer [env]]
-            [tarjonta-indeksoija-service.s3.s3-connect :as s3]
-            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+(ns konfo-indeksoija-service.s3.s3-client
+  (:require [konfo-indeksoija-service.conf :refer [env]]
+            [konfo-indeksoija-service.s3.s3-connect :as s3]
+            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
             [base64-clj.core :as b64]
             [taoensso.timbre :as log]))
 

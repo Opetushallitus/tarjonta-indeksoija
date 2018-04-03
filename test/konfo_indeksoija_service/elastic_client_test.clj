@@ -1,9 +1,9 @@
-(ns tarjonta-indeksoija-service.elastic-client-test
-  (:require [tarjonta-indeksoija-service.conf :as conf :refer [env]]
-            [tarjonta-indeksoija-service.elastic-client :as client]
-            [tarjonta-indeksoija-service.elastic-connect :refer [max-payload-size bulk-partitions]]
-            [tarjonta-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
-            [tarjonta-indeksoija-service.test-tools :as tools]
+(ns konfo-indeksoija-service.elastic-client-test
+  (:require [konfo-indeksoija-service.conf :as conf :refer [env]]
+            [konfo-indeksoija-service.elastic-client :as client]
+            [konfo-indeksoija-service.elastic-connect :refer [max-payload-size bulk-partitions]]
+            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
+            [konfo-indeksoija-service.test-tools :as tools]
             [clj-http.client :as http]
             [midje.sweet :refer :all]))
 

@@ -1,6 +1,6 @@
-(ns tarjonta-indeksoija-service.organisaatio-client-test
+(ns konfo-indeksoija-service.organisaatio-client-test
   (:require [midje.sweet :refer :all]
-            [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
             [mocks.externals-mock :refer [with-externals-mock]]))
 
 (fact "Getting bad url should return nil"

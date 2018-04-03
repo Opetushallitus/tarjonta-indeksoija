@@ -1,8 +1,8 @@
-(ns tarjonta-indeksoija-service.api-test
-  (:require [tarjonta-indeksoija-service.api :refer :all]
-            [tarjonta-indeksoija-service.elastic-client :as elastic-client]
-            [tarjonta-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
-            [tarjonta-indeksoija-service.indexer :as indexer]
+(ns konfo-indeksoija-service.api-test
+  (:require [konfo-indeksoija-service.api :refer :all]
+            [konfo-indeksoija-service.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
+            [konfo-indeksoija-service.indexer :as indexer]
             [mocks.externals-mock :refer [with-externals-mock]]
             [cheshire.core :as cheshire]
             [midje.sweet :refer :all]
@@ -13,7 +13,7 @@
     (against-background [(after :contents (reset-test-data))]
         (fact "reindex hakukohde"
           (indexer/start-indexer-job)
-          (let [response (app (mock/request :get "/tarjonta-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
+          (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
           (tools/block-until-indexed 10000)
@@ -21,7 +21,7 @@
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.
-        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))
+        (let [response (app (mock/request :get "/konfo-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))
               body (parse-body (:body response))]
           (:hakuOid body) => "1.2.246.562.29.44465499083"))
 
@@ -43,7 +43,7 @@
         (tools/refresh-and-wait "haku" 0)
         (tools/refresh-and-wait "organisaatio" 0)
         (tools/refresh-and-wait "koulutus" 1000)
-        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/ui/koulutus/1.2.246.562.17.53874141319"))
+        (let [response (app (mock/request :get "/konfo-indeksoija/api/ui/koulutus/1.2.246.562.17.53874141319"))
               body (parse-body (:body response))
               koulutus (:koulutus body)
               haut (:haut body)
@@ -64,7 +64,7 @@
           (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut)))))
 
       (fact "fetch text search result"
-        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/ui/search?query=Tekn.%20kand.,%20tietotekniikka"))
+        (let [response (app (mock/request :get "/konfo-indeksoija/api/ui/search?query=Tekn.%20kand.,%20tietotekniikka"))
               body (parse-body (:body response))]
           body => [{:nimi {:kieli_en "MSc, Information Technology"
                            :kieli_fi "Dipl.ins., tietotekniikka"
@@ -73,7 +73,7 @@
 
       (fact "fetch performance info"
         (tools/refresh-and-wait "query_perf" 1000)
-        (let [response (app (mock/request :get "/tarjonta-indeksoija/api/admin/performance_info"))
+        (let [response (app (mock/request :get "/konfo-indeksoija/api/admin/performance_info"))
               body (parse-body (:body response))]
           (empty? (get-in body [:indexing_performance :results]))=> false
           (empty? (get-in body [:query_performance :results]))=> false)))))

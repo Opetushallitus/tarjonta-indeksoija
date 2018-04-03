@@ -1,4 +1,4 @@
-(defproject tarjonta-indeksoija-service "0.1.0-SNAPSHOT"
+(defproject konfo-indeksoija-service "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
@@ -24,11 +24,11 @@
                  [ring-logger-timbre "0.7.5"]
                  [ring-cors "0.1.11"]
                  [com.taoensso/timbre "4.8.0"]]
-  :ring {:handler tarjonta-indeksoija-service.api/app
-         :init tarjonta-indeksoija-service.api/init
-         :destroy tarjonta-indeksoija-service.api/stop
-         :browser-uri "tarjonta-indeksoija"}
-  :uberjar-name "tarjonta-indeksoija.jar"
+  :ring {:handler konfo-indeksoija-service.api/app
+         :init konfo-indeksoija-service.api/init
+         :destroy konfo-indeksoija-service.api/stop
+         :browser-uri "konfo-indeksoija"}
+  :uberjar-name "konfo-indeksoija.jar"
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [midje "1.8.3"]

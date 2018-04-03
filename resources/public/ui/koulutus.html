@@ -22,7 +22,7 @@
 
         console.log(getParameterByName('oid'));
 
-        $.ajax('/tarjonta-indeksoija/api/ui/koulutus/' + getParameterByName('oid'))
+        $.ajax('/konfo-indeksoija/api/ui/koulutus/' + getParameterByName('oid'))
           .done(function(data) {
             $('#koulutus')
               .empty()

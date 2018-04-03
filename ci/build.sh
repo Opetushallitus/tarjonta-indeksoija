@@ -11,7 +11,7 @@ test() {
 
 create_buildversion() {
   mkdir -p ./resources/public
-  echo "artifactId=tarjonta-indeksoija-service" > ./resources/public/buildversion.txt
+  echo "artifactId=konfo-indeksoija-service" > ./resources/public/buildversion.txt
   echo "version=0.1.0-SNAPSHOT" >> ./resources/public/buildversion.txt
   echo "buildNumber=$bamboo_buildNumber" >> ./resources/public/buildversion.txt
   echo "vcsRevision=$(git rev-parse HEAD)" >> ./resources/public/buildversion.txt

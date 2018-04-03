@@ -1,7 +1,7 @@
-(ns tarjonta-indeksoija-service.test-tools
+(ns konfo-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
-            [tarjonta-indeksoija-service.elastic-client :as elastic-client]
-            [tarjonta-indeksoija-service.indexer :as indexer]))
+            [konfo-indeksoija-service.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.indexer :as indexer]))
 
 (defn parse
   [body]

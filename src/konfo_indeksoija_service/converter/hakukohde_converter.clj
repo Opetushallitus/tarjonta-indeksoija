@@ -1,4 +1,4 @@
-(ns tarjonta-indeksoija-service.converter.hakukohde-converter)
+(ns konfo-indeksoija-service.converter.hakukohde-converter)
 
 (defn convert
   [hakukohde]

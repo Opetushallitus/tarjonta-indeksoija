@@ -1,4 +1,4 @@
-(ns tarjonta-indeksoija-service.converter.organisaatio-converter)
+(ns konfo-indeksoija-service.converter.organisaatio-converter)
 
 (defn convert [doc]
   (let [metadata-without-kuva (dissoc (:metadata doc) :kuvaEncoded)]

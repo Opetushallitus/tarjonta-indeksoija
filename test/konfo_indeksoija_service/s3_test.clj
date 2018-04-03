@@ -1,8 +1,8 @@
-(ns tarjonta-indeksoija-service.s3-test
-  (:require [tarjonta-indeksoija-service.conf :refer [env]]
+(ns konfo-indeksoija-service.s3-test
+  (:require [konfo-indeksoija-service.conf :refer [env]]
             [midje.sweet :refer :all]
-            [tarjonta-indeksoija-service.s3.s3-connect :as s3]
-            [tarjonta-indeksoija-service.s3.s3-client :as client]
+            [konfo-indeksoija-service.s3.s3-connect :as s3]
+            [konfo-indeksoija-service.s3.s3-client :as client]
             [base64-clj.core :as b64])
   (:import (io.findify.s3mock S3Mock)
            (com.amazonaws.client.builder AwsClientBuilder$EndpointConfiguration)

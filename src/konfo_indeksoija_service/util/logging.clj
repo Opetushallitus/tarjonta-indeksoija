@@ -1,4 +1,4 @@
-(ns tarjonta-indeksoija-service.util.logging
+(ns konfo-indeksoija-service.util.logging
   (:require [taoensso.timbre :as timbre]
             [taoensso.timbre.appenders.3rd-party.rolling :refer [rolling-appender]]
             [environ.core :refer [env]]
@@ -35,4 +35,4 @@
 
 (defn logging-config []
   {:level :info
-   :appenders (get-rolling-appender "rolling-application-log-appender" "oph-tarjonta-indeksoija.log")})
+   :appenders (get-rolling-appender "rolling-application-log-appender" "oph-konfo-indeksoija.log")})

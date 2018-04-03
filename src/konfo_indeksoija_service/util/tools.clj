@@ -1,4 +1,4 @@
-(ns tarjonta-indeksoija-service.util.tools
+(ns konfo-indeksoija-service.util.tools
   (:require [taoensso.timbre :as log]
             [environ.core :as env]
             [slingshot.slingshot :refer [try+]]))

@@ -1,4 +1,4 @@
-(ns tarjonta-indeksoija-service.converter.koulutus-converter)
+(ns konfo-indeksoija-service.converter.koulutus-converter)
 
 (defn- extract-koodi
   [value]

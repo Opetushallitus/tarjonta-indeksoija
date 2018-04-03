@@ -14,7 +14,7 @@ if (process.argv.length < 3) {
     process.exit(1);
 }
 
-if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/tarjonta-indeksoija';
+if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/konfo-indeksoija';
 
 if (oids.length < 1) {
     console.log('Provide a list of oids as script parameters.');
@@ -43,6 +43,6 @@ benchrest(requests, runOptions)
     .on('end', function (stats, errorCount) {
         console.log('error count: ', errorCount);
         console.log("Started at: " + start + ", end: " + new Date().getTime());
-        console.log("Get perf tests statistics from elastic with:\nhttp://localhost:3000/tarjonta-indeksoija/api/admin/performance_info?since=" + start);
+        console.log("Get perf tests statistics from elastic with:\nhttp://localhost:3000/konfo-indeksoija/api/admin/performance_info?since=" + start);
         console.log('stats', stats);
     });

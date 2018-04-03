@@ -1,6 +1,6 @@
-(ns tarjonta-indeksoija-service.converter.hakukohde-converter-test
+(ns konfo-indeksoija-service.converter.hakukohde-converter-test
   (:require [midje.sweet :refer :all]
-            [tarjonta-indeksoija-service.converter.hakukohde-converter :as converter]))
+            [konfo-indeksoija-service.converter.hakukohde-converter :as converter]))
 
 (facts "Converter"
   (fact

@@ -1,12 +1,12 @@
-(ns tarjonta-indeksoija-service.api
-  (:require [tarjonta-indeksoija-service.elastic-client :as elastic-client]
-            [tarjonta-indeksoija-service.conf :refer [env]]
-            [tarjonta-indeksoija-service.util.logging :as logging]
-            [tarjonta-indeksoija-service.indexer :as indexer]
-            [tarjonta-indeksoija-service.s3.s3-connect :as s3]
-            [tarjonta-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [tarjonta-indeksoija-service.organisaatio-client :as organisaatio-client]
-            [tarjonta-indeksoija-service.util.tools :refer [with-error-logging]]
+(ns konfo-indeksoija-service.api
+  (:require [konfo-indeksoija-service.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.conf :refer [env]]
+            [konfo-indeksoija-service.util.logging :as logging]
+            [konfo-indeksoija-service.indexer :as indexer]
+            [konfo-indeksoija-service.s3.s3-connect :as s3]
+            [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
+            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
             [compojure.route :as route]
@@ -73,12 +73,12 @@
 
 (def service-api
   (api
-   {:swagger {:ui "/tarjonta-indeksoija"
-              :spec "/tarjonta-indeksoija/swagger.json"
-              :data {:info {:title "Tarjonta-indeksoija"
+   {:swagger {:ui "/konfo-indeksoija"
+              :spec "/konfo-indeksoija/swagger.json"
+              :data {:info {:title "konfo-indeksoija"
                             :description "Elasticsearch wrapper for tarjonta api."}}}
     :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
-   (context "/tarjonta-indeksoija/api" []
+   (context "/konfo-indeksoija/api" []
 
      (GET "/healthcheck" []
        :summary "Healthcheck API."
@@ -176,7 +176,7 @@
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
-    (route/resources "/tarjonta-indeksoija/"))))
+    (route/resources "/konfo-indeksoija/"))))
 
 (def app
   (-> service-api

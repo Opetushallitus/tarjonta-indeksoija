@@ -1,5 +1,5 @@
-(ns tarjonta-indeksoija-service.s3.s3-connect
-  (:require [tarjonta-indeksoija-service.conf :refer [env]]
+(ns konfo-indeksoija-service.s3.s3-connect
+  (:require [konfo-indeksoija-service.conf :refer [env]]
             [taoensso.timbre :as log])
   (:import (com.amazonaws.services.s3 AmazonS3ClientBuilder)
            (com.amazonaws.services.s3.model ObjectMetadata PutObjectRequest ListObjectsV2Request DeleteObjectsRequest)

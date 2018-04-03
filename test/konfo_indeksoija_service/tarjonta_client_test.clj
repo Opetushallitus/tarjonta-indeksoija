@@ -1,6 +1,6 @@
-(ns tarjonta-indeksoija-service.tarjonta-client-test
+(ns konfo-indeksoija-service.tarjonta-client-test
   (:require [midje.sweet :refer :all]
-            [tarjonta-indeksoija-service.tarjonta-client :as tarjonta]
+            [konfo-indeksoija-service.tarjonta-client :as tarjonta]
             [mocks.externals-mock :as mock]))
 
 (fact "Tarjonta client should get Hakukohde"
