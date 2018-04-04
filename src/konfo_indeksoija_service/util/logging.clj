@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.util.logging
-  (:require [taoensso.timbre :as timbre]
-            [taoensso.timbre.appenders.3rd-party.rolling :refer [rolling-appender]]
+  (:require [clojure.tools.logging :as log]
+            ;[clojure.tools.logging.appenders.3rd-party.rolling :refer [rolling-appender]]
             [environ.core :refer [env]]
             [clojure.java.io :as io])
   (:import (java.util Locale TimeZone)))
@@ -22,17 +22,17 @@
 
 (defn error-handler*
   [^Exception e data request]
-  (timbre/error e))
+  (log/error e))
 
-(defn get-rolling-appender
-  [name file-name]
-  {(keyword name) (assoc (rolling-appender {:path (str (logs-path) "/" file-name)
-                                            :pattern :daily})
-                    :timestamp-opts {:pattern "yyyy-MM-dd'T'HH:mm:ss.SSSX"
-                                     :locale (Locale. "fi")
-                                     :timezone (TimeZone/getTimeZone "Europe/Helsinki")}
-                    :min-level :info)})
-
-(defn logging-config []
-  {:level :info
-   :appenders (get-rolling-appender "rolling-application-log-appender" "oph-konfo-indeksoija.log")})
+;(defn get-rolling-appender
+;  [name file-name]
+;  {(keyword name) (assoc (rolling-appender {:path (str (logs-path) "/" file-name)
+;                                            :pattern :daily})
+;                    :timestamp-opts {:pattern "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+;                                     :locale (Locale. "fi")
+;                                     :timezone (TimeZone/getTimeZone "Europe/Helsinki")}
+;                    :min-level :info)})
+;
+;(defn logging-config []
+;  {:level :info
+;   :appenders (get-rolling-appender "rolling-application-log-appender" "oph-konfo-indeksoija.log")})

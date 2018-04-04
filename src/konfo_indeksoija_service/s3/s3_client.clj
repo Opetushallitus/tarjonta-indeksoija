@@ -3,7 +3,7 @@
             [konfo-indeksoija-service.s3.s3-connect :as s3]
             [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
             [base64-clj.core :as b64]
-            [taoensso.timbre :as log]))
+            [clojure.tools.logging :as log]))
 
   (defn- upload-pic [oid type pic]
     (let [data (b64/decode-bytes (.getBytes (:base64data pic)))

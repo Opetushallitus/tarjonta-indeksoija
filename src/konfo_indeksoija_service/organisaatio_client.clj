@@ -3,7 +3,7 @@
             [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
             [clj-http.client :as client]
             [clojure.string :as str]
-            [taoensso.timbre :as log]))
+            [clojure.tools.logging :as log]))
 
 (defn get-doc
   ([obj include-image]

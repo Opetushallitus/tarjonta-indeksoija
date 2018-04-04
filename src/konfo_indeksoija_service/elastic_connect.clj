@@ -4,7 +4,7 @@
             [environ.core]
             [cheshire.core :as json]
             [clj-http.client :as http]
-            [taoensso.timbre :as log]
+            [clojure.tools.logging :as log]
             [cheshire.core :refer [generate-string]]))
 
 (defn index-name

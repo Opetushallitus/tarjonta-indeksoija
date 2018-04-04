@@ -20,10 +20,12 @@
                  [base64-clj "0.1.1"]
 
                  ;;Logging
-                 [ring-logger "0.7.6"]
-                 [ring-logger-timbre "0.7.5"]
-                 [ring-cors "0.1.11"]
-                 [com.taoensso/timbre "4.8.0"]]
+                 [org.clojure/tools.logging "0.4.0"]
+                 [org.apache.logging.log4j/log4j-api "2.9.0"]
+                 [org.apache.logging.log4j/log4j-core "2.9.0"]
+                 [org.apache.logging.log4j/log4j-slf4j-impl "2.9.0"]
+                 [clj-log4j2 "0.2.0"]
+                 [ring-cors "0.1.11"]]
   :ring {:handler konfo-indeksoija-service.api/app
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop
@@ -52,4 +54,5 @@
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
-            "create-uberjar" ["do" "clean" ["ring" "uberjar"]]})
+            "create-uberjar" ["do" "clean" ["ring" "uberjar"]]}
+  :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])

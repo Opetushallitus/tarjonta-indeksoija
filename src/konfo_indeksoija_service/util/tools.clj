@@ -1,5 +1,5 @@
 (ns konfo-indeksoija-service.util.tools
-  (:require [taoensso.timbre :as log]
+  (:require [clojure.tools.logging :as log]
             [environ.core :as env]
             [slingshot.slingshot :refer [try+]]))
 
@@ -9,6 +9,8 @@
     (do ~@body)
     (catch [:status 500] {:keys [~'trace-redirects]}
       (log/error "HTTP 500 from:" ~'trace-redirects))
+    (catch [:status 404] {:keys [~'trace-redirects]}
+      (log/error "HTTP 404 from:" ~'trace-redirects))
     (catch Object ~'_
       (if (Boolean/valueOf (:test ~environ.core/env))
         (log/info "Error during test:" (:message ~'&throw-context))
