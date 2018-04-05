@@ -75,8 +75,7 @@
 (defn bulk [index mapping-type data]
   (if (not (empty? data))
     (do (let [partitions (bulk-partitions data)]
-          ;(log/info "Executing bulk operation for data: " (pr-str data :as :json))
-          (log/info "Number of partitions for data in bulk operation:" (count partitions))
+          (log/info "Executing bulk operation for data: " (pr-str partitions :as :json))
           (doall (map #(elastic-post (elastic-url index mapping-type "_bulk") %) partitions))))))
 
 (defn index-exists [index]

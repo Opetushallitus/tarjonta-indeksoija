@@ -14,7 +14,6 @@
             [schema.core :as s]
             [mount.core :as mount]
             [clojure.tools.logging :as log]
-            ;[ring.logger.timbre :as logger.timbre]
             [compojure.api.exception :as ex]
             [environ.core]))
 
@@ -24,7 +23,6 @@
   (if (not= (:s3-dev-disabled env) "true")
     (s3/init-s3-client)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
-  ;(log/set-config! (logging/logging-config))
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))
     (do
@@ -185,6 +183,5 @@
 
 (def app
   (-> service-api
-      ;(logger.timbre/wrap-with-logger)
       ;TODO REMOVE CORS SUPPORT WHEN ui APIs are moved to another project
       (wrap-cors :access-control-allow-origin [#"http://localhost:3005"] :access-control-allow-methods [:get])))
