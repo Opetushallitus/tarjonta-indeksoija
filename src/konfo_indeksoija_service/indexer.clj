@@ -37,7 +37,7 @@
     (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
     :else (tarjonta-client/get-doc obj)))
 
-(defn get-coverted-doc
+(defn get-converted-doc
   [obj]
   (with-error-logging
     (let [doc (get-doc obj)]
@@ -48,13 +48,13 @@
             (assoc :tyyppi (:type obj)))))))
 
 (defn end-indexing
-  [oids successful failed-oids last-timestamp start]
+  [oids successful-oids failed-oids last-timestamp start]
   (let [duration (- (System/currentTimeMillis) start)
-        msg (str "Indexed " successful " objects in " (int (/ duration 1000)) " seconds.")]
+        msg (str "Successfully indexed " (count successful-oids) " objects in " (int (/ duration 1000)) " seconds. Total failed:" (count failed-oids))]
     (log/info msg)
     (when (seq failed-oids) (log/info "Failed oids:" (seq failed-oids)))
-    (elastic-client/insert-indexing-perf successful duration start)
-    (elastic-client/delete-handled-queue oids last-timestamp)
+    (elastic-client/insert-indexing-perf (count successful-oids) duration start)
+    (elastic-client/delete-handled-queue successful-oids last-timestamp)
     (elastic-client/refresh-index "indexdata")
     msg))
 
@@ -64,6 +64,11 @@
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
         errors (remove false? (map :errors res))]
+    (doseq [i docs-by-type]
+      (log/info "-- -- objects total: " (count objects) ", tyyppis: " (map :tyyppi objects) ", keys: " (keys docs-by-type))
+      (log/info "i : " (count (get docs-by-type (first (keys docs-by-type)))) )
+      )
+    (log/info "Index-objects done. Total indexed: " (count objects))
     (when (some true? (map :errors res))
       (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
 
@@ -99,16 +104,18 @@
       (log/debug "Nothing to index.")
       (do
         (log/info "Indexing" (count queue) "items")
-        (let [converted-docs (remove nil? (doall (pmap get-coverted-doc queue)))
+        (let [converted-docs (remove nil? (doall (pmap get-converted-doc queue)))
               queue-oids (map :oid queue)
               failed-oids (clojure.set/difference (set queue-oids)
-                                                  (set (map :oid converted-docs)))]
+                                                  (set (map :oid converted-docs)))
+              successful-oids (clojure.set/difference (set queue-oids)
+                                                      (set failed-oids))]
           (index-objects converted-docs)
           (if (not= (:s3-dev-disabled env) "true")
             (store-pictures queue)
             (log/info "Skipping store-pictures because of env value"))
           (end-indexing queue-oids
-                        (count converted-docs)
+                        successful-oids
                         failed-oids
                         (apply max (map :timestamp queue))
                         start))))))
@@ -142,6 +149,7 @@
 
 (defn start-indexer-job
   []
+  (log/info "Starting indexer job!")
   (let [job (j/build
              (j/of-type indexing-job)
              (j/with-identity "jobs.index.1"))

@@ -49,7 +49,6 @@
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
 
-
 (defn find-koulutus-for-hakukohde
   [hakukohde-oid]
   (let [query (str "SELECT k.oid "

@@ -19,15 +19,14 @@
 
 (defn init []
   (mount/start)
+  (elastic-client/set-last-index-time 1520000000003)
   (log/info "Running init")
   (if (not= (:s3-dev-disabled env) "true")
     (s3/init-s3-client)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))
-    (do
-      (log/info "Starting indexer job!")
-      (indexer/start-indexer-job))
+    (indexer/start-indexer-job)
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))

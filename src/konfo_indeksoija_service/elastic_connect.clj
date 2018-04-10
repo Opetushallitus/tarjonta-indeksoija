@@ -23,6 +23,7 @@
 
 (defn elastic-post
   [url body]
+  ;(log/info "POST to elastic: " url ", data: " body)
   (-> (http/post url {:body (if (instance? String body) body (json/encode body)) :content-type :json :socket-timeout 120000})
       (:body)
       (json/decode true)))
@@ -75,7 +76,7 @@
 (defn bulk [index mapping-type data]
   (if (not (empty? data))
     (do (let [partitions (bulk-partitions data)]
-          (log/info "Executing bulk operation for data: " (pr-str partitions :as :json))
+          ;(log/info "Executing bulk operation for data: " (pr-str partitions :as :json))
           (doall (map #(elastic-post (elastic-url index mapping-type "_bulk") %) partitions))))))
 
 (defn index-exists [index]
