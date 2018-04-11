@@ -91,9 +91,9 @@
   [queue]
   (log/info "Storing pictures, queue length:" (count queue))
   (let [store-pic-fn (fn [obj] (cond
-                                 (= (:type obj) "koulutus") (store-koulutus-pics obj))
+                                 (= (:type obj) "koulutus") (store-koulutus-pics obj)
                                  (= (:type obj) "organisaatio") (store-organisaatio-pic obj)
-                                 :else true)]
+                                 :else true))]
     (doall (pmap store-pic-fn queue))))
 
 (defn do-index
