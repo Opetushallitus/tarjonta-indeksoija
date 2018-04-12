@@ -4,7 +4,10 @@
             [clj-test-utils.s3-mock-utils :refer :all]
             [clj-s3.s3-connect :as s3]
             [konfo-indeksoija-service.s3-client :as client]
+            [konfo-indeksoija-service.test-tools :refer [init-test-logging]]
             [base64-clj.core :as b64]))
+
+(init-test-logging)
 
 (defonce koulutus-oid "1.2.3.4.567")
 

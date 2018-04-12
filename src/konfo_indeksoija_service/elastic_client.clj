@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.elastic-client
   (:require [konfo-indeksoija-service.conf :as conf :refer [env boost-values]]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging with-error-logging-value]]
+            [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
             [environ.core]

@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.s3-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [clj-s3.s3-connect :as s3]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
+            [clj-log.error-log :refer [with-error-logging]]
             [base64-clj.core :as b64]
             [clojure.tools.logging :as log]))
 

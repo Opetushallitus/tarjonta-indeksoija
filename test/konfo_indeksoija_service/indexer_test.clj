@@ -1,9 +1,11 @@
 (ns konfo-indeksoija-service.indexer-test
   (:require [konfo-indeksoija-service.indexer :as indexer]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data init-test-logging]]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]))
+
+(init-test-logging)
 
 (against-background
   [(after :facts (reset-test-data))

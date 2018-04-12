@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.organisaatio-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
+            [clj-log.error-log :refer [with-error-logging]]
             [clj-http.client :as client]
             [clojure.string :as str]
             [clojure.tools.logging :as log]))

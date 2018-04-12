@@ -1,12 +1,14 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data init-test-logging]]
             [konfo-indeksoija-service.indexer :as indexer]
             [mocks.externals-mock :refer [with-externals-mock]]
             [cheshire.core :as cheshire]
             [midje.sweet :refer :all]
             [ring.mock.request :as mock]))
+
+(init-test-logging)
 
 (with-externals-mock
   (facts "Api should"

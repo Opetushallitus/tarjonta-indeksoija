@@ -6,7 +6,7 @@
             [konfo-indeksoija-service.s3-client :as s3-client]
             [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
             [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
+            [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
             [compojure.route :as route]

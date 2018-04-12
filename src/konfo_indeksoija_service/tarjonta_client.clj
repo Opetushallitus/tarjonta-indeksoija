@@ -1,6 +1,7 @@
 (ns konfo-indeksoija-service.tarjonta-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
-            [konfo-indeksoija-service.util.tools :refer [with-error-logging to-date-string]]
+            [clj-log.error-log :refer [with-error-logging]]
+            [konfo-indeksoija-service.util.logging :refer [to-date-string]]
             [clj-http.client :as client]
             [clojure.tools.logging :as log]
             [clojure.java.jdbc :as db]))
