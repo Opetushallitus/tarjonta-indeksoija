@@ -19,7 +19,6 @@
 
 (defn init []
   (mount/start)
-  (elastic-client/set-last-index-time 1520000000003)
   (log/info "Running init")
   (if (not= (:s3-dev-disabled env) "true")
     (s3/init-s3-client)

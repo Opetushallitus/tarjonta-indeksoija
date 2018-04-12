@@ -64,10 +64,6 @@
         res (doall (map (fn [[type docs]]
                           (elastic-client/bulk-upsert type type docs)) docs-by-type))
         errors (remove false? (map :errors res))]
-    (doseq [i docs-by-type]
-      (log/info "-- -- objects total: " (count objects) ", tyyppis: " (map :tyyppi objects) ", keys: " (keys docs-by-type))
-      (log/info "i : " (count (get docs-by-type (first (keys docs-by-type)))) )
-      )
     (log/info "Index-objects done. Total indexed: " (count objects))
     (when (some true? (map :errors res))
       (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
@@ -174,7 +170,8 @@
         (log/info "Starting indexer job")
         (start-indexer-job))
       (do
+        (log/info "Stopping all jobs and clearing job pool.")
         (reset-jobs)
-        (log/info "Stopped all jobs and reset pool.")))
+        ))
     (catch ObjectAlreadyExistsException e "Indexer already running.")
     (catch Exception e)))
