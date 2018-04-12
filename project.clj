@@ -20,7 +20,8 @@
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
                  [org.postgresql/postgresql "9.4-1200-jdbc41"]
                  [base64-clj "0.1.1"]
-                 ;S3
+                 ;Elasticsearch + s3
+                 [oph/clj-elasticsearch "0.1.0-SNAPSHOT"]
                  [oph/clj-s3 "0.1.0-SNAPSHOT"]
                  ;;Logging
                  [org.clojure/tools.logging "0.4.0"]

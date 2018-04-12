@@ -1,35 +1,35 @@
 (ns konfo-indeksoija-service.elastic-client
   (:require [konfo-indeksoija-service.conf :as conf :refer [env boost-values]]
             [konfo-indeksoija-service.util.tools :refer [with-error-logging with-error-logging-value]]
-            [konfo-indeksoija-service.elastic-connect :refer :all]
+            [clj-elasticsearch.elastic-connect :as e]
+            [clj-elasticsearch.elastic-utils :as u]
             [environ.core]
             [cheshire.core :as json]
             [clj-http.client :as http]
             [clojure.tools.logging :as log]
             [cheshire.core :refer [generate-string]]))
 
+(intern 'clj-elasticsearch.elastic-utils 'elastic-host (:elastic-url env))
+
+(defn index-name
+  [name]
+  (u/index-name name (Boolean/valueOf (:test environ.core/env))))
+
 (defn get-cluster-health
   []
   (with-error-logging
-    (-> (:elastic-url env)
-        (str "/_cluster/health")
-        (http/get {:as :json}))))
+    (e/get-cluster-health)))
 
 (defn check-elastic-status
   []
   (log/info "Checking elastic status")
   (with-error-logging
-    (-> (get-cluster-health)
-        :status
-        (= 200))))
+    (e/check-elastic-status)))
 
 (defn get-indices-info
   []
   (with-error-logging
-    (-> (:elastic-url env)
-        (str "/_cat/indices?v&format=json")
-        (http/get {:as :json})
-        :body)))
+    (e/get-indices-info)))
 
 (defn get-elastic-status
   []
@@ -38,7 +38,7 @@
 
 (defn get-perf
   [type since]
-  (let [res (search (index-name type)
+  (let [res (e/search (index-name type)
                     (index-name type)
                     :query {:range {:created {:gte since}}}
                         :sort [{:started "desc"} {:created "desc"}]
@@ -58,17 +58,16 @@
 (defn refresh-index
   [index]
   (with-error-logging
-    (http/post (str (:elastic-url env) "/" (index-name index) "/_refresh") {:content-type :json})))
+    (e/refresh-index (index-name index))))
 
-(defn delete-index ; TODO -connection timeouts
+(defn delete-index
   [index]
-  (try (http/delete (str (:elastic-url env) "/" (index-name index)) {:content-type :json :body "{}"})
-       (catch Exception e (if (not (= 404((ex-data e) :status))) (throw e)))))
+  (e/delete-index (index-name index)))
 
 (defn initialize-index-settings []
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf"]
-        new-indexes (filter #(not (index-exists %)) (map index-name index-names))
-        results (map #(create-index % conf/index-settings) new-indexes)
+        new-indexes (filter #(not (e/index-exists %)) (map index-name index-names))
+        results (map #(e/create-index % conf/index-settings) new-indexes)
         ack (map #(:acknowledged %) results)]
     (every? true? ack)))
 
@@ -103,7 +102,7 @@
 (defn get-by-id
   [index type id]
   (with-error-logging
-    (-> (get-document (index-name index) (index-name type) id)
+    (-> (e/get-document (index-name index) (index-name type) id)
         (:_source))))
 
 (defmacro get-hakukohde [oid]
@@ -122,7 +121,7 @@
   []
   (with-error-logging
       (->>
-        (search
+        (e/search
           (index-name "indexdata")
           (index-name "indexdata")
           :query {:match_all {}}
@@ -134,13 +133,13 @@
 
 (defn get-hakukohteet-by-koulutus
   [koulutus-oid]
-  (let [res (search (index-name "hakukohde") (index-name "hakukohde") :query {:match {:koulutukset koulutus-oid}})]
+  (let [res (e/search (index-name "hakukohde") (index-name "hakukohde") :query {:match {:koulutukset koulutus-oid}})]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 
 (defn get-haut-by-oids
   [oids]
-  (let [res (search (index-name "haku") (index-name "haku") :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
+  (let [res (e/search (index-name "haku") (index-name "haku") :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 
@@ -148,7 +147,7 @@
 (defn get-organisaatios-by-oids
   [oids]
   (let [query {:constant_score {:filter {:terms {:oid (map str oids)}}}}
-        res (search (index-name "organisaatio") (index-name "organisaatio") :query query)]
+        res (e/search (index-name "organisaatio") (index-name "organisaatio") :query query)]
     ;; TODO: error handling
     (map :_source (get-in res [:hits :hits]))))
 
@@ -172,7 +171,7 @@
   [index type documents]
   (with-error-logging
     (let [data (bulk-upsert-data index type documents)
-          res (bulk index type data)]
+          res (e/bulk index type data)]
       {:errors (not (every? false? (:errors res)))})))
 
 (defmacro upsert-indexdata
@@ -181,12 +180,12 @@
 
 (defn set-last-index-time
   [timestamp]
-  (elastic-post (elastic-url (index-name "lastindex") (index-name "lastindex") "1/_update") {:doc {:timestamp timestamp} :doc_as_upsert true}))
+  (u/elastic-post (u/elastic-url (index-name "lastindex") (index-name "lastindex") "1/_update") {:doc {:timestamp timestamp} :doc_as_upsert true}))
 
 (defn get-last-index-time
   []
   (with-error-logging-value (System/currentTimeMillis)
-    (let [res (get-document (index-name "lastindex") (index-name "lastindex") "1")]
+    (let [res (e/get-document (index-name "lastindex") (index-name "lastindex") "1")]
       (if (:found res)
         (get-in res [:_source :timestamp])
         (System/currentTimeMillis)))))
@@ -194,7 +193,7 @@
 (defn insert-indexing-perf
   [indexed-amount duration started]
   (with-error-logging
-      (create
+      (e/create
         (index-name "indexing_perf")
         (index-name "indexing_perf")
         {:created              (System/currentTimeMillis)
@@ -206,7 +205,7 @@
 (defn insert-query-perf
   [query duration started res-size]
   (with-error-logging
-      (create
+      (e/create
               (index-name "query_perf")
               (index-name "query_perf")
               {:created        (System/currentTimeMillis)
@@ -227,21 +226,13 @@
   ([^String index-name ^String mapping-type]
    (url-with-path index-name mapping-type "_delete_by_query")))
 
-(defn- post [uri {:keys [body] :as options}]
-  (json/decode (:body (http/post uri (merge {:accept :json}
-                                            ;(.http-opts conn)
-                                            options
-                                            {:body (json/encode body)})))
-               true))
-
 (defn delete-by-query*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
   ([index mapping-type query]
-   (post (delete-by-query-url* (join-names index) (join-names mapping-type))
-         {:body {:query query} :content-type :json}))
+   (u/elastic-post (delete-by-query-url* (u/join-names index) (u/join-names mapping-type)) {:query query}))
 
   ([index mapping-type query & args]
-   (post (delete-by-query-url* (join-names index) (join-names mapping-type))
+   (u/elastic-post (delete-by-query-url* (u/join-names index) (u/join-names mapping-type))
          {:query-params (select-keys (->opts args)
                                      (conj [:df :analyzer :default_operator :consistency] :ignore_unavailable))
           :body {:query query} :content-type :json})))
@@ -265,7 +256,7 @@
   [query]
   (with-error-logging
     (let [start (System/currentTimeMillis)
-          res (->> (search
+          res (->> (e/search
                                (index-name "koulutus")
                                (index-name "koulutus")
                                :query {:multi_match {:query query :fields boost-values}})
