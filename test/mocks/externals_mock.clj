@@ -80,6 +80,6 @@
                  konfo-indeksoija-service.tarjonta-client/get-haut-by-oids
                  mocks.externals-mock/get-haut-by-oids
 
-                 konfo-indeksoija-service.s3.s3-client/refresh-s3
+                 konfo-indeksoija-service.s3-client/refresh-s3
                  mocks.externals-mock/refresh-s3]
      (do ~@body)))

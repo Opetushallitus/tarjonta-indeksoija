@@ -7,7 +7,7 @@
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
             [konfo-indeksoija-service.converter.organisaatio-converter :as organisaatio-converter]
             [konfo-indeksoija-service.util.tools :refer [with-error-logging, to-date-string]]
-            [konfo-indeksoija-service.s3.s3-client :as s3-client]
+            [konfo-indeksoija-service.s3-client :as s3-client]
             [clojure.tools.logging :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]

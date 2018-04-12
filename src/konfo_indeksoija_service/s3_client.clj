@@ -1,9 +1,19 @@
-(ns konfo-indeksoija-service.s3.s3-client
+(ns konfo-indeksoija-service.s3-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
-            [konfo-indeksoija-service.s3.s3-connect :as s3]
+            [clj-s3.s3-connect :as s3]
             [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
             [base64-clj.core :as b64]
             [clojure.tools.logging :as log]))
+
+  (defn init-s3-connection []
+    (if-let [s3-region (:s3-region env)]
+      (intern 'clj-s3.s3-connect 's3-region s3-region)
+      (throw (IllegalStateException. "Could not read s3-region from configuration!")))
+    (if-let [s3-bucket (:s3-bucket env)]
+      (intern 'clj-s3.s3-connect 's3-bucket s3-bucket)
+      (throw (IllegalStateException. "Could not read s3-bucket from configuration!")))
+    (log/info "Initializing s3 client with s3-region:" (:s3-region env) ", s3-bucket:" (:s3-bucket env))
+    (s3/init-s3-client))
 
   (defn- upload-pic [oid type pic]
     (let [data (b64/decode-bytes (.getBytes (:base64data pic)))
@@ -18,7 +28,7 @@
 
   (defn- update-pics [oid type pics]
     (with-error-logging
-      (let [old-pics (s3/list type oid)]
+      (let [old-pics (s3/list-keys type oid)]
         (if (not (empty? old-pics))
           (s3/delete old-pics))))
     (log/info (str "Updating " (count pics) " pics for " type " " oid "..."))

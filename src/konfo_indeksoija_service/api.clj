@@ -3,7 +3,7 @@
             [konfo-indeksoija-service.conf :refer [env]]
             [konfo-indeksoija-service.util.logging :as logging]
             [konfo-indeksoija-service.indexer :as indexer]
-            [konfo-indeksoija-service.s3.s3-connect :as s3]
+            [konfo-indeksoija-service.s3-client :as s3-client]
             [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
             [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
             [konfo-indeksoija-service.util.tools :refer [with-error-logging]]
@@ -21,7 +21,7 @@
   (mount/start)
   (log/info "Running init")
   (if (not= (:s3-dev-disabled env) "true")
-    (s3/init-s3-client)
+    (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))

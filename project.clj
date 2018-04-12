@@ -1,5 +1,8 @@
 (defproject konfo-indeksoija-service "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
+  :repositories [["oph-releases" "https://artifactory.oph.ware.fi/artifactory/oph-sade-release-local"]
+                 ["oph-snapshots" "https://artifactory.oph.ware.fi/artifactory/oph-sade-snapshot-local"]
+                 ["ext-snapshots" "https://artifactory.oph.ware.fi/artifactory/ext-snapshot-local"]]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
@@ -16,9 +19,9 @@
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
                  [org.postgresql/postgresql "9.4-1200-jdbc41"]
-                 [com.amazonaws/aws-java-sdk-s3 "1.11.205"]
                  [base64-clj "0.1.1"]
-
+                 ;S3
+                 [oph/clj-s3 "0.1.0-SNAPSHOT"]
                  ;;Logging
                  [org.clojure/tools.logging "0.4.0"]
                  [org.apache.logging.log4j/log4j-api "2.9.0"]
@@ -33,6 +36,7 @@
   :uberjar-name "konfo-indeksoija.jar"
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
+                                  [oph/clj-test-utils "0.1.0-SNAPSHOT"]
                                   [midje "1.8.3"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [criterium "0.4.4"]]
