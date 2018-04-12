@@ -79,7 +79,7 @@
                 (:metadata)
                 (:kuvaEncoded))]
     (if (not (nil? pic))
-      (s3-client/refresh-s3 obj [{:base64data pic :filename (str (:oid obj) ".jpg")}])
+      (s3-client/refresh-s3 obj [{:base64data pic :filename (str (:oid obj) ".jpg") :mimeType "image/jpg"}])
       (log/debug (str "No picture for organisaatio " (:oid obj))))))
 
 (defn store-pictures
