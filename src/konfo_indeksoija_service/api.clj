@@ -23,6 +23,7 @@
   (if (not= (:s3-dev-disabled env) "true")
     (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
+  (elastic-client/init-elastic-client)
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))
     (indexer/start-indexer-job)
@@ -53,24 +54,6 @@
         related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
         docs-with-related-koulutus (clojure.set/union docs related-koulutus)]
     (elastic-client/upsert-indexdata docs-with-related-koulutus)))
-
-(defn get-koulutus-tulos
-  [koulutus-oid]
-  (with-error-logging
-    (let [start (System/currentTimeMillis)
-          koulutus (#(assoc {} (:oid %) %) (elastic-client/get-koulutus koulutus-oid))
-          hakukohteet-list (elastic-client/get-hakukohteet-by-koulutus koulutus-oid)
-          hakukohteet (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec hakukohteet-list))
-          haut-list (elastic-client/get-haut-by-oids (map :hakuOid (vals hakukohteet)))
-          haut (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec haut-list))
-          organisaatiot-list (#(assoc {} (:oid %) %) (elastic-client/get-organisaatios-by-oids [(get-in koulutus [:organisaatio :oid])]))
-          organisaatiot (reduce-kv (fn [m k v] (assoc m (:oid v) v)) {} (vec organisaatiot-list))
-          res {:koulutus koulutus
-               :haut haut
-               :hakukohteet hakukohteet
-               :organisaatiot organisaatiot}]
-      (elastic-client/insert-query-perf (str "koulutus: " koulutus-oid) (- (System/currentTimeMillis) start) start (count res))
-      res)))
 
 (def service-api
   (api
@@ -161,19 +144,7 @@
        (GET "/organisaatio" []
          :summary "Lisää organisaation indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "organisaatio" oid)})))
-
-     (context "/ui" []
-       :tags ["ui"]
-       (GET "/koulutus/:oid" []
-         :summary "Koostaa koulutuksen sekä siihen liittyien hakukohteiden ja hakujen tiedot."
-         :path-params [oid :- String]
-         (ok {:result (get-koulutus-tulos oid)}))
-
-       (GET "/search" []
-         :summary "Tekstihaku."
-         :query-params [query :- String]
-         (ok {:result (elastic-client/text-search query)}))))
+         (ok {:result (reindex "organisaatio" oid)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)

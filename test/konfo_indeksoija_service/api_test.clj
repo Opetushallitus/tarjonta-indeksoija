@@ -1,14 +1,14 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data init-test-logging]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data init-elastic-test]]
             [konfo-indeksoija-service.indexer :as indexer]
             [mocks.externals-mock :refer [with-externals-mock]]
             [cheshire.core :as cheshire]
             [midje.sweet :refer :all]
             [ring.mock.request :as mock]))
 
-(init-test-logging)
+(init-elastic-test)
 
 (with-externals-mock
   (facts "Api should"
@@ -27,7 +27,7 @@
               body (parse-body (:body response))]
           (:hakuOid body) => "1.2.246.562.29.44465499083"))
 
-      (fact "fetch koulutus tulos" :skip
+      (comment fact "fetch koulutus tulos" :skip
         ;; This test uses tarjonta QA and organisaatio
         (elastic-client/delete-index "hakukohde")
         (elastic-client/upsert-indexdata [{:type "koulutus" :oid "1.2.246.562.17.53874141319"}
@@ -65,7 +65,7 @@
 
           (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut)))))
 
-      (fact "fetch text search result"
+      (comment fact "fetch text search result"
         (let [response (app (mock/request :get "/konfo-indeksoija/api/ui/search?query=Tekn.%20kand.,%20tietotekniikka"))
               body (parse-body (:body response))]
           body => [{:nimi {:kieli_en "MSc, Information Technology"
@@ -73,7 +73,7 @@
                            :kieli_sv "Dipl.ing., datateknik"}, :oid "1.2.246.562.17.53874141319"
                     :score 0.8630463, :tarjoaja "Aalto-yliopisto, Perustieteiden korkeakoulu"}])) ;TODO: scoring was 0.7594807 -> scoring changed due to Elastic version difference?
 
-      (fact "fetch performance info"
+      (comment fact "fetch performance info"
         (tools/refresh-and-wait "query_perf" 1000)
         (let [response (app (mock/request :get "/konfo-indeksoija/api/admin/performance_info"))
               body (parse-body (:body response))]

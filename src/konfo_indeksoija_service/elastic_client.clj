@@ -9,7 +9,8 @@
             [clojure.tools.logging :as log]
             [cheshire.core :refer [generate-string]]))
 
-(intern 'clj-elasticsearch.elastic-utils 'elastic-host (:elastic-url env))
+(defn init-elastic-client []
+  (intern 'clj-elasticsearch.elastic-utils 'elastic-host (:elastic-url env)))
 
 (defn index-name
   [name]
@@ -131,26 +132,6 @@
         :hits
         (map :_source))))
 
-(defn get-hakukohteet-by-koulutus
-  [koulutus-oid]
-  (let [res (e/search (index-name "hakukohde") (index-name "hakukohde") :query {:match {:koulutukset koulutus-oid}})]
-    ;; TODO: error handling
-    (map :_source (get-in res [:hits :hits]))))
-
-(defn get-haut-by-oids
-  [oids]
-  (let [res (e/search (index-name "haku") (index-name "haku") :query {:constant_score {:filter {:terms {:oid (map str oids)}}}})]
-    ;; TODO: error handling
-    (map :_source (get-in res [:hits :hits]))))
-
-;; TODO refactor with get-haut-by-oids
-(defn get-organisaatios-by-oids
-  [oids]
-  (let [query {:constant_score {:filter {:terms {:oid (map str oids)}}}}
-        res (e/search (index-name "organisaatio") (index-name "organisaatio") :query query)]
-    ;; TODO: error handling
-    (map :_source (get-in res [:hits :hits]))))
-
 (defn- upsert-operation
   [doc index type]
   {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
@@ -202,18 +183,6 @@
          :indexed_amount       indexed-amount
          :avg_mills_per_object (if (= 0 indexed-amount) 0 (/ duration indexed-amount))})))
 
-(defn insert-query-perf
-  [query duration started res-size]
-  (with-error-logging
-      (e/create
-              (index-name "query_perf")
-              (index-name "query_perf")
-              {:created        (System/currentTimeMillis)
-               :started        started
-               :duration_mills duration
-               :query          query
-               :response_size  res-size})))
-
 (defn url-with-path [& segments]
   (str (:elastic-url env) "/" (clojure.string/join "/" segments)))
 
@@ -243,25 +212,3 @@
                     (index-name "indexdata")
                     {:bool {:must   {:ids {:values (map str oids)}}
                             :filter {:range {:timestamp {:lte max-timestamp}}}}}))
-
-(defn- create-hakutulos [koulutushakutulos]
-  (let [koulutus (:_source koulutushakutulos)
-        score (:_score koulutushakutulos)]
-    {:score score
-     :oid (:oid koulutus)
-     :nimi (get-in koulutus [:koulutuskoodi :nimi])
-     :tarjoaja (get-in koulutus [:organisaatio :nimi])}))
-
-(defn text-search
-  [query]
-  (with-error-logging
-    (let [start (System/currentTimeMillis)
-          res (->> (e/search
-                               (index-name "koulutus")
-                               (index-name "koulutus")
-                               :query {:multi_match {:query query :fields boost-values}})
-                   :hits
-                   :hits
-                   (map create-hakutulos))]
-      (insert-query-perf query (- (System/currentTimeMillis) start) start (count res))
-      res)))

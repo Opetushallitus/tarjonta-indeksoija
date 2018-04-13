@@ -3,11 +3,11 @@
             [konfo-indeksoija-service.elastic-client :as client]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions]]
-            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data init-test-logging]]
+            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data init-elastic-test]]
             [clj-http.client :as http]
             [midje.sweet :refer :all]))
 
-(init-test-logging)
+(init-elastic-test)
 
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10

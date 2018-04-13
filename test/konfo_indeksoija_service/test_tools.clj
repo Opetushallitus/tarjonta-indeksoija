@@ -7,6 +7,10 @@
   (intern 'clj-log.error-log 'test true)
   (intern 'clj-log.error-log 'verbose false))
 
+(defn init-elastic-test []
+  (init-test-logging)
+  (elastic-client/init-elastic-client))
+
 (defn parse
   [body]
   (try
