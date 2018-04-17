@@ -20,6 +20,7 @@
 (defn init []
   (mount/start)
   (log/info "Running init")
+  (intern 'clj-log.error-log 'test false)
   (if (not= (:s3-dev-disabled env) "true")
     (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
