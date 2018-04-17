@@ -91,7 +91,7 @@
                                  (= (:type obj) "koulutus") (store-koulutus-pics obj)
                                  (= (:type obj) "organisaatio") (store-organisaatio-pic obj)
                                  :else true))]
-    (doall (pmap store-pic-fn queue))))
+    (doall (map store-pic-fn queue))))
 
 (defn do-index
   []
