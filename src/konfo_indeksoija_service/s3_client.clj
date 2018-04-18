@@ -16,6 +16,8 @@
     (s3/init-s3-client))
 
   (defn- upload-pic [oid type pic]
+    (log/info (str "PICTURE SIZE " (count (.getBytes (:base64data pic)))))
+    (log/info (:base64data pic))
     (let [data (b64/decode-bytes (.getBytes (:base64data pic)))
           filename (:filename pic)
           kieli (:kieliUri pic)
