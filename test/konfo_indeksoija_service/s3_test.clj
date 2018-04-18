@@ -17,11 +17,14 @@
       (fact "store pictures and referesh pictures"
         (count (s3/list-keys "koulutus" koulutus-oid)) => 0
         (let [obj {:oid koulutus-oid :type "koulutus"}
+              pics [{:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data ""}]]
+          (client/refresh-s3 obj pics))
+        (count (s3/list-keys "koulutus" koulutus-oid)) => 0
+        (let [obj {:oid koulutus-oid :type "koulutus"}
               pics [{:kieliUri "kieli_fi", :filename "vuh.txt", :mimeType "text/plain", :base64data (b64/encode "vuh")},
                     {:kieliUri "kieli_sv", :filename "vuh.txt", :mimeType "text/plain", :base64data (b64/encode "vuf")},
                     {:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data (b64/encode "hau")}]]
           (client/refresh-s3 obj pics))
-        (count (s3/list-keys "koulutus" koulutus-oid)) => 3
         (count (s3/list-keys "koulutus" koulutus-oid)) => 3
         (let [obj {:oid koulutus-oid :type "koulutus"}
               pics [{:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data (b64/encode "hau")}]]

@@ -16,17 +16,18 @@
     (s3/init-s3-client))
 
   (defn- upload-pic [oid type pic]
-    (log/info (str "PICTURE SIZE " (count (.getBytes (:base64data pic)))))
-    (log/info (:base64data pic))
-    (let [data (b64/decode-bytes (.getBytes (:base64data pic)))
+    (let [data (:base64data pic)
           filename (:filename pic)
           kieli (:kieliUri pic)
           mimetype (:mimeType pic)]
-      (log/info (str "Updating picture " filename (if (nil? kieli) "" (str " with lang " kieli)) " for " type " " oid))
-      (with-error-logging false
-        (if (nil? kieli)
-          (s3/upload data mimetype filename type oid)
-          (s3/upload data mimetype filename type oid kieli)))))
+      (if (or (nil? data) (= (count data) 0))
+        (log/warn (str "Got empty picture data " filename (if (nil? kieli) "" (str " with lang " kieli)) " for " type " " oid ". SKIPPING S3 UPLOAD!"))
+        (let [decoded (b64/decode-bytes (.getBytes (:base64data pic)))]
+          (log/info (str "Updating picture " filename (if (nil? kieli) "" (str " with lang " kieli)) " for " type " " oid))
+          (with-error-logging false
+            (if (nil? kieli)
+              (s3/upload decoded mimetype filename type oid)
+              (s3/upload decoded mimetype filename type oid kieli)))))))
 
   (defn- update-pics [oid type pics]
     (with-error-logging
