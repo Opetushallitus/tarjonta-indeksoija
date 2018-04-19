@@ -56,6 +56,12 @@
         docs-with-related-koulutus (clojure.set/union docs related-koulutus)]
     (elastic-client/upsert-indexdata docs-with-related-koulutus)))
 
+(defn- empty-queue []
+  (let [delete-res (elastic-client/delete-index "indexdata")
+        init-res (elastic-client/initialize-indices)]
+    { :delete-queue delete-res
+      :init-indices init-res }))
+
 (def service-api
   (api
    {:swagger {:ui "/konfo-indeksoija"
@@ -100,6 +106,10 @@
          :summary "Hakee tietoja performanssista"
          :query-params [{since :- Long 0}]
          (ok {:result (elastic-client/get-elastic-performance-info since)}))
+
+       (GET "/empty_queue" []
+         :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
+         (ok {:result (empty-queue)}))
 
        (GET "/s3/koulutus" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
