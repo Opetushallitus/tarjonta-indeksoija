@@ -55,6 +55,7 @@
     (log/info msg)
     (when (seq failed-oids) (log/info "Failed oids:" (seq failed-oids)))
     (elastic-client/insert-indexing-perf (count successful-oids) duration start)
+    (elastic-client/bulk-update-failed "indexdata" "indexdata" (map (fn [x] {:oid x}) (seq failed-oids)))
     (elastic-client/delete-handled-queue successful-oids last-timestamp)
     (elastic-client/refresh-index "indexdata")
     msg))

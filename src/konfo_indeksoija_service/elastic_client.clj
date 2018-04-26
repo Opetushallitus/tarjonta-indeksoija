@@ -125,7 +125,14 @@
         (e/search
           (index-name "indexdata")
           (index-name "indexdata")
-          :query {:match_all {}}
+          :query {
+                  :bool {
+                         :should [
+                                  { :bool { :must_not { :exists { :field :retrycount } } } },
+                                  { :bool { :must { :range { :retrycount { :lt 3 } } } } }
+                                  ]
+                         }
+                  }
           :sort {:timestamp "asc"}
           :size 1000)
         :hits
@@ -136,10 +143,22 @@
   [doc index type]
   {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
 
+(defn- update-operation
+  [doc index type]
+  {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
+
 (defn- upsert-doc
   [doc type now]
   {:doc (assoc (dissoc doc :_index :_type) :timestamp now)
    :doc_as_upsert true})
+
+(defn- update-doc
+  [doc type now]
+  {:doc (assoc (dissoc doc :_index :_type) :timestamp now)})
+
+(defn- script-retrycounter
+  []
+  {"script" {:inline "if (ctx._source.containsKey(\"retrycount\")) { ctx._source.retrycount += 1 } else {ctx._source.retrycount = 1}"}})
 
 (defn bulk-upsert-data
   [index type documents]
@@ -148,6 +167,14 @@
         documents (map #(upsert-doc % type now) documents)]
     (interleave operations documents)))
 
+(defn bulk-update-failed-data
+  [index type documents]
+  (let [operations (map #(update-operation % index type) documents)
+        now (System/currentTimeMillis)
+        documents (map #(update-doc % type now) documents)
+        scripts (repeat (count documents) (script-retrycounter))]
+    (interleave operations documents operations scripts)))
+
 (defn bulk-upsert
   [index type documents]
   (with-error-logging
@@ -155,9 +182,20 @@
           res (e/bulk index type data)]
       {:errors (not (every? false? (:errors res)))})))
 
+(defn bulk-update-failed
+  [index type documents]
+  (with-error-logging
+   (let [data (bulk-update-failed-data index type documents)
+         res (e/bulk index type data)]
+     {:errors (not (every? false? (:errors res)))})))
+
 (defmacro upsert-indexdata
   [docs]
   `(bulk-upsert "indexdata" "indexdata" ~docs))
+
+(defmacro update-failed-indexdata
+  [docs]
+  `(bulk-update-failed "indexdata" "indexdata" ~docs))
 
 (defn set-last-index-time
   [timestamp]

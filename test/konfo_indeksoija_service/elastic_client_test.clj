@@ -117,4 +117,21 @@
 
       (client/set-last-index-time soon)
       (refresh-and-wait "indexdata" 1000)
-      (client/get-last-index-time) => soon)))
+      (client/get-last-index-time) => soon))
+
+  (fact "should move failed oids to the end of index and try to index failing oids only three times"
+    (let [original-queue (client/get-queue)
+          oids (map #(dissoc % :type :timestamp) original-queue)]
+      (client/bulk-update-failed "indexdata" "indexdata" oids)
+      (refresh-and-wait "indexdata" 1000)
+      (let [new-queue (client/get-queue)]
+        (:oid (first new-queue)) => (:oid (first original-queue))
+        (< (:timestamp (first original-queue)) (:timestamp (first new-queue))) => true
+        (:oid (second new-queue)) => (:oid (second original-queue))
+        (< (:timestamp (second original-queue)) (:timestamp (second new-queue))) => true
+        (client/bulk-update-failed "indexdata" "indexdata" oids)
+        (refresh-and-wait "indexdata" 1000)
+        (count (client/get-queue)) => 2
+        (client/bulk-update-failed "indexdata" "indexdata" oids)
+        (refresh-and-wait "indexdata" 1000)
+        (count (client/get-queue)) => 0))))
