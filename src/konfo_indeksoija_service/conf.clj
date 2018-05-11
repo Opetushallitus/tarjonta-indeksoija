@@ -51,15 +51,18 @@
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "finnish"}}}
+                                       :analyzer "finnish"
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:sv {:match "kieli_sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "swedish"}}}
+                                       :analyzer "swedish"
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:en {:match "kieli_en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "english"}}}]})
+                                       :analyzer "english"
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def indexdata-mappings
   {:properties {:oid {:type "text"
