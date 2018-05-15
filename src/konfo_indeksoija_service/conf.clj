@@ -52,17 +52,21 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"
+                                       :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:sv {:match "kieli_sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
+                                       :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:en {:match "kieli_en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
-                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       ]})
 
 (def indexdata-mappings
   {:properties {:oid {:type "text"
