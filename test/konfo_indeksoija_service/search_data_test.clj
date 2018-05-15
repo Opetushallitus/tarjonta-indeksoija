@@ -19,6 +19,8 @@
                                                  {:oid "1.2.4" :opintopolunNayttaminenLoppuu "2018-02-02"}]) => "2018-02-02"
   (appender/count-opintopolun-nayttaminen-loppuu [{:oid "1.2.3" :hakuaikas [{:alkuPvm 1522529940000}]},
                                                  {:oid "1.2.4" }]) => nil
+  (appender/count-opintopolun-nayttaminen-loppuu [{:oid "1.2.3" :hakuaikas [{:alkuPvm 1522529940000}, {:loppuPvm nil}]},
+                                                  {:oid "1.2.4" }]) => nil
   (appender/count-opintopolun-nayttaminen-loppuu [{:oid "1.2.3" },
                                                  {:oid "1.2.4" }]) => nil)
 

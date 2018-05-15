@@ -19,7 +19,7 @@
   (if-let [opintopolunNayttaminenLoppuu (last (sort (map #(:opintopolunNayttaminenLoppuu %) haut)))]
     opintopolunNayttaminenLoppuu
     (if-let [hakuajat (not-empty (apply concat (map #(:hakuaikas %) haut)))]
-      (if-let [loppuPvms (not-empty (map #(:loppuPvm %) hakuajat))]
+      (if-let [loppuPvms (not-empty (remove nil? (map #(:loppuPvm %) hakuajat)))]
         (if-let [maxLoppuPvm (apply max loppuPvms)]
           (loppuPvm-to-opintopolkuPvm maxLoppuPvm))))))
 
