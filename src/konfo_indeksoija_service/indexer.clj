@@ -101,10 +101,13 @@
                                                   (set (map :oid converted-docs)))
               successful-oids (clojure.set/difference (set queue-oids)
                                                       (set failed-oids))]
+          (log/info "Got converted docs! Going to index objects...")
           (index-objects converted-docs)
+          (log/info "Objects indexed! Going to store pictures...")
           (if (not= (:s3-dev-disabled env) "true")
             (store-pictures queue)
             (log/info "Skipping store-pictures because of env value"))
+          (log/info "Pictures stored! Going to end indexing items.")
           (end-indexing queue-oids
                         successful-oids
                         failed-oids
