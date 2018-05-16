@@ -42,10 +42,15 @@
   (with-redefs [tarjonta-client/get-hakukohteet-for-koulutus (fn [x] [{:oid "hakukohdeOid" :nimi {:fi "Hakukohteen nimi"} :relatedOid "hakuOid"}])
                 tarjonta-client/get-haut-by-oids (fn [x] [{:oid "hakuOid"}])
                 organisaatio-client/get-doc (fn [x f] {:oid "organisaatioOid" :nimi {:fi "Organisaation nimi"}})]
-    (let [res (appender/append-search-data {:oid "oid" :organisaatio {:oid "organisaatioOid"}})]
+    (let [oppiaineet [ { :oppiaine "kemia" :kieliKoodi "kieli_fi" }, { :oppiaine "chemistry" :kieliKoodi "kieli_en" }, { :oppiaine "physics" :kieliKoodi "kieli_en" }]
+          res (appender/append-search-data {:oid "oid" :organisaatio {:oid "organisaatioOid"}
+                                            :oppiaineet oppiaineet})]
       res => {:oid "oid"
               :organisaatio {:oid "organisaatioOid"}
+              :oppiaineet oppiaineet
               :searchData {:haut [{:oid "hakuOid"}]
                            :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid"}]
                            :organisaatio {:oid "organisaatioOid" :nimi {:kieli_fi "Organisaation nimi"}}
-                           :nimi { :kieli_fi "Hakukohteen nimi"}}})))
+                           :nimi { :kieli_fi "Hakukohteen nimi"}
+                           :oppiaineet [{:kieli_fi "kemia"}, {:kieli_en "chemistry"}, {:kieli_en "physics"}]
+                           }})))

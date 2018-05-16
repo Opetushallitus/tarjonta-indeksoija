@@ -40,10 +40,12 @@
         organisaatio-raw (organisaatio-client/get-doc (assoc (:organisaatio koulutus) :type "organisaatio") false)
         organisaatio (fix-nimi-keys (select-keys organisaatio-raw [:nimi :oid :status :kotipaikkaUri :alkuPvm :loppuPvm :parentOidPath]))
         nimi (find-koulutus-nimi koulutus hakukohteet)
-        opintopolunNayttaminenLoppuu (count-opintopolun-nayttaminen-loppuu haut)]
+        opintopolunNayttaminenLoppuu (count-opintopolun-nayttaminen-loppuu haut)
+        oppiaineet (map (fn [x] { (keyword (:kieliKoodi x)) (:oppiaine x) }) (:oppiaineet koulutus))]
     (let [searchData (-> {}
                          (cond-> nimi (assoc :nimi nimi))
                          (cond-> opintopolunNayttaminenLoppuu (assoc :opintopolunNayttaminenLoppuu opintopolunNayttaminenLoppuu))
+                         (cond-> (not-empty oppiaineet) (assoc :oppiaineet oppiaineet))
                          (assoc :haut haut)
                          (assoc :hakukohteet hakukohteet)
                          (assoc :organisaatio organisaatio))]
