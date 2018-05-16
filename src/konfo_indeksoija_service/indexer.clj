@@ -6,7 +6,6 @@
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
-            [konfo-indeksoija-service.converter.organisaatio-converter :as organisaatio-converter]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
             [konfo-indeksoija-service.s3-client :as s3-client]
