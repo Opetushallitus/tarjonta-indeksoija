@@ -1,7 +1,9 @@
 (ns konfo-indeksoija-service.search-data-test
   (:require [konfo-indeksoija-service.converter.koulutus-search-data-appender :as appender]
+            [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as org-appender]
             [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
             [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.koodisto-client :as koodisto-client]
             [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data init-elastic-test]]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]))
@@ -54,3 +56,16 @@
                            :nimi { :kieli_fi "Hakukohteen nimi"}
                            :oppiaineet [{:kieli_fi "kemia"}, {:kieli_en "chemistry"}, {:kieli_en "physics"}]
                            }})))
+
+(fact "assoc correct search data for oppilaitos"
+  (with-redefs [organisaatio-client/get-tyyppi-hierarkia (fn [x] { :organisaatiot [ { :oid "super-super-parent-oid"
+                                                                                     :oppilaitostyyppi "oppilaitostyyppi_21#1"
+                                                                                     :children [{ :oid "super-parent-oid"
+                                                                                                 :children [{ :oid "parent-oid"
+                                                                                                             :oppilaitostyyppi "oppilaitostyyppi_11#1"
+                                                                                                             :children [{ :oid "oid"}]}]}]}]})
+                koodisto-client/get-koodi (fn [x y] {:metadata [{:nimi "Koulu" :kieli "FI"}, {:nimi "School" :kieli "EN"}]})
+                ]
+    (let [res (org-appender/append-search-data {:oid "oid"})]
+      res => {:oid "oid"
+              :searchData {:oppilaitostyyppi { :koodiUri "oppilaitostyyppi_11#1" :nimi { :fi "Koulu" :en "School"} } }})))

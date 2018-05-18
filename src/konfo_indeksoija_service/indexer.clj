@@ -5,6 +5,7 @@
             [konfo-indeksoija-service.elastic-client :as elastic-client]
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]
+            [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as oppilaitos-search-data-appender]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
@@ -23,6 +24,7 @@
                                      koulutus-converter/convert
                                      koulutus-search-data-appender/append-search-data)
     (.contains type "hakukohde") (hakukohde-converter/convert doc)
+    (.contains type "organisaatio") (oppilaitos-search-data-appender/append-search-data doc)
     :else doc))
 
 (defn- get-doc [obj]

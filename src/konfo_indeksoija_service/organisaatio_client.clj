@@ -34,3 +34,10 @@
       (let [params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}
             url (str (:organisaatio-service-url env) "v2/hae")]
         (extract-docs (client/get url {:query-params params, :as :json}))))))
+
+(defn get-tyyppi-hierarkia
+  [oid]
+  (with-error-logging
+   (let [url (str (:organisaatio-service-url env) "v2/hierarkia/hae/tyyppi")
+         params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}]
+     (:body (client/get url {:query-params params, :as :json})))))
