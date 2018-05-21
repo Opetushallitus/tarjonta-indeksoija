@@ -104,6 +104,7 @@
                                          :mapping {:type "text"
                                                    :norms { :enabled false}
                                                    :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:lakkautusPvm {:mapping {:type "date"}}}
                        ]})
 
 (def indexdata-mappings
