@@ -23,11 +23,19 @@
         (if-let [maxLoppuPvm (apply max loppuPvms)]
           (loppuPvm-to-opintopolkuPvm maxLoppuPvm))))))
 
+(defonce lukio-koulutustyypit ["koulutustyyppi_2" "koulutustyyppi_14" "koulutustyyppi_23"])
+
+(defn lukio? [koulutus]
+  (if-let [koulutustyyppi-uri (if-let [koulutustyyppi (:koulutustyyppi koulutus)] (:uri koulutustyyppi))]
+    (some #(= % (first (clojure.string/split koulutustyyppi-uri #"#"))) lukio-koulutustyypit)))
+
 (defn find-koulutus-nimi [koulutus hakukohteet]
-  (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
-    (:nimi koulutuskoodi)
-    (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
-      (:nimi hakukohde))))
+  (if (lukio? koulutus)
+    (:nimi (:koulutusohjelma koulutus))
+    (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
+      (:nimi koulutuskoodi)
+      (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
+        (:nimi hakukohde)))))
 
 (defn append-search-data
   [koulutus]

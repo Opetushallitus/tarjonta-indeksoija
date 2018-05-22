@@ -57,6 +57,23 @@
                            :oppiaineet [{:kieli_fi "kemia"}, {:kieli_en "chemistry"}, {:kieli_en "physics"}]
                            }})))
 
+(fact "assoc correct lukio nimi"
+  (with-redefs [tarjonta-client/get-hakukohteet-for-koulutus (fn [x] [{:oid "hakukohdeOid" :nimi {:fi "Hakukohteen nimi"} :relatedOid "hakuOid"}])
+                tarjonta-client/get-haut-by-oids (fn [x] [{:oid "hakuOid"}])
+                organisaatio-client/get-doc (fn [x f] {:oid "organisaatioOid" :nimi {:fi "Kiva lukio" :sv "Jättekiva lukio"}})]
+    (let [res (appender/append-search-data {:oid "oid"
+                                            :organisaatio {:oid "organisaatioOid"}
+                                            :koulutustyyppi {:uri "koulutustyyppi_2"}
+                                            :koulutusohjelma {:nimi {:kieli_fi "Lukio" :kieli_sv "Gymnasium"}}})]
+      res => {:oid "oid"
+              :organisaatio {:oid "organisaatioOid"}
+              :koulutustyyppi {:uri "koulutustyyppi_2"}
+              :koulutusohjelma {:nimi {:kieli_fi "Lukio" :kieli_sv "Gymnasium"}}
+              :searchData {:haut [{:oid "hakuOid"}]
+                           :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid"}]
+                           :organisaatio {:oid "organisaatioOid" :nimi {:kieli_fi "Kiva lukio" :kieli_sv "Jättekiva lukio"}}
+                           :nimi { :kieli_fi "Lukio" :kieli_sv "Gymnasium"}}})))
+
 (fact "assoc correct search data for oppilaitos"
   (with-redefs [organisaatio-client/get-tyyppi-hierarkia (fn [x] { :organisaatiot [ { :oid "super-super-parent-oid"
                                                                                      :oppilaitostyyppi "oppilaitostyyppi_21#1"
