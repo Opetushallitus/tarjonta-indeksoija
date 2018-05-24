@@ -96,10 +96,13 @@
 (defn get-hakukohteet-for-koulutus
   [koulutus-oid]
   (with-error-logging
-    (let [url (str (:tarjonta-service-url env) "koulutus/" koulutus-oid "/hakukohteet")]
+    (let [url (str (:tarjonta-service-url env) "hakukohde/search?koulutusOid=" koulutus-oid)]
       (-> (client/get url {:as :json})
           :body
-          :result))))
+          :result
+          :tulokset
+          (first)
+          :tulokset))))
 
 (defn get-haut-by-oids
   [oid-list]
