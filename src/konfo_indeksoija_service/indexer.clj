@@ -4,8 +4,9 @@
             [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
+            [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]
+            [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as oppilaitos-search-data-appender]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
-            [konfo-indeksoija-service.converter.organisaatio-converter :as organisaatio-converter]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
             [konfo-indeksoija-service.s3-client :as s3-client]
@@ -16,21 +17,14 @@
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
   (:import (org.quartz ObjectAlreadyExistsException)))
 
-(defn append-search-data
-  [koulutus]
-  (let [hakukohteet-raw (tarjonta-client/get-hakukohteet-for-koulutus (:oid koulutus))
-        hakukohteet (doall (map #(clojure.set/rename-keys % {:relatedOid :hakuOid}) hakukohteet-raw))
-        haut-raw (tarjonta-client/get-haut-by-oids (distinct (map :hakuOid hakukohteet)))
-        haut (doall (map #(dissoc % :hakukohdeOidsYlioppilastutkintoAntaaHakukelpoisuuden :hakukohdeOids) haut-raw))]
-    (assoc koulutus :searchData {:koulutus koulutus :hakukohteet hakukohteet :haut haut})))
-
 (defn convert-doc
   [doc type]
   (cond
     (.contains type "koulutus") (->> doc
                                      koulutus-converter/convert
-                                     append-search-data)
+                                     koulutus-search-data-appender/append-search-data)
     (.contains type "hakukohde") (hakukohde-converter/convert doc)
+    (.contains type "organisaatio") (oppilaitos-search-data-appender/append-search-data doc)
     :else doc))
 
 (defn- get-doc [obj]
@@ -108,10 +102,13 @@
                                                   (set (map :oid converted-docs)))
               successful-oids (clojure.set/difference (set queue-oids)
                                                       (set failed-oids))]
+          (log/info "Got converted docs! Going to index objects...")
           (index-objects converted-docs)
+          (log/info "Objects indexed! Going to store pictures...")
           (if (not= (:s3-dev-disabled env) "true")
             (store-pictures queue)
             (log/info "Skipping store-pictures because of env value"))
+          (log/info "Pictures stored! Going to end indexing items.")
           (end-indexing queue-oids
                         successful-oids
                         failed-oids

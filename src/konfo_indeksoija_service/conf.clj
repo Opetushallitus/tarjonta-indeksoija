@@ -51,15 +51,61 @@
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "finnish"}}}
+                                       :analyzer "finnish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:sv {:match "kieli_sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "swedish"}}}
+                                       :analyzer "swedish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:en {:match "kieli_en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "english"}}}]})
+                                       :analyzer "english"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       ]})
+
+(def stemmer-settings-organisaatio
+  {:dynamic_templates [{:fi {:match "fi"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "finnish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:sv {:match "sv"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "swedish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:en {:match "en"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "english"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:osoite {:match "osoite"
+                                 :match_mapping_type "string"
+                                 :mapping {:type "text"
+                                           :analyzer "finnish"
+                                           :norms { :enabled false}
+                                           :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:postitoimipaikka {:match ":postitoimipaikka"
+                                           :match_mapping_type "string"
+                                           :mapping {:type "text"
+                                                     :analyzer "finnish"
+                                                     :norms { :enabled false}
+                                                     :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:postinumeroUri {:match "postinumeroUri"
+                                         :match_mapping_type "string"
+                                         :mapping {:type "text"
+                                                   :norms { :enabled false}
+                                                   :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:lakkautusPvm {:mapping {:type "date"}}}
+                       ]})
 
 (def indexdata-mappings
   {:properties {:oid {:type "text"
