@@ -1,6 +1,7 @@
 (ns konfo-indeksoija-service.converter.koulutus-search-data-appender
   (:require [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
             [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.converter.tyyppi-converter :refer [koulutustyyppi-uri-to-tyyppi]]
             [clojure.tools.logging :as log]
             [clj-time.format :as format]
             [clj-time.coerce :as coerce]
@@ -57,19 +58,19 @@
       loppuPvmHakukohteet
       (count-opintopolun-nayttaminen-loppuu-haut haut))))
 
-(defonce lukio-koulutustyypit ["koulutustyyppi_2" "koulutustyyppi_14" "koulutustyyppi_23"])
-
-(defn lukio? [koulutus]
-  (if-let [koulutustyyppi-uri (if-let [koulutustyyppi (:koulutustyyppi koulutus)] (:uri koulutustyyppi))]
-    (some #(= % (first (clojure.string/split koulutustyyppi-uri #"#"))) lukio-koulutustyypit)))
-
-(defn find-koulutus-nimi [koulutus hakukohteet]
-  (if (lukio? koulutus)
+(defn find-koulutus-nimi [koulutus hakukohteet tyyppi]
+  (if (= "lk" tyyppi)
     (:nimi (:koulutusohjelma koulutus))
     (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
       (:nimi koulutuskoodi)
       (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
         (:nimi hakukohde)))))
+
+(defn- find-koulutus-tyyppi [koulutus]
+  (let [tyyppi (koulutustyyppi-uri-to-tyyppi (get-in koulutus [:koulutustyyppi :uri]))]
+    (if (and (= "kk" tyyppi) (or (:isAvoimenYliopistonKoulutus koulutus) (not (:johtaaTutkintoon koulutus))))
+      "ako"
+      tyyppi)))
 
 (defn append-search-data
   [koulutus]
@@ -81,13 +82,15 @@
                                   :yhdenPaikanSaanto :modifiedBy :sijoittelu :autosyncTarjontaFrom :autosyncTarjontaTo :ylioppilastutkintoAntaaHakukelpoisuuden) haut-raw))
         organisaatio-raw (organisaatio-client/get-doc (assoc (:organisaatio koulutus) :type "organisaatio") false)
         organisaatio (fix-nimi-keys (select-keys organisaatio-raw [:nimi :oid :status :kotipaikkaUri :alkuPvm :loppuPvm :parentOidPath]))
-        nimi (find-koulutus-nimi koulutus hakukohteet)
+        tyyppi (find-koulutus-tyyppi koulutus)
+        nimi (find-koulutus-nimi koulutus hakukohteet tyyppi)
         opintopolunNayttaminenLoppuu (count-opintopolun-nayttaminen-loppuu haut hakukohteet-raw)
         oppiaineet (map (fn [x] { (keyword (:kieliKoodi x)) (:oppiaine x) }) (:oppiaineet koulutus))]
     (if (empty? hakukohteet) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakukohteita!")))
     (if (empty? haut) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakuja!")))
     (let [searchData (-> {}
                          (cond-> nimi (assoc :nimi nimi))
+                         (cond-> tyyppi (assoc :tyyppi tyyppi))
                          (cond-> opintopolunNayttaminenLoppuu (assoc :opintopolunNayttaminenLoppuu opintopolunNayttaminenLoppuu))
                          (cond-> (not-empty oppiaineet) (assoc :oppiaineet oppiaineet))
                          (assoc :haut haut)

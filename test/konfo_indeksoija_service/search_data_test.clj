@@ -45,6 +45,7 @@
                            :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid"}]
                            :organisaatio {:oid "organisaatioOid" :nimi {:kieli_fi "Organisaation nimi"}}
                            :nimi { :kieli_fi "Kiva koulutus"}
+                           :tyyppi "muu"
                            :opintopolunNayttaminenLoppuu "2019-07-07"}})))
 
 (fact "assoc correct search data 2"
@@ -61,6 +62,7 @@
                            :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid" :hakuaika {:alkuPvm 1440320400000, :loppuPvm 1450778400000}}]
                            :organisaatio {:oid "organisaatioOid" :nimi {:kieli_fi "Organisaation nimi"}}
                            :nimi { :kieli_fi "Hakukohteen nimi"}
+                           :tyyppi "muu"
                            :oppiaineet [{:kieli_fi "kemia"}, {:kieli_en "chemistry"}, {:kieli_en "physics"}]
                            :opintopolunNayttaminenLoppuu "2016-06-22"
                            }})))
@@ -80,6 +82,7 @@
               :searchData {:haut [{:oid "hakuOid"}]
                            :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid"}]
                            :organisaatio {:oid "organisaatioOid" :nimi {:kieli_fi "Kiva lukio" :kieli_sv "Jättekiva lukio"}}
+                           :tyyppi "lk"
                            :nimi { :kieli_fi "Lukio" :kieli_sv "Gymnasium"}}})))
 
 (fact "assoc correct search data for oppilaitos"
@@ -87,13 +90,12 @@
                                                                                      :oppilaitostyyppi "oppilaitostyyppi_21#1"
                                                                                      :children [{ :oid "super-parent-oid"
                                                                                                  :children [{ :oid "parent-oid"
-                                                                                                             :oppilaitostyyppi "oppilaitostyyppi_11#1"
+                                                                                                             :oppilaitostyyppi "oppilaitostyyppi_22#1"
                                                                                                              :children [{ :oid "oid"}]}]}]}]})
-                koodisto-client/get-koodi (fn [x y] {:metadata [{:nimi "Koulu" :kieli "FI"}, {:nimi "School" :kieli "EN"}]})
-                ]
+                koodisto-client/get-koodi (fn [x y] {:metadata [{:nimi "Koulu" :kieli "FI"}, {:nimi "School" :kieli "EN"}]})]
     (let [res (org-appender/append-search-data {:oid "oid"})]
       res => {:oid "oid"
-              :searchData {:oppilaitostyyppi { :koodiUri "oppilaitostyyppi_11#1" :nimi { :fi "Koulu" :en "School"} } }})))
+              :searchData {:oppilaitostyyppi { :koodiUri "oppilaitostyyppi_22#1" :nimi { :fi "Koulu" :en "School"}} :tyyppi "amm" }})))
 
 (fact "parse hakuaikaRyhmä"
   (let [ryhma1 "(2017-08-01 08:00 - 2017-08-15 23:59)"
