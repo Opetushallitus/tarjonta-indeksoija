@@ -66,7 +66,7 @@
   (e/delete-index (index-name index)))
 
 (defn initialize-index-settings []
-  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf"]
+  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf" "palaute"]
         new-indexes (filter #(not (e/index-exists %)) (map index-name index-names))
         results (map #(e/create-index % conf/index-settings) new-indexes)
         ack (map #(:acknowledged %) results)]

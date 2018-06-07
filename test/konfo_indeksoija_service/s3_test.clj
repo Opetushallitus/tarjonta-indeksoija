@@ -14,7 +14,7 @@
 (with-state-changes [(before :facts (init-s3-mock))
                      (after :facts (stop-s3-mock))]
     (facts "s3 client should"
-      (fact "store pictures and referesh pictures"
+      (fact "store pictures and refresh pictures"
         (count (s3/list-keys "koulutus" koulutus-oid)) => 0
         (let [obj {:oid koulutus-oid :type "koulutus"}
               pics [{:kieliUri "kieli_fi", :filename "hau.txt", :mimeType "text/plain", :base64data ""}]]
