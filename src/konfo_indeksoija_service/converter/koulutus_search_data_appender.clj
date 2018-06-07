@@ -61,10 +61,14 @@
 (defn find-koulutus-nimi [koulutus hakukohteet tyyppi]
   (if (= "lk" tyyppi)
     (:nimi (:koulutusohjelma koulutus))
-    (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
-      (:nimi koulutuskoodi)
-      (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
-        (:nimi hakukohde)))))
+    (if (not (empty? (:nimi koulutus)))
+      (:nimi koulutus)
+      (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
+        (:nimi koulutuskoodi)
+        (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
+          (:nimi hakukohde))
+      ))
+    ))
 
 (defn- find-koulutus-tyyppi [koulutus]
   (let [tyyppi (koulutustyyppi-uri-to-tyyppi (get-in koulutus [:koulutustyyppi :uri]))]

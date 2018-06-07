@@ -23,6 +23,9 @@
              {}
              value))
 
+(defn- getNimiFromTekstis [dto]
+  (get-in dto [:koulutusohjelma :tekstis]))
+
 (defn- kielivalikoima
   [value]
   (reduce-kv #(assoc %1 %2 (extract-koodi-list %3 [:meta]))
@@ -122,4 +125,7 @@
 ;; Loops key-value map and transforms the value
 (defn convert
   [dto]
-  (into {} (for [[k v] dto] [k ((k map-field-to-converter) v)])))
+  (let [raw-res (into {} (for [[k v] dto] [k ((k map-field-to-converter) v)]))]
+    (if (nil? (:nimi raw-res))
+      (assoc raw-res :nimi (getNimiFromTekstis dto))
+      raw-res)))
