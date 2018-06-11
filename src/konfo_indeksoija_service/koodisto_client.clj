@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.koodisto-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
-            [konfo-indeksoija-service.konfo-indeksoija-service.rest-wrapper :as client]
+            [konfo-indeksoija-service.rest-wrapper :as client]
             [clojure.tools.logging :as log]
             [clojure.core.memoize :as memo]))
 

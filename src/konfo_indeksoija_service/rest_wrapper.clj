@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.konfo-indeksoija-service.rest-wrapper
+(ns konfo-indeksoija-service.rest-wrapper
   (:require [clj-http.client :as client]
             [clojure.tools.logging :as log]))
 
