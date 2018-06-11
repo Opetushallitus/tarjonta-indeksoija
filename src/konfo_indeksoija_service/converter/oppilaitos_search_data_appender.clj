@@ -1,7 +1,8 @@
 (ns konfo-indeksoija-service.converter.oppilaitos-search-data-appender
   (:require [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
             [konfo-indeksoija-service.koodisto-client :as koodisto-client]
-            [konfo-indeksoija-service.converter.tyyppi-converter :refer [oppilaitostyyppi-uri-to-tyyppi]]))
+            [konfo-indeksoija-service.converter.tyyppi-converter :refer [oppilaitostyyppi-uri-to-tyyppi]]
+            [clojure.tools.logging :as log]))
 
 (defn- find-parent-oppilaitos-tyyppi-uri [oid]
   (defn- recursive-find-oppilaitostyyppi [organisaatio]
@@ -26,7 +27,7 @@
 (defn- find-oppilaitos-tyyppi-nimi [oppilaitostyyppi-uri]
   (if (not (nil? oppilaitostyyppi-uri))
     (let [koodi-uri (first (clojure.string/split oppilaitostyyppi-uri #"#"))
-          koodisto (koodisto-client/get-koodi "oppilaitostyyppi" koodi-uri)
+          koodisto (koodisto-client/get-koodi-with-cache "oppilaitostyyppi" koodi-uri)
           metadata (:metadata koodisto)]
 
       (into {} (map (fn [x] {(keyword (clojure.string/lower-case (:kieli x))) (:nimi x)}) metadata)))))
