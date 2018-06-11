@@ -5,7 +5,7 @@
             [clj-elasticsearch.elastic-utils :as u]
             [environ.core]
             [cheshire.core :as json]
-            [clj-http.client :as http]
+            [konfo-indeksoija-service.konfo-indeksoija-service.rest-wrapper :as http]
             [clojure.tools.logging :as log]
             [cheshire.core :refer [generate-string]]))
 

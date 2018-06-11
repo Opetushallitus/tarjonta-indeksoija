@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.koodisto-client
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
-            [clj-http.client :as client]))
+            [konfo-indeksoija-service.konfo-indeksoija-service.rest-wrapper :as client]))
 
 (defn get-koodi
   [koodisto koodi-uri]

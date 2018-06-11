@@ -2,7 +2,7 @@
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
-            [clj-http.client :as client]
+            [konfo-indeksoija-service.konfo-indeksoija-service.rest-wrapper :as client]
             [clojure.tools.logging :as log]
             [clojure.java.jdbc :as db]))
 
