@@ -73,9 +73,11 @@
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
 
+;todo indeksoi myös koulutusmoduuleihin liittyvät koulutukset (koulutusmoduuliToteutukset) komon muuttuessa
 (defn get-related-koulutus [obj]
   (log/debug "Fetching related koulutus for" obj)
   (cond
+    (= (:type obj) "koulutusmoduuli") []
     (= (:type obj) "organisaatio") (find-koulutus-for-organisaatio (:oid obj))
     (= (:type obj) "hakukohde") (find-koulutus-for-hakukohde (:oid obj))
     (= (:type obj) "haku") (find-koulutus-for-haku (:oid obj))
@@ -87,10 +89,12 @@
   (with-error-logging
     (let [url (str (:tarjonta-service-url env) "lastmodified")
           res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
+      (log/info "Changes found: " (count (:haku res)) "hakus, " (count (:hakukohde res)) "hakukohdes, " (count (:koulutusmoduuli res)) "koulutusmoduulis and " (count (:koulutusmoduuliToteutus res)) "koulutukses" )
       (flatten
        (conj
         (map #(hash-map :type "haku" :oid %) (:haku res))
         (map #(hash-map :type "hakukohde" :oid %) (:hakukohde res))
+        (map #(hash-map :type "koulutusmoduuli" :oid %) (:koulutusmoduuli res))
         (map #(hash-map :type "koulutus" :oid %) (:koulutusmoduuliToteutus res)))))))
 
 (defn get-hakukohteet-for-koulutus

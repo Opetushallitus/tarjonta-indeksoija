@@ -7,6 +7,7 @@
             [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]
             [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as oppilaitos-search-data-appender]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
+            [konfo-indeksoija-service.converter.komo-converter :as komo-converter]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
             [konfo-indeksoija-service.s3-client :as s3-client]
@@ -17,9 +18,11 @@
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
   (:import (org.quartz ObjectAlreadyExistsException)))
 
+
 (defn convert-doc
   [doc type]
   (cond
+    (.contains type "koulutusmoduuli") (komo-converter/convert doc)
     (.contains type "koulutus") (->> doc
                                      koulutus-converter/convert
                                      koulutus-search-data-appender/append-search-data)
@@ -28,8 +31,11 @@
     :else doc))
 
 (defn- get-doc [obj]
+  (if (= (:type obj) "koulutusmoduuli")
+    (log/info "Haetaan koulutusmoduuli " obj))
   (cond
     (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
+    (= (:type obj) "koulutusmoduuli") (tarjonta-client/get-doc (assoc obj :type "komo"))
     :else (tarjonta-client/get-doc obj)))
 
 (defn get-converted-doc
@@ -137,7 +143,7 @@
          (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus changes-since))
                last-modified-with-related-koulutus (clojure.set/union changes-since related-koulutus)]
            (if-not (empty? related-koulutus)
-             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes:"))
+             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
            (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
            (elastic-client/set-last-index-time now)
            (do-index)))))))
