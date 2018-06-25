@@ -27,7 +27,8 @@
 
 (def db-mappings {:koulutus "koulutusmoduuli_toteutus"
                   :hakukohde "hakukohde"
-                  :haku "haku"})
+                  :haku "haku"
+                  :koulutusmoduuli "koulutusmoduuli"})
 
 (defn find-docs
   [type]
@@ -35,7 +36,7 @@
     (map #(assoc % :type type) (db/query (:tarjonta-db env) [query]))))
 
 (defn find-all-tarjonta-docs []
-  (flatten (map find-docs ["koulutus" "hakukohde" "haku"])))
+  (flatten (map find-docs ["koulutus" "hakukohde" "haku" "koulutusmoduuli"])))
 
 (defn find-koulutus-for-organisaatio
   [organisaatio-oid]
