@@ -4,5 +4,5 @@
 ;Tyhjä placeholder toistaiseksi
 (defn convert
   [data]
-  (log/info "Haettiin koulutusmoduulin tiedot: " data)
+  (log/info "Käsiteltiin komo oidilla " (:oid data))
   data)

@@ -101,7 +101,7 @@
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
-        (log/info "Indexing" (count queue) "items")
+        (log/info "Indexing" (count queue) "items.")
         (let [converted-docs (remove nil? (doall (pmap get-converted-doc queue)))
               queue-oids (map :oid queue)
               failed-oids (clojure.set/difference (set queue-oids)
