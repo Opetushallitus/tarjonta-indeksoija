@@ -66,7 +66,8 @@
   (e/delete-index (index-name index)))
 
 (defn initialize-index-settings []
-  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "lastindex" "indexing_perf" "query_perf" "palaute"]
+  (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"
+                     "lastindex" "indexing_perf" "query_perf" "palaute" "koulutusmoduuli"]
         new-indexes (filter #(not (e/index-exists %)) (map index-name index-names))
         results (map #(e/create-index % conf/index-settings) new-indexes)
         ack (map #(:acknowledged %) results)]
@@ -91,7 +92,7 @@
           :acknowledged))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "koulutus"  "haku"]]
+  (let [index-names ["hakukohde" "koulutus"  "haku" "koulutusmoduuli"]]
     (update-index-mappings "organisaatio" "organisaatio" conf/stemmer-settings-organisaatio)
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 
