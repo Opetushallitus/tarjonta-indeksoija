@@ -47,7 +47,7 @@
             (assoc :tyyppi (:type obj)))))))
 
 (defn end-indexing
-  [oids successful-oids failed-oids last-timestamp start]
+  [successful-oids failed-oids last-timestamp start]
   (let [duration (- (System/currentTimeMillis) start)
         msg (str "Successfully indexed " (count successful-oids) " objects in " (int (/ duration 1000)) " seconds. Total failed:" (count failed-oids))]
     (log/info msg)
@@ -113,8 +113,7 @@
             (store-pictures queue)
             (log/info "Skipping store-pictures because of env value"))
           (log/info "Pictures stored! Going to end indexing items.")
-          (end-indexing queue-oids
-                        successful-oids
+          (end-indexing successful-oids
                         failed-oids
                         (apply max (map :timestamp queue))
                         start))))))
