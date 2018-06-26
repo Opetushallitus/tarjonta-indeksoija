@@ -92,7 +92,7 @@
           :acknowledged))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "koulutus"  "haku" "koulutusmoduuli"]]
+  (let [index-names ["hakukohde" "koulutus" "haku" "koulutusmoduuli"]]
     (update-index-mappings "organisaatio" "organisaatio" conf/stemmer-settings-organisaatio)
     (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
 

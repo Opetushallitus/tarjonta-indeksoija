@@ -31,8 +31,6 @@
     :else doc))
 
 (defn- get-doc [obj]
-  (if (= (:type obj) "koulutusmoduuli")
-    (log/info "Haetaan koulutusmoduuli " obj))
   (cond
     (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
     (= (:type obj) "koulutusmoduuli") (tarjonta-client/get-doc (assoc obj :type "komo"))
