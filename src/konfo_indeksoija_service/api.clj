@@ -50,6 +50,7 @@
   (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
         organisaatio-docs (organisaatio-client/find-docs nil)
         docs (clojure.set/union tarjonta-docs organisaatio-docs)]
+    (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (elastic-client/upsert-indexdata docs)))
 
 (defn reindex
