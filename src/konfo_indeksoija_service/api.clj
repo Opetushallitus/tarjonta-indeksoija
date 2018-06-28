@@ -44,7 +44,7 @@
 
 (defn reindex-all
   []
-  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta.")
+  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta ja organisaatiopalvelusta.")
   (elastic-client/delete-index "indexdata")
   (elastic-client/initialize-indices)
   (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
