@@ -159,7 +159,13 @@
        (GET "/organisaatio" []
          :summary "Lisää organisaation indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "organisaatio" oid)}))))
+         (ok {:result (reindex "organisaatio" oid)}))
+
+       (GET "/koulutusmoduuli" []
+         :summary "Lisää koulutusmoduulin indeksoitavien listalle."
+         :query-params [oid :- String]
+         (ok {:result (reindex "koulutusmoduuli" oid)}))))
+
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
