@@ -27,7 +27,7 @@
 (def map-komo-fields {:tila value
                       :eqf koodi
                       :lukiolinja value
-                      :koulutustyyppis value
+                      :koulutustyyppis koodi-list
                       :koulutusasteTyyppi value
                       :osaamisala value
                       :oppilaitostyyppis value
