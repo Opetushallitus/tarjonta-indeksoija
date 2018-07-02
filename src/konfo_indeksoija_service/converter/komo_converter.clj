@@ -25,15 +25,16 @@
              value))
 
 (def map-komo-fields {:tila value
-                      :eqf value ;fixme ehkä, käsittele koodina? Saattaa myös olla, että tätä ei oikeasti tarvita mihinkään.
+                      :eqf koodi
+                      :lukiolinja value
+                      :koulutustyyppis value
+                      :koulutusasteTyyppi value
+                      :osaamisala value
+                      :oppilaitostyyppis value
                       :ohjelmas value
-                      :lukiolinja value ;new
-                      :koulutustyyppis value ;new
                       :opintojenLaajuusyksikko koodi
                       :koulutusala koodi
-                      :koulutusasteTyyppi value ;new
                       :koulutusohjelma koodi
-                      :osaamisala value ;new
                       :koulutusaste koodi
                       :modified value
                       :koulutuskoodi koodi
@@ -46,7 +47,6 @@
                       :tutkintonimikes koodi-list
                       :tutkinto koodi
                       :komoOid value
-                      :oppilaitostyyppis value ;new
                       :tunniste value
                       :version value
                       :organisaatio value
