@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.converter.komo-converter
+(ns konfo-indeksoija-service.converter.koulutusmoduuli-converter
   (:require [clojure.tools.logging :as log]))
 
 (defn- extract-koodi
@@ -27,7 +27,8 @@
 (def map-komo-fields {:tila value
                       :eqf koodi
                       :lukiolinja value
-                      :koulutustyyppis koodi-list
+                      :koulutustyyppis koodi-list ;Ilmeisesti nykytarjonnan datassa koulutusmoduulilla on vain yksi koulutustyyppi,
+                                                  ;mutta rajapinnasta palautetaan koulutustyypit kuitenkin listana.
                       :koulutusasteTyyppi value
                       :osaamisala value
                       :oppilaitostyyppis value

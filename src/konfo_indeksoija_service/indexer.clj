@@ -6,8 +6,9 @@
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]
             [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as oppilaitos-search-data-appender]
+            [konfo-indeksoija-service.converter.koulutusmoduuli-search-data-appender :as koulutusmoduuli-search-data-appender]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
-            [konfo-indeksoija-service.converter.komo-converter :as komo-converter]
+            [konfo-indeksoija-service.converter.koulutusmoduuli-converter :as komo-converter]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
             [konfo-indeksoija-service.s3-client :as s3-client]
@@ -22,7 +23,9 @@
 (defn convert-doc
   [doc type]
   (cond
-    (.contains type "koulutusmoduuli") (komo-converter/convert doc)
+    (.contains type "koulutusmoduuli") (->> doc
+                                        komo-converter/convert
+                                        koulutusmoduuli-search-data-appender/append-search-data)
     (.contains type "koulutus") (->> doc
                                      koulutus-converter/convert
                                      koulutus-search-data-appender/append-search-data)
