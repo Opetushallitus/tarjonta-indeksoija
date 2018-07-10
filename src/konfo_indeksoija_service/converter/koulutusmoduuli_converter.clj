@@ -24,7 +24,7 @@
              {}
              value))
 
-(def map-komo-fields {:tila value
+(def map-koulutusmoduuli-fields {:tila value
                       :eqf koodi
                       :lukiolinja value
                       :koulutustyyppis koodi-list ;Ilmeisesti nykytarjonnan datassa koulutusmoduulilla on vain yksi koulutustyyppi,
@@ -58,7 +58,7 @@
   [dto]
   ;(log/info "Raw keys: " (keys dto) ", count: " (count (keys dto)))
   ;(log/info "Before: " dto)
-  (let [raw-res (into {} (for [[k v] dto] [k ((k map-komo-fields) v)]))]
+  (let [raw-res (into {} (for [[k v] dto] [k ((k map-koulutusmoduuli-fields) v)]))]
     ;(log/info "After: " raw-res)
     raw-res)
   )

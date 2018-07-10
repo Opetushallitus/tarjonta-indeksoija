@@ -3,13 +3,13 @@
             [konfo-indeksoija-service.converter.tyyppi-converter :refer [koulutustyyppi-uri-to-tyyppi]]
             [clojure.tools.logging :as log]))
 
-(defn get-komo-nimi
+(defn get-nimi
   [koulutusmoduuli]
   ;fixme ehkä: halutaanko searchdataan nimi jostain muualta?
   (get-in koulutusmoduuli [:koulutuskoodi :nimi]))
 
-(defn- get-komo-tyyppi [koulutusmoduuli]
-  ;fixme ehkä: voiko komolla oikeasti olla enemmän kuin yksi koulutustyyppi? Tulee tarjonnasta settinä, mutta käytännössä niitä vaikuttaisi olevan vain yksi.
+(defn- get-tyyppi [koulutusmoduuli]
+  ;Tulee tarjonnasta settinä, mutta käytännössä niitä vaikuttaisi olevan vain yksi. Onko data järjellistä jos niitä on monta?
   (if (> (count (:koulutustyyppis koulutusmoduuli)) 1)
    (log/warn "Koulutusmoduulilla useampia kuin yksi koulutustyyppi!"))
   (koulutustyyppi-uri-to-tyyppi (:uri (first (:koulutustyyppis koulutusmoduuli))))
@@ -17,11 +17,12 @@
 
 (defn append-search-data
   [koulutusmoduuli]
-  (log/info "Appending search data for komo oid: " (:oid koulutusmoduuli))
-  (let [tyyppi (get-komo-tyyppi koulutusmoduuli)]
+  ;(log/info "Appending search data for komo oid: " (:oid koulutusmoduuli))
+  (let [tyyppi (get-tyyppi koulutusmoduuli)]
     (let [searchData (-> {}
-                         (assoc :nimi (get-komo-nimi koulutusmoduuli))
+                         (assoc :nimi (get-nimi koulutusmoduuli))
                          (assoc :tyyppi tyyppi))]
+      ;(log/info "Searchdata for komo " (:oid koulutusmoduuli) ": " searchData)
     (assoc koulutusmoduuli :searchData searchData))
     )
   )
