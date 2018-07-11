@@ -90,8 +90,8 @@
         nimi (find-koulutus-nimi koulutus hakukohteet tyyppi)
         opintopolunNayttaminenLoppuu (count-opintopolun-nayttaminen-loppuu haut hakukohteet-raw)
         oppiaineet (map (fn [x] { (keyword (:kieliKoodi x)) (:oppiaine x) }) (:oppiaineet koulutus))]
-    (if (empty? hakukohteet) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakukohteita!")))
-    (if (empty? haut) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakuja!")))
+    ;(if (empty? hakukohteet) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakukohteita!")))
+    ;(if (empty? haut) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakuja!")))
     (let [searchData (-> {}
                          (cond-> nimi (assoc :nimi nimi))
                          (cond-> tyyppi (assoc :tyyppi tyyppi))

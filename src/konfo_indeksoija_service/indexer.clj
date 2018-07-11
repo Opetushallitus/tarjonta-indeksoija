@@ -6,7 +6,9 @@
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]
             [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as oppilaitos-search-data-appender]
+            [konfo-indeksoija-service.converter.koulutusmoduuli-search-data-appender :as koulutusmoduuli-search-data-appender]
             [konfo-indeksoija-service.converter.hakukohde-converter :as hakukohde-converter]
+            [konfo-indeksoija-service.converter.koulutusmoduuli-converter :as koulutusmoduuli-converter]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]
             [konfo-indeksoija-service.s3-client :as s3-client]
@@ -17,9 +19,13 @@
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
   (:import (org.quartz ObjectAlreadyExistsException)))
 
+
 (defn convert-doc
   [doc type]
   (cond
+    (.contains type "koulutusmoduuli") (->> doc
+                                            koulutusmoduuli-converter/convert
+                                            koulutusmoduuli-search-data-appender/append-search-data)
     (.contains type "koulutus") (->> doc
                                      koulutus-converter/convert
                                      koulutus-search-data-appender/append-search-data)
@@ -30,6 +36,7 @@
 (defn- get-doc [obj]
   (cond
     (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
+    (= (:type obj) "koulutusmoduuli") (tarjonta-client/get-doc (assoc obj :type "komo"))
     :else (tarjonta-client/get-doc obj)))
 
 (defn get-converted-doc
@@ -43,7 +50,7 @@
             (assoc :tyyppi (:type obj)))))))
 
 (defn end-indexing
-  [oids successful-oids failed-oids last-timestamp start]
+  [successful-oids failed-oids last-timestamp start]
   (let [duration (- (System/currentTimeMillis) start)
         msg (str "Successfully indexed " (count successful-oids) " objects in " (int (/ duration 1000)) " seconds. Total failed:" (count failed-oids))]
     (log/info msg)
@@ -95,7 +102,7 @@
     (if (empty? queue)
       (log/debug "Nothing to index.")
       (do
-        (log/info "Indexing" (count queue) "items")
+        (log/info "Indexing" (count queue) "items from queue" (flatten (for [[k v] (group-by :type queue)] [(count v) k]) ))
         (let [converted-docs (remove nil? (doall (pmap get-converted-doc queue)))
               queue-oids (map :oid queue)
               failed-oids (clojure.set/difference (set queue-oids)
@@ -109,8 +116,7 @@
             (store-pictures queue)
             (log/info "Skipping store-pictures because of env value"))
           (log/info "Pictures stored! Going to end indexing items.")
-          (end-indexing queue-oids
-                        successful-oids
+          (end-indexing successful-oids
                         failed-oids
                         (apply max (map :timestamp queue))
                         start))))))
@@ -137,7 +143,7 @@
          (let [related-koulutus (flatten (pmap tarjonta-client/get-related-koulutus changes-since))
                last-modified-with-related-koulutus (clojure.set/union changes-since related-koulutus)]
            (if-not (empty? related-koulutus)
-             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes:"))
+             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
            (elastic-client/upsert-indexdata last-modified-with-related-koulutus)
            (elastic-client/set-last-index-time now)
            (do-index)))))))
