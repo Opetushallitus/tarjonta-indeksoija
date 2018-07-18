@@ -3,11 +3,9 @@
             [konfo-indeksoija-service.elastic-client :as client]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions]]
-            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data init-elastic-test]]
+            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data init-elastic-test stop-elastic-test]]
             [clj-http.client :as http]
             [midje.sweet :refer :all]))
-
-(init-elastic-test)
 
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10
@@ -42,7 +40,8 @@
       (.startsWith (nth bulk-data 3) "{\"update")  => true
       (.startsWith (nth bulk-data 4) "{\"update")  => true)))
 
-(against-background [(after :contents (reset-test-data))]
+(against-background [(before :contents (init-elastic-test))
+                     (after :contents (stop-elastic-test))]
   (fact "Elastic search should be alive"
     (client/check-elastic-status) => true)
 

@@ -1,15 +1,14 @@
 (ns konfo-indeksoija-service.indexer-test
   (:require [konfo-indeksoija-service.indexer :as indexer]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data init-elastic-test]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data init-elastic-test stop-elastic-test]]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]))
 
-(init-elastic-test)
-
 (against-background
-  [(after :facts (reset-test-data))
-   (after :contents (reset-test-data))]
+  [(before :contents (init-elastic-test))
+   (after :facts (reset-test-data))
+   (after :contents (stop-elastic-test))]
 
   (fact "Indexer should save hakukohde"
     (let [oid "1.2.246.562.20.99178639649"]

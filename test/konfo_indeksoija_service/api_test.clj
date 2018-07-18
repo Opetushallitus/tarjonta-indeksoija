@@ -1,18 +1,18 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data init-elastic-test]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body stop-elastic-test init-elastic-test]]
             [konfo-indeksoija-service.indexer :as indexer]
             [mocks.externals-mock :refer [with-externals-mock]]
             [cheshire.core :as cheshire]
             [midje.sweet :refer :all]
             [ring.mock.request :as mock]))
 
-(init-elastic-test)
-
 (with-externals-mock
   (facts "Api should"
-    (against-background [(after :contents (reset-test-data))]
+    (against-background
+      [(before :contents (init-elastic-test))
+       (after :contents (stop-elastic-test))]
         (fact "reindex hakukohde"
           (indexer/start-indexer-job)
           (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))

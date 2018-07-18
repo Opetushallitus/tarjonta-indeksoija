@@ -53,7 +53,8 @@
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
              :test {:env {:test "true"}
-                    :dependencies [[io.findify/s3mock_2.11 "0.2.4"]]}
+                    :dependencies [[io.findify/s3mock_2.11 "0.2.4"]
+                                   [pl.allegro.tech/embedded-elasticsearch "2.4.2"]]}
              :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
