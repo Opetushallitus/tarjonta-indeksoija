@@ -71,7 +71,7 @@
         (tools/block-until-indexed 10000)
         (elastic-client/set-last-index-time 0)
         (indexer/start-indexer-job)
-        (time (tools/block-until-latest-in-queue 16000))
+        (tools/block-until-latest-in-queue 16000)
         (tools/block-until-indexed 16000)
         (tools/refresh-and-wait "hakukohde" 4000)
         (let [hk1-res (elastic-client/get-hakukohde hk1-oid)

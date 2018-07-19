@@ -10,6 +10,7 @@
     (reset! embedded-elastic (-> (EmbeddedElastic/builder)
                                  (.withElasticVersion "6.0.0")
                                  (.withSetting PopularProperties/TRANSPORT_TCP_PORT 6666)
+                                 (.withSetting PopularProperties/HTTP_PORT 9200)
                                  (.withSetting PopularProperties/CLUSTER_NAME "my_cluster")
                                  (.build)))
     (.start @embedded-elastic))

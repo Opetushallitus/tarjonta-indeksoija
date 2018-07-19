@@ -24,7 +24,7 @@
              value))
 
 (defn- getNimiFromTekstis [dto]
-  (get-in dto [:koulutusohjelma :tekstis] "not-found"))
+  (get-in dto [:koulutusohjelma :tekstis]))
 
 (defn- kielivalikoima
   [value]
