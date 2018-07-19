@@ -18,11 +18,12 @@
           (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
-          (tools/block-until-indexed 10000)
+          (tools/block-until-indexed 15000)
           (elastic-client/get-queue) => [])
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.
+        (tools/refresh-and-wait "hakukohde" 1000)
         (let [response (app (mock/request :get "/konfo-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))
               body (parse-body (:body response))]
           (:hakuOid body) => "1.2.246.562.29.44465499083"))
