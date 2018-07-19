@@ -45,8 +45,8 @@
         (elastic-client/upsert-indexdata [{:oid hk1-oid :type "hakukohde"}
                                           {:oid hk2-oid :type "hakukohde"}
                                           {:oid k1-oid :type "koulutus"}])
-        (tools/block-until-indexed 10000)
-        (tools/refresh-and-wait "hakukohde" 1000)
+        (tools/block-until-indexed 15000)
+        (tools/refresh-and-wait "hakukohde" 4000)
         (let [hk1-res (elastic-client/get-hakukohde hk1-oid)
               hk2-res (elastic-client/get-hakukohde hk2-oid)
               k1-res (elastic-client/get-koulutus k1-oid)]
@@ -57,24 +57,23 @@
           (elastic-client/upsert-indexdata [{:oid hk1-oid :type "hakukohde"}
                                             {:oid hk2-oid :type "hakukohde"}
                                             {:oid k1-oid :type "koulutus"}])
-          (tools/block-until-indexed 10000)
-          (tools/refresh-and-wait "hakukohde" 1000)
+          (tools/block-until-indexed 15000)
+          (tools/refresh-and-wait "hakukohde" 4000)
           (< (:timestamp hk1-res) (:timestamp (elastic-client/get-hakukohde hk1-oid))) => true
           (< (:timestamp hk2-res) (:timestamp (elastic-client/get-hakukohde hk2-oid))) => true
           (< (:timestamp k1-res) (:timestamp (elastic-client/get-koulutus k1-oid))) => true))))
 
   (fact "should index from tarjonta latest"
-    (reset-test-data)
     (let [hk1-oid "1.2.246.562.20.99178639649"
           k1-oid "1.2.246.562.17.81687174185"]
       (with-externals-mock
-        ;; Do this to activate mock!
-        ;; TODO: could this be done in a smarter way?
+        (elastic-client/initialize-indices)
+        (tools/block-until-indexed 10000)
         (elastic-client/set-last-index-time 0)
         (indexer/start-indexer-job)
-        (tools/block-until-latest-in-queue 10000)
-        (tools/block-until-indexed 10000)
-        (tools/refresh-and-wait "hakukohde" 1000)
+        (time (tools/block-until-latest-in-queue 16000))
+        (tools/block-until-indexed 16000)
+        (tools/refresh-and-wait "hakukohde" 4000)
         (let [hk1-res (elastic-client/get-hakukohde hk1-oid)
               k1-res (elastic-client/get-koulutus k1-oid)]
           hk1-res => (contains {:oid hk1-oid})
