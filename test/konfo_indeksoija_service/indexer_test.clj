@@ -38,7 +38,7 @@
           k1-oid "1.2.246.562.17.81687174185"
           oids [hk1-oid hk2-oid k1-oid]]
       (with-externals-mock
-        (indexer/start-indexer-job)
+        (indexer/start-indexer-job "*/5 * * ? * *")
         (map #(elastic-client/get-hakukohde %) [hk1-oid hk2-oid]) => [nil nil]
         (elastic-client/get-koulutus k1-oid) => nil
 
@@ -70,7 +70,7 @@
         (elastic-client/initialize-indices)
         (tools/block-until-indexed 10000)
         (elastic-client/set-last-index-time 0)
-        (indexer/start-indexer-job)
+        (indexer/start-indexer-job "*/5 * * ? * *")
         (tools/block-until-latest-in-queue 16000)
         (tools/block-until-indexed 16000)
         (tools/refresh-and-wait "hakukohde" 4000)
@@ -78,4 +78,5 @@
               k1-res (elastic-client/get-koulutus k1-oid)]
           hk1-res => (contains {:oid hk1-oid})
           k1-res => (contains {:oid k1-oid})
-          (< 0 (elastic-client/get-last-index-time)) => true)))))
+          (< 0 (elastic-client/get-last-index-time)) => true)
+        indexer/reset-jobs))))

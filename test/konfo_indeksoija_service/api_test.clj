@@ -14,12 +14,13 @@
       [(before :contents (init-elastic-test))
        (after :contents (stop-elastic-test))]
         (fact "reindex hakukohde"
-          (indexer/start-indexer-job)
+          (indexer/start-indexer-job "*/5 * * ? * *")
           (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
           (tools/block-until-indexed 15000)
-          (elastic-client/get-queue) => [])
+          (elastic-client/get-queue) => []
+          (indexer/reset-jobs))
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.
