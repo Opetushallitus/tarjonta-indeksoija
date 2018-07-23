@@ -1,8 +1,7 @@
 (ns konfo-indeksoija-service.elastic-client-test
-  (:require [konfo-indeksoija-service.conf :as conf :refer [env]]
+  (:require [konfo-indeksoija-service.conf :as conf]
             [konfo-indeksoija-service.elastic-client :as client]
-            [clj-elasticsearch.elastic-connect :as e]
-            [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions]]
+            [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
             [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data init-elastic-test stop-elastic-test]]
             [clj-http.client :as http]
             [midje.sweet :refer :all]))
@@ -49,12 +48,12 @@
     (client/initialize-indices) => true)
 
   (fact "Should have index analyzer settings set"
-    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
+    (let [res (http/get (str elastic-host "/hakukohde_test/_settings")
                         {:as :json :content-type :json})]
       (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis conf/index-settings)))
 
   (fact "Should have index stemmer settings set"
-    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
+    (let [res (http/get (str elastic-host "/hakukohde_test/_mappings/")
                         {:as :json :content-type :json})]
       (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 

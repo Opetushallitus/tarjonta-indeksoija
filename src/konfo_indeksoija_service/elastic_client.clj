@@ -84,7 +84,7 @@
 (defn- update-index-mappings
   [index type settings]
   (log/info "Creating mappings for" index type)
-  (let [url (str (:elastic-url env) "/" (index-name index) "/_mappings/" (index-name type))]
+  (let [url (str u/elastic-host "/" (index-name index) "/_mappings/" (index-name type))]
     (with-error-logging
       (-> url
           (http/put {:body (generate-string settings) :as :json :content-type :json})
@@ -224,7 +224,7 @@
          :avg_mills_per_object (if (= 0 indexed-amount) 0 (/ duration indexed-amount))})))
 
 (defn url-with-path [& segments]
-  (str (:elastic-url env) "/" (clojure.string/join "/" segments)))
+  (str u/elastic-host "/" (clojure.string/join "/" segments)))
 
 (defn delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
