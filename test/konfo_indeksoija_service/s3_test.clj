@@ -2,9 +2,9 @@
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [midje.sweet :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]
+            [clj-test-utils.test-utils :refer [init-test-logging]]
             [clj-s3.s3-connect :as s3]
             [konfo-indeksoija-service.s3-client :as client]
-            [konfo-indeksoija-service.test-tools :refer [init-test-logging]]
             [base64-clj.core :as b64]))
 
 (init-test-logging)

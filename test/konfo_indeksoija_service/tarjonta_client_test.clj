@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.tarjonta-client-test
   (:require [midje.sweet :refer :all]
             [konfo-indeksoija-service.tarjonta-client :as tarjonta]
-            [konfo-indeksoija-service.test-tools :refer [init-test-logging]]
+            [clj-test-utils.test-utils :refer [init-test-logging]]
             [mocks.externals-mock :as mock]))
 
 (init-test-logging)
