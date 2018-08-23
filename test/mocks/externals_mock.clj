@@ -46,15 +46,15 @@
   [obj pics]
   true)
 
-(defn reindex-mock
+(defn queue-mock
   [index oid]
   (elastic-client/upsert-indexdata
    [{:type index :oid oid}]))
 
 (defmacro with-externals-mock
   [& body]
-  `(with-redefs [konfo-indeksoija-service.api/reindex
-                 mocks.externals-mock/reindex-mock
+  `(with-redefs [konfo-indeksoija-service.api/queue
+                 mocks.externals-mock/queue-mock
 
                  konfo-indeksoija-service.tarjonta-client/get-last-modified
                  mocks.externals-mock/get-last-modified

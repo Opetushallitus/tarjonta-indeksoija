@@ -13,9 +13,9 @@
     (against-background
       [(before :contents (init-elastic-test))
        (after :contents (stop-elastic-test))]
-        (fact "reindex hakukohde"
+        (fact "queue hakukohde"
           (indexer/start-indexer-job "*/5 * * ? * *")
-          (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
+          (let [response (app (mock/request :get "/konfo-indeksoija/api/queue/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
           (tools/block-until-indexed 15000)

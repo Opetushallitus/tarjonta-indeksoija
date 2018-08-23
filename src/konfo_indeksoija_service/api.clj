@@ -3,9 +3,8 @@
             [konfo-indeksoija-service.conf :refer [env]]
             [konfo-indeksoija-service.util.logging :as logging]
             [konfo-indeksoija-service.indexer :as indexer]
+            [konfo-indeksoija-service.queuer :as queuer]
             [konfo-indeksoija-service.s3-client :as s3-client]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -35,36 +34,6 @@
 (defn stop []
   (indexer/reset-jobs)
   (mount/stop))
-
-(defn find-docs
-  [index oid]
-  (cond
-    (= "organisaatio" index) (organisaatio-client/find-docs oid)
-    :else [{:type index :oid oid}]))
-
-(defn reindex-all
-  []
-  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta ja organisaatiopalvelusta.")
-  (elastic-client/delete-index "indexdata")
-  (elastic-client/initialize-indices)
-  (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
-        organisaatio-docs (organisaatio-client/find-docs nil)
-        docs (clojure.set/union tarjonta-docs organisaatio-docs)]
-    (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
-    (elastic-client/upsert-indexdata docs)))
-
-(defn reindex
-  [index oid]
-  (let [docs (find-docs index oid)
-        related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
-        docs-with-related-koulutus (clojure.set/union docs related-koulutus)]
-    (elastic-client/upsert-indexdata docs-with-related-koulutus)))
-
-(defn- empty-queue []
-  (let [delete-res (elastic-client/delete-index "indexdata")
-        init-res (elastic-client/initialize-indices)]
-    { :delete-queue delete-res
-      :init-indices init-res }))
 
 (def service-api
   (api
@@ -111,10 +80,6 @@
          :query-params [{since :- Long 0}]
          (ok {:result (elastic-client/get-elastic-performance-info since)}))
 
-       (GET "/empty_queue" []
-         :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
-         (ok {:result (empty-queue)}))
-
        (GET "/s3/koulutus" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
@@ -135,37 +100,40 @@
          :summary "Sammuttaa indeksoinnin taustaoperaation."
          (ok {:result (indexer/start-stop-indexer false)})))
 
-     (context "/reindex" []
-       :tags ["reindex"]
+     (context "/queue" []
+       :tags ["queue"]
        (GET "/all" []
          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
-         (ok {:result (reindex-all)}))
+         (ok {:result (queuer/queue-all)}))
 
        (GET "/koulutus" []
          :summary "Lisää koulutuksen indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "koulutus" oid)}))
+         (ok {:result (queuer/queue "koulutus" oid)}))
 
        (GET "/hakukohde" []
          :summary "Lisää hakukohteen indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "hakukohde" oid)}))
+         (ok {:result (queuer/queue "hakukohde" oid)}))
 
        (GET "/haku" []
          :summary "Lisää haun indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "haku" oid)}))
+         (ok {:result (queuer/queue "haku" oid)}))
 
        (GET "/organisaatio" []
          :summary "Lisää organisaation indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "organisaatio" oid)}))
+         (ok {:result (queuer/queue "organisaatio" oid)}))
 
        (GET "/koulutusmoduuli" []
          :summary "Lisää koulutusmoduulin indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "koulutusmoduuli" oid)}))))
+         (ok {:result (queuer/queue "koulutusmoduuli" oid)}))
 
+       (GET "/empty" []
+         :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
+         (ok {:result (queuer/empty-queue)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
