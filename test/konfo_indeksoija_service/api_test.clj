@@ -1,28 +1,30 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data init-elastic-test]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body]]
             [konfo-indeksoija-service.indexer :as indexer]
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :refer [with-externals-mock]]
-            [cheshire.core :as cheshire]
             [midje.sweet :refer :all]
             [ring.mock.request :as mock]))
 
-(init-elastic-test)
-
 (with-externals-mock
   (facts "Api should"
-    (against-background [(after :contents (reset-test-data))]
+    (against-background
+      [(before :contents (init-elastic-test))
+       (after :contents (stop-elastic-test))]
         (fact "reindex hakukohde"
-          (indexer/start-indexer-job)
+          (indexer/start-indexer-job "*/5 * * ? * *")
           (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
-          (tools/block-until-indexed 10000)
-          (elastic-client/get-queue) => [])
+          (tools/block-until-indexed 15000)
+          (elastic-client/get-queue) => []
+          (indexer/reset-jobs))
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.
+        (tools/refresh-and-wait "hakukohde" 1000)
         (let [response (app (mock/request :get "/konfo-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))
               body (parse-body (:body response))]
           (:hakuOid body) => "1.2.246.562.29.44465499083"))

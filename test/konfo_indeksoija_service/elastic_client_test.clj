@@ -1,13 +1,11 @@
 (ns konfo-indeksoija-service.elastic-client-test
-  (:require [konfo-indeksoija-service.conf :as conf :refer [env]]
+  (:require [konfo-indeksoija-service.conf :as conf]
             [konfo-indeksoija-service.elastic-client :as client]
-            [clj-elasticsearch.elastic-connect :as e]
-            [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions]]
-            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data init-elastic-test]]
+            [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
+            [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-http.client :as http]
             [midje.sweet :refer :all]))
-
-(init-elastic-test)
 
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10
@@ -42,7 +40,8 @@
       (.startsWith (nth bulk-data 3) "{\"update")  => true
       (.startsWith (nth bulk-data 4) "{\"update")  => true)))
 
-(against-background [(after :contents (reset-test-data))]
+(against-background [(before :contents (init-elastic-test))
+                     (after :contents (stop-elastic-test))]
   (fact "Elastic search should be alive"
     (client/check-elastic-status) => true)
 
@@ -50,12 +49,12 @@
     (client/initialize-indices) => true)
 
   (fact "Should have index analyzer settings set"
-    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_settings")
+    (let [res (http/get (str elastic-host "/hakukohde_test/_settings")
                         {:as :json :content-type :json})]
       (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis conf/index-settings)))
 
   (fact "Should have index stemmer settings set"
-    (let [res (http/get (str (:elastic-url env) "/hakukohde_test/_mappings/")
+    (let [res (http/get (str elastic-host "/hakukohde_test/_mappings/")
                         {:as :json :content-type :json})]
       (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
 

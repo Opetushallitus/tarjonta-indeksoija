@@ -149,7 +149,8 @@
            (do-index)))))))
 
 (defn start-indexer-job
-  []
+  ([] (start-indexer-job (:cron-string env)))
+  ([cronstring]
   (log/info "Starting indexer job!")
   (let [job (j/build
              (j/of-type indexing-job)
@@ -158,9 +159,9 @@
                  (t/with-identity (t/key "crontirgger"))
                  (t/start-now)
                  (t/with-schedule
-                  (schedule (cron-schedule (:cron-string env)))))]
-    (log/info (str "Starting indexer with cron schedule " (:cron-string env))
-              (qs/schedule job-pool job trigger))))
+                  (schedule (cron-schedule cronstring))))]
+    (log/info (str "Starting indexer with cron schedule " cronstring)
+              (qs/schedule job-pool job trigger)))))
 
 (defn reset-jobs
   []

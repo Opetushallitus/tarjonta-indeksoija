@@ -3,14 +3,6 @@
             [konfo-indeksoija-service.elastic-client :as elastic-client]
             [konfo-indeksoija-service.indexer :as indexer]))
 
-(defn init-test-logging []
-  (intern 'clj-log.error-log 'test true)
-  (intern 'clj-log.error-log 'verbose false))
-
-(defn init-elastic-test []
-  (init-test-logging)
-  (elastic-client/init-elastic-client))
-
 (defn parse
   [body]
   (try
@@ -55,11 +47,3 @@
   (elastic-client/delete-index "indexing_perf")
   (elastic-client/delete-index "query_perf")
   (elastic-client/delete-index "lastindex"))
-
-(defn parse-args
-  [& args]
-  (let [aps (partition-all 2 args)
-        [opts-and-vals ps] (split-with #(keyword? (first %)) aps)
-        options (into {} (map vec opts-and-vals))
-        positionals (reduce into [] ps)]
-    [options positionals]))

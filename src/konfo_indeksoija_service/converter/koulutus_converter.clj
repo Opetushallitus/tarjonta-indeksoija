@@ -127,5 +127,6 @@
   [dto]
   (let [raw-res (into {} (for [[k v] dto] [k ((k map-field-to-converter) v)]))]
     (if (nil? (:nimi raw-res))
-      (assoc raw-res :nimi (getNimiFromTekstis dto))
-      raw-res)))
+      (if-let [nimi (getNimiFromTekstis dto)]
+       (assoc raw-res :nimi nimi)))
+    raw-res))

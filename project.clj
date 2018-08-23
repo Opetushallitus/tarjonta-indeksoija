@@ -52,8 +52,7 @@
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
-             :test {:env {:test "true"}
-                    :dependencies [[io.findify/s3mock_2.11 "0.2.4"]]}
+             :test {:env {:test "true"}}
              :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
