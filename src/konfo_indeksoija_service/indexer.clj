@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.indexer
   (:require [konfo-indeksoija-service.conf :refer [env job-pool]]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.tarjonta.client :as tarjonta-client]
+            [konfo-indeksoija-service.organisaatio.client :as organisaatio-client]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
             [konfo-indeksoija-service.converter.koulutus-converter :as koulutus-converter]
             [konfo-indeksoija-service.converter.koulutus-search-data-appender :as koulutus-search-data-appender]

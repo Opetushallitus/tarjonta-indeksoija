@@ -1,7 +1,7 @@
 (ns mocks.externals-mock
   (:require [konfo-indeksoija-service.test-tools :as tools]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio]
+            [konfo-indeksoija-service.tarjonta.client :as tarjonta]
+            [konfo-indeksoija-service.organisaatio.client :as organisaatio]
             [konfo-indeksoija-service.elastic-client :as elastic-client]
             [konfo-indeksoija-service.api]
             [konfo-indeksoija-service.indexer]
@@ -12,9 +12,14 @@
    (cond
      (.contains (:type obj) "hakukohde") (tools/parse-body (str "test/resources/hakukohteet/" (:oid obj) ".json"))
      (.contains (:type obj) "koulutus") (tools/parse-body (str "test/resources/koulutukset/" (:oid obj) ".json"))
+     (.contains (:type obj) "komo") (tools/parse-body (str "test/resources/koulutusmoduulit/" (:oid obj) ".json"))
      (.contains (:type obj) "haku") (tools/parse-body (str "test/resources/haut/" (:oid obj) ".json"))
      (.contains (:type obj) "organisaatio") (tools/parse (str "test/resources/organisaatiot/" (:oid obj) ".json"))))
-  ([obj include-image] (get-doc obj)))
+  ([obj include-image]
+   (get-doc obj)
+     (if include-image
+        {:metadata {:kuvaEncoded (b64/encode "jee")}}
+        (get-doc obj))))
 
 (defn get-pic
   [obj]
@@ -53,31 +58,31 @@
 
 (defmacro with-externals-mock
   [& body]
-  `(with-redefs [konfo-indeksoija-service.api/queue
+  `(with-redefs [konfo-indeksoija-service.queuer/queue
                  mocks.externals-mock/queue-mock
 
-                 konfo-indeksoija-service.tarjonta-client/get-last-modified
+                 konfo-indeksoija-service.tarjonta.client/get-last-modified
                  mocks.externals-mock/get-last-modified
 
-                 konfo-indeksoija-service.tarjonta-client/get-related-koulutus
+                 konfo-indeksoija-service.tarjonta.client/get-related-koulutus
                  mocks.externals-mock/get-related-koulutus
 
                  konfo-indeksoija-service.indexer/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.tarjonta-client/get-doc
+                 konfo-indeksoija-service.tarjonta.client/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.tarjonta-client/get-pic
+                 konfo-indeksoija-service.tarjonta.client/get-pic
                  mocks.externals-mock/get-pic
 
-                 konfo-indeksoija-service.organisaatio-client/get-doc
+                 konfo-indeksoija-service.organisaatio.client/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.tarjonta-client/get-hakukohteet-for-koulutus
+                 konfo-indeksoija-service.tarjonta.client/get-hakukohteet-for-koulutus
                  mocks.externals-mock/get-hakukohteet-for-koulutus
 
-                 konfo-indeksoija-service.tarjonta-client/get-haut-by-oids
+                 konfo-indeksoija-service.tarjonta.client/get-haut-by-oids
                  mocks.externals-mock/get-haut-by-oids
 
                  konfo-indeksoija-service.s3-client/refresh-s3

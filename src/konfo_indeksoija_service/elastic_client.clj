@@ -114,11 +114,17 @@
 (defmacro get-koulutus [oid]
   `(dissoc (get-by-id "koulutus" "koulutus" ~oid) :searchData))
 
+(defmacro get-koulutus-with-searh-data [oid]
+  `(get-by-id "koulutus" "koulutus" ~oid))
+
 (defmacro get-haku [oid]
   `(get-by-id "haku" "haku" ~oid))
 
 (defmacro get-organisaatio [oid]
   `(get-by-id "organisaatio" "organisaatio" ~oid))
+
+(defmacro get-koulutusmoduuli [oid]
+  `(get-by-id "koulutusmoduuli" "koulutusmoduuli" ~oid))
 
 (defn get-queue
   []

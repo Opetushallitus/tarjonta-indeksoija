@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.tarjonta-client
+(ns konfo-indeksoija-service.tarjonta.client
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.util.logging :refer [to-date-string]]

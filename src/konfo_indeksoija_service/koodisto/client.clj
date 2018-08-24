@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.koodisto-client
+(ns konfo-indeksoija-service.koodisto.client
   (:require [konfo-indeksoija-service.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.rest-wrapper :as client]

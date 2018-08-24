@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.queuer
   (:require [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.tarjonta.client :as tarjonta-client]
+            [konfo-indeksoija-service.organisaatio.client :as organisaatio-client]
             [clojure.tools.logging :as log]))
 
 

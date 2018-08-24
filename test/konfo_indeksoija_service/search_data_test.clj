@@ -1,9 +1,9 @@
 (ns konfo-indeksoija-service.search-data-test
   (:require [konfo-indeksoija-service.converter.koulutus-search-data-appender :as appender]
             [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as org-appender]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
-            [konfo-indeksoija-service.koodisto-client :as koodisto-client]
+            [konfo-indeksoija-service.tarjonta.client :as tarjonta-client]
+            [konfo-indeksoija-service.organisaatio.client :as organisaatio-client]
+            [konfo-indeksoija-service.koodisto.client :as koodisto-client]
             [clj-test-utils.elasticsearch-mock-utils :refer [init-elastic-test stop-elastic-test]]
             [konfo-indeksoija-service.test-tools :refer [reset-test-data]]
             [mocks.externals-mock :refer [with-externals-mock]]
