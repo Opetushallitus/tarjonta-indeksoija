@@ -1,10 +1,10 @@
 (ns konfo-indeksoija-service.api
-  (:require [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.conf :refer [env]]
+  (:require [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.util.conf :refer [env]]
             [konfo-indeksoija-service.util.logging :as logging]
             [konfo-indeksoija-service.indexer :as indexer]
             [konfo-indeksoija-service.queuer :as queuer]
-            [konfo-indeksoija-service.s3-client :as s3-client]
+            [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]

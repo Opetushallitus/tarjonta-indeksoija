@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.converter.koulutus-search-data-appender
-  (:require [konfo-indeksoija-service.tarjonta.client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio.client :as organisaatio-client]
+  (:require [konfo-indeksoija-service.rest.tarjonta :as tarjonta-client]
+            [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [konfo-indeksoija-service.converter.tyyppi-converter :refer [koulutustyyppi-uri-to-tyyppi]]
             [clojure.tools.logging :as log]
             [clj-time.format :as format]

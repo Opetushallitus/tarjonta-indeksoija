@@ -1,5 +1,5 @@
 (ns konfo-indeksoija-service.converter.koulutusmoduuli-search-data-appender
-  (:require [konfo-indeksoija-service.tarjonta.client :as tarjonta-client]
+  (:require [konfo-indeksoija-service.rest.tarjonta :as tarjonta-client]
             [konfo-indeksoija-service.converter.tyyppi-converter :refer [koulutustyyppi-uri-to-tyyppi]]
             [clojure.tools.logging :as log]))
 

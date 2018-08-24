@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
-            [konfo-indeksoija-service.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.test-tools :as tools :refer [parse-body]]
             [konfo-indeksoija-service.indexer :as indexer]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]

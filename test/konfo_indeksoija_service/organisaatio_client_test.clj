@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.organisaatio-client-test
   (:require [midje.sweet :refer :all]
-            [konfo-indeksoija-service.organisaatio.client :as organisaatio-client]
+            [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [clj-test-utils.test-utils :refer [init-test-logging]]
             [mocks.externals-mock :refer [with-externals-mock]]))
 

@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.elastic-client-test
-  (:require [konfo-indeksoija-service.conf :as conf]
-            [konfo-indeksoija-service.elastic-client :as client]
+  (:require [konfo-indeksoija-service.util.conf :as conf]
+            [konfo-indeksoija-service.elastic.elastic-client :as client]
             [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
             [konfo-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]

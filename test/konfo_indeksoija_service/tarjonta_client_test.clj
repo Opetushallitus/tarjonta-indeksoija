@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.tarjonta-client-test
   (:require [midje.sweet :refer :all]
-            [konfo-indeksoija-service.tarjonta.client :as tarjonta]
+            [konfo-indeksoija-service.rest.tarjonta :as tarjonta]
             [clj-test-utils.test-utils :refer [init-test-logging]]
             [mocks.externals-mock :as mock]))
 

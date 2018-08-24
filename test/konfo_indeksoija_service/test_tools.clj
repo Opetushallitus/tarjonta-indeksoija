@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
-            [konfo-indeksoija-service.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.indexer :as indexer]))
 
 (defn parse

@@ -3,13 +3,13 @@
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]
             [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data block-until-indexed]]
-            [konfo-indeksoija-service.elastic-client :as e]
+            [konfo-indeksoija-service.elastic.elastic-client :as e]
             [konfo-indeksoija-service.indexer :as i]
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
-            [konfo-indeksoija-service.organisaatio.client :as o]
-            [konfo-indeksoija-service.tarjonta.client :as t]
-            [konfo-indeksoija-service.conf :refer [env]]))
+            [konfo-indeksoija-service.rest.organisaatio :as o]
+            [konfo-indeksoija-service.rest.tarjonta :as t]
+            [konfo-indeksoija-service.util.conf :refer [env]]))
 
 (defn setup-queue [type oid]
              (e/upsert-indexdata [{:type type :oid oid}])

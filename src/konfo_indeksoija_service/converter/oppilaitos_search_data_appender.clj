@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.converter.oppilaitos-search-data-appender
-  (:require [konfo-indeksoija-service.organisaatio.client :as organisaatio-client]
-            [konfo-indeksoija-service.koodisto.client :as koodisto-client]
+  (:require [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [konfo-indeksoija-service.rest.koodisto :as koodisto-client]
             [konfo-indeksoija-service.converter.tyyppi-converter :refer [oppilaitostyyppi-uri-to-tyyppi]]
             [clojure.tools.logging :as log]))
 
