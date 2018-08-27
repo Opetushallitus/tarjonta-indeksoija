@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.queuer
+(ns konfo-indeksoija-service.indexer.queue
   (:require [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.rest.tarjonta :as tarjonta-client]
             [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]

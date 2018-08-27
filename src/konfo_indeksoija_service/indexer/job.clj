@@ -1,0 +1,74 @@
+(ns konfo-indeksoija-service.indexer.job
+  (:require [ konfo-indeksoija-service.indexer.index :refer [do-index]]
+            [konfo-indeksoija-service.util.conf :refer [env job-pool]]
+            [konfo-indeksoija-service.rest.tarjonta :as tarjonta]
+            [konfo-indeksoija-service.elastic.elastic-client :as e]
+            [clj-log.error-log :refer [with-error-logging]]
+            [konfo-indeksoija-service.util.logging :refer [to-date-string]]
+            [clojure.tools.logging :as log]
+            [clojurewerkz.quartzite.scheduler :as qs]
+            [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
+            [clojurewerkz.quartzite.triggers :as t]
+            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
+  (:import (org.quartz ObjectAlreadyExistsException)))
+
+(def elastic-lock? (atom false :error-handler #(log/error %)))
+
+(defmacro wait-for-elastic-lock
+  [& body]
+  `(if-not (compare-and-set! elastic-lock? false true)
+     (log/debug "Indexing job already running, skipping job.")
+     (try
+       (do ~@body)
+       (finally (reset! elastic-lock? false)))))
+
+(defjob indexing-job
+        [ctx]
+        (with-error-logging
+         (wait-for-elastic-lock
+          (let [now (System/currentTimeMillis)
+                last-modified (e/get-last-index-time)
+                changes-since (tarjonta/get-last-modified last-modified)]
+            (when-not (nil? changes-since)
+              (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
+              (let [related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
+                    last-modified-with-related-koulutus (clojure.set/union changes-since related-koulutus)]
+                (if-not (empty? related-koulutus)
+                  (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
+                (e/upsert-indexdata last-modified-with-related-koulutus)
+                (e/set-last-index-time now)
+                (do-index)))))))
+
+(defn start-indexer-job
+  ([] (start-indexer-job (:cron-string env)))
+  ([cronstring]
+   (log/info "Starting indexer job!")
+   (let [job (j/build
+              (j/of-type indexing-job)
+              (j/with-identity "jobs.index.1"))
+         trigger (t/build
+                  (t/with-identity (t/key "crontirgger"))
+                  (t/start-now)
+                  (t/with-schedule
+                   (schedule (cron-schedule cronstring))))]
+     (log/info (str "Starting indexer with cron schedule " cronstring)
+               (qs/schedule job-pool job trigger)))))
+
+(defn reset-jobs
+  []
+  (reset! elastic-lock? false)
+  (qs/clear! job-pool))
+
+(defn start-stop-indexer
+  [start?]
+  (try
+    (if start?
+      (do
+        (log/info "Starting indexer job")
+        (start-indexer-job))
+      (do
+        (log/info "Stopping all jobs and clearing job pool.")
+        (reset-jobs)
+        ))
+    (catch ObjectAlreadyExistsException e "Indexer already running.")
+    (catch Exception e)))

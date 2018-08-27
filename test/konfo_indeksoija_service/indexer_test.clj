@@ -1,5 +1,6 @@
 (ns konfo-indeksoija-service.indexer-test
-  (:require [konfo-indeksoija-service.indexer :as indexer]
+  (:require [konfo-indeksoija-service.indexer.index :as indexer]
+            [konfo-indeksoija-service.indexer.job :as job]
             [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
@@ -14,13 +15,13 @@
   (fact "Indexer should save hakukohde"
     (let [oid "1.2.246.562.20.99178639649"]
       (with-externals-mock
-       (indexer/index-objects [(indexer/get-converted-doc {:oid oid :type "hakukohde"})]))
+       (indexer/index-objects [(indexer/get-index-doc {:oid oid :type "hakukohde"})]))
       (elastic-client/get-hakukohde oid) => (contains {:oid oid})))
 
   (fact "Indexer should save koulutus"
     (let [oid "1.2.246.562.17.81687174185"]
       (with-externals-mock
-       (indexer/index-objects [(indexer/get-converted-doc {:oid oid :type "koulutus"})]))
+       (indexer/index-objects [(indexer/get-index-doc {:oid oid :type "koulutus"})]))
       (let [indexed-koulutus (elastic-client/get-koulutus oid)]
         indexed-koulutus => (contains {:oid oid})
         (get-in indexed-koulutus [:koulutuskoodi :uri]) => "koulutus_371101"
@@ -30,7 +31,7 @@
   (fact "Indexer should save organisaatio"
     (let [oid "1.2.246.562.10.39920288212"]
       (with-externals-mock
-       (indexer/index-objects [(indexer/get-converted-doc {:oid oid :type "organisaatio"})]))
+       (indexer/index-objects [(indexer/get-index-doc {:oid oid :type "organisaatio"})]))
       (elastic-client/get-organisaatio oid) => (contains {:oid oid})))
 
   (fact "Indexer should start scheduled indexing and index objects"
@@ -39,7 +40,7 @@
           k1-oid "1.2.246.562.17.81687174185"
           oids [hk1-oid hk2-oid k1-oid]]
       (with-externals-mock
-        (indexer/start-indexer-job "*/5 * * ? * *")
+        (job/start-indexer-job "*/5 * * ? * *")
         (map #(elastic-client/get-hakukohde %) [hk1-oid hk2-oid]) => [nil nil]
         (elastic-client/get-koulutus k1-oid) => nil
 
@@ -71,7 +72,7 @@
         (elastic-client/initialize-indices)
         (tools/block-until-indexed 10000)
         (elastic-client/set-last-index-time 0)
-        (indexer/start-indexer-job "*/5 * * ? * *")
+        (job/start-indexer-job "*/5 * * ? * *")
         (tools/block-until-latest-in-queue 16000)
         (tools/block-until-indexed 16000)
         (tools/refresh-and-wait "hakukohde" 4000)
@@ -80,4 +81,4 @@
           hk1-res => (contains {:oid hk1-oid})
           k1-res => (contains {:oid k1-oid})
           (< 0 (elastic-client/get-last-index-time)) => true)
-        indexer/reset-jobs))))
+        job/reset-jobs))))

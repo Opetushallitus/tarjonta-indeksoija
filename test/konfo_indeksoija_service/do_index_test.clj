@@ -4,7 +4,7 @@
             [clj-test-utils.s3-mock-utils :refer :all]
             [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data block-until-indexed]]
             [konfo-indeksoija-service.elastic.elastic-client :as e]
-            [konfo-indeksoija-service.indexer :as i]
+            [konfo-indeksoija-service.indexer.index :as i]
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
             [konfo-indeksoija-service.rest.organisaatio :as o]

@@ -4,7 +4,7 @@
             [konfo-indeksoija-service.rest.organisaatio :as organisaatio]
             [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.api]
-            [konfo-indeksoija-service.indexer]
+            [konfo-indeksoija-service.indexer.index]
             [base64-clj.core :as b64]))
 
 (defn get-doc
@@ -58,7 +58,7 @@
 
 (defmacro with-externals-mock
   [& body]
-  `(with-redefs [konfo-indeksoija-service.queuer/queue
+  `(with-redefs [konfo-indeksoija-service.indexer.queue/queue
                  mocks.externals-mock/queue-mock
 
                  konfo-indeksoija-service.rest.tarjonta/get-last-modified
@@ -67,7 +67,7 @@
                  konfo-indeksoija-service.rest.tarjonta/get-related-koulutus
                  mocks.externals-mock/get-related-koulutus
 
-                 konfo-indeksoija-service.indexer/get-doc
+                 konfo-indeksoija-service.indexer.docs/get-doc
                  mocks.externals-mock/get-doc
 
                  konfo-indeksoija-service.rest.tarjonta/get-doc

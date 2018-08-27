@@ -1,7 +1,7 @@
 (ns konfo-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
             [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.indexer :as indexer]))
+            [konfo-indeksoija-service.indexer.job :as j]))
 
 (defn parse
   [body]
@@ -38,7 +38,7 @@
 
 (defn reset-test-data
   []
-  (indexer/reset-jobs)
+  (j/reset-jobs)
   (elastic-client/delete-index "hakukohde")
   (elastic-client/delete-index "haku")
   (elastic-client/delete-index "koulutus")

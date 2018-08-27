@@ -2,7 +2,7 @@
   (:require [konfo-indeksoija-service.api :refer :all]
             [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.test-tools :as tools :refer [parse-body]]
-            [konfo-indeksoija-service.indexer :as indexer]
+            [konfo-indeksoija-service.indexer.job :as j]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]
@@ -14,13 +14,13 @@
       [(before :contents (init-elastic-test))
        (after :contents (stop-elastic-test))]
         (fact "queue hakukohde"
-          (indexer/start-indexer-job "*/5 * * ? * *")
+          (j/start-indexer-job "*/5 * * ? * *")
           (let [response (app (mock/request :get "/konfo-indeksoija/api/queue/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
           (tools/block-until-indexed 15000)
           (elastic-client/get-queue) => []
-          (indexer/reset-jobs))
+          (j/reset-jobs))
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.

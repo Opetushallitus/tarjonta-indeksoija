@@ -2,8 +2,9 @@
   (:require [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
             [konfo-indeksoija-service.util.conf :refer [env]]
             [konfo-indeksoija-service.util.logging :as logging]
-            [konfo-indeksoija-service.indexer :as indexer]
-            [konfo-indeksoija-service.queuer :as queuer]
+            [konfo-indeksoija-service.indexer.index :as i]
+            [konfo-indeksoija-service.indexer.job :as j]
+            [konfo-indeksoija-service.indexer.queue :as queue]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
@@ -26,13 +27,13 @@
   (elastic-client/init-elastic-client)
   (if (and (elastic-client/check-elastic-status)
            (elastic-client/initialize-indices))
-    (indexer/start-indexer-job)
+    (j/start-indexer-job)
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))
 
 (defn stop []
-  (indexer/reset-jobs)
+  (j/reset-jobs)
   (mount/stop))
 
 (def service-api
@@ -83,57 +84,57 @@
        (GET "/s3/koulutus" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (indexer/store-picture {:oid oid :type "koulutus"})}))
+         (ok {:result (i/store-picture {:oid oid :type "koulutus"})}))
 
        (GET "/s3/organisaatio" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (indexer/store-picture {:oid oid :type "organisaatio"})})))
+         (ok {:result (i/store-picture {:oid oid :type "organisaatio"})})))
 
      (context "/indexer" []
        :tags ["indexer"]
        (GET "/start" []
          :summary "Käynnistää indeksoinnin taustaoperaation."
-         (ok {:result (indexer/start-stop-indexer true)}))
+         (ok {:result (j/start-stop-indexer true)}))
 
        (GET "/stop" []
          :summary "Sammuttaa indeksoinnin taustaoperaation."
-         (ok {:result (indexer/start-stop-indexer false)})))
+         (ok {:result (j/start-stop-indexer false)})))
 
      (context "/queue" []
        :tags ["queue"]
        (GET "/all" []
          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
-         (ok {:result (queuer/queue-all)}))
+         (ok {:result (queue/queue-all)}))
 
        (GET "/koulutus" []
          :summary "Lisää koulutuksen indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (queuer/queue "koulutus" oid)}))
+         (ok {:result (queue/queue "koulutus" oid)}))
 
        (GET "/hakukohde" []
          :summary "Lisää hakukohteen indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (queuer/queue "hakukohde" oid)}))
+         (ok {:result (queue/queue "hakukohde" oid)}))
 
        (GET "/haku" []
          :summary "Lisää haun indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (queuer/queue "haku" oid)}))
+         (ok {:result (queue/queue "haku" oid)}))
 
        (GET "/organisaatio" []
          :summary "Lisää organisaation indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (queuer/queue "organisaatio" oid)}))
+         (ok {:result (queue/queue "organisaatio" oid)}))
 
        (GET "/koulutusmoduuli" []
          :summary "Lisää koulutusmoduulin indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (queuer/queue "koulutusmoduuli" oid)}))
+         (ok {:result (queue/queue "koulutusmoduuli" oid)}))
 
        (GET "/empty" []
          :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
-         (ok {:result (queuer/empty-queue)}))))
+         (ok {:result (queue/empty-queue)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
