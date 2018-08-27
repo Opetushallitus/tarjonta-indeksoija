@@ -43,6 +43,7 @@
                       :opintoala koodi
                       :nimi value
                       :oid value
+                      :tyyppi value
                       :nqf koodi
                       :koulutusmoduuliTyyppi value
                       :tutkintonimikes koodi-list

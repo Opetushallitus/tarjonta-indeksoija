@@ -47,6 +47,7 @@
                              :aihees koodi-list
                              :koulutustyyppi koodi
                              :oid value
+                             :tyyppi value
                              :koulutuskoodi koodi
                              :koulutusaste koodi
                              :koulutusala koodi

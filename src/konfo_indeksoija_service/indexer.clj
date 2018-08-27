@@ -19,25 +19,54 @@
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
   (:import (org.quartz ObjectAlreadyExistsException)))
 
+(defmulti get-doc :type)
 
-(defn convert-doc
-  [doc type]
-  (cond
-    (.contains type "koulutusmoduuli") (->> doc
-                                            koulutusmoduuli-converter/convert
-                                            koulutusmoduuli-search-data-appender/append-search-data)
-    (.contains type "koulutus") (->> doc
-                                     koulutus-converter/convert
-                                     koulutus-search-data-appender/append-search-data)
-    (.contains type "hakukohde") (hakukohde-converter/convert doc)
-    (.contains type "organisaatio") (oppilaitos-search-data-appender/append-search-data doc)
-    :else doc))
+(defmethod get-doc :default [entry]
+  (tarjonta-client/get-doc entry))
 
-(defn- get-doc [obj]
-  (cond
-    (= (:type obj) "organisaatio") (organisaatio-client/get-doc obj)
-    (= (:type obj) "koulutusmoduuli") (tarjonta-client/get-doc (assoc obj :type "komo"))
-    :else (tarjonta-client/get-doc obj)))
+(defmethod get-doc "koulutusmoduuli" [entry]
+  (tarjonta-client/get-doc (assoc entry :type "komo")))
+
+(defmethod get-doc "organisaatio" [entry]
+  (organisaatio-client/get-doc entry))
+
+(defmulti convert-doc :tyyppi)
+
+(defmethod convert-doc :default [doc]
+  doc)
+
+(defmethod convert-doc "hakukohde" [doc]
+  (hakukohde-converter/convert doc))
+
+(defmethod convert-doc "organisaatio" [doc]
+  (oppilaitos-search-data-appender/append-search-data doc))
+
+(defmethod convert-doc "koulutusmoduuli" [doc]
+  (->> doc
+       koulutusmoduuli-converter/convert
+       koulutusmoduuli-search-data-appender/append-search-data))
+
+(defmethod convert-doc "koulutus" [doc]
+  (->> doc
+       koulutus-converter/convert
+       koulutus-search-data-appender/append-search-data))
+
+(defmulti get-pics :type)
+
+(defmethod get-pics :default [entry]
+  [])
+
+(defmethod get-pics "koulutus" [entry]
+  (flatten (tarjonta-client/get-pic entry)))
+
+(defmethod get-pics "organisaatio" [entry]
+  (let [pic (-> entry
+                (organisaatio-client/get-doc true) ;TODO lue kuva samasta kyselystä, jonka get-coverted-doc tekee
+                (:metadata)
+                (:kuvaEncoded))]
+    (if (not (nil? pic))
+      [{:base64data pic :filename (str (:oid entry) ".jpg") :mimeType "image/jpg"}]
+      [])))
 
 (defn get-converted-doc
   [obj]
@@ -46,8 +75,8 @@
       (if (nil? doc)
         (log/error "Couldn't fetch" (:type obj) "oid:" (:oid obj))
         (-> doc
-            (convert-doc (:type obj))
-            (assoc :tyyppi (:type obj)))))))
+            (assoc :tyyppi (:type obj))
+            (convert-doc))))))
 
 (defn end-indexing
   [successful-oids failed-oids last-timestamp start]
@@ -71,29 +100,15 @@
     (when (some true? (map :errors res))
       (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
 
-(defn store-koulutus-pics [obj]
-  (let [pics (flatten (tarjonta-client/get-pic obj))]
+(defn store-picture [entry]
+  (let [pics (get-pics entry)]
     (if (not (empty? pics))
-      (s3-client/refresh-s3 obj pics)
-      (log/debug (str "No pictures for koulutus " (:oid obj))))))
+      (s3-client/refresh-s3 entry pics)
+      (log/debug (str "No pictures for " (:type entry) (:oid entry))))))
 
-(defn store-organisaatio-pic [obj]
-  (let [pic (-> obj
-                (organisaatio-client/get-doc true)          ;TODO lue kuva samasta kyselystä, jonka get-coverted-doc tekee
-                (:metadata)
-                (:kuvaEncoded))]
-    (if (not (nil? pic))
-      (s3-client/refresh-s3 obj [{:base64data pic :filename (str (:oid obj) ".jpg") :mimeType "image/jpg"}])
-      (log/debug (str "No picture for organisaatio " (:oid obj))))))
-
-(defn store-pictures
-  [queue]
+(defn store-pictures [queue]
   (log/info "Storing pictures, queue length:" (count queue))
-  (let [store-pic-fn (fn [obj] (cond
-                                 (= (:type obj) "koulutus") (store-koulutus-pics obj)
-                                 (= (:type obj) "organisaatio") (store-organisaatio-pic obj)
-                                 :else true))]
-    (doall (map store-pic-fn queue))))
+  (doall (map store-picture queue)))
 
 (defn do-index
   []
