@@ -1,12 +1,9 @@
 (ns konfo-indeksoija-service.elastic.tools
-  (:require [konfo-indeksoija-service.util.conf :as conf :refer [env boost-values]]
+  (:require [konfo-indeksoija-service.util.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
             [environ.core]
-            [cheshire.core :as json]
-            [konfo-indeksoija-service.rest.util :as http]
-            [clojure.tools.logging :as log]
             [cheshire.core :refer [generate-string]]))
 
 (defn init-elastic-client []

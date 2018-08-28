@@ -1,7 +1,6 @@
 (ns konfo-indeksoija-service.elastic.queue
   (:require [konfo-indeksoija-service.elastic.admin :refer [initialize-indices]]
             [konfo-indeksoija-service.elastic.tools :as t]
-            [konfo-indeksoija-service.util.conf :refer [env boost-values]]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]

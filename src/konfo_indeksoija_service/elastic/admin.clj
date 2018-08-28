@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.elastic.admin
   (:require [konfo-indeksoija-service.elastic.tools :as t]
-            [konfo-indeksoija-service.util.conf :as conf :refer [env boost-values]]
+            [konfo-indeksoija-service.elastic.settings :as settings]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
@@ -33,7 +33,7 @@
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"
                      "lastindex" "indexing_perf" "query_perf" "palaute" "koulutusmoduuli"]
         new-indexes (filter #(not (e/index-exists %)) (map t/index-name index-names))
-        results (map #(e/create-index % conf/index-settings) new-indexes)
+        results (map #(e/create-index % settings/index-settings) new-indexes)
         ack (map #(:acknowledged %) results)]
     (every? true? ack)))
 
@@ -49,11 +49,11 @@
 
 (defn initialize-index-mappings []
   (let [index-names ["hakukohde" "koulutus" "haku" "koulutusmoduuli"]]
-    (update-index-mappings "organisaatio" "organisaatio" conf/stemmer-settings-organisaatio)
-    (every? true? (doall (map #(update-index-mappings % % conf/stemmer-settings) index-names)))))
+    (update-index-mappings "organisaatio" "organisaatio" settings/stemmer-settings-organisaatio)
+    (every? true? (doall (map #(update-index-mappings % % settings/stemmer-settings) index-names)))))
 
 (defn initialize-indices []
   (log/info "Initializing indices")
   (and (initialize-index-settings)
        (initialize-index-mappings)
-    (update-index-mappings "indexdata" "indexdata" conf/indexdata-mappings)))
+    (update-index-mappings "indexdata" "indexdata" settings/indexdata-mappings)))

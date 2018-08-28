@@ -1,5 +1,5 @@
 (ns konfo-indeksoija-service.elastic-client-test
-  (:require [konfo-indeksoija-service.util.conf :as conf]
+  (:require [konfo-indeksoija-service.elastic.settings :as settings]
             [konfo-indeksoija-service.elastic.tools :as tools]
             [konfo-indeksoija-service.elastic.admin :as admin]
             [konfo-indeksoija-service.elastic.queue :as queue]
@@ -53,12 +53,12 @@
   (fact "Should have index analyzer settings set"
     (let [res (http/get (str elastic-host "/hakukohde_test/_settings")
                         {:as :json :content-type :json})]
-      (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis conf/index-settings)))
+      (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis settings/index-settings)))
 
   (fact "Should have index stemmer settings set"
     (let [res (http/get (str elastic-host "/hakukohde_test/_mappings/")
                         {:as :json :content-type :json})]
-      (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => conf/stemmer-settings))
+      (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => settings/stemmer-settings))
 
   (fact "Should get elastic-status"
     (keys (admin/get-elastic-status)) => [:cluster_health :indices-info])
