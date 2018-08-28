@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.converter.tyyppi-converter)
+(ns konfo-indeksoija-service.converter.tyyppi)
 
 (defn remove-uri-version [uri]
   (if (not (nil? uri)) (first (clojure.string/split uri #"#"))))

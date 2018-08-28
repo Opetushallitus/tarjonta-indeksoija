@@ -1,12 +1,12 @@
 (ns konfo-indeksoija-service.indexer.docs
   (:require [konfo-indeksoija-service.rest.tarjonta :as t]
             [konfo-indeksoija-service.rest.organisaatio :as o]
-            [konfo-indeksoija-service.converter.koulutus-converter :as kc]
-            [konfo-indeksoija-service.converter.koulutus-search-data-appender :as ka]
-            [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as oa]
-            [konfo-indeksoija-service.converter.koulutusmoduuli-search-data-appender :as kma]
-            [konfo-indeksoija-service.converter.hakukohde-converter :as hkc]
-            [konfo-indeksoija-service.converter.koulutusmoduuli-converter :as kmc]))
+            [konfo-indeksoija-service.converter.koulutus :as kc]
+            [konfo-indeksoija-service.search-data.koulutus :as ka]
+            [konfo-indeksoija-service.search-data.oppilaitos :as oa]
+            [konfo-indeksoija-service.search-data.koulutusmoduuli :as kma]
+            [konfo-indeksoija-service.converter.hakukohde :as hkc]
+            [konfo-indeksoija-service.converter.koulutusmoduuli :as kmc]))
 
 (defmulti get-doc :type)
 

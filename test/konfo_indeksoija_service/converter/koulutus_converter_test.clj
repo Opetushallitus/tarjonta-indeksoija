@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.converter.koulutus-converter-test
   (:require [midje.sweet :refer :all]
-            [konfo-indeksoija-service.converter.koulutus-converter :as converter]))
+            [konfo-indeksoija-service.converter.koulutus :as converter]))
 
 ;; Abysmal data structures from tarjonta koulutus api
 (let [koodi {:koulutustyyppi {:uri "koulutustyyppi_3"

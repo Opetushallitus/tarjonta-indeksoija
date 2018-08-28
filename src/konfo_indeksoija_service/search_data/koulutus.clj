@@ -1,8 +1,7 @@
-(ns konfo-indeksoija-service.converter.koulutus-search-data-appender
+(ns konfo-indeksoija-service.search-data.koulutus
   (:require [konfo-indeksoija-service.rest.tarjonta :as tarjonta-client]
             [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]
-            [konfo-indeksoija-service.converter.tyyppi-converter :refer [koulutustyyppi-uri-to-tyyppi]]
-            [clojure.tools.logging :as log]
+            [konfo-indeksoija-service.converter.tyyppi :refer [koulutustyyppi-uri-to-tyyppi]]
             [clj-time.format :as format]
             [clj-time.coerce :as coerce]
             [clj-time.core :as time]))
@@ -66,9 +65,7 @@
       (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
         (:nimi koulutuskoodi)
         (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
-          (:nimi hakukohde))
-      ))
-    ))
+          (:nimi hakukohde))))))
 
 (defn- find-koulutus-tyyppi [koulutus]
   (let [tyyppi (koulutustyyppi-uri-to-tyyppi (get-in koulutus [:koulutustyyppi :uri]))]
@@ -90,8 +87,6 @@
         nimi (find-koulutus-nimi koulutus hakukohteet tyyppi)
         opintopolunNayttaminenLoppuu (count-opintopolun-nayttaminen-loppuu haut hakukohteet-raw)
         oppiaineet (map (fn [x] { (keyword (:kieliKoodi x)) (:oppiaine x) }) (:oppiaineet koulutus))]
-    ;(if (empty? hakukohteet) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakukohteita!")))
-    ;(if (empty? haut) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakuja!")))
     (let [searchData (-> {}
                          (cond-> nimi (assoc :nimi nimi))
                          (cond-> tyyppi (assoc :tyyppi tyyppi))

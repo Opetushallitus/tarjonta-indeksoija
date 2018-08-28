@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.search-data-test
-  (:require [konfo-indeksoija-service.converter.koulutus-search-data-appender :as appender]
-            [konfo-indeksoija-service.converter.oppilaitos-search-data-appender :as org-appender]
+  (:require [konfo-indeksoija-service.search-data.koulutus :as appender]
+            [konfo-indeksoija-service.search-data.oppilaitos :as org-appender]
             [konfo-indeksoija-service.rest.tarjonta :as tarjonta-client]
             [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [konfo-indeksoija-service.rest.koodisto :as koodisto-client]
