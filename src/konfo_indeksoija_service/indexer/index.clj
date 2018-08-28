@@ -1,7 +1,9 @@
 (ns konfo-indeksoija-service.indexer.index
   (:require [konfo-indeksoija-service.indexer.docs :refer :all]
             [konfo-indeksoija-service.util.conf :refer [env]]
-            [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.elastic.perf :as perf]
+            [konfo-indeksoija-service.elastic.queue :as queue]
+            [konfo-indeksoija-service.elastic.docs :as docs]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [clojure.tools.logging :as log]))
@@ -22,17 +24,15 @@
         msg (str "Successfully indexed " (count successful-oids) " objects in " (int (/ duration 1000)) " seconds. Total failed:" (count failed-oids))]
     (log/info msg)
     (when (seq failed-oids) (log/info "Failed oids:" (seq failed-oids)))
-    (elastic-client/insert-indexing-perf (count successful-oids) duration start)
-    (elastic-client/bulk-update-failed "indexdata" "indexdata" (map (fn [x] {:oid x}) (seq failed-oids)))
-    (elastic-client/delete-handled-queue successful-oids last-timestamp)
-    (elastic-client/refresh-index "indexdata")
+    (perf/insert-indexing-perf (count successful-oids) duration start)
+    (queue/update-queue last-timestamp successful-oids failed-oids)
     msg))
 
 (defn index-objects
   [objects]
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
-                          (elastic-client/bulk-upsert type type docs)) docs-by-type))
+                          (docs/upsert-docs type docs)) docs-by-type))
         errors (remove false? (map :errors res))]
     (log/info "Index-objects done. Total indexed: " (count objects))
     (when (some true? (map :errors res))
@@ -50,7 +50,7 @@
 
 (defn do-index
   []
-  (let [queue (elastic-client/get-queue)
+  (let [queue (queue/get-queue)
         start (System/currentTimeMillis)]
     (if (empty? queue)
       (log/debug "Nothing to index.")

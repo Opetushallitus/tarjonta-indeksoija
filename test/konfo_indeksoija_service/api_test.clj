@@ -1,6 +1,7 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
-            [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.elastic.tools :refer [delete-index]]
+            [konfo-indeksoija-service.elastic.queue :refer [get-queue upsert-to-queue]]
             [konfo-indeksoija-service.test-tools :as tools :refer [parse-body]]
             [konfo-indeksoija-service.indexer.job :as j]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
@@ -19,7 +20,7 @@
                 body (parse-body (:body response))]
             (:status response) => 200)
           (tools/block-until-indexed 15000)
-          (elastic-client/get-queue) => []
+          (get-queue) => []
           (j/reset-jobs))
 
       (fact "fetch hakukohde"
@@ -31,16 +32,16 @@
 
       (comment fact "fetch koulutus tulos" :skip
         ;; This test uses tarjonta QA and organisaatio
-        (elastic-client/delete-index "hakukohde")
-        (elastic-client/upsert-indexdata [{:type "koulutus" :oid "1.2.246.562.17.53874141319"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.67506762722"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.715691882710"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.82790530479"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.17663370199"}
-                                          {:type "haku" :oid "1.2.246.562.29.86197271827"}
-                                          {:type "haku" :oid "1.2.246.562.29.59856749474"}
-                                          {:type "haku" :oid "1.2.246.562.29.53522498558"}
-                                          {:type "organisaatio" :oid "1.2.246.562.10.39920288212"}])
+        (delete-index "hakukohde")
+        (upsert-to-queue [{:type "koulutus" :oid "1.2.246.562.17.53874141319"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.67506762722"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.715691882710"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.82790530479"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.17663370199"}
+                          {:type "haku" :oid "1.2.246.562.29.86197271827"}
+                          {:type "haku" :oid "1.2.246.562.29.59856749474"}
+                          {:type "haku" :oid "1.2.246.562.29.53522498558"}
+                          {:type "organisaatio" :oid "1.2.246.562.10.39920288212"}])
         (tools/block-until-indexed 10000)
 
         (tools/refresh-and-wait "hakukohde" 0)

@@ -1,5 +1,8 @@
 (ns konfo-indeksoija-service.api
-  (:require [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
+  (:require [konfo-indeksoija-service.elastic.perf :as perf]
+            [konfo-indeksoija-service.elastic.admin :as admin]
+            [konfo-indeksoija-service.elastic.docs :as docs]
+            [konfo-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [konfo-indeksoija-service.util.conf :refer [env]]
             [konfo-indeksoija-service.util.logging :as logging]
             [konfo-indeksoija-service.indexer.index :as i]
@@ -24,9 +27,9 @@
   (if (not= (:s3-dev-disabled env) "true")
     (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
-  (elastic-client/init-elastic-client)
-  (if (and (elastic-client/check-elastic-status)
-           (elastic-client/initialize-indices))
+  (init-elastic-client)
+  (if (and (admin/check-elastic-status)
+           (admin/initialize-indices))
     (j/start-indexer-job)
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
@@ -55,31 +58,31 @@
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-koulutus oid)}))
+         (ok {:result (docs/get-koulutus oid)}))
 
        (GET "/hakukohde" []
          :summary "Hakee yhden hakukohteen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-hakukohde oid)}))
+         (ok {:result (docs/get-hakukohde oid)}))
 
        (GET "/haku" []
          :summary "Hakee yhden haun oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-haku oid)}))
+         (ok {:result (docs/get-haku oid)}))
 
        (GET "/orgaisaatio" []
          :summary "Hakee yhden organisaation oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-organisaatio oid)}))
+         (ok {:result (docs/get-organisaatio oid)}))
 
        (GET "/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
-         (ok {:result (elastic-client/get-elastic-status)}))
+         (ok {:result (admin/get-elastic-status)}))
 
        (GET "/performance_info" []
          :summary "Hakee tietoja performanssista"
          :query-params [{since :- Long 0}]
-         (ok {:result (elastic-client/get-elastic-performance-info since)}))
+         (ok {:result (perf/get-elastic-performance-info since)}))
 
        (GET "/s3/koulutus" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"

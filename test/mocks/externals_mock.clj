@@ -2,7 +2,7 @@
   (:require [konfo-indeksoija-service.test-tools :as tools]
             [konfo-indeksoija-service.rest.tarjonta :as tarjonta]
             [konfo-indeksoija-service.rest.organisaatio :as organisaatio]
-            [konfo-indeksoija-service.elastic.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.elastic.queue :refer [upsert-to-queue]]
             [konfo-indeksoija-service.api]
             [konfo-indeksoija-service.indexer.index]
             [base64-clj.core :as b64]))
@@ -53,8 +53,7 @@
 
 (defn queue-mock
   [index oid]
-  (elastic-client/upsert-indexdata
-   [{:type index :oid oid}]))
+  (upsert-to-queue [{:type index :oid oid}]))
 
 (defmacro with-externals-mock
   [& body]

@@ -3,7 +3,8 @@
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]
             [konfo-indeksoija-service.test-tools :as tools :refer [reset-test-data block-until-indexed]]
-            [konfo-indeksoija-service.elastic.elastic-client :as e]
+            [konfo-indeksoija-service.elastic.queue :as q]
+            [konfo-indeksoija-service.elastic.docs :as d]
             [konfo-indeksoija-service.indexer.index :as i]
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
@@ -12,9 +13,9 @@
             [konfo-indeksoija-service.util.conf :refer [env]]))
 
 (defn setup-queue [type oid]
-             (e/upsert-indexdata [{:type type :oid oid}])
+             (q/upsert-to-queue [{:type type :oid oid}])
              (block-until-indexed 5000)
-             (e/get-queue))
+             (q/get-queue))
 
 (defn empty-s3 []
   (let [keys (s3/list-keys)]
@@ -35,7 +36,7 @@
       (let [oid "1.2.246.562.10.39920288212"]
         (setup-queue "organisaatio" oid)
         (i/do-index)
-        (let [indexed-org (e/get-organisaatio oid)
+        (let [indexed-org (d/get-organisaatio oid)
               picture-list (s3/list-keys)]
           (count picture-list) => 1
           (first picture-list) => "organisaatio/1.2.246.562.10.39920288212/1.2.246.562.10.39920288212.jpg"
@@ -45,7 +46,7 @@
        (let [oid "1.2.246.562.29.86197271827"]
          (setup-queue "haku" oid)
          (i/do-index)
-         (let [indexed-haku (e/get-haku oid)
+         (let [indexed-haku (d/get-haku oid)
                picture-list (s3/list-keys)]
            (count picture-list) => 0
            (get indexed-haku :oid) => "1.2.246.562.29.86197271827")))
@@ -54,7 +55,7 @@
       (let [oid "1.2.246.562.20.17663370199"]
         (setup-queue "hakukohde" oid)
         (i/do-index)
-        (let [indexed-hakukohde (e/get-hakukohde oid)
+        (let [indexed-hakukohde (d/get-hakukohde oid)
               picture-list (s3/list-keys)]
           (count picture-list) => 0
           (get (first (get indexed-hakukohde :koulutusmoduuliToteutusTarjoajatiedot)) :koulutus) => "1.2.246.562.17.53874141319")))
@@ -63,7 +64,7 @@
       (let [oid "1.2.246.562.13.39326629852"]
         (setup-queue "koulutusmoduuli" oid)
         (i/do-index)
-        (let [indexed-koulutusmoduuli (e/get-koulutusmoduuli oid)
+        (let [indexed-koulutusmoduuli (d/get-koulutusmoduuli oid)
               picture-list (s3/list-keys)]
           (count picture-list) => 0
           (get-in indexed-koulutusmoduuli [:searchData :tyyppi]) => "kk")))
@@ -72,7 +73,7 @@
       (let [oid "1.2.246.562.17.53874141319"]
         (setup-queue "koulutus" oid)
         (i/do-index)
-        (let [indexed-koulutus (e/get-koulutus-with-searh-data oid)
+        (let [indexed-koulutus (d/get-koulutus-with-searh-data oid)
               picture-list (s3/list-keys)]
           (count picture-list) => 3
           (get-in indexed-koulutus [:searchData :tyyppi]) => "kk")))))
