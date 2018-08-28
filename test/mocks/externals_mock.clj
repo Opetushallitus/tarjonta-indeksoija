@@ -1,7 +1,5 @@
 (ns mocks.externals-mock
   (:require [konfo-indeksoija-service.test-tools :as tools]
-            [konfo-indeksoija-service.rest.tarjonta :as tarjonta]
-            [konfo-indeksoija-service.rest.organisaatio :as organisaatio]
             [konfo-indeksoija-service.elastic.queue :refer [upsert-to-queue]]
             [konfo-indeksoija-service.api]
             [konfo-indeksoija-service.indexer.index]

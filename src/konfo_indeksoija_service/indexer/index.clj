@@ -32,8 +32,7 @@
   [objects]
   (let [docs-by-type (group-by :tyyppi objects)
         res (doall (map (fn [[type docs]]
-                          (docs/upsert-docs type docs)) docs-by-type))
-        errors (remove false? (map :errors res))]
+                          (docs/upsert-docs type docs)) docs-by-type))]
     (log/info "Index-objects done. Total indexed: " (count objects))
     (when (some true? (map :errors res))
       (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
@@ -45,8 +44,10 @@
       (log/debug (str "No pictures for " (:type entry) (:oid entry))))))
 
 (defn store-pictures [queue]
-  (log/info "Storing pictures, queue length:" (count queue))
-  (doall (map store-picture queue)))
+  (if (not= (:s3-dev-disabled env) "true")
+    (do (log/info "Storing pictures, queue length:" (count queue))
+        (doall (map store-picture queue)))
+    (log/info "Skipping store-pictures because of env value")))
 
 (defn do-index
   []
@@ -65,9 +66,7 @@
           (log/info "Got converted docs! Going to index objects...")
           (index-objects converted-docs)
           (log/info "Objects indexed! Going to store pictures...")
-          (if (not= (:s3-dev-disabled env) "true")
-            (store-pictures queue)
-            (log/info "Skipping store-pictures because of env value"))
+          (store-pictures queue)
           (log/info "Pictures stored! Going to end indexing items.")
           (end-indexing successful-oids
                         failed-oids
