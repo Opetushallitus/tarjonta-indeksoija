@@ -57,3 +57,9 @@
   (and (initialize-index-settings)
        (initialize-index-mappings)
     (update-index-mappings "indexdata" "indexdata" settings/indexdata-mappings)))
+
+(defn search [index query]
+  (let [res (e/simple-search index query)]
+    (if (= 200 (:status res))
+      (:body res)
+      res)))

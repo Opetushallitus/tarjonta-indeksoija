@@ -97,7 +97,13 @@
        (GET "/s3/organisaatio" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (i/store-picture {:oid oid :type "organisaatio"})})))
+         (ok {:result (i/store-picture {:oid oid :type "organisaatio"})}))
+
+       (GET "/query" []
+         :summary "Tekee haun haluttuun indeksiin"
+         :query-params [index :- String
+                        query :- String]
+         (ok (admin/search index query))))
 
      (context "/indexer" []
        :tags ["indexer"]
