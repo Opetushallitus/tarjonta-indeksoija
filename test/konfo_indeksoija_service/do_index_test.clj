@@ -9,6 +9,7 @@
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
             [konfo-indeksoija-service.rest.organisaatio :as o]
+            [konfo-indeksoija-service.rest.eperuste :as e]
             [konfo-indeksoija-service.rest.tarjonta :as t]
             [konfo-indeksoija-service.util.conf :refer [env]]))
 
@@ -21,8 +22,6 @@
   (let [keys (s3/list-keys)]
     (if (not (empty? keys)) (s3/delete keys))))
 
-
-
 (against-background
   [(before :contents (do (init-elastic-test) (init-s3-mock)))
    (after :facts (do (reset-test-data) (empty-s3)))
@@ -30,6 +29,7 @@
 
   (with-redefs [env {:s3-dev-disabled "false"}
                 o/get-doc mock/get-doc
+                e/get-doc mock/get-doc
                 t/get-doc mock/get-doc
                 t/get-pic mock/get-pic]
     (fact "index organisaatio"
@@ -76,5 +76,15 @@
         (let [indexed-koulutus (d/get-koulutus-with-searh-data oid)
               picture-list (s3/list-keys)]
           (count picture-list) => 3
-          (get-in indexed-koulutus [:searchData :tyyppi]) => "kk")))))
+          (get-in indexed-koulutus [:searchData :tyyppi]) => "kk")))
+
+    (fact "index eperuste"
+      (let [oid "3397334"]
+        (setup-queue "eperuste" oid)
+        (i/do-index)
+        (let [indexed-eperuste (d/get-eperuste oid)
+              picture-list (s3/list-keys)]
+          (println indexed-eperuste)
+          (count picture-list) => 0
+          (get indexed-eperuste :koulutustyyppi) => "koulutustyyppi_12")))))
 

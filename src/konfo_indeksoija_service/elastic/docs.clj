@@ -21,3 +21,6 @@
 
 (defmacro get-koulutusmoduuli [oid]
   `(get-by-id "koulutusmoduuli" "koulutusmoduuli" ~oid))
+
+(defmacro get-eperuste [oid]
+  `(get-by-id "eperuste" "eperuste" ~oid))

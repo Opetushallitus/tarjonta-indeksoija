@@ -70,10 +70,15 @@
          :query-params [oid :- String]
          (ok {:result (docs/get-haku oid)}))
 
-       (GET "/orgaisaatio" []
+       (GET "/organisaatio" []
          :summary "Hakee yhden organisaation oidin perusteella."
          :query-params [oid :- String]
          (ok {:result (docs/get-organisaatio oid)}))
+
+       (GET "/eperuste" []
+         :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
+         :query-params [oid :- String]
+         (ok {:result (docs/get-eperuste oid)}))
 
        (GET "/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
@@ -124,6 +129,11 @@
          :summary "Lisää haun indeksoitavien listalle."
          :query-params [oid :- String]
          (ok {:result (queue/queue "haku" oid)}))
+
+       (GET "/eperuste" []
+         :summary "Lisää ePerusteen indeksoitavien listalle. (oid==id)"
+         :query-params [oid :- String]
+         (ok {:result (queue/queue "eperuste" oid)}))
 
        (GET "/organisaatio" []
          :summary "Lisää organisaation indeksoitavien listalle."

@@ -1,0 +1,1175 @@
+{
+  "id" : 3397334,
+  "globalVersion" : {
+    "aikaleima" : 1530101021665
+  },
+  "nimi" : {
+    "_tunniste" : "f92b27fb-5d5c-4e01-bf86-6f04c5cb659b",
+    "fi" : "Tuotekehitystyön erikoisammattitutkinto",
+    "sv" : "Specialyrkesexamen för produktutvecklingsarbete",
+    "en" : "Specialist Qualification in Product Development",
+    "_id" : "4309917"
+  },
+  "koulutustyyppi" : "koulutustyyppi_12",
+  "koulutukset" : [ {
+    "nimi" : {
+      "fi" : "Tuotekehitystyön erikoisammattitutkinto",
+      "sv" : "Specialyrkesexamen för produktutvecklingsarbete",
+      "en" : "Specialist Qualification in Product Development"
+    },
+    "koulutuskoodiArvo" : "458902",
+    "koulutuskoodiUri" : "koulutus_458902",
+    "koulutusalakoodi" : "koulutusalaoph2002_5",
+    "opintoalakoodi" : "opintoalaoph2002_599"
+  } ],
+  "kielet" : [ "fi", "sv" ],
+  "kuvaus" : {
+    "_tunniste" : "8e8b4e70-b538-42f1-be1e-64e443c43e93",
+    "fi" : "<p> </p>\n\n<p>Tuotekehitystyön erikoisammattitutkinnon suorittanut osaa kehittää ja uudistaa oman ammattialansa tuotteita, palveluja tai toimintamalleja. Hän osaa kehittämiseen liittyvän prosessin eri vaiheet. Tutkinnon suorittaja osaa valitsemiensa tutkinnon osien perusteella muotoilla tuotekehitystyön asiakaslähtöisesti, tuotteistaa sen markkinoille ja rakentaa sen ympärille toimivan brändin. Hänellä on taito ottaa rohkeasti käyttöönsä uusia välineitä ja menetelmiä, tehdä nopeita ja ketteriä kehittämisen kokeiluja sekä työskennellä kehittämistiimin osana. Tuotekehitystyön tutkinnon suorittanut osoittaa kehittäjän mieltä toimien innovaattorina omassa organisaatiossaan.</p>\n\n<p>Tuotekehitystyön erikoisammattitutkinto (180 osaamispistettä) muodostuu yhdestä pakollisesta tutkinnon osasta (90 osaamispistettä) ja valinnaisista tutkinnon osista, jotka ovat Brändin rakentaminen (45 osaamispistettä), Tuotteistaminen tuotekehitystyössä (45 osaamispistettä), Innovaattorina toimiminen (45 osaamispistettä), Palvelumuotoilu tuotekehitystyössä (45 osaamispistettä) ja tutkinnon osa jostakin muusta ammatti- tai erikoisammattitutkinnosta (45 osaamispistettä).</p>\n\n<p>Tuotekehitystyön erikoisammattitutkinnon suorittanut toimii alasta riippumatta työtehtävissä, joissa on mahdollisuus ja valtuudet ideoida, suunnitella ja toteuttaa tuotekehitystöitä kehittämistiimin kanssa. Tuotekehitystyöllä tarkoitetaan tuotteen, palvelun tai toimintamallin kehittämistä. Tuotekehitystyössä merkittävää on saada aikaan uusi tuote, palvelu tai toimintamalli. Tutkinnon suorittajan työpaikka voi olla yksityisellä tai julkisella sektorilla.</p>",
+    "sv" : "<p>De som har avlagt specialyrkesexamen i produktutvecklingsarbete kan utveckla och förnya produkter, tjänster eller tillvägagångssätt inom det egna yrkesområdet. De behärskar de olika stegen i en utvecklingsprocess. De kan enligt valda examensdelar planera ett produktutvecklingsarbete kundorienterat, produktifiera det för marknaden och bygga upp ett varumärke kring det. De har förmåga att modigt börja använda nya verktyg och metoder, göra snabba och smidiga utvecklingsexperiment och arbeta i ett utvecklingsteam. De har en attityd som utvecklare behöver ha och arbetar som innovatörer i den egna organisationen.</p>\n\n<p>Specialyrkesexamen i produktutvecklingsarbete (180 kompetenspoäng) består av en obligatorisk examensdel (90 kompetenspoäng) och valbara examensdelar, vilka är Att bygga ett varumärke (45 kompetenspoäng), Produktifiering i produktutvecklingsarbete (45 kompetenspoäng), Arbete som innovatör (45 kompetenspoäng), Tjänstedesign i produktutvecklingsarbete (45 kompetenspoäng) och en examensdel från en annan yrkes- specialyrkesexamen (45 kompetenspoäng).</p>\n\n<p>De som har avlagt specialyrkesexamen i produktutvecklingsarbete sköter oberoende av bransch arbetsuppgifter där de har möjlighet och befogenheter att ta fram idéer, planera och genomföra produktutvecklingsarbete tillsammans med ett utvecklingsteam. Med produktutvecklingsarbete avses utveckling av en produkt, en tjänst eller ett tillvägagångssätt. Inom produktutvecklingsarbete är det viktigt att få till stånd en ny produkt, en ny tjänst eller ett nytt tillvägagångssätt. De kan arbeta inom den privata eller offentliga sektorn.</p>",
+    "_id" : "4270347"
+  },
+  "maarayskirje" : {
+    "id" : 3426079,
+    "url" : {
+      "fi" : "http://www.oph.fi/download/188433_Tuotekehitystyon_erikoisammattitutkinnon_perusteet_OPH-2624-2017.pdf"
+    }
+  },
+  "muutosmaaraykset" : [ ],
+  "diaarinumero" : "OPH-2624-2017",
+  "voimassaoloAlkaa" : 1514757600000,
+  "siirtymaPaattyy" : null,
+  "voimassaoloLoppuu" : null,
+  "paatospvm" : 1511992800000,
+  "luotu" : 1509100455799,
+  "muokattu" : 1530101021665,
+  "tila" : "valmis",
+  "tyyppi" : "normaali",
+  "koulutusvienti" : false,
+  "korvattavatDiaarinumerot" : [ ],
+  "osaamisalat" : [ ],
+  "tyotehtavatJoissaVoiToimia" : {
+    "fi" : "<p>Tuotekehitystyön erikoisammattitutkinnon suorittanut toimii alasta riippumatta työtehtävissä, joissa on mahdollisuus ja valtuudet ideoida, suunnitella ja toteuttaa tuotekehitystöitä kehittämistiimin kanssa. Tuotekehitystyöllä tarkoitetaan tuotteen, palvelun tai toimintamallin kehittämistä. Tuotekehitystyössä merkittävää on saada aikaan uusi tuote, palvelu tai toimintamalli. Tutkinnon suorittajan työpaikka voi olla yksityisellä tai julkisella sektorilla.</p>",
+    "en" : "<p>Regardless of sector, holders of the specialist qualification in product development work in tasks offering the opportunity and authority to conceive, plan, and implement product development projects with a development team. Product development work refers to developing a product, a service, or a operating model. In product development work, it is important to produce a new product, service, or operating model. Qualification holders may work either in the private or the public sector.</p>",
+    "_id" : "5693449"
+  },
+  "suorittaneenOsaaminen" : {
+    "fi" : "<p>Tuotekehitystyön erikoisammattitutkinnon suorittanut osaa kehittää ja uudistaa oman ammattialansa tuotteita, palveluja tai toimintamalleja. Hän osaa kehittämiseen liittyvän prosessin eri vaiheet. Tutkinnon suorittaja osaa valitsemiensa tutkinnon osien perusteella muotoilla tuotekehitystyön asiakaslähtöisesti, tuotteistaa sen markkinoille ja rakentaa sen ympärille toimivan brändin. Hänellä on taito ottaa rohkeasti käyttöönsä uusia välineitä ja menetelmiä, tehdä nopeita ja ketteriä kehittämisen kokeiluja sekä työskennellä kehittämistiimin osana. Tuotekehitystyön tutkinnon suorittanut osoittaa kehittäjän mieltä toimien innovaattorina omassa organisaatiossaan.</p>",
+    "en" : "<p>Holders of the specialist qualification in product development knows how to refine and develop the products, services, or operating models in their sector. They know the steps of a developmental process. Based on the units they have selected, the qualification holder knows how to take a customer-based approach to shaping product development work, productise it for the market, and build a functional brand around it. They have the ability to readily utilise new tools and methods, perform quick and agile experiments as well as work as a part of a development team. Holders of the specialist qualification in product development showcases the thinking of a developer acting as an innovator in their organisation.</p>",
+    "_id" : "5693448"
+  },
+  "suoritustavat" : [ {
+    "suoritustapakoodi" : "reformi",
+    "laajuusYksikko" : "OSAAMISPISTE",
+    "rakenne" : {
+      "kuvaus" : {
+        "_tunniste" : "d16fcbeb-af11-436d-bc69-8859f5818597",
+        "fi" : "<p>Tuotekehitystyön erikoisammattitutkinto (180 osaamispistettä) muodostuu pakollisesta tutkinnon osasta (90 osaamispistettä) ja valinnaisista tutkinnon osista (45 osaamispistettä). Pakollinen tutkinnon osa on Proaktiivinen kehittäminen (90 osaamispistettä). Valinnaiset tutkinnon osat ovat Brändin rakentaminen (45 osaamispistettä), Tuotteistaminen tuotekehitysprosessissa (45 osaamispistettä), Palvelumuotoilu tuotekehitystyössä (45 osaamispistettä) ja Innovaattorina toimiminen (45 osaamispistettä). Valinnaisena tutkinnon osana voi suorittaa myös tutkinnon osan ammattitutkinnosta tai toisesta erikoisammattitutkinnosta (45 osaamispistettä).</p>",
+        "sv" : "<p>Specialyrkesexamen i produktutvecklingsarbete (180 kompetenspoäng) består av en obligatorisk examensdel (90 kompetenspoäng) och valbara examensdelar, vilka är Att bygga ett varumärke (45 kompetenspoäng), Produktifiering i produktutvecklingsarbete (45 kompetenspoäng), Arbete som innovatör (45 kompetenspoäng), Tjänstedesign i produktutvecklingsarbete (45 kompetenspoäng) och en examensdel från en annan yrkes- specialyrkesexamen (45 kompetenspoäng).</p>",
+        "en" : "<p>The specialist qualification in product development (180 competence points) is composed of compulsory units (90 competence points) and optional units (45 competence points). The compulsory unit is Proactive development (90 competence points). The optional units are Building a brand (45 competence points), Productisation in product development work (45 competence points), Service design in product development work (45 competence points), and Working as an innovator (45 competence points). It is also possible to take a unit from another further or specialist qualification as an optional unit (45 competence points).</p>",
+        "_id" : "5692248"
+      },
+      "vieras" : null,
+      "tunniste" : "fc1ff787-b896-48d5-aa01-d12b11d49ffd",
+      "pakollinen" : false,
+      "nimi" : null,
+      "rooli" : "määritelty",
+      "muodostumisSaanto" : null,
+      "osaamisala" : null,
+      "tutkintonimike" : null,
+      "osat" : [ {
+        "kuvaus" : null,
+        "vieras" : null,
+        "tunniste" : "e60d2f82-409c-463c-9bd5-c9f3c62f4a83",
+        "pakollinen" : false,
+        "nimi" : {
+          "_tunniste" : "19819d69-939c-4a67-bd7d-5f60fb922773",
+          "fi" : "Pakolliset tutkinnon osat",
+          "sv" : "Obligatorisk examensdel",
+          "_id" : "4270551"
+        },
+        "rooli" : "määritelty",
+        "muodostumisSaanto" : null,
+        "osaamisala" : null,
+        "tutkintonimike" : null,
+        "osat" : [ {
+          "kuvaus" : null,
+          "vieras" : null,
+          "tunniste" : "46200da2-278a-4f37-868d-1574c7b1af8d",
+          "pakollinen" : true,
+          "erikoisuus" : null,
+          "_tutkinnonOsaViite" : "3435347"
+        } ],
+        "versioId" : null
+      }, {
+        "kuvaus" : null,
+        "vieras" : null,
+        "tunniste" : "8dd9c0e5-c4d8-4a6f-bc7f-457eeb1b370c",
+        "pakollinen" : false,
+        "nimi" : {
+          "_tunniste" : "3b064b6c-2ffb-48aa-9b01-901339d55819",
+          "fi" : "Valinnaiset tutkinnon osat",
+          "sv" : "Valbara examensdelar",
+          "_id" : "4270552"
+        },
+        "rooli" : "määritelty",
+        "muodostumisSaanto" : null,
+        "osaamisala" : null,
+        "tutkintonimike" : null,
+        "osat" : [ {
+          "kuvaus" : null,
+          "vieras" : null,
+          "tunniste" : "2380b561-1069-4d48-bb32-5c19adff5062",
+          "pakollinen" : null,
+          "erikoisuus" : null,
+          "_tutkinnonOsaViite" : "3435348"
+        }, {
+          "kuvaus" : null,
+          "vieras" : null,
+          "tunniste" : "534c592d-3b03-4ce1-a784-505a05f83e4f",
+          "pakollinen" : null,
+          "erikoisuus" : null,
+          "_tutkinnonOsaViite" : "3435349"
+        }, {
+          "kuvaus" : null,
+          "vieras" : null,
+          "tunniste" : "c0ec9940-d856-49aa-88be-68de9997a1c0",
+          "pakollinen" : null,
+          "erikoisuus" : null,
+          "_tutkinnonOsaViite" : "3435690"
+        }, {
+          "kuvaus" : null,
+          "vieras" : null,
+          "tunniste" : "aa0d27b0-2b8f-4d26-b040-a3d50bfd6585",
+          "pakollinen" : null,
+          "erikoisuus" : null,
+          "_tutkinnonOsaViite" : "3435691"
+        }, {
+          "kuvaus" : {
+            "_tunniste" : "29c56916-5915-4805-9f8d-94908986c31c",
+            "fi" : "Tutkintoon voi sisällyttää tutkinnon osan tai osia ammattitutkinnosta tai toisesta erikoisammattitutkinnosta vähintään 45 osaamispisteen laajuisesti.",
+            "sv" : "I examen kan det ingå en eller flera examensdelar från en annan yrkes- eller specialyrkesexamen med en omfattning på minst 45 kompetenspoäng.",
+            "_id" : "4270553"
+          },
+          "vieras" : null,
+          "tunniste" : "df9113b6-e5ed-4ba5-acfb-d8164fce9124",
+          "pakollinen" : false,
+          "nimi" : {
+            "_tunniste" : "2404d47d-832e-4109-96a2-87d9249e494b",
+            "fi" : "Tutkinnon osa ammattitutkinnosta tai toisesta erikoisammattitutkinnosta",
+            "sv" : "En examensdel från en annan yrkes- specialyrkesexame",
+            "_id" : "4270554"
+          },
+          "rooli" : "määrittelemätön",
+          "muodostumisSaanto" : {
+            "laajuus" : {
+              "minimi" : 45,
+              "maksimi" : 45,
+              "yksikko" : null
+            },
+            "koko" : null
+          },
+          "osaamisala" : null,
+          "tutkintonimike" : null,
+          "osat" : [ ],
+          "versioId" : null
+        } ],
+        "versioId" : null
+      } ],
+      "versioId" : null
+    },
+    "sisalto" : {
+      "id" : 3427786,
+      "lapset" : [ {
+        "id" : 3427787,
+        "perusteenOsa" : {
+          "id" : 3430919,
+          "luotu" : 1509100455800,
+          "muokattu" : 1530097814947,
+          "muokkaaja" : "1.2.246.562.24.62976863814",
+          "nimi" : {
+            "_tunniste" : "6748dc8f-f801-4679-81b0-2eafb0ffaaab",
+            "fi" : "Tutkinnon muodostuminen",
+            "sv" : "Uppbyggnaden av examen",
+            "en" : "Composition of the qualification",
+            "_id" : "5692249"
+          },
+          "tila" : "valmis",
+          "tunniste" : "rakenne",
+          "valmis" : null,
+          "kaannettava" : null,
+          "teksti" : null,
+          "osaamisala" : null,
+          "osanTyyppi" : "tekstikappale"
+        },
+        "lapset" : [ ],
+        "_perusteenOsa" : "3430919"
+      } ]
+    },
+    "tutkinnonOsaViitteet" : [ {
+      "id" : 3435348,
+      "laajuus" : 45.00,
+      "jarjestys" : 2,
+      "_tutkinnonOsa" : "3435797"
+    }, {
+      "id" : 3435349,
+      "laajuus" : 45.00,
+      "jarjestys" : 3,
+      "_tutkinnonOsa" : "3435799"
+    }, {
+      "id" : 3435347,
+      "laajuus" : 90.00,
+      "jarjestys" : 1,
+      "_tutkinnonOsa" : "3435790"
+    }, {
+      "id" : 3435690,
+      "laajuus" : 45.00,
+      "jarjestys" : 4,
+      "_tutkinnonOsa" : "3437533"
+    }, {
+      "id" : 3435691,
+      "laajuus" : 45.00,
+      "jarjestys" : 5,
+      "_tutkinnonOsa" : "3437536"
+    } ]
+  } ],
+  "tutkinnonOsat" : [ {
+    "id" : 3435790,
+    "luotu" : 1509100739573,
+    "muokattu" : 1513686460489,
+    "muokkaaja" : "1.2.246.562.24.79470804498",
+    "nimi" : {
+      "fi" : "Proaktiivinen kehittäminen",
+      "sv" : "Proaktiv utveckling",
+      "_id" : "1956160"
+    },
+    "tila" : "valmis",
+    "valmis" : false,
+    "kaannettava" : false,
+    "osanTyyppi" : "tutkinnonosa",
+    "arviointi" : {
+      "id" : 3430039,
+      "lisatiedot" : null,
+      "arvioinninKohdealueet" : [ {
+        "otsikko" : {
+          "_tunniste" : "cfcb1e15-3c9f-4a30-a255-1a440b889069",
+          "fi" : "Opiskelija toimii proaktiivisesti valmistellessaan tuotekehitystyötä.",
+          "sv" : "Den studerande arbetar proaktivt vid planering av ett produktutvecklingsarbete.",
+          "_id" : "3832788"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "475c5ed1-da05-4a87-abef-6a993a933ecd",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3832789"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "kartoittaa tulevaisuuden muutoksia ja trendejä hyödyntäen sidosryhmiä",
+              "sv" : "kartlägger framtida förändringar och trender och drar nytta av intressenter vid kartläggningen",
+              "_id" : "1956165"
+            }, {
+              "fi" : "hyödyntää käyttäjä-, kilpailija- ja markkinatietoa oman työn valmistelussa",
+              "sv" : "drar nytta av användar-, konkurrent- och marknadsinformation vid planering av sitt arbete",
+              "_id" : "1956166"
+            }, {
+              "fi" : "ideoi ja tekee nopeita kokeiluja ja testauksia omassa tai toimeksiantajan toimintaympäristössä tai organisaatiossa",
+              "sv" : "tar fram idéer och gör snabba experiment och tester i sin egen eller en uppdragsgivares verksamhetsmiljö eller organisation",
+              "_id" : "1956167"
+            }, {
+              "fi" : "seuraa aktiivisesti uuden teknologian ja työn tekemisen muotojen kehittymistä ja tunnistaa niiden potentiaalin",
+              "sv" : "följer aktivt med hur den nya tekniken och de nya formerna för arbete utvecklas och identifierar deras potential",
+              "_id" : "1956168"
+            }, {
+              "fi" : "tunnistaa ympärillään mahdollisuuksia luoda uusia innovaatioita",
+              "sv" : "identifierar de möjligheter att skapa nya innovationer som finns i omgivningen",
+              "_id" : "1956169"
+            }, {
+              "fi" : "käyttää oman tuotekehitystyönsä kannalta tarpeellisia tietolähteitä",
+              "sv" : "använder informationskällor som behövs i det egna produktutvecklingsarbetet",
+              "_id" : "1956170"
+            }, {
+              "fi" : "arvioi tuotekehitystyön vaatimat selvitystarpeet ja ratkaisee, kuinka ne toteutetaan.",
+              "sv" : "bedömer vilka behov av utredningar som produktutvecklingsarbetet kräver och bestämmer hur de ska utföras.",
+              "_id" : "1956171"
+            }, {
+              "fi" : "suunnittelee tuotekehitystyölle budjetin ja tarvittavan rahoituksen.",
+              "sv" : "upprättar en budget för produktutvecklingsarbetet och planerar finansieringen.",
+              "_id" : "1956172"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "36a9b9f0-9032-4b89-b965-227fe6296173",
+          "fi" : "Opiskelija tuottaa lisäarvoa asiakkaalle.",
+          "sv" : "Den studerande skapar mervärde för kunden.",
+          "_id" : "3833210"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "acfa661b-e87c-4af6-8b70-110fcc467f85",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833211"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "tekee yksin tai yhdessä tiimin kanssa asiakasprofiloinnin",
+              "sv" : "gör ensam eller tillsammans med ett team en kundprofilering",
+              "_id" : "1956175"
+            }, {
+              "fi" : "ottaa ideoinnin lähtökohdaksi asiakkaan tai markkinoiden potentiaalin hyödyntäen asiakkaat innovaation lähteinä",
+              "sv" : "utgår från en kund eller från marknadspotential vid framtagning av idéer och använder kunderna som innovationskällor",
+              "_id" : "1956176"
+            }, {
+              "fi" : "kehittää uusia ratkaisuja yhdessä asiakkaiden ja tuotteen loppukäyttäjien kanssa asiakashyötyä tuottaen.",
+              "sv" : "tar fram nya lösningar tillsammans med kunderna och produktens slutanvändare för att skapa kundnytta.",
+              "_id" : "1956177"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "1513ebb3-853d-4bb6-936f-7d084f3b177c",
+          "fi" : "Opiskelija toimii markkinoilla.",
+          "sv" : "Den studerande är verksam inom marknaderna",
+          "_id" : "3833212"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "fac37694-e40b-4336-ac45-ad8c29c39864",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833213"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "käyttää globaalia markkinatietoa tuotekehitystyössään",
+              "sv" : "använder global marknadsinformationen i sitt produktutvecklingsarbete",
+              "_id" : "1956190"
+            }, {
+              "fi" : "käyttää monipuolisesti jakelukanavien mahdollisuuksia",
+              "sv" : "använder möjligheterna i distributionskanalerna på ett mångsidigt sätt",
+              "_id" : "1956191"
+            }, {
+              "fi" : "luo uusia verkostoja- ja viestintäkanavia ja toimii niissä.",
+              "sv" : "skapar nya nätverks- och kommunikationskanaler och är aktiv i dem.",
+              "_id" : "1956192"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "f6b6006c-5582-4f6d-b995-d402fca84c6b",
+          "fi" : "Opiskelija varautuu yllätyksiin.",
+          "sv" : "Den studerande förbereder sig för överraskningar.",
+          "_id" : "3833214"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "b7aa6938-cfff-4b9b-8450-af99aa6974b7",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "4230513"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "ennakoi tapahtumia ja niiden vaikutuksia organisaatioon",
+              "sv" : "förutser händelser och deras inverkan på organisationen",
+              "_id" : "1956195"
+            }, {
+              "fi" : "huomioi riskit ja käyttää menetelmiä riskien hallintaan vastuullisuuden, ekologisuuden, eettisyyden ja taloudellisuuden näkökulmasta",
+              "sv" : "tar hänsyn till riskerna och använder metoder för riskhantering ur  ansvars, miljö, etik och ekonomi synvinkel",
+              "_id" : "1956196"
+            }, {
+              "fi" : "tuntee tuotesuojauksen muodot oman työnsä kannalta ja tekee päätöksen, kuinka tulee toimimaan tuotesuojauksen osalta",
+              "sv" : "känner till de olika formerna av produktskydd som är aktuella i det egna arbetet och fattar beslut om hur produktskyddet ska ordnas",
+              "_id" : "1956197"
+            }, {
+              "fi" : "yhdistää tuotekehitystyön prosessin organisaation muihin toimintoihin huomioiden heti alussa mahdolliset ongelmat ja tarvittavat toimenpiteet",
+              "sv" : "kopplar samman produktutvecklingsprocessen med organisationens övriga aktiviteter och beaktar då genast eventuella problem och nödvändiga åtgärder",
+              "_id" : "1956198"
+            }, {
+              "fi" : "seuraa oman alansa säädösmuutoksia ja arvioi niiden vaikutuksia tuotekehitystyöhön",
+              "sv" : "håller sig uppdaterad om ändringar i den lagstiftningen som gäller den egna branschen och bedömer vilka konsekvenser de har för produktutvecklingsarbetet",
+              "_id" : "1956199"
+            }, {
+              "fi" : "varmistaa, että innovointi jatkuu muuttuvissa olosuhteissa.",
+              "sv" : "ser till att innovationsarbetet fortsätter när det sker förändringar i förhållandena.",
+              "_id" : "1956200"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "54479671-3321-4a34-8035-4e81de2cc1e3",
+          "fi" : "Opiskelija toimii verkostoissa.",
+          "sv" : "Den studerande är aktiv i nätverk.",
+          "_id" : "3833216"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "67c9f7ce-713b-4e51-8980-216415bfaf8c",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "4230514"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "käyttää perustellusti asiantuntijoita ja verkostoja parantamaan saavutuksia ja tarvittaessa jakamaan riskejä",
+              "sv" : "använder välmotiverat experter och nätverk för att förbättra prestationerna och vid behov för att fördela riskerna",
+              "_id" : "1956203"
+            }, {
+              "fi" : "osallistaa organisaation henkilöstöä tai sidosryhmiä tuotekehitystyöhön ja kehittäjäkulttuurin luomiseen",
+              "sv" : "involverar organisationens personal eller intressenter i produktutvecklingsarbetet och skapandet av en kultur som inspirerar till utvecklingsarbete",
+              "_id" : "1956204"
+            }, {
+              "fi" : "kehittää vuorovaikutus- ja verkostoitumismahdollisuuksia.",
+              "sv" : "förbättrar möjligheterna till interaktion och nätverkande.",
+              "_id" : "1956205"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "dd06f1df-92f0-4715-8163-a4cae877c69c",
+          "fi" : "Opiskelija toteuttaa organisaation strategiaa.",
+          "sv" : "Den studerande genomför en organisations strategi.",
+          "_id" : "3833218"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "c1f516f5-8ea3-46d3-aa44-45ed38322819",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833219"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "huolehtii siitä, että kehittämistyö on organisaation strategian mukaista",
+              "sv" : "ser till att utvecklingsarbetet är i linje med organisationens strategi",
+              "_id" : "1956208"
+            }, {
+              "fi" : "luo strategian mukaisen liiketoimintamallin, jossa kuvaa tavoiteltavan lopputuotteen ansaintalogiikan, asiakkuudet, jakelukanavat ja kumppanit.",
+              "sv" : "skapar en affärsmodell som baserar sig på strategin och som beskriver intäktsmodellen, kundrelationerna, distributionskanalerna och partnerna för den slutprodukt som eftersträvas.",
+              "_id" : "1956209"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "291237c2-6bd0-49e0-b306-10d9dd184a25",
+          "fi" : "Opiskelija läpivie tuotekehitystyön prosessin.",
+          "sv" : "Den studerande genomför en produktutvecklingsprocess.",
+          "_id" : "3833230"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "e693febc-ff65-4ef3-87ff-c91c06a822cd",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833231"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "käynnistää valitsemallaan tavalla tehokkaan, vaiheistetun prosessin, joka mahdollistaa tuotekehityksen nopean käyttöönoton",
+              "sv" : "startar en effektiv, stegvis process som gör det möjligt att snabbt ta i bruk produktutvecklingsresultat, och gör detta på ett sätt som hen själv valt",
+              "_id" : "1956212"
+            }, {
+              "fi" : "kokoaa toimijat, jotka osallistuvat prosessin läpivientiin",
+              "sv" : "samlar ihop ett lag av aktörer som deltar i genomförandet av processen",
+              "_id" : "1956213"
+            }, {
+              "fi" : "arvioi ja parantaa prosessia jatkuvasti ja samalla ylläpitää valmiutta toteuttaa peräkkäisiä tai limittäisiä tuotekehitystöitä",
+              "sv" : "utvärderar och förbättrar processen kontinuerligt och ser samtidigt till att det hela tiden finns beredskap att utföra flera produktutvecklingsarbeten efter varandra eller samtidigt",
+              "_id" : "1956214"
+            }, {
+              "fi" : "vastaa prosessin etenemisestä",
+              "sv" : "ansvarar för att processen framskrider",
+              "_id" : "1956215"
+            }, {
+              "fi" : "kuvaa lopputuloksen tuotekehitystyön tilaajalle",
+              "sv" : "beskriver slutresultatet för den som beställt produktutvecklingsarbetet",
+              "_id" : "1956216"
+            }, {
+              "fi" : "tarvittaessa keskeyttää perustellusti tuotekehitystyön ja arvioi jo syntyneen tuloksen hyödyntämisen",
+              "sv" : "avbryter vid behov ett produktutvecklingsarbete om det är motiverat, och bedömer hur det resultat som hittills uppnåtts kunde användas",
+              "_id" : "1956217"
+            }, {
+              "fi" : "seuraa tuotekehitystyön budjetin toteutumista",
+              "sv" : "följer budgetutfallet för produktutvecklingsarbetet",
+              "_id" : "1956218"
+            }, {
+              "fi" : "tekee yhteenvedon tuotekehitystyön prosessista ja sen tuloksista.",
+              "sv" : "gör ett sammandrag av produktutvecklingsprocessen och dess resultat.",
+              "_id" : "1956219"
+            } ]
+          } ]
+        } ]
+      } ]
+    },
+    "ammattitaitovaatimukset" : {
+      "_tunniste" : "9ec58d71-1641-40a8-b4e5-c8e2e14ee686",
+      "fi" : "<p><strong>Opiskelija osaa</strong></p>\n\n<ul>\n\t<li>toimia proaktiivisesti valmistellessaan tuotekehitystyötä</li>\n\t<li>tuottaa lisäarvoa asiakkaalle</li>\n\t<li>toimia markkinoilla</li>\n\t<li>varautua yllätyksiin</li>\n\t<li>toimia verkostoissa</li>\n\t<li>toteuttaa organisaation strategiaa</li>\n\t<li>läpiviedä tuotekehitystyön prosessin.</li>\n</ul>",
+      "sv" : "<p>Den studerande kan</p>\n\n<ul>\n\t<li>arbeta proaktivt vid planering av ett produktutvecklingsarbete</li>\n\t<li>skapa mervärde för kunden</li>\n\t<li>vara verksam inom marknaderna</li>\n\t<li>förbereda sig på överraskningar</li>\n\t<li>vara aktiv i nätverk</li>\n\t<li>genomföra strategin i en organisation</li>\n\t<li>genomföra en produktutvecklingsprocess.</li>\n</ul>",
+      "_id" : "3832787"
+    },
+    "ammattitaidonOsoittamistavat" : {
+      "_tunniste" : "4f4aa6a6-530c-4b1b-876e-79c91618f645",
+      "fi" : "<p>Opiskelija osoittaa ammattitaitonsa näytössä käytännön työtehtävissä, joissa hänellä on mahdollisuus tehdä omaan tai toimeksiantajan organisaatioon tuotteen, palvelun tai toimintamallien kehittämiseen liittyviä tuotekehitystöitä. Tuotekehitystöissään hän toteuttaa organisaation strategiaa, toimii verkostoissa, testaa ideoitaan käytännössä ja parantaa jatkuvasti niiden laatua. Ammattitaito arvioidaan työn suunnittelusta ja käytännön työtehtävistä. Siltä osin kuin tutkinnon osassa vaadittua ammattitaitoa ei voida arvioida näytön perusteella, ammattitaidon osoittamista täydennetään yksilöllisesti muilla tavoin.</p>",
+      "sv" : "<p>Den studerande visar sin yrkesskicklighet i ett yrkesprov genom att utföra praktiska arbetsuppgifter där hen har möjlighet att för den egna eller en uppdragsgivares organisation utföra produktutvecklingsarbete som går ut på att utveckla en produkt, en tjänst eller en verksamhetsmodell. I sitt produktutvecklingsarbete beaktar den studerande organisationens strategi, är aktiv i nätverk, testar sina idéer i praktiken och förbättrar kontinuerligt kvaliteten på dem. Yrkesskickligheten bedöms på basis av planeringen av arbetet och de praktiska arbetsuppgifterna.</p>\n\n<p>Till de delar som den yrkesskicklighet som krävs i examensdelen inte kan bedömas genom ett yrkesprov kompletteras visandet av yrkesskickligheten individuellt på andra sätt.</p>",
+      "_id" : "4270556"
+    },
+    "kuvaus" : null,
+    "opintoluokitus" : null,
+    "koodi" : {
+      "nimi" : {
+        "sv" : "Proaktiv utveckling  ",
+        "fi" : "Proaktiivinen kehittäminen "
+      },
+      "arvo" : "300186",
+      "uri" : "tutkinnonosat_300186",
+      "koodisto" : "tutkinnonosat",
+      "versio" : null
+    },
+    "koodiUri" : "tutkinnonosat_300186",
+    "koodiArvo" : "300186",
+    "osaAlueet" : [ ],
+    "tyyppi" : "normaali",
+    "valmaTelmaSisalto" : null
+  }, {
+    "id" : 3435797,
+    "luotu" : 1509101277639,
+    "muokattu" : 1513686489716,
+    "muokkaaja" : "1.2.246.562.24.79470804498",
+    "nimi" : {
+      "fi" : "Brändin rakentaminen",
+      "sv" : "Att bygga ett varumärke",
+      "_id" : "1956230"
+    },
+    "tila" : "valmis",
+    "valmis" : false,
+    "kaannettava" : false,
+    "osanTyyppi" : "tutkinnonosa",
+    "arviointi" : {
+      "id" : 3436105,
+      "lisatiedot" : null,
+      "arvioinninKohdealueet" : [ {
+        "otsikko" : {
+          "_tunniste" : "e8431d2b-c281-43f0-a34a-b4d957664d5d",
+          "fi" : "Opiskelija  rakentaa brändiä osana organisaation strategiaa.",
+          "sv" : "Den studerande bygger ett varumärke i anknytning till en organisations strategi.",
+          "_id" : "3833336"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "16b07cb2-091a-4020-8ff6-8504bd871753",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833337"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "määrittelee organisaation strategiaa tukevan visuaalisen ja viestinnällisen identiteetin",
+              "sv" : "definierar en visuell och kommunikativ identitet som stöder organisationens strategi",
+              "_id" : "1956235"
+            }, {
+              "fi" : "kuvaa brändiä seuraavien kokonaisuuksien kautta: viestintä, tuotteet ja palvelut, toimintaympäristö,toiminta",
+              "sv" : "beskriver varumärket via följande helheter: kommunikation, produkter och tjänster, verksamhetsmiljö, verksamhet",
+              "_id" : "1956236"
+            }, {
+              "fi" : "viestii henkilöstölle brändin merkityksestä ja hyödyistä.",
+              "sv" : "informerar personalen om varumärkets betydelse och nytta.",
+              "_id" : "1956237"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "74854308-e6ce-4262-87fd-2c92fed541bb",
+          "fi" : "Opiskelija työstää organisaation ja verkoston välisiä kohtauspintoja.",
+          "sv" : "Den studerande bearbetar kontaktytorna mellan en organisation och ett nätverk.",
+          "_id" : "3833338"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "48f2eb95-3715-4f78-9f58-45cc92503ec2",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833339"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "osallistaa organisaation eri tasot brändin rakentamiseen ja toimintaan viemiseen",
+              "sv" : "involverar de olika organisationsnivåerna i byggandet av varumärket och i arbetet med att omsätta det i praktiken",
+              "_id" : "1956260"
+            }, {
+              "fi" : "määrittelee, kuinka menestyksen kannalta keskeiset tahot, kuten kohderyhmä, sidosryhmät ja yhteistyökumppanit sekä suuri yleisö kohdataan hallitusti keskeisissä asioissa :\n•\tviestinnässä\n•\ttuotteissa ja palveluissa\n•\ttoimintaympäristössä\n•\ttoimintatavassa.",
+              "sv" : "bestämmer hur aktörer som är centrala för framgången, såsom målgruppen, intressenter, samarbetspartner och den breda allmänheten, ska bemötas på ett kontrollerat sätt i viktiga frågor: • kommunikation • produkter och tjänster • verksamhetsmiljön • verksamhetssätt.",
+              "_id" : "1956261"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "c6a929ce-d766-46ef-9907-a7fa77d17226",
+          "fi" : "Opiskelija  tekee brändimääritykset.",
+          "sv" : "Den studerande definierar ett varumärke.",
+          "_id" : "3833380"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "688012f3-32df-47dd-9fef-2d5838c99679",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833381"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "rakentaa tuotekehitystyön brändiytimen sekä muut mainekuvaa määrittävät asiat",
+              "sv" : "bygger varumärkeskärnan för produktutvecklingsarbetet samt annat som definierar imagen",
+              "_id" : "1956264"
+            }, {
+              "fi" : "tuottaa selkeän ja ymmärrettävän aineiston, jossa kerrotaan, millainen brändi on ja miten sitä käytetään \n•\tviestinnässä\n•\ttuotteissa ja palveluissa\n•\ttoimintaympäristössä\n•\ttoiminnassa",
+              "sv" : "tar fram ett tydligt och begripligt material som beskriver varumärket och hur det används i kommunikation • produkter och tjänster • verksamhetsmiljön • verksamheten",
+              "_id" : "1956265"
+            }, {
+              "fi" : "varmistaa viestinnän, tuotteiden ja palveluiden, toimintaympäristön ja toiminnan keskinäisen tasapainon siten, että kaikissa toteutuu sama brändiydin",
+              "sv" : "ser till den inbördes  balansen mellan kommunikation, produkter och tjänster, verksamhetsmiljön och verksamheten så att samma varumärkeskärna förverkligas i dem alla",
+              "_id" : "1956266"
+            }, {
+              "fi" : "tekee ehdotuksia, miten brändin vaikutuksia toimintaympäristössä tullaan seuraamaan.",
+              "sv" : "ger förslag på hur varumärkets effekter ska följas upp i verksamhetsmiljön.",
+              "_id" : "1956267"
+            } ]
+          } ]
+        } ]
+      } ]
+    },
+    "ammattitaitovaatimukset" : {
+      "_tunniste" : "a48fd1c4-700a-463c-8c84-ecca9cc806ca",
+      "fi" : "<p><strong>Opiskelija osaa</strong></p>\n\n<ul>\n\t<li>rakentaa brändiä osana organisaation strategiaa</li>\n\t<li>työstää organisaation ja verkoston välisiä kohtauspintoja</li>\n\t<li>tehdä brändimääritykset.</li>\n</ul>",
+      "sv" : "<p>Den studerande kan</p>\n\n<ul>\n\t<li>bygga ett varumärke i anknytning till en organisations strategi</li>\n\t<li>bearbeta kontaktytorna mellan en organisation och ett nätverk</li>\n\t<li>definiera ett varumärke.</li>\n</ul>",
+      "_id" : "3833335"
+    },
+    "ammattitaidonOsoittamistavat" : {
+      "_tunniste" : "08b99b01-2f41-40d4-9f02-47ffb4934895",
+      "fi" : "<p> </p>\n\n<p>Opiskelija osoittaa ammattitaitonsa näytössä käytännön työtehtävissä, joissa hänellä on mahdollisuus organisaation brändin rakentamiseen yhdessä asiantuntijaryhmän kanssa. Ammattitaito arvioidaan työn suunnittelusta ja käytännön työtehtävistä.Siltä osin kuin tutkinnon osassa vaadittua ammattitaitoa ei voida arvioida näytön perusteella, ammattitaidon osoittamista täydennetään yksilöllisesti muilla tavoin.</p>\n\n<p> </p>",
+      "sv" : "<p>Den studerande visar sin yrkesskicklighet i ett yrkesprov genom att utföra praktiska arbetsuppgifter där hen har möjlighet att bygga en organisations varumärke tillsammans med en expertgrupp. Yrkesskickligheten bedöms på basis av planeringen av arbetet och de praktiska arbetsuppgifterna.</p>\n\n<p>Till de delar som den yrkesskicklighet som krävs i examensdelen inte kan bedömas genom ett yrkesprov kompletteras visandet av yrkesskickligheten individuellt på andra sätt.</p>",
+      "_id" : "4270557"
+    },
+    "kuvaus" : null,
+    "opintoluokitus" : null,
+    "koodi" : {
+      "nimi" : {
+        "sv" : "Att bygga ett varumärke    ",
+        "fi" : "Brändin rakentaminen    "
+      },
+      "arvo" : "300187",
+      "uri" : "tutkinnonosat_300187",
+      "koodisto" : "tutkinnonosat",
+      "versio" : null
+    },
+    "koodiUri" : "tutkinnonosat_300187",
+    "koodiArvo" : "300187",
+    "osaAlueet" : [ ],
+    "tyyppi" : "normaali",
+    "valmaTelmaSisalto" : null
+  }, {
+    "id" : 3435799,
+    "luotu" : 1509101495308,
+    "muokattu" : 1513686507595,
+    "muokkaaja" : "1.2.246.562.24.79470804498",
+    "nimi" : {
+      "fi" : "Innovaattorina toimiminen",
+      "sv" : "Arbete som innovatör",
+      "_id" : "1956311"
+    },
+    "tila" : "valmis",
+    "valmis" : false,
+    "kaannettava" : false,
+    "osanTyyppi" : "tutkinnonosa",
+    "arviointi" : {
+      "id" : 3436107,
+      "lisatiedot" : null,
+      "arvioinninKohdealueet" : [ {
+        "otsikko" : {
+          "_tunniste" : "80afd2dc-f0b4-4fb0-aefd-7d7f67154385",
+          "fi" : "Opiskelija toimii kehittäjän mielellä.",
+          "sv" : "Den studerande arbetar med en attityd som utvecklare behöver ha.",
+          "_id" : "3833234"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "a20cb636-609a-45af-a5ee-7992cf53bf6b",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833235"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "hyödyntää toimintaympäristön muutosten tarjoamia mahdollisuuksia tuotekehitystyössä",
+              "sv" : "utnyttjar vid produktutveckling de möjligheter som förändringar i verksamhetsmiljön erbjuder",
+              "_id" : "1956316"
+            }, {
+              "fi" : "benchmarkkaa yli toimialarajojen toimivia innovaatioita organisaation käyttöön\n.",
+              "sv" : "jämför genom benchmarking innovationer som är användbara över branschgränser och som kunde användas i den egna organisationen",
+              "_id" : "1956317"
+            }, {
+              "fi" : "edistää toiminnallaan organisaation strategisia tavoitteita käyttäen olemassa olevia resursseja",
+              "sv" : "främjar genom sin verksamhet organisationens strategiska mål genom användning av befintliga resurser",
+              "_id" : "1956318"
+            }, {
+              "fi" : "ottaa haasteita vastaan ja lähtee nopeasti etsimään ratkaisuja tekemisen kautta vuorovaikutuksessa muiden kanssa",
+              "sv" : "tar emot utmaningar och söker genast lösningar genom arbete i interaktion med andra",
+              "_id" : "1956319"
+            }, {
+              "fi" : "ylittää rohkeasti rajoja ja esittää vaihtoehtoisia näkökulmia.",
+              "sv" : "överskrider modigt gränser och presenterar alternativa synsätt.",
+              "_id" : "1956330"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "c028217b-b4f5-4615-85bb-bed97b8bf22c",
+          "fi" : "Opiskelija vie innovaatiot käytäntöön.",
+          "sv" : "Den studerande omsätter innovationer i praktiken.",
+          "_id" : "3833236"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "39982232-ac39-4345-968f-7ae06c8c4696",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833237"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "tekee organisaatiossaan ketterin menetelmin tuotekehityskokeiluja ja vie ne nopeasti käytäntöön",
+              "sv" : "gör i sin organisation produktutvecklingsexperiment med smidiga metoder och omsätter snabbt resultatet i praktiken",
+              "_id" : "1956333"
+            }, {
+              "fi" : "yhdistää kokeiluja innovatiivisesti toisiinsa",
+              "sv" : "kombinerar innovativt experiment med varandra",
+              "_id" : "1956334"
+            }, {
+              "fi" : "arvioi jatkuvasti kokeilujen vaikuttavuutta",
+              "sv" : "bedömer kontinuerligt effekten av experimenten",
+              "_id" : "1956335"
+            }, {
+              "fi" : "tekee tulosten perusteella parannuksia tai ehdotuksia jatkoon",
+              "sv" : "gör på grundval av resultaten förbättringar eller ger förslag på hur man kan gå vidare",
+              "_id" : "1956336"
+            }, {
+              "fi" : "edistää kokeilukulttuurin laajenemista organisaatiossa",
+              "sv" : "bidrar till spridningen av en experimenterande kultur i organisationen",
+              "_id" : "1956337"
+            }, {
+              "fi" : "selvittää innovaatiotoiminnan rahoituslähteitä.",
+              "sv" : "söker finansieringskällor för innovationsverksamhet.",
+              "_id" : "1956338"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "92080668-4ce9-4e81-8218-d0d2abe36b2b",
+          "fi" : "Opiskelija tekee näkyväksi innovaatiotoiminnan tulokset.",
+          "sv" : "Den studerande synliggör resultaten av innovationsverksamhet.",
+          "_id" : "3833238"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "04be5523-5719-4182-b77c-e6e014dd0ab2",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833239"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "toimii erilaisissa verkostoissa tuoden omaa innovaatiotoimintaa esiin",
+              "sv" : "är aktiv i olika nätverk och informerar om den egna innovationsverksamhet i nätverken",
+              "_id" : "1956341"
+            }, {
+              "fi" : "jakaa syntyneitä tuloksia toimeksiantajan määrittelemällä tavalla",
+              "sv" : "informerar om uppnådda resultat enligt uppdragsgivarens instruktioner",
+              "_id" : "1956342"
+            }, {
+              "fi" : "löytää oman tiensä kehittäjänä ja kannustaa muita jatkuvan osaamisen kehittämisen tielle.",
+              "sv" : "hittar sin egen väg som utvecklare och uppmuntrar andra till att ständigt förbättra sitt kunnande.",
+              "_id" : "1956343"
+            } ]
+          } ]
+        } ]
+      } ]
+    },
+    "ammattitaitovaatimukset" : {
+      "_tunniste" : "63f00028-0485-4530-80ac-0ca809880cae",
+      "fi" : "<p><strong>Opiskelija osaa</strong></p>\n\n<ul>\n\t<li>toimia kehittäjän mielellä</li>\n\t<li>viedä innovaatiot käytäntöön</li>\n\t<li>tehdä näkyväksi innovaatiotoiminnan tulokset.</li>\n</ul>",
+      "sv" : "<p>Den studerande kan</p>\n\n<ul>\n\t<li>arbeta med en attityd som utvecklare behöver ha</li>\n\t<li>omsätta innovationer i praktiken</li>\n\t<li>synliggöra resultaten av innovationsverksamhet.</li>\n</ul>",
+      "_id" : "3833233"
+    },
+    "ammattitaidonOsoittamistavat" : {
+      "_tunniste" : "e4c783bd-7dbc-4253-950a-6ad9b9838178",
+      "fi" : "<p>Opiskelija osoittaa ammattitaitonsa näytössä käytännön työtehtävissä, joissa hän voi toteuttaa radikaalia innovaatiotoimintaa ja käyttää ketteriä menetelmiä tuotekehitystöitä tehdessään. Ammattitaito arvioidaan työn suunnittelusta ja käytännön työtehtävistä. Siltä osin kuin tutkinnon osassa vaadittua ammattitaitoa ei voida arvioida näytön perusteella, ammattitaidon osoittamista täydennetään yksilöllisesti muilla tavoin.</p>\n\n<p> </p>",
+      "sv" : "<p>Den studerande visar sin yrkesskicklighet i ett yrkesprov genom att utföra praktiska arbetsuppgifter där hen genomför radikal innovationsverksamhet och använder smidiga metoder vid produktutveckling. Yrkesskickligheten bedöms på basis av planeringen av arbetet och de praktiska arbetsuppgifterna.</p>\n\n<p>Till de delar som den yrkesskicklighet som krävs i examensdelen inte kan bedömas genom ett yrkesprov kompletteras visandet av yrkesskickligheten individuellt på andra sätt.</p>",
+      "_id" : "4270558"
+    },
+    "kuvaus" : null,
+    "opintoluokitus" : null,
+    "koodi" : {
+      "nimi" : {
+        "sv" : "Arbete som innovatör ",
+        "fi" : "Innovaattorina toimiminen    "
+      },
+      "arvo" : "300188",
+      "uri" : "tutkinnonosat_300188",
+      "koodisto" : "tutkinnonosat",
+      "versio" : null
+    },
+    "koodiUri" : "tutkinnonosat_300188",
+    "koodiArvo" : "300188",
+    "osaAlueet" : [ ],
+    "tyyppi" : "normaali",
+    "valmaTelmaSisalto" : null
+  }, {
+    "id" : 3437533,
+    "luotu" : 1509101680010,
+    "muokattu" : 1513686527253,
+    "muokkaaja" : "1.2.246.562.24.79470804498",
+    "nimi" : {
+      "fi" : "Palvelumuotoilu tuotekehitystyössä",
+      "sv" : "Tjänstedesign i produktutvecklingsarbete",
+      "_id" : "1956344"
+    },
+    "tila" : "valmis",
+    "valmis" : false,
+    "kaannettava" : false,
+    "osanTyyppi" : "tutkinnonosa",
+    "arviointi" : {
+      "id" : 3437991,
+      "lisatiedot" : null,
+      "arvioinninKohdealueet" : [ {
+        "otsikko" : {
+          "_tunniste" : "cd0b839f-5ef2-4662-a8b9-f0869c7e4d41",
+          "fi" : "Opiskelija  suunnittelee palvelumuotoilun prosessin.",
+          "sv" : "Den studerande utformar en process för tjänstedesign.",
+          "_id" : "3833422"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "0caaad58-6578-4507-a611-510f66045496",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833423"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "kerää ja käsittelee käyttäjä-, kilpailija- ja markkinatietoa",
+              "sv" : "samlar in och behandlar användar-, konkurrent- och marknadsinformation",
+              "_id" : "1956349"
+            }, {
+              "fi" : "tekee yksin tai yhdessä tiimin kanssa asiakasprofiloinnin ja sidosryhmäkartat",
+              "sv" : "gör ensam eller tillsammans med ett team en kundprofilering och en intressentkarta",
+              "_id" : "1956360"
+            }, {
+              "fi" : "tekee tulevaisuuslähtöisesti asiakaskokemusta parantavia ja palvelupolkuja uudistavia ehdotuksia",
+              "sv" : "tar fram förslag som förbättrar kundupplevelsen och kundresorna",
+              "_id" : "1956361"
+            }, {
+              "fi" : "kuvaa palvelupolun ymmärrettävällä tavalla visuaalisesti tai kirjallisesti, esim. blueprinttaus, sarjakuvat, käyttäjäkuvaukset.",
+              "sv" : "beskriver kundresan på ett begripligt sätt med bilder eller text, till exempel genom blueprint, serier, användarbeskrivningar.",
+              "_id" : "1956362"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "88e9dd82-4457-416c-89ea-9899970503a1",
+          "fi" : "Opiskelija  toteuttaa palvelun käyttäen palvelumuotoilun menetelmiä.",
+          "sv" : "Den studerande genomför en tjänst med metoder som används inom tjänstedesign.",
+          "_id" : "3833424"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "846fe6c2-a9ff-4c05-a5d1-3b73826c6a93",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833425"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "tuottaa ja testaa yhdessä palvelun tuottajien, käyttäjien ja muiden toimijoiden kanssa ideoita ja konsepteja käyttäjätiedon pohjalta palvelumuotoilun menetelmin",
+              "sv" : "tar fram och testar idéer och koncept tillsammans med tjänsteproducenter, användare och andra aktörer utifrån användarinformation och med metoder som används inom tjänstedesign",
+              "_id" : "1956365"
+            }, {
+              "fi" : "huomioi tarvittavat resurssit ja toimenpiteet lopullisessa konseptissa",
+              "sv" : "tar hänsyn till de resurser och åtgärder som behövs i det slutliga konceptet",
+              "_id" : "1956366"
+            }, {
+              "fi" : "viestii ideansa ymmärrettävästi prosessin eri vaiheissa",
+              "sv" : "framför sina idéer på ett begripligt sätt under de olika stegen i processen",
+              "_id" : "1956367"
+            }, {
+              "fi" : "korjaa palvelua saadun palautteen perusteella ja uusii pilotoinnin kunnes se on valmis",
+              "sv" : "gör ändringar i tjänsten på grundval av feedback och genomför pilottester tills tjänsten är klar",
+              "_id" : "1956368"
+            }, {
+              "fi" : "tekee organisaatiolle aineiston, jossa palvelupolku on ohjeistettu hyvin ja jossa on kerrottu, miten se näkyy asiakkaalle \n•\tviestinnässä\n•\tpalveluissa\n•\ttoimintaympäristössä \n•\ttoiminnassa",
+              "sv" : "tar för organisationen fram ett material som innehåller goda instruktioner om kundresan och som beskriver hur den ser ut för kunden i fråga om • kommunikation • tjänster • verksamhetsmiljön • verksamheten",
+              "_id" : "1956369"
+            }, {
+              "fi" : "tekee seuraavan vaiheen ehdotuksia ymmärtäen prosessin jatkuvan tulevaisuudessakin.",
+              "sv" : "ger förslag för nästa steg och visar att han eller hon förstår att det är fråga om en ständigt pågående process.",
+              "_id" : "1956390"
+            } ]
+          } ]
+        } ]
+      } ]
+    },
+    "ammattitaitovaatimukset" : {
+      "_tunniste" : "00a64f74-2d52-40a6-96d1-7db7cea60582",
+      "fi" : "<p><strong>Opiskelija osaa</strong></p>\n\n<ul>\n\t<li>suunnitella palvelumuotoilun prosessin</li>\n\t<li>toteuttaa palvelun käyttäen palvelumuotoilun menetelmiä.</li>\n</ul>",
+      "sv" : "<p>Den studerande kan</p>\n\n<ul>\n\t<li>utforma en process för tjänstedesign</li>\n\t<li>genomföra en tjänst med metoder som används inom tjänstedesign.</li>\n</ul>",
+      "_id" : "3833421"
+    },
+    "ammattitaidonOsoittamistavat" : {
+      "_tunniste" : "52ef9089-4407-453d-a910-e0a7dd68da47",
+      "fi" : "<p>Opiskelija osoittaa ammattitaitonsa näytössä käytännön työtehtävissä, joissa hänellä on mahdollisuus kehittää organisaation toimintaa, asiakaslähtöisiä palveluja tai henkilöstöä palvelumuotoilun keinoin organisaation laatukriteerit huomioiden. Ammattitaito arvioidaan työn suunnittelusta ja käytännön työtehtävistä. Siltä osin kuin tutkinnon osassa vaadittua ammattitaitoa ei voida arvioida näytön perusteella, ammattitaidon osoittamista täydennetään yksilöllisesti muilla tavoin.</p>",
+      "sv" : "<p>Den studerande visar sin yrkesskicklighet i ett yrkesprov genom att utföra praktiska arbetsuppgifter där hen har möjlighet att utveckla en organisations verksamhet, kundorienterade tjänster eller en organisations personal med metoder som används inom tjänstedesign och enligt organisationens kvalitetskriterier. Yrkesskickligheten bedöms på basis av planeringen av arbetet och de praktiska arbetsuppgifterna.</p>\n\n<p>Till de delar som den yrkesskicklighet som krävs i examensdelen inte kan bedömas genom ett yrkesprov kompletteras visandet av yrkesskickligheten individuellt på andra sätt.</p>",
+      "_id" : "4270559"
+    },
+    "kuvaus" : null,
+    "opintoluokitus" : null,
+    "koodi" : {
+      "nimi" : {
+        "fi" : "Palvelumuotoilu tuotekehitystyössä   ",
+        "sv" : "Tjänstedesign i produktutvecklingsarbete"
+      },
+      "arvo" : "300189",
+      "uri" : "tutkinnonosat_300189",
+      "koodisto" : "tutkinnonosat",
+      "versio" : null
+    },
+    "koodiUri" : "tutkinnonosat_300189",
+    "koodiArvo" : "300189",
+    "osaAlueet" : [ ],
+    "tyyppi" : "normaali",
+    "valmaTelmaSisalto" : null
+  }, {
+    "id" : 3437536,
+    "luotu" : 1509101903863,
+    "muokattu" : 1513686560183,
+    "muokkaaja" : "1.2.246.562.24.79470804498",
+    "nimi" : {
+      "fi" : "Tuotteistaminen tuotekehitysprosessissa",
+      "sv" : "Produktifiering i en produktutvecklingsprocess",
+      "_id" : "1956268"
+    },
+    "tila" : "valmis",
+    "valmis" : false,
+    "kaannettava" : false,
+    "osanTyyppi" : "tutkinnonosa",
+    "arviointi" : {
+      "id" : 3437994,
+      "lisatiedot" : null,
+      "arvioinninKohdealueet" : [ {
+        "otsikko" : {
+          "_tunniste" : "18454c7e-3827-497e-9969-ae829e3cde0b",
+          "fi" : "Opiskelija  tuotteistaa tuotteita tai palveluja.",
+          "sv" : "Den studerande produktifierar produkter eller tjänster.",
+          "_id" : "3833384"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "54e04a49-06b2-4219-8941-c16302436fea",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833385"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "kokeilee ja testaa yhdessä tuotekehitykseen liittyvien osapuolien kanssa uutta tuotetta tai palvelua huomioiden asiakashyödyn",
+              "sv" : "provar och testar tillsammans med aktörer som är involverade i produktutvecklingen den nya produkten eller tjänsten genom att beakta kundnyttan",
+              "_id" : "1956283"
+            }, {
+              "fi" : "arvioi tuotteen tai palvelun toimivuutta ja kiinnostavuutta markkinoilla",
+              "sv" : "bedömer produktens eller tjänstens funktionalitet och attraktionskraft på marknaden",
+              "_id" : "1956284"
+            }, {
+              "fi" : "käyttää tarvittavia teknisiä alustoja ja sovelluksia",
+              "sv" : "använder de tekniska plattformar och tillämpningar som behövs",
+              "_id" : "1956285"
+            }, {
+              "fi" : "paketoi tuotteen tai palvelun helposti ostettavaksi ja myytäväksi tai levitettäväksi",
+              "sv" : "förpackar produkten eller tjänsten så att den blir lätt att köpa och säljas eller spridas",
+              "_id" : "1956286"
+            }, {
+              "fi" : "ymmärtää modulaarisen tuotekehityksen tuomat edut ja osaa luoda tuote- tai palvelukokonaisuuksia moduuleista",
+              "sv" : "förstår fördelarna med modulär produktutveckling och kan skapa produkt- eller tjänstehelheter utifrån modulerna",
+              "_id" : "1956287"
+            }, {
+              "fi" : "osallistuu aktiivisesti tuotteen tuotantoon viemiseen tai palvelun toimintaan viemiseen.",
+              "sv" : "deltar aktivt i den arbetsfas där produktionen av produkten planeras eller där tjänsten planeras.",
+              "_id" : "1956288"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "62a2e5bd-e18c-425d-b6f4-8bd9456040e1",
+          "fi" : "Opiskelija  arvioi tuotteen tai palvelun taloudelliset vaikutukset.",
+          "sv" : "Den studerande bedömer vilka ekonomiska effekter en produkt eller tjänst kommer att ha.",
+          "_id" : "3833386"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "22e6b343-bf40-4c4c-abe4-265a3f240839",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833387"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "suunnittelee tuotteen tai palvelun käyttöönoton kustannukset ja rahoituksen",
+              "sv" : "beräknar kostnaderna för lansering av produkten eller tjänsten och planerar finansieringen",
+              "_id" : "1956291"
+            }, {
+              "fi" : "seuraa kustannuksia",
+              "sv" : "följer kostnaderna",
+              "_id" : "1956292"
+            }, {
+              "fi" : "hinnoittelee kannattavasti jakeluun menevän tuotteen tai palvelun tai laskee sen talousvaikutuksen.",
+              "sv" : "prissätter en produkt eller tjänst som ska distribueras så att den blir lönsam eller beräknar dess ekonomiska effekter.",
+              "_id" : "1956293"
+            } ]
+          } ]
+        } ]
+      }, {
+        "otsikko" : {
+          "_tunniste" : "a0608b46-322d-4a5f-a687-0ee041e3981f",
+          "fi" : "Opiskelija  kaupallistaa tai levittää tuotteen tai palvelun.",
+          "sv" : "Den studerande kommersialiserar eller sprider en produkt eller tjänst.",
+          "_id" : "3833388"
+        },
+        "arvioinninKohteet" : [ {
+          "otsikko" : null,
+          "selite" : {
+            "_tunniste" : "c4dde3c5-ccd8-4c84-8c58-07d53160712c",
+            "fi" : "Opiskelija",
+            "sv" : "Den studerande",
+            "_id" : "3833389"
+          },
+          "_arviointiAsteikko" : "1",
+          "osaamistasonKriteerit" : [ {
+            "_osaamistaso" : "1",
+            "kriteerit" : [ {
+              "fi" : "profiloi tuotteen tai palvelun yksilöllisesti tunnistettavaksi",
+              "sv" : "profilerar produkten eller tjänsten så att den blir lätt att känna igen",
+              "_id" : "1956296"
+            }, {
+              "fi" : "selvittää markkinat ja valitsee sopivat jakelukanavat",
+              "sv" : "undersöker marknaden och väljer lämpliga distributionskanaler",
+              "_id" : "1956297"
+            }, {
+              "fi" : "tuottaa uutta tai päivittää jo olemassa olevaa esittelymateriaalia",
+              "sv" : "tar fram nytt presentationsmaterial eller uppdaterar befintligt material",
+              "_id" : "1956298"
+            }, {
+              "fi" : "käyttää moderneja digitaalisia ratkaisuja markkinoinnissa tai tiedon levittämisessä.",
+              "sv" : "använder moderna digitala lösningar vid marknadsföring eller informationsspridning",
+              "_id" : "1956299"
+            }, {
+              "fi" : "luo tuotteelle tai palvelulle sopivat myyntiargumentit.",
+              "sv" : "skapar lämpliga försäljningsargument för produkten eller tjänsten.",
+              "_id" : "1956310"
+            } ]
+          } ]
+        } ]
+      } ]
+    },
+    "ammattitaitovaatimukset" : {
+      "_tunniste" : "afe3bc9d-e1fe-41b1-9ae4-ac8517253018",
+      "fi" : "<p><strong>Opiskelija osaa</strong></p>\n\n<ul>\n\t<li>tuotteistaa tuotteita tai palveluja</li>\n\t<li>arvioida tuotteen tai palvelun taloudelliset vaikutukset</li>\n\t<li>kaupallistaa tai levittää tuotteen tai palvelun.</li>\n</ul>",
+      "sv" : "<p>Den studerande kan</p>\n\n<ul>\n\t<li>produktifiera produkter eller tjänster</li>\n\t<li>bedöma vilka ekonomiska effekter en produkt eller tjänst kommer att ha</li>\n\t<li>kommersialisera eller sprida en produkt eller tjänst.</li>\n</ul>",
+      "_id" : "3833383"
+    },
+    "ammattitaidonOsoittamistavat" : {
+      "_tunniste" : "1f92b8a8-a473-47f5-bf24-db19b5b62a0a",
+      "fi" : "<p>Opiskelija osoittaa ammattitaitonsa näytössä käytännön työtehtävissä, joissa hänellä on mahdollisuus osallistua tuotteen tai palvelun suunnitteluun, toteutukseen ja ansaintamallin luomiseen. Ammattitaito arvioidaan työn suunnittelusta ja käytännön työtehtävistä. Siltä osin kuin tutkinnon osassa vaadittua ammattitaitoa ei voida arvioida näytön perusteella, ammattitaidon osoittamista täydennetään yksilöllisesti muilla tavoin.</p>\n\n<p> </p>",
+      "sv" : "<p>Den studerande visar sin yrkesskicklighet i ett yrkesprov genom att utföra praktiska arbetsuppgifter där hen har möjlighet att delta i planering och genomförande av en produkt eller tjänst och i skapande av en intäktsmodell. Yrkesskickligheten bedöms på basis av planeringen av arbetet och de praktiska arbetsuppgifterna.</p>\n\n<p>Till de delar som den yrkesskicklighet som krävs i examensdelen inte kan bedömas genom ett yrkesprov kompletteras visandet av yrkesskickligheten individuellt på andra sätt.</p>",
+      "_id" : "4270830"
+    },
+    "kuvaus" : null,
+    "opintoluokitus" : null,
+    "koodi" : {
+      "nimi" : {
+        "sv" : "Produktifiering i en produktutvecklingsprocess  ",
+        "fi" : "Tuotteistaminen tuotekehitysprosessissa  "
+      },
+      "arvo" : "300190",
+      "uri" : "tutkinnonosat_300190",
+      "koodisto" : "tutkinnonosat",
+      "versio" : null
+    },
+    "koodiUri" : "tutkinnonosat_300190",
+    "koodiArvo" : "300190",
+    "osaAlueet" : [ ],
+    "tyyppi" : "normaali",
+    "valmaTelmaSisalto" : null
+  } ]
+}

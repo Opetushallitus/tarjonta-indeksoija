@@ -44,6 +44,8 @@
   (tools/delete-index "haku")
   (tools/delete-index "koulutus")
   (tools/delete-index "indexdata")
+  (tools/delete-index "koulutusmoduuli")
+  (tools/delete-index "eperuste")
   (tools/delete-index "organisaatio")
   (tools/delete-index "indexing_perf")
   (tools/delete-index "query_perf")
