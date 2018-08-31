@@ -41,3 +41,17 @@
                     {:oid "4" :type "eperuste"}, {:oid "5" :type "eperuste"},
                     {:oid "6" :type "eperuste"}, {:oid "7" :type "eperuste"},
                     {:oid "8" :type "eperuste"}, {:oid "9" :type "eperuste"}]))
+
+(fact "No muokattu param"
+  (defn no-muokattu-params [url opts]
+    (:muokattu (:query-params opts)) => nil
+    (mock-get-none url opts))
+  (with-redefs [client/get no-muokattu-params]
+    (find-docs)))
+
+(fact "Muokattu param present"
+  (defn muokattu-param-present [url opts]
+    (:muokattu (:query-params opts)) => 1213145
+    (mock-get-none url opts))
+  (with-redefs [client/get muokattu-param-present]
+    (find-docs 1213145)))
