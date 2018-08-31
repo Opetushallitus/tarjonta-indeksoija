@@ -3,7 +3,8 @@
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.rest.util :as client]
             [clojure.string :as str]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [konfo-indeksoija-service.util.time :refer :all]))
 
 (defn get-doc
   ([obj include-image]
@@ -41,3 +42,13 @@
    (let [url (str (:organisaatio-service-url env) "v2/hierarkia/hae/tyyppi")
          params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}]
      (:body (client/get url {:query-params params, :as :json})))))
+
+(defn find-last-changes [last-modified]
+  (with-error-logging
+    (let [date-string (format-long last-modified)
+          url (str (:organisaatio-service-url env) "v2/muutetut/oid")
+          params {:lastModifiedSince date-string}]
+      (->> (client/get url {:query-params params, :as :json})
+          (:body)
+          (:oids)
+          (map (fn [x] {:oid x :type "organisaatio"}))))))
