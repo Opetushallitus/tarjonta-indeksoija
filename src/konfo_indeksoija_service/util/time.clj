@@ -18,3 +18,7 @@
 (defn convert-to-long [datetime] (coerce/to-long datetime))
 
 (defn parse-with-time [string] (format/parse formatter-with-time string))
+
+(defn format-with-time [datetime] (format/unparse formatter-with-time datetime))
+
+(defn format-long-with-time [long] (format-with-time (convert-to-datetime long)))

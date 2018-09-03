@@ -52,6 +52,8 @@
   [obj pics]
   true)
 
+(defn find-last-changes [last-modified] [])
+
 (defn queue-mock
   [index oid]
   (upsert-to-queue [{:type index :oid oid}]))
@@ -78,6 +80,9 @@
 
                  konfo-indeksoija-service.rest.organisaatio/get-doc
                  mocks.externals-mock/get-doc
+
+                 konfo-indeksoija-service.rest.organisaatio/find-last-changes
+                 mocks.externals-mock/find-last-changes
 
                  konfo-indeksoija-service.rest.eperuste/get-doc
                  mocks.externals-mock/get-doc

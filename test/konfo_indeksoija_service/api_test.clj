@@ -2,7 +2,7 @@
   (:require [konfo-indeksoija-service.api :refer :all]
             [konfo-indeksoija-service.elastic.tools :refer [delete-index]]
             [konfo-indeksoija-service.elastic.queue :refer [get-queue upsert-to-queue]]
-            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
             [konfo-indeksoija-service.indexer.job :as j]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :refer [with-externals-mock]]

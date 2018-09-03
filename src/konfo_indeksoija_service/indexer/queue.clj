@@ -18,7 +18,7 @@
   (reset-queue)
   (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
         organisaatio-docs (organisaatio-client/find-docs nil)
-        eperusteet-docs (eperusteet-client/find-docs)
+        eperusteet-docs (eperusteet-client/find-all)
         docs (clojure.set/union tarjonta-docs organisaatio-docs eperusteet-docs)]
     (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (upsert-to-queue docs)))

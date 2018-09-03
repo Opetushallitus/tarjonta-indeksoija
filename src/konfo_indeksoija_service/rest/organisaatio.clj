@@ -43,12 +43,15 @@
          params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}]
      (:body (client/get url {:query-params params, :as :json})))))
 
+;TODO: Muutetut voi hakea vain päivän tarkkuudella, joten samoja indeksoidaan uudelleen monta kertaa
 (defn find-last-changes [last-modified]
   (with-error-logging
     (let [date-string (format-long last-modified)
           url (str (:organisaatio-service-url env) "v2/muutetut/oid")
           params {:lastModifiedSince date-string}]
-      (->> (client/get url {:query-params params, :as :json})
-          (:body)
-          (:oids)
-          (map (fn [x] {:oid x :type "organisaatio"}))))))
+      (let [res (->> (client/get url {:query-params params, :as :json})
+                     (:body)
+                     (:oids)
+                     (map (fn [x] {:oid x :type "organisaatio"})))]
+        (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu")
+        res))))

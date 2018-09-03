@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.eperuste-client-test
   (:require [midje.sweet :refer :all]
-            [konfo-indeksoija-service.rest.eperuste :refer [find-docs]]
+            [konfo-indeksoija-service.rest.eperuste :refer [find-all find-changes]]
             [konfo-indeksoija-service.rest.util :as client]))
 
 (defn mock-get-one [url opts]
@@ -28,15 +28,15 @@
 
 (fact "Get one page"
   (with-redefs [client/get mock-get-one]
-    (find-docs) => [{:oid "0" :type "eperuste"}]))
+    (find-all) => [{:oid "0" :type "eperuste"}]))
 
 (fact "Get zero pages"
   (with-redefs [client/get mock-get-none]
-    (find-docs) => []))
+    (find-all) => []))
 
 (fact "Get many pages"
   (with-redefs [client/get mock-get-many]
-    (find-docs) => [{:oid "0" :type "eperuste"}, {:oid "1" :type "eperuste"},
+    (find-all) => [{:oid "0" :type "eperuste"}, {:oid "1" :type "eperuste"},
                     {:oid "2" :type "eperuste"}, {:oid "3" :type "eperuste"},
                     {:oid "4" :type "eperuste"}, {:oid "5" :type "eperuste"},
                     {:oid "6" :type "eperuste"}, {:oid "7" :type "eperuste"},
@@ -47,11 +47,11 @@
     (:muokattu (:query-params opts)) => nil
     (mock-get-none url opts))
   (with-redefs [client/get no-muokattu-params]
-    (find-docs)))
+    (find-all)))
 
 (fact "Muokattu param present"
   (defn muokattu-param-present [url opts]
     (:muokattu (:query-params opts)) => 1213145
     (mock-get-none url opts))
   (with-redefs [client/get muokattu-param-present]
-    (find-docs 1213145)))
+    (find-changes 1213145)))

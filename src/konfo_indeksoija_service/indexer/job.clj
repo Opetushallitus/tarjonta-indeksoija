@@ -31,13 +31,10 @@
           last-modified (get-last-index-time)
           tarjonta-changes (tarjonta/get-last-modified last-modified)
           organisaatio-changes (organisaatio/find-last-changes last-modified)
-          eperuste-changes (eperuste/find-docs last-modified)
+          eperuste-changes (eperuste/find-changes last-modified)
           changes-since (clojure.set/union tarjonta-changes organisaatio-changes eperuste-changes)]
       (when-not (nil? changes-since)
         (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
-        (log/info (str "Organisaatio changes: " (first organisaatio-changes)))
-        (log/info organisaatio-changes)
-        (log/info "Number of ePeruste changes: " (count eperuste-changes) " and organisaatio changes: " (count organisaatio-changes))
         (let [related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
               last-modified-with-related-koulutus (clojure.set/union changes-since related-koulutus)]
           (if-not (empty? related-koulutus)
