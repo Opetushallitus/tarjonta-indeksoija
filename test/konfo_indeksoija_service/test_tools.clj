@@ -1,7 +1,8 @@
 (ns konfo-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
-            [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.indexer :as indexer]))
+            [konfo-indeksoija-service.elastic.tools :as tools]
+            [konfo-indeksoija-service.elastic.queue :as queue]
+            [konfo-indeksoija-service.indexer.job :as j]))
 
 (defn parse
   [body]
@@ -18,32 +19,34 @@
 (defn block-until-indexed
   [timeout]
   (let [start (System/currentTimeMillis)]
-    (elastic-client/refresh-index "indexdata")
+    (queue/refresh-queue)
     (while (and (> timeout (- (System/currentTimeMillis) start))
-                (not (empty? (elastic-client/get-queue))))
+                (not (empty? (queue/get-queue))))
       (Thread/sleep 1000))))
 
 (defn block-until-latest-in-queue
   [timeout]
   (let [start (System/currentTimeMillis)]
-    (elastic-client/refresh-index "indexdata")
+    (queue/refresh-queue)
     (while (and (> timeout (- (System/currentTimeMillis) start))
-             (empty? (elastic-client/get-queue)))
+             (empty? (queue/get-queue)))
       (Thread/sleep 1000))))
 
 (defn refresh-and-wait
   [indexname timeout]
-  (elastic-client/refresh-index indexname)
+  (tools/refresh-index indexname)
   (Thread/sleep timeout))
 
 (defn reset-test-data
   []
-  (indexer/reset-jobs)
-  (elastic-client/delete-index "hakukohde")
-  (elastic-client/delete-index "haku")
-  (elastic-client/delete-index "koulutus")
-  (elastic-client/delete-index "indexdata")
-  (elastic-client/delete-index "organisaatio")
-  (elastic-client/delete-index "indexing_perf")
-  (elastic-client/delete-index "query_perf")
-  (elastic-client/delete-index "lastindex"))
+  (j/reset-jobs)
+  (tools/delete-index "hakukohde")
+  (tools/delete-index "haku")
+  (tools/delete-index "koulutus")
+  (tools/delete-index "indexdata")
+  (tools/delete-index "koulutusmoduuli")
+  (tools/delete-index "eperuste")
+  (tools/delete-index "organisaatio")
+  (tools/delete-index "indexing_perf")
+  (tools/delete-index "query_perf")
+  (tools/delete-index "lastindex"))

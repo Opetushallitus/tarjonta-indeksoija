@@ -3,6 +3,7 @@
  :tarjonta-service-url "https://testi.virkailija.opintopolku.fi/tarjonta-service/rest/v1/"
  :organisaatio-service-url "https://testi.virkailija.opintopolku.fi/organisaatio-service/rest/organisaatio/"
  :koodisto-service-url "https://testi.virkailija.opintopolku.fi/koodisto-service/rest/json/"
+ :eperusteet-service-url "https://testi.virkailija.opintopolku.fi/eperusteet-service/api/perusteet/"
  :elastic-timeout 100000
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"

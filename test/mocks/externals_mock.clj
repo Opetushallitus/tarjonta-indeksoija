@@ -1,20 +1,26 @@
 (ns mocks.externals-mock
   (:require [konfo-indeksoija-service.test-tools :as tools]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio]
-            [konfo-indeksoija-service.elastic-client :as elastic-client]
+            [konfo-indeksoija-service.elastic.queue :refer [upsert-to-queue]]
             [konfo-indeksoija-service.api]
-            [konfo-indeksoija-service.indexer]
+            [konfo-indeksoija-service.indexer.index]
             [base64-clj.core :as b64]))
 
 (defn get-doc
   ([obj]
+   (println obj)
+   (println (= "eperuste") (:type obj))
    (cond
      (.contains (:type obj) "hakukohde") (tools/parse-body (str "test/resources/hakukohteet/" (:oid obj) ".json"))
      (.contains (:type obj) "koulutus") (tools/parse-body (str "test/resources/koulutukset/" (:oid obj) ".json"))
+     (.contains (:type obj) "komo") (tools/parse-body (str "test/resources/koulutusmoduulit/" (:oid obj) ".json"))
      (.contains (:type obj) "haku") (tools/parse-body (str "test/resources/haut/" (:oid obj) ".json"))
+     (.contains (:type obj) "eperuste") (tools/parse (str "test/resources/eperusteet/" (:oid obj) ".json"))
      (.contains (:type obj) "organisaatio") (tools/parse (str "test/resources/organisaatiot/" (:oid obj) ".json"))))
-  ([obj include-image] (get-doc obj)))
+  ([obj include-image]
+   (get-doc obj)
+     (if include-image
+        {:metadata {:kuvaEncoded (b64/encode "jee")}}
+        (get-doc obj))))
 
 (defn get-pic
   [obj]
@@ -46,40 +52,47 @@
   [obj pics]
   true)
 
-(defn reindex-mock
+(defn find-last-changes [last-modified] [])
+
+(defn queue-mock
   [index oid]
-  (elastic-client/upsert-indexdata
-   [{:type index :oid oid}]))
+  (upsert-to-queue [{:type index :oid oid}]))
 
 (defmacro with-externals-mock
   [& body]
-  `(with-redefs [konfo-indeksoija-service.api/reindex
-                 mocks.externals-mock/reindex-mock
+  `(with-redefs [konfo-indeksoija-service.indexer.queue/queue
+                 mocks.externals-mock/queue-mock
 
-                 konfo-indeksoija-service.tarjonta-client/get-last-modified
+                 konfo-indeksoija-service.rest.tarjonta/get-last-modified
                  mocks.externals-mock/get-last-modified
 
-                 konfo-indeksoija-service.tarjonta-client/get-related-koulutus
+                 konfo-indeksoija-service.rest.tarjonta/get-related-koulutus
                  mocks.externals-mock/get-related-koulutus
 
-                 konfo-indeksoija-service.indexer/get-doc
+                 konfo-indeksoija-service.indexer.docs/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.tarjonta-client/get-doc
+                 konfo-indeksoija-service.rest.tarjonta/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.tarjonta-client/get-pic
+                 konfo-indeksoija-service.rest.tarjonta/get-pic
                  mocks.externals-mock/get-pic
 
-                 konfo-indeksoija-service.organisaatio-client/get-doc
+                 konfo-indeksoija-service.rest.organisaatio/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.tarjonta-client/get-hakukohteet-for-koulutus
+                 konfo-indeksoija-service.rest.organisaatio/find-last-changes
+                 mocks.externals-mock/find-last-changes
+
+                 konfo-indeksoija-service.rest.eperuste/get-doc
+                 mocks.externals-mock/get-doc
+
+                 konfo-indeksoija-service.rest.tarjonta/get-hakukohteet-for-koulutus
                  mocks.externals-mock/get-hakukohteet-for-koulutus
 
-                 konfo-indeksoija-service.tarjonta-client/get-haut-by-oids
+                 konfo-indeksoija-service.rest.tarjonta/get-haut-by-oids
                  mocks.externals-mock/get-haut-by-oids
 
-                 konfo-indeksoija-service.s3-client/refresh-s3
+                 konfo-indeksoija-service.s3.s3-client/refresh-s3
                  mocks.externals-mock/refresh-s3]
      (do ~@body)))

@@ -1,8 +1,9 @@
 (ns konfo-indeksoija-service.api-test
   (:require [konfo-indeksoija-service.api :refer :all]
-            [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body]]
-            [konfo-indeksoija-service.indexer :as indexer]
+            [konfo-indeksoija-service.elastic.tools :refer [delete-index]]
+            [konfo-indeksoija-service.elastic.queue :refer [get-queue upsert-to-queue]]
+            [konfo-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
+            [konfo-indeksoija-service.indexer.job :as j]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]
@@ -13,14 +14,14 @@
     (against-background
       [(before :contents (init-elastic-test))
        (after :contents (stop-elastic-test))]
-        (fact "reindex hakukohde"
-          (indexer/start-indexer-job "*/5 * * ? * *")
-          (let [response (app (mock/request :get "/konfo-indeksoija/api/reindex/hakukohde?oid=1.2.246.562.20.28810946823"))
+        (fact "queue hakukohde"
+          (j/start-indexer-job "*/5 * * ? * *")
+          (let [response (app (mock/request :get "/konfo-indeksoija/api/queue/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
             (:status response) => 200)
           (tools/block-until-indexed 15000)
-          (elastic-client/get-queue) => []
-          (indexer/reset-jobs))
+          (get-queue) => []
+          (j/reset-jobs))
 
       (fact "fetch hakukohde"
         ;; uses result from previous test.
@@ -31,16 +32,16 @@
 
       (comment fact "fetch koulutus tulos" :skip
         ;; This test uses tarjonta QA and organisaatio
-        (elastic-client/delete-index "hakukohde")
-        (elastic-client/upsert-indexdata [{:type "koulutus" :oid "1.2.246.562.17.53874141319"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.67506762722"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.715691882710"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.82790530479"}
-                                          {:type "hakukohde" :oid "1.2.246.562.20.17663370199"}
-                                          {:type "haku" :oid "1.2.246.562.29.86197271827"}
-                                          {:type "haku" :oid "1.2.246.562.29.59856749474"}
-                                          {:type "haku" :oid "1.2.246.562.29.53522498558"}
-                                          {:type "organisaatio" :oid "1.2.246.562.10.39920288212"}])
+        (delete-index "hakukohde")
+        (upsert-to-queue [{:type "koulutus" :oid "1.2.246.562.17.53874141319"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.67506762722"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.715691882710"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.82790530479"}
+                          {:type "hakukohde" :oid "1.2.246.562.20.17663370199"}
+                          {:type "haku" :oid "1.2.246.562.29.86197271827"}
+                          {:type "haku" :oid "1.2.246.562.29.59856749474"}
+                          {:type "haku" :oid "1.2.246.562.29.53522498558"}
+                          {:type "organisaatio" :oid "1.2.246.562.10.39920288212"}])
         (tools/block-until-indexed 10000)
 
         (tools/refresh-and-wait "hakukohde" 0)

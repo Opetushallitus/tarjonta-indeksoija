@@ -1,31 +1,20 @@
-(ns konfo-indeksoija-service.converter.koulutus-search-data-appender
-  (:require [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
-            [konfo-indeksoija-service.converter.tyyppi-converter :refer [koulutustyyppi-uri-to-tyyppi]]
-            [clojure.tools.logging :as log]
-            [clj-time.format :as format]
-            [clj-time.coerce :as coerce]
-            [clj-time.core :as time]))
+(ns konfo-indeksoija-service.search-data.koulutus
+  (:require [konfo-indeksoija-service.rest.tarjonta :as tarjonta-client]
+            [konfo-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [konfo-indeksoija-service.converter.tyyppi :refer [koulutustyyppi-uri-to-tyyppi]]
+            [konfo-indeksoija-service.util.time :refer :all]))
 
 (defn- fix-nimi-keys [json]
   (assoc (dissoc json :nimi) :nimi (clojure.set/rename-keys (:nimi json) {:fi :kieli_fi :en :kieli_en :sv :kieli_sv})))
 
-(defonce formatter (format/formatter "yyyy-MM-dd"))
-(defn- convert-to-datetime [l] (coerce/from-long l))
-(defn- add-six-months [dt] (time/plus dt (time/months 6)))
-(defn- format [dt] (format/unparse formatter dt))
 (defn- loppuPvm-to-opintopolkuPvm [loppuPvm]
-  (format (add-six-months (convert-to-datetime loppuPvm))))
-
-(defonce formatter-with-time (format/with-zone (format/formatter "yyyy-MM-dd HH:mm") (time/default-time-zone)))
-(defn- convert-to-long [dt] (coerce/to-long dt))
-(defn- parse [s] (format/parse formatter-with-time s))
+  (format (add-months (convert-to-datetime loppuPvm) 6)))
 
 (defn parse-hakuaika-ryhma [hakuaika-ryhma]
   (if (not (nil? hakuaika-ryhma))
     (let [hakuajat (re-seq #"\d{4}\-\d{2}\-\d{2}\s\d{2}\:\d{2}" hakuaika-ryhma)
-          alkupvm (if-let [s (nth hakuajat 0 nil)] (convert-to-long (parse s)))
-          loppupvm (if-let [s (nth hakuajat 1 nil)] (convert-to-long (parse s)))]
+          alkupvm (if-let [s (nth hakuajat 0 nil)] (convert-to-long (parse-with-time s)))
+          loppupvm (if-let [s (nth hakuajat 1 nil)] (convert-to-long (parse-with-time s)))]
       (-> {}
           (cond-> alkupvm (assoc :alkuPvm alkupvm))
           (cond-> loppupvm (assoc :loppuPvm loppupvm))))))
@@ -66,9 +55,7 @@
       (if-let [koulutuskoodi (:koulutuskoodi koulutus)]
         (:nimi koulutuskoodi)
         (if-let [hakukohde (first hakukohteet)]                   ;TODO -> miltä hakukohteelta haetaan?
-          (:nimi hakukohde))
-      ))
-    ))
+          (:nimi hakukohde))))))
 
 (defn- find-koulutus-tyyppi [koulutus]
   (let [tyyppi (koulutustyyppi-uri-to-tyyppi (get-in koulutus [:koulutustyyppi :uri]))]
@@ -90,8 +77,6 @@
         nimi (find-koulutus-nimi koulutus hakukohteet tyyppi)
         opintopolunNayttaminenLoppuu (count-opintopolun-nayttaminen-loppuu haut hakukohteet-raw)
         oppiaineet (map (fn [x] { (keyword (:kieliKoodi x)) (:oppiaine x) }) (:oppiaineet koulutus))]
-    ;(if (empty? hakukohteet) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakukohteita!")))
-    ;(if (empty? haut) (log/warn (str "Koulutukselle " (:oid koulutus) " ei löytynyt hakuja!")))
     (let [searchData (-> {}
                          (cond-> nimi (assoc :nimi nimi))
                          (cond-> tyyppi (assoc :tyyppi tyyppi))

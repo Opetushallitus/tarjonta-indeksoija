@@ -1,9 +1,10 @@
-(ns konfo-indeksoija-service.organisaatio-client
-  (:require [konfo-indeksoija-service.conf :refer [env]]
+(ns konfo-indeksoija-service.rest.organisaatio
+  (:require [konfo-indeksoija-service.util.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
-            [konfo-indeksoija-service.rest-wrapper :as client]
+            [konfo-indeksoija-service.rest.util :as client]
             [clojure.string :as str]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [konfo-indeksoija-service.util.time :refer :all]))
 
 (defn get-doc
   ([obj include-image]
@@ -41,3 +42,16 @@
    (let [url (str (:organisaatio-service-url env) "v2/hierarkia/hae/tyyppi")
          params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}]
      (:body (client/get url {:query-params params, :as :json})))))
+
+;TODO: Muutetut voi hakea vain päivän tarkkuudella, joten samoja indeksoidaan uudelleen monta kertaa
+(defn find-last-changes [last-modified]
+  (with-error-logging
+    (let [date-string (format-long last-modified)
+          url (str (:organisaatio-service-url env) "v2/muutetut/oid")
+          params {:lastModifiedSince date-string}]
+      (let [res (->> (client/get url {:query-params params, :as :json})
+                     (:body)
+                     (:oids)
+                     (map (fn [x] {:oid x :type "organisaatio"})))]
+        (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu")
+        res))))

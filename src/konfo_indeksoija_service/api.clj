@@ -1,11 +1,14 @@
 (ns konfo-indeksoija-service.api
-  (:require [konfo-indeksoija-service.elastic-client :as elastic-client]
-            [konfo-indeksoija-service.conf :refer [env]]
+  (:require [konfo-indeksoija-service.elastic.perf :as perf]
+            [konfo-indeksoija-service.elastic.admin :as admin]
+            [konfo-indeksoija-service.elastic.docs :as docs]
+            [konfo-indeksoija-service.elastic.tools :refer [init-elastic-client]]
+            [konfo-indeksoija-service.util.conf :refer [env]]
             [konfo-indeksoija-service.util.logging :as logging]
-            [konfo-indeksoija-service.indexer :as indexer]
-            [konfo-indeksoija-service.s3-client :as s3-client]
-            [konfo-indeksoija-service.tarjonta-client :as tarjonta-client]
-            [konfo-indeksoija-service.organisaatio-client :as organisaatio-client]
+            [konfo-indeksoija-service.indexer.index :as i]
+            [konfo-indeksoija-service.indexer.job :as j]
+            [konfo-indeksoija-service.indexer.queue :as queue]
+            [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -24,47 +27,17 @@
   (if (not= (:s3-dev-disabled env) "true")
     (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
-  (elastic-client/init-elastic-client)
-  (if (and (elastic-client/check-elastic-status)
-           (elastic-client/initialize-indices))
-    (indexer/start-indexer-job)
+  (init-elastic-client)
+  (if (and (admin/check-elastic-status)
+           (admin/initialize-indices))
+    (j/start-indexer-job)
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))
 
 (defn stop []
-  (indexer/reset-jobs)
+  (j/reset-jobs)
   (mount/stop))
-
-(defn find-docs
-  [index oid]
-  (cond
-    (= "organisaatio" index) (organisaatio-client/find-docs oid)
-    :else [{:type index :oid oid}]))
-
-(defn reindex-all
-  []
-  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta ja organisaatiopalvelusta.")
-  (elastic-client/delete-index "indexdata")
-  (elastic-client/initialize-indices)
-  (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
-        organisaatio-docs (organisaatio-client/find-docs nil)
-        docs (clojure.set/union tarjonta-docs organisaatio-docs)]
-    (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
-    (elastic-client/upsert-indexdata docs)))
-
-(defn reindex
-  [index oid]
-  (let [docs (find-docs index oid)
-        related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
-        docs-with-related-koulutus (clojure.set/union docs related-koulutus)]
-    (elastic-client/upsert-indexdata docs-with-related-koulutus)))
-
-(defn- empty-queue []
-  (let [delete-res (elastic-client/delete-index "indexdata")
-        init-res (elastic-client/initialize-indices)]
-    { :delete-queue delete-res
-      :init-indices init-res }))
 
 (def service-api
   (api
@@ -85,87 +58,102 @@
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-koulutus oid)}))
+         (ok {:result (docs/get-koulutus oid)}))
 
        (GET "/hakukohde" []
          :summary "Hakee yhden hakukohteen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-hakukohde oid)}))
+         (ok {:result (docs/get-hakukohde oid)}))
 
        (GET "/haku" []
          :summary "Hakee yhden haun oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-haku oid)}))
+         (ok {:result (docs/get-haku oid)}))
 
-       (GET "/orgaisaatio" []
+       (GET "/organisaatio" []
          :summary "Hakee yhden organisaation oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (elastic-client/get-organisaatio oid)}))
+         (ok {:result (docs/get-organisaatio oid)}))
+
+       (GET "/eperuste" []
+         :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
+         :query-params [oid :- String]
+         (ok {:result (docs/get-eperuste oid)}))
 
        (GET "/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
-         (ok {:result (elastic-client/get-elastic-status)}))
+         (ok {:result (admin/get-elastic-status)}))
 
        (GET "/performance_info" []
          :summary "Hakee tietoja performanssista"
          :query-params [{since :- Long 0}]
-         (ok {:result (elastic-client/get-elastic-performance-info since)}))
-
-       (GET "/empty_queue" []
-         :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
-         (ok {:result (empty-queue)}))
+         (ok {:result (perf/get-elastic-performance-info since)}))
 
        (GET "/s3/koulutus" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (indexer/store-koulutus-pics {:oid oid :type "koulutus"})}))
+         (ok {:result (i/store-picture {:oid oid :type "koulutus"})}))
 
        (GET "/s3/organisaatio" []
          :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (indexer/store-organisaatio-pic {:oid oid :type "organisaatio"})})))
+         (ok {:result (i/store-picture {:oid oid :type "organisaatio"})}))
+
+       (GET "/query" []
+         :summary "Tekee haun haluttuun indeksiin"
+         :query-params [index :- String
+                        query :- String]
+         (ok (admin/search index query))))
 
      (context "/indexer" []
        :tags ["indexer"]
        (GET "/start" []
          :summary "Käynnistää indeksoinnin taustaoperaation."
-         (ok {:result (indexer/start-stop-indexer true)}))
+         (ok {:result (j/start-stop-indexer true)}))
 
        (GET "/stop" []
          :summary "Sammuttaa indeksoinnin taustaoperaation."
-         (ok {:result (indexer/start-stop-indexer false)})))
+         (ok {:result (j/start-stop-indexer false)})))
 
-     (context "/reindex" []
-       :tags ["reindex"]
+     (context "/queue" []
+       :tags ["queue"]
        (GET "/all" []
          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
-         (ok {:result (reindex-all)}))
+         (ok {:result (queue/queue-all)}))
 
        (GET "/koulutus" []
          :summary "Lisää koulutuksen indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "koulutus" oid)}))
+         (ok {:result (queue/queue "koulutus" oid)}))
 
        (GET "/hakukohde" []
          :summary "Lisää hakukohteen indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "hakukohde" oid)}))
+         (ok {:result (queue/queue "hakukohde" oid)}))
 
        (GET "/haku" []
          :summary "Lisää haun indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "haku" oid)}))
+         (ok {:result (queue/queue "haku" oid)}))
+
+       (GET "/eperuste" []
+         :summary "Lisää ePerusteen indeksoitavien listalle. (oid==id)"
+         :query-params [oid :- String]
+         (ok {:result (queue/queue "eperuste" oid)}))
 
        (GET "/organisaatio" []
          :summary "Lisää organisaation indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "organisaatio" oid)}))
+         (ok {:result (queue/queue "organisaatio" oid)}))
 
        (GET "/koulutusmoduuli" []
          :summary "Lisää koulutusmoduulin indeksoitavien listalle."
          :query-params [oid :- String]
-         (ok {:result (reindex "koulutusmoduuli" oid)}))))
+         (ok {:result (queue/queue "koulutusmoduuli" oid)}))
 
+       (GET "/empty" []
+         :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
+         (ok {:result (queue/empty-queue)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
