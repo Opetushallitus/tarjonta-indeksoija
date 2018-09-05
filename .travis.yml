@@ -17,11 +17,10 @@ install:
   - source ci-tools/common/setup-tools.sh
 
 script:
-  - travis_wait 60 lein uberjar
-  - ls -la target
-  #- mv target/uberjar/konfo-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
-  #- cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
+  - lein uberjar
+  - mv target/uberjar/konfo-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
+  - cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
 
   - export BASE_IMAGE="base-legacy:0.1"
   - ./ci-tools/common/pull-image.sh
-  #- ./ci-tools/build/build-fatjar.sh konfo-indeksoija
+  - ./ci-tools/build/build-fatjar.sh konfo-indeksoija
