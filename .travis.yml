@@ -17,7 +17,7 @@ install:
   - source ci-tools/common/setup-tools.sh
 
 script:
-  - lein uberjar
+  - travis_wait 60 lein uberjar
   - ls -la target
   #- mv target/uberjar/konfo-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
   #- cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
