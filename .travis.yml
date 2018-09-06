@@ -18,7 +18,7 @@ install:
 
 script:
   - lein uberjar
-  - mv target/uberjar/konfo-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
+  - mv target/uberjar/konfo-indeksoija.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
   - cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
 
   - export BASE_IMAGE="base-legacy:0.1"
