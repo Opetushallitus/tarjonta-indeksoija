@@ -24,3 +24,7 @@ script:
   - export BASE_IMAGE="base-legacy:0.1"
   - ./ci-tools/common/pull-image.sh
   - ./ci-tools/build/build-fatjar.sh konfo-indeksoija
+
+deploy:
+  provider: script
+  script: ./ci-tools/build/upload-image.sh konfo-indeksoija
