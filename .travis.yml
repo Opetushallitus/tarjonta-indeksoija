@@ -18,6 +18,7 @@ install:
 
 script:
   - lein uberjar
+
   - mv target/konfo-indeksoija.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
   - cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
 
@@ -28,3 +29,5 @@ script:
 deploy:
   provider: script
   script: ./ci-tools/build/upload-image.sh konfo-indeksoija
+  on:
+    all_branches: true
