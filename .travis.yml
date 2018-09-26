@@ -15,20 +15,21 @@ env:
 install:
   - git clone https://github.com/Opetushallitus/ci-tools.git
   - source ci-tools/common/setup-tools.sh
+  - export ARTIFACT_NAME="konfo-indeksoija"
 
 script:
   - lein test
   - lein uberjar
 
-  - mv target/konfo-indeksoija.jar $DOCKER_BUILD_DIR/artifact/konfo-indeksoija.jar
+  - mv target/konfo-indeksoija.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
   - cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
 
   - export BASE_IMAGE="base-legacy:0.1"
   - ./ci-tools/common/pull-image.sh
-  - ./ci-tools/build/build-fatjar.sh konfo-indeksoija
+  - ./ci-tools/build/build-fatjar.sh ${ARTIFACT_NAME}
 
 deploy:
   provider: script
-  script: ./ci-tools/build/upload-image.sh konfo-indeksoija
+  script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
   on:
     all_branches: true
