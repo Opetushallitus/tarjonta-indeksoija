@@ -18,7 +18,7 @@ install:
   - export ARTIFACT_NAME="konfo-indeksoija"
 
 script:
-  - lein test
+  - lein ci-test
   - lein uberjar
 
   - mv target/konfo-indeksoija.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
