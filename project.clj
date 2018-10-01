@@ -53,7 +53,7 @@
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
              :test {:env {:test "true"}}
-             :ci-test {:env {:test "true"} :dependencies [[ring/ring-mock "0.3.2"]] :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=dev_resources/config.edn"]}
+             :ci-test {:env {:test "true"} :dependencies [[ring/ring-mock "0.3.2"]] :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
              :uberjar {:ring {:port 8080}}}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]

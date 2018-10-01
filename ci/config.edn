@@ -1,0 +1,15 @@
+{:elastic-url "http://foo.bar:9200"
+ :cron-string "*/15 * * ? * *"
+ :tarjonta-service-url "https://virkailija.hahtuvaopintopolku.fi/tarjonta-service/rest/v1/"
+ :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"
+ :koodisto-service-url "https://testi.virkailija.opintopolku.fi/koodisto-service/rest/json/"
+ :elastic-timeout 100000
+ :s3-dev-disabled "true"
+ :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
+ :s3-region "eu-west-1"
+ :tarjonta-db {:dbtype "postgresql"
+               :dbname "tarjonta"
+               :host localhost
+               :port 23434
+               :user oph
+               :password ophophoph}}

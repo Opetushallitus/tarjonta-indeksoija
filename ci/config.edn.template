@@ -1,0 +1,16 @@
+{:elastic-url "{{konfo_indeksoija_elastic_url}}"
+ :cron-string "{{konfo_indeksoija_cron_string}}"
+ :tarjonta-service-url "{{konfo_indeksoija_tarjonta_service_url}}"
+ :organisaatio-service-url "{{konfo_indeksoija_organisaatio_service_url}}"
+ :koodisto-service-url "{{konfo_indeksoija_koodisto_service_url}}"
+ :eperusteet-service-url "{{konfo_indeksoija_eperusteet_service_url}}"
+ :elastic-timeout 100000
+ :s3-dev-disabled "false"
+ :s3-bucket "{{konfo_indeksoija_s3_bucket}}"
+ :s3-region "{{konfo_indeksoija_s3_region}}"
+ :tarjonta-db {:dbtype "postgresql"
+               :dbname "tarjonta"
+               :port "{{konfo_indeksoija_tarjonta_db_port}}"
+               :host "{{konfo_indeksoija_tarjonta_db_url}}"
+               :user "{{konfo_indeksoija_tarjonta_db_user}}"
+               :password "{{konfo_indeksoija_tarjonta_db_password}}"}}
