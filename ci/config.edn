@@ -1,4 +1,5 @@
-{:elastic-url "http://foo.bar:9200"
+{:ci "true"
+ :elastic-url "http://foo.bar:9200"
  :cron-string "*/15 * * ? * *"
  :tarjonta-service-url "https://virkailija.hahtuvaopintopolku.fi/tarjonta-service/rest/v1/"
  :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"

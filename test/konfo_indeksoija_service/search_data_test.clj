@@ -6,6 +6,7 @@
             [konfo-indeksoija-service.rest.koodisto :as koodisto-client]
             [clj-test-utils.elasticsearch-mock-utils :refer [init-elastic-test stop-elastic-test]]
             [konfo-indeksoija-service.test-tools :refer [reset-test-data]]
+            [konfo-indeksoija-service.util.conf :refer [env]]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]))
 
@@ -63,7 +64,7 @@
                 :organisaatio {:oid "organisaatioOid"}
                 :oppiaineet oppiaineet
                 :searchData {:haut [{:oid "hakuOid"}]
-                             :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid" :hakuaika {:alkuPvm 1440320400000, :loppuPvm 1450778400000}}]
+                             :hakukohteet [{:oid "hakukohdeOid" :nimi {:kieli_fi "Hakukohteen nimi"} :hakuOid "hakuOid" :hakuaika {:alkuPvm (if (= (:ci env) "true") 1440331200000 1440320400000), :loppuPvm (if (= (:ci env) "true") 1450785600000 1450778400000)}}]
                              :organisaatio {:oid "organisaatioOid" :nimi {:kieli_fi "Organisaation nimi"}}
                              :nimi { :kieli_fi "Hakukohteen nimi"}
                              :tyyppi "muu"
@@ -104,5 +105,11 @@
   (fact "parse hakuaikaRyhmä"
     (let [ryhma1 "(2017-08-01 08:00 - 2017-08-15 23:59)"
           ryhma2 "Syksy 2016 (2016-08-23 12:00 - 2016-12-22 12:00)"]
-      (appender/parse-hakuaika-ryhma ryhma1) => {:alkuPvm 1501563600000 :loppuPvm 1502830740000}
-      (appender/parse-hakuaika-ryhma ryhma2) => {:alkuPvm 1471942800000 :loppuPvm 1482400800000})))
+      (appender/parse-hakuaika-ryhma ryhma1) => (if
+                                                 (= (:ci env) "true")
+                                                  {:alkuPvm 1501574400000 :loppuPvm 1502841540000}
+                                                  {:alkuPvm 1501563600000 :loppuPvm 1502830740000})
+      (appender/parse-hakuaika-ryhma ryhma2) => (if
+                                                 (= (:ci env) "true")
+                                                  {:alkuPvm 1471953600000 :loppuPvm 1482411600000}
+                                                  {:alkuPvm 1471942800000 :loppuPvm 1482400800000}))))
