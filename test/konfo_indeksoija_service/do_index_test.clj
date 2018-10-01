@@ -84,7 +84,6 @@
         (i/do-index)
         (let [indexed-eperuste (d/get-eperuste oid)
               picture-list (s3/list-keys)]
-          (println indexed-eperuste)
           (count picture-list) => 0
           (get indexed-eperuste :koulutustyyppi) => "koulutustyyppi_12")))))
 
