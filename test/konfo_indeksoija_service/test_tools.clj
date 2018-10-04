@@ -49,4 +49,5 @@
   (tools/delete-index "organisaatio")
   (tools/delete-index "indexing_perf")
   (tools/delete-index "query_perf")
-  (tools/delete-index "lastindex"))
+  (tools/delete-index "lastindex")
+  (Thread/sleep 1000))
