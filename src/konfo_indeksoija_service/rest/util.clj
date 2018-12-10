@@ -18,3 +18,7 @@
   (let [options (add-callerinfo opts)]
     ;(log/info "Making put call to " url " with options: " options)
     (client/put url options)))
+
+(defn post [url opts]
+  (let [options (add-callerinfo opts)]
+    (client/post url options)))

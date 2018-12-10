@@ -109,6 +109,16 @@
                        :fields {:keyword {:type "keyword"
                                           :ignore_above 256}}}}})
 
+(def koulutus-settings
+  {:properties {:oid {:type "text"
+                      :fields {:keyword {:type "keyword"
+                                         :ignore_above 256}}}
+                :timestamp {:type "long"}
+                :searchData.toteutukset {:type "nested"}
+                :type {:type "text"
+                       :fields {:keyword {:type "keyword"
+                                          :ignore_above 256}}}}})
+
 (def boost-values
   ["*fi"
    "*sv"

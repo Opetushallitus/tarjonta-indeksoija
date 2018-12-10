@@ -22,3 +22,7 @@
   (reduce-kv #(assoc %1 %2 (:tekstis %3))
              {}
              value))
+
+(defn extract-paikkakunta
+  [value]
+  (reduce #(assoc %1 (keyword (:kieli %2)) (:nimi %2)) {} value))

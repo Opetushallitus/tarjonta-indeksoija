@@ -121,6 +121,11 @@
          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
          (ok {:result (queue/queue-all)}))
 
+       (GET "/kouta-since" []
+         :query-params [{since :- Long 0}]
+         :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
+         (ok {:result (queue/queue-kouta since)}))
+
        (GET "/koulutus" []
          :summary "Lisää koulutuksen indeksoitavien listalle."
          :query-params [oid :- String]

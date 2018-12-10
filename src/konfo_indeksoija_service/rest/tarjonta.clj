@@ -74,7 +74,7 @@
          (db/query (:tarjonta-db env))
          (map #(assoc % :type "koulutus")))))
 
-;todo indeksoi myös koulutusmoduuleihin liittyvät koulutukset (koulutusmoduuliToteutukset) komon muuttuessa
+;todo indeksoi myös koulutuksiin (koulutusmoduuleihin) liittyvät toteutukset (koulutusmoduuliToteutukset) komon muuttuessa
 (defn get-related-koulutus [obj]
   (log/debug "Fetching related koulutus for" obj)
   (cond
