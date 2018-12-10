@@ -4,6 +4,9 @@
             [konfo-indeksoija-service.elastic.perf :as perf]
             [konfo-indeksoija-service.elastic.queue :as queue]
             [konfo-indeksoija-service.elastic.docs :as docs]
+            [konfo-indeksoija-service.elastic.tools :as tools]
+            [konfo-indeksoija-service.rest.kouta :as kouta]
+            [konfo-indeksoija-service.search-data.koulutus-kouta :as kouta-sd]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [clojure.tools.logging :as log]))
@@ -72,3 +75,8 @@
                         failed-oids
                         (apply max (map :timestamp queue))
                         start))))))
+
+(defn index-kouta-koulutus [oid]
+  (let [koulutus-doc (kouta/get-koulutus oid)
+        koulutus (kouta-sd/append-search-data koulutus-doc)]
+    (docs/upsert-docs "koulutus-kouta" [koulutus])))

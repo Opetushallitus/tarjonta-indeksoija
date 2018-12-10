@@ -2,7 +2,7 @@
   (:require [konfo-indeksoija-service.util.conf :refer [env]]
             [clj-log.error-log :refer [with-error-logging]]
             [konfo-indeksoija-service.rest.util :as client]
-            [clojure.string :as str]
+            [clojure.string :as string]
             [clojure.tools.logging :as log]
             [konfo-indeksoija-service.util.time :refer :all]))
 
@@ -19,7 +19,7 @@
   (->> result
        :body
        :organisaatiot
-       (map #(conj (str/split (:parentOidPath %) #"/") (:oid %)))
+       (map #(conj (string/split (:parentOidPath %) #"/") (:oid %)))
        flatten
        distinct
        (map #(assoc {} :type "organisaatio" :oid %))))
@@ -56,3 +56,11 @@
                      (filter (fn [x] (not (clojure.string/blank? (:oid x))))))]
         (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu")
         res))))
+
+(defn find-by-oids
+  [oids]
+  (if (empty? oids) []
+    (with-error-logging
+     (let [url (str (:organisaatio-service-url env) "v4/findbyoids")
+           body (str "[\"" (string/join "\", \"" oids) "\"]")]
+       (:body (client/post url {:body body :content-type :json :as :json}))))))

@@ -22,3 +22,8 @@
 (defn format-with-time [datetime] (format/unparse formatter-with-time datetime))
 
 (defn format-long-with-time [long] (format-with-time (convert-to-datetime long)))
+
+(defonce formatter-rfc1123 (format/formatter "EEE, dd MMM yyyy HH:mm:ss"))
+
+;purkkaratkaisu, cjl-time formatoi time zonen väärin (UTC eikä GMT)
+(defn format-long-to-rfc1123 [long] (str (format/unparse formatter-rfc1123 (convert-to-datetime long)) " GMT"))
