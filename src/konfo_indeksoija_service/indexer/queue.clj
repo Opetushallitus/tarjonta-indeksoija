@@ -26,13 +26,12 @@
     (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (upsert-to-queue docs)))
 
+;Indeksoidaan ilman jonoa, vain omalla endpointillaan /queue/kouta-since?since=<timestamp>
 (defn queue-kouta
   [since]
   (log/info (str "Indeksoidaan data Kouta-backendistä " since))
   (let [date (format-long-to-rfc1123 since)
         oids (kouta-client/get-last-modified date)]
-    ;(log/info "Saving" (count oids) "items to index-queue" (flatten (for [[k v] (group-by :type oids)] [(count v) k]) ))
-    ;(upsert-to-queue oids))
     (map index-kouta-koulutus (:koulutukset oids))))
 
 
