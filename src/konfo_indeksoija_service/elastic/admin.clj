@@ -31,7 +31,7 @@
 
 (defn initialize-index-settings []
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata"
-                     "toteutus" "koulutus-kouta"
+                     "toteutus" "koulutus-kouta" "osaamisalakuvaus"
                      "lastindex" "indexing_perf" "query_perf" "palaute" "koulutusmoduuli", "eperuste"]
         new-indexes (filter #(not (e/index-exists %)) (map t/index-name index-names))
         results (map #(e/create-index % settings/index-settings) new-indexes)
@@ -49,7 +49,7 @@
          :acknowledged))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "haku" "koulutus" "eperuste" "toteutus" "koulutusmoduuli"]]
+  (let [index-names ["hakukohde" "haku" "koulutus" "eperuste" "toteutus" "koulutusmoduuli" "osaamisalakuvaus"]]
     (update-index-mappings "koulutus-kouta" "koulutus-kouta" settings/koulutus-settings)
     (update-index-mappings "organisaatio" "organisaatio" settings/stemmer-settings-organisaatio)
     (every? true? (doall (map #(update-index-mappings % % settings/stemmer-settings) index-names)))))

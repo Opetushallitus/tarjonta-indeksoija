@@ -17,9 +17,14 @@
     (let [doc (get-doc entry)]
       (if (nil? doc)
         (log/error "Couldn't fetch" (:type entry) "oid:" (:oid entry))
-        (-> doc
-            (assoc :tyyppi (:type entry))
-            (convert-doc))))))
+        (if (= (:type entry) "osaamisalakuvaus")
+          (-> doc
+              (assoc :eperuste-oid (:oid entry))
+              (assoc :tyyppi (:type entry))
+              (convert-doc))
+          (-> doc
+              (assoc :tyyppi (:type entry))
+              (convert-doc)))))))
 
 (defn end-indexing
   [successful-oids failed-oids last-timestamp start]
@@ -63,11 +68,16 @@
         (let [converted-docs (remove nil? (doall (pmap get-index-doc queue)))
               queue-oids (map :oid queue)
               failed-oids (clojure.set/difference (set queue-oids)
-                                                  (set (map :oid converted-docs)))
+                                                  (set (map #(if (= (:tyyppi %1) "osaamisalakuvaus")
+                                                               (:eperuste-oid %1)
+                                                               (:oid %1))
+                                                            converted-docs)))
               successful-oids (clojure.set/difference (set queue-oids)
                                                       (set failed-oids))]
           (log/info "Got converted docs! Going to index objects...")
-          (index-objects converted-docs)
+          (if (some #(= (:tyyppi %1) "osaamisalakuvaus") converted-docs)
+            (index-objects (flatten (map #(if (= (:tyyppi %1) "osaamisalakuvaus") (:docs %1) %1) converted-docs)))
+            (index-objects converted-docs))
           (log/info "Objects indexed! Going to store pictures...")
           (store-pictures queue)
           (log/info "Pictures stored! Going to end indexing items.")

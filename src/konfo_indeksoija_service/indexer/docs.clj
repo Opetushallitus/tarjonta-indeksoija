@@ -4,6 +4,7 @@
             [konfo-indeksoija-service.rest.eperuste :as e]
             [konfo-indeksoija-service.converter.koulutus :as kc]
             [konfo-indeksoija-service.converter.eperuste :as ec]
+            [konfo-indeksoija-service.converter.osaamisalakuvaus :as oc]
             [konfo-indeksoija-service.search-data.koulutus :as ka]
             [konfo-indeksoija-service.search-data.oppilaitos :as oa]
             [konfo-indeksoija-service.search-data.koulutusmoduuli :as kma]
@@ -28,6 +29,9 @@
 (defmethod get-doc "eperuste" [entry]
   (e/get-doc entry))
 
+(defmethod get-doc "osaamisalakuvaus" [entry]
+  (e/get-osaamisalakuvaukset (:oid entry)))
+
 (defmethod convert-doc :default [doc]
   doc)
 
@@ -36,6 +40,9 @@
 
 (defmethod convert-doc "eperuste" [doc]
   (ec/convert doc))
+
+(defmethod convert-doc "osaamisalakuvaus" [doc]
+  (oc/convert doc))
 
 (defmethod convert-doc "organisaatio" [doc]
   (oa/append-search-data doc))
