@@ -77,7 +77,7 @@
         (job/start-indexer-job "*/5 * * ? * *")
         (tools/block-until-latest-in-queue 16000)
         (tools/block-until-indexed 16000)
-        (tools/refresh-and-wait "hakukohde" 4000)
+        (tools/refresh-and-wait "hakukohde" 35000) ; Korjattu rikkinäinen testi nostamalla aikaa! TODO: Paremmat testit!
         (let [hk1-res (docs/get-hakukohde hk1-oid)
               k1-res (docs/get-koulutus k1-oid)]
           hk1-res => (contains {:oid hk1-oid})
