@@ -52,6 +52,7 @@
       (let [res (->> (client/get url {:query-params params, :as :json})
                      (:body)
                      (:oids)
-                     (map (fn [x] {:oid x :type "organisaatio"})))]
+                     (map (fn [x] {:oid x :type "organisaatio"}))
+                     (filter (fn [x] (not (clojure.string/blank? (:oid x))))))]
         (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu")
         res))))
