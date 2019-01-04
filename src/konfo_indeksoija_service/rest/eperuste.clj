@@ -35,7 +35,7 @@
   (with-error-logging
    (let [url (str (:eperusteet-service-url env) eperuste-id "/osaamisalakuvaukset")
          res (:body (client/get url {:as :json}))
-         docs (map #(assoc %1 :type "osaamisalakuvaus" :oid (:id %1))
+         docs (map #(assoc %1 :type "osaamisalakuvaus" :oid (:id %1) :eperuste-oid eperuste-id)
                    (flatten (reduce #(into %1 (vals (val %2))) [] res)))]
      (if (empty? docs)
        nil

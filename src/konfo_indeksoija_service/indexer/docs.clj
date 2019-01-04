@@ -27,10 +27,8 @@
   (o/get-doc entry))
 
 (defmethod get-doc "eperuste" [entry]
-  (e/get-doc entry))
-
-(defmethod get-doc "osaamisalakuvaus" [entry]
-  (e/get-osaamisalakuvaukset (:oid entry)))
+  (when-some [eperuste (e/get-doc entry)]
+    {:eperuste eperuste :osaamisalat (e/get-osaamisalakuvaukset (:oid entry))}))
 
 (defmethod convert-doc :default [doc]
   doc)
@@ -39,10 +37,7 @@
   (hkc/convert doc))
 
 (defmethod convert-doc "eperuste" [doc]
-  (ec/convert doc))
-
-(defmethod convert-doc "osaamisalakuvaus" [doc]
-  (oc/convert doc))
+  (flatten (conj (oc/convert (:osaamisalat doc)) (ec/convert (:eperuste doc)))))
 
 (defmethod convert-doc "organisaatio" [doc]
   (oa/append-search-data doc))

@@ -19,8 +19,7 @@
   (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
         organisaatio-docs (organisaatio-client/find-docs nil)
         eperusteet-docs (eperusteet-client/find-all)
-        osaamisalakuvaus-docs (map #(assoc %1 :type "osaamisalakuvaus") eperusteet-docs)
-        docs (clojure.set/union tarjonta-docs organisaatio-docs eperusteet-docs osaamisalakuvaus-docs)]
+        docs (clojure.set/union tarjonta-docs organisaatio-docs eperusteet-docs)]
     (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (upsert-to-queue docs)))
 
@@ -29,7 +28,6 @@
   (let [docs (find-docs index oid)
         related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
         docs-with-related-koulutus (remove nil? (clojure.set/union docs related-koulutus))]
-    (println docs-with-related-koulutus)
     (upsert-to-queue docs-with-related-koulutus)))
 
 (defn empty-queue []

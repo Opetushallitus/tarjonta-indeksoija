@@ -14,14 +14,9 @@
     (let [doc (get-doc entry)]
       (if (nil? doc)
         (log/error "Couldn't fetch" (:type entry) "oid:" (:oid entry))
-        (if (= (:type entry) "osaamisalakuvaus")
-          (-> doc
-              (assoc :eperuste-oid (:oid entry))
-              (assoc :tyyppi (:type entry))
-              (convert-doc))
-          (-> doc
-              (assoc :tyyppi (:type entry))
-              (convert-doc)))))))
+        (-> doc
+            (assoc :tyyppi (:type entry))
+            (convert-doc))))))
 
 (defn end-indexing
   [successful-oids failed-oids last-timestamp start]
@@ -62,19 +57,14 @@
       (log/debug "Nothing to index.")
       (do
         (log/info "Indexing" (count queue) "items from queue" (flatten (for [[k v] (group-by :type queue)] [(count v) k]) ))
-        (let [converted-docs (remove nil? (doall (pmap get-index-doc queue)))
+        (let [converted-docs (remove nil? (flatten (doall (pmap get-index-doc queue))))
               queue-oids (map :oid queue)
               failed-oids (clojure.set/difference (set queue-oids)
-                                                  (set (map #(if (= (:tyyppi %1) "osaamisalakuvaus")
-                                                               (:eperuste-oid %1)
-                                                               (:oid %1))
-                                                            converted-docs)))
+                                                  (set (map :oid converted-docs)))
               successful-oids (clojure.set/difference (set queue-oids)
                                                       (set failed-oids))]
           (log/info "Got converted docs! Going to index objects...")
-          (if (some #(= (:tyyppi %1) "osaamisalakuvaus") converted-docs)
-            (index-objects (flatten (map #(if (= (:tyyppi %1) "osaamisalakuvaus") (:docs %1) %1) converted-docs)))
-            (index-objects converted-docs))
+          (index-objects converted-docs)
           (log/info "Objects indexed! Going to store pictures...")
           (store-pictures queue)
           (log/info "Pictures stored! Going to end indexing items.")
