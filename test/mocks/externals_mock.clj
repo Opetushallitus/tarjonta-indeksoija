@@ -54,6 +54,8 @@
 
 (defn find-last-changes [last-modified] [])
 
+(defn find-changes [last-modified] [])
+
 (defn queue-mock
   [index oid]
   (upsert-to-queue [{:type index :oid oid}]))
@@ -86,6 +88,9 @@
 
                  konfo-indeksoija-service.rest.eperuste/get-doc
                  mocks.externals-mock/get-doc
+
+                 konfo-indeksoija-service.rest.eperuste/find-changes
+                 mocks.externals-mock/find-changes
 
                  konfo-indeksoija-service.rest.tarjonta/get-hakukohteet-for-koulutus
                  mocks.externals-mock/get-hakukohteet-for-koulutus
