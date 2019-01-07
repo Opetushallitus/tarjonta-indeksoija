@@ -28,7 +28,6 @@
   (let [docs (find-docs index oid)
         related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
         docs-with-related-koulutus (remove nil? (clojure.set/union docs related-koulutus))]
-    (println docs-with-related-koulutus)
     (upsert-to-queue docs-with-related-koulutus)))
 
 (defn empty-queue []

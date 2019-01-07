@@ -5,15 +5,15 @@
 
 (defonce formatter (format/formatter "yyyy-MM-dd"))
 
+(defonce formatter-with-time (format/with-zone (format/formatter "yyyy-MM-dd HH:mm") (time/default-time-zone)))
+
 (defn convert-to-datetime [long] (coerce/from-long long))
 
 (defn add-months [datetime months] (time/plus datetime (time/months months)))
 
 (defn format [datetime] (format/unparse formatter datetime))
 
-(defn format-long [long] (format (convert-to-datetime long)))
-
-(defonce formatter-with-time (format/with-zone (format/formatter "yyyy-MM-dd HH:mm") (time/default-time-zone)))
+(defn format-long [long] (format/unparse formatter-with-time (convert-to-datetime long)))
 
 (defn convert-to-long [datetime] (coerce/to-long datetime))
 

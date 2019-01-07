@@ -57,7 +57,7 @@
       (log/debug "Nothing to index.")
       (do
         (log/info "Indexing" (count queue) "items from queue" (flatten (for [[k v] (group-by :type queue)] [(count v) k]) ))
-        (let [converted-docs (remove nil? (doall (pmap get-index-doc queue)))
+        (let [converted-docs (remove nil? (flatten (doall (pmap get-index-doc queue))))
               queue-oids (map :oid queue)
               failed-oids (clojure.set/difference (set queue-oids)
                                                   (set (map :oid converted-docs)))
