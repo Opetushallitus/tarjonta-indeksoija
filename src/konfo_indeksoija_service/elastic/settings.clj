@@ -110,15 +110,21 @@
                                           :ignore_above 256}}}}})
 
 (def koulutus-settings
-  {:properties {:oid {:type "text"
-                      :fields {:keyword {:type "keyword"
-                                         :ignore_above 256}}}
-                :timestamp {:type "long"}
-                :searchData.toteutukset {:type "nested"}
-                :type {:type "text"
-                       :fields {:keyword {:type "keyword"
-                                          :ignore_above 256}}}}})
-
+  {:dynamic_templates [{:nested {:match "toteutukset"
+                                 :match_mapping_type "object"
+                                 :mapping { :type "nested" }}}
+                       {:fi {:match "fi"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "finnish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:tila {:match "tila"
+                               :match_mapping_type "string"
+                               :mapping {:type "text"
+                                         :analyzer "finnish"
+                                         :norms { :enabled false}
+                                         :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 (def boost-values
   ["*fi"
    "*sv"
