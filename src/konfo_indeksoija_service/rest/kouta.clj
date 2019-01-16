@@ -48,3 +48,10 @@
    (let [url (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/toteutukset")]
      (log/debug (str "GET => " url))
      (:body (client/get url {:as :json})))))
+
+(defn list-hakukohteet-by-toteutus
+  [toteutus-oid]
+  (with-error-logging
+   (let [url (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/hakukohteet/list")]
+     (log/debug (str "GET => " url))
+     (:body (client/get url {:as :json})))))

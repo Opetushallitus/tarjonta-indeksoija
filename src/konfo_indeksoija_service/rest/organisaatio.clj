@@ -4,7 +4,8 @@
             [konfo-indeksoija-service.rest.util :as client]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [konfo-indeksoija-service.util.time :refer :all]))
+            [konfo-indeksoija-service.util.time :refer :all]
+            [clojure.core.memoize :as memoize]))
 
 (defn get-doc
   ([obj include-image]
@@ -43,7 +44,6 @@
          params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}]
      (:body (client/get url {:query-params params, :as :json})))))
 
-;TODO: Muutetut voi hakea vain päivän tarkkuudella, joten samoja indeksoidaan uudelleen monta kertaa
 (defn find-last-changes [last-modified]
   (with-error-logging
     (let [date-string (format-long last-modified)
@@ -61,6 +61,17 @@
   [oids]
   (if (empty? oids) []
     (with-error-logging
+     (log/info (str "Calling organisaatio service find-by-oids") )
      (let [url (str (:organisaatio-service-url env) "v4/findbyoids")
            body (str "[\"" (string/join "\", \"" oids) "\"]")]
        (:body (client/post url {:body body :content-type :json :as :json}))))))
+
+(defn get-by-oid
+  [oid]
+  (with-error-logging
+   (log/info (str "Calling organisaatio service get-by-oid " oid) )
+   (let [url (str (:organisaatio-service-url env) "v4/" oid)]
+     (:body (client/get url {:as :json})))))
+
+(def get-by-oid-cached
+  (memoize/ttl get-by-oid {} :ttl/threshold 86400000))

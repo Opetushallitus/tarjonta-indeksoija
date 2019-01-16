@@ -9,6 +9,7 @@
             [konfo-indeksoija-service.indexer.job :as j]
             [konfo-indeksoija-service.indexer.queue :as queue]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
+            [konfo-indeksoija-service.kouta.indexer :as kouta]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -51,6 +52,14 @@
      (GET "/healthcheck" []
        :summary "Healthcheck API."
        (ok "OK"))
+
+     (context "/kouta" []
+       :tags ["kouta"]
+
+       (GET "/all" []
+         :query-params [{since :- Long 0}]
+         :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
+         (ok {:result (kouta/index-all since)})))
 
      (context "/admin" []
        :tags ["admin"]
@@ -120,11 +129,6 @@
        (GET "/all" []
          :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
          (ok {:result (queue/queue-all)}))
-
-       (GET "/kouta-since" []
-         :query-params [{since :- Long 0}]
-         :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
-         (ok {:result (queue/queue-kouta since)}))
 
        (GET "/koulutus" []
          :summary "Lisää koulutuksen indeksoitavien listalle."

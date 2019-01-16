@@ -109,8 +109,14 @@
                        :fields {:keyword {:type "keyword"
                                           :ignore_above 256}}}}})
 
-(def koulutus-settings
+(def kouta-settings
   {:dynamic_templates [{:nested {:match "toteutukset"
+                                 :match_mapping_type "object"
+                                 :mapping { :type "nested" }}}
+                       {:nested {:match "hakukohteet"
+                                 :match_mapping_type "object"
+                                 :mapping { :type "nested" }}}
+                       {:nested {:match "haut"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
                        {:fi {:match "fi"
