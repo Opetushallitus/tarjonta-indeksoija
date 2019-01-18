@@ -42,6 +42,10 @@
   [oid]
   (get-doc {:type "hakukohde" :oid oid}))
 
+(defn get-valintaperuste
+  [id]
+  (get-doc {:type "valintaperuste" :oid id}))
+
 (defn get-toteutus-list-for-koulutus
   [koulutus-oid]
   (with-error-logging
@@ -53,5 +57,12 @@
   [toteutus-oid]
   (with-error-logging
    (let [url (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/hakukohteet/list")]
+     (log/debug (str "GET => " url))
+     (:body (client/get url {:as :json})))))
+
+(defn list-hakukohteet-by-haku
+  [haku-oid]
+  (with-error-logging
+   (let [url (str (:kouta-backend-url env) "haku/" haku-oid "/hakukohteet/list")]
      (log/debug (str "GET => " url))
      (:body (client/get url {:as :json})))))

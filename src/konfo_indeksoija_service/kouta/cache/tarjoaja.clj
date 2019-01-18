@@ -1,6 +1,6 @@
 (ns konfo-indeksoija-service.kouta.cache.tarjoaja
   (:require [konfo-indeksoija-service.rest.organisaatio :as organisaatio-service]
-            [konfo-indeksoija-service.rest.koodisto :refer [get-koodi-with-cache]]
+            [konfo-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [clojure.core.cache :as cache]))
 
 (defonce cache_time_millis (* 1000 60 20))
@@ -9,10 +9,7 @@
 
 (defn paikkakunta
   [organisaatio]
-  (defn extract
-    [value]
-    (reduce #(assoc %1 (keyword (clojure.string/lower-case (:kieli %2))) (:nimi %2)) {} value))
-  (extract (:metadata (get-koodi-with-cache "kunta" (:kotipaikkaUri organisaatio)))))
+  (get-koodi-nimi-with-cache "kunta" (:kotipaikkaUri organisaatio)))
 
 (defn tarjoaja
   [organisaatio]

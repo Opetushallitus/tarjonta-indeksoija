@@ -1,5 +1,6 @@
 (ns konfo-indeksoija-service.kouta.toteutus
   (:require [konfo-indeksoija-service.rest.kouta :as kouta-backend]
+            [konfo-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [konfo-indeksoija-service.kouta.common :as common]))
 
 (defn create-index-entry
