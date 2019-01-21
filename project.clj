@@ -44,7 +44,12 @@
                  [org.apache.logging.log4j/log4j-core "2.9.0"]
                  [org.apache.logging.log4j/log4j-slf4j-impl "2.9.0"]
                  [clj-log4j2 "0.2.0"]
-                 [ring-cors "0.1.11"]]
+                 [ring-cors "0.1.11"]
+                 ;;SQS Handling
+                 [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
+                                                  com.amazonaws/amazon-kinesis-client]]
+                 [com.amazonaws/aws-java-sdk-core "1.11.479"]
+                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]]
   :ring {:handler konfo-indeksoija-service.api/app
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop
