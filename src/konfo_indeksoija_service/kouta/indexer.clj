@@ -4,6 +4,7 @@
             [konfo-indeksoija-service.kouta.toteutus :as toteutus]
             [konfo-indeksoija-service.kouta.haku :as haku]
             [konfo-indeksoija-service.kouta.hakukohde :as hakukohde]
+            [konfo-indeksoija-service.kouta.valintaperuste :as valintaperuste]
             [konfo-indeksoija-service.util.time :refer [format-long-to-rfc1123]]
             [konfo-indeksoija-service.elastic.docs :as docs]
             [clojure.tools.logging :as log]))
@@ -40,6 +41,11 @@
     (let [hakukohteet (doall (pmap hakukohde/create-index-entry oids))]
       (docs/upsert-docs "hakukohde-kouta" hakukohteet))))
 
+(defn index-valintaperusteet
+  [ids]
+  (if (> (count ids) 0)
+    (let [valintaperusteet (doall (pmap valintaperuste/create-index-entry ids))]
+      (docs/upsert-docs "valintaperuste-kouta" valintaperusteet))))
 
 
 (defn index-all
@@ -56,7 +62,6 @@
     (index-haut (:haut oids))
     (log/info (str "Indeksoidaan " (count (:hakukohteet oids)) " hakukohdetta"))
     (index-hakukohteet (:hakukohteet oids))
+    (log/info (str "Indeksoidaan " (count (:valintaperusteet oids)) " valintaperustetta"))
+    (index-valintaperusteet (:valintaperusteet oids))
     (log/info (str "Indeksointi valmis. Aikaa kului " (/ (double (- (. System (nanoTime)) start)) 1000000.0) " ms"))))
-
-
-

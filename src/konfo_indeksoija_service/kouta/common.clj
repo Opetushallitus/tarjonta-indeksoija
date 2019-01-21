@@ -14,7 +14,7 @@
       key))
   (defn decorate-koodi-value
     [value]
-    (if (and (string? value) (not (clojure.string/index-of "kunta" value)) (re-find (re-pattern "\\w+_\\w+[#\\d{1,2}]?") value))
+    (if (and (string? value) (re-find (re-pattern "\\w+_\\w+[#\\d{1,2}]?") value))
       (get-koodi-nimi-with-cache value)
       value))
   (clojure.walk/postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
