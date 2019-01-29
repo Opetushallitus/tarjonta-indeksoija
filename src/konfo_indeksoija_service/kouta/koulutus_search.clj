@@ -7,17 +7,18 @@
 
 (def index-name "koulutus-kouta-search")
 
+(defn- transform-asiasanat
+  [asiasanat]
+  (map (fn [a] { (keyword (:kieli a)) (:arvo a)} ) asiasanat))
+
 (defn- shrink-toteutus
   [toteutus]
   (-> toteutus
-      (assoc :metadata (-> toteutus
-                           (:metadata)
-                           (assoc :opetus (-> toteutus
-                                              (:metadata)
-                                              (:opetus)
-                                              (dissoc :osiot)))
-                           (dissoc :kuvaus :yhteystieto)))
-      (dissoc :koulutusOid :kielivalinta)))
+      (dissoc :koulutusOid :kielivalinta)
+      (update-in [:metadata] dissoc :kuvaus :yhteystieto)
+      (update-in [:metadata :opetus] dissoc :osiot)
+      (update-in [:metadata :asiasanat] transform-asiasanat)
+      (update-in [:metadata :ammattinimikkeet] transform-asiasanat)))
 
 (defn- create-haut-entry
   [haut]
