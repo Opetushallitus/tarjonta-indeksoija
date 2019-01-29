@@ -61,7 +61,7 @@
   [oids]
   (if (empty? oids) []
     (with-error-logging
-     (log/info (str "Calling organisaatio service find-by-oids") )
+     (log/debug (str "Calling organisaatio service find-by-oids") )
      (let [url (str (:organisaatio-service-url env) "v4/findbyoids")
            body (str "[\"" (string/join "\", \"" oids) "\"]")]
        (:body (client/post url {:body body :content-type :json :as :json}))))))
@@ -69,7 +69,7 @@
 (defn get-by-oid
   [oid]
   (with-error-logging
-   (log/info (str "Calling organisaatio service get-by-oid " oid) )
+   (log/debug (str "Calling organisaatio service get-by-oid " oid) )
    (let [url (str (:organisaatio-service-url env) "v4/" oid)]
      (:body (client/get url {:as :json})))))
 

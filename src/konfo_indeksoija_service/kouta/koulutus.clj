@@ -1,28 +1,31 @@
 (ns konfo-indeksoija-service.kouta.koulutus
   (:require [konfo-indeksoija-service.rest.kouta :as kouta-backend]
             [konfo-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [konfo-indeksoija-service.kouta.common :as common]))
+            [konfo-indeksoija-service.kouta.common :as common]
+            [konfo-indeksoija-service.kouta.indexable :as indexable]))
 
-(defn- shrink-toteutus
+(def index-name "koulutus-kouta")
+
+(defn- to-list-item
   [toteutus]
-  (-> toteutus
-      (assoc :metadata (-> toteutus
-                           (:metadata)
-                           (assoc :opetus (-> toteutus
-                                              (:metadata)
-                                              (:opetus)
-                                              (dissoc :osiot)))
-                           (dissoc :kuvaus :yhteystieto)))
-      (dissoc :koulutusOid :kielivalinta)))
+  (-> {}
+      (assoc :organisaatio (:organisaatio toteutus))
+      (assoc :nimi (:nimi toteutus))
+      (assoc :tila (:tila toteutus))
+      (assoc :muokkaaja (:muokkaaja toteutus))
+      (assoc :modified (:modified toteutus))))
 
 (defn create-index-entry
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
     (-> koulutus
-        (assoc :toteutukset (map shrink-toteutus toteutukset)))))
+        (assoc :toteutukset (map to-list-item toteutukset)))))
 
+(defn create-index-entries
+  [oids]
+  (doall (pmap create-index-entry oids)))
 
-
-(comment assoc :koulutus (get-koodi-nimi-with-cache "koulutus" (:koulutusKoodiUri koulutus)))
-(comment dissoc :koulutusKoodiUri)
+(defn do-index
+  [oids]
+  (indexable/do-index index-name oids create-index-entries))

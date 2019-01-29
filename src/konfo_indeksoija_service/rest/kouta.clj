@@ -11,12 +11,6 @@
   (with-error-logging
    (let [url (str (:kouta-backend-url env) "anything/modifiedSince/" (url-encode since))
          res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
-     (log/info "Changes found: "
-               (count (:koulutukset res)) "koulutusta, "
-               (count (:toteutukset res)) "toteutusta, "
-               (count (:haut res)) "hakua, "
-               (count (:hakukohteet res)) "hakukohdetta ja "
-               (count (:valintaperusteet res)) "valintaperustetta")
      res)))
 
 (defn get-doc
@@ -47,22 +41,40 @@
   (get-doc {:type "valintaperuste" :oid id}))
 
 (defn get-toteutus-list-for-koulutus
-  [koulutus-oid]
+  ([koulutus-oid vainJulkaistut]
+   (with-error-logging
+    (let [url (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/toteutukset")]
+      (log/debug (str "GET => " url))
+      (:body (client/get url {:as :json :query-params {:vainJulkaistut vainJulkaistut}})))))
+  ([koulutus-oid]
+   (get-toteutus-list-for-koulutus koulutus-oid false)))
+
+(defn get-as-json
+  [url]
   (with-error-logging
-   (let [url (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/toteutukset")]
-     (log/debug (str "GET => " url))
-     (:body (client/get url {:as :json})))))
+    (log/debug (str "GET => " url))
+    (:body (client/get url {:as :json}))))
+
+(defn get-hakutiedot-for-koulutus
+  [koulutus-oid]
+  (get-as-json (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/hakutiedot")))
 
 (defn list-hakukohteet-by-toteutus
   [toteutus-oid]
-  (with-error-logging
-   (let [url (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/hakukohteet/list")]
-     (log/debug (str "GET => " url))
-     (:body (client/get url {:as :json})))))
+  (get-as-json (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/hakukohteet/list")))
+
+(defn list-haut-by-toteutus
+  [toteutus-oid]
+  (get-as-json (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/haut/list")))
 
 (defn list-hakukohteet-by-haku
   [haku-oid]
-  (with-error-logging
-   (let [url (str (:kouta-backend-url env) "haku/" haku-oid "/hakukohteet/list")]
-     (log/debug (str "GET => " url))
-     (:body (client/get url {:as :json})))))
+  (get-as-json (str (:kouta-backend-url env) "haku/" haku-oid "/hakukohteet/list")))
+
+(defn list-koulutukset-by-haku
+  [haku-oid]
+  (get-as-json (str (:kouta-backend-url env) "haku/" haku-oid "/koulutukset/list")))
+
+(defn list-hakukohteet-by-valintaperuste
+  [valintaperuste-id]
+  (get-as-json (str (:kouta-backend-url env) "valintaperuste/" valintaperuste-id "/hakukohteet/list")))

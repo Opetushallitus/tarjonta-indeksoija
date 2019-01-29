@@ -59,7 +59,9 @@
        (GET "/all" []
          :query-params [{since :- Long 0}]
          :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
-         (ok {:result (kouta/index-all since)})))
+         (ok {:result (if (= 0 since)
+                        (kouta/index-all)
+                        (kouta/index-since since))})))
 
      (context "/admin" []
        :tags ["admin"]

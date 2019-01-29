@@ -27,3 +27,13 @@
 
 ;purkkaratkaisu, clj-time formatoi time zonen väärin (UTC eikä GMT, https://stackoverflow.com/questions/25658897/is-utc-a-valid-timezone-name-for-rfc-1123-specification)
 (defn format-long-to-rfc1123 [long] (str (format/unparse formatter-rfc1123 (convert-to-datetime long)) " GMT"))
+
+(defonce formatter-kouta (format/with-zone (format/formatter "yyyy-MM-dd'T'HH:mm") (time/default-time-zone)))
+
+(defn parse-kouta-string
+  [string]
+  (format/parse formatter-kouta string))
+
+(defn kouta-date-to-long
+  [string]
+  (convert-to-long (parse-kouta-string string)))
