@@ -1,6 +1,7 @@
 (ns konfo-indeksoija-service.util.seq)
 
 (defn collect-first
+  "get first mapped value that matches 'check?' or nil"
   ([f check? seq]
    (loop [values seq]
      (when (not (empty? values))
@@ -11,3 +12,7 @@
            (recur (rest values))))))))
 
 
+(defn in?
+  "true if coll contains element"
+  [coll element]
+  (some #(= element %) coll))

@@ -34,6 +34,7 @@
                  [org.postgresql/postgresql "9.4-1200-jdbc41"]
                  [base64-clj "0.1.1"]
                  [clj-time "0.14.3"]
+                 [org.clojure/algo.generic "0.1.3"]
                  ;Elasticsearch + s3
                  [oph/clj-elasticsearch "0.2.0-SNAPSHOT"]
                  [oph/clj-s3 "0.2.0-SNAPSHOT"]
@@ -49,7 +50,8 @@
                  [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
                                                   com.amazonaws/amazon-kinesis-client]]
                  [com.amazonaws/aws-java-sdk-core "1.11.479"]
-                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]]
+                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]
+                 [cloud.localstack/localstack-utils "0.1.15"]]
   :ring {:handler konfo-indeksoija-service.api/app
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop

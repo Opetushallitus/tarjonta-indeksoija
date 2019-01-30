@@ -7,18 +7,11 @@
     :queue-url queue
     :max-number-of-messages 10
     :delete false
-    :wait-time-seconds 20)
-  )
+    :wait-time-seconds 20))
 
 (defn short-poll
   [queue]
   (sqs/receive-message
     :queue-url queue
     :max-number-of-messages 10
-    :delete false)
-  )
-
-
-(defn receipt-handle [msg] (.getReceiptHandle msg))
-
-(defn body [message] (.getBody message))
+    :delete false))
