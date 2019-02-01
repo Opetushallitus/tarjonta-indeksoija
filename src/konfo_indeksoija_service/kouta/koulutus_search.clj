@@ -8,12 +8,21 @@
 (def index-name "koulutus-kouta-search")
 
 (defn- transform-asiasanat
-  [asiasanat]
-  (map (fn [a] { (keyword (:kieli a)) (:arvo a)} ) asiasanat))
+         [asiasanat]
+         (map (fn [a] { (keyword (:kieli a)) (:arvo a)} ) asiasanat))
+
+(defn- some-true
+  [coll]
+  (some? (some true? coll)))
+
+(defn- shrink-koulutus
+  [k]
+  (-> k
+      (dissoc :metadata :julkinen :timestamp :kielivalinta :muokkaaja :modified :organisaatio)))
 
 (defn- shrink-toteutus
-  [toteutus]
-  (-> toteutus
+  [t ]
+  (-> t
       (dissoc :koulutusOid :kielivalinta)
       (update-in [:metadata] dissoc :kuvaus :yhteystieto)
       (update-in [:metadata :opetus] dissoc :osiot)
@@ -21,45 +30,43 @@
       (update-in [:metadata :ammattinimikkeet] transform-asiasanat)))
 
 (defn- create-haut-entry
-  [haut]
+         [haut]
 
-  (defn- now?
-    [hakuaika]
-    (if-let [alkaa (:alkaa hakuaika)]
-      (if-let [paattyy (:paattyy hakuaika)]
-        (< (kouta-date-to-long alkaa) (. System (currentTimeMillis)) (kouta-date-to-long paattyy))
-        (< (kouta-date-to-long alkaa) (. System (currentTimeMillis))))
-      false))
+         (defn- now?
+           [hakuaika]
+           (if-let [alkaa (:alkaa hakuaika)]
+             (if-let [paattyy (:paattyy hakuaika)]
+               (< (kouta-date-to-long alkaa) (. System (currentTimeMillis)) (kouta-date-to-long paattyy))
+               (< (kouta-date-to-long alkaa) (. System (currentTimeMillis))))
+             false))
 
-  (defn- some-true
-    [coll]
-    (some? (some true? coll)))
+         (defn- hakuIsOn?
+           [haku]
+           (if (some-true (map :kaytetaanHaunAikataulua (:hakukohteet haku)))
+             (some-true (map now? (:hakuajat haku)))
+             (some-true (map now? (mapcat :hakuajat (:hakukohteet haku))))))
 
-  (defn- hakuIsOn?
-    [haku]
-    (if (some-true (map :kaytetaanHaunAikataulua (:hakukohteet haku)))
-      (some-true (map now? (:hakuajat haku)))
-      (some-true (map now? (mapcat :hakuajat (:hakukohteet haku))))))
-
-  (if (not-empty haut)
-    (map #(assoc % :hakuKäynnissä (hakuIsOn? %) ) haut)
-    []))
+         (if (not-empty haut)
+           (map #(assoc % :hakuKäynnissä (hakuIsOn? %) ) haut)
+           []))
 
 (defn- create-toteutus-entry
-  [t hakutiedot]
+  [t shrinked-koulutus hakutiedot]
   (let [hakutieto (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot))
         haut (create-haut-entry (:haut hakutieto))]
-    (-> t shrink-toteutus (assoc :haut haut :hakuKäynnissä (some-true (map :hakuKäynnissä haut))))))
+    (-> t shrink-toteutus (assoc :koulutus shrinked-koulutus) (assoc :haut haut :hakuKäynnissä (some-true (map :hakuKäynnissä haut))))))
 
 (defn create-index-entry
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))]
     (when (= (:tila koulutus) "julkaistu")
-      (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid true))
+      (let [shrinked-koulutus (shrink-koulutus koulutus)
+            toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid true))
             hakutiedot (common/complete-entries (kouta-backend/get-hakutiedot-for-koulutus oid))]
         (-> koulutus
             (update-in [:metadata] dissoc :kuvaus)
-            (assoc :toteutukset (map #(create-toteutus-entry % hakutiedot) toteutukset)))))))
+            (assoc :toteutukset (map #(create-toteutus-entry % shrinked-koulutus hakutiedot) toteutukset)))))))
+
 
 (defn create-index-entries
   [oids]

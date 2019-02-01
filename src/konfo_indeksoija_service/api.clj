@@ -31,7 +31,7 @@
   (init-elastic-client)
   (if (and (admin/check-elastic-status)
            (admin/initialize-indices))
-    (j/start-indexer-job)
+    (comment j/start-indexer-job)
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))

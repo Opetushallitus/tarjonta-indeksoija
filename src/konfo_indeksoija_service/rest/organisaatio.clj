@@ -37,6 +37,10 @@
             url (str (:organisaatio-service-url env) "v2/hae")]
         (extract-docs (client/get url {:query-params params, :as :json}))))))
 
+(defn get-all-oids
+  []
+  (set (map :oid (find-docs nil))))
+
 (defn get-tyyppi-hierarkia
   [oid]
   (with-error-logging

@@ -7,7 +7,6 @@
             [konfo-indeksoija-service.kouta.hakukohde :as hakukohde]
             [konfo-indeksoija-service.kouta.valintaperuste :as valintaperuste]
             [konfo-indeksoija-service.util.time :refer [format-long-to-rfc1123]]
-            [konfo-indeksoija-service.elastic.docs :as docs]
             [konfo-indeksoija-service.rest.kouta :as kouta-backend]
             [clojure.tools.logging :as log]))
 

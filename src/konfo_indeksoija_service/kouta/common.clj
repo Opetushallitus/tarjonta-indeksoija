@@ -10,7 +10,11 @@
   (defn strip-koodi-uri-key
     [key]
     (if (keyword? key)
-      (keyword (clojure.string/replace (name key) "KoodiUri" ""))
+      (-> key
+          (name)
+          (clojure.string/replace "KoodiUri" "")
+          (clojure.string/replace "Uri" "")
+          (keyword))
       key))
   (defn decorate-koodi-value
     [value]
