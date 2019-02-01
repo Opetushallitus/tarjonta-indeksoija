@@ -31,13 +31,6 @@
                 :dlq (str "dlq-"  (uuid))}]
     (with-redefs [env {:queue queues}] (f queues))))
 
-(defn- with-local-stack [f]
-  (LocalstackWrapper/start)
-  (let [sqs (Localstack/getEndpointSQS)]
-    (println (sqs/find-queue {:endpoint sqs} "p"))
-    (amazonica/with-credential {:endpoint sqs} (f)))
-  (LocalstackWrapper/stop))
-
 (defn- message-bodies [response] (seq (map #(:body %) (:messages response))))
 
 (defchecker at-least-one-of-only [expected-elements]
@@ -74,21 +67,21 @@
       not-expected-messages [(json/generate-string {:oid "not-expected-321.321.321"})
                              (json/generate-string {:oid "not-expected-432.432.432"})]]
     (against-background
-         [(around :contents (with-local-stack ?form))
+         [(around :contents (do
+                              (LocalstackWrapper/start)
+                              (amazonica/with-credential {:endpoint (Localstack/getEndpointSQS)} ?form)
+                              (LocalstackWrapper/stop)))
           (around :facts (with-queues
                            (fn [queues]
-                             (sqs/create-queue :queue-name (:priority queues)
-                                               :attributes { :ReceiveMessageWaitTimeSeconds 20
-                                                            :VisibilityTimeout 30})
-                             (doseq [q (vals (dissoc queues :priority))] (sqs/create-queue q))
+                             (doseq [q (vals queues)] (sqs/create-queue q))
                              ?form
-                             (doseq [q (vals queues)] (sqs/delete-queue q)))))]
+                             (doseq [q (vals queues)] (sqs/delete-queue (sqs/find-queue q))))))]
 
          (fact "'queues' should contain SQS queues"
-                (queue :priority) => truthy ; TODO should be local endpoint to queue
-                (queue :fast) => truthy
-                (queue :slow) => truthy
-                (queue :dlq) => truthy)
+                (queue :priority) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/priority-")) ; TODO should be local endpoint to queue
+                (queue :fast) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/fast-"))
+                (queue :slow) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/slow-"))
+                (queue :dlq) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/dlq-")))
 
          (facts "'receive-messages-from-queues' should receive messages from queues in correct order"
                 (fact "'receive-messages-from-queues' should receive messages from :priority queue first"
@@ -133,17 +126,17 @@
                (against-background
                  [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg)))]))
 
-         (fact "'handle-messages-from-queues' should delete messages after successful handling"
+         (future-fact "'handle-messages-from-queues' should delete messages after successful handling"
                ()) ;; TODO how to check messages are deleted or not?
-         (fact "'handle-messages-from-queues' should not delete messages before successful handling"
+         (future-fact "'handle-messages-from-queues' should not delete messages before successful handling"
                ()))) ;; TODO how to check messages are deleted or not?
 
-(fact "'index-from-queue!' should receive messages from queue and index them"
+(future-fact "'index-from-queue!' should receive messages from queue and index them"
       ()) ;; TODO would require actually indexing messages
-(fact "'index-from-queue!' should return future"
+(future-fact "'index-from-queue!' should return future"
       ()) ;; TODO would require actually indexing messages
 
-(fact "'handle-failed' should receive messages from DLQ and update their state to failed"
+(future-fact "'handle-failed' should receive messages from DLQ and update their state to failed"
       ()) ;; TODO
 
 
