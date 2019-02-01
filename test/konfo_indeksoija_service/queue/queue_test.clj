@@ -7,7 +7,8 @@
             [cheshire.core :as json]
             [konfo-indeksoija-service.util.seq :as seq]
             [konfo-indeksoija-service.util.conf :refer [env]]
-            [konfo-indeksoija-service.queue.queue :refer :all]))
+            [konfo-indeksoija-service.queue.queue :refer :all])
+  (:import (cloud.localstack Localstack LocalstackWrapper)))
 
 
 (defn- mock-receive [queue] {:messages (seq (reverse queue))})
@@ -30,14 +31,12 @@
                 :dlq (str "dlq-"  (uuid))}]
     (with-redefs [env {:queue queues}] (f queues))))
 
-(defn- with-local-queues [f] (with-queues f))
-
-;  (localstack/start)
-
-;    (let [sqs (Localstack/getEndpointSQS)]
-;      (println (sqs/find-queue {:endpoint sqs} "p"))
-;      (amazonica/with-credential {:endpoint sqs} f)))
-;(localstack/stop))
+(defn- with-local-stack [f]
+  (LocalstackWrapper/start)
+  (let [sqs (Localstack/getEndpointSQS)]
+    (println (sqs/find-queue {:endpoint sqs} "p"))
+    (amazonica/with-credential {:endpoint sqs} (f)))
+  (LocalstackWrapper/stop))
 
 (defn- message-bodies [response] (seq (map #(:body %) (:messages response))))
 
@@ -75,7 +74,8 @@
       not-expected-messages [(json/generate-string {:oid "not-expected-321.321.321"})
                              (json/generate-string {:oid "not-expected-432.432.432"})]]
     (against-background
-         [(around :facts (with-local-queues
+         [(around :contents (with-local-stack ?form))
+          (around :facts (with-queues
                            (fn [queues]
                              (sqs/create-queue :queue-name (:priority queues)
                                                :attributes { :ReceiveMessageWaitTimeSeconds 20
