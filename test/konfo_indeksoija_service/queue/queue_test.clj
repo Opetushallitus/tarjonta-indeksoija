@@ -5,7 +5,7 @@
             [clojure.string :as str]
             [midje.sweet :refer :all]
             [cheshire.core :as json]
-            [konfo-indeksoija-service.util.seq :as seq]
+            [konfo-indeksoija-service.util.collections :as coll]
             [konfo-indeksoija-service.util.conf :refer [env]]
             [konfo-indeksoija-service.queue.queue :refer :all])
   (:import (cloud.localstack Localstack LocalstackWrapper)))
@@ -42,9 +42,9 @@
 
 (defchecker at-least-one-of-only [expected-elements]
             (chatty-checker [actual]
-              (and
-                (not-empty actual)
-                (every? #(seq/in? expected-elements %) actual))))
+                            (and
+                              (not-empty actual)
+                              (every? #(coll/in? expected-elements %) actual))))
 
 
 

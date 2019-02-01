@@ -1,4 +1,4 @@
-(ns konfo-indeksoija-service.util.seq)
+(ns konfo-indeksoija-service.util.collections)
 
 (defn collect-first
   "get first mapped value that matches 'check?' or nil"
@@ -15,4 +15,4 @@
 (defn in?
   "true if coll contains element"
   [coll element]
-  (some #(= element %) coll))
+  (true? (some #(= element %) coll)))
