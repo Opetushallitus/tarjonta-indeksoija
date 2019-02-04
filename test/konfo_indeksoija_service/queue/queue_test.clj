@@ -5,10 +5,10 @@
             [clojure.string :as str]
             [midje.sweet :refer :all]
             [cheshire.core :as json]
+            [konfo-indeksoija-service.localstack :as localstack]
             [konfo-indeksoija-service.util.collections :as coll]
             [konfo-indeksoija-service.util.conf :refer [env]]
-            [konfo-indeksoija-service.queue.queue :refer :all])
-  (:import (cloud.localstack Localstack LocalstackWrapper)))
+            [konfo-indeksoija-service.queue.queue :refer :all]))
 
 
 (defn- mock-receive [queue] {:messages (seq (reverse queue))})
@@ -67,21 +67,22 @@
       not-expected-messages [(json/generate-string {:oid "not-expected-321.321.321"})
                              (json/generate-string {:oid "not-expected-432.432.432"})]]
     (against-background
-         [(around :contents (do
-                              (LocalstackWrapper/start)
-                              (amazonica/with-credential {:endpoint (Localstack/getEndpointSQS)} ?form)
-                              (LocalstackWrapper/stop)))
+         [(around :contents (let [sqs (localstack/sqs-endpoint)]
+                              (localstack/start)
+                              (amazonica/with-credential {:endpoint sqs} ?form)
+                              (localstack/stop)))
           (around :facts (with-queues
                            (fn [queues]
                              (doseq [q (vals queues)] (sqs/create-queue q))
                              ?form
                              (doseq [q (vals queues)] (sqs/delete-queue (sqs/find-queue q))))))]
 
-         (fact "'queues' should contain SQS queues"
-                (queue :priority) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/priority-")) ; TODO should be local endpoint to queue
-                (queue :fast) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/fast-"))
-                (queue :slow) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/slow-"))
-                (queue :dlq) => (has-prefix (str (Localstack/getEndpointSQS) "/queue/dlq-")))
+         (let [base_sqs (str (localstack/sqs-endpoint) "/queue/")]
+           (fact "'queues' should contain SQS queues"
+                  (queue :priority) => (has-prefix (str base_sqs "priority-"))
+                  (queue :fast) => (has-prefix (str base_sqs "fast-"))
+                  (queue :slow) => (has-prefix (str base_sqs "slow-"))
+                  (queue :dlq) => (has-prefix (str base_sqs "dlq-"))))
 
          (facts "'receive-messages-from-queues' should receive messages from queues in correct order"
                 (fact "'receive-messages-from-queues' should receive messages from :priority queue first"
