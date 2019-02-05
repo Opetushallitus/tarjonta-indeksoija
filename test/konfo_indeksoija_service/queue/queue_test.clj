@@ -5,7 +5,7 @@
             [clojure.string :as str]
             [midje.sweet :refer :all]
             [cheshire.core :as json]
-            [konfo-indeksoija-service.localstack :as localstack]
+            [konfo-indeksoija-service.queue.localstack :as localstack]
             [konfo-indeksoija-service.util.collections :as coll]
             [konfo-indeksoija-service.util.conf :refer [env]]
             [konfo-indeksoija-service.queue.queue :refer :all]))
@@ -67,9 +67,9 @@
       not-expected-messages [(json/generate-string {:oid "not-expected-321.321.321"})
                              (json/generate-string {:oid "not-expected-432.432.432"})]]
     (against-background
-         [(around :contents (let [sqs (localstack/sqs-endpoint)]
+         [(around :contents (do
                               (localstack/start)
-                              (amazonica/with-credential {:endpoint sqs} ?form)
+                              (amazonica/with-credential {:endpoint (localstack/sqs-endpoint)} ?form)
                               (localstack/stop)))
           (around :facts (with-queues
                            (fn [queues]
