@@ -57,9 +57,13 @@
 
 (defn index-valintaperusteet
   [oids]
-   (let [entries (valintaperuste/do-index oids)
+  
+   ;TODO: Ei vielä tiedetä, halutaanko hakukohteita valintaperustelistaukseen etusivulle
+   (comment let [entries (valintaperuste/do-index oids)
          hakukohteet (apply clojure.set/union (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
-     (hakukohde/do-index (get-oids :oid hakukohteet))))
+     (hakukohde/do-index (get-oids :oid hakukohteet)))
+
+   (valintaperuste/do-index oids))
 
 (defn index-valintaperuste
   [oid]

@@ -1,0 +1,180 @@
+{
+  "kaytetaanHaunAikataulua" : false,
+  "tila" : "arkistoitu",
+  "liitteidenToimitusaika" : "2019-02-05T09:58",
+  "aloituspaikat" : 2,
+  "ensikertalaisenAloituspaikat" : 1,
+  "hakulomaketyyppi" : "ei sähköistä",
+  "alkamiskausi" : {
+    "koodiUri" : "kausi_k#1",
+    "nimi" : {
+      "fi" : "kausi_k#1 nimi fi",
+      "sv" : "kausi_k#1 nimi sv"
+    }
+  },
+  "pohjakoulutusvaatimus" : {
+    "koodiUri" : "pohjakoulutusvaatimus_01#2",
+    "nimi" : {
+      "fi" : "pohjakoulutusvaatimus_01#2 nimi fi",
+      "sv" : "pohjakoulutusvaatimus_01#2 nimi sv"
+    }
+  },
+  "valintaperuste" : {
+    "tila" : "arkistoitu",
+    "modified" : "2019-02-05T09:49",
+    "hakutapa" : {
+      "koodiUri" : "hakutapa_01#1",
+      "nimi" : {
+        "fi" : "hakutapa_01#1 nimi fi",
+        "sv" : "hakutapa_01#1 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Valintaperuste 0",
+      "sv" : "Valintaperuste 0 sv"
+    },
+    "muokkaaja" : {
+      "oid" : "2.1.2.1.2",
+      "nimi" : "Kalle Ankka"
+    },
+    "id" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+    "kohdejoukko" : {
+      "koodiUri" : "haunkohdejoukko_11#1",
+      "nimi" : {
+        "fi" : "haunkohdejoukko_11#1 nimi fi",
+        "sv" : "haunkohdejoukko_11#1 nimi sv"
+      }
+    },
+    "kielivalinta" : [ "fi", "sv" ],
+    "kohdejoukonTarkenne" : {
+      "koodiUri" : "haunkohdejoukontarkenne_1#1",
+      "nimi" : {
+        "fi" : "haunkohdejoukontarkenne_1#1 nimi fi",
+        "sv" : "haunkohdejoukontarkenne_1#1 nimi sv"
+      }
+    },
+    "onkoJulkinen" : false,
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Metropolia Ammattikorkeakoulu",
+        "en" : "Metropolia University of Applied Sciences"
+      },
+      "oid" : "1.2.246.562.10.67476956288"
+    }
+  },
+  "modified" : "2019-02-05T09:49",
+  "toteutusOid" : "1.2.246.562.17.00000000000000000001",
+  "muuPohjakoulutusvaatimus" : { },
+  "nimi" : {
+    "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0",
+    "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+  },
+  "hakulomake" : "Hakulomake tulostetaan ja toimitetaan postitse",
+  "muokkaaja" : {
+    "oid" : "1.2.3.2.1",
+    "nimi" : "Kalle Ankka"
+  },
+  "oid" : "1.2.246.562.20.00000000000000000001",
+  "liitteetOnkoSamaToimitusaika" : true,
+  "hakuajat" : [ {
+    "alkaa" : "2019-01-22T09:49",
+    "paattyy" : "2019-02-19T09:49"
+  } ],
+  "hakuOid" : "1.2.246.562.29.00000000000000000001",
+  "liitteetOnkoSamaToimitusosoite" : false,
+  "liitteet" : [ {
+    "id" : "de7e733b-36a2-4d3f-ac71-32ccae96dc32",
+    "tyyppi" : "moi",
+    "nimi" : {
+      "fi" : "liite 1 Fi",
+      "sv" : "liite 1 Sv"
+    },
+    "kuvaus" : {
+      "fi" : "kuvaus Fi",
+      "sv" : "kuvaus Sv"
+    },
+    "toimitusaika" : "2019-02-05T09:58",
+    "toimitustapa" : "hakijapalvelu"
+  }, {
+    "id" : "59b5a1c9-316b-4007-a14e-cc2b617bab46",
+    "tyyppi" : "terve",
+    "nimi" : {
+      "fi" : "liite 2 Fi",
+      "sv" : "liite 2 Sv"
+    },
+    "kuvaus" : {
+      "fi" : "kuvaus Fi",
+      "sv" : "kuvaus Sv"
+    },
+    "toimitustapa" : "osoite",
+    "toimitusosoite" : {
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumero" : "12345",
+        "postitoimipaikka" : {
+          "fi" : "Kaupunki",
+          "sv" : "SV kaupunki"
+        }
+      },
+      "sahkoposti" : "foo@bar.fi"
+    }
+  } ],
+  "kielivalinta" : [ "fi", "sv" ],
+  "timestamp" : 1549372069493,
+  "alkamisvuosi" : "2019",
+  "organisaatio" : {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Metropolia AMK, Helsinki, Tukholmankatu",
+      "en" : "Helsinki Metropolia UAS, Helsinki, Tukholmankatu"
+    },
+    "oid" : "1.2.246.562.10.23178783348"
+  },
+  "valintakokeet" : [ {
+    "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "tyyppi" : {
+      "koodiUri" : "valintakokeentyyppi_1#1",
+      "nimi" : {
+        "fi" : "valintakokeentyyppi_1#1 nimi fi",
+        "sv" : "valintakokeentyyppi_1#1 nimi sv"
+      }
+    },
+    "tilaisuudet" : [ {
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumero" : "12345",
+        "postitoimipaikka" : {
+          "fi" : "Kaupunki",
+          "sv" : "SV kaupunki"
+        }
+      },
+      "aika" : {
+        "alkaa" : "2019-02-05T09:49",
+        "paattyy" : "2019-02-05T09:58"
+      },
+      "lisatietoja" : {
+        "fi" : "lisätietieto fi",
+        "sv" : "lisätieto sv"
+      }
+    } ]
+  } ]
+}
