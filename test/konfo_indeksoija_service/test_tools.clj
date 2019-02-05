@@ -2,7 +2,13 @@
   (:require [cheshire.core :as cheshire]
             [konfo-indeksoija-service.elastic.tools :as tools]
             [konfo-indeksoija-service.elastic.queue :as queue]
-            [konfo-indeksoija-service.indexer.job :as j]))
+            [konfo-indeksoija-service.indexer.job :as j]
+            [konfo-indeksoija-service.kouta.koulutus :as koulutus]
+            [konfo-indeksoija-service.kouta.toteutus :as toteutus]
+            [konfo-indeksoija-service.kouta.haku :as haku]
+            [konfo-indeksoija-service.kouta.hakukohde :as hakukohde]
+            [konfo-indeksoija-service.kouta.valintaperuste :as valintaperuste]
+            [konfo-indeksoija-service.kouta.koulutus-search :as koulutus-search]))
 
 (defn parse
   [body]
@@ -51,3 +57,12 @@
   (tools/delete-index "query_perf")
   (tools/delete-index "lastindex")
   (Thread/sleep 1000))
+
+(defn reset-kouta-test-data
+  []
+  (tools/delete-index koulutus/index-name)
+  (tools/delete-index toteutus/index-name)
+  (tools/delete-index haku/index-name)
+  (tools/delete-index hakukohde/index-name)
+  (tools/delete-index valintaperuste/index-name)
+  (tools/delete-index koulutus-search/index-name))

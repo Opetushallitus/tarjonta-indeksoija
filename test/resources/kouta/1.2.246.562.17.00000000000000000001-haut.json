@@ -1,0 +1,24 @@
+[
+  {
+    "oid": "1.2.246.562.29.00000000000000000001",
+    "nimi": {
+      "fi": "Haku 0",
+      "sv": "Haku 0 sv"
+    },
+    "tila": "julkaistu",
+    "organisaatioOid": "1.2.246.562.10.67476956288",
+    "muokkaaja": "5.4.3.2.1",
+    "modified": "2019-02-05T09:49"
+  },
+  {
+    "oid": "1.2.246.562.29.00000000000000000003",
+    "nimi": {
+      "fi": "Haku 2",
+      "sv": "Haku 2 sv"
+    },
+    "tila": "tallennettu",
+    "organisaatioOid": "1.2.246.562.10.67476956288",
+    "muokkaaja": "5.4.3.2.1",
+    "modified": "2019-02-05T09:49"
+  }
+]

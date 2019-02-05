@@ -1,0 +1,338 @@
+[
+  {
+    "oid": "1.2.246.562.17.00000000000000000001",
+    "koulutusOid": "1.2.246.562.13.00000000000000000001",
+    "tila": "arkistoitu",
+    "tarjoajat": [
+      "1.2.246.562.10.23178783348",
+      "1.2.246.562.10.69157007167"
+    ],
+    "nimi": {
+      "fi": "Koulutuksen 0 toteutus 0",
+      "sv": "Koulutuksen 0 toteutus 0 sv"
+    },
+    "metadata": {
+      "kuvaus": {},
+      "osaamisalat": [
+        {
+          "koodi": "osaamisala_koodi_uri#1",
+          "linkki": {
+            "fi": "http://osaamisala/linkki/fi",
+            "sv": "http://osaamisala/linkki/sv"
+          },
+          "otsikko": {
+            "fi": "Katso osaamisalan tarkempi kuvaus tästä",
+            "sv": "Katso osaamisalan tarkempi kuvaus tästä sv"
+          }
+        }
+      ],
+      "opetus": {
+        "opetuskielet": [
+          "kieli_fi#1"
+        ],
+        "opetusaikaKoodiUri": "opetusaikakk_1#1",
+        "opetustapaKoodiUri": "opetuspaikkakk_1#1",
+        "onkoMaksullinen": true,
+        "maksunMaara": {
+          "fi": "200,50 euroa",
+          "sv": "200,50 euro"
+        },
+        "kuvaus": {
+          "fi": "Kuvaus fi",
+          "sv": "Kuvaus sv"
+        },
+        "osiot": [
+          {
+            "otsikko": {
+              "fi": "Opintojen rakenne",
+              "sv": "Rakenne sv"
+            },
+            "teksti": {
+              "fi": "Opintojen rakenteen kuvaus",
+              "sv": "Rakenne kuvaus sv"
+            }
+          },
+          {
+            "otsikko": {
+              "fi": "Sisältö",
+              "sv": "Sisältö sv"
+            },
+            "teksti": {
+              "fi": "Sisältö kuvaus",
+              "sv": "Sisältö kuvaus sv"
+            }
+          }
+        ]
+      },
+      "asiasanat": [
+        {
+          "kieli": "fi",
+          "arvo": "robotiikka"
+        },
+        {
+          "kieli": "fi",
+          "arvo": "robottiautomatiikka"
+        }
+      ],
+      "ammattinimikkeet": [
+        {
+          "kieli": "fi",
+          "arvo": "automaatioinsinööri"
+        },
+        {
+          "kieli": "fi",
+          "arvo": "koneinsinööri"
+        }
+      ],
+      "yhteystieto": {
+        "nimi": {
+          "fi": "Aku Ankka",
+          "sv": "Aku Ankka"
+        },
+        "titteli": {
+          "fi": "titteli",
+          "sv": "titteli sv"
+        },
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
+        },
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
+        }
+      }
+    },
+    "muokkaaja": "1.2.246.562.24.62301161440",
+    "organisaatioOid": "1.2.246.562.10.67476956288",
+    "kielivalinta": [
+      "fi",
+      "sv"
+    ],
+    "modified": "2019-02-01T13:16"
+  },
+  {
+    "oid": "1.2.246.562.17.00000000000000000002",
+    "koulutusOid": "1.2.246.562.13.00000000000000000001",
+    "tila": "julkaistu",
+    "tarjoajat": [
+      "1.2.246.562.10.23178783348",
+      "1.2.246.562.10.69157007167"
+    ],
+    "nimi": {
+      "fi": "Koulutuksen 0 toteutus 1",
+      "sv": "Koulutuksen 0 toteutus 1 sv"
+    },
+    "metadata": {
+      "kuvaus": {},
+      "osaamisalat": [
+        {
+          "koodi": "osaamisala_koodi_uri#1",
+          "linkki": {
+            "fi": "http://osaamisala/linkki/fi",
+            "sv": "http://osaamisala/linkki/sv"
+          },
+          "otsikko": {
+            "fi": "Katso osaamisalan tarkempi kuvaus tästä",
+            "sv": "Katso osaamisalan tarkempi kuvaus tästä sv"
+          }
+        }
+      ],
+      "opetus": {
+        "opetuskielet": [
+          "kieli_fi#1"
+        ],
+        "opetusaikaKoodiUri": "opetusaikakk_1#1",
+        "opetustapaKoodiUri": "opetuspaikkakk_1#1",
+        "onkoMaksullinen": true,
+        "maksunMaara": {
+          "fi": "200,50 euroa",
+          "sv": "200,50 euro"
+        },
+        "kuvaus": {
+          "fi": "Kuvaus fi",
+          "sv": "Kuvaus sv"
+        },
+        "osiot": [
+          {
+            "otsikko": {
+              "fi": "Opintojen rakenne",
+              "sv": "Rakenne sv"
+            },
+            "teksti": {
+              "fi": "Opintojen rakenteen kuvaus",
+              "sv": "Rakenne kuvaus sv"
+            }
+          },
+          {
+            "otsikko": {
+              "fi": "Sisältö",
+              "sv": "Sisältö sv"
+            },
+            "teksti": {
+              "fi": "Sisältö kuvaus",
+              "sv": "Sisältö kuvaus sv"
+            }
+          }
+        ]
+      },
+      "asiasanat": [
+        {
+          "kieli": "fi",
+          "arvo": "musiikkioppilaitokset"
+        },
+        {
+          "kieli": "fi",
+          "arvo": "psykologia"
+        }
+      ],
+      "ammattinimikkeet": [
+        {
+          "kieli": "fi",
+          "arvo": "muusikko"
+        },
+        {
+          "kieli": "fi",
+          "arvo": "psykologi"
+        }
+      ],
+      "yhteystieto": {
+        "nimi": {
+          "fi": "Aku Ankka",
+          "sv": "Aku Ankka"
+        },
+        "titteli": {
+          "fi": "titteli",
+          "sv": "titteli sv"
+        },
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
+        },
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
+        }
+      }
+    },
+    "muokkaaja": "1.2.246.562.24.62301161440",
+    "organisaatioOid": "1.2.246.562.10.67476956288",
+    "kielivalinta": [
+      "fi",
+      "sv"
+    ],
+    "modified": "2019-02-01T13:16"
+  },
+  {
+    "oid": "1.2.246.562.17.00000000000000000003",
+    "koulutusOid": "1.2.246.562.13.00000000000000000001",
+    "tila": "julkaistu",
+    "tarjoajat": [
+      "1.2.246.562.10.23178783348",
+      "1.2.246.562.10.69157007167"
+    ],
+    "nimi": {
+      "fi": "Koulutuksen 0 toteutus 2",
+      "sv": "Koulutuksen 0 toteutus 2 sv"
+    },
+    "metadata": {
+      "kuvaus": {},
+      "osaamisalat": [
+        {
+          "koodi": "osaamisala_koodi_uri#1",
+          "linkki": {
+            "fi": "http://osaamisala/linkki/fi",
+            "sv": "http://osaamisala/linkki/sv"
+          },
+          "otsikko": {
+            "fi": "Katso osaamisalan tarkempi kuvaus tästä",
+            "sv": "Katso osaamisalan tarkempi kuvaus tästä sv"
+          }
+        }
+      ],
+      "opetus": {
+        "opetuskielet": [
+          "kieli_fi#1"
+        ],
+        "opetusaikaKoodiUri": "opetusaikakk_1#1",
+        "opetustapaKoodiUri": "opetuspaikkakk_1#1",
+        "onkoMaksullinen": true,
+        "maksunMaara": {
+          "fi": "200,50 euroa",
+          "sv": "200,50 euro"
+        },
+        "kuvaus": {
+          "fi": "Kuvaus fi",
+          "sv": "Kuvaus sv"
+        },
+        "osiot": [
+          {
+            "otsikko": {
+              "fi": "Opintojen rakenne",
+              "sv": "Rakenne sv"
+            },
+            "teksti": {
+              "fi": "Opintojen rakenteen kuvaus",
+              "sv": "Rakenne kuvaus sv"
+            }
+          },
+          {
+            "otsikko": {
+              "fi": "Sisältö",
+              "sv": "Sisältö sv"
+            },
+            "teksti": {
+              "fi": "Sisältö kuvaus",
+              "sv": "Sisältö kuvaus sv"
+            }
+          }
+        ]
+      },
+      "asiasanat": [
+        {
+          "kieli": "fi",
+          "arvo": "robotiikka"
+        },
+        {
+          "kieli": "fi",
+          "arvo": "robottiautomatiikka"
+        }
+      ],
+      "ammattinimikkeet": [
+        {
+          "kieli": "fi",
+          "arvo": "automaatioinsinööri"
+        },
+        {
+          "kieli": "fi",
+          "arvo": "koneinsinööri"
+        }
+      ],
+      "yhteystieto": {
+        "nimi": {
+          "fi": "Aku Ankka",
+          "sv": "Aku Ankka"
+        },
+        "titteli": {
+          "fi": "titteli",
+          "sv": "titteli sv"
+        },
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
+        },
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
+        }
+      }
+    },
+    "muokkaaja": "1.2.246.562.24.62301161440",
+    "organisaatioOid": "1.2.246.562.10.67476956288",
+    "kielivalinta": [
+      "fi",
+      "sv"
+    ],
+    "modified": "2019-02-01T13:16"
+  }
+]
