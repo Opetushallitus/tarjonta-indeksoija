@@ -31,6 +31,8 @@
 (defn body-json->map [msg] (json/parse-string (:body msg) true))
 
 (defn handle-messages-from-queues
+  "Receive messages from queues and call handler function on them. If handling is
+  successful delete messages from queue."
   ([handler] (handle-messages-from-queues handler body-json->map))
   ([handler unwrap]
    (let [received (receive-messages-from-queues)
@@ -44,7 +46,10 @@
 
 
 (defn index-from-queue!
+  "Start future to receive messages from queues and index them. On errors just
+  prints log message and continues receiving."
   []
+  (log/info "Start listening on queues.")
   (future
     (loop []
       (try
@@ -60,8 +65,8 @@
   (log/warn "Stopped listening on queues."))
 
 
-;; TODO add to scheduling
 (defn handle-failed
+  "Handle messages from DLQ. Mark message states to failed."
   []
-  (let [failed (queue-sqs/short-poll (queue :dlq))]
+  (if-let [failed (seq (:messages (queue-sqs/short-poll (queue :dlq))))]
     (state/set-states! ::state/failed failed)))
