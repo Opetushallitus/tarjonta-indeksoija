@@ -7,6 +7,8 @@
             [konfo-indeksoija-service.util.logging :as logging]
             [konfo-indeksoija-service.indexer.index :as i]
             [konfo-indeksoija-service.indexer.job :as j]
+            [konfo-indeksoija-service.queue.job :as qjob]
+            [konfo-indeksoija-service.queue.queue :as q]
             [konfo-indeksoija-service.indexer.queue :as queue]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
             [konfo-indeksoija-service.kouta.indexer :as kouta]
@@ -31,7 +33,10 @@
   (init-elastic-client)
   (if (and (admin/check-elastic-status)
            (admin/initialize-indices))
-    (comment j/start-indexer-job)
+    (do
+      (comment j/start-indexer-job)
+      (qjob/start-handle-dlq-job)
+      (q/index-from-queue!))
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))

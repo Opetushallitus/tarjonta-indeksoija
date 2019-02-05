@@ -72,7 +72,7 @@
         (start-indexer-job))
       (do
         (log/info "Stopping all jobs and clearing job pool.")
-        (reset-jobs)
-        ))
+        (reset-jobs)))
+
     (catch ObjectAlreadyExistsException e "Indexer already running.")
     (catch Exception e)))

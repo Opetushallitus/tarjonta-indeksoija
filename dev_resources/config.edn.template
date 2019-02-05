@@ -18,4 +18,5 @@
  :queue {:priority "priority-indexing-queue"
          :fast "fast-indexing-queue"
          :slow "slow-indexing-queue"
-         :dlq "indexing-dql"}}
+         :dlq "indexing-dql"}
+ :dlq-cron-string "*/15 * * ? * *"}
