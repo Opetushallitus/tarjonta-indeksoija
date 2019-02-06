@@ -16,7 +16,7 @@
   "pohjakoulutusvaatimusKoodiUri": "pohjakoulutusvaatimus_01#2",
   "muuPohjakoulutusvaatimus": {},
   "kaytetaanHaunAikataulua": false,
-  "valintaperuste": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+  "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
   "liitteetOnkoSamaToimitusaika": true,
   "liitteetOnkoSamaToimitusosoite": false,
   "liitteidenToimitusaika": "2019-02-05T09:58",

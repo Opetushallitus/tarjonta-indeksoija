@@ -8,8 +8,10 @@
 (defn create-index-entry
   [oid]
   (let [hakukohde (common/complete-entry (kouta-backend/get-hakukohde oid))
-        valintaperustekuvaus (common/complete-entry (kouta-backend/get-valintaperuste (:valintaperuste hakukohde)))]
-    (assoc hakukohde :valintaperuste valintaperustekuvaus)))
+        valintaperustekuvaus (common/complete-entry (kouta-backend/get-valintaperuste (:valintaperusteId hakukohde)))]
+    (-> hakukohde
+        (assoc :valintaperuste valintaperustekuvaus)
+        (dissoc :valintaperusteId))))
 
 (defn create-index-entries
   [oids]
