@@ -117,14 +117,8 @@
                        :fields {:keyword {:type "keyword"
                                           :ignore_above 256}}}}})
 
-(def kouta-settings
+(def kouta-settings-search
   {:dynamic_templates [{:nested {:match "toteutukset"
-                                 :match_mapping_type "object"
-                                 :mapping { :type "nested" }}}
-                       {:nested {:match "hakukohteet"
-                                 :match_mapping_type "object"
-                                 :mapping { :type "nested" }}}
-                       {:nested {:match "haut"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
                        {:fi {:match "fi"
@@ -139,6 +133,27 @@
                                          :analyzer "finnish"
                                          :norms { :enabled false}
                                          :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
+
+(def kouta-settings
+  {:dynamic_templates [{:muokkaaja {:match "muokkaaja.nimi"
+                                    :match_mapping_type "string"
+                                    :mapping {:type "text"
+                                       :analyzer "finnish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:fi {:match "fi"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "finnish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:tila {:match "tila"
+                               :match_mapping_type "string"
+                               :mapping {:type "text"
+                                         :analyzer "finnish"
+                                         :norms { :enabled false}
+                                         :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
+
 (def boost-values
   ["*fi"
    "*sv"

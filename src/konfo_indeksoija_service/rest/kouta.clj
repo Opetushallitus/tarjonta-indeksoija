@@ -44,7 +44,7 @@
   ([koulutus-oid vainJulkaistut]
    (with-error-logging
     (let [url (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/toteutukset")]
-      (log/info (str "GET => " url))
+      (log/debug (str "GET => " url))
       (:body (client/get url {:as :json :query-params {:vainJulkaistut vainJulkaistut}})))))
   ([koulutus-oid]
    (get-toteutus-list-for-koulutus koulutus-oid false)))
@@ -52,7 +52,7 @@
 (defn get-as-json
   [url]
   (with-error-logging
-    (log/info (str "GET => " url))
+    (log/debug (str "GET => " url))
     (:body (client/get url {:as :json}))))
 
 (defn get-hakutiedot-for-koulutus

@@ -56,7 +56,7 @@
      (context "/kouta" []
        :tags ["kouta"]
 
-       (GET "/all" []
+       (POST "/all" []
          :query-params [{since :- Long 0}]
          :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
          (ok {:result (if (= 0 since)

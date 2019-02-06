@@ -53,9 +53,10 @@
   (let [index-names ["hakukohde" "koulutus" "haku" "koulutusmoduuli", "eperuste" "osaamisalakuvaus" "toteutus"]]
     (every? true? (doall (map #(update-index-mappings % % settings/stemmer-settings) index-names))))
   (update-index-mappings "organisaatio" "organisaatio" settings/stemmer-settings-organisaatio)
-  (let [kouta-index-names ["koulutus-kouta" "toteutus-kouta" "hakukohde-kouta" "haku-kouta" "valintaperuste-kouta"
-                           "koulutus-kouta-search" "organisaatio-kouta-search"]]
-    (every? true? (doall (map #(update-index-mappings % % settings/kouta-settings) kouta-index-names)))))
+  (let [kouta-index-names ["koulutus-kouta" "toteutus-kouta" "hakukohde-kouta" "haku-kouta" "valintaperuste-kouta"]
+        kouta-search-index-name ["koulutus-kouta-search" "organisaatio-kouta-search"]]
+    (doall (map #(update-index-mappings % % settings/kouta-settings) kouta-index-names))
+    (doall (map #(update-index-mappings % % settings/kouta-settings-search) kouta-search-index-name))))
 
 (defn initialize-indices []
   (log/info "Initializing indices")
