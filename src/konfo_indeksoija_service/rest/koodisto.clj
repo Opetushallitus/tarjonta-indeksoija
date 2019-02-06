@@ -9,12 +9,8 @@
   [url]
   (log/info url)
   (with-error-logging
-   (let [res (client/get url {:as :json})
-         body (:body res)
-         status (:status res)]
-     (if (not (= status 200))
-       (throw (RuntimeException.)))
-     body)))
+   (let [res (client/get url {:as :json})]
+     (:body res))))
 
 (defn- koodi-url
   ([koodisto koodi]
@@ -24,7 +20,7 @@
 
 (defn get-koodi
   [koodisto koodi-uri]
-  (if koodi-uri
+  (when koodi-uri
     (if-let [i (clojure.string/index-of koodi-uri "#")]
       (get-koodi-with-url (koodi-url koodisto (subs koodi-uri 0 i) (subs koodi-uri (+ i 1))))
       (get-koodi-with-url (koodi-url koodisto koodi-uri)))))
@@ -39,5 +35,5 @@
      (reduce #(assoc %1 (keyword (clojure.string/lower-case (:kieli %2))) (:nimi %2)) {} (:metadata value)))
    (merge {:koodiUri koodi-uri} {:nimi (extract-nimi (get-koodi-with-cache koodisto koodi-uri))}))
   ([koodi-uri]
-   (if koodi-uri
+   (when koodi-uri
      (get-koodi-nimi-with-cache (subs koodi-uri 0 (clojure.string/index-of koodi-uri "_")) koodi-uri))))
