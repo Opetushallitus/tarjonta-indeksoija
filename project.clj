@@ -66,18 +66,28 @@
                              [jonase/eastwood "0.2.3"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
-                             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]]
+                             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]
+                             [lein-with-env-vars "0.2.0"]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
-                   :ring {:reload-paths ["src"]}}
+                   :ring {:reload-paths ["src"]}
+                   :env-vars {:AWS_ACCESS_KEY_ID "just need something for Localstack"
+                              :AWS_SECRET_KEY "just need something for Localstack"}}
              :test {:env {:test "true"} :dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]}
+                                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+
+                    :plugins [[lein-with-env-vars "0.2.0"]]
+                    :env-vars {:AWS_ACCESS_KEY_ID "just need something for Localstack"
+                               :AWS_SECRET_KEY "just need something for Localstack"}}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+                       :plugins [[lein-with-env-vars "0.2.0"]]
+                       :env-vars {:AWS_ACCESS_KEY_ID "just need something for Localstack"
+                                  :AWS_SECRET_KEY "just need something for Localstack"}
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
@@ -85,7 +95,7 @@
                                                       #"konfo_indeksoija_service/\w*_test.clj"
                                                       #"konfo_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
   :aliases {"run" ["ring" "server"]
-            "test" ["with-profile" "+test" "midje"]
+            "test" ["with-profile" "+test" "with-env-vars" "midje"]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "install" ["with-profile" "+jar-with-test-fixture" "install"]
             "ci-test" ["with-profile" "+ci-test" "midje"]
