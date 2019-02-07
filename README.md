@@ -53,7 +53,13 @@ Running the app itself from the repl doesn't seem worth while.
 
 To run tests from command line use commands `lein test` or `lein autotest`
 
-TO run single test from command line use command `lein with-profile +test midje konfo-indeksoija-service.elastic-client-test`
+To run single test from command line use command `lein test konfo-indeksoija-service.elastic-client-test`.
+
+Tests require that Docker is installed and Docker daemon is up and running. It
+is possible to filter out tests that require Docker by adding filter, ie
+`lein test :filter -docker` or `lein autotest :filter -docker`. These tests include
+at least those that test SQS integration.
+
 
 ### Configuration
 
