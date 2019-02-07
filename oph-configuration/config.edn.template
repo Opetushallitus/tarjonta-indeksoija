@@ -4,6 +4,7 @@
  :organisaatio-service-url "{{konfo_indeksoija_organisaatio_service_url}}"
  :koodisto-service-url "{{konfo_indeksoija_koodisto_service_url}}"
  :eperusteet-service-url "{{konfo_indeksoija_eperusteet_service_url}}"
+ :kouta-backend-url "{{konfo_indeksoija_kouta_backend_url}}"
  :elastic-timeout 100000
  :s3-dev-disabled "false"
  :s3-bucket "{{konfo_indeksoija_s3_bucket}}"
