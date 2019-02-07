@@ -61,5 +61,5 @@
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
-            "create-uberjar" ["do" "clean" ["ring" "uberjar"]]}
+            "uberjar" ["do" "clean" ["ring" "uberjar"]]}
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])

@@ -65,16 +65,6 @@ git@git.oph.ware.fi:environment-{ophitest|ophp|ophprod|vagrant}.git in deploy/<e
 NOTE: The cron-string variable roughly follows cron scheduler syntax with a few alterations shown 
 [here](http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html).
 
-### Packaging and running as standalone jar
-
-To create a runnable jar file, put a config.edn file to resources folder and run. 
-This is just for testing the jar, DO NOT DO THIS IN BAMBOO!
-
-```
-./ci/build.sh uberjar
-java -jar target/server.jar
-```
-
 ## License
 
 Copyright (c) 2017 The Finnish National Board of Education - Opetushallitus
