@@ -27,22 +27,3 @@
 (fact "'in?' should return false if collection does not contain given value"
       (in? [1 2 3 4] 5) => false
       (in? '(1 2 3 4) 5) => false)
-
-(defn- wrap [step & body]
-  (println (str "start wrap " step))
-  (do body)
-  (println (str "end wrap " step)))
-
-(facts "foobar"
-      (against-background [(around :contents
-                                   (do
-                                     (println (str "start wrap contents"))
-                                     ?form
-                                     (println (str "end wrap contents"))))
-                           (around :facts (wrap "facts" ?form))
-                           (before :contents (println "contents.."))
-                           (before :facts (println "facts.."))
-                           (after :contents (println "..contents"))
-                           (after :facts (println "..facts"))])
-      (fact "bar" 1 => 1)
-      (fact "foo" 2 => 2))
