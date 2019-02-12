@@ -62,7 +62,7 @@
       (let [msg (sqs-message "non-json-stuff")]
         (body-json->map msg) => (throws com.fasterxml.jackson.core.JsonParseException)))
 
-(facts :docker
+(facts "SQS related tests that need Docker" :docker
   (let [expected-messages [(json/generate-string {:oid "expected-123.123.123"})
                            (json/generate-string {:oid "expected-234.234.234"})]
         not-expected-messages [(json/generate-string {:oid "not-expected-321.321.321"})
