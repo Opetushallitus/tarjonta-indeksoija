@@ -69,9 +69,9 @@
 
       (fact "Indexer should index tallennettu koulutus only to koulutus index"
         (with-redefs [kouta-backend/get-koulutus (fn [oid] (merge (json oid) {:tila "tallennettu"}))]
-            (i/index-koulutus koulutus-oid)
-            (read search/index-name koulutus-oid) => nil
-            (no-timestamp (read koulutus/index-name koulutus-oid)) => (no-timestamp (merge (json "kouta-koulutus-result") {:tila "tallennettu"}))))
+          (i/index-koulutus koulutus-oid)
+          (read search/index-name koulutus-oid) => nil
+          (no-timestamp (read koulutus/index-name koulutus-oid)) => (no-timestamp (merge (json "kouta-koulutus-result") {:tila "tallennettu"}))))
 
       (with-redefs [kouta-backend/list-koulutukset-by-haku (fn [oid] (json (str oid "-koulutukset")))
                     kouta-backend/get-hakukohde (fn [oid] (json oid))
@@ -84,25 +84,25 @@
                     kouta-backend/get-hakutiedot-for-koulutus (fn [oid] (json (str oid "-hakutiedot")))
                     kouta-backend/get-last-modified (fn [s] oids)]
 
-      (fact "Indexer should index julkaistu koulutus also to search index"
-            (i/index-koulutus koulutus-oid)
-            (no-timestamp (read search/index-name koulutus-oid)) => (no-timestamp (json "kouta-koulutus-search-result"))
-            (no-timestamp (read koulutus/index-name koulutus-oid)) => (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"})))
+        (fact "Indexer should index julkaistu koulutus also to search index"
+          (i/index-koulutus koulutus-oid)
+          (no-timestamp (read search/index-name koulutus-oid)) => (no-timestamp (json "kouta-koulutus-search-result"))
+          (no-timestamp (read koulutus/index-name koulutus-oid)) => (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"})))
 
-      (fact "Indexer should index toteutus to toteutus index and update related indexes"
+        (fact "Indexer should index toteutus to toteutus index and update related indexes"
           (i/index-toteutus toteutus-oid)
           (no-timestamp (read toteutus/index-name toteutus-oid)) => (no-timestamp (json "kouta-toteutus-result"))
           (:oid (read search/index-name koulutus-oid)) => koulutus-oid
           (:oid (read koulutus/index-name koulutus-oid)) => koulutus-oid)
 
-      (fact "Indexer should index haku to haku index and update related indexes"
+        (fact "Indexer should index haku to haku index and update related indexes"
           (i/index-haku haku-oid)
           (no-timestamp (read haku/index-name haku-oid)) => (no-timestamp (json "kouta-haku-result"))
           (:oid (read toteutus/index-name toteutus-oid)) => toteutus-oid
           (:oid (read search/index-name koulutus-oid)) => koulutus-oid
           (read koulutus/index-name koulutus-oid) => nil)
 
-      (fact "Indexer should index hakukohde to hakukohde index and update related indexes"
+        (fact "Indexer should index hakukohde to hakukohde index and update related indexes"
           (i/index-hakukohde hakukohde-oid)
           (no-timestamp (read hakukohde/index-name hakukohde-oid)) => (no-timestamp (json "kouta-hakukohde-result"))
           (:oid (read haku/index-name haku-oid)) => haku-oid
@@ -110,24 +110,24 @@
           (:oid (read search/index-name koulutus-oid)) => koulutus-oid
           (read koulutus/index-name koulutus-oid) => nil)
 
-      (fact "Indexer should index valintaperuste to valintaperuste index"
-        (i/index-valintaperuste valintaperuste-id)
-        (no-timestamp (read valintaperuste/index-name valintaperuste-id)) => (no-timestamp (json "kouta-valintaperuste-result")))
+        (fact "Indexer should index valintaperuste to valintaperuste index"
+          (i/index-valintaperuste valintaperuste-id)
+          (no-timestamp (read valintaperuste/index-name valintaperuste-id)) => (no-timestamp (json "kouta-valintaperuste-result")))
 
-      (fact "Indexer should index all"
-        (i/index-all)
-        (:oid (read haku/index-name haku-oid)) => haku-oid
-        (:oid (read hakukohde/index-name hakukohde-oid)) => hakukohde-oid
-        (:oid (read toteutus/index-name toteutus-oid)) => toteutus-oid
-        (:oid (read koulutus/index-name koulutus-oid)) => koulutus-oid
-        (:oid (read search/index-name koulutus-oid)) => koulutus-oid
-        (:id (read valintaperuste/index-name valintaperuste-id)) => valintaperuste-id)
+        (fact "Indexer should index all"
+          (i/index-all)
+          (:oid (read haku/index-name haku-oid)) => haku-oid
+          (:oid (read hakukohde/index-name hakukohde-oid)) => hakukohde-oid
+          (:oid (read toteutus/index-name toteutus-oid)) => toteutus-oid
+          (:oid (read koulutus/index-name koulutus-oid)) => koulutus-oid
+          (:oid (read search/index-name koulutus-oid)) => koulutus-oid
+          (:id (read valintaperuste/index-name valintaperuste-id)) => valintaperuste-id)
 
-      (fact "Indexer should index changed oids"
-        (i/index-oids {:hakukohteet [hakukohde-oid]})
-        (:oid (read haku/index-name haku-oid)) => haku-oid
-        (:oid (read hakukohde/index-name hakukohde-oid)) => hakukohde-oid
-        (:oid (read toteutus/index-name toteutus-oid)) => nil
-        (:oid (read koulutus/index-name koulutus-oid)) => nil
-        (:oid (read search/index-name koulutus-oid)) => koulutus-oid
-        (:id (read valintaperuste/index-name valintaperuste-id)) => nil)))))
+        (fact "Indexer should index changed oids"
+          (i/index-oids {:hakukohteet [hakukohde-oid]})
+          (:oid (read haku/index-name haku-oid)) => haku-oid
+          (:oid (read hakukohde/index-name hakukohde-oid)) => hakukohde-oid
+          (:oid (read toteutus/index-name toteutus-oid)) => nil
+          (:oid (read koulutus/index-name koulutus-oid)) => nil
+          (:oid (read search/index-name koulutus-oid)) => koulutus-oid
+          (:id (read valintaperuste/index-name valintaperuste-id)) => nil)))))
