@@ -9,6 +9,7 @@
 (defn- to-list-item
   [toteutus]
   (-> {}
+      (assoc :oid (:oid toteutus))
       (assoc :organisaatio (:organisaatio toteutus))
       (assoc :nimi (:nimi toteutus))
       (assoc :tila (:tila toteutus))
