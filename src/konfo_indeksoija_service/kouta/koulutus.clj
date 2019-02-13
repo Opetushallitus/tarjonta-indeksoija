@@ -21,7 +21,7 @@
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
     (-> koulutus
-        (assoc :toteutukset (map to-list-item toteutukset)))))
+        (assoc :toteutukset (map to-list-item toteutukset) :toteutusCount (count toteutukset)))))
 
 (defn create-index-entries
   [oids]
