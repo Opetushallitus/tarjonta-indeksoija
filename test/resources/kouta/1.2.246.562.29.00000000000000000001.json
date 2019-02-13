@@ -1,0 +1,50 @@
+{
+  "oid": "1.2.246.562.29.00000000000000000001",
+  "tila": "julkaistu",
+  "nimi": {
+    "fi": "Haku 0",
+    "sv": "Haku 0 sv"
+  },
+  "hakutapaKoodiUri": "hakutapa_03#1",
+  "hakukohteenLiittamisenTakaraja": "2019-02-05T09:58",
+  "hakukohteenMuokkaamisenTakaraja": "2019-02-05T09:58",
+  "alkamiskausiKoodiUri": "kausi_k#1",
+  "alkamisvuosi": "2019",
+  "kohdejoukkoKoodiUri": "haunkohdejoukko_11#1",
+  "kohdejoukonTarkenneKoodiUri": "haunkohdejoukontarkenne_1#1",
+  "hakulomaketyyppi": "ei s\u00e4hk\u00f6ist\u00e4",
+  "hakulomake": "Hakulomake tulostetaan ja toimitetaan postitse",
+  "metadata": {
+    "yhteystieto": {
+      "nimi": {
+        "fi": "Aku Ankka",
+        "sv": "Aku Ankka"
+      },
+      "titteli": {
+        "fi": "titteli",
+        "sv": "titteli sv"
+      },
+      "sahkoposti": {
+        "fi": "aku.ankka@ankkalinnankoulu.fi",
+        "sv": "aku.ankka@ankkalinnankoulu.fi"
+      },
+      "puhelinnumero": {
+        "fi": "123",
+        "sv": "123"
+      }
+    }
+  },
+  "organisaatioOid": "1.2.246.562.10.67476956288",
+  "hakuajat": [
+    {
+      "alkaa": "2019-01-22T09:49",
+      "paattyy": "2019-02-19T09:49"
+    }
+  ],
+  "muokkaaja": "5.4.3.2.1",
+  "kielivalinta": [
+    "fi",
+    "sv"
+  ],
+  "modified": "2019-02-05T09:49"
+}

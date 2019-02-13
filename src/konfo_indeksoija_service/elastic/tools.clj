@@ -28,13 +28,17 @@
     (-> (e/get-document (index-name index) (index-name type) id)
         (:_source))))
 
+(defn- get-id
+  [doc]
+  (or (:oid doc) (:id doc)))
+
 (defn- upsert-operation
   [doc index type]
-  {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
+  {"update" {:_index (index-name index) :_type (index-name type) :_id (get-id doc)}})
 
 (defn- update-operation
   [doc index type]
-  {"update" {:_index (index-name index) :_type (index-name type) :_id (:oid doc)}})
+  {"update" {:_index (index-name index) :_type (index-name type) :_id (get-id doc)}})
 
 (defn- upsert-doc
   [doc type now]

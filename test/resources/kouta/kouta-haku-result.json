@@ -1,0 +1,116 @@
+{
+  "tila" : "julkaistu",
+  "hakukohteenMuokkaamisenTakaraja" : "2019-02-05T09:58",
+  "hakulomaketyyppi" : "ei sähköistä",
+  "alkamiskausi" : {
+    "koodiUri" : "kausi_k#1",
+    "nimi" : {
+      "fi" : "kausi_k#1 nimi fi",
+      "sv" : "kausi_k#1 nimi sv"
+    }
+  },
+  "modified" : "2019-02-05T09:49",
+  "hakutapa" : {
+    "koodiUri" : "hakutapa_03#1",
+    "nimi" : {
+      "fi" : "hakutapa_03#1 nimi fi",
+      "sv" : "hakutapa_03#1 nimi sv"
+    }
+  },
+  "hakukohteet" : [ {
+    "tila" : "arkistoitu",
+    "modified" : "2019-02-05T09:49",
+    "toteutusOid" : "1.2.246.562.17.00000000000000000001",
+    "nimi" : {
+      "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0",
+      "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+    },
+    "muokkaaja" : {
+      "oid" : "1.2.3.2.1",
+      "nimi" : "Kalle Ankka"
+    },
+    "oid" : "1.2.246.562.20.00000000000000000001",
+    "hakuOid" : "1.2.246.562.29.00000000000000000001",
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Metropolia AMK, Helsinki, Tukholmankatu",
+        "en" : "Helsinki Metropolia UAS, Helsinki, Tukholmankatu"
+      },
+      "oid" : "1.2.246.562.10.23178783348"
+    },
+    "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+  } ],
+  "nimi" : {
+    "fi" : "Haku 0",
+    "sv" : "Haku 0 sv"
+  },
+  "hakulomake" : "Hakulomake tulostetaan ja toimitetaan postitse",
+  "muokkaaja" : {
+    "oid" : "5.4.3.2.1",
+    "nimi" : "Kalle Ankka"
+  },
+  "oid" : "1.2.246.562.29.00000000000000000001",
+  "hakuajat" : [ {
+    "alkaa" : "2019-01-22T09:49",
+    "paattyy" : "2019-02-19T09:49"
+  } ],
+  "kohdejoukko" : {
+    "koodiUri" : "haunkohdejoukko_11#1",
+    "nimi" : {
+      "fi" : "haunkohdejoukko_11#1 nimi fi",
+      "sv" : "haunkohdejoukko_11#1 nimi sv"
+    }
+  },
+  "kielivalinta" : [ "fi", "sv" ],
+  "kohdejoukonTarkenne" : {
+    "koodiUri" : "haunkohdejoukontarkenne_1#1",
+    "nimi" : {
+      "fi" : "haunkohdejoukontarkenne_1#1 nimi fi",
+      "sv" : "haunkohdejoukontarkenne_1#1 nimi sv"
+    }
+  },
+  "timestamp" : 1549368453241,
+  "alkamisvuosi" : "2019",
+  "hakukohteenLiittamisenTakaraja" : "2019-02-05T09:58",
+  "organisaatio" : {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Metropolia Ammattikorkeakoulu",
+      "en" : "Metropolia University of Applied Sciences"
+    },
+    "oid" : "1.2.246.562.10.67476956288"
+  },
+  "metadata" : {
+    "yhteystieto" : {
+      "nimi" : {
+        "fi" : "Aku Ankka",
+        "sv" : "Aku Ankka"
+      },
+      "titteli" : {
+        "fi" : "titteli",
+        "sv" : "titteli sv"
+      },
+      "sahkoposti" : {
+        "fi" : "aku.ankka@ankkalinnankoulu.fi",
+        "sv" : "aku.ankka@ankkalinnankoulu.fi"
+      },
+      "puhelinnumero" : {
+        "fi" : "123",
+        "sv" : "123"
+      }
+    }
+  }
+}

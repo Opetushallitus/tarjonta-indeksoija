@@ -1,0 +1,51 @@
+{
+  "tila" : "arkistoitu",
+  "modified" : "2019-02-05T09:49",
+  "hakutapa" : {
+    "koodiUri" : "hakutapa_01#1",
+    "nimi" : {
+      "fi" : "hakutapa_01#1 nimi fi",
+      "sv" : "hakutapa_01#1 nimi sv"
+    }
+  },
+  "nimi" : {
+    "fi" : "Valintaperuste 0",
+    "sv" : "Valintaperuste 0 sv"
+  },
+  "muokkaaja" : {
+    "oid" : "2.1.2.1.2",
+    "nimi" : "Kalle Ankka"
+  },
+  "id" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+  "kohdejoukko" : {
+    "koodiUri" : "haunkohdejoukko_11#1",
+    "nimi" : {
+      "fi" : "haunkohdejoukko_11#1 nimi fi",
+      "sv" : "haunkohdejoukko_11#1 nimi sv"
+    }
+  },
+  "kielivalinta" : [ "fi", "sv" ],
+  "kohdejoukonTarkenne" : {
+    "koodiUri" : "haunkohdejoukontarkenne_1#1",
+    "nimi" : {
+      "fi" : "haunkohdejoukontarkenne_1#1 nimi fi",
+      "sv" : "haunkohdejoukontarkenne_1#1 nimi sv"
+    }
+  },
+  "onkoJulkinen" : false,
+  "timestamp" : 1549373605863,
+  "organisaatio" : {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Metropolia Ammattikorkeakoulu",
+      "en" : "Metropolia University of Applied Sciences"
+    },
+    "oid" : "1.2.246.562.10.67476956288"
+  }
+}

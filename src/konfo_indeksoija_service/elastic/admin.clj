@@ -31,6 +31,8 @@
 
 (defn initialize-index-settings []
   (let [index-names ["hakukohde" "koulutus" "organisaatio" "haku" "indexdata" "osaamisalakuvaus"
+                     "toteutus" "koulutus-kouta" "toteutus-kouta" "haku-kouta" "hakukohde-kouta" "valintaperuste-kouta"
+                     "koulutus-kouta-search" "organisaatio-kouta-search"
                      "lastindex" "indexing_perf" "query_perf" "palaute" "koulutusmoduuli", "eperuste"]
         new-indexes (filter #(not (e/index-exists %)) (map t/index-name index-names))
         results (map #(e/create-index % settings/index-settings) new-indexes)
@@ -48,9 +50,13 @@
          :acknowledged))))
 
 (defn initialize-index-mappings []
-  (let [index-names ["hakukohde" "koulutus" "haku" "koulutusmoduuli", "eperuste" "osaamisalakuvaus"]]
-    (update-index-mappings "organisaatio" "organisaatio" settings/stemmer-settings-organisaatio)
-    (every? true? (doall (map #(update-index-mappings % % settings/stemmer-settings) index-names)))))
+  (let [index-names ["hakukohde" "koulutus" "haku" "koulutusmoduuli", "eperuste" "osaamisalakuvaus" "toteutus"]]
+    (every? true? (doall (map #(update-index-mappings % % settings/stemmer-settings) index-names))))
+  (update-index-mappings "organisaatio" "organisaatio" settings/stemmer-settings-organisaatio)
+  (let [kouta-index-names ["koulutus-kouta" "toteutus-kouta" "hakukohde-kouta" "haku-kouta" "valintaperuste-kouta"]
+        kouta-search-index-name ["koulutus-kouta-search" "organisaatio-kouta-search"]]
+    (doall (map #(update-index-mappings % % settings/kouta-settings) kouta-index-names))
+    (doall (map #(update-index-mappings % % settings/kouta-settings-search) kouta-search-index-name))))
 
 (defn initialize-indices []
   (log/info "Initializing indices")

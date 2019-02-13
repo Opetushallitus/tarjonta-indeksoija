@@ -1,0 +1,138 @@
+{
+  "tila" : "julkaistu",
+  "johtaaTutkintoon" : true,
+  "tarjoajat" : [ {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Metropolia Ammattikorkeakoulu",
+      "en" : "Metropolia University of Applied Sciences"
+    },
+    "oid" : "1.2.246.562.10.67476956288"
+  } ],
+  "toteutukset" : [ {
+    "oid": "1.2.246.562.17.00000000000000000001",
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Metropolia Ammattikorkeakoulu",
+        "en" : "Metropolia University of Applied Sciences"
+      },
+      "oid" : "1.2.246.562.10.67476956288"
+    },
+    "nimi" : {
+      "fi" : "Koulutuksen 0 toteutus 0",
+      "sv" : "Koulutuksen 0 toteutus 0 sv"
+    },
+    "tila" : "arkistoitu",
+    "muokkaaja" : {
+      "oid" : "1.2.246.562.24.62301161440",
+      "nimi" : "Kalle Ankka"
+    },
+    "modified" : "2019-02-01T13:16"
+  }, {
+    "oid": "1.2.246.562.17.00000000000000000002",
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Metropolia Ammattikorkeakoulu",
+        "en" : "Metropolia University of Applied Sciences"
+      },
+      "oid" : "1.2.246.562.10.67476956288"
+    },
+    "nimi" : {
+      "fi" : "Koulutuksen 0 toteutus 1",
+      "sv" : "Koulutuksen 0 toteutus 1 sv"
+    },
+    "tila" : "julkaistu",
+    "muokkaaja" : {
+      "oid" : "1.2.246.562.24.62301161440",
+      "nimi" : "Kalle Ankka"
+    },
+    "modified" : "2019-02-01T13:16"
+  }, {
+    "oid": "1.2.246.562.17.00000000000000000003",
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Metropolia Ammattikorkeakoulu",
+        "en" : "Metropolia University of Applied Sciences"
+      },
+      "oid" : "1.2.246.562.10.67476956288"
+    },
+    "nimi" : {
+      "fi" : "Koulutuksen 0 toteutus 2",
+      "sv" : "Koulutuksen 0 toteutus 2 sv"
+    },
+    "tila" : "julkaistu",
+    "muokkaaja" : {
+      "oid" : "1.2.246.562.24.62301161440",
+      "nimi" : "Kalle Ankka"
+    },
+    "modified" : "2019-02-01T13:16"
+  } ],
+  "modified" : "2019-01-31T09:11",
+  "nimi" : {
+    "fi" : "Autoalan perustutkinto 0",
+    "sv" : "Autoaland perustutkinto 0 sv"
+  },
+  "muokkaaja" : {
+    "oid" : "1.2.246.562.24.62301161440",
+    "nimi" : "Kalle Ankka"
+  },
+  "oid" : "1.2.246.562.13.00000000000000000001",
+  "kielivalinta" : [ "fi", "sv" ],
+  "koulutus" : {
+    "koodiUri" : "koulutus_371101#1",
+    "nimi" : {
+      "fi" : "koulutus_371101#1 nimi fi",
+      "sv" : "koulutus_371101#1 nimi sv"
+    }
+  },
+  "timestamp" : 1549024996125,
+  "julkinen" : true,
+  "organisaatio" : {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Metropolia Ammattikorkeakoulu",
+      "en" : "Metropolia University of Applied Sciences"
+    },
+    "oid" : "1.2.246.562.10.67476956288"
+  },
+  "metadata" : {
+    "kuvaus" : {
+      "fi" : "kuvaus",
+      "sv" : "kuvaus sv"
+    }
+  },
+  "koulutustyyppi" : "amm"
+}

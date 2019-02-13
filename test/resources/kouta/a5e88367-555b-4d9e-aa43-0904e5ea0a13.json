@@ -1,0 +1,19 @@
+{
+  "id": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+  "tila": "arkistoitu",
+  "hakutapaKoodiUri": "hakutapa_01#1",
+  "kohdejoukkoKoodiUri": "haunkohdejoukko_11#1",
+  "kohdejoukonTarkenneKoodiUri": "haunkohdejoukontarkenne_1#1",
+  "nimi": {
+    "fi": "Valintaperuste 0",
+    "sv": "Valintaperuste 0 sv"
+  },
+  "onkoJulkinen": false,
+  "organisaatioOid": "1.2.246.562.10.67476956288",
+  "muokkaaja": "2.1.2.1.2",
+  "kielivalinta": [
+    "fi",
+    "sv"
+  ],
+  "modified": "2019-02-05T09:49"
+}

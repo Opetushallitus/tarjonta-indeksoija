@@ -10,7 +10,9 @@
                                                               com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
                                                               ring/ring-codec
                                                               clj-time
-                                                              joda-time]]
+                                                              joda-time
+                                                              org.clojure/core.cache
+                                                              org.clojure/core.memoize]]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [cheshire "5.8.0"]
                  [clj-http "2.3.0"]
@@ -18,6 +20,7 @@
                  [mount "0.1.11"]
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
+                 [org.clojure/core.memoize "0.7.1"]
                  [org.postgresql/postgresql "9.4-1200-jdbc41"]
                  [base64-clj "0.1.1"]
                  [clj-time "0.14.3"]

@@ -9,6 +9,7 @@
             [konfo-indeksoija-service.indexer.job :as j]
             [konfo-indeksoija-service.indexer.queue :as queue]
             [konfo-indeksoija-service.s3.s3-client :as s3-client]
+            [konfo-indeksoija-service.kouta.indexer :as kouta]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -30,7 +31,7 @@
   (init-elastic-client)
   (if (and (admin/check-elastic-status)
            (admin/initialize-indices))
-    (j/start-indexer-job)
+    (comment j/start-indexer-job)
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))
@@ -51,6 +52,16 @@
      (GET "/healthcheck" []
        :summary "Healthcheck API."
        (ok "OK"))
+
+     (context "/kouta" []
+       :tags ["kouta"]
+
+       (POST "/all" []
+         :query-params [{since :- Long 0}]
+         :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
+         (ok {:result (if (= 0 since)
+                        (kouta/index-all)
+                        (kouta/index-since since))})))
 
      (context "/admin" []
        :tags ["admin"]
