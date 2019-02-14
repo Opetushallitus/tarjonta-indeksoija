@@ -40,6 +40,21 @@
                               (every? #(coll/in? expected-elements %) actual))))
 
 
+(fact "'combine-messages' should combine categorized oids from messages into one map"
+      (combine-messages
+        [{:koulutukset ["k.123.1" "k.234.1" "k.456.1"] :toteutukset ["t.123.1" "t.234.1" "t.456.1"] :haut ["h.123.1" "h.234.1" "h.456.1"]}
+         {:koulutukset ["k.123.2" "k.234.2"] :toteutukset ["t.123.2" "t.234.2" "t.456.2" "t.567.2"] :haut ["h.123.2" "h.234.2"]}
+         {:hakukohteet ["hk.123.3"]}])
+      => {:koulutukset ["k.123.1" "k.234.1" "k.456.1" "k.123.2" "k.234.2"]
+          :toteutukset ["t.123.1" "t.234.1" "t.456.1" "t.123.2" "t.234.2" "t.456.2" "t.567.2"]
+          :haut ["h.123.1" "h.234.1" "h.456.1" "h.123.2" "h.234.2"]
+          :hakukohteet ["hk.123.3"]})
+
+(fact "'combine-messages' should remove duplicates"
+      (combine-messages
+        [{:koulutukset ["k.123.1" "k.234.1" "k.456.1"] :toteutukset ["t.123.1" "t.234.1" "t.456.1"] :haut ["h.123.1" "h.234.1" "h.456.1"]}
+         {:koulutukset ["k.123.1" "k.234.1" "k.456.1"] :toteutukset ["t.123.1" "t.234.1" "t.456.1"] :haut ["h.123.1" "h.234.1" "h.456.1"]}])
+      => {:koulutukset ["k.123.1" "k.234.1" "k.456.1"] :toteutukset ["t.123.1" "t.234.1" "t.456.1"] :haut ["h.123.1" "h.234.1" "h.456.1"]})
 
 (fact "'receive' response should have :queue and :messages keys"
       (set (keys (receive {:q "queue" :f mock-receive}))) => (set [:messages :queue]))
