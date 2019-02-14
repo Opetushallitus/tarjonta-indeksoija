@@ -50,8 +50,7 @@
                  [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
                                                   com.amazonaws/amazon-kinesis-client]]
                  [com.amazonaws/aws-java-sdk-core "1.11.479"]
-                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]
-                 [cloud.localstack/localstack-utils "0.1.15"]]
+                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]]
   :ring {:handler konfo-indeksoija-service.api/app
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop
@@ -73,15 +72,16 @@
                    :ring {:reload-paths ["src"]}
                    :env-vars {:AWS_ACCESS_KEY_ID "just need something for Localstack"
                               :AWS_SECRET_KEY "just need something for Localstack"}}
-             :test {:env {:test "true"} :dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
+             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.15"]
+                                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
-
                     :plugins [[lein-with-env-vars "0.2.0"]]
                     :env-vars {:AWS_ACCESS_KEY_ID "just need something for Localstack"
                                :AWS_SECRET_KEY "just need something for Localstack"}}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
+                                      [cloud.localstack/localstack-utils "0.1.15"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
