@@ -53,10 +53,10 @@
   "Start future to receive messages from queues and index them. On errors just
   prints log message and continues receiving."
   []
-  (log/info "Start listening on queues.")
   (future
     (loop []
       (try
+        (log/info "Start listening on queues.")
         (handle-messages-from-queues
           (fn
             [messages]
@@ -64,9 +64,14 @@
                           #(indexer/index-oids (combine-messages %))
                           #(state/set-states! ::state/indexed %)]]
               (step messages))))
-        (catch Exception e (log/error e "Error in receiving indexing messages. Continuing polling.")))
-      (recur)))
-  (log/warn "Stopped listening on queues."))
+        (catch QueueDoesNotExistException e
+          (log/error (str "Queues do not exist. Sleeping for 30 seconds and continue polling." ( e)))
+          (Thread/sleep 30000))
+        (catch Exception e
+          (log/error e "Error in receiving indexing messages. Sleeping for 3 seconds and continue polling.")
+          (Thread/sleep 3000)))
+      (recur))
+    (log/warn "Stopped listening on queues.")))
 
 
 (defn handle-failed
