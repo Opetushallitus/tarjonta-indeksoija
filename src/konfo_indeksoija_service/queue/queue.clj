@@ -54,9 +54,9 @@
   prints log message and continues receiving."
   []
   (future
+    (log/info "Start listening on queues.")
     (loop []
       (try
-        (log/info "Start listening on queues.")
         (handle-messages-from-queues
           (fn
             [messages]
