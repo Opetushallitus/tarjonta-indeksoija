@@ -77,5 +77,10 @@
 (defn handle-failed
   "Handle messages from DLQ. Mark message states to failed."
   []
-  (if-let [failed (seq (:messages (queue-sqs/short-poll (queue :dlq))))]
-    (state/set-states! ::state/failed failed)))
+  (if-let [dlq (queue :dlq)]
+    (if-let [failed (seq (:messages (sqs/short-poll dlq)))]
+      (do
+        (state/set-states! ::state/failed failed)
+        (doseq [msg failed] (sqs/delete-message :queue-url dlq (:receipt-handle msg)))))
+    (log/error "No DLQ found.")))
+
