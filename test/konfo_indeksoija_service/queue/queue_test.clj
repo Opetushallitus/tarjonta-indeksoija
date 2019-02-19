@@ -5,6 +5,7 @@
             [clojure.string :as str]
             [midje.sweet :refer :all]
             [cheshire.core :as json]
+            [konfo-indeksoija-service.queue.state :as state]
             [konfo-indeksoija-service.queue.localstack :as localstack]
             [konfo-indeksoija-service.util.collections :as coll]
             [konfo-indeksoija-service.util.conf :refer [env]]
@@ -137,19 +138,52 @@
             (- (System/currentTimeMillis) start)) => (roughly 20000 2000)))
 
       (fact "'handle-messages-from-queues' should receive parsed messages from queues and call 'handler' function for them"
-            (let [handled (atom ())
-                  handler (fn [received] (swap! handled concat received))]
-              (handle-messages-from-queues handler)
+            (let [handled (atom ())]
+              (handle-messages-from-queues (fn [received] (swap! handled concat received)))
               @handled) => (at-least-one-of-only (map #(json/parse-string % true) expected-messages))
               (against-background
                 [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg)))]))
 
-      (future-fact "'handle-messages-from-queues' should delete messages after successful handling" ()) ;; TODO how to check messages are deleted or not?
-      (future-fact "'handle-messages-from-queues' should not delete messages before successful handling" ())))) ;; TODO how to check messages are deleted or not?
+      (fact "'handle-messages-from-queues' should delete messages after successful handling"
+            (let [deleted (atom [])]
+              (with-redefs
+                [sqs/delete-message (fn [& {:keys [queue-url]}] (swap! deleted conj queue-url))]
+                (handle-messages-from-queues (constantly ()))
+                @deleted)) => (n-of (queue :priority) (count expected-messages))
+            (against-background
+              [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg)))]))
+
+      (fact "'handle-messages-from-queues' should not delete messages before successful handling"
+            (let [deleted (atom [])]
+              (with-redefs
+                [sqs/delete-message (fn [& {:keys [queue-url]}] (swap! deleted conj queue-url))]
+                (try
+                  (handle-messages-from-queues (fn [messages] (throw (new Exception))))
+                  (catch Exception e))
+                @deleted)) => []
+            (against-background
+              [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg)))]))
+
+      (fact "'handle-failed' should receive messages from DLQ and update their state to failed"
+            (let [state-changes (atom [])]
+              (with-redefs
+                [state/set-state! (fn [state msg] (swap! state-changes conj [state (:body msg)]))]
+                (handle-failed)
+                @state-changes)) => (contains (map (fn [a] [::state/failed a]) expected-messages) :in-any-order)
+            (against-background
+              [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :dlq) msg)))]))
+      (fact "'handle-failed' should receive messages from DLQ and delete them"
+            (let [deleted (atom [])]queue
+              (with-redefs
+                [sqs/delete-message (fn [& {:keys [queue-url]}] (swap! deleted conj queue-url))]
+                (handle-failed)
+                @deleted)) => (n-of (queue :dlq) (count expected-messages))
+            (against-background
+              [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :dlq) msg)))])))))
+
 
 (future-fact "'index-from-queue!' should receive messages from queue and index them" ()) ;; TODO would require actually indexing messages
 (future-fact "'index-from-queue!' should return future" ()) ;; TODO would require actually indexing messages
-(future-fact "'handle-failed' should receive messages from DLQ and update their state to failed" ()) ;; TODO
 
 
 
