@@ -81,6 +81,6 @@
     (if-let [failed (seq (:messages (sqs/short-poll dlq)))]
       (do
         (state/set-states! ::state/failed failed)
-        (doseq [msg failed] (sqs/delete-message :queue-url dlq (:receipt-handle msg)))))
+        (doseq [msg failed] (sqs/delete-message :queue-url dlq :receipt-handle (:receipt-handle msg)))))
     (log/error "No DLQ found.")))
 
