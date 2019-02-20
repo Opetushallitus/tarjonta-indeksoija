@@ -5,6 +5,7 @@
             [clojure.string :as str]
             [midje.sweet :refer :all]
             [cheshire.core :as json]
+            [konfo-indeksoija-service.kouta.indexer :as indexer]
             [konfo-indeksoija-service.queue.state :as state]
             [konfo-indeksoija-service.queue.localstack :as localstack]
             [konfo-indeksoija-service.util.collections :as coll]
@@ -79,10 +80,10 @@
         (body-json->map msg) => (throws com.fasterxml.jackson.core.JsonParseException)))
 
 (facts "SQS related tests that need Docker" :docker
-  (let [expected-messages [(json/generate-string {:oid "expected-123.123.123"})
-                           (json/generate-string {:oid "expected-234.234.234"})]
-        not-expected-messages [(json/generate-string {:oid "not-expected-321.321.321"})
-                               (json/generate-string {:oid "not-expected-432.432.432"})]]
+  (let [expected-messages [(json/generate-string {:oid ["expected-123.123.123" "expected-123.123.231"] :boid ["expected-123.123"]})
+                           (json/generate-string {:oid ["expected-234.234.234" "expected-234-234-123"] :droid ["expected-234.234"]})]
+        not-expected-messages [(json/generate-string {:oid ["not-expected-321.321.321"] :noid ["not-expected-321.321"]})
+                               (json/generate-string {:oid ["not-expected-432.432.432"] :boid ["not-expected-423.423"]})]]
     (against-background
       [(around :contents
                (do
@@ -172,6 +173,7 @@
                 @state-changes)) => (contains (map (fn [a] [::state/failed a]) expected-messages) :in-any-order)
             (against-background
               [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :dlq) msg)))]))
+
       (fact "'handle-failed' should receive messages from DLQ and delete them"
             (let [deleted (atom [])]queue
               (with-redefs
@@ -179,12 +181,25 @@
                 (handle-failed)
                 @deleted)) => (n-of (queue :dlq) (count expected-messages))
             (against-background
-              [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :dlq) msg)))])))))
+              [(before :facts (doseq [msg expected-messages] (sqs/send-message (queue :dlq) msg)))]))
 
+      (fact "'index-from-queue!' should return future"
+            (let [f (index-from-queue!)
+                  is-future (future? f)]
+              (future-cancel f)
+              is-future)) => truthy
 
-(future-fact "'index-from-queue!' should receive messages from queue and index them" ()) ;; TODO would require actually indexing messages
-(future-fact "'index-from-queue!' should return future" ()) ;; TODO would require actually indexing messages
-
+      (fact "'index-from-queue!' should start listening on queue, receive messages and index them"
+            (let [handled (atom [])]
+              (with-redefs [indexer/index-oids (fn [oids] (swap! handled conj oids))]
+                (let [f (index-from-queue!)]
+                  (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg))
+                  (Thread/sleep 1000)
+                  (future-cancel f)
+                  (combine-messages @handled))))
+            => (contains [{:oid ["expected-123.123.123" "expected-123.123.231" "expected-234.234.234" "expected-234-234-123"]
+                           :boid ["expected-123.123"]
+                           :droid ["expected-234.234"]}])))))
 
 
 
