@@ -23,11 +23,13 @@ create_queues () {
     export AWS_ACCESS_KEY_ID="just need something for Localstack"
     export AWS_SECRET_ACCESS_KEY="just need something for Localstack"
 
+    config="$(dirname ${BASH_SOURCE[0]})/queue-config.json"
+
     echo "Creating queues for service"
-    aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name priority
-    aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name fast
-    aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name slow
     aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name dlq
+    aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name priority --attributes file://${config}
+    aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name fast --attributes file://${config}
+    aws --endpoint-url http://localhost:4576 --output text sqs create-queue --queue-name slow --attributes file://${config}
     echo "Created queues"
 }
 
