@@ -15,8 +15,8 @@
                :host "{{konfo_indeksoija_tarjonta_db_url}}"
                :user "{{konfo_indeksoija_tarjonta_db_user}}"
                :password "{{konfo_indeksoija_tarjonta_db_password}}"}
- :queue {:priority "priority-indexing-queue"
-         :fast "fast-indexing-queue"
-         :slow "slow-indexing-queue"
-         :dlq "indexing-dql"}
+ :queue {:priority "konfoindeksoijapriority"
+         :fast "konfoindeksoijafast"
+         :slow "konfoindeksoijaslow"
+         :dlq "konfoindeksoijadql"}
  :dlq-cron-string "*/15 * * ? * *"}
