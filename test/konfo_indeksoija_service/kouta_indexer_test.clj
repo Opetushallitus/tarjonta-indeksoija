@@ -14,7 +14,8 @@
             [konfo-indeksoija-service.test-tools :as tools]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :refer [with-externals-mock]]
-            [midje.sweet :refer :all]))
+            [midje.sweet :refer :all]
+            [konfo-indeksoija-service.rest.organisaatio :as organisaatio]))
 
 (defn json
   [name]
@@ -27,6 +28,14 @@
   ([koodi-uri]
    (if koodi-uri
      (mock-koodisto (subs koodi-uri 0 (clojure.string/index-of koodi-uri "_")) koodi-uri))))
+
+(defn mock-organisaatio
+  [oid]
+  (case oid
+    "1.2.246.562.10.67476956288" { :nimi { :fi "Metropolia Ammattikorkeakoulu" :en "Metropolia University of Applied Sciences"} :oid oid :kotipaikkaUri "kunta_091" }
+    "1.2.246.562.10.23178783348" { :nimi { :fi "Metropolia AMK, Helsinki, Tukholmankatu" :en "Helsinki Metropolia UAS, Helsinki, Tukholmankatu"} :oid oid :kotipaikkaUri "kunta_091" }
+    "1.2.246.562.10.69157007167" { :nimi { :fi "Koulutuskeskus Salpaus Nastopoli-instituutti"} :oid oid :kotipaikkaUri "kunta_532" }
+    { :nimi { :fi (str "Nimi " oid " fi") :en (str "Nimi " oid " en")} :oid oid :kotipaikkaUri "kunta_091" } ))
 
 (defn mock-toteutukset
   ([oid]
@@ -55,7 +64,8 @@
 
   (with-redefs [common/muokkaaja (fn [x] {:nimi "Kalle Ankka"})
                 koodisto-service/get-koodi-nimi-with-cache mock-koodisto
-                kouta-backend/get-toteutus-list-for-koulutus mock-toteutukset]
+                kouta-backend/get-toteutus-list-for-koulutus mock-toteutukset
+                organisaatio/get-by-oid mock-organisaatio]
     (let [koulutus-oid "1.2.246.562.13.00000000000000000001"
           toteutus-oid "1.2.246.562.17.00000000000000000001"
           haku-oid "1.2.246.562.29.00000000000000000001"
