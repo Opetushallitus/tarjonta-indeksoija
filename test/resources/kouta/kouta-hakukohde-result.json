@@ -1,9 +1,9 @@
 {
   "kaytetaanHaunAikataulua" : false,
   "tila" : "arkistoitu",
-  "liitteidenToimitusaika" : "2019-02-05T09:58",
-  "aloituspaikat" : 2,
-  "ensikertalaisenAloituspaikat" : 1,
+  "liitteidenToimitusaika" : "2020-10-13T12:00",
+  "aloituspaikat" : 100,
+  "ensikertalaisenAloituspaikat" : 0,
   "hakulomaketyyppi" : "ei sähköistä",
   "alkamiskausi" : {
     "koodiUri" : "kausi_k#1",
@@ -13,12 +13,13 @@
     }
   },
   "pohjakoulutusvaatimus" : {
-    "koodiUri" : "pohjakoulutusvaatimus_01#2",
+    "koodiUri" : "pohjakoulutusvaatimustoinenaste_01#2",
     "nimi" : {
-      "fi" : "pohjakoulutusvaatimus_01#2 nimi fi",
-      "sv" : "pohjakoulutusvaatimus_01#2 nimi sv"
+      "fi" : "pohjakoulutusvaatimustoinenaste_01#2 nimi fi",
+      "sv" : "pohjakoulutusvaatimustoinenaste_01#2 nimi sv"
     }
   },
+  "toinenAsteOnkoKaksoistutkinto" : false,
   "valintaperuste" : {
     "tila" : "arkistoitu",
     "modified" : "2019-02-05T09:49",
@@ -30,11 +31,11 @@
       }
     },
     "nimi" : {
-      "fi" : "Valintaperuste 0",
+      "fi" : "Valintaperuste 0 fi",
       "sv" : "Valintaperuste 0 sv"
     },
     "muokkaaja" : {
-      "oid" : "2.1.2.1.2",
+      "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"
     },
     "id" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
@@ -63,29 +64,32 @@
         }
       },
       "nimi" : {
-        "fi" : "Metropolia Ammattikorkeakoulu",
-        "en" : "Metropolia University of Applied Sciences"
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.67476956288"
+      "oid" : "1.2.246.562.10.54545454545"
     }
   },
   "modified" : "2019-02-05T09:49",
   "toteutusOid" : "1.2.246.562.17.00000000000000000001",
   "muuPohjakoulutusvaatimus" : { },
   "nimi" : {
-    "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0",
+    "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
     "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
   },
-  "hakulomake" : "Hakulomake tulostetaan ja toimitetaan postitse",
+  "hakulomake" : {
+    "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
+    "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
+  },
   "muokkaaja" : {
-    "oid" : "1.2.3.2.1",
+    "oid" : "1.2.246.562.24.62301161440",
     "nimi" : "Kalle Ankka"
   },
   "oid" : "1.2.246.562.20.00000000000000000001",
   "liitteetOnkoSamaToimitusaika" : true,
   "hakuajat" : [ {
-    "alkaa" : "2019-01-22T09:49",
-    "paattyy" : "2019-02-19T09:49"
+    "alkaa" : "2020-10-10T12:00",
+    "paattyy" : "2020-11-10T12:00"
   } ],
   "hakuOid" : "1.2.246.562.29.00000000000000000001",
   "liitteetOnkoSamaToimitusosoite" : false,
@@ -131,7 +135,7 @@
   } ],
   "kielivalinta" : [ "fi", "sv" ],
   "timestamp" : 1549372069493,
-  "alkamisvuosi" : "2019",
+  "alkamisvuosi" : "2020",
   "organisaatio" : {
     "paikkakunta" : {
       "koodiUri" : "kunta_091",
@@ -141,10 +145,10 @@
       }
     },
     "nimi" : {
-      "fi" : "Metropolia AMK, Helsinki, Tukholmankatu",
-      "en" : "Helsinki Metropolia UAS, Helsinki, Tukholmankatu"
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
     },
-    "oid" : "1.2.246.562.10.23178783348"
+    "oid" : "1.2.246.562.10.54545454545"
   },
   "valintakokeet" : [ {
     "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",

@@ -9,11 +9,11 @@
     }
   },
   "nimi" : {
-    "fi" : "Valintaperuste 0",
+    "fi" : "Valintaperuste 0 fi",
     "sv" : "Valintaperuste 0 sv"
   },
   "muokkaaja" : {
-    "oid" : "2.1.2.1.2",
+    "oid" : "1.2.246.562.24.62301161440",
     "nimi" : "Kalle Ankka"
   },
   "id" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
@@ -43,9 +43,243 @@
       }
     },
     "nimi" : {
-      "fi" : "Metropolia Ammattikorkeakoulu",
-      "en" : "Metropolia University of Applied Sciences"
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
     },
-    "oid" : "1.2.246.562.10.67476956288"
+    "oid" : "1.2.246.562.10.54545454545"
+  },
+  "metadata" : {
+    "valintatavat" : [ {
+      "valintatapa" : {
+        "koodiUri" : "valintatapajono_av#1",
+        "nimi" : {
+          "fi" : "valintatapajono_av#1 nimi fi",
+          "sv" : "valintatapajono_av#1 nimi sv"
+        }
+      },
+      "kuvaus" : {
+        "fi" : "kuvaus fi",
+        "sv" : "kuvaus sv"
+      },
+      "taulukot" : [ {
+        "nimi" : {
+          "fi" : "Taulukko 1",
+          "sv" : "Taulukko 1 sv"
+        },
+        "rows" : [ {
+          "index" : 0,
+          "isHeader" : true,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Otsikko",
+              "sv" : "Otsikko sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Otsikko 2",
+              "sv" : "Otsikko 2 sv"
+            }
+          } ]
+        }, {
+          "index" : 1,
+          "isHeader" : false,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Tekstiä",
+              "sv" : "Tekstiä sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Tekstiä 2",
+              "sv" : "Tekstiä 2 sv"
+            }
+          } ]
+        } ]
+      }, {
+        "nimi" : {
+          "fi" : "Taulukko 2",
+          "sv" : "Taulukko 2 sv"
+        },
+        "rows" : [ {
+          "index" : 0,
+          "isHeader" : true,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Otsikko",
+              "sv" : "Otsikko sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Otsikko 2",
+              "sv" : "Otsikko 2 sv"
+            }
+          } ]
+        }, {
+          "index" : 1,
+          "isHeader" : false,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Tekstiä",
+              "sv" : "Tekstiä sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Tekstiä 2",
+              "sv" : "Tekstiä 2 sv"
+            }
+          } ]
+        } ]
+      } ],
+      "kaytaMuuntotaulukkoa" : false,
+      "kynnysehto" : {
+        "fi" : "kynnysehto fi",
+        "sv" : "kynnysehto sv"
+      },
+      "enimmaispisteet" : 201.15,
+      "vahimmaispisteet" : 182.1
+    }, {
+      "valintatapa" : {
+        "koodiUri" : "valintatapajono_tv#1",
+        "nimi" : {
+          "fi" : "valintatapajono_tv#1 nimi fi",
+          "sv" : "valintatapajono_tv#1 nimi sv"
+        }
+      },
+      "kuvaus" : {
+        "fi" : "kuvaus 2 fi",
+        "sv" : "kuvaus 2 sv"
+      },
+      "taulukot" : [ {
+        "nimi" : {
+          "fi" : "Taulukko 2",
+          "sv" : "Taulukko 2 sv"
+        },
+        "rows" : [ {
+          "index" : 0,
+          "isHeader" : true,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Otsikko",
+              "sv" : "Otsikko sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Otsikko 2",
+              "sv" : "Otsikko 2 sv"
+            }
+          } ]
+        }, {
+          "index" : 1,
+          "isHeader" : false,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Tekstiä",
+              "sv" : "Tekstiä sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Tekstiä 2",
+              "sv" : "Tekstiä 2 sv"
+            }
+          } ]
+        } ]
+      } ],
+      "kaytaMuuntotaulukkoa" : true,
+      "kynnysehto" : {
+        "fi" : "kynnysehto fi",
+        "sv" : "kynnysehto sv"
+      },
+      "enimmaispisteet" : 18.1,
+      "vahimmaispisteet" : 10.1
+    } ],
+    "kielitaitovaatimukset" : [ {
+      "kieli" : {
+        "koodiUri" : "kieli_en#1",
+        "nimi" : {
+          "fi" : "kieli_en#1 nimi fi",
+          "sv" : "kieli_en#1 nimi sv"
+        }
+      },
+      "kielitaidonVoiOsoittaa" : [ {
+        "kielitaito" : {
+          "koodiUri" : "jokukoodiuri_kk#1",
+          "nimi" : {
+            "fi" : "jokukoodiuri_kk#1 nimi fi",
+            "sv" : "jokukoodiuri_kk#1 nimi sv"
+          }
+        },
+        "lisatieto" : { }
+      }, {
+        "kielitaito" : {
+          "koodiUri" : "jokukoodiuri_muu#1",
+          "nimi" : {
+            "fi" : "jokukoodiuri_muu#1 nimi fi",
+            "sv" : "jokukoodiuri_muu#1 nimi sv"
+          }
+        },
+        "lisatieto" : {
+          "fi" : "muu",
+          "sv" : "muu sv"
+        }
+      } ],
+      "vaatimukset" : [ {
+        "kielitaitovaatimus" : {
+          "koodiUri" : "koodiuri_yl#1",
+          "nimi" : {
+            "fi" : "koodiuri_yl#1 nimi fi",
+            "sv" : "koodiuri_yl#1 nimi sv"
+          }
+        },
+        "kielitaitovaatimusKuvaukset" : [ {
+          "kielitaitovaatimusKuvaus" : {
+            "koodiUri" : "koodiUri_read#1",
+            "nimi" : {
+              "fi" : "koodiUri_read#1 nimi fi",
+              "sv" : "koodiUri_read#1 nimi sv"
+            }
+          },
+          "kielitaitovaatimusTaso" : "1"
+        } ]
+      }, {
+        "kielitaitovaatimus" : {
+          "koodiUri" : "koodiuri_toefl#1",
+          "nimi" : {
+            "fi" : "koodiuri_toefl#1 nimi fi",
+            "sv" : "koodiuri_toefl#1 nimi sv"
+          }
+        },
+        "kielitaitovaatimusKuvaukset" : [ {
+          "kielitaitovaatimusKuvaus" : {
+            "koodiUri" : "koodiUri_read#1",
+            "nimi" : {
+              "fi" : "koodiUri_read#1 nimi fi",
+              "sv" : "koodiUri_read#1 nimi sv"
+            }
+          },
+          "kielitaitovaatimusTaso" : "A"
+        }, {
+          "kielitaitovaatimusKuvaus" : {
+            "koodiUri" : "koodiUri_write#1",
+            "nimi" : {
+              "fi" : "koodiUri_write#1 nimi fi",
+              "sv" : "koodiUri_write#1 nimi sv"
+            }
+          },
+          "kielitaitovaatimusTaso" : "A"
+        } ]
+      } ]
+    } ]
   }
 }
