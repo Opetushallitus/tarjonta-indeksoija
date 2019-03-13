@@ -37,7 +37,12 @@ script:
   - ./ci-tools/build/build-fatjar.sh ${ARTIFACT_NAME}
 
 deploy:
-  provider: script
-  script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
-  on:
-    all_branches: true
+  - provider: script
+    script: lein deploy
+    skip_cleanup: true
+    on:
+      branch: KTO-109-etusivun-haut
+  - provider: script
+    script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
+    on:
+      all_branches: true
