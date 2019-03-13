@@ -57,7 +57,12 @@
              :test {:env {:test "true"} :dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.0-SNAPSHOT"]]}
-             :ci-test {:env {:test "true"} :dependencies [[ring/ring-mock "0.3.2"]] :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
+             :ci-test {:env {:test "true"}
+                       :dependencies [[ring/ring-mock "0.3.2"]
+                                      [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
+                                      [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+                       :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
              :uberjar {:ring {:port 8080}}
              :test-jar {:dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
