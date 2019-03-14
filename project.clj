@@ -42,7 +42,6 @@
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop
          :browser-uri "konfo-indeksoija"}
-  :uberjar-name "konfo-indeksoija.jar"
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [midje "1.8.3"]
@@ -75,7 +74,6 @@
                         :jar-exclusions [#"perf|resources|mocks"
                                          #"konfo_indeksoija_service/\w*.clj"
                                          #"konfo_indeksoija_service/(rest|search_data|s3|converter|util|elastic|kouta|indexer)"]}} ;TODO: Better regexp
-  :classifiers {:tests :test-jar}
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
             "ci-test" ["with-profile" "+ci-test" "midje"]
