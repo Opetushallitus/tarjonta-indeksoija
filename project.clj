@@ -4,8 +4,15 @@
 
 (defproject konfo-indeksoija-service "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
-  :repositories [["oph-releases" "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"]
-                 ["oph-snapshots" "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"]]
+  :repositories [["oph-releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
+                                  :username :env/artifactory_username
+                                  :password :env/artifactory_password
+                                  :sign-releases false
+                                  :snapshots false}]
+                 ["oph-snapshots" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"
+                                   :username :env/artifactory_username
+                                   :password :env/artifactory_password
+                                   :snapshots true}]]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
