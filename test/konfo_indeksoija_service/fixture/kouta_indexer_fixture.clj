@@ -43,7 +43,7 @@
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
-  (let [toteutus (merge default-toteutus-map {:organisaatio Oppilaitos1} params {:koulutusOid koulutusOid})] ;TODO: Pitäisikö tässä olla Toimipiste1OfOppilaitos1?
+  (let [toteutus (merge default-toteutus-map {:organisaatio Oppilaitos1} params {:koulutusOid koulutusOid})]
     (.addToteutus KoutaFixture oid (->java-map toteutus))))
 
 (defn update-toteutus-mock
@@ -65,7 +65,7 @@
 
 (defn add-haku-mock
   [oid & {:as params}]
-  (let [haku (merge default-haku-map {:organisaatio Oppilaitos1} params)] ;TODO: Minkä tason organisaatio?
+  (let [haku (merge default-haku-map {:organisaatio Oppilaitos1} params)]
     (.addHaku KoutaFixture oid (->java-map haku))))
 
 (defn update-haku-mock
@@ -78,7 +78,7 @@
 
 (defn add-hakukohde-mock
   [oid toteutusOid hakuOid & {:as params}]
-  (let [hakukohde (merge default-hakukohde-map {:organisaatio Oppilaitos1} params {:hakuOid hakuOid :toteutusOid toteutusOid})] ;TODO: Minkä tason organisaatio?
+  (let [hakukohde (merge default-hakukohde-map {:organisaatio Oppilaitos1} params {:hakuOid hakuOid :toteutusOid toteutusOid})]
     (.addHakukohde KoutaFixture oid (->java-map hakukohde))))
 
 (defn update-hakukohde-mock
