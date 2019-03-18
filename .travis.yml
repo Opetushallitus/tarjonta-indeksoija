@@ -38,12 +38,7 @@ script:
 
 deploy:
   - provider: script
-    script: lein deploy
-    skip_cleanup: true
-    on:
-      branch: KTO-109-etusivun-haut
-  - provider: script
-    script: lein do testjar, deploy snapshots konfo-indeksoija-service 0.1.0-SNAPSHOT target/konfo-indeksoija-service-0.1.0-SNAPSHOT-tests.jar
+    script: lein do testjar, deploy
     skip_cleanup: true
     on:
       branch: KTO-109-etusivun-haut

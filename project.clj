@@ -73,14 +73,10 @@
                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
              :uberjar {:ring {:port 8080}}
-             :test-jar {:dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
-                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                       [cheshire "5.8.0"]]
-                        :source-paths ["test"]
-                        :jar-name "konfo-indeksoija-service-0.1.0-SNAPSHOT-tests.jar"
-                        :jar-exclusions [#"perf|resources|mocks"
-                                         #"konfo_indeksoija_service/\w*.clj"
-                                         #"konfo_indeksoija_service/(rest|search_data|s3|converter|util|elastic|kouta|indexer)"]}} ;TODO: Better regexp
+             :jar-with-test-fixture {:source-paths ["src", "test"]
+                                     :jar-exclusions [#"perf|resources|mocks"
+                                                      #"konfo_indeksoija_service/\w*_test.clj"
+                                                      #"konfo_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
             "ci-test" ["with-profile" "+ci-test" "midje"]
@@ -88,5 +84,5 @@
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
-            "testjar" ["with-profile" "+test-jar" "jar"]}
+            "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])
