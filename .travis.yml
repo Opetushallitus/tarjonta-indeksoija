@@ -43,7 +43,7 @@ deploy:
     on:
       branch: KTO-109-etusivun-haut
   - provider: script
-    script: lein with-profile +test-jar deploy
+    script: lein do testjar, deploy snapshots konfo-indeksoija-service 0.1.0-SNAPSHOT target/konfo-indeksoija-service-0.1.0-SNAPSHOT-tests.jar
     skip_cleanup: true
     on:
       branch: KTO-109-etusivun-haut
