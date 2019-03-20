@@ -80,6 +80,7 @@
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
+            "install" ["with-profile" "+jar-with-test-fixture" "install"]
             "ci-test" ["with-profile" "+ci-test" "midje"]
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
