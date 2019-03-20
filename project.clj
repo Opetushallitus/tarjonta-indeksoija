@@ -79,10 +79,11 @@
                                                       #"konfo_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
+            "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "ci-test" ["with-profile" "+ci-test" "midje"]
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
-            "uberjar" ["with-profile" "+jar-with-test-fixture" "do" "clean" ["ring" "uberjar"]] ;TODO: testifixture pois uberjarista
+            "uberjar" ["do" "clean" ["ring" "uberjar"]]
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])
