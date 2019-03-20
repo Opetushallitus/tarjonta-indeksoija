@@ -79,6 +79,7 @@
     "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
+    "tyyppi" : "amm",
     "kuvaus" : { },
     "osaamisalat" : [ {
       "koodi" : {
@@ -103,6 +104,12 @@
         "fi" : "200,50 euroa",
         "sv" : "200,50 euro"
       },
+      "lukuvuosimaksuKuvaus" : {},
+      "onkoStipendia" : false,
+      "stipendinMaara" : {},
+      "stipendinKuvaus" : {},
+      "onkoLukuvuosimaksua" : false,
+      "lukuvuosimaksu" : {},
       "opetuskielit" : [ ],
       "maksullisuusKuvaus" : { },
       "opetustapat" : [ ],

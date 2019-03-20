@@ -179,6 +179,7 @@
     "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
+    "tyyppi" : "amm",
     "kuvaus" : {
       "fi" : "kuvaus",
       "sv" : "kuvaus sv"
