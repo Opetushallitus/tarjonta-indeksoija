@@ -38,7 +38,7 @@ script:
 
 deploy:
   - provider: script
-    script: lein do testjar, deploy
+    script: lein deploy
     skip_cleanup: true
     on:
       branch: KTO-109-etusivun-haut

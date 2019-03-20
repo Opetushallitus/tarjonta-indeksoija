@@ -83,6 +83,6 @@
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
-            "uberjar" ["do" "clean" ["ring" "uberjar"]]
+            "uberjar" ["with-profile" "+jar-with-test-fixture" "do" "clean" ["ring" "uberjar"]] ;TODO: testifixture pois uberjarista
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])
