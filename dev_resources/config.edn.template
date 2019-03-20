@@ -15,8 +15,8 @@
                :port <fillme>
                :user <fillme>
                :password <fillme>}
- :queue {:priority "konfoindeksoijapriority"
-         :fast "konfoindeksoijafast"
-         :slow "konfoindeksoijaslow"
-         :dlq "konfoindeksoijadql"}
+ :queue {:priority "konfoIndeksoijaPriority"
+         :fast "konfoIndeksoijaFast"
+         :slow "konfoIndeksoijaSlow"
+         :dlq "konfoIndeksoijaDlq"}
  :dlq-cron-string "*/15 * * ? * *"}

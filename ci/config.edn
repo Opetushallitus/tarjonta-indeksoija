@@ -11,10 +11,10 @@
  :s3-region "eu-west-1"
  :tarjonta-db {:dbtype "postgresql"
                :dbname "tarjonta"
-               :host localhost
+               :host "localhost"
                :port 23434
-               :user oph
-               :password ophophoph}
+               :user "oph"
+               :password "ophophoph"}
  :queue {:priority "priority-indexing-queue"
          :fast "fast-indexing-queue"
          :slow "slow-indexing-queue"
