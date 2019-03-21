@@ -9,7 +9,7 @@
   [oid]
   (let [haku (common/complete-entry (kouta-backend/get-haku oid))
         hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-haku oid))]
-    (assoc haku :hakukohteet hakukohde-list :hakukohdeCount (count hakukohde-list))))
+    (assoc haku :hakukohteet hakukohde-list)))
 
 (defn create-index-entries
   [oids]
