@@ -9,8 +9,8 @@
 (defn create-index-entry
   [oid]
   (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
-        haku-list (common/complete-entries (kouta-backend/list-haut-by-toteutus oid))]
-    (assoc toteutus :haut haku-list :hakuCount (count haku-list))))
+        hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-toteutus oid))]
+    (assoc toteutus :hakukohteet hakukohde-list :hakukohdeCount (count hakukohde-list))))
 
 (defn create-index-entries
   [oids]

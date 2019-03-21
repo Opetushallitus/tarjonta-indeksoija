@@ -110,6 +110,10 @@
   [toteutusOid]
   (->keywordized-json (.listHautByToteutus KoutaFixture toteutusOid)))
 
+(defn mock-list-hakukohteet-by-toteutus
+  [toteutusOid]
+  (->keywordized-json (.listHakukohteetByToteutus KoutaFixture toteutusOid)))
+
 (defn mock-list-koulutukset-by-haku
   [hakuOid]
   (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid)))
@@ -177,6 +181,9 @@
 
                  konfo-indeksoija-service.rest.kouta/list-haut-by-toteutus
                  konfo-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-haut-by-toteutus
+
+                 konfo-indeksoija-service.rest.kouta/list-hakukohteet-by-toteutus
+                 konfo-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-toteutus
 
                  konfo-indeksoija-service.rest.kouta/list-koulutukset-by-haku
                  konfo-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutukset-by-haku

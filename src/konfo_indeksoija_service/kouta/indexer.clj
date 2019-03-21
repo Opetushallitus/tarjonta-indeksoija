@@ -34,10 +34,9 @@
 
 (defn index-haut
   [oids]
-  (let [entries (haku/do-index oids)]
-    (let [toteutus-oids (set (map :toteutusOid (apply clojure.set/union (doall (map :hakukohteet entries)))))
-          toteutus-entries (toteutus/do-index toteutus-oids)]
-      (koulutus-search/do-index (get-oids :koulutusOid toteutus-entries)))))
+  (haku/do-index oids)
+  (let [koulutukset (set (apply clojure.set/union (map kouta-backend/list-koulutukset-by-haku oids)))]
+    (koulutus-search/do-index (get-oids :oid koulutukset))))
 
 (defn index-haku
   [oid]
@@ -49,6 +48,7 @@
         haku-oids (get-oids :hakuOid hakukohde-entries)
         koulutukset (set (apply clojure.set/union (map kouta-backend/list-koulutukset-by-haku haku-oids)))]
     (haku/do-index haku-oids)
+    (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
     (koulutus-search/do-index (get-oids :oid koulutukset))))
 
 (defn index-hakukohde

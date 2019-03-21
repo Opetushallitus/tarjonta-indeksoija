@@ -136,6 +136,7 @@
 
       (fact "Indexer should index toteutus to toteutus index and update related indexes"
             (check-all-nil)(i/index-toteutus toteutus-oid)
+            (debug-pretty (read toteutus/index-name toteutus-oid))
             (no-timestamp (read toteutus/index-name toteutus-oid)) => (no-timestamp (json "kouta-toteutus-result"))
             (:oid (read search/index-name koulutus-oid)) => koulutus-oid
             (:oid (read koulutus/index-name koulutus-oid)) => koulutus-oid)
@@ -143,7 +144,7 @@
       (fact "Indexer should index haku to haku index and update related indexes"
             (check-all-nil)(i/index-haku haku-oid)
             (no-timestamp (read haku/index-name haku-oid)) => (no-timestamp (json "kouta-haku-result"))
-            (:oid (read toteutus/index-name toteutus-oid)) => toteutus-oid
+            (:oid (read toteutus/index-name toteutus-oid)) => nil
             (:oid (read search/index-name koulutus-oid)) => koulutus-oid
             (read koulutus/index-name koulutus-oid) => nil)
 
@@ -152,7 +153,7 @@
             (i/index-hakukohde hakukohde-oid)
             (no-timestamp (read hakukohde/index-name hakukohde-oid)) => (no-timestamp (json "kouta-hakukohde-result"))
             (:oid (read haku/index-name haku-oid)) => haku-oid
-            (:oid (read toteutus/index-name toteutus-oid)) => nil
+            (:oid (read toteutus/index-name toteutus-oid)) => toteutus-oid
             (:oid (read search/index-name koulutus-oid)) => koulutus-oid
             (read koulutus/index-name koulutus-oid) => nil)
 
@@ -176,7 +177,7 @@
             (i/index-oids {:hakukohteet [hakukohde-oid]})
             (:oid (read haku/index-name haku-oid)) => haku-oid
             (:oid (read hakukohde/index-name hakukohde-oid)) => hakukohde-oid
-            (:oid (read toteutus/index-name toteutus-oid)) => nil
+            (:oid (read toteutus/index-name toteutus-oid)) => toteutus-oid
             (:oid (read koulutus/index-name koulutus-oid)) => nil
             (:oid (read search/index-name koulutus-oid)) => koulutus-oid
             (:id (read valintaperuste/index-name valintaperuste-id)) => nil))))

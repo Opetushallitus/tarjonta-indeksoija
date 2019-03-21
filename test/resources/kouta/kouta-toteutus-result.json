@@ -35,18 +35,20 @@
   },
   "oid" : "1.2.246.562.17.00000000000000000001",
   "kielivalinta" : [ "fi", "sv" ],
-  "haut" : [ {
-    "oid" : "1.2.246.562.29.00000000000000000001",
+  "hakukohteet" : [ {
+    "tila" : "arkistoitu",
+    "modified" : "2019-02-05T09:49",
+    "toteutusOid" : "1.2.246.562.17.00000000000000000001",
     "nimi" : {
-      "fi" : "Haku 0 fi",
-      "sv" : "Haku 0 sv"
+      "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
+      "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
     },
-    "tila" : "julkaistu",
     "muokkaaja" : {
       "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"
     },
-    "modified" : "2019-02-05T09:49",
+    "oid" : "1.2.246.562.20.00000000000000000001",
+    "hakuOid" : "1.2.246.562.29.00000000000000000001",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
@@ -60,9 +62,10 @@
         "sv" : "Kiva ammattikorkeakoulu sv"
       },
       "oid" : "1.2.246.562.10.54545454545"
-    }
-  }],
-  "hakuCount" : 1,
+    },
+    "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+  } ],
+  "hakukohdeCount" : 1,
   "timestamp" : 1549364610909,
   "organisaatio" : {
     "paikkakunta" : {
