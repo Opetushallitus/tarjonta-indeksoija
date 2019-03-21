@@ -7,7 +7,7 @@
 (defn- with-endpoint [f]
   (if-let [endpoint (System/getenv (name :SQS_ENDPOINT))]
     (amazonica/with-credential {:endpoint endpoint} (f))
-    (f)))
+    (amazonica/with-credential {:endpoint (:sqs-region env)} (f))))
 
 (defn find-queue [name]
   (if-let [q (with-endpoint #(sqs/find-queue name))]

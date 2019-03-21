@@ -19,4 +19,5 @@
          :fast "fast-indexing-queue"
          :slow "slow-indexing-queue"
          :dlq "indexing-dql"}
+ :sqs-region "eu-west-1"
  :dlq-cron-string "*/15 * * ? * *"}

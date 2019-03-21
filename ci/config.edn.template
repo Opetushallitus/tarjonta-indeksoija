@@ -19,4 +19,5 @@
          :fast "{{konfo_indeksoija_sqs_queue_fast}}"
          :slow "{{konfo_indeksoija_sqs_queue_slow}}"
          :dlq "{{konfo_indeksoija_sqs_queue_dlq}}"}
+ :sqs-region "{{konfo_indeksoija_sqs_region}}"
  :dlq-cron-string "{{konfo_indeksoija_dlq_cron_string}}"}

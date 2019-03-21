@@ -19,4 +19,5 @@
          :fast "konfoIndeksoijaFast"
          :slow "konfoIndeksoijaSlow"
          :dlq "konfoIndeksoijaDlq"}
+ :sqs-region "eu-west-1"
  :dlq-cron-string "*/15 * * ? * *"}
