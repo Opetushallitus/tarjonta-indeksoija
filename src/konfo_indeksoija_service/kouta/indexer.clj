@@ -35,7 +35,7 @@
 (defn index-haut
   [oids]
   (haku/do-index oids)
-  (let [koulutukset (set (apply clojure.set/union (map kouta-backend/list-koulutukset-by-haku oids)))]
+  (let [koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku oids)))]
     (koulutus-search/do-index (get-oids :oid koulutukset))))
 
 (defn index-haku
@@ -46,7 +46,7 @@
   [oids]
   (let [hakukohde-entries (hakukohde/do-index oids)
         haku-oids (get-oids :hakuOid hakukohde-entries)
-        koulutukset (set (apply clojure.set/union (map kouta-backend/list-koulutukset-by-haku haku-oids)))]
+        koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku haku-oids)))]
     (haku/do-index haku-oids)
     (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
     (koulutus-search/do-index (get-oids :oid koulutukset))))
@@ -60,7 +60,7 @@
 
    ;TODO: Ei vielä tiedetä, halutaanko hakukohteita valintaperustelistaukseen etusivulle
    (comment let [entries (valintaperuste/do-index oids)
-         hakukohteet (apply clojure.set/union (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
+         hakukohteet (apply concat (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
      (hakukohde/do-index (get-oids :oid hakukohteet)))
 
    (valintaperuste/do-index oids))
