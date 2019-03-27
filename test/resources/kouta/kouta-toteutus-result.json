@@ -1,35 +1,32 @@
 {
-  "tila" : "tallennettu",
-  "tarjoajat" : [ {
+  "tila" : "arkistoitu",
+  "tarjoajat" : [{
+    "nimi" : {
+      "fi" : "Kiva ammattikorkeakoulu, Helsingin toimipiste",
+      "sv" : "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
+    },
+    "oid" : "1.2.246.562.10.54545454511",
     "paikkakunta" : {
       "koodiUri" : "kunta_091",
       "nimi" : {
         "fi" : "kunta_091 nimi fi",
         "sv" : "kunta_091 nimi sv"
-      }
-    },
+      }}}, {
     "nimi" : {
-      "fi" : "Metropolia AMK, Helsinki, Tukholmankatu",
-      "en" : "Helsinki Metropolia UAS, Helsinki, Tukholmankatu"
+      "fi" : "Kiva ammattikorkeakoulu, Kuopion toimipiste",
+      "sv" : "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
     },
-    "oid" : "1.2.246.562.10.23178783348"
-  }, {
+    "oid" : "1.2.246.562.10.54545454522",
     "paikkakunta" : {
-      "koodiUri" : "kunta_532",
+      "koodiUri" : "kunta_297",
       "nimi" : {
-        "fi" : "kunta_532 nimi fi",
-        "sv" : "kunta_532 nimi sv"
-      }
-    },
-    "nimi" : {
-      "fi" : "Koulutuskeskus Salpaus Nastopoli-instituutti"
-    },
-    "oid" : "1.2.246.562.10.69157007167"
-  } ],
-  "modified" : "2019-02-05T09:49",
+        "fi" : "kunta_297 nimi fi",
+        "sv" : "kunta_297 nimi sv"
+      }}}],
+  "modified" : "2019-02-01T13:16",
   "koulutusOid" : "1.2.246.562.13.00000000000000000001",
   "nimi" : {
-    "fi" : "Koulutuksen 0 toteutus 0",
+    "fi" : "Koulutuksen 0 toteutus 0 fi",
     "sv" : "Koulutuksen 0 toteutus 0 sv"
   },
   "muokkaaja" : {
@@ -38,18 +35,20 @@
   },
   "oid" : "1.2.246.562.17.00000000000000000001",
   "kielivalinta" : [ "fi", "sv" ],
-  "haut" : [ {
-    "oid" : "1.2.246.562.29.00000000000000000001",
+  "hakukohteet" : [ {
+    "tila" : "arkistoitu",
+    "modified" : "2019-02-05T09:49",
+    "toteutusOid" : "1.2.246.562.17.00000000000000000001",
     "nimi" : {
-      "fi" : "Haku 0",
-      "sv" : "Haku 0 sv"
+      "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
+      "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
     },
-    "tila" : "julkaistu",
     "muokkaaja" : {
-      "oid" : "5.4.3.2.1",
+      "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"
     },
-    "modified" : "2019-02-05T09:49",
+    "oid" : "1.2.246.562.20.00000000000000000001",
+    "hakuOid" : "1.2.246.562.29.00000000000000000001",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
@@ -59,37 +58,12 @@
         }
       },
       "nimi" : {
-        "fi" : "Metropolia Ammattikorkeakoulu",
-        "en" : "Metropolia University of Applied Sciences"
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.67476956288"
-    }
-  }, {
-    "oid" : "1.2.246.562.29.00000000000000000003",
-    "nimi" : {
-      "fi" : "Haku 2",
-      "sv" : "Haku 2 sv"
+      "oid" : "1.2.246.562.10.54545454545"
     },
-    "tila" : "tallennettu",
-    "muokkaaja" : {
-      "oid" : "5.4.3.2.1",
-      "nimi" : "Kalle Ankka"
-    },
-    "modified" : "2019-02-05T09:49",
-    "organisaatio" : {
-      "paikkakunta" : {
-        "koodiUri" : "kunta_091",
-        "nimi" : {
-          "fi" : "kunta_091 nimi fi",
-          "sv" : "kunta_091 nimi sv"
-        }
-      },
-      "nimi" : {
-        "fi" : "Metropolia Ammattikorkeakoulu",
-        "en" : "Metropolia University of Applied Sciences"
-      },
-      "oid" : "1.2.246.562.10.67476956288"
-    }
+    "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
   } ],
   "timestamp" : 1549364610909,
   "organisaatio" : {
@@ -101,12 +75,13 @@
       }
     },
     "nimi" : {
-      "fi" : "Metropolia Ammattikorkeakoulu",
-      "en" : "Metropolia University of Applied Sciences"
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
     },
-    "oid" : "1.2.246.562.10.67476956288"
+    "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
+    "tyyppi" : "amm",
     "kuvaus" : { },
     "osaamisalat" : [ {
       "koodi" : {
@@ -126,55 +101,32 @@
       }
     } ],
     "opetus" : {
-      "opetuskielet" : [ {
-        "koodiUri" : "kieli_fi#1",
-        "nimi" : {
-          "fi" : "kieli_fi#1 nimi fi",
-          "sv" : "kieli_fi#1 nimi sv"
-        }
-      } ],
+      "alkamisaikaKuvaus" : { },
+      "maksunMaara" : {
+        "fi" : "200,50 euroa",
+        "sv" : "200,50 euro"
+      },
+      "lukuvuosimaksuKuvaus" : {},
+      "onkoStipendia" : false,
+      "stipendinMaara" : {},
+      "stipendinKuvaus" : {},
+      "onkoLukuvuosimaksua" : false,
+      "lukuvuosimaksu" : {},
+      "opetuskielit" : [ ],
+      "maksullisuusKuvaus" : { },
+      "opetustapat" : [ ],
+      "lisatiedot" : [ ],
+      "opetustapaKuvaus" : { },
+      "opetuskieletKuvaus" : { },
+      "onkoMaksullinen" : true,
+      "opetusaikaKuvaus" : { },
       "opetusaika" : {
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {
           "fi" : "opetusaikakk_1#1 nimi fi",
           "sv" : "opetusaikakk_1#1 nimi sv"
         }
-      },
-      "opetustapa" : {
-        "koodiUri" : "opetuspaikkakk_1#1",
-        "nimi" : {
-          "fi" : "opetuspaikkakk_1#1 nimi fi",
-          "sv" : "opetuspaikkakk_1#1 nimi sv"
-        }
-      },
-      "onkoMaksullinen" : true,
-      "maksunMaara" : {
-        "fi" : "200,50 euroa",
-        "sv" : "200,50 euro"
-      },
-      "kuvaus" : {
-        "fi" : "Kuvaus fi",
-        "sv" : "Kuvaus sv"
-      },
-      "osiot" : [ {
-        "otsikko" : {
-          "fi" : "Opintojen rakenne",
-          "sv" : "Rakenne sv"
-        },
-        "teksti" : {
-          "fi" : "Opintojen rakenteen kuvaus",
-          "sv" : "Rakenne kuvaus sv"
-        }
-      }, {
-        "otsikko" : {
-          "fi" : "Sisältö",
-          "sv" : "Sisältö sv"
-        },
-        "teksti" : {
-          "fi" : "Sisältö kuvaus",
-          "sv" : "Sisältö kuvaus sv"
-        }
-      } ]
+      }
     },
     "asiasanat" : [ {
       "kieli" : "fi",
@@ -224,7 +176,8 @@
       "puhelinnumero" : {
         "fi" : "123",
         "sv" : "123"
-      }
+      },
+      "wwwSivu" : {}
     }
   }
 }

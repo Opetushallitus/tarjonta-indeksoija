@@ -1,6 +1,6 @@
 {
   "tila" : "julkaistu",
-  "hakukohteenMuokkaamisenTakaraja" : "2019-02-05T09:58",
+  "hakukohteenMuokkaamisenTakaraja" : "2019-10-12T12:00",
   "hakulomaketyyppi" : "ei sähköistä",
   "alkamiskausi" : {
     "koodiUri" : "kausi_k#1",
@@ -22,11 +22,11 @@
     "modified" : "2019-02-05T09:49",
     "toteutusOid" : "1.2.246.562.17.00000000000000000001",
     "nimi" : {
-      "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0",
+      "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
       "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
     },
     "muokkaaja" : {
-      "oid" : "1.2.3.2.1",
+      "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"
     },
     "oid" : "1.2.246.562.20.00000000000000000001",
@@ -40,45 +40,77 @@
         }
       },
       "nimi" : {
-        "fi" : "Metropolia AMK, Helsinki, Tukholmankatu",
-        "en" : "Helsinki Metropolia UAS, Helsinki, Tukholmankatu"
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.23178783348"
+      "oid" : "1.2.246.562.10.54545454545"
+    },
+    "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+  }, {
+    "tila" : "julkaistu",
+    "modified" : "2019-02-05T09:49",
+    "toteutusOid" : "1.2.246.562.17.00000000000000000003",
+    "nimi" : {
+      "fi" : "Koulutuksen 0 toteutuksen 2 hakukohde 0 fi",
+      "sv" : "Koulutuksen 0 toteutuksen 2 hakukohde 0 sv"
+    },
+    "muokkaaja" : {
+      "oid" : "1.2.246.562.24.62301161440",
+      "nimi" : "Kalle Ankka"
+    },
+    "oid" : "1.2.246.562.20.00000000000000000002",
+    "hakuOid" : "1.2.246.562.29.00000000000000000001",
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
+      },
+      "oid" : "1.2.246.562.10.54545454545"
     },
     "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
   } ],
   "nimi" : {
-    "fi" : "Haku 0",
+    "fi" : "Haku 0 fi",
     "sv" : "Haku 0 sv"
   },
-  "hakulomake" : "Hakulomake tulostetaan ja toimitetaan postitse",
+  "hakulomake" : {
+    "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
+    "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
+  },
   "muokkaaja" : {
-    "oid" : "5.4.3.2.1",
+    "oid" : "1.2.246.562.24.62301161440",
     "nimi" : "Kalle Ankka"
   },
   "oid" : "1.2.246.562.29.00000000000000000001",
   "hakuajat" : [ {
-    "alkaa" : "2019-01-22T09:49",
-    "paattyy" : "2019-02-19T09:49"
+    "alkaa" : "2019-10-10T12:00",
+    "paattyy" : "2019-11-10T12:00"
   } ],
   "kohdejoukko" : {
-    "koodiUri" : "haunkohdejoukko_11#1",
+    "koodiUri" : "haunkohdejoukko_02#2",
     "nimi" : {
-      "fi" : "haunkohdejoukko_11#1 nimi fi",
-      "sv" : "haunkohdejoukko_11#1 nimi sv"
+      "fi" : "haunkohdejoukko_02#2 nimi fi",
+      "sv" : "haunkohdejoukko_02#2 nimi sv"
     }
   },
   "kielivalinta" : [ "fi", "sv" ],
   "kohdejoukonTarkenne" : {
-    "koodiUri" : "haunkohdejoukontarkenne_1#1",
+    "koodiUri" : "haunkohdejoukontarkenne_1#11",
     "nimi" : {
-      "fi" : "haunkohdejoukontarkenne_1#1 nimi fi",
-      "sv" : "haunkohdejoukontarkenne_1#1 nimi sv"
+      "fi" : "haunkohdejoukontarkenne_1#11 nimi fi",
+      "sv" : "haunkohdejoukontarkenne_1#11 nimi sv"
     }
   },
   "timestamp" : 1549368453241,
-  "alkamisvuosi" : "2019",
-  "hakukohteenLiittamisenTakaraja" : "2019-02-05T09:58",
+  "alkamisvuosi" : "2020",
+  "hakukohteenLiittamisenTakaraja" : "2019-10-11T12:00",
   "organisaatio" : {
     "paikkakunta" : {
       "koodiUri" : "kunta_091",
@@ -88,10 +120,10 @@
       }
     },
     "nimi" : {
-      "fi" : "Metropolia Ammattikorkeakoulu",
-      "en" : "Metropolia University of Applied Sciences"
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
     },
-    "oid" : "1.2.246.562.10.67476956288"
+    "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
     "yhteystieto" : {
@@ -110,7 +142,15 @@
       "puhelinnumero" : {
         "fi" : "123",
         "sv" : "123"
+      },
+      "wwwSivu" : {
+        "fi" : "http://opintopolku.fi",
+        "sv" : "http://studieinfo.fi"
       }
-    }
+    },
+    "tulevaisuudenAikataulu" : [{
+      "alkaa" : "2022-10-10T12:00",
+      "paattyy" : "2022-12-10T12:00"
+    }]
   }
 }

@@ -10,10 +10,10 @@
       }
     },
     "nimi" : {
-      "fi" : "Metropolia Ammattikorkeakoulu",
-      "en" : "Metropolia University of Applied Sciences"
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
     },
-    "oid" : "1.2.246.562.10.67476956288"
+    "oid" : "1.2.246.562.10.54545454545"
   } ],
   "toteutukset" : [ {
     "oid": "1.2.246.562.17.00000000000000000001",
@@ -26,13 +26,13 @@
         }
       },
       "nimi" : {
-        "fi" : "Metropolia Ammattikorkeakoulu",
-        "en" : "Metropolia University of Applied Sciences"
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.67476956288"
+      "oid" : "1.2.246.562.10.54545454545"
     },
     "nimi" : {
-      "fi" : "Koulutuksen 0 toteutus 0",
+      "fi" : "Koulutuksen 0 toteutus 0 fi",
       "sv" : "Koulutuksen 0 toteutus 0 sv"
     },
     "tila" : "arkistoitu",
@@ -40,6 +40,29 @@
       "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"
     },
+    "tarjoajat" : [{
+      "nimi" : {
+        "fi" : "Kiva ammattikorkeakoulu, Helsingin toimipiste",
+        "sv" : "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
+      },
+      "oid" : "1.2.246.562.10.54545454511",
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }}}, {
+      "nimi" : {
+        "fi" : "Kiva ammattikorkeakoulu, Kuopion toimipiste",
+        "sv" : "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
+      },
+      "oid" : "1.2.246.562.10.54545454522",
+      "paikkakunta" : {
+        "koodiUri" : "kunta_297",
+        "nimi" : {
+          "fi" : "kunta_297 nimi fi",
+          "sv" : "kunta_297 nimi sv"
+        }}}],
     "modified" : "2019-02-01T13:16"
   }, {
     "oid": "1.2.246.562.17.00000000000000000002",
@@ -52,13 +75,27 @@
         }
       },
       "nimi" : {
-        "fi" : "Metropolia Ammattikorkeakoulu",
-        "en" : "Metropolia University of Applied Sciences"
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.67476956288"
+      "oid" : "1.2.246.562.10.54545454545"
     },
+    "tarjoajat" : [{
+      "nimi" : {
+        "fi" : "Kiva ammattikorkeakoulu, Helsingin toimipiste",
+        "sv" : "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
+      },
+      "oid" : "1.2.246.562.10.54545454511",
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      }
+    }],
     "nimi" : {
-      "fi" : "Koulutuksen 0 toteutus 1",
+      "fi" : "Koulutuksen 0 toteutus 1 fi",
       "sv" : "Koulutuksen 0 toteutus 1 sv"
     },
     "tila" : "julkaistu",
@@ -78,13 +115,25 @@
         }
       },
       "nimi" : {
-        "fi" : "Metropolia Ammattikorkeakoulu",
-        "en" : "Metropolia University of Applied Sciences"
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.67476956288"
+      "oid" : "1.2.246.562.10.54545454545"
     },
+    "tarjoajat" : [{
+      "nimi" : {
+        "fi" : "Kiva ammattikorkeakoulu, Kuopion toimipiste",
+        "sv" : "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
+      },
+      "oid" : "1.2.246.562.10.54545454522",
+      "paikkakunta" : {
+        "koodiUri" : "kunta_297",
+        "nimi" : {
+          "fi" : "kunta_297 nimi fi",
+          "sv" : "kunta_297 nimi sv"
+        }}}],
     "nimi" : {
-      "fi" : "Koulutuksen 0 toteutus 2",
+      "fi" : "Koulutuksen 0 toteutus 2 fi",
       "sv" : "Koulutuksen 0 toteutus 2 sv"
     },
     "tila" : "julkaistu",
@@ -96,8 +145,8 @@
   } ],
   "modified" : "2019-01-31T09:11",
   "nimi" : {
-    "fi" : "Autoalan perustutkinto 0",
-    "sv" : "Autoaland perustutkinto 0 sv"
+    "fi" : "Autoalan perustutkinto 0 fi",
+    "sv" : "Autoalan perustutkinto 0 sv"
   },
   "muokkaaja" : {
     "oid" : "1.2.246.562.24.62301161440",
@@ -123,16 +172,30 @@
       }
     },
     "nimi" : {
-      "fi" : "Metropolia Ammattikorkeakoulu",
-      "en" : "Metropolia University of Applied Sciences"
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
     },
-    "oid" : "1.2.246.562.10.67476956288"
+    "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
+    "tyyppi" : "amm",
     "kuvaus" : {
       "fi" : "kuvaus",
       "sv" : "kuvaus sv"
-    }
+    },
+    "lisatiedot" : [ {
+      "otsikko" : {
+        "koodiUri" : "koulutuksenjarjestamisenlisaosiot_3#1",
+        "nimi" : {
+          "fi" : "koulutuksenjarjestamisenlisaosiot_3#1 nimi fi",
+          "sv" : "koulutuksenjarjestamisenlisaosiot_3#1 nimi sv"
+        }
+      },
+      "teksti" : {
+        "fi" : "Opintojen lisätieto ",
+        "sv" : "Opintojen lisätieto sv"
+      }
+    } ]
   },
   "koulutustyyppi" : "amm"
 }

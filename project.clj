@@ -1,8 +1,18 @@
+(require 'cemerick.pomegranate.aether)
+(cemerick.pomegranate.aether/register-wagon-factory!
+  "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
+
 (defproject konfo-indeksoija-service "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
-  :repositories [["oph-releases" "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"]
-                 ["oph-snapshots" "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"]
-                 ["ext-snapshots" "https://artifactory.opintopolku.fi/artifactory/ext-snapshot-local"]]
+  :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
+                              :username :env/artifactory_username
+                              :password :env/artifactory_password
+                              :sign-releases false
+                              :snapshots false}]
+                 ["snapshots" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"
+                               :username :env/artifactory_username
+                               :password :env/artifactory_password
+                               :snapshots true}]]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
@@ -25,10 +35,10 @@
                  [base64-clj "0.1.1"]
                  [clj-time "0.14.3"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.1.0-SNAPSHOT"]
-                 [oph/clj-s3 "0.1.0-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.2.0-SNAPSHOT"]
+                 [oph/clj-s3 "0.2.0-SNAPSHOT"]
                  ;;Logging
-                 [oph/clj-log "0.1.0-SNAPSHOT"]
+                 [oph/clj-log "0.2.0-SNAPSHOT"]
                  [org.clojure/tools.logging "0.4.0"]
                  [org.apache.logging.log4j/log4j-api "2.9.0"]
                  [org.apache.logging.log4j/log4j-core "2.9.0"]
@@ -39,10 +49,8 @@
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop
          :browser-uri "konfo-indeksoija"}
-  :uberjar-name "konfo-indeksoija.jar"
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
-                                  [oph/clj-test-utils "0.1.0-SNAPSHOT"]
                                   [midje "1.8.3"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [criterium "0.4.4"]]
@@ -55,14 +63,28 @@
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}}
-             :test {:env {:test "true"}}
-             :ci-test {:env {:test "true"} :dependencies [[ring/ring-mock "0.3.2"]] :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
-             :uberjar {:ring {:port 8080}}}
+             :test {:env {:test "true"} :dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
+                                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]}
+             :ci-test {:env {:test "true"}
+                       :dependencies [[ring/ring-mock "0.3.2"]
+                                      [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
+                                      [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+                       :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
+             :uberjar {:ring {:port 8080}}
+             :jar-with-test-fixture {:source-paths ["src", "test"]
+                                     :jar-exclusions [#"perf|resources|mocks"
+                                                      #"konfo_indeksoija_service/\w*_test.clj"
+                                                      #"konfo_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
+            "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
+            "install" ["with-profile" "+jar-with-test-fixture" "install"]
             "ci-test" ["with-profile" "+ci-test" "midje"]
             "autotest" ["with-profile" "+test" "midje" ":autotest"]
             "eastwood" ["with-profile" "+test" "eastwood"]
             "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
-            "uberjar" ["do" "clean" ["ring" "uberjar"]]}
+            "uberjar" ["do" "clean" ["ring" "uberjar"]]
+            "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])

@@ -13,6 +13,7 @@
       (assoc :organisaatio (:organisaatio toteutus))
       (assoc :nimi (:nimi toteutus))
       (assoc :tila (:tila toteutus))
+      (assoc :tarjoajat (:tarjoajat toteutus))
       (assoc :muokkaaja (:muokkaaja toteutus))
       (assoc :modified (:modified toteutus))))
 

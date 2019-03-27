@@ -57,12 +57,3 @@
   (tools/delete-index "query_perf")
   (tools/delete-index "lastindex")
   (Thread/sleep 1000))
-
-(defn reset-kouta-test-data
-  []
-  (tools/delete-index koulutus/index-name)
-  (tools/delete-index toteutus/index-name)
-  (tools/delete-index haku/index-name)
-  (tools/delete-index hakukohde/index-name)
-  (tools/delete-index valintaperuste/index-name)
-  (tools/delete-index koulutus-search/index-name))
