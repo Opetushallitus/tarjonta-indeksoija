@@ -1,4 +1,5 @@
 {
+  "koulutustyyppi" : "amm",
   "tila" : "arkistoitu",
   "modified" : "2019-02-05T09:49",
   "hakutapa" : {
@@ -49,6 +50,7 @@
     "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
+    "koulutustyyppi" : "amm",
     "valintatavat" : [ {
       "valintatapa" : {
         "koodiUri" : "valintatapajono_av#1",
@@ -61,83 +63,96 @@
         "fi" : "kuvaus fi",
         "sv" : "kuvaus sv"
       },
-      "taulukot" : [ {
-        "nimi" : {
-          "fi" : "Taulukko 1",
-          "sv" : "Taulukko 1 sv"
-        },
-        "rows" : [ {
-          "index" : 0,
-          "isHeader" : true,
-          "columns" : [ {
-            "index" : 0,
-            "text" : {
-              "fi" : "Otsikko",
-              "sv" : "Otsikko sv"
-            }
-          }, {
-            "index" : 1,
-            "text" : {
-              "fi" : "Otsikko 2",
-              "sv" : "Otsikko 2 sv"
-            }
-          } ]
+      "sisalto" : [{
+          "tyyppi" : "teksti",
+          "data": {
+            "fi" : "Sisaltoteksti fi",
+            "sv" : "Sisaltoteksti sv"
+          }
         }, {
-          "index" : 1,
-          "isHeader" : false,
-          "columns" : [ {
-            "index" : 0,
-            "text" : {
-              "fi" : "Tekstiä",
-              "sv" : "Tekstiä sv"
-            }
-          }, {
-            "index" : 1,
-            "text" : {
-              "fi" : "Tekstiä 2",
-              "sv" : "Tekstiä 2 sv"
-            }
-          } ]
-        } ]
-      }, {
-        "nimi" : {
-          "fi" : "Taulukko 2",
-          "sv" : "Taulukko 2 sv"
-        },
-        "rows" : [ {
-          "index" : 0,
-          "isHeader" : true,
-          "columns" : [ {
-            "index" : 0,
-            "text" : {
-              "fi" : "Otsikko",
-              "sv" : "Otsikko sv"
-            }
-          }, {
-            "index" : 1,
-            "text" : {
-              "fi" : "Otsikko 2",
-              "sv" : "Otsikko 2 sv"
-            }
-          } ]
+          "tyyppi" : "taulukko",
+          "data" : {
+            "nimi" : {
+              "fi" : "Taulukko 1",
+              "sv" : "Taulukko 1 sv"
+            },
+            "rows" : [ {
+              "index" : 0,
+              "isHeader" : true,
+              "columns" : [ {
+                "index" : 0,
+                "text" : {
+                  "fi" : "Otsikko",
+                  "sv" : "Otsikko sv"
+                }
+              }, {
+                "index" : 1,
+                "text" : {
+                  "fi" : "Otsikko 2",
+                  "sv" : "Otsikko 2 sv"
+                }
+              } ]
+            }, {
+              "index" : 1,
+              "isHeader" : false,
+              "columns" : [ {
+                "index" : 0,
+                "text" : {
+                  "fi" : "Tekstiä",
+                  "sv" : "Tekstiä sv"
+                }
+              }, {
+                "index" : 1,
+                "text" : {
+                  "fi" : "Tekstiä 2",
+                  "sv" : "Tekstiä 2 sv"
+                }
+              } ]
+            } ]
+          }
         }, {
-          "index" : 1,
-          "isHeader" : false,
-          "columns" : [ {
+        "tyyppi" : "taulukko",
+        "data" : {
+          "nimi" : {
+            "fi" : "Taulukko 2",
+            "sv" : "Taulukko 2 sv"
+          },
+          "rows" : [ {
             "index" : 0,
-            "text" : {
-              "fi" : "Tekstiä",
-              "sv" : "Tekstiä sv"
-            }
+            "isHeader" : true,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Otsikko",
+                "sv" : "Otsikko sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Otsikko 2",
+                "sv" : "Otsikko 2 sv"
+              }
+            } ]
           }, {
             "index" : 1,
-            "text" : {
-              "fi" : "Tekstiä 2",
-              "sv" : "Tekstiä 2 sv"
-            }
+            "isHeader" : false,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Tekstiä",
+                "sv" : "Tekstiä sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Tekstiä 2",
+                "sv" : "Tekstiä 2 sv"
+              }
+            } ]
           } ]
-        } ]
-      } ],
+        }
+      }
+      ],
       "kaytaMuuntotaulukkoa" : false,
       "kynnysehto" : {
         "fi" : "kynnysehto fi",
@@ -157,45 +172,55 @@
         "fi" : "kuvaus 2 fi",
         "sv" : "kuvaus 2 sv"
       },
-      "taulukot" : [ {
-        "nimi" : {
-          "fi" : "Taulukko 2",
-          "sv" : "Taulukko 2 sv"
-        },
-        "rows" : [ {
-          "index" : 0,
-          "isHeader" : true,
-          "columns" : [ {
+      "sisalto" : [{
+        "tyyppi" : "teksti",
+        "data": {
+          "fi" : "Sisaltoteksti fi",
+          "sv" : "Sisaltoteksti sv"
+        }
+      }, {
+        "tyyppi" : "taulukko",
+        "data" : {
+          "nimi" : {
+            "fi" : "Taulukko 2",
+            "sv" : "Taulukko 2 sv"
+          },
+          "rows" : [ {
             "index" : 0,
-            "text" : {
-              "fi" : "Otsikko",
-              "sv" : "Otsikko sv"
-            }
+            "isHeader" : true,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Otsikko",
+                "sv" : "Otsikko sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Otsikko 2",
+                "sv" : "Otsikko 2 sv"
+              }
+            } ]
           }, {
             "index" : 1,
-            "text" : {
-              "fi" : "Otsikko 2",
-              "sv" : "Otsikko 2 sv"
-            }
+            "isHeader" : false,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Tekstiä",
+                "sv" : "Tekstiä sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Tekstiä 2",
+                "sv" : "Tekstiä 2 sv"
+              }
+            } ]
           } ]
-        }, {
-          "index" : 1,
-          "isHeader" : false,
-          "columns" : [ {
-            "index" : 0,
-            "text" : {
-              "fi" : "Tekstiä",
-              "sv" : "Tekstiä sv"
-            }
-          }, {
-            "index" : 1,
-            "text" : {
-              "fi" : "Tekstiä 2",
-              "sv" : "Tekstiä 2 sv"
-            }
-          } ]
-        } ]
-      } ],
+        }
+      }
+      ],
       "kaytaMuuntotaulukkoa" : true,
       "kynnysehto" : {
         "fi" : "kynnysehto fi",

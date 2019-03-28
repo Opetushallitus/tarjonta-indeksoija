@@ -12,15 +12,25 @@
       "sv" : "kausi_k#1 nimi sv"
     }
   },
-  "pohjakoulutusvaatimus" : {
+  "pohjakoulutusvaatimust" : [
+    {
     "koodiUri" : "pohjakoulutusvaatimustoinenaste_01#2",
     "nimi" : {
       "fi" : "pohjakoulutusvaatimustoinenaste_01#2 nimi fi",
       "sv" : "pohjakoulutusvaatimustoinenaste_01#2 nimi sv"
     }
   },
+    {
+      "koodiUri" : "pohjakoulutusvaatimustoinenaste_02#2",
+      "nimi" : {
+        "fi" : "pohjakoulutusvaatimustoinenaste_02#2 nimi fi",
+        "sv" : "pohjakoulutusvaatimustoinenaste_02#2 nimi sv"
+      }
+    }
+  ],
   "toinenAsteOnkoKaksoistutkinto" : false,
   "valintaperuste" : {
+    "koulutustyyppi": "amm",
     "tila" : "arkistoitu",
     "modified" : "2019-02-05T09:49",
     "hakutapa" : {
