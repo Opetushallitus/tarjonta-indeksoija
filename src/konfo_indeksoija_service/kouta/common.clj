@@ -12,6 +12,7 @@
     (if (keyword? key)
       (-> key
           (name)
+          (clojure.string/replace "KoodiUrit" "")
           (clojure.string/replace "KoodiUri" "")
           (clojure.string/replace "Uri" "")
           (keyword))
