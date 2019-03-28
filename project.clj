@@ -71,13 +71,13 @@
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}
                    :env-vars {:AWS_ACCESS_KEY_ID "just need something for Localstack"
-                              :AWS_SECRET_KEY "just need something for Localstack"
-                              :SQS_ENDPOINT "http://localhost:4576"}}
+                              :AWS_SECRET_KEY "just need something for Localstack"}}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.15"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
                     :plugins [[lein-with-env-vars "0.2.0"]]
+                    :resource-paths ["test_resources"]
                     :env-vars ^:replace {:AWS_ACCESS_KEY_ID "just need something for Localstack"
                                          :AWS_SECRET_KEY "just need something for Localstack"}}
              :ci-test {:env {:test "true"}
