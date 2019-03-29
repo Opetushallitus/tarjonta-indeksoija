@@ -20,5 +20,5 @@
          :slow "slow-indexing-queue"
          :dlq "indexing-dql"}
  :sqs-region ""
- :sqs-endpoint "http://localhost:4576"
+ :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"}
