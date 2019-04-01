@@ -211,9 +211,9 @@
 
 (defn index-oids-without-related-indices
   ([oids wait-in-millis]
-   (with-redefs [konfo-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
-     (with-mocked-indexing
-      (indexer/index-all)))
+    (with-mocked-indexing
+      (with-redefs [konfo-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
+        (indexer/index-all)))
    (Thread/sleep wait-in-millis))
   ([oids]
    (index-oids-without-related-indices oids 1000)))
