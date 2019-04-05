@@ -18,9 +18,13 @@
     (fn [x y] (merge-with (fn [a b] (distinct (concat a b))) x y))
     messages))
 
-(defn queue [priority] (sqs/find-queue (get (:queue env) priority)))
+(defn queue
+  [priority]
+  (sqs/find-queue (get (:queue env) priority)))
 
-(defn receive [{:keys [q f]}] (assoc (f q) :queue q))
+(defn receive
+  [{:keys [q f]}]
+  (assoc (f q) :queue q))
 
 (defn receive-messages-from-queues
   []
@@ -32,7 +36,9 @@
      {:q (queue :slow) :f sqs/short-poll}]))
 
 
-(defn body-json->map [msg] (json/parse-string (:body msg) true))
+(defn body-json->map
+  [msg]
+  (json/parse-string (:body msg) true))
 
 (defn handle-messages-from-queues
   "Receive messages from queues and call handler function on them. If handling is
@@ -65,7 +71,7 @@
                           #(state/set-states! ::state/indexed %)]]
               (step messages))))
         (catch QueueDoesNotExistException e
-          (log/error (str "Queues do not exist. Sleeping for 30 seconds and continue polling." ( e)))
+          (log/error e "Queues do not exist. Sleeping for 30 seconds and continue polling.")
           (Thread/sleep 30000))
         (catch Exception e
           (log/error e "Error in receiving indexing messages. Sleeping for 3 seconds and continue polling.")
@@ -78,7 +84,7 @@
   "Handle messages from DLQ. Mark message states to failed."
   []
   (if-let [dlq (queue :dlq)]
-    (if-let [failed (seq (:messages (sqs/short-poll dlq)))]
+    (when-let [failed (seq (:messages (sqs/short-poll dlq)))]
       (do
         (state/set-states! ::state/failed failed)
         (doseq [msg failed] (sqs/delete-message :queue-url dlq :receipt-handle (:receipt-handle msg)))))

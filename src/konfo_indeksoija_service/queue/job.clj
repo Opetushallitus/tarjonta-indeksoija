@@ -11,15 +11,15 @@
 
 (defn start-handle-dlq-job
   ([] (start-handle-dlq-job (:dlq-cron-string env)))
-  ([cronstring]
+  ([cron-string]
    (log/info "Starting DLQ handling job!")
    (let [job (j/build
                (j/of-type handle-dlq-job)
                (j/with-identity "jobs.DLQ.1"))
          trigger (t/build
-                   (t/with-identity (t/key "crontirgger"))
+                   (t/with-identity (t/key "cron-trigger"))
                    (t/start-now)
                    (t/with-schedule
-                      (schedule (cron-schedule cronstring))))]
-     (log/info (str "Starting DLQ handling with cron schedule " cronstring)
+                      (schedule (cron-schedule cron-string))))]
+     (log/info (str "Starting DLQ handling with cron schedule " cron-string)
                (qs/schedule job-pool job trigger)))))
