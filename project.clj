@@ -34,6 +34,7 @@
                  [org.postgresql/postgresql "9.4-1200-jdbc41"]
                  [base64-clj "0.1.1"]
                  [clj-time "0.14.3"]
+                 [org.clojure/algo.generic "0.1.3"]
                  ;Elasticsearch + s3
                  [oph/clj-elasticsearch "0.2.0-SNAPSHOT"]
                  [oph/clj-s3 "0.2.0-SNAPSHOT"]
@@ -44,7 +45,12 @@
                  [org.apache.logging.log4j/log4j-core "2.9.0"]
                  [org.apache.logging.log4j/log4j-slf4j-impl "2.9.0"]
                  [clj-log4j2 "0.2.0"]
-                 [ring-cors "0.1.11"]]
+                 [ring-cors "0.1.11"]
+                 ;;SQS Handling
+                 [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
+                                                  com.amazonaws/amazon-kinesis-client]]
+                 [com.amazonaws/aws-java-sdk-core "1.11.479"]
+                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]]
   :ring {:handler konfo-indeksoija-service.api/app
          :init konfo-indeksoija-service.api/init
          :destroy konfo-indeksoija-service.api/stop
@@ -62,16 +68,26 @@
                              [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
-                   :ring {:reload-paths ["src"]}}
-             :test {:env {:test "true"} :dependencies [[fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
+                   :ring {:reload-paths ["src"]}
+                   :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
+                              "-Daws.secretKey=randomKeyForLocalstack"]}
+             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.15"]
+                                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]}
+                                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+                    :resource-paths ["test_resources"]
+                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
+                               "-Daws.secretKey=randomKeyForLocalstack"]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
+                                      [cloud.localstack/localstack-utils "0.1.15"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
-                       :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties" "-Dconf=ci/config.edn"]}
+                       :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
+                                  "-Dconf=ci/config.edn"
+                                  "-Daws.accessKeyId=randomKeyIdForLocalstack"
+                                  "-Daws.secretKey=randomKeyForLocalstack"]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"

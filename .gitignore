@@ -14,4 +14,5 @@ logs/
 .lein-env
 resources/public/buildversion.txt
 dev_resources/config.edn
+.localstack
 pom.xml

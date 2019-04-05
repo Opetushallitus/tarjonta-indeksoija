@@ -14,4 +14,11 @@
                :port "{{konfo_indeksoija_tarjonta_db_port}}"
                :host "{{konfo_indeksoija_tarjonta_db_url}}"
                :user "{{konfo_indeksoija_tarjonta_db_user}}"
-               :password "{{konfo_indeksoija_tarjonta_db_password}}"}}
+               :password "{{konfo_indeksoija_tarjonta_db_password}}"}
+ :queue {:priority "{{konfo_indeksoija_sqs_queue_priority}}"
+         :fast "{{konfo_indeksoija_sqs_queue_fast}}"
+         :slow "{{konfo_indeksoija_sqs_queue_slow}}"
+         :dlq "{{konfo_indeksoija_sqs_queue_dlq}}"}
+ :sqs-region "{{konfo_indeksoija_sqs_region}}"
+ :sqs-endpoint "{{konfo_indeksoija_sqs_endpoint}}"
+ :dlq-cron-string "{{konfo_indeksoija_dlq_cron_string}}"}

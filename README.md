@@ -34,11 +34,34 @@ To run tests every time code is changed:
 * `(use 'midje.repl)` (no need to use `(go)` here)
 * `(autotest)`
 
-### Command line
+### Tests
 
-#### Run the application locally
+To run tests from command line use commands `lein test` or `lein autotest`
 
-Application requires a local Elasticsearch index listening on localhost:9200
+To run single test from command line use command `lein test konfo-indeksoija-service.elastic-client-test`.
+
+Tests require that Docker is installed and Docker daemon is up and running. It
+is possible to filter out tests that require Docker by adding filter, ie
+`lein test :filter -docker` or `lein autotest :filter -docker`. These tests include
+at least those that test SQS integration.
+
+
+### Running the application locally
+
+#### Requirements
+
+##### Elasticsearch
+Application requires a local Elasticsearch index listening on port 9200. On Mac you can
+install Elasticsearch with `brew install elasticsearch` and run with `elasticsearch` from
+console, it will by default run on correct port.
+
+##### SQS
+Application requires a local SQS on port 4576. SQS can be started with `tools\start_localstack`
+and stopped with `tools\stop_localstack`, this requires that Docker is installed.
+
+`tools\send_local` can be used to send messages to local queues.
+
+#### Running
 
 Running the application or tests from the commandline work with the aliases provided in
 project.clj. 
@@ -49,11 +72,6 @@ Ui can be found in: [http://localhost:3000/konfo-indeksoija/ui/index.html]
 
 Running the app itself from the repl doesn't seem worth while.
 
-#### Run the tests
-
-To run tests from command line use commands `lein test` or `lein autotest`
-
-TO run single test from command line use command `lein with-profile +test midje konfo-indeksoija-service.elastic-client-test`
 
 ### Configuration
 

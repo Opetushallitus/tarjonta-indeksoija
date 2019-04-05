@@ -25,6 +25,9 @@ install:
   - source ci-tools/common/setup-tools.sh
   - export ARTIFACT_NAME="konfo-indeksoija"
 
+before_script:
+  - docker pull localstack/localstack:latest
+
 script:
   - lein -U ci-test
   - lein uberjar
