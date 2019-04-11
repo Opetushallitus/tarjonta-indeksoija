@@ -3,7 +3,7 @@
 (def index-settings
   {:index.mapping.total_fields.limit 2000
    :analysis {:filter {:edge_ngram_long_words {:type "edge_ngram"
-                                               :min_gram "4"
+                                               :min_gram "6"
                                                :max_gram "12"}
                        :edge_gram_compound_words {:type "ngram"
                                                   :min_gram "6"
@@ -121,6 +121,10 @@
   {:dynamic_templates [{:nested {:match "toteutukset"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
+                       {:hakuOnKaynnissa {:match "hakuOnKaynnissa"
+                                          :match_mapping_type "object"
+                                          :mapping {:type "date_range"
+                                                    :format "yyyy-MM-dd'T'HH:mm"}}}
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"

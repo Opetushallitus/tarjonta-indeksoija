@@ -1,6 +1,7 @@
 {
   "tila" : "julkaistu",
   "johtaaTutkintoon" : true,
+  "kielivalinta" : ["fi", "sv"],
   "tarjoajat" : [ {
     "paikkakunta" : {
       "koodiUri" : "kunta_091",
@@ -17,6 +18,7 @@
   } ],
   "toteutukset" : [ {
     "tila" : "julkaistu",
+    "kielivalinta" : ["fi", "sv"],
     "tarjoajat" : [{
       "nimi" : {
         "fi" : "Kiva ammattikorkeakoulu, Helsingin toimipiste",
@@ -39,7 +41,6 @@
       "nimi" : "Kalle Ankka"
     },
     "oid" : "1.2.246.562.17.00000000000000000002",
-    "hakuKäynnissä" : false,
     "koulutus" : {
       "tila" : "julkaistu",
       "johtaaTutkintoon" : true,
@@ -71,6 +72,7 @@
       },
       "koulutustyyppi" : "amm"
     },
+    "hakuOnKaynnissa" : [],
     "haut" : [ ],
     "organisaatio" : {
       "paikkakunta" : {
@@ -158,6 +160,7 @@
     }
   }, {
     "tila" : "julkaistu",
+    "kielivalinta" : ["fi", "sv"],
     "tarjoajat" : [ {
       "paikkakunta" : {
         "koodiUri" : "kunta_297",
@@ -182,7 +185,6 @@
       "nimi" : "Kalle Ankka"
     },
     "oid" : "1.2.246.562.17.00000000000000000003",
-    "hakuKäynnissä" : true,
     "koulutus" : {
       "tila" : "julkaistu",
       "johtaaTutkintoon" : true,
@@ -214,6 +216,12 @@
       },
       "koulutustyyppi" : "amm"
     },
+    "hakuOnKaynnissa" : [
+      {
+        "gte" : "2018-10-10T12:00",
+        "lt"  : "2030-11-10T12:00"
+      }
+    ],
     "haut" : [ {
       "hakulomaketyyppi" : "ei sähköistä",
       "alkamiskausi" : {
@@ -275,7 +283,6 @@
         "paattyy" : "2019-11-10T12:00"
       } ],
       "hakuOid" : "1.2.246.562.29.00000000000000000001",
-      "hakuKäynnissä" : true,
       "alkamisvuosi" : "2020",
       "organisaatioOid" : "1.2.246.562.10.54545454545"
     } ],

@@ -136,7 +136,6 @@
 
       (fact "Indexer should index toteutus to toteutus index and update related indexes"
             (check-all-nil)(i/index-toteutus toteutus-oid)
-            (debug-pretty (read toteutus/index-name toteutus-oid))
             (no-timestamp (read toteutus/index-name toteutus-oid)) => (no-timestamp (json "kouta-toteutus-result"))
             (:oid (read search/index-name koulutus-oid)) => koulutus-oid
             (:oid (read koulutus/index-name koulutus-oid)) => koulutus-oid)
