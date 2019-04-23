@@ -29,10 +29,10 @@
    (wait-for-elastic-lock
     (let [now (System/currentTimeMillis)
           last-modified (get-last-index-time)
-          tarjonta-changes (tarjonta/get-last-modified last-modified)
+          ;tarjonta-changes (tarjonta/get-last-modified last-modified)
           organisaatio-changes (organisaatio/find-last-changes last-modified)
           eperuste-changes (eperuste/find-changes last-modified)
-          changes-since (clojure.set/union tarjonta-changes organisaatio-changes eperuste-changes)]
+          changes-since (clojure.set/union organisaatio-changes eperuste-changes)] ;tarjonta-changes
       (when-not (nil? changes-since)
         (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
         (let [related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))

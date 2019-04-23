@@ -34,7 +34,7 @@
   (if (and (admin/check-elastic-status)
            (admin/initialize-indices))
     (do
-      (comment j/start-indexer-job)
+      (j/start-indexer-job)
       (qjob/start-handle-dlq-job)
       (q/index-from-queue!))
     (do
@@ -134,8 +134,16 @@
      (context "/queue" []
        :tags ["queue"]
        (GET "/all" []
-         :summary "Indeksoi kaikki koulutukset, hakukohteet, haut ja organisaatiot."
+         :summary "Lisää kaikki vanhan tarjonnan koulutukset, haut ja hakukohteet sekä organisaatiot ja eperusteet indeksoitavien listalle."
          (ok {:result (queue/queue-all)}))
+
+       (GET "/eperusteet" []
+         :summary "Lisää kaikki eperusteet indeksoitavien listalle"
+         (ok {:result (queue/queue-all-eperusteet)}))
+
+       (GET "/eperusteet" []
+         :summary "Lisää kaikki organisaatiot indeksoitavien listalle"
+         (ok {:result (queue/queue-all-organisaatiot)}))
 
        (GET "/koulutus" []
          :summary "Lisää koulutuksen indeksoitavien listalle."

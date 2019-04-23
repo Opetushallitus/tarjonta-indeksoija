@@ -14,7 +14,7 @@
 
 (defn queue-all
   []
-  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta ja organisaatiopalvelusta.")
+  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta, eperusteista ja organisaatiopalvelusta.")
   (reset-queue)
   (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
         organisaatio-docs (organisaatio-client/find-docs nil)
@@ -22,6 +22,18 @@
         docs (clojure.set/union tarjonta-docs organisaatio-docs eperusteet-docs)]
     (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (upsert-to-queue docs)))
+
+(defn queue-all-eperusteet
+  []
+  (let [eperusteet-docs (eperusteet-client/find-all)]
+    (log/info "Lisätään indeksoijan jonoon " (count eperusteet-docs) " eperustetta")
+    (upsert-to-queue eperusteet-docs)))
+
+(defn queue-all-organisaatiot
+  []
+  (let [organisaatio-docs (organisaatio-client/find-docs nil)]
+    (log/info "Lisätään indeksoijan jonoon " (count organisaatio-docs) " organisaatiota")
+    (upsert-to-queue organisaatio-docs)))
 
 (defn queue
   [index oid]
