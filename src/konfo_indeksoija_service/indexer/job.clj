@@ -40,8 +40,8 @@
           (if-not (empty? related-koulutus)
             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
           (upsert-to-queue last-modified-with-related-koulutus)
-          (set-last-index-time now)
-          (do-index)))))))
+          (set-last-index-time now)))
+      (do-index)))))
 
 (defn start-indexer-job
   ([] (start-indexer-job (:cron-string env)))
