@@ -51,7 +51,7 @@
               (j/of-type indexing-job)
               (j/with-identity "jobs.index.1"))
          trigger (t/build
-                  (t/with-identity (t/key "cron-trigger"))
+                  (t/with-identity (t/key "index-cron-trigger"))
                   (t/start-now)
                   (t/with-schedule
                    (schedule (cron-schedule cron-string))))]
