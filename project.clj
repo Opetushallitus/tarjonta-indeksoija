@@ -37,7 +37,7 @@
                  [org.clojure/algo.generic "0.1.3"]
                  ;Elasticsearch + s3
                  [oph/clj-elasticsearch "0.2.0-SNAPSHOT"]
-                 [oph/clj-s3 "0.2.0-SNAPSHOT"]
+                 [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;;Logging
                  [oph/clj-log "0.2.0-SNAPSHOT"]
                  [org.clojure/tools.logging "0.4.0"]
