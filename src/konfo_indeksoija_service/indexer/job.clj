@@ -35,9 +35,10 @@
           changes-since (clojure.set/union organisaatio-changes eperuste-changes)] ;tarjonta-changes
       (when-not (nil? changes-since)
         (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
-        (let [related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
-              last-modified-with-related-koulutus (remove nil? (clojure.set/union changes-since related-koulutus))]
-          (if-not (empty? related-koulutus)
+        (let [                                              ;related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
+              last-modified-with-related-koulutus (remove nil? changes-since ;(clojure.set/union changes-since related-koulutus)
+                                                          )]
+          (comment if-not (empty? related-koulutus)
             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
           (upsert-to-queue last-modified-with-related-koulutus)
           (set-last-index-time now)))
