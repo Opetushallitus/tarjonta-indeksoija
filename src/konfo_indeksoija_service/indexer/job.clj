@@ -29,19 +29,20 @@
    (wait-for-elastic-lock
     (let [now (System/currentTimeMillis)
           last-modified (get-last-index-time)
-          tarjonta-changes (tarjonta/get-last-modified last-modified)
+          ;tarjonta-changes (tarjonta/get-last-modified last-modified)
           organisaatio-changes (organisaatio/find-last-changes last-modified)
           eperuste-changes (eperuste/find-changes last-modified)
-          changes-since (clojure.set/union tarjonta-changes organisaatio-changes eperuste-changes)]
+          changes-since (clojure.set/union organisaatio-changes eperuste-changes)] ;tarjonta-changes
       (when-not (nil? changes-since)
         (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
-        (let [related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
-              last-modified-with-related-koulutus (remove nil? (clojure.set/union changes-since related-koulutus))]
-          (if-not (empty? related-koulutus)
+        (let [                                              ;related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
+              last-modified-with-related-koulutus (remove nil? changes-since ;(clojure.set/union changes-since related-koulutus)
+                                                          )]
+          (comment if-not (empty? related-koulutus)
             (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
           (upsert-to-queue last-modified-with-related-koulutus)
-          (set-last-index-time now)
-          (do-index)))))))
+          (set-last-index-time now)))
+      (do-index)))))
 
 (defn start-indexer-job
   ([] (start-indexer-job (:cron-string env)))
@@ -51,7 +52,7 @@
               (j/of-type indexing-job)
               (j/with-identity "jobs.index.1"))
          trigger (t/build
-                  (t/with-identity (t/key "cron-trigger"))
+                  (t/with-identity (t/key "index-cron-trigger"))
                   (t/start-now)
                   (t/with-schedule
                    (schedule (cron-schedule cron-string))))]

@@ -2,6 +2,7 @@
   (:require [konfo-indeksoija-service.rest.kouta :as kouta-backend]
             [konfo-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [konfo-indeksoija-service.kouta.common :as common]
+            [konfo-indeksoija-service.kouta.tools.hakuaika :refer [->real-hakuajat]]
             [konfo-indeksoija-service.kouta.indexable :as indexable]
             [konfo-indeksoija-service.util.time :refer [kouta-date-to-long]]))
 
@@ -23,38 +24,17 @@
 (defn- shrink-toteutus
   [t ]
   (-> t
-      (dissoc :koulutusOid :kielivalinta)
+      (dissoc :koulutusOid)
       (update-in [:metadata] dissoc :kuvaus :yhteystieto)
       (update-in [:metadata :opetus] dissoc :osiot)
       (update-in [:metadata :asiasanat] transform-asiasanat)
       (update-in [:metadata :ammattinimikkeet] transform-asiasanat)))
 
-(defn- create-haut-entry
-         [haut]
-
-         (defn- now?
-           [hakuaika]
-           (if-let [alkaa (:alkaa hakuaika)]
-             (if-let [paattyy (:paattyy hakuaika)]
-               (< (kouta-date-to-long alkaa) (. System (currentTimeMillis)) (kouta-date-to-long paattyy))
-               (< (kouta-date-to-long alkaa) (. System (currentTimeMillis))))
-             false))
-
-         (defn- hakuIsOn?
-           [haku]
-           (if (some-true (map :kaytetaanHaunAikataulua (:hakukohteet haku)))
-             (some-true (map now? (:hakuajat haku)))
-             (some-true (map now? (mapcat :hakuajat (:hakukohteet haku))))))
-
-         (if (not-empty haut)
-           (map #(assoc % :hakuKäynnissä (hakuIsOn? %) ) haut)
-           []))
-
 (defn- create-toteutus-entry
   [t shrinked-koulutus hakutiedot]
   (let [hakutieto (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot))
-        haut (create-haut-entry (:haut hakutieto))]
-    (-> t shrink-toteutus (assoc :koulutus shrinked-koulutus) (assoc :haut haut :hakuKäynnissä (some-true (map :hakuKäynnissä haut))))))
+        hakuajat (->real-hakuajat hakutieto)]
+    (-> t shrink-toteutus (assoc :koulutus shrinked-koulutus :haut (:haut hakutieto) :hakuOnKaynnissa hakuajat))))
 
 (defn create-index-entry
   [oid]

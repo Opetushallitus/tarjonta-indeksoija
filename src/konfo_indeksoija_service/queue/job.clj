@@ -17,7 +17,7 @@
                (j/of-type handle-dlq-job)
                (j/with-identity "jobs.DLQ.1"))
          trigger (t/build
-                   (t/with-identity (t/key "cron-trigger"))
+                   (t/with-identity (t/key "dlq-cron-trigger"))
                    (t/start-now)
                    (t/with-schedule
                       (schedule (cron-schedule cron-string))))]

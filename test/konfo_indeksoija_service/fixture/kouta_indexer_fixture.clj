@@ -135,6 +135,15 @@
   (tools/delete-index konfo-indeksoija-service.kouta.valintaperuste/index-name)
   (tools/delete-index konfo-indeksoija-service.kouta.koulutus-search/index-name))
 
+(defn refresh-indices
+  []
+  (tools/refresh-index konfo-indeksoija-service.kouta.koulutus/index-name)
+  (tools/refresh-index konfo-indeksoija-service.kouta.toteutus/index-name)
+  (tools/refresh-index konfo-indeksoija-service.kouta.haku/index-name)
+  (tools/refresh-index konfo-indeksoija-service.kouta.hakukohde/index-name)
+  (tools/refresh-index konfo-indeksoija-service.kouta.valintaperuste/index-name)
+  (tools/refresh-index konfo-indeksoija-service.kouta.koulutus-search/index-name))
+
 (defn reset-mocks
   []
   (.reset KoutaFixture))
@@ -202,26 +211,20 @@
      (do ~@body)))
 
 (defn index-oids-with-related-indices
-  ([oids wait-in-millis]
-   (with-mocked-indexing
-    (indexer/index-oids oids))
-   (Thread/sleep wait-in-millis))
-  ([oids]
-   (index-oids-with-related-indices oids 1000)))
+  [oids]
+  (with-mocked-indexing
+   (indexer/index-oids oids))
+  (refresh-indices))
 
 (defn index-oids-without-related-indices
-  ([oids wait-in-millis]
-    (with-mocked-indexing
-      (with-redefs [konfo-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
-        (indexer/index-all)))
-   (Thread/sleep wait-in-millis))
-  ([oids]
-   (index-oids-without-related-indices oids 1000)))
+  [oids]
+  (with-mocked-indexing
+    (with-redefs [konfo-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
+      (indexer/index-all)))
+  (refresh-indices))
 
 (defn index-all
-  ([wait-in-millis]
-   (with-mocked-indexing
-    (indexer/index-all))
-    (Thread/sleep wait-in-millis))
-  ([]
-   (index-all 1000)))
+  []
+  (with-mocked-indexing
+   (indexer/index-all))
+  (refresh-indices))
