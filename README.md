@@ -1,4 +1,4 @@
-# konfo-indeksoija-service
+# kouta-indeksoija-service
 
 ## Usage
 
@@ -38,7 +38,7 @@ To run tests every time code is changed:
 
 To run tests from command line use commands `lein test` or `lein autotest`
 
-To run single test from command line use command `lein test konfo-indeksoija-service.elastic-client-test`.
+To run single test from command line use command `lein test kouta-indeksoija-service.elastic-client-test`.
 
 Tests require that Docker is installed and Docker daemon is up and running. It
 is possible to filter out tests that require Docker by adding filter, ie
@@ -68,7 +68,7 @@ project.clj.
 
 To run the application: `lein run`
 
-Ui can be found in: [http://localhost:3000/konfo-indeksoija/ui/index.html]
+Ui can be found in: [http://localhost:3000/kouta-indeksoija/ui/index.html]
 
 Running the app itself from the repl doesn't seem worth while.
 

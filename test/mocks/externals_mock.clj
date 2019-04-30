@@ -1,8 +1,8 @@
 (ns mocks.externals-mock
-  (:require [konfo-indeksoija-service.test-tools :as tools]
-            [konfo-indeksoija-service.elastic.queue :refer [upsert-to-queue]]
-            [konfo-indeksoija-service.api]
-            [konfo-indeksoija-service.indexer.index]
+  (:require [kouta-indeksoija-service.test-tools :as tools]
+            [kouta-indeksoija-service.elastic.queue :refer [upsert-to-queue]]
+            [kouta-indeksoija-service.api]
+            [kouta-indeksoija-service.indexer.index]
             [base64-clj.core :as b64]))
 
 (defn get-doc
@@ -62,42 +62,42 @@
 
 (defmacro with-externals-mock
   [& body]
-  `(with-redefs [konfo-indeksoija-service.indexer.queue/queue
+  `(with-redefs [kouta-indeksoija-service.indexer.queue/queue
                  mocks.externals-mock/queue-mock
 
-                 konfo-indeksoija-service.rest.tarjonta/get-last-modified
+                 kouta-indeksoija-service.rest.tarjonta/get-last-modified
                  mocks.externals-mock/get-last-modified
 
-                 konfo-indeksoija-service.rest.tarjonta/get-related-koulutus
+                 kouta-indeksoija-service.rest.tarjonta/get-related-koulutus
                  mocks.externals-mock/get-related-koulutus
 
-                 konfo-indeksoija-service.indexer.docs/get-doc
+                 kouta-indeksoija-service.indexer.docs/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.rest.tarjonta/get-doc
+                 kouta-indeksoija-service.rest.tarjonta/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.rest.tarjonta/get-pic
+                 kouta-indeksoija-service.rest.tarjonta/get-pic
                  mocks.externals-mock/get-pic
 
-                 konfo-indeksoija-service.rest.organisaatio/get-doc
+                 kouta-indeksoija-service.rest.organisaatio/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.rest.organisaatio/find-last-changes
+                 kouta-indeksoija-service.rest.organisaatio/find-last-changes
                  mocks.externals-mock/find-last-changes
 
-                 konfo-indeksoija-service.rest.eperuste/get-doc
+                 kouta-indeksoija-service.rest.eperuste/get-doc
                  mocks.externals-mock/get-doc
 
-                 konfo-indeksoija-service.rest.eperuste/find-changes
+                 kouta-indeksoija-service.rest.eperuste/find-changes
                  mocks.externals-mock/find-changes
 
-                 konfo-indeksoija-service.rest.tarjonta/get-hakukohteet-for-koulutus
+                 kouta-indeksoija-service.rest.tarjonta/get-hakukohteet-for-koulutus
                  mocks.externals-mock/get-hakukohteet-for-koulutus
 
-                 konfo-indeksoija-service.rest.tarjonta/get-haut-by-oids
+                 kouta-indeksoija-service.rest.tarjonta/get-haut-by-oids
                  mocks.externals-mock/get-haut-by-oids
 
-                 konfo-indeksoija-service.s3.s3-client/refresh-s3
+                 kouta-indeksoija-service.s3.s3-client/refresh-s3
                  mocks.externals-mock/refresh-s3]
      (do ~@body)))

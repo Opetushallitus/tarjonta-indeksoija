@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject konfo-indeksoija-service "0.1.3-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.1.3-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -51,10 +51,10 @@
                                                   com.amazonaws/amazon-kinesis-client]]
                  [com.amazonaws/aws-java-sdk-core "1.11.479"]
                  [com.amazonaws/aws-java-sdk-sqs "1.11.479"]]
-  :ring {:handler konfo-indeksoija-service.api/app
-         :init konfo-indeksoija-service.api/init
-         :destroy konfo-indeksoija-service.api/stop
-         :browser-uri "konfo-indeksoija"}
+  :ring {:handler kouta-indeksoija-service.api/app
+         :init kouta-indeksoija-service.api/init
+         :destroy kouta-indeksoija-service.api/stop
+         :browser-uri "kouta-indeksoija"}
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [midje "1.8.3"]
@@ -91,8 +91,8 @@
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"
-                                                      #"konfo_indeksoija_service/\w*_test.clj"
-                                                      #"konfo_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
+                                                      #"kouta_indeksoija_service/\w*_test.clj"
+                                                      #"kouta_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
   :aliases {"run" ["ring" "server"]
             "test" ["with-profile" "+test" "midje"]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]

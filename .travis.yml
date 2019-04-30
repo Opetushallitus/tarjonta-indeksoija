@@ -23,7 +23,7 @@ env:
 install:
   - git clone https://github.com/Opetushallitus/ci-tools.git
   - source ci-tools/common/setup-tools.sh
-  - export ARTIFACT_NAME="konfo-indeksoija"
+  - export ARTIFACT_NAME="kouta-indeksoija"
 
 before_script:
   - docker pull localstack/localstack:latest
@@ -32,7 +32,7 @@ script:
   - lein -U ci-test
   - lein uberjar
 
-  - mv target/konfo-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
+  - mv target/kouta-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
   - cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
 
   - export BASE_IMAGE="baseimage-fatjar:master"

@@ -14,7 +14,7 @@ if (process.argv.length < 3) {
     process.exit(1);
 }
 
-if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/konfo-indeksoija';
+if (baseUrl === 'localhost') baseUrl = 'http://localhost:3000/kouta-indeksoija';
 
 var urls = queries.map(function (query) {
     return {get: baseUrl + '/api/ui/search?query=' + query}
@@ -44,7 +44,7 @@ urls.forEach(function(url) {
                 var end = new Date().getTime();
                 console.log('error count: ', errorCount);
                 console.log('Started at: ' + start + ', end: ' + end + ' total time ' + ((end - start) / 1000) + ' seconds.');
-                console.log('Get more perf tests statistics from elastic with:\nhttp://localhost:3000/konfo-indeksoija/api/admin/performance_info?since=' + start);
+                console.log('Get more perf tests statistics from elastic with:\nhttp://localhost:3000/kouta-indeksoija/api/admin/performance_info?since=' + start);
                 console.log('Results below are in format <query: [minTime, maxTime, meanTime]>.');
                 console.log('The numbers represent the total time for ' + runOptions.iterations + ' requests, not a single request.');
                 console.log(results);

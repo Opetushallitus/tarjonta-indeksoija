@@ -15,10 +15,10 @@
                :port <fillme>
                :user <fillme>
                :password <fillme>}
- :queue {:priority "konfoIndeksoijaPriority"
-         :fast "konfoIndeksoijaFast"
-         :slow "konfoIndeksoijaSlow"
-         :dlq "konfoIndeksoijaDlq"}
+ :queue {:priority "koutaIndeksoijaPriority"
+         :fast "koutaIndeksoijaFast"
+         :slow "koutaIndeksoijaSlow"
+         :dlq "koutaIndeksoijaDlq"}
  :sqs-region "eu-west-1"
  :sqs-endpoint "http://localhost:4576"
  :dlq-cron-string "*/15 * * ? * *"}
