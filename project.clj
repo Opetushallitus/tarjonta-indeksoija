@@ -13,6 +13,8 @@
                                :username :env/artifactory_username
                                :password :env/artifactory_password
                                :snapshots true}]]
+  :managed-dependencies [[pl.allegro.tech/embedded-elasticsearch "2.10.0"]
+                         [org.flatland/ordered "1.5.7"]]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
@@ -57,7 +59,7 @@
          :browser-uri "kouta-indeksoija"}
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
-                                  [midje "1.8.3"]
+                                  [midje "1.9.8"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [criterium "0.4.4"]]
                    :plugins [[lein-ring "0.10.0"]
