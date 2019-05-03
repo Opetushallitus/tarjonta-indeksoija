@@ -68,14 +68,14 @@
       (queue/get-queue) => ())
 
     (fact "should get queue"
-      (:errors (queue/upsert-to-queue (dummy-indexdata))) => false
+      (queue/upsert-to-queue (dummy-indexdata)) => []
       (queue/refresh-queue)
       (count (queue/get-queue)) => 10
       (sort-by :oid (map #(select-keys % [:oid :type]) (queue/get-queue))) => (dummy-indexdata))
 
     (fact "should delete handled oids"
       (let [last-timestamp (:timestamp (last (queue/get-queue)))]
-        (:errors (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000))) => false
+        (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000)) => []
         (queue/delete-handled-queue (range 100 110) last-timestamp)
         (queue/refresh-queue)
         (count (queue/get-queue)) => 1
@@ -84,8 +84,8 @@
     (fact "should avoid race condition"
       (tools/delete-index "indexdata")
       (queue/get-queue) => nil
-      (:errors (queue/upsert-to-queue (dummy-indexdata :amount 1))) => false
-      (:errors (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000))) => false
+      (queue/upsert-to-queue (dummy-indexdata :amount 1)) => []
+      (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000)) => []
       (queue/refresh-queue)
       (let [res (queue/get-queue)]
         (count res) => 2
@@ -93,13 +93,12 @@
 
     (fact "should only remove oids from queue that haven't been updated after indexing started"
       (tools/delete-index "indexdata")
-      (:errors (queue/upsert-to-queue (dummy-indexdata))) => false
+      (queue/upsert-to-queue (dummy-indexdata)) => []
       (queue/refresh-queue)
       (let [queue (queue/get-queue)
             last-timestamp (apply max (map :timestamp queue))]
         (count queue) => 10
-        (:errors (queue/upsert-to-queue [{:oid 100 :type "hakukohde"}
-                                           {:oid 109 :type "hakukohde"}])) => false
+        (queue/upsert-to-queue [{:oid 100 :type "hakukohde"} {:oid 109 :type "hakukohde"}]) => []
         (queue/refresh-queue)
         (:deleted (queue/delete-handled-queue (map :oid queue) last-timestamp)) => 8
         (queue/refresh-queue)

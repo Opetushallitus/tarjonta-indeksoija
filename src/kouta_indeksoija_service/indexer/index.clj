@@ -31,11 +31,13 @@
 (defn index-objects
   [objects]
   (let [docs-by-type (group-by :tyyppi objects)
-        res (doall (map (fn [[type docs]]
-                          (docs/upsert-docs type docs)) docs-by-type))]
-    (log/info "Index-objects done. Total indexed: " (count objects))
-    (when (some true? (map :errors res))
-      (log/error "There were errors inserting to elastic. Refer to elastic logs for information."))))
+        failed (apply concat (map (fn [[type docs]]
+                                    (docs/upsert-docs type docs)) docs-by-type))
+        failed-oids (vec (map :_id failed))]
+    (log/info "Index-objects done. Total indexed: " (count objects) ", failed: " (count failed-oids))
+    (when (< 0 (count failed-oids))
+      (log/error (clojure.string/join ", " failed )))
+    failed-oids))
 
 (defn store-picture [entry]
   (let [pics (get-pics entry)]
@@ -57,18 +59,21 @@
       (log/debug "Nothing to index.")
       (do
         (log/info "Indexing" (count queue) "items from queue" (flatten (for [[k v] (group-by :type queue)] [(count v) k]) ))
-        (let [converted-docs (remove nil? (flatten (doall (pmap get-index-doc queue))))
-              queue-oids (map :oid queue)
-              failed-oids (clojure.set/difference (set queue-oids)
-                                                  (set (map :oid converted-docs)))
-              successful-oids (clojure.set/difference (set queue-oids)
-                                                      (set failed-oids))]
+        (let [converted-docs (remove nil? (flatten (doall (pmap get-index-doc queue))))]
           (log/info "Got converted docs! Going to index objects...")
-          (index-objects converted-docs)
-          (log/info "Objects indexed! Going to store pictures...")
-          (store-pictures queue)
-          (log/info "Pictures stored! Going to end indexing items.")
-          (end-indexing successful-oids
-                        failed-oids
-                        (apply max (map :timestamp queue))
-                        start))))))
+          (let [osaamisalakuvaukset (filter #(= (:tyyppi %) "!") converted-docs)]
+            (log/info (str "Number of osaamisalakuvaukset is " (count osaamisalakuvaukset))))
+          (let [failed-to-index (index-objects converted-docs)]
+            (log/info "Objects indexed! Going to store pictures...")
+            (store-pictures queue)
+            (log/info "Pictures stored! Going to end indexing items.")
+            (let [queue-oids (map :oid queue)
+                  not-converted-oids (clojure.set/difference (set queue-oids)
+                                                             (set (map :oid converted-docs)))
+                  failed-oids (clojure.set/union not-converted-oids (set failed-to-index))
+                  successful-oids (clojure.set/difference (set queue-oids)
+                                                          (set failed-oids))]
+              (end-indexing successful-oids
+                            failed-oids
+                            (apply max (map :timestamp queue))
+                            start))))))))

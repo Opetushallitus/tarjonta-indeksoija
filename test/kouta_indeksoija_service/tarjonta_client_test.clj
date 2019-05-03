@@ -1,10 +1,7 @@
 (ns kouta-indeksoija-service.tarjonta-client-test
   (:require [midje.sweet :refer :all]
             [kouta-indeksoija-service.rest.tarjonta :as tarjonta]
-            [clj-test-utils.test-utils :refer [init-test-logging]]
             [mocks.externals-mock :as mock]))
-
-(init-test-logging)
 
 (fact "Tarjonta client should get Hakukohde"
   (let [oid "1.2.246.562.20.99178639649"]

@@ -40,7 +40,7 @@
                  [oph/clj-elasticsearch "0.2.2-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;;Logging
-                 [oph/clj-log "0.2.0-SNAPSHOT"]
+                 [oph/clj-log "0.2.2-SNAPSHOT"]
                  [org.clojure/tools.logging "0.4.0"]
                  [org.apache.logging.log4j/log4j-api "2.9.0"]
                  [org.apache.logging.log4j/log4j-core "2.9.0"]
@@ -75,7 +75,7 @@
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.20"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.2.3-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]}
@@ -84,7 +84,7 @@
                                       [cloud.localstack/localstack-utils "0.1.20"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.2.3-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"

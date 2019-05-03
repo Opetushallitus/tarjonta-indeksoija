@@ -70,10 +70,13 @@
 
 (defn bulk-upsert
   [index type documents]
-  (with-error-logging
-    (let [data (bulk-upsert-data index type documents)
-          res (e/bulk index type data)]
-      {:errors (not (every? false? (:errors res)))})))
+  (with-error-logging-value (vec (map get-id documents))
+   (let [data   (bulk-upsert-data index type documents)
+         res    (e/bulk index type data)
+         failed (filter #(true? (:errors %)) res)]
+     (if-not (empty? failed)
+       (vec (map :update (apply concat (map (fn [x] (filter #(-> % (:update) (:status) (> 299)) (-> x (:items)))) failed))))
+       []))))
 
 (defn bulk-update-failed
   [index type documents]
