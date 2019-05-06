@@ -61,7 +61,7 @@
         (log/info "Indexing" (count queue) "items from queue" (flatten (for [[k v] (group-by :type queue)] [(count v) k]) ))
         (let [converted-docs (remove nil? (flatten (doall (pmap get-index-doc queue))))]
           (log/info "Got converted docs! Going to index objects...")
-          (let [osaamisalakuvaukset (filter #(= (:tyyppi %) "!") converted-docs)]
+          (let [osaamisalakuvaukset (filter #(= (:tyyppi %) "osaamisalakuvaus") converted-docs)]
             (log/info (str "Number of osaamisalakuvaukset is " (count osaamisalakuvaukset))))
           (let [failed-to-index (index-objects converted-docs)]
             (log/info "Objects indexed! Going to store pictures...")

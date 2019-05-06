@@ -35,8 +35,13 @@
   (with-error-logging
    (let [url (str (:eperusteet-service-url env) eperuste-id "/osaamisalakuvaukset")
          res (:body (client/get url {:as :json}))
-         docs (map #(assoc %1 :type "osaamisalakuvaus" :oid (:id %1) :eperuste-oid eperuste-id)
-                   (flatten (reduce #(into %1 (vals (val %2))) [] res)))]
+         suoritustavat (keys res)
+         osaamisalat (fn [suoritustapa] (apply concat (-> res suoritustapa vals)))
+         assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa
+                                                                      :type "osaamisalakuvaus"
+                                                                      :oid (:id osaamisala)
+                                                                      :eperuste-oid eperuste-id))
+         docs (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat)))]
      (if (empty? docs)
        nil
        {:docs docs}))))
