@@ -141,7 +141,7 @@
          :summary "Lisää kaikki eperusteet indeksoitavien listalle"
          (ok {:result (queue/queue-all-eperusteet)}))
 
-       (GET "/eperusteet" []
+       (GET "/organisaatiot" []
          :summary "Lisää kaikki organisaatiot indeksoitavien listalle"
          (ok {:result (queue/queue-all-organisaatiot)}))
 
