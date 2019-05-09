@@ -13,8 +13,7 @@
                                :username :env/artifactory_username
                                :password :env/artifactory_password
                                :snapshots true}]]
-  :managed-dependencies [[pl.allegro.tech/embedded-elasticsearch "2.10.0"]
-                         [org.flatland/ordered "1.5.7"]]
+  :managed-dependencies [[org.flatland/ordered "1.5.7"]]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
@@ -38,7 +37,7 @@
                  [clj-time "0.14.3"]
                  [org.clojure/algo.generic "0.1.3"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.2.0-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.2.2-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;;Logging
                  [oph/clj-log "0.2.0-SNAPSHOT"]
