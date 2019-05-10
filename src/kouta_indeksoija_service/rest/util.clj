@@ -2,12 +2,9 @@
   (:require [clj-http.client :as client]
             [clojure.tools.logging :as log]))
 
-;Adds Caller-Id and clientSubSystemCode to header
 (defn add-callerinfo [options]
   (update-in options [:headers] assoc
-             "Caller-Id" "fi.opintopolku.kouta-indeksoija"
-             "clientSubSystemCode" "fi.opintopolku.kouta-indeksoija")
-  )
+             "Caller-Id" "1.2.246.562.10.00000000001.kouta-indeksoija"))
 
 (defn get [url opts]
   (let [options (add-callerinfo opts)]
