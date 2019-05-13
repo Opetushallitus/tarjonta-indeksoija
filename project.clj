@@ -72,7 +72,7 @@
                    :ring {:reload-paths ["src"]}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
-             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.15"]
+             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.20"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
@@ -81,7 +81,7 @@
                                "-Daws.secretKey=randomKeyForLocalstack"]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
-                                      [cloud.localstack/localstack-utils "0.1.15"]
+                                      [cloud.localstack/localstack-utils "0.1.20"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.0-SNAPSHOT"]]
