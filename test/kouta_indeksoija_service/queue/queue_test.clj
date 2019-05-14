@@ -197,6 +197,6 @@
                   (Thread/sleep 1000)
                   (future-cancel f)
                   (combine-messages @handled))))
-            => (contains [{:oid ["expected-123.123.123" "expected-123.123.231" "expected-234.234.234" "expected-234-234-123"]
-                           :boid ["expected-123.123"]
-                           :droid ["expected-234.234"]}])))))
+            => (contains {:oid ["expected-123.123.123" "expected-123.123.231" "expected-234.234.234" "expected-234-234-123"]
+                          :boid ["expected-123.123"]
+                          :droid ["expected-234.234"]})))))
