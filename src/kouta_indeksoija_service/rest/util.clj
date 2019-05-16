@@ -19,3 +19,8 @@
 (defn post [url opts]
   (let [options (add-callerinfo opts)]
     (client/post url options)))
+
+(defn request [opts]
+  (-> opts
+      add-callerinfo
+      client/request))

@@ -39,6 +39,8 @@
                  ;Elasticsearch + s3
                  [oph/clj-elasticsearch "0.2.2-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
+                 ;Cas
+                 [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
                  [oph/clj-log "0.2.2-SNAPSHOT"]
                  [org.clojure/tools.logging "0.4.0"]
