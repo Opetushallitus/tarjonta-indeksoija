@@ -35,7 +35,7 @@
                                     (docs/upsert-docs type docs)) docs-by-type))
         failed-oids (vec (map :_id failed))]
     (log/info "Index-objects done. Total indexed: " (count objects) ", failed: " (count failed-oids))
-    (when (< 0 (count failed-oids))
+    (when (seq failed-oids)
       (log/error (clojure.string/join ", " failed )))
     failed-oids))
 
