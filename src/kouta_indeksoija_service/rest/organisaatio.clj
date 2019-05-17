@@ -58,7 +58,8 @@
                      (:oids)
                      (map (fn [x] {:oid x :type "organisaatio"}))
                      (filter (fn [x] (not (clojure.string/blank? (:oid x))))))]
-        (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu")
+        (when (< 0 (count res))
+         (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu"))
         res))))
 
 (defn find-by-oids

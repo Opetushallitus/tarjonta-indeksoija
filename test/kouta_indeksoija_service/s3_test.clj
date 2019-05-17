@@ -2,12 +2,9 @@
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [midje.sweet :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]
-            [clj-test-utils.test-utils :refer [init-test-logging]]
             [clj-s3.s3-connect :as s3]
             [kouta-indeksoija-service.s3.s3-client :as client]
             [base64-clj.core :as b64]))
-
-(init-test-logging)
 
 (defonce koulutus-oid "1.2.3.4.567")
 

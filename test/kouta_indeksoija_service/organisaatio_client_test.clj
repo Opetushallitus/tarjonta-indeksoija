@@ -2,11 +2,8 @@
   (:require [midje.sweet :refer :all]
             [kouta-indeksoija-service.test-tools :as tools]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
-            [clj-test-utils.test-utils :refer [init-test-logging]]
             [mocks.externals-mock :refer [with-externals-mock]]
             [kouta-indeksoija-service.rest.util :as client]))
-
-(init-test-logging)
 
 (defn mock-last-modified [url opts]
   {:body (tools/parse (str "test/resources/organisaatiot/last-modified.json"))})
