@@ -18,3 +18,7 @@
 (defn do-index
   [oids]
   (indexable/do-index index-name oids create-index-entries))
+
+(defn get
+  [oid]
+  (indexable/get index-name oid))

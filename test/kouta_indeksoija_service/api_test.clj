@@ -23,7 +23,7 @@
           (get-queue) => []
           (j/reset-jobs))
 
-      (fact "fetch hakukohde"
+      (comment fact "fetch hakukohde"
         ;; uses result from previous test.
         (tools/refresh-and-wait "hakukohde" 1000)
         (let [response (app (mock/request :get "/kouta-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))

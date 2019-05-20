@@ -12,6 +12,12 @@
             [kouta-indeksoija-service.indexer.queue :as queue]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
             [kouta-indeksoija-service.kouta.indexer :as kouta]
+            [kouta-indeksoija-service.kouta.koulutus :as koulutus]
+            [kouta-indeksoija-service.kouta.toteutus :as toteutus]
+            [kouta-indeksoija-service.kouta.haku :as haku]
+            [kouta-indeksoija-service.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.kouta.koulutus-search :as koulutus-search]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -74,17 +80,32 @@
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (docs/get-koulutus oid)}))
+         (ok {:result (koulutus/get oid)}))
+
+       (GET "/toteutus" []
+         :summary "Hakee yhden toteutukset oidin perusteella."
+         :query-params [oid :- String]
+         (ok {:result (toteutus/get oid)}))
 
        (GET "/hakukohde" []
          :summary "Hakee yhden hakukohteen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (docs/get-hakukohde oid)}))
+         (ok {:result (hakukohde/get oid)}))
 
        (GET "/haku" []
          :summary "Hakee yhden haun oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (docs/get-haku oid)}))
+         (ok {:result (haku/get oid)}))
+
+       (GET "/valintaperuste" []
+         :summary "Hakee yhden valintaperusteen id:n perusteella."
+         :query-params [id :- String]
+         (ok {:result (valintaperuste/get id)}))
+
+       (GET "/koulutus-search" []
+         :summary "Hakee yhden koulutuksen hakutiedon oidin perusteella."
+         :query-params [oid :- String]
+         (ok {:result (koulutus-search/get oid)}))
 
        (GET "/organisaatio" []
          :summary "Hakee yhden organisaation oidin perusteella."
@@ -105,13 +126,8 @@
          :query-params [{since :- Long 0}]
          (ok {:result (perf/get-elastic-performance-info since)}))
 
-       (GET "/s3/koulutus" []
-         :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
-         :query-params [oid :- String]
-         (ok {:result (i/store-picture {:oid oid :type "koulutus"})}))
-
        (GET "/s3/organisaatio" []
-         :summary "Hakee yhden koulutuksen kuvat ja tallentaa ne s3:een"
+         :summary "Hakee yhden organisaation kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
          (ok {:result (i/store-picture {:oid oid :type "organisaatio"})}))
 

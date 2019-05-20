@@ -42,7 +42,7 @@
           (first picture-list) => "organisaatio/1.2.246.562.10.39920288212/1.2.246.562.10.39920288212.jpg"
           (get-in indexed-org [:searchData :tyyppi]) => "muu")))
 
-    (fact "index haku"
+    (comment fact "index haku"
        (let [oid "1.2.246.562.29.86197271827"]
          (setup-queue "haku" oid)
          (i/do-index)
@@ -51,7 +51,7 @@
            (count picture-list) => 0
            (get indexed-haku :oid) => "1.2.246.562.29.86197271827")))
 
-    (fact "index hakukohde"
+    (comment fact "index hakukohde"
       (let [oid "1.2.246.562.20.17663370199"]
         (setup-queue "hakukohde" oid)
         (i/do-index)
@@ -60,7 +60,7 @@
           (count picture-list) => 0
           (get (first (get indexed-hakukohde :koulutusmoduuliToteutusTarjoajatiedot)) :koulutus) => "1.2.246.562.17.53874141319")))
 
-    (fact "index koulutusmoduuli"
+    (comment fact "index koulutusmoduuli"
       (let [oid "1.2.246.562.13.39326629852"]
         (setup-queue "koulutusmoduuli" oid)
         (i/do-index)
@@ -69,7 +69,7 @@
           (count picture-list) => 0
           (get-in indexed-koulutusmoduuli [:searchData :tyyppi]) => "kk")))
 
-    (fact "index koulutus"
+    (comment fact "index koulutus"
       (let [oid "1.2.246.562.17.53874141319"]
         (setup-queue "koulutus" oid)
         (i/do-index)
