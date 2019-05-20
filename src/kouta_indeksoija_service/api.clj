@@ -32,7 +32,6 @@
 (defn init []
   (mount/start)
   (log/info "Running init")
-  (intern 'clj-log.error-log 'test false)
   (if (not= (:s3-dev-disabled env) "true")
     (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
@@ -72,7 +71,32 @@
          :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
          (ok {:result (if (= 0 since)
                         (kouta/index-all)
-                        (kouta/index-since since))})))
+                        (kouta/index-since since))}))
+
+       (POST "/koulutus" []
+         :summary "Indeksoi koulutuksen tiedot kouta-backendistä."
+         :query-params [oid :- String]
+         (ok {:result (kouta/index-koulutus oid)}))
+
+       (POST "/toteutus" []
+         :summary "Indeksoi totautukset tiedot kouta-backendistä."
+         :query-params [oid :- String]
+         (ok {:result (kouta/index-toteutus oid)}))
+
+       (POST "/hakukohde" []
+         :summary "Indeksoi hakukohteen tiedot kouta-backendistä."
+         :query-params [oid :- String]
+         (ok {:result (kouta/index-hakukohde oid)}))
+
+       (POST "/haku" []
+         :summary "Indeksoi haun tiedot kouta-backendistä."
+         :query-params [oid :- String]
+         (ok {:result (kouta/index-haku oid)}))
+
+       (POST "/valintaperuste" []
+         :summary "Indeksoi valintaperusteen tiedot kouta-backendistä."
+         :query-params [oid :- String]
+         (ok {:result (kouta/index-valintaperuste oid)})))
 
      (context "/admin" []
        :tags ["admin"]
@@ -139,16 +163,6 @@
 
      (context "/indexer" []
        :tags ["indexer"]
-       (GET "/start" []
-         :summary "Käynnistää indeksoinnin taustaoperaation."
-         (ok {:result (j/start-stop-indexer true)}))
-
-       (GET "/stop" []
-         :summary "Sammuttaa indeksoinnin taustaoperaation."
-         (ok {:result (j/start-stop-indexer false)})))
-
-     (context "/queue" []
-       :tags ["queue"]
        (GET "/all" []
          :summary "Lisää kaikki organisaatiot ja eperusteet indeksoitavien listalle."
          (ok {:result (queue/queue-all)}))
@@ -161,21 +175,6 @@
          :summary "Lisää kaikki organisaatiot indeksoitavien listalle"
          (ok {:result (queue/queue-all-organisaatiot)}))
 
-       (comment GET "/koulutus" []                          ;TODO kouta
-         :summary "Lisää koulutuksen indeksoitavien listalle."
-         :query-params [oid :- String]
-         (ok {:result (queue/queue "koulutus" oid)}))
-
-       (comment GET "/hakukohde" []                          ;TODO kouta
-         :summary "Lisää hakukohteen indeksoitavien listalle."
-         :query-params [oid :- String]
-         (ok {:result (queue/queue "hakukohde" oid)}))
-
-       (comment GET "/haku" []                          ;TODO kouta
-         :summary "Lisää haun indeksoitavien listalle."
-         :query-params [oid :- String]
-         (ok {:result (queue/queue "haku" oid)}))
-
        (GET "/eperuste" []
          :summary "Lisää ePerusteen indeksoitavien listalle. (oid==id)"
          :query-params [oid :- String]
@@ -186,14 +185,17 @@
          :query-params [oid :- String]
          (ok {:result (queue/queue "organisaatio" oid)}))
 
-       (comment GET "/koulutusmoduuli" []                          ;TODO kouta
-         :summary "Lisää koulutusmoduulin indeksoitavien listalle."
-         :query-params [oid :- String]
-         (ok {:result (queue/queue "koulutusmoduuli" oid)}))
-
        (GET "/empty" []
          :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
-         (ok {:result (queue/empty-queue)}))))
+         (ok {:result (queue/empty-queue)}))
+
+       (GET "/start" []
+         :summary "Käynnistää indeksoinnin taustaoperaation."
+         (ok {:result (j/start-stop-indexer true)}))
+
+       (GET "/stop" []
+         :summary "Sammuttaa indeksoinnin taustaoperaation."
+         (ok {:result (j/start-stop-indexer false)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
