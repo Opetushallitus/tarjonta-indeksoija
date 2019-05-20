@@ -10,7 +10,6 @@
             [clj-s3.s3-connect :as s3]
             [kouta-indeksoija-service.rest.organisaatio :as o]
             [kouta-indeksoija-service.rest.eperuste :as e]
-            [kouta-indeksoija-service.rest.tarjonta :as t]
             [kouta-indeksoija-service.util.conf :refer [env]]))
 
 (defn setup-queue [type oid]
@@ -29,9 +28,7 @@
 
   (with-redefs [env {:s3-dev-disabled "false"}
                 o/get-doc mock/get-doc
-                e/get-doc mock/get-doc
-                t/get-doc mock/get-doc
-                t/get-pic mock/get-pic]
+                e/get-doc mock/get-doc]
     (fact "index organisaatio"
       (let [oid "1.2.246.562.10.39920288212"]
         (setup-queue "organisaatio" oid)

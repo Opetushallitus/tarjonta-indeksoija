@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.queue
   (:require [kouta-indeksoija-service.elastic.queue :refer [reset-queue upsert-to-queue]]
-            [kouta-indeksoija-service.rest.tarjonta :as tarjonta-client]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
             [clojure.tools.logging :as log]))
