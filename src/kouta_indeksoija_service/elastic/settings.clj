@@ -47,7 +47,7 @@
                                             "english_keywords"
                                             "english_stemmer"]}}}})
 
-(def stemmer-settings
+(def stemmer-settings-eperuste
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
@@ -65,8 +65,7 @@
                              :mapping {:type "text"
                                        :analyzer "english"
                                        :norms { :enabled false}
-                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
-                       ]})
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def stemmer-settings-organisaatio
   {:dynamic_templates [{:fi {:match "fi"
@@ -105,8 +104,7 @@
                                                    :norms { :enabled false}
                                                    :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:lakkautusPvm {:match "lakkautusPvm"
-                                       :mapping {:type "date"}}}
-                       ]})
+                                       :mapping {:type "date"}}}]})
 
 (def indexdata-mappings
   {:properties {:oid {:type "text"
@@ -157,15 +155,3 @@
                                          :analyzer "finnish"
                                          :norms { :enabled false}
                                          :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
-
-(def boost-values
-  ["*fi"
-   "*sv"
-   "*en"
-   "organisaatio.nimi^30"
-   "tutkintonimikes.nimi*^30"
-   "koulutusohjelma.nimi*^30"
-   "koulutusohjelmanNimiKannassa*^30"
-   "koulutuskoodi.nimi^30"
-   "ammattinimikkeet.nimi*^30"
-   "aihees.nimi*^30"])

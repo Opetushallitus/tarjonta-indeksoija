@@ -4,7 +4,7 @@
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]
             [clj-test-utils.elasticsearch-mock-utils :refer [init-elastic-test stop-elastic-test]]
             [kouta-indeksoija-service.test-tools :refer [reset-test-data]]
-            [kouta-indeksoija-service.util.time :refer [parse-with-time convert-to-long]]
+            [kouta-indeksoija-service.util.time :refer [convert-to-long]]
             [mocks.externals-mock :refer [with-externals-mock]]
             [midje.sweet :refer :all]))
 
