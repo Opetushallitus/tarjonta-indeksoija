@@ -14,7 +14,7 @@
     (against-background
       [(before :contents (init-elastic-test))
        (after :contents (stop-elastic-test))]
-        (fact "queue hakukohde"
+        (comment fact "queue hakukohde"
           (j/start-indexer-job "*/1 * * ? * *")
           (let [response (app (mock/request :get "/kouta-indeksoija/api/queue/hakukohde?oid=1.2.246.562.20.28810946823"))
                 body (parse-body (:body response))]
