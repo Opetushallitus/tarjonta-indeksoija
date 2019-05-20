@@ -150,7 +150,7 @@
      (context "/queue" []
        :tags ["queue"]
        (GET "/all" []
-         :summary "Lisää kaikki vanhan tarjonnan koulutukset, haut ja hakukohteet sekä organisaatiot ja eperusteet indeksoitavien listalle."
+         :summary "Lisää kaikki organisaatiot ja eperusteet indeksoitavien listalle."
          (ok {:result (queue/queue-all)}))
 
        (GET "/eperusteet" []
@@ -161,17 +161,17 @@
          :summary "Lisää kaikki organisaatiot indeksoitavien listalle"
          (ok {:result (queue/queue-all-organisaatiot)}))
 
-       (GET "/koulutus" []
+       (comment GET "/koulutus" []                          ;TODO kouta
          :summary "Lisää koulutuksen indeksoitavien listalle."
          :query-params [oid :- String]
          (ok {:result (queue/queue "koulutus" oid)}))
 
-       (GET "/hakukohde" []
+       (comment GET "/hakukohde" []                          ;TODO kouta
          :summary "Lisää hakukohteen indeksoitavien listalle."
          :query-params [oid :- String]
          (ok {:result (queue/queue "hakukohde" oid)}))
 
-       (GET "/haku" []
+       (comment GET "/haku" []                          ;TODO kouta
          :summary "Lisää haun indeksoitavien listalle."
          :query-params [oid :- String]
          (ok {:result (queue/queue "haku" oid)}))
@@ -186,7 +186,7 @@
          :query-params [oid :- String]
          (ok {:result (queue/queue "organisaatio" oid)}))
 
-       (GET "/koulutusmoduuli" []
+       (comment GET "/koulutusmoduuli" []                          ;TODO kouta
          :summary "Lisää koulutusmoduulin indeksoitavien listalle."
          :query-params [oid :- String]
          (ok {:result (queue/queue "koulutusmoduuli" oid)}))

@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.docs
-  (:require [kouta-indeksoija-service.rest.tarjonta :as t]
-            [kouta-indeksoija-service.rest.organisaatio :as o]
+  (:require [kouta-indeksoija-service.rest.organisaatio :as o]
             [kouta-indeksoija-service.rest.eperuste :as e]
             [kouta-indeksoija-service.converter.eperuste :as ec]
             [kouta-indeksoija-service.converter.osaamisalakuvaus :as oc]
@@ -13,7 +12,7 @@
 (defmulti get-pics :type)
 
 (defmethod get-doc :default [entry]
-  (t/get-doc entry))
+  nil)
 
 (defmethod get-doc "organisaatio" [entry]
   (o/get-doc entry))

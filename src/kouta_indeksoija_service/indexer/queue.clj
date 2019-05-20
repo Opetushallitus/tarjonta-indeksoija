@@ -10,16 +10,16 @@
   [index oid]
   (cond
     (= "organisaatio" index) (organisaatio-client/find-docs oid)
-    :else [{:type index :oid oid}]))
+    (= "eperuste" index) (eperusteet-client/find-all)
+    :else nil))
 
 (defn queue-all
   []
-  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data Tarjonnasta, eperusteista ja organisaatiopalvelusta.")
+  (log/info "Tyhjennetään indeksointijono ja uudelleenindeksoidaan kaikki data eperusteista ja organisaatiopalvelusta.")
   (reset-queue)
-  (let [tarjonta-docs (tarjonta-client/find-all-tarjonta-docs)
-        organisaatio-docs (organisaatio-client/find-docs nil)
+  (let [organisaatio-docs (organisaatio-client/find-docs nil)
         eperusteet-docs (eperusteet-client/find-all)
-        docs (clojure.set/union tarjonta-docs organisaatio-docs eperusteet-docs)]
+        docs (clojure.set/union organisaatio-docs eperusteet-docs)]
     (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (upsert-to-queue docs)))
 
@@ -37,10 +37,8 @@
 
 (defn queue
   [index oid]
-  (let [docs (find-docs index oid)
-        related-koulutus (flatten (map tarjonta-client/get-related-koulutus docs))
-        docs-with-related-koulutus (remove nil? (clojure.set/union docs related-koulutus))]
-    (upsert-to-queue docs-with-related-koulutus)))
+  (when-let [docs (not-empty (find-docs index oid))]
+    (upsert-to-queue docs)))
 
 (defn empty-queue []
   (reset-queue))
