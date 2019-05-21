@@ -2,6 +2,7 @@
   "tila" : "julkaistu",
   "hakukohteenMuokkaamisenTakaraja" : "2019-10-12T12:00",
   "hakulomaketyyppi" : "ei sähköistä",
+  "hakulomakeAtaruId" : "dcd38a87-912e-4e91-8840-99c7e242dd53",
   "alkamiskausi" : {
     "koodiUri" : "kausi_k#1",
     "nimi" : {
@@ -80,9 +81,13 @@
     "fi" : "Haku 0 fi",
     "sv" : "Haku 0 sv"
   },
-  "hakulomake" : {
+  "hakulomakeKuvaus" : {
     "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
     "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
+  },
+  "hakulomakeLinkki" : {
+    "fi" : "https://koulu.test/hakemusinfo fi",
+    "sv" : "https://koulu.test/hakemusinfo sv"
   },
   "muokkaaja" : {
     "oid" : "1.2.246.562.24.62301161440",
