@@ -1,9 +1,9 @@
 (ns kouta-indeksoija-service.indexer.docs
   (:require [kouta-indeksoija-service.rest.organisaatio :as o]
             [kouta-indeksoija-service.rest.eperuste :as e]
-            [kouta-indeksoija-service.converter.eperuste :as ec]
-            [kouta-indeksoija-service.converter.osaamisalakuvaus :as oc]
-            [kouta-indeksoija-service.search-data.oppilaitos :as oa]))
+            [kouta-indeksoija-service.indexer.docs.eperuste :as ec]
+            [kouta-indeksoija-service.indexer.docs.osaamisalakuvaus :as oc]
+            [kouta-indeksoija-service.indexer.docs.organisaatio :as oa]))
 
 (defmulti get-doc :type)
 

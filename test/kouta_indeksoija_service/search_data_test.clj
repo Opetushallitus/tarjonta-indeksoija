@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.search-data-test
-  (:require [kouta-indeksoija-service.search-data.oppilaitos :as org-appender]
+  (:require [kouta-indeksoija-service.indexer.docs.organisaatio :as org-appender]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]
             [clj-test-utils.elasticsearch-mock-utils :refer [init-elastic-test stop-elastic-test]]

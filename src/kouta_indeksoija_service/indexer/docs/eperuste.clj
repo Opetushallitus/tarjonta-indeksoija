@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.converter.eperuste)
+(ns kouta-indeksoija-service.indexer.docs.eperuste)
 
 (defn convert
   [dto]

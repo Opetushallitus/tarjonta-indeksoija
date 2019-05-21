@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.converter.tyyppi)
+(ns kouta-indeksoija-service.indexer.docs.tyyppi)
 
 (defn remove-uri-version [uri]
   (if (not (nil? uri)) (first (clojure.string/split uri #"#"))))

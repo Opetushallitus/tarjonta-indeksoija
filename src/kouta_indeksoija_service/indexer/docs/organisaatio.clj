@@ -1,7 +1,7 @@
-(ns kouta-indeksoija-service.search-data.oppilaitos
+(ns kouta-indeksoija-service.indexer.docs.organisaatio
   (:require [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]
-            [kouta-indeksoija-service.converter.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
+            [kouta-indeksoija-service.indexer.docs.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
 
 (defn- find-parent-oppilaitos-tyyppi-uri [oid]
   (defn- recursive-find-oppilaitostyyppi [organisaatio]

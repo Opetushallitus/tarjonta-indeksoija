@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.converter.osaamisalakuvaus)
+(ns kouta-indeksoija-service.indexer.docs.osaamisalakuvaus)
 
 (defn convert
   [dto]

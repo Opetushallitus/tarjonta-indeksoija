@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.kouta.common
-  (:require [kouta-indeksoija-service.converter.tyyppi :refer [koulutustyyppi-uri-to-tyyppi]]
-            [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
+  (:require [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.kouta.cache.tarjoaja :as tarjoaja]
             [clojure.tools.logging :as log]))
