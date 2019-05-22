@@ -1,24 +1,31 @@
 (ns kouta-indeksoija-service.rest.kouta
  (:require [kouta-indeksoija-service.util.conf :refer [env]]
+           [kouta-indeksoija-service.rest.cas-session :refer [init-session cas-authenticated-request]]
            [clj-log.error-log :refer [with-error-logging]]
            [kouta-indeksoija-service.util.logging :refer [to-date-string]]
            [ring.util.codec :refer [url-encode]]
-           [kouta-indeksoija-service.rest.util :as client]
            [clojure.tools.logging :as log]))
 
+(defonce cas-session (init-session "/kouta-backend/auth/login" false))
+
+(defonce cas-authenticated-get (partial cas-authenticated-request cas-session :get))
+
+(defn- cas-authenticated-get-as-json
+  ([url opts]
+   (with-error-logging
+     (log/debug (str "GET => " url))
+     (:body (cas-authenticated-get url (assoc opts :as :json)))))
+  ([url]
+   (cas-authenticated-get-as-json url {})))
+
 (defn get-last-modified [since]
-  (log/info "Fetching last-modified since" since)
-  (with-error-logging
-   (let [url (str (:kouta-backend-url env) "anything/modifiedSince/" (url-encode since))
-         res (:body (client/get url {:query-params {:lastModified since} :as :json}))]
-     res)))
+  (let [url (str (:kouta-backend-url env) "anything/modifiedSince/" (url-encode since))]
+    (cas-authenticated-get-as-json url {:query-params {:lastModified since}})))
 
 (defn get-doc
   [obj]
-  (with-error-logging
-   (let [url (str (:kouta-backend-url env) (:type obj) "/" (:oid obj))]
-     (log/debug (str "GET => " url))
-     (:body (client/get url {:as :json})))))
+  (let [url (str (:kouta-backend-url env) (:type obj) "/" (:oid obj))]
+    (cas-authenticated-get-as-json url)))
 
 (defn get-koulutus
   [oid]
@@ -42,39 +49,31 @@
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]
-   (with-error-logging
-    (let [url (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/toteutukset")]
-      (log/debug (str "GET => " url))
-      (:body (client/get url {:as :json :query-params {:vainJulkaistut vainJulkaistut}})))))
+   (let [url (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/toteutukset")]
+     (cas-authenticated-get-as-json url {:query-params {:vainJulkaistut vainJulkaistut}})))
   ([koulutus-oid]
    (get-toteutus-list-for-koulutus koulutus-oid false)))
 
-(defn get-as-json
-  [url]
-  (with-error-logging
-    (log/debug (str "GET => " url))
-    (:body (client/get url {:as :json}))))
-
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid]
-  (get-as-json (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/hakutiedot")))
+  (cas-authenticated-get-as-json (str (:kouta-backend-url env) "koulutus/" koulutus-oid "/hakutiedot")))
 
 (defn list-hakukohteet-by-toteutus
   [toteutus-oid]
-  (get-as-json (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/hakukohteet/list")))
+  (cas-authenticated-get-as-json (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/hakukohteet/list")))
 
 (defn list-haut-by-toteutus
   [toteutus-oid]
-  (get-as-json (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/haut/list")))
+  (cas-authenticated-get-as-json (str (:kouta-backend-url env) "toteutus/" toteutus-oid "/haut/list")))
 
 (defn list-hakukohteet-by-haku
   [haku-oid]
-  (get-as-json (str (:kouta-backend-url env) "haku/" haku-oid "/hakukohteet/list")))
+  (cas-authenticated-get-as-json (str (:kouta-backend-url env) "haku/" haku-oid "/hakukohteet/list")))
 
 (defn list-koulutukset-by-haku
   [haku-oid]
-  (get-as-json (str (:kouta-backend-url env) "haku/" haku-oid "/koulutukset/list")))
+  (cas-authenticated-get-as-json (str (:kouta-backend-url env) "haku/" haku-oid "/koulutukset/list")))
 
 (defn list-hakukohteet-by-valintaperuste
   [valintaperuste-id]
-  (get-as-json (str (:kouta-backend-url env) "valintaperuste/" valintaperuste-id "/hakukohteet/list")))
+  (cas-authenticated-get-as-json (str (:kouta-backend-url env) "valintaperuste/" valintaperuste-id "/hakukohteet/list")))

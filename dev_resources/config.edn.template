@@ -1,5 +1,8 @@
 {:elastic-url "http://127.0.0.1:9200"
  :cron-string "*/15 * * ? * *"
+ :cas {:host "{{kouta_indeksoija_cas_host}}"
+       :username "{{kouta_indeksoija_cas_username}}"
+       :password "{{kouta_indeksoija_cas_password}}"}
  :tarjonta-service-url "https://virkailija.hahtuvaopintopolku.fi/tarjonta-service/rest/v1/"
  :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"
  :koodisto-service-url "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/json/"

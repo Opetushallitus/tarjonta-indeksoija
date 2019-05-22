@@ -1,5 +1,8 @@
 {:elastic-url "{{kouta_indeksoija_elastic_url}}"
  :cron-string "{{kouta_indeksoija_cron_string}}"
+ :cas {:host "{{kouta_indeksoija_cas_host}}"
+       :username "{{kouta_indeksoija_cas_username}}"
+       :password "{{kouta_indeksoija_cas_password}}"}
  :tarjonta-service-url "{{kouta_indeksoija_tarjonta_service_url}}"
  :organisaatio-service-url "{{kouta_indeksoija_organisaatio_service_url}}"
  :koodisto-service-url "{{kouta_indeksoija_koodisto_service_url}}"
