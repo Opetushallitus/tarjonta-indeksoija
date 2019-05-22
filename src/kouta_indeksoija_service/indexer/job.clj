@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.rest.eperuste :as eperuste]
             [kouta-indeksoija-service.elastic.queue :refer [set-last-index-time get-last-index-time upsert-to-queue]]
             [clj-log.error-log :refer [with-error-logging]]
-            [kouta-indeksoija-service.util.logging :refer [to-date-string]]
+            [kouta-indeksoija-service.util.time :refer [long->date-time-string]]
             [clojure.tools.logging :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
@@ -32,7 +32,7 @@
           eperuste-changes (eperuste/find-changes last-modified)
           changes-since (remove nil? (clojure.set/union organisaatio-changes eperuste-changes))]
       (when-not (empty? changes-since)
-        (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
+        (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" (count changes-since) "changes.")
         (upsert-to-queue changes-since)
         (set-last-index-time now))
       (do-index)))))

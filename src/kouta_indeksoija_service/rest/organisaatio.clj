@@ -50,7 +50,7 @@
 
 (defn find-last-changes [last-modified]
   (with-error-logging
-    (let [date-string (format-long last-modified)
+    (let [date-string (long->date-time-string last-modified)
           url (str (:organisaatio-service-url env) "v2/muutetut/oid")
           params {:lastModifiedSince date-string}]
       (let [res (->> (client/get url {:query-params params, :as :json})

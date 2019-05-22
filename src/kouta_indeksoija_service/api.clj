@@ -4,7 +4,6 @@
             [kouta-indeksoija-service.elastic.docs :as docs]
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.util.logging :as logging]
             [kouta-indeksoija-service.indexer.index :as i]
             [kouta-indeksoija-service.indexer.job :as j]
             [kouta-indeksoija-service.queue.job :as qjob]
@@ -50,13 +49,17 @@
   (j/reset-jobs)
   (mount/stop))
 
+(defn error-handler*
+  [^Exception e data request]
+  (log/error e))
+
 (def service-api
   (api
    {:swagger {:ui "/kouta-indeksoija"
               :spec "/kouta-indeksoija/swagger.json"
               :data {:info {:title "kouta-indeksoija"
                             :description "Elasticsearch wrapper for tarjonta api."}}}
-    :exceptions {:handlers {:compojure.api.exception/default logging/error-handler*}}}
+    :exceptions {:handlers {:compojure.api.exception/default error-handler*}}}
    (context "/kouta-indeksoija/api" []
 
      (GET "/healthcheck" []

@@ -54,5 +54,5 @@
 (defn find-changes [last-modified]
   (let [res (find last-modified)]
     (when (< 0 (count res))
-     (log/info (str "Found " (count res) " changes since " (time/format-long-with-time (long last-modified)) " from ePerusteet")))
+      (log/info (str "Found " (count res) " changes since " (time/long->date-time-string (long last-modified)) " from ePerusteet")))
     res))
