@@ -8,7 +8,6 @@
             [kouta-indeksoija-service.kouta.indexer :as indexer]
             [kouta-indeksoija-service.queue.state :as state]
             [kouta-indeksoija-service.queue.localstack :as localstack]
-            [kouta-indeksoija-service.util.collections :as coll]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.queue :refer :all]))
 
@@ -35,11 +34,26 @@
 
 (defn- message-bodies [response] (seq (map #(:body %) (:messages response))))
 
-(defchecker at-least-one-of-only [expected-elements]
-            (chatty-checker [actual]
-                            (and
-                              (not-empty actual)
-                              (every? #(coll/in? expected-elements %) actual))))
+(defchecker at-least-one-of-only
+  [expected-elements]
+    (chatty-checker [actual]
+      (and
+        (not-empty actual)
+        (every? (fn [e] (some #(= e %) expected-elements)) actual))))
+
+(fact "collect-first should return first matching value of mapping"
+      (let [seq [1 2 3 4 5 6]]
+        (collect-first #(* 3 %) #(= 9 %) seq) => 9
+        (collect-first #(+ 2 %) #(= 8 %) seq) => 8))
+
+(fact "collect-first should execute 'f' only until it finds first match"
+      (let [seq [1 2 3 4 5 6]
+            f (fn [a]
+                (if (> a 3)
+                  (throw (Exception. "Execution went too far"))
+                  (* 3 a)))
+            check? #(= 9 %)]
+        (collect-first f check? seq) => 9))
 
 
 (fact "'combine-messages' should combine categorized oids from messages into one map"

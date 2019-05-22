@@ -6,7 +6,6 @@
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [kouta-indeksoija-service.queue.state :as state]
-            [kouta-indeksoija-service.util.collections :as coll]
             [kouta-indeksoija-service.kouta.indexer :as indexer])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
@@ -26,15 +25,25 @@
   [{:keys [q f]}]
   (assoc (f q) :queue q))
 
+(defn collect-first
+  "get first mapped value that matches 'check?' or nil"
+  ([f check? seq]
+   (loop [values seq]
+     (when (not (empty? values))
+       (let [current (first values)
+             mapped (f current)]
+         (if (check? mapped)
+           mapped
+           (recur (rest values))))))))
+
 (defn receive-messages-from-queues
   []
-  (coll/collect-first
+  (collect-first
     receive
     #(seq (:messages %))
     [{:q (queue :priority) :f sqs/long-poll}
      {:q (queue :fast) :f sqs/short-poll}
      {:q (queue :slow) :f sqs/short-poll}]))
-
 
 (defn body-json->map
   [msg]
