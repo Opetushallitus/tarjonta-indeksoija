@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.elastic-client-test
+(ns kouta-indeksoija-service.indexer.elastic-client-test
   (:require [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.elastic.admin :as admin]

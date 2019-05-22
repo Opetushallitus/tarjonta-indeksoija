@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.eperuste-client-test
+(ns kouta-indeksoija-service.rest.eperuste-client-test
   (:require [midje.sweet :refer :all]
             [kouta-indeksoija-service.rest.eperuste :refer [find-all find-changes]]
             [kouta-indeksoija-service.rest.util :as client]))

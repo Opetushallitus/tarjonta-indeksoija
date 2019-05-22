@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.s3-test
+(ns kouta-indeksoija-service.s3.s3-test
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [midje.sweet :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]

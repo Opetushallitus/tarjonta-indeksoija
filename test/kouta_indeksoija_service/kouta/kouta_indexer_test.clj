@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.kouta-indexer-test
+(ns kouta-indeksoija-service.kouta.kouta-indexer-test
   (:require [kouta-indeksoija-service.kouta.indexer :as i]
             [kouta-indeksoija-service.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.kouta.koulutus-search :as search]

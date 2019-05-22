@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.organisaatio-client-test
+(ns kouta-indeksoija-service.rest.organisaatio-client-test
   (:require [midje.sweet :refer :all]
             [kouta-indeksoija-service.test-tools :as tools]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]

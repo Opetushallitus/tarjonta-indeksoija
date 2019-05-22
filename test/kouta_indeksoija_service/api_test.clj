@@ -66,13 +66,4 @@
           (doseq [x (map :koulutukset (vals hakukohteet))]
             x => (contains "1.2.246.562.17.53874141319"))
 
-          (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut)))))
-
-      (comment fact "fetch text search result"
-        (let [response (app (mock/request :get "/kouta-indeksoija/api/ui/search?query=Tekn.%20kand.,%20tietotekniikka"))
-              body (parse-body (:body response))]
-          body => [{:nimi {:kieli_en "MSc, Information Technology"
-                           :kieli_fi "Dipl.ins., tietotekniikka"
-                           :kieli_sv "Dipl.ing., datateknik"}, :oid "1.2.246.562.17.53874141319"
-                    :score 0.8630463, :tarjoaja "Aalto-yliopisto, Perustieteiden korkeakoulu"}])) ;TODO: scoring was 0.7594807 -> scoring changed due to Elastic version difference?
-      )))
+          (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut))))))))

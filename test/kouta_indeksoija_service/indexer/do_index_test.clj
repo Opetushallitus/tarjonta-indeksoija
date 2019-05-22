@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.do-index-test
+(ns kouta-indeksoija-service.indexer.do-index-test
   (:require [midje.sweet :refer :all]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]

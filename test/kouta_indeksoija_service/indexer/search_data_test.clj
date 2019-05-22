@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.search-data-test
+(ns kouta-indeksoija-service.indexer.search-data-test
   (:require [kouta-indeksoija-service.indexer.docs.organisaatio :as org-appender]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]

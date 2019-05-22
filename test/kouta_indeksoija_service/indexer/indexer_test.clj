@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer-test
+(ns kouta-indeksoija-service.indexer.indexer-test
   (:require [kouta-indeksoija-service.indexer.index :as indexer]
             [kouta-indeksoija-service.indexer.job :as job]
             [kouta-indeksoija-service.elastic.docs :as docs]

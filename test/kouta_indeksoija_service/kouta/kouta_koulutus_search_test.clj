@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.kouta-koulutus-search-test
+(ns kouta-indeksoija-service.kouta.kouta-koulutus-search-test
   (:require [midje.sweet :refer :all]
             [kouta-indeksoija-service.kouta.tools.hakuaika :refer [->real-hakuajat]]))
 

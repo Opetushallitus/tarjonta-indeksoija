@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.conf-test
+(ns kouta-indeksoija-service.util.conf-test
   (:require [midje.sweet :refer :all]))
 
 (fact "Test that oph-configuration/config.edn.template and dev-resources/config.edn contain the same keys"
