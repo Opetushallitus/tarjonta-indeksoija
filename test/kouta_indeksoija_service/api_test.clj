@@ -75,10 +75,4 @@
                            :kieli_fi "Dipl.ins., tietotekniikka"
                            :kieli_sv "Dipl.ing., datateknik"}, :oid "1.2.246.562.17.53874141319"
                     :score 0.8630463, :tarjoaja "Aalto-yliopisto, Perustieteiden korkeakoulu"}])) ;TODO: scoring was 0.7594807 -> scoring changed due to Elastic version difference?
-
-      (comment fact "fetch performance info"
-        (tools/refresh-and-wait "query_perf" 1000)
-        (let [response (app (mock/request :get "/kouta-indeksoija/api/admin/performance_info"))
-              body (parse-body (:body response))]
-          (empty? (get-in body [:indexing_performance :results]))=> false
-          (empty? (get-in body [:query_performance :results]))=> false)))))
+      )))

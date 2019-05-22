@@ -1,7 +1,6 @@
 (ns kouta-indeksoija-service.indexer.index
   (:require [kouta-indeksoija-service.indexer.docs :refer :all]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.elastic.perf :as perf]
             [kouta-indeksoija-service.elastic.queue :as queue]
             [kouta-indeksoija-service.elastic.docs :as docs]
             [clj-log.error-log :refer [with-error-logging]]
@@ -24,7 +23,6 @@
         msg (str "Successfully indexed " (count successful-oids) " objects in " (int (/ duration 1000)) " seconds. Total failed:" (count failed-oids))]
     (log/info msg)
     (when (seq failed-oids) (log/info "Failed oids:" (seq failed-oids)))
-    (perf/insert-indexing-perf (count successful-oids) duration start)
     (queue/update-queue last-timestamp successful-oids failed-oids)
     msg))
 

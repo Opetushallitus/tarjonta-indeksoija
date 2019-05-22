@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.api
-  (:require [kouta-indeksoija-service.elastic.perf :as perf]
-            [kouta-indeksoija-service.elastic.admin :as admin]
+  (:require [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.docs :as docs]
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
@@ -147,11 +146,6 @@
        (GET "/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
          (ok {:result (admin/get-elastic-status)}))
-
-       (GET "/performance_info" []
-         :summary "Hakee tietoja performanssista"
-         :query-params [{since :- Long 0}]
-         (ok {:result (perf/get-elastic-performance-info since)}))
 
        (GET "/s3/organisaatio" []
          :summary "Hakee yhden organisaation kuvat ja tallentaa ne s3:een"

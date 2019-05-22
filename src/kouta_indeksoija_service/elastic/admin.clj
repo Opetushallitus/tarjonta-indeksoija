@@ -38,7 +38,7 @@
 (defn- initialize-index-settings
   []
   (let [all-index-names ["eperuste" "osaamisalakuvaus" "organisaatio" "palaute"
-                         "indexdata" "lastindex" "indexing_perf" "query_perf"
+                         "indexdata" "lastindex"
                          koulutus-search-index
                          koulutus-index
                          toteutus-index
