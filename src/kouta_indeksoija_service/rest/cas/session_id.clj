@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.rest.cas-session-id
+(ns kouta-indeksoija-service.rest.cas.session-id
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.rest.util :refer [request]]
             [jsoup.soup :refer :all]))

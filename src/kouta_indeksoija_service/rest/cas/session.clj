@@ -1,7 +1,7 @@
-(ns kouta-indeksoija-service.rest.cas-session
+(ns kouta-indeksoija-service.rest.cas.session
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.rest.util :refer [request]]
-            [kouta-indeksoija-service.rest.cas-session-id :as cas-session-id]))
+            [kouta-indeksoija-service.rest.cas.session-id :as cas-session-id]))
 
 (defrecord CasSession [service session-id jsession?])
 
