@@ -3,21 +3,13 @@
  :cas {:host "{{kouta_indeksoija_cas_host}}"
        :username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
- :tarjonta-service-url "https://virkailija.hahtuvaopintopolku.fi/tarjonta-service/rest/v1/"
  :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"
  :koodisto-service-url "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/json/"
  :eperusteet-service-url "https://virkailija.hahtuvaopintopolku.fi/eperusteet-service/api/perusteet/"
  :kouta-backend-url "https://virkailija.hahtuvaopintopolku.fi/kouta-backend/"
- :elastic-timeout 100000
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
- :tarjonta-db {:dbtype "postgresql"
-               :dbname "tarjonta"
-               :host <fillme>
-               :port <fillme>
-               :user <fillme>
-               :password <fillme>}
  :queue {:priority "koutaIndeksoijaPriority"
          :fast "koutaIndeksoijaFast"
          :slow "koutaIndeksoijaSlow"

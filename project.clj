@@ -88,7 +88,7 @@
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.3-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
-                                  "-Dconf=ci/config.edn"
+                                  "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
                                   "-Daws.secretKey=randomKeyForLocalstack"]}
              :uberjar {:ring {:port 8080}}

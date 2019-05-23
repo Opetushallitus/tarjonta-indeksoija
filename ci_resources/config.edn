@@ -1,20 +1,15 @@
 {:elastic-url "http://foo.bar:9200"
  :cron-string "*/15 * * ? * *"
- :tarjonta-service-url "https://virkailija.hahtuvaopintopolku.fi/tarjonta-service/rest/v1/"
+ :cas {:host "https://virkailija.hahtuvaopintopolku.fi"
+       :username "foo"
+       :password "bar"}
  :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"
  :koodisto-service-url "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/json/"
  :eperusteet-service-url "https://virkailija.hahtuvaopintopolku.fi/eperusteet-service/api/perusteet/"
  :kouta-backend-url "https://virkailija.hahtuvaopintopolku.fi/kouta-backend/"
- :elastic-timeout 100000
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
- :tarjonta-db {:dbtype "postgresql"
-               :dbname "tarjonta"
-               :host "localhost"
-               :port 23434
-               :user "oph"
-               :password "ophophoph"}
  :queue {:priority "priority-indexing-queue"
          :fast "fast-indexing-queue"
          :slow "slow-indexing-queue"

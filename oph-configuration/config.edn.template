@@ -3,21 +3,13 @@
  :cas {:host "{{kouta_indeksoija_cas_host}}"
        :username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
- :tarjonta-service-url "{{kouta_indeksoija_tarjonta_service_url}}"
  :organisaatio-service-url "{{kouta_indeksoija_organisaatio_service_url}}"
  :koodisto-service-url "{{kouta_indeksoija_koodisto_service_url}}"
  :eperusteet-service-url "{{kouta_indeksoija_eperusteet_service_url}}"
  :kouta-backend-url "{{kouta_indeksoija_kouta_backend_url}}"
- :elastic-timeout 100000
  :s3-dev-disabled "false"
  :s3-bucket "{{kouta_indeksoija_s3_bucket}}"
  :s3-region "{{kouta_indeksoija_s3_region}}"
- :tarjonta-db {:dbtype "postgresql"
-               :dbname "tarjonta"
-               :port "{{kouta_indeksoija_tarjonta_db_port}}"
-               :host "{{kouta_indeksoija_tarjonta_db_url}}"
-               :user "{{kouta_indeksoija_tarjonta_db_user}}"
-               :password "{{kouta_indeksoija_tarjonta_db_password}}"}
  :queue {:priority "{{kouta_indeksoija_sqs_queue_priority}}"
          :fast "{{kouta_indeksoija_sqs_queue_fast}}"
          :slow "{{kouta_indeksoija_sqs_queue_slow}}"
