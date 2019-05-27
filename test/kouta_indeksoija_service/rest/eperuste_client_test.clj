@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.rest.eperuste-client-test
-  (:require [midje.sweet :refer :all]
+  (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.rest.eperuste :refer [find-all find-changes]]
             [kouta-indeksoija-service.rest.util :as client]))
 
@@ -26,32 +26,35 @@
             :sivukoko 2
             :sivu sivu}}))
 
-(fact "Get one page"
-  (with-redefs [client/get mock-get-one]
-    (find-all) => [{:oid "0" :type "eperuste"}]))
+(deftest eperuste-client-test
+  (testing "eperuste client should"
+    (testing "get one page"
+      (with-redefs [client/get mock-get-one]
+        (is (= [{:oid "0" :type "eperuste"}] (find-all)))))
 
-(fact "Get zero pages"
-  (with-redefs [client/get mock-get-none]
-    (find-all) => []))
+    (testing "get zero pages"
+      (with-redefs [client/get mock-get-none]
+        (is (= [] (find-all)))))
 
-(fact "Get many pages"
-  (with-redefs [client/get mock-get-many]
-    (find-all) => [{:oid "0" :type "eperuste"}, {:oid "1" :type "eperuste"},
-                    {:oid "2" :type "eperuste"}, {:oid "3" :type "eperuste"},
-                    {:oid "4" :type "eperuste"}, {:oid "5" :type "eperuste"},
-                    {:oid "6" :type "eperuste"}, {:oid "7" :type "eperuste"},
-                    {:oid "8" :type "eperuste"}, {:oid "9" :type "eperuste"}]))
+    (testing "get many pages"
+      (with-redefs [client/get mock-get-many]
+        (let [expected [{:oid "0" :type "eperuste"}, {:oid "1" :type "eperuste"},
+                        {:oid "2" :type "eperuste"}, {:oid "3" :type "eperuste"},
+                        {:oid "4" :type "eperuste"}, {:oid "5" :type "eperuste"},
+                        {:oid "6" :type "eperuste"}, {:oid "7" :type "eperuste"},
+                        {:oid "8" :type "eperuste"}, {:oid "9" :type "eperuste"}]]
+          (is (= expected (find-all))))))
 
-(fact "No muokattu param"
-  (defn no-muokattu-params [url opts]
-    (:muokattu (:query-params opts)) => nil
-    (mock-get-none url opts))
-  (with-redefs [client/get no-muokattu-params]
-    (find-all)))
+    (testing "set no muokattu param when fetching all"
+      (defn no-muokattu-params [url opts]
+        (is (= nil (:muokattu (:query-params opts))))
+        (mock-get-none url opts))
+      (with-redefs [client/get no-muokattu-params]
+        (find-all)))
 
-(fact "Muokattu param present"
-  (defn muokattu-param-present [url opts]
-    (:muokattu (:query-params opts)) => 1213145
-    (mock-get-none url opts))
-  (with-redefs [client/get muokattu-param-present]
-    (find-changes 1213145)))
+    (testing "set muokattu param when fetching changes"
+      (defn muokattu-param-present [url opts]
+        (is (= 1213145 (:muokattu (:query-params opts))))
+        (mock-get-none url opts))
+      (with-redefs [client/get muokattu-param-present]
+        (find-changes 1213145)))))

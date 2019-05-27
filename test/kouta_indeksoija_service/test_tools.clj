@@ -38,11 +38,30 @@
   (Thread/sleep timeout))
 
 (defn reset-test-data
-  []
-  (j/reset-jobs)
-  (tools/delete-index "indexdata")
-  (tools/delete-index "koulutusmoduuli")
-  (tools/delete-index "eperuste")
-  (tools/delete-index "organisaatio")
-  (tools/delete-index "lastindex")
-  (Thread/sleep 1000))
+  ([reset-jobs?]
+   (when reset-jobs? (j/reset-jobs))
+   (tools/delete-index "indexdata")
+   (tools/delete-index "koulutusmoduuli")
+   (tools/delete-index "eperuste")
+   (tools/delete-index "organisaatio")
+   (tools/delete-index "lastindex")
+   (Thread/sleep 1000))
+  ([]
+   (reset-test-data true)))
+
+(defn in?
+  [e coll]
+  (some #(= e %) coll))
+
+(defn contains-same-elements-in-any-order?
+  [expected actual]
+  (and
+   (not-empty actual)
+   (= (count actual) (count expected))
+   (every? #(in? % expected) actual)))
+
+(defn contains-elements-in-any-order?
+  [expected actual]
+  (and
+   (not-empty actual)
+   (every? #(in? % expected) actual)))

@@ -1,19 +1,16 @@
 (ns kouta-indeksoija-service.api-test
-  (:require [kouta-indeksoija-service.api :refer :all]
+  (:require [clojure.test :refer :all]
+            [kouta-indeksoija-service.api :refer :all]
             [kouta-indeksoija-service.elastic.tools :refer [delete-index]]
             [kouta-indeksoija-service.elastic.queue :refer [get-queue upsert-to-queue]]
             [kouta-indeksoija-service.test-tools :as tools :refer [parse-body reset-test-data]]
             [kouta-indeksoija-service.indexer.job :as j]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :refer [with-externals-mock]]
-            [midje.sweet :refer :all]
             [ring.mock.request :as mock]))
 
-(with-externals-mock
+(comment with-externals-mock
   (facts "Api should"
-    (against-background
-      [(before :contents (init-elastic-test))
-       (after :contents (stop-elastic-test))]
         (comment fact "queue hakukohde"
           (j/start-indexer-job "*/1 * * ? * *")
           (let [response (app (mock/request :get "/kouta-indeksoija/api/queue/hakukohde?oid=1.2.246.562.20.28810946823"))
@@ -66,4 +63,4 @@
           (doseq [x (map :koulutukset (vals hakukohteet))]
             x => (contains "1.2.246.562.17.53874141319"))
 
-          (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut))))))))
+          (sort (distinct (map :hakuOid (vals hakukohteet)))) => (sort (map :oid (vals haut)))))))

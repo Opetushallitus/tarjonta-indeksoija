@@ -69,8 +69,8 @@
   []
   (update-indices-mappings settings/stemmer-settings-eperuste     ["eperuste" "osaamisalakuvaus"])
   (update-indices-mappings settings/stemmer-settings-organisaatio ["organisaatio"])
-  (update-indices-mappings settings/kouta-settings                [koulutus-search-index])
-  (update-indices-mappings settings/kouta-settings-search         [koulutus-index
+  (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index])
+  (update-indices-mappings settings/kouta-settings                [koulutus-index
                                                                    toteutus-index
                                                                    haku-index
                                                                    hakukohde-index
@@ -81,7 +81,7 @@
   (log/info "Initializing indices")
   (and (initialize-index-settings)
        (initialize-index-mappings)
-    (update-index-mappings settings/indexdata-mappings "indexdata")))
+       (update-index-mappings settings/indexdata-mappings "indexdata")))
 
 (defn search [index query]
   (let [res (e/simple-search index query)]

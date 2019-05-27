@@ -1,137 +1,137 @@
 (ns kouta-indeksoija-service.indexer.elastic-client-test
-  (:require [kouta-indeksoija-service.elastic.settings :as settings]
+  (:require [clojure.test :refer :all]
+            [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.queue :as queue]
             [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
             [kouta-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
-            [clj-http.client :as http]
-            [midje.sweet :refer :all]))
+            [clj-http.client :as http]))
 
 (defn dummy-indexdata
-  [& {:keys [amount id-offset] :or {amount 10
-                                    id-offset 100}}]
+  [& {:keys [amount id-offset] :or {amount 10 id-offset 100}}]
   (map #(hash-map :oid (+ % id-offset) :type "hakukohde") (range amount)))
 
-(fact "Payload for bulk operation should be partitioned correctly"
-  (with-redefs [max-payload-size 2025]
-    (let [docs (dummy-indexdata :amount 50 :id-offset 1000)
-          data (tools/bulk-upsert-data "indexdata" "indexdata" docs)
-          bulk-data (bulk-partitions data)]
-      (count bulk-data) => 5
-      (println (nth bulk-data 0))
-      (println "=======")
-      (println (nth bulk-data 1))
-      (println "=======")
-      (println (nth bulk-data 2))
-      (println "=======")
-      (println (nth bulk-data 3))
-      (println "=======")
-      (println (nth bulk-data 4))
+(deftest bulk-update-data-test
+  (testing "Payload for bulk operation should be partitioned correctly"
+    (with-redefs [max-payload-size 2025]
+      (let [docs (dummy-indexdata :amount 50 :id-offset 1000)
+            data (tools/bulk-upsert-data "indexdata" "indexdata" docs)
+            bulk-data (bulk-partitions data)]
+        (is (= 5 (count bulk-data)))
+        (println (nth bulk-data 0))
+        (println "=======")
+        (println (nth bulk-data 1))
+        (println "=======")
+        (println (nth bulk-data 2))
+        (println "=======")
+        (println (nth bulk-data 3))
+        (println "=======")
+        (println (nth bulk-data 4))
 
-      (< (count (.getBytes (nth bulk-data 0))) 2025) => true
-      (< (count (.getBytes (nth bulk-data 1))) 2025) => true
-      (< (count (.getBytes (nth bulk-data 2))) 2025) => true
-      (< (count (.getBytes (nth bulk-data 3))) 2025) => true
-      (< (count (.getBytes (nth bulk-data 4))) 2025) => true
+        (is (< (count (.getBytes (nth bulk-data 0))) 2025))
+        (is (< (count (.getBytes (nth bulk-data 1))) 2025))
+        (is (< (count (.getBytes (nth bulk-data 2))) 2025) )
+        (is (< (count (.getBytes (nth bulk-data 3))) 2025))
+        (is (< (count (.getBytes (nth bulk-data 4))) 2025))
 
-      (.startsWith (nth bulk-data 0) "{\"update")  => true
-      (.startsWith (nth bulk-data 1) "{\"update")  => true
-      (.startsWith (nth bulk-data 2) "{\"update")  => true
-      (.startsWith (nth bulk-data 3) "{\"update")  => true
-      (.startsWith (nth bulk-data 4) "{\"update")  => true)))
+        (is (.startsWith (nth bulk-data 0) "{\"update"))
+        (is (.startsWith (nth bulk-data 1) "{\"update"))
+        (is (.startsWith (nth bulk-data 2) "{\"update") )
+        (is (.startsWith (nth bulk-data 3) "{\"update"))
+        (is (.startsWith (nth bulk-data 4) "{\"update"))))))
 
-(against-background [(before :contents (init-elastic-test))
-                     (after :contents (stop-elastic-test))]
-  (fact "Elastic search should be alive"
-    (admin/check-elastic-status) => true)
+(deftest elastic-admin-test
+  (testing "Elastic admin"
+    (testing "should check that elastic search is alive"
+      (is (admin/check-elastic-status)))
 
-  (fact "Elastic client should initialize indices"
-    (admin/initialize-indices) => true)
+    (testing "should initialize indices"
+      (is (admin/initialize-indices)))
 
-  (comment fact "Should have index analyzer settings set"
-    (let [res (http/get (str elastic-host "/hakukohde_test/_settings")
-                        {:as :json :content-type :json})]
-      (get-in res [:body :hakukohde_test :settings :index :analysis]) => (:analysis settings/index-settings)))
+    (testing "should have index analyzer settings set"
+      (let [res (http/get (str elastic-host "/hakukohde-kouta_test/_settings") {:as :json :content-type :json})]
+        (is (= (:analysis settings/index-settings)
+               (get-in res [:body :hakukohde-kouta_test :settings :index :analysis])))))
 
-  (comment fact "Should have index stemmer settings set"
-    (let [res (http/get (str elastic-host "/hakukohde_test/_mappings/")
-                        {:as :json :content-type :json})]
-      (get-in res [:body :hakukohde_test :mappings :hakukohde_test]) => settings/stemmer-settings-eperuste))
+    (testing "should have index stemmer settings set"
+      (let [res (http/get (str elastic-host "/hakukohde-kouta_test/_mappings/") {:as :json :content-type :json})]
+        (is (= settings/kouta-settings
+               (get-in res [:body :hakukohde-kouta_test :mappings :hakukohde-kouta_test])))))
 
-  (fact "Should get elastic-status"
-    (keys (admin/get-elastic-status)) => [:cluster_health :indices-info])
+    (testing "should get elastic-status"
+      (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status))))))
 
-  (facts "Index queue"
-    (fact "Should be empty"
-      (queue/get-queue) => ())
+    (testing "Index queue"
+      (testing "should be empty"
+        (is (= () (queue/get-queue))))
 
-    (fact "should get queue"
-      (queue/upsert-to-queue (dummy-indexdata)) => []
-      (queue/refresh-queue)
-      (count (queue/get-queue)) => 10
-      (sort-by :oid (map #(select-keys % [:oid :type]) (queue/get-queue))) => (dummy-indexdata))
-
-    (fact "should delete handled oids"
-      (let [last-timestamp (:timestamp (last (queue/get-queue)))]
-        (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000)) => []
-        (queue/delete-handled-queue (range 100 110) last-timestamp)
+      (testing "should get queue"
+        (is (= [] (queue/upsert-to-queue (dummy-indexdata))))
         (queue/refresh-queue)
-        (count (queue/get-queue)) => 1
-        (select-keys (first (queue/get-queue)) [:oid :type]) => {:oid 1000 :type "hakukohde"}))
+        (is (= 10 (count (queue/get-queue))))
+        (is (= (dummy-indexdata) (sort-by :oid (map #(select-keys % [:oid :type]) (queue/get-queue))))))
 
-    (fact "should avoid race condition"
-      (tools/delete-index "indexdata")
-      (queue/get-queue) => nil
-      (queue/upsert-to-queue (dummy-indexdata :amount 1)) => []
-      (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000)) => []
-      (queue/refresh-queue)
-      (let [res (queue/get-queue)]
-        (count res) => 2
-        (:timestamp (first res)) =not=> (:timestamp (last res))))
+      (testing "should delete handled oids"
+        (let [last-timestamp (:timestamp (last (queue/get-queue)))]
+          (is (= [] (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000))))
+          (queue/delete-handled-queue (range 100 110) last-timestamp)
+          (queue/refresh-queue)
+          (is (= 1 (count (queue/get-queue))))
+          (is (= {:oid 1000 :type "hakukohde"} (select-keys (first (queue/get-queue)) [:oid :type])))))
 
-    (fact "should only remove oids from queue that haven't been updated after indexing started"
-      (tools/delete-index "indexdata")
-      (queue/upsert-to-queue (dummy-indexdata)) => []
-      (queue/refresh-queue)
-      (let [queue (queue/get-queue)
-            last-timestamp (apply max (map :timestamp queue))]
-        (count queue) => 10
-        (queue/upsert-to-queue [{:oid 100 :type "hakukohde"} {:oid 109 :type "hakukohde"}]) => []
+      (testing "should avoid race condition"
+        (tools/delete-index "indexdata")
+        (is (= nil (queue/get-queue)))
+        (is (= []  (queue/upsert-to-queue (dummy-indexdata :amount 1))))
+        (is (= []  (queue/upsert-to-queue (dummy-indexdata :amount 1 :id-offset 1000))))
         (queue/refresh-queue)
-        (:deleted (queue/delete-handled-queue (map :oid queue) last-timestamp)) => 8
+        (let [res (queue/get-queue)]
+          (is (= 2 (count res)))
+          (is (not (= (:timestamp (last res)) (:timestamp (first res)))))))
+
+      (testing "should only remove oids from queue that haven't been updated after indexing started"
+        (tools/delete-index "indexdata")
+        (is (= [] (queue/upsert-to-queue (dummy-indexdata))))
         (queue/refresh-queue)
+        (let [queue (queue/get-queue)
+              last-timestamp (apply max (map :timestamp queue))]
+          (is (= 10 (count queue)))
+          (is (= [] (queue/upsert-to-queue [{:oid 100 :type "hakukohde"} {:oid 109 :type "hakukohde"}])))
+          (queue/refresh-queue)
+          (is (= 8 (:deleted (queue/delete-handled-queue (map :oid queue) last-timestamp))))
+          (queue/refresh-queue)
 
-        (let [remaining (queue/get-queue)]
-          (count remaining) => 2
-          (map :oid remaining) => [100 109]
-          (every? #(< last-timestamp (:timestamp %)) remaining) => true))))
+          (let [remaining (queue/get-queue)]
+            (is (= 2 (count remaining)))
+            (is (= [100 109] (map :oid remaining)))
+            (is (every? #(< last-timestamp (:timestamp %)) remaining))))))
 
-  (fact "should keep last updated up to date"
-    (let [now (System/currentTimeMillis)
-          soon (+ now (* 1000 3600))]
-      (queue/set-last-index-time now)
-      (refresh-and-wait "indexdata" 1000)
-      (queue/get-last-index-time) => now
+    (testing "should keep last updated up to date"
+      (let [now (System/currentTimeMillis)
+            soon (+ now (* 1000 3600))]
+        (queue/set-last-index-time now)
+        (refresh-and-wait "indexdata" 1000)
+        (is (= now (queue/get-last-index-time)))
 
-      (queue/set-last-index-time soon)
-      (refresh-and-wait "indexdata" 1000)
-      (queue/get-last-index-time) => soon))
+        (queue/set-last-index-time soon)
+        (refresh-and-wait "indexdata" 1000)
+        (is (= soon (queue/get-last-index-time)))))
 
-  (fact "should move failed oids to the end of index and try to index failing oids only three times"
-    (let [original-queue (queue/get-queue)
-          oids (map #(dissoc % :type :timestamp) original-queue)]
-      (tools/bulk-update-failed "indexdata" "indexdata" oids)
-      (refresh-and-wait "indexdata" 1000)
-      (let [new-queue (queue/get-queue)]
-        (:oid (first new-queue)) => (:oid (first original-queue))
-        (< (:timestamp (first original-queue)) (:timestamp (first new-queue))) => true
-        (:oid (second new-queue)) => (:oid (second original-queue))
-        (< (:timestamp (second original-queue)) (:timestamp (second new-queue))) => true
+    (testing "should move failed oids to the end of index and try to index failing oids only three times"
+      (let [original-queue (queue/get-queue)
+            oids (map #(dissoc % :type :timestamp) original-queue)]
         (tools/bulk-update-failed "indexdata" "indexdata" oids)
         (refresh-and-wait "indexdata" 1000)
-        (count (queue/get-queue)) => 2
-        (tools/bulk-update-failed "indexdata" "indexdata" oids)
-        (refresh-and-wait "indexdata" 1000)
-        (count (queue/get-queue)) => 0))))
+        (let [new-queue (queue/get-queue)]
+          (is (= (:oid (first original-queue)) (:oid (first new-queue))))
+          (is (< (:timestamp (first original-queue)) (:timestamp (first new-queue))))
+          (is (= (:oid (second original-queue)) (:oid (second new-queue))))
+          (is (< (:timestamp (second original-queue)) (:timestamp (second new-queue))))
+          (tools/bulk-update-failed "indexdata" "indexdata" oids)
+          (refresh-and-wait "indexdata" 1000)
+          (is (= 2 (count (queue/get-queue))))
+          (tools/bulk-update-failed "indexdata" "indexdata" oids)
+          (refresh-and-wait "indexdata" 1000)
+          (is (= 0 (count (queue/get-queue))))))))
