@@ -1,7 +1,8 @@
 (ns kouta-indeksoija-service.indexer.docs.organisaatio
   (:require [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]
-            [kouta-indeksoija-service.indexer.docs.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
+            [kouta-indeksoija-service.indexer.docs.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]
+            [clojure.string :as str]))
 
 (defn- recursive-find-oppilaitostyyppi [organisaatio]
   (if (nil? organisaatio)
@@ -25,11 +26,11 @@
 
 (defn- find-oppilaitos-tyyppi-nimi [oppilaitostyyppi-uri]
   (if (not (nil? oppilaitostyyppi-uri))
-    (let [koodi-uri (first (clojure.string/split oppilaitostyyppi-uri #"#"))
+    (let [koodi-uri (first (str/split oppilaitostyyppi-uri #"#"))
           koodisto (koodisto-client/get-koodi-with-cache "oppilaitostyyppi" koodi-uri)
           metadata (:metadata koodisto)]
 
-      (into {} (map (fn [x] {(keyword (clojure.string/lower-case (:kieli x))) (:nimi x)}) metadata)))))
+      (into {} (map (fn [x] {(keyword (str/lower-case (:kieli x))) (:nimi x)}) metadata)))))
 
 (defn append-search-data
   [organisaatio]

@@ -1,7 +1,8 @@
 (ns kouta-indeksoija-service.queue.sqs
   (:require [amazonica.core :as amazonica]
             [amazonica.aws.sqs :as sqs]
-            [kouta-indeksoija-service.util.conf :refer [env sqs-endpoint]])
+            [kouta-indeksoija-service.util.conf :refer [env sqs-endpoint]]
+            [clojure.string :refer [blank?]])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
 (def long-poll-wait-time    20)
@@ -9,7 +10,7 @@
 
 (defn- with-endpoint
   [f]
-  (if (not (clojure.string/blank? sqs-endpoint))
+  (if (not (blank? sqs-endpoint))
     (amazonica/with-credential {:endpoint sqs-endpoint} (f))
     (f)))
 

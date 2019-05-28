@@ -1,7 +1,8 @@
 (ns kouta-indeksoija-service.rest.cas.session-id
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.rest.util :refer [request]]
-            [jsoup.soup :refer :all]))
+            [jsoup.soup :refer :all]
+            [clojure.string :refer [blank?]]))
 
 (defn- send-form
   [url form]
@@ -23,7 +24,7 @@
         tgt-url  (format "%s/cas/v1/tickets" (-> env :cas :host))
         response (send-form tgt-url {:username username :password password})
         tgt (parse-ticket-granting-ticket response)]
-    (if (clojure.string/blank? tgt)
+    (if (blank? tgt)
       (RuntimeException. (format "Unable to read tgt on CAS response: %s" response))
       tgt)))
 

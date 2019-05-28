@@ -2,7 +2,8 @@
   (:require [kouta-indeksoija-service.elastic.queue :refer [reset-queue upsert-to-queue]]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [clojure.set :refer [union]]))
 
 
 (defn- find-docs
@@ -18,7 +19,7 @@
   (reset-queue)
   (let [organisaatio-docs (organisaatio-client/find-docs nil)
         eperusteet-docs (eperusteet-client/find-all)
-        docs (clojure.set/union organisaatio-docs eperusteet-docs)]
+        docs (union (set organisaatio-docs) (set eperusteet-docs))]
     (log/info "Saving" (count docs) "items to index-queue" (flatten (for [[k v] (group-by :type docs)] [(count v) k]) ))
     (upsert-to-queue docs)))
 

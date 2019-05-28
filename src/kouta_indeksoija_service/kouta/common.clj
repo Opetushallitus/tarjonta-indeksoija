@@ -1,16 +1,18 @@
 (ns kouta-indeksoija-service.kouta.common
   (:require [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.kouta.cache.tarjoaja :as tarjoaja]))
+            [kouta-indeksoija-service.kouta.cache.tarjoaja :as tarjoaja]
+            [clojure.string :refer [replace]]
+            [clojure.walk :refer [postwalk]]))
 
 (defn- strip-koodi-uri-key
   [key]
   (if (keyword? key)
     (-> key
         (name)
-        (clojure.string/replace "KoodiUrit" "")
-        (clojure.string/replace "KoodiUri" "")
-        (clojure.string/replace "Uri" "")
+        (replace "KoodiUrit" "")
+        (replace "KoodiUri" "")
+        (replace "Uri" "")
         (keyword))
     key))
 
@@ -22,7 +24,7 @@
 
 (defn decorate-koodi-uris
   [x]
-  (clojure.walk/postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
+  (postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
 
 (defn assoc-organisaatio
   [entry]

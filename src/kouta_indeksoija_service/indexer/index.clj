@@ -5,7 +5,8 @@
             [kouta-indeksoija-service.elastic.docs :as docs]
             [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [clojure.set :refer [difference union]]))
 
 (defn get-index-doc
   [entry]
@@ -66,11 +67,11 @@
             (store-pictures queue)
             (log/info "Pictures stored! Going to end indexing items.")
             (let [queue-oids (map :oid queue)
-                  not-converted-oids (clojure.set/difference (set queue-oids)
-                                                             (set (map :oid converted-docs)))
-                  failed-oids (clojure.set/union not-converted-oids (set failed-to-index))
-                  successful-oids (clojure.set/difference (set queue-oids)
-                                                          (set failed-oids))]
+                  not-converted-oids (difference (set queue-oids)
+                                                  (set (map :oid converted-docs)))
+                  failed-oids (union not-converted-oids (set failed-to-index))
+                  successful-oids (difference (set queue-oids)
+                                              (set failed-oids))]
               (end-indexing successful-oids
                             failed-oids
                             (apply max (map :timestamp queue))
