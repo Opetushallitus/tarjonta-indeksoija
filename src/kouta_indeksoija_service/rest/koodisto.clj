@@ -30,10 +30,8 @@
 
 (defn get-koodi-nimi-with-cache
   ([koodisto koodi-uri]
-   (defn extract-nimi
-     [value]
-     (reduce #(assoc %1 (keyword (clojure.string/lower-case (:kieli %2))) (:nimi %2)) {} (:metadata value)))
-   (merge {:koodiUri koodi-uri} {:nimi (extract-nimi (get-koodi-with-cache koodisto koodi-uri))}))
+    (let [extract-nimi (fn [value] (reduce #(assoc %1 (keyword (clojure.string/lower-case (:kieli %2))) (:nimi %2)) {} (:metadata value)))]
+      (merge {:koodiUri koodi-uri} {:nimi (extract-nimi (get-koodi-with-cache koodisto koodi-uri))})))
   ([koodi-uri]
    (when koodi-uri
      (get-koodi-nimi-with-cache (subs koodi-uri 0 (clojure.string/index-of koodi-uri "_")) koodi-uri))))
