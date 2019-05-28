@@ -33,7 +33,9 @@
    (when reset-jobs? (j/reset-jobs))
    (tools/delete-index "indexdata")
    (tools/delete-index "eperuste")
+   (tools/delete-index "osaamisalakuvaus")
    (tools/delete-index "organisaatio")
+   (tools/delete-index "palaute")
    (tools/delete-index "lastindex"))
   ([]
    (reset-test-data true)))
