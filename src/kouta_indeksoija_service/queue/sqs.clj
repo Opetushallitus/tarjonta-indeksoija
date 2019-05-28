@@ -4,6 +4,9 @@
             [kouta-indeksoija-service.util.conf :refer [env sqs-endpoint]])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
+(def long-poll-wait-time    20)
+(def max-number-of-messages 10)
+
 (defn- with-endpoint
   [f]
   (if (not (clojure.string/blank? sqs-endpoint))
@@ -27,13 +30,13 @@
   [queue]
   (with-endpoint #(sqs/receive-message
                     :queue-url queue
-                    :max-number-of-messages 10
+                    :max-number-of-messages max-number-of-messages
                     :delete false
-                    :wait-time-seconds 20)))
+                    :wait-time-seconds long-poll-wait-time)))
 
 (defn short-poll
   [queue]
   (with-endpoint #(sqs/receive-message
                     :queue-url queue
-                    :max-number-of-messages 10
+                    :max-number-of-messages max-number-of-messages
                     :delete false)))

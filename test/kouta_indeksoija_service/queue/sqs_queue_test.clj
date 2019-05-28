@@ -11,6 +11,8 @@
             [kouta-indeksoija-service.queue.queue :refer :all]
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order? contains-elements-in-any-order?]]))
 
+(defonce test-long-poll-time 5)
+
 (defn- uuid [] (.toString (java.util.UUID/randomUUID)))
 
 (defonce queues {:priority (str "priority-" (uuid))
@@ -32,25 +34,37 @@
   (tests)
   (mount.core/stop))
 
+(defn call-for-queue-urls
+  [f]
+  (let [endpoint (localstack/sqs-endpoint)]
+    (doseq [q (vals queues)] (f (str endpoint "/queue/" q)))))
+
+(defn queues-fixture
+  [test]
+  (doseq [q (vals queues)] (sqs/create-queue q))
+  (test)
+  (call-for-queue-urls sqs/delete-queue))
+
 (use-fixtures :once mount-fixture docker-test-fixture)
+(use-fixtures :each queues-fixture)
 
-(defn init-queues
+(defn empty-queues
   []
-  (doseq [q (vals queues)] (sqs/create-queue q)))
-
-(defn destroy-queues
-  []
-  (doseq [q (vals queues)] (sqs/delete-queue (sqs/find-queue q))))
+  (call-for-queue-urls #(sqs/receive-message
+                          :queue-url %
+                          :max-number-of-messages 10
+                          :delete true )))
 
 (defmacro testing-with-queues-fixture
   [name & test]
   `(testing ~name
-     (do (init-queues)
-         ~@test
-         (destroy-queues))))
+     (do
+       ~@test
+       (empty-queues))))
 
 (deftest docker-sqs-test
-  (with-redefs [env {:queue queues}]
+  (with-redefs [env {:queue queues}
+                kouta-indeksoija-service.queue.sqs/long-poll-wait-time test-long-poll-time]
   (let [expected-messages     [(json/generate-string {:oid ["expected-123.123.123" "expected-123.123.231"] :boid ["expected-123.123"]})
                                (json/generate-string {:oid ["expected-234.234.234" "expected-234-234-123"] :droid ["expected-234.234"]})]
         not-expected-messages [(json/generate-string {:oid ["not-expected-321.321.321"] :noid ["not-expected-321.321"]})
@@ -71,12 +85,12 @@
         (let [received-message-bodies (message-bodies (receive-messages-from-queues))]
           (is (contains-same-elements-in-any-order? expected-messages received-message-bodies))))
 
-      (comment testing-with-queues-fixture "receive messages from :priority even if they appear after started polling (use long poll)"
+      (testing-with-queues-fixture "receive messages from :priority even if they appear after started polling (use long poll)"
         (doseq [msg not-expected-messages] (sqs/send-message (queue :fast) msg))
         (doseq [msg not-expected-messages] (sqs/send-message (queue :slow) msg))
         (let [receive (future (receive-messages-from-queues))]
           (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg))
-          (is (contains-same-elements-in-any-order? expected-messages (message-bodies @receive)))))
+          (is (contains-elements-in-any-order? expected-messages (message-bodies @receive))))) ;TODO Miksi ei contains-same-elements-in-any-order? toimi?
 
       (testing-with-queues-fixture "receive messages from :fast queue if there are no messages in :priority queue"
         (doseq [msg expected-messages] (sqs/send-message (queue :fast) msg))
@@ -87,10 +101,12 @@
         (doseq [msg expected-messages] (sqs/send-message (queue :slow) msg))
         (is (contains-same-elements-in-any-order? expected-messages (message-bodies (receive-messages-from-queues)))))
 
-      (testing-with-queues-fixture "wait for at 20 seconds if there are no messages in any queue"
+      (testing-with-queues-fixture "long poll if there are no messages in any queue"
         (let [start (System/currentTimeMillis)]
-          (println (message-bodies (receive-messages-from-queues)))
-          (is (< 18000 (- (System/currentTimeMillis) start) 22000)))))
+          (message-bodies (receive-messages-from-queues))
+          (is (< (- (* 1000 test-long-poll-time) 500)
+                 (- (System/currentTimeMillis) start)
+                 (+ (* 1000 test-long-poll-time) 500))))))
 
     (testing "Handle-messages-from-queues should"
 
@@ -137,16 +153,11 @@
 
     (testing "Index-from-queue! should"
 
-      (testing-with-queues-fixture "return future"
-        (let [f         (index-from-queue!)
-              is-future (future? f)]
-          (future-cancel f)
-          (is is-future)))
-
       (testing-with-queues-fixture "start listening on queue, receive messages and index them"
         (let [handled (atom [])]
           (with-redefs [indexer/index-oids (fn [oids] (swap! handled conj oids))]
             (let [f (index-from-queue!)]
+              (is future? f)
               (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg))
               (Thread/sleep 1000)
               (future-cancel f)

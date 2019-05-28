@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.queue :as queue]
             [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
-            [kouta-indeksoija-service.test-tools :refer [refresh-and-wait reset-test-data]]
+            [kouta-indeksoija-service.test-tools :refer [refresh-index reset-test-data]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-http.client :as http]))
 
@@ -112,26 +112,26 @@
       (let [now (System/currentTimeMillis)
             soon (+ now (* 1000 3600))]
         (queue/set-last-index-time now)
-        (refresh-and-wait "indexdata" 1000)
+        (refresh-index "indexdata")
         (is (= now (queue/get-last-index-time)))
 
         (queue/set-last-index-time soon)
-        (refresh-and-wait "indexdata" 1000)
+        (refresh-index "indexdata")
         (is (= soon (queue/get-last-index-time)))))
 
     (testing "should move failed oids to the end of index and try to index failing oids only three times"
       (let [original-queue (queue/get-queue)
             oids (map #(dissoc % :type :timestamp) original-queue)]
         (tools/bulk-update-failed "indexdata" "indexdata" oids)
-        (refresh-and-wait "indexdata" 1000)
+        (refresh-index "indexdata")
         (let [new-queue (queue/get-queue)]
           (is (= (:oid (first original-queue)) (:oid (first new-queue))))
           (is (< (:timestamp (first original-queue)) (:timestamp (first new-queue))))
           (is (= (:oid (second original-queue)) (:oid (second new-queue))))
           (is (< (:timestamp (second original-queue)) (:timestamp (second new-queue))))
           (tools/bulk-update-failed "indexdata" "indexdata" oids)
-          (refresh-and-wait "indexdata" 1000)
+          (refresh-index "indexdata")
           (is (= 2 (count (queue/get-queue))))
           (tools/bulk-update-failed "indexdata" "indexdata" oids)
-          (refresh-and-wait "indexdata" 1000)
+          (refresh-index "indexdata")
           (is (= 0 (count (queue/get-queue))))))))

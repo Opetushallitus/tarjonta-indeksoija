@@ -22,7 +22,7 @@
 
       (comment fact "fetch hakukohde"
         ;; uses result from previous test.
-        (tools/refresh-and-wait "hakukohde" 1000)
+        (tools/refresh-index "hakukohde" 1000)
         (let [response (app (mock/request :get "/kouta-indeksoija/api/admin/hakukohde?oid=1.2.246.562.20.28810946823"))
               body (parse-body (:body response))]
           (:hakuOid body) => "1.2.246.562.29.44465499083"))
@@ -41,10 +41,10 @@
                           {:type "organisaatio" :oid "1.2.246.562.10.39920288212"}])
         (tools/block-until-indexed 10000)
 
-        (tools/refresh-and-wait "hakukohde" 0)
-        (tools/refresh-and-wait "haku" 0)
-        (tools/refresh-and-wait "organisaatio" 0)
-        (tools/refresh-and-wait "koulutus" 1000)
+        (tools/refresh-index "hakukohde" 0)
+        (tools/refresh-index "haku" 0)
+        (tools/refresh-index "organisaatio" 0)
+        (tools/refresh-index "koulutus" 1000)
         (let [response (app (mock/request :get "/kouta-indeksoija/api/ui/koulutus/1.2.246.562.17.53874141319"))
               body (parse-body (:body response))
               koulutus (:koulutus body)

@@ -24,28 +24,17 @@
                 (not (empty? (queue/get-queue))))
       (Thread/sleep 1000))))
 
-(defn block-until-latest-in-queue
-  [timeout]
-  (let [start (System/currentTimeMillis)]
-    (queue/refresh-queue)
-    (while (and (> timeout (- (System/currentTimeMillis) start))
-             (empty? (queue/get-queue)))
-      (Thread/sleep 1000))))
-
-(defn refresh-and-wait
-  [indexname timeout]
-  (tools/refresh-index indexname)
-  (Thread/sleep timeout))
+(defn refresh-index
+  [indexname]
+  (tools/refresh-index indexname))
 
 (defn reset-test-data
   ([reset-jobs?]
    (when reset-jobs? (j/reset-jobs))
    (tools/delete-index "indexdata")
-   (tools/delete-index "koulutusmoduuli")
    (tools/delete-index "eperuste")
    (tools/delete-index "organisaatio")
-   (tools/delete-index "lastindex")
-   (Thread/sleep 1000))
+   (tools/delete-index "lastindex"))
   ([]
    (reset-test-data true)))
 
