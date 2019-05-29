@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.elastic.queue
-  (:require [kouta-indeksoija-service.elastic.admin :refer [initialize-indices]]
+  (:require [kouta-indeksoija-service.elastic.admin :refer [reset-index initialize-indices]]
             [kouta-indeksoija-service.elastic.tools :as t]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
@@ -80,11 +80,9 @@
     :hits
     (map :_source))))
 
-(defn reset-queue []
-  (let [delete-res (t/delete-index queue-index)
-        init-res (initialize-indices)]
-    { :delete-queue delete-res
-     :init-indices init-res }))
+(defn reset-queue
+  []
+  (reset-index queue-index))
 
 (defmacro upsert-to-queue
   [docs]

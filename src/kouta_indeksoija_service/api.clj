@@ -70,7 +70,7 @@
 
        (POST "/all" []
          :query-params [{since :- Long 0}]
-         :summary "Indeksoi uudet ja muuttuneet koulutukset, hakukohteet, haut ja organisaatiot kouta-backendistä. Default kaikki."
+         :summary "Indeksoi uudet ja muuttuneet koulutukset, toteutukset, hakukohteet, haut ja valintaperusteet kouta-backendistä. Default kaikki."
          (ok {:result (if (= 0 since)
                         (kouta/index-all)
                         (kouta/index-since since))}))
@@ -80,25 +80,45 @@
          :query-params [oid :- String]
          (ok {:result (kouta/index-koulutus oid)}))
 
+       (POST "/koulutukset" []
+         :summary "Indeksoi kaikki koulutukset kouta-backendistä."
+         (ok {:result (kouta/index-all-koulutukset)}))
+
        (POST "/toteutus" []
-         :summary "Indeksoi totautukset tiedot kouta-backendistä."
+         :summary "Indeksoi toteutuksen tiedot kouta-backendistä."
          :query-params [oid :- String]
          (ok {:result (kouta/index-toteutus oid)}))
+
+       (POST "/toteutukset" []
+         :summary "Indeksoi kaikki toteutukset kouta-backendistä."
+         (ok {:result (kouta/index-all-toteutukset)}))
 
        (POST "/hakukohde" []
          :summary "Indeksoi hakukohteen tiedot kouta-backendistä."
          :query-params [oid :- String]
          (ok {:result (kouta/index-hakukohde oid)}))
 
+       (POST "/hakukohteet" []
+         :summary "Indeksoi kaikki hakukohteet kouta-backendistä."
+         (ok {:result (kouta/index-all-hakukohteet)}))
+
        (POST "/haku" []
          :summary "Indeksoi haun tiedot kouta-backendistä."
          :query-params [oid :- String]
          (ok {:result (kouta/index-haku oid)}))
 
+       (POST "/haut" []
+         :summary "Indeksoi kaikki haut kouta-backendistä."
+         (ok {:result (kouta/index-all-haut)}))
+
        (POST "/valintaperuste" []
          :summary "Indeksoi valintaperusteen tiedot kouta-backendistä."
          :query-params [oid :- String]
          (ok {:result (kouta/index-valintaperuste oid)})))
+
+     (POST "/valintaperusteet" []
+       :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
+       (ok {:result (kouta/index-all-valintaperusteet)}))
 
      (context "/admin" []
        :tags ["admin"]
@@ -156,7 +176,12 @@
          :summary "Tekee haun haluttuun indeksiin"
          :query-params [index :- String
                         query :- String]
-         (ok (admin/search index query))))
+         (ok (admin/search index query)))
+
+       (POST "/reset" []
+         :summary "Resetoi/tyhjentää halutun indeksin. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
+         :query-params [index :- String]
+         (ok (admin/reset-index index))))
 
      (context "/indexer" []
        :tags ["indexer"]

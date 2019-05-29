@@ -83,6 +83,14 @@
        (initialize-index-mappings)
        (update-index-mappings settings/indexdata-mappings "indexdata")))
 
+(defn reset-index
+  [index]
+  (log/warn "WARNING! Resetting index " index "! All indexed data is lost!")
+  (let [delete-res (t/delete-index index)
+        init-res (initialize-indices)]
+    { :delete-queue delete-res
+      :init-indices init-res }))
+
 (defn search [index query]
   (let [res (e/simple-search index query)]
     (if (= 200 (:status res))

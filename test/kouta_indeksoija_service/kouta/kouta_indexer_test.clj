@@ -196,4 +196,64 @@
         (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))
         (is (= nil (:oid (read koulutus/index-name koulutus-oid))))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
-        (is (= nil (:id (read valintaperuste/index-name valintaperuste-id))))))))
+        (is (= nil (:id (read valintaperuste/index-name valintaperuste-id)))))))
+
+  (deftest index-all-koulutukset-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index all koulutukset"
+       (check-all-nil)
+       (i/index-all-koulutukset)
+       (is (= nil (read haku/index-name haku-oid)))
+       (is (= nil (read hakukohde/index-name hakukohde-oid)))
+       (is (= nil (read toteutus/index-name toteutus-oid)))
+       (is (= koulutus-oid (:oid (read koulutus/index-name koulutus-oid))))
+       (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
+       (is (= nil (read valintaperuste/index-name valintaperuste-id))))))
+
+  (deftest index-all-toteutukset-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index all toteutukset"
+       (check-all-nil)
+       (i/index-all-toteutukset)
+       (is (= nil (read haku/index-name haku-oid)))
+       (is (= nil (read hakukohde/index-name hakukohde-oid)))
+       (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))
+       (is (= koulutus-oid (:oid (read koulutus/index-name koulutus-oid))))
+       (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
+       (is (= nil (read valintaperuste/index-name valintaperuste-id))))))
+
+  (deftest index-all-hakukohteet-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index all hakukohteet"
+       (check-all-nil)
+       (i/index-all-hakukohteet)
+       (is (= haku-oid (:oid (read haku/index-name haku-oid))))
+       (is (= hakukohde-oid (:oid (read hakukohde/index-name hakukohde-oid))))
+       (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))
+       (is (= nil (read koulutus/index-name koulutus-oid)))
+       (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
+       (is (= nil (read valintaperuste/index-name valintaperuste-id))))))
+
+  (deftest index-all-haut-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index all haut"
+       (check-all-nil)
+       (i/index-all-haut)
+       (is (= haku-oid (:oid (read haku/index-name haku-oid))))
+       (is (= nil (read hakukohde/index-name hakukohde-oid)))
+       (is (= nil (read toteutus/index-name toteutus-oid)))
+       (is (= nil (read koulutus/index-name koulutus-oid)))
+       (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
+       (is (= nil (read valintaperuste/index-name valintaperuste-id))))))
+
+  (deftest index-all-valintaperusteet-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index all valintaperusteet"
+       (check-all-nil)
+       (i/index-all-valintaperusteet)
+       (is (= nil (read haku/index-name haku-oid)))
+       (is (= nil (read hakukohde/index-name hakukohde-oid)))
+       (is (= nil (read toteutus/index-name toteutus-oid)))
+       (is (= nil (read koulutus/index-name koulutus-oid)))
+       (is (= nil (read search/index-name koulutus-oid)))
+       (is (= valintaperuste-id (:id (read valintaperuste/index-name valintaperuste-id))))))))
