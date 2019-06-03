@@ -124,7 +124,7 @@
        :tags ["admin"]
 
        (GET "/koulutus" []
-         :summary "Hakee yhden koulutuksen oidin perusteella."
+         :summary "Hakee yhden koulutuksen oidin perusteella. (HUOM! Täällä on koulutuksia, jotka eivät näy oppijan koulutushaussa)"
          :query-params [oid :- String]
          (ok {:result (koulutus/get oid)}))
 
@@ -148,8 +148,8 @@
          :query-params [id :- String]
          (ok {:result (valintaperuste/get id)}))
 
-       (GET "/koulutus-search" []
-         :summary "Hakee yhden koulutuksen hakutiedon oidin perusteella."
+       (GET "/koulutus-haku" []
+         :summary "Hakee yhden koulutuksen tiedot koulutusten hakuindeksistä (oppijan koulutushaku) oidin perusteella. Vain julkaistuja koulutuksia."
          :query-params [oid :- String]
          (ok {:result (koulutus-search/get oid)}))
 
