@@ -1,8 +1,8 @@
-{:elastic-url "http://127.0.0.1:9200"
+{:elastic-url "http://foo.bar:9200"
  :cron-string "*/15 * * ? * *"
- :cas {:host "{{kouta_indeksoija_cas_host}}"
-       :username "{{kouta_indeksoija_cas_username}}"
-       :password "{{kouta_indeksoija_cas_password}}"}
+ :cas {:host "https://virkailija.hahtuvaopintopolku.fi"
+       :username "foo"
+       :password "bar"}
  :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"
  :koodisto-service-url "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/json/"
  :eperusteet-service-url "https://virkailija.hahtuvaopintopolku.fi/eperusteet-service/api/perusteet/"
@@ -10,10 +10,10 @@
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
- :queue {:priority "koutaIndeksoijaPriority"
-         :fast "koutaIndeksoijaFast"
-         :slow "koutaIndeksoijaSlow"
-         :dlq "koutaIndeksoijaDlq"}
- :sqs-region "eu-west-1"
- :sqs-endpoint "http://localhost:4576"
+ :queue {:priority "priority-indexing-queue"
+         :fast "fast-indexing-queue"
+         :slow "slow-indexing-queue"
+         :dlq "indexing-dql"}
+ :sqs-region ""
+ :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"}

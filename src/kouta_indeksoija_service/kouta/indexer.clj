@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.kouta.haku :as haku]
             [kouta-indeksoija-service.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.kouta.valintaperuste :as valintaperuste]
-            [kouta-indeksoija-service.util.time :refer [format-long-to-rfc1123]]
+            [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [clojure.tools.logging :as log]))
 
@@ -87,19 +87,22 @@
 
 (defn index-since
   [since]
-  (log/info (str "Indeksoidaan kouta-backendistä " (format-long-to-rfc1123 since) " jälkeen muuttuneet"))
+  (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet"))
   (let [start (. System (currentTimeMillis))
-        date (format-long-to-rfc1123 since)
+        date (long->rfc1123 since)
         oids (kouta-backend/get-last-modified date)]
     (index-oids oids)
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
+
+(defn- all-oids
+  []
+  (kouta-backend/get-last-modified (long->rfc1123 0)))
 
 (defn index-all
   []
   (log/info (str "Indeksoidaan kouta-backendistä kaikki"))
   (let [start (. System (currentTimeMillis))
-        date (format-long-to-rfc1123 0)
-        oids (kouta-backend/get-last-modified date)]
+        oids (all-oids)]
     (koulutus/do-index (:koulutukset oids))
     (koulutus-search/do-index (:koulutukset oids))
     (toteutus/do-index (:toteutukset oids))
@@ -107,3 +110,23 @@
     (hakukohde/do-index (:hakukohteet oids))
     (valintaperuste/do-index (:valintaperusteet oids))
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
+
+(defn index-all-koulutukset
+  []
+  (index-koulutukset (:koulutukset (all-oids))))
+
+(defn index-all-toteutukset
+  []
+  (index-toteutukset (:toteutukset (all-oids))))
+
+(defn index-all-haut
+  []
+  (index-haut (:haut (all-oids))))
+
+(defn index-all-hakukohteet
+  []
+  (index-hakukohteet (:hakukohteet (all-oids))))
+
+(defn index-all-valintaperusteet
+  []
+  (index-valintaperusteet (:valintaperusteet (all-oids))))

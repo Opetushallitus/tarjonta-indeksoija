@@ -60,15 +60,13 @@
          :browser-uri "kouta-indeksoija"}
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
-                                  [midje "1.9.8"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [criterium "0.4.4"]]
                    :plugins [[lein-ring "0.10.0"]
-                             [lein-midje "3.2"]
-                             [jonase/eastwood "0.2.3"]
+                             [jonase/eastwood "0.3.5"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
-                             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]]
+                             [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}
@@ -77,33 +75,34 @@
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.21"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.3-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                               "-Daws.secretKey=randomKeyForLocalstack"]}
+                               "-Daws.secretKey=randomKeyForLocalstack"]
+                    :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
+                                 (utils/global-elasticsearch-fixture)]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.21"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.1-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.3-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
-                                  "-Dconf=ci/config.edn"
+                                  "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
-                                  "-Daws.secretKey=randomKeyForLocalstack"]}
+                                  "-Daws.secretKey=randomKeyForLocalstack"]
+                       :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
+                                    (utils/global-elasticsearch-fixture)]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
-                                     :jar-exclusions [#"perf|resources|mocks"
-                                                      #"kouta_indeksoija_service/\w*_test.clj"
-                                                      #"kouta_indeksoija_service/converter/\w*_test.clj"]}} ;TODO: Better regexp
+                                     :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
   :aliases {"run" ["ring" "server"]
-            "test" ["with-profile" "+test" "midje"]
+            "test" ["with-profile" "+test" "test"]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "install" ["with-profile" "+jar-with-test-fixture" "install"]
-            "ci-test" ["with-profile" "+ci-test" "midje"]
-            "autotest" ["with-profile" "+test" "midje" ":autotest"]
-            "eastwood" ["with-profile" "+test" "eastwood"]
-            "cloverage" ["with-profile" "+test" "cloverage" "--runner" ":midje"]
+            "ci-test" ["with-profile" "+ci-test" "test"]
+            "eastwood" ["eastwood" "{:test-paths []}"]
+            "cloverage" ["with-profile" "+test" "cloverage"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])

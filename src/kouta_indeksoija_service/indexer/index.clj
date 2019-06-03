@@ -1,12 +1,12 @@
 (ns kouta-indeksoija-service.indexer.index
   (:require [kouta-indeksoija-service.indexer.docs :refer :all]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.elastic.perf :as perf]
             [kouta-indeksoija-service.elastic.queue :as queue]
             [kouta-indeksoija-service.elastic.docs :as docs]
             [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [clojure.set :refer [difference union]]))
 
 (defn get-index-doc
   [entry]
@@ -24,7 +24,6 @@
         msg (str "Successfully indexed " (count successful-oids) " objects in " (int (/ duration 1000)) " seconds. Total failed:" (count failed-oids))]
     (log/info msg)
     (when (seq failed-oids) (log/info "Failed oids:" (seq failed-oids)))
-    (perf/insert-indexing-perf (count successful-oids) duration start)
     (queue/update-queue last-timestamp successful-oids failed-oids)
     msg))
 
@@ -68,11 +67,11 @@
             (store-pictures queue)
             (log/info "Pictures stored! Going to end indexing items.")
             (let [queue-oids (map :oid queue)
-                  not-converted-oids (clojure.set/difference (set queue-oids)
-                                                             (set (map :oid converted-docs)))
-                  failed-oids (clojure.set/union not-converted-oids (set failed-to-index))
-                  successful-oids (clojure.set/difference (set queue-oids)
-                                                          (set failed-oids))]
+                  not-converted-oids (difference (set queue-oids)
+                                                  (set (map :oid converted-docs)))
+                  failed-oids (union not-converted-oids (set failed-to-index))
+                  successful-oids (difference (set queue-oids)
+                                              (set failed-oids))]
               (end-indexing successful-oids
                             failed-oids
                             (apply max (map :timestamp queue))

@@ -16,3 +16,7 @@
       (upsert-index index-name docs)
       (log/info (str "Indeksointi " index-name " kesti " (- (. System (currentTimeMillis)) start) " ms."))
       docs)))
+
+(defn get
+  [index-name oid]
+  (docs/get-doc index-name oid))

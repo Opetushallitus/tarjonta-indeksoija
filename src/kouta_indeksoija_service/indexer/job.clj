@@ -1,12 +1,11 @@
 (ns kouta-indeksoija-service.indexer.job
   (:require [kouta-indeksoija-service.indexer.index :refer [do-index]]
             [kouta-indeksoija-service.util.conf :refer [env job-pool]]
-            [kouta-indeksoija-service.rest.tarjonta :as tarjonta]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio]
             [kouta-indeksoija-service.rest.eperuste :as eperuste]
             [kouta-indeksoija-service.elastic.queue :refer [set-last-index-time get-last-index-time upsert-to-queue]]
             [clj-log.error-log :refer [with-error-logging]]
-            [kouta-indeksoija-service.util.logging :refer [to-date-string]]
+            [kouta-indeksoija-service.util.time :refer [long->date-time-string]]
             [clojure.tools.logging :as log]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.jobs :as j :refer [defjob]]
@@ -29,19 +28,13 @@
    (wait-for-elastic-lock
     (let [now (System/currentTimeMillis)
           last-modified (get-last-index-time)
-          ;tarjonta-changes (tarjonta/get-last-modified last-modified)
           organisaatio-changes (organisaatio/find-last-changes last-modified)
           eperuste-changes (eperuste/find-changes last-modified)
-          changes-since (clojure.set/union organisaatio-changes eperuste-changes)] ;tarjonta-changes
+          changes-since (remove nil? (clojure.set/union organisaatio-changes eperuste-changes))]
       (when-not (empty? changes-since)
-        (log/info "Fetched last-modified since" (to-date-string last-modified)", containing" (count changes-since) "changes.")
-        (let [                                              ;related-koulutus (flatten (pmap tarjonta/get-related-koulutus changes-since))
-              last-modified-with-related-koulutus (remove nil? changes-since ;(clojure.set/union changes-since related-koulutus)
-                                                          )]
-          (comment if-not (empty? related-koulutus)
-            (log/info "Fetched" (count related-koulutus) "related koulutukses for previous changes"))
-          (upsert-to-queue last-modified-with-related-koulutus)
-          (set-last-index-time now)))
+        (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" (count changes-since) "changes.")
+        (upsert-to-queue changes-since)
+        (set-last-index-time now))
       (do-index)))))
 
 (defn start-indexer-job

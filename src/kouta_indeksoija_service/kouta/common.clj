@@ -1,28 +1,30 @@
 (ns kouta-indeksoija-service.kouta.common
-  (:require [kouta-indeksoija-service.converter.tyyppi :refer [koulutustyyppi-uri-to-tyyppi]]
-            [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
+  (:require [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.kouta.cache.tarjoaja :as tarjoaja]
-            [clojure.tools.logging :as log]))
+            [clojure.string :refer [replace]]
+            [clojure.walk :refer [postwalk]]))
+
+(defn- strip-koodi-uri-key
+  [key]
+  (if (keyword? key)
+    (-> key
+        (name)
+        (replace "KoodiUrit" "")
+        (replace "KoodiUri" "")
+        (replace "Uri" "")
+        (keyword))
+    key))
+
+(defn- decorate-koodi-value
+  [value]
+  (if (and (string? value) (re-find (re-pattern "\\w+_\\w+[#\\d{1,2}]?") value))
+    (get-koodi-nimi-with-cache value)
+    value))
 
 (defn decorate-koodi-uris
   [x]
-  (defn strip-koodi-uri-key
-    [key]
-    (if (keyword? key)
-      (-> key
-          (name)
-          (clojure.string/replace "KoodiUrit" "")
-          (clojure.string/replace "KoodiUri" "")
-          (clojure.string/replace "Uri" "")
-          (keyword))
-      key))
-  (defn decorate-koodi-value
-    [value]
-    (if (and (string? value) (re-find (re-pattern "\\w+_\\w+[#\\d{1,2}]?") value))
-      (get-koodi-nimi-with-cache value)
-      value))
-  (clojure.walk/postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
+  (postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
 
 (defn assoc-organisaatio
   [entry]

@@ -1,10 +1,11 @@
 (ns kouta-indeksoija-service.elastic.queue
-  (:require [kouta-indeksoija-service.elastic.admin :refer [initialize-indices]]
+  (:require [kouta-indeksoija-service.elastic.admin :refer [reset-index initialize-indices]]
             [kouta-indeksoija-service.elastic.tools :as t]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
-            [cheshire.core :refer [generate-string]]))
+            [cheshire.core :refer [generate-string]]
+            [clojure.string :refer [join]]))
 
 (def ^:const queue-index "indexdata")
 (def ^:const index-time-index "lastindex")
@@ -18,7 +19,7 @@
       (apply array-map args))))
 
 (defn- url-with-path [& segments]
-  (str u/elastic-host "/" (clojure.string/join "/" segments)))
+  (str u/elastic-host "/" (join "/" segments)))
 
 (defn- delete-by-query-url*
   "Remove and fix delete-by-query-url* and delete-by-query* IF elastisch fixes its delete-by-query API"
@@ -79,11 +80,9 @@
     :hits
     (map :_source))))
 
-(defn reset-queue []
-  (let [delete-res (t/delete-index queue-index)
-        init-res (initialize-indices)]
-    { :delete-queue delete-res
-     :init-indices init-res }))
+(defn reset-queue
+  []
+  (reset-index queue-index))
 
 (defmacro upsert-to-queue
   [docs]

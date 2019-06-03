@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.rest.kouta
  (:require [kouta-indeksoija-service.util.conf :refer [env]]
-           [kouta-indeksoija-service.rest.cas-session :refer [init-session cas-authenticated-request]]
+           [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request]]
            [clj-log.error-log :refer [with-error-logging]]
-           [kouta-indeksoija-service.util.logging :refer [to-date-string]]
            [ring.util.codec :refer [url-encode]]
            [clojure.tools.logging :as log]))
 
