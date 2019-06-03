@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.elastic-client-test
+(ns kouta-indeksoija-service.elastic.admin-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.tools :as tools]
@@ -12,35 +12,6 @@
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10 id-offset 100}}]
   (map #(hash-map :oid (+ % id-offset) :type "hakukohde") (range amount)))
-
-(deftest bulk-update-data-test
-  (testing "Payload for bulk operation should be partitioned correctly"
-    (with-redefs [max-payload-size 2025]
-      (let [docs (dummy-indexdata :amount 50 :id-offset 1000)
-            data (tools/bulk-upsert-data "indexdata" "indexdata" docs)
-            bulk-data (bulk-partitions data)]
-        (is (= 5 (count bulk-data)))
-        (println (nth bulk-data 0))
-        (println "=======")
-        (println (nth bulk-data 1))
-        (println "=======")
-        (println (nth bulk-data 2))
-        (println "=======")
-        (println (nth bulk-data 3))
-        (println "=======")
-        (println (nth bulk-data 4))
-
-        (is (< (count (.getBytes (nth bulk-data 0))) 2025))
-        (is (< (count (.getBytes (nth bulk-data 1))) 2025))
-        (is (< (count (.getBytes (nth bulk-data 2))) 2025) )
-        (is (< (count (.getBytes (nth bulk-data 3))) 2025))
-        (is (< (count (.getBytes (nth bulk-data 4))) 2025))
-
-        (is (.startsWith (nth bulk-data 0) "{\"update"))
-        (is (.startsWith (nth bulk-data 1) "{\"update"))
-        (is (.startsWith (nth bulk-data 2) "{\"update") )
-        (is (.startsWith (nth bulk-data 3) "{\"update"))
-        (is (.startsWith (nth bulk-data 4) "{\"update"))))))
 
 (deftest elastic-admin-test
   (testing "Elastic admin"
