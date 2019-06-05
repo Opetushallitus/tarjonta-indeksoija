@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.rest.organisaatio
-  (:require [kouta-indeksoija-service.util.conf :refer [env]]
+  (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clj-log.error-log :refer [with-error-logging]]
-            [kouta-indeksoija-service.rest.util :as client]
+            [kouta-indeksoija-service.rest.util :refer [get->json-body post]]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.time :refer :all]
@@ -10,32 +10,24 @@
 (defn get-doc
   ([obj include-image]
    (with-error-logging
-     (let [url (str (:organisaatio-service-url env) (:oid obj))
-           params {:includeImage include-image}]
-       (:body (client/get url {:query-params params :as :json})))))
+      (-> (resolve-url :organisaatio-service.organisaatio (:oid obj))
+          (get->json-body {:query-params {:includeImage include-image}}))))
   ([obj]
    (get-doc obj false)))
-
-(defn- extract-docs [result]
-  (->> result
-       :body
-       :organisaatiot
-       (map #(conj (string/split (:parentOidPath %) #"/") (:oid %)))
-       flatten
-       distinct
-       (map #(assoc {} :type "organisaatio" :oid %))))
 
 (defn find-docs
   [oid]
   (with-error-logging
     (if (nil? oid)
-      (let [res (client/get (str (:organisaatio-service-url env)) {:as :json})]
-        (->> res
-             :body
-             (map #(assoc {} :type "organisaatio" :oid %))))
-      (let [params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}
-            url (str (:organisaatio-service-url env) "v2/hae")]
-        (extract-docs (client/get url {:query-params params, :as :json}))))))
+      (->> (get->json-body (resolve-url :organisaatio-service.rest.organisaatio))
+           (map #(assoc {} :type "organisaatio" :oid %)))
+      (->> (get->json-body (resolve-url :organisaatio-service.v2.hae)
+                           {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid})
+           :organisaatiot
+           (map #(conj (string/split (:parentOidPath %) #"/") (:oid %)))
+           flatten
+           distinct
+           (map #(assoc {} :type "organisaatio" :oid %))))))
 
 (defn get-all-oids
   []
@@ -44,17 +36,14 @@
 (defn get-tyyppi-hierarkia
   [oid]
   (with-error-logging
-   (let [url (str (:organisaatio-service-url env) "v2/hierarkia/hae/tyyppi")
-         params {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}]
-     (:body (client/get url {:query-params params, :as :json})))))
+   (get->json-body (resolve-url :organisaatio-service.v2.hierarkia.tyyppi)
+                   {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid})))
 
-(defn find-last-changes [last-modified]
+(defn find-last-changes
+  [last-modified]
   (with-error-logging
-    (let [date-string (long->date-time-string last-modified)
-          url (str (:organisaatio-service-url env) "v2/muutetut/oid")
-          params {:lastModifiedSince date-string}]
-      (let [res (->> (client/get url {:query-params params, :as :json})
-                     (:body)
+    (let [date-string (long->date-time-string last-modified)]
+      (let [res (->> (get->json-body (resolve-url :organisaatio-service.v2.muutetut.oid) {:lastModifiedSince date-string})
                      (:oids)
                      (map (fn [x] {:oid x :type "organisaatio"}))
                      (filter (fn [x] (not (clojure.string/blank? (:oid x))))))]
@@ -67,16 +56,15 @@
   (if (empty? oids) []
     (with-error-logging
      (log/debug (str "Calling organisaatio service find-by-oids") )
-     (let [url (str (:organisaatio-service-url env) "v4/findbyoids")
+     (let [url (resolve-url :organisaatio-service.v4.find-by-oids)
            body (str "[\"" (string/join "\", \"" oids) "\"]")]
-       (:body (client/post url {:body body :content-type :json :as :json}))))))
+       (:body (post url {:body body :content-type :json :as :json}))))))
 
 (defn get-by-oid
   [oid]
   (with-error-logging
    (log/debug (str "Calling organisaatio service get-by-oid " oid) )
-   (let [url (str (:organisaatio-service-url env) "v4/" oid)]
-     (:body (client/get url {:as :json})))))
+   (get->json-body (resolve-url :organisaatio-service.v4.oid oid))))
 
 (def get-by-oid-cached
   (memoize/ttl get-by-oid {} :ttl/threshold 86400000))

@@ -1,12 +1,10 @@
 {:elastic-url "http://127.0.0.1:9200"
  :cron-string "*/15 * * ? * *"
- :cas {:host "{{kouta_indeksoija_cas_host}}"
-       :username "{{kouta_indeksoija_cas_username}}"
+ :cas {:username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
- :organisaatio-service-url "https://virkailija.hahtuvaopintopolku.fi/organisaatio-service/rest/organisaatio/"
- :koodisto-service-url "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/json/"
- :eperusteet-service-url "https://virkailija.hahtuvaopintopolku.fi/eperusteet-service/api/perusteet/"
- :kouta-backend-url "https://virkailija.hahtuvaopintopolku.fi/kouta-backend/"
+ :hosts {:kouta-backend "http://{{host_alb_virkailija}}"
+         :virkailija-internal "http://{{host_alb_virkailija}}"
+         :cas "https://{{host_cas}}"}
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"

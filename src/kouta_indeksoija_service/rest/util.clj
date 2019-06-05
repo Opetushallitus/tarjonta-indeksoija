@@ -24,3 +24,9 @@
   (-> opts
       add-callerinfo
       client/request))
+
+(defn get->json-body
+  ([url query-params]
+   (:body (get url {:as :json :query-params query-params})))
+  ([url]
+   (:body (get url {:as :json}))))

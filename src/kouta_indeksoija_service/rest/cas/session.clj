@@ -1,13 +1,15 @@
 (ns kouta-indeksoija-service.rest.cas.session
-  (:require [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.rest.util :refer [request]]
-            [kouta-indeksoija-service.rest.cas.session-id :as cas-session-id]))
+  (:require [kouta-indeksoija-service.rest.util :refer [request]]
+            [kouta-indeksoija-service.rest.cas.session-id :as cas-session-id]
+            [clojure.tools.logging :as log]))
 
 (defrecord CasSession [service session-id jsession?])
 
 (defn init-session
   [service-url jsession?]
-   (map->CasSession {:service service-url :session-id (atom nil) :jsession? jsession?}))
+    (let [path (.getPath (java.net.URI. service-url))]
+      (log/info "Init cas session to service " path " @ url " service-url)
+      (map->CasSession {:service {:url service-url :path path} :session-id (atom nil) :jsession? jsession?})))
 
 (defn- empty?
   [cas-session]

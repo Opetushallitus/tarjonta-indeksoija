@@ -14,4 +14,10 @@
           (let [test-conf-template  (read-string (slurp "./dev_resources/config.edn.template"))]
             (is (= (keys template-conf) (keys test-conf-template)))
             (when-let [test-conf (try (read-string (slurp "./dev_resources/config.edn")) (catch Exception e nil))]
-              (is (= (keys test-conf-template) (keys test-conf))))))))
+              (is (= (keys test-conf-template) (keys test-conf))))))
+
+    (testing "Test that test configuration is correct"
+      (let [test-conf-template  (read-string (slurp "./test_resources/config.edn.template"))]
+        (is (= (keys template-conf) (keys test-conf-template)))
+        (when-let [test-conf (try (read-string (slurp "./test_resources/config.edn")) (catch Exception e nil))]
+          (is (= (keys test-conf-template) (keys test-conf))))))))
