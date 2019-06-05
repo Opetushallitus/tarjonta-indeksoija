@@ -74,7 +74,7 @@
          res    (e/bulk index type data)
          failed (filter #(true? (:errors %)) res)]
      (if-not (empty? failed)
-       (vec (map :update (mapcat (fn [x] (filter #(-> % (:update) (:status) (> 299)) (:items x))) failed)))
+       (vec (map :index (mapcat (fn [x] (filter #(-> % (:index) (:status) (> 299)) (:items x))) failed)))
        []))))
 
 (defn bulk-update-failed
