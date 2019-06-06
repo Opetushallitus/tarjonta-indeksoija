@@ -34,7 +34,7 @@
 
 (defn- upsert-operation
   [doc index type]
-  {"update" {:_index (index-name index) :_type (index-name type) :_id (get-id doc)}})
+  {"index" {:_index (index-name index) :_type (index-name type) :_id (get-id doc)}})
 
 (defn- update-operation
   [doc index type]
@@ -42,8 +42,7 @@
 
 (defn- upsert-doc
   [doc type now]
-  {:doc (assoc (dissoc doc :_index :_type) :timestamp now)
-   :doc_as_upsert true})
+  (assoc (dissoc doc :_index :_type) :timestamp now))
 
 (defn- update-doc
   [doc type now]
@@ -75,7 +74,7 @@
          res    (e/bulk index type data)
          failed (filter #(true? (:errors %)) res)]
      (if-not (empty? failed)
-       (vec (map :update (mapcat (fn [x] (filter #(-> % (:update) (:status) (> 299)) (:items x))) failed)))
+       (vec (map :index (mapcat (fn [x] (filter #(-> % (:index) (:status) (> 299)) (:items x))) failed)))
        []))))
 
 (defn bulk-update-failed

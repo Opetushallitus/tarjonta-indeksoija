@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.rest.koodisto
-  (:require [kouta-indeksoija-service.util.conf :refer [env]]
+  (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clj-log.error-log :refer [with-error-logging]]
-            [kouta-indeksoija-service.rest.util :as client]
+            [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
             [clojure.core.memoize :as memo]
             [clojure.string :as str]))
@@ -10,21 +10,14 @@
   [url]
   (log/info url)
   (with-error-logging
-   (let [res (client/get url {:as :json})]
-     (:body res))))
-
-(defn- koodi-url
-  ([koodisto koodi]
-   (str (:koodisto-service-url env) koodisto "/koodi/" koodi))
-  ([koodisto koodi versio]
-   (str (koodi-url koodisto koodi) "?koodistoVersio=" versio)))
+   (get->json-body url)))
 
 (defn get-koodi
   [koodisto koodi-uri]
   (when koodi-uri
     (if-let [i (str/index-of koodi-uri "#")]
-      (get-koodi-with-url (koodi-url koodisto (subs koodi-uri 0 i) (subs koodi-uri (+ i 1))))
-      (get-koodi-with-url (koodi-url koodisto koodi-uri)))))
+      (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi-versio koodisto (subs koodi-uri 0 i) (subs koodi-uri (+ i 1))))
+      (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi koodisto koodi-uri)))))
 
 (def get-koodi-with-cache
   (memo/ttl get-koodi {} :ttl/threshold 86400000)) ;24 tunnin cache

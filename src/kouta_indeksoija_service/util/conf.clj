@@ -5,7 +5,7 @@
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojure.string :refer [blank?]]))
 
-(defstate env :start (load-config :merge [(source/from-system-props) (source/from-env)]))
+(defonce env (load-config :merge [(source/from-system-props) (source/from-env)]))
 
 (defstate job-pool :start (qs/start (qs/initialize)))
 
@@ -14,4 +14,4 @@
   (if (not (blank? s))
     s))
 
-(defstate sqs-endpoint :start (or (->not-blank (:sqs-endpoint env)) (->not-blank (:sqs-region env))))
+(defonce sqs-endpoint (or (->not-blank (:sqs-endpoint env)) (->not-blank (:sqs-region env))))

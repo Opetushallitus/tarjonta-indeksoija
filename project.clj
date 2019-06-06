@@ -27,7 +27,6 @@
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [cheshire "5.8.0"]
                  [clj-http "2.3.0"]
-                 [cprop "0.1.10"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
@@ -36,6 +35,9 @@
                  [base64-clj "0.1.1"]
                  [clj-time "0.14.3"]
                  [org.clojure/algo.generic "0.1.3"]
+                 ;Configuration
+                 [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
+                 [cprop "0.1.10"]
                  ;Elasticsearch + s3
                  [oph/clj-elasticsearch "0.2.2-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
@@ -96,7 +98,7 @@
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
-  :aliases {"run" ["ring" "server"]
+  :aliases {"run" ["with-profile" "+dev" "ring" "server"]
             "test" ["with-profile" "+test" "test"]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "install" ["with-profile" "+jar-with-test-fixture" "install"]
@@ -105,4 +107,5 @@
             "cloverage" ["with-profile" "+test" "cloverage"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
+  :resource-paths ["resources"]
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])

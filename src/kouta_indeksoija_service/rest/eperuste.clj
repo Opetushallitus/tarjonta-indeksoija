@@ -1,19 +1,17 @@
 (ns kouta-indeksoija-service.rest.eperuste
-  (:require [kouta-indeksoija-service.util.conf :refer [env]]
+  (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clj-log.error-log :refer [with-error-logging]]
-            [kouta-indeksoija-service.rest.util :as client]
+            [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.time :as time]))
 
+(defn- get-perusteet-page [page-nr last-modified]
+  (let [params (cond-> {:sivu page-nr :sivukoko 100 :tuleva true :siirtyma true :voimassaolo true :poistunut true}
+                       (not (nil? last-modified)) (assoc :muokattu last-modified))]
+    (get->json-body (resolve-url :eperusteet-service.perusteet) params)))
+
 (defn- to-queue-entries [data]
   (map (fn [x] {:oid (str (:id x)) :type "eperuste"}) (:data data)))
-
-
-(defn- get-perusteet-page [page-nr last-modified]
-  (let [url (str (:eperusteet-service-url env))
-        base-params {:sivu page-nr :sivukoko 100 :tuleva true :siirtyma true :voimassaolo true :poistunut true}
-        params (if (nil? last-modified) base-params (merge base-params {:muokattu last-modified}))]
-    (:body (client/get url {:query-params params :as :json}))))
 
 (defn- find
   ([last-modified]
@@ -28,13 +26,12 @@
 
 (defn get-doc [entry]
   (with-error-logging
-    (let [url (str (:eperusteet-service-url env) (:oid entry) "/kaikki" )]
-      (:body (client/get url {:as :json})))))
+   (get->json-body
+    (resolve-url :eperusteet-service.peruste.kaikki (:oid entry)))))
 
 (defn get-osaamisalakuvaukset [eperuste-id]
   (with-error-logging
-   (let [url (str (:eperusteet-service-url env) eperuste-id "/osaamisalakuvaukset")
-         res (:body (client/get url {:as :json}))
+   (let [res (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id))
          suoritustavat (keys res)
          osaamisalat (fn [suoritustapa] (apply concat (-> res suoritustapa vals)))
          assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa

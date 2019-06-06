@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.rest.cas.session-id
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
+            [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.rest.util :refer [request]]
             [jsoup.soup :refer :all]
             [clojure.string :refer [blank?]]))
@@ -21,20 +22,18 @@
   []
   (let [username (-> env :cas :username)
         password (-> env :cas :password)
-        tgt-url  (format "%s/cas/v1/tickets" (-> env :cas :host))
-        response (send-form tgt-url {:username username :password password})
+        response (send-form (resolve-url :cas.v1.tickets) {:username username :password password})
         tgt (parse-ticket-granting-ticket response)]
     (if (blank? tgt)
       (RuntimeException. (format "Unable to read tgt on CAS response: %s" response))
       tgt)))
 
 (defn- get-service-ticket
-  [service tgt]
-  (let [service-url (format "%s%s" (-> env :cas :host) service)]
-    (let [response (send-form tgt {:service service-url})]
-      (if-let [st (:body response)]
-        st
-        (RuntimeException. (format "Unable to parse service ticket for service %s on responce: %s!" service response))))))
+  [service-url tgt]
+  (let [response (send-form tgt {:service service-url})]
+    (if-let [st (:body response)]
+      st
+      (RuntimeException. (format "Unable to parse service ticket for service %s on responce: %s!" service-url response)))))
 
 (defn- parse-jsession-id
   [response]
@@ -42,16 +41,15 @@
     (nth (re-find #"JSESSIONID=(\w*);" cookie) 1)))
 
 (defn- get-jsession-id
-  [service st]
-  (let [url (str (-> env :cas :host) service)
-        response (request {:headers {"CasSecurityTicket" st} :url url :method :get :throw-exceptions false})]
+  [service-url st]
+  (let [response (request {:headers {"CasSecurityTicket" st} :url service-url :method :get :throw-exceptions false})]
     (if-let [jsession-id (parse-jsession-id response)]
       jsession-id
-      (RuntimeException. (format "Unable to parse session ID from %s on response: %s" url response)))))
+      (RuntimeException. (format "Unable to parse session ID from %s on response: %s" service-url response)))))
 
 (defn- get-session-id
-  [service st]
-  (let [url (str (-> env :cas :host) service "?ticket=" st)
+  [service-url st]
+  (let [url (str service-url "?ticket=" st)
         response (request {:url url :method :get :throw-exceptions false :follow-redirects false})]
     (if-let [session-id (-> response :cookies (get "session") :value)]
       session-id
@@ -61,8 +59,8 @@
   [service jsession?]
   (if jsession?
     (->> (get-ticket-granting-ticket)
-         (get-service-ticket (str service "/j_spring_cas_security_check"))
-         (get-jsession-id service))
+         (get-service-ticket (str (:url service) "/j_spring_cas_security_check"))
+         (get-jsession-id (:url service)))
     (->> (get-ticket-granting-ticket)
-         (get-service-ticket service)
-         (get-session-id service))))
+         (get-service-ticket (:url service))
+         (get-session-id (:url service)))))
