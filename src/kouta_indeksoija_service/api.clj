@@ -54,7 +54,7 @@
 
 (def service-api
   (api
-   {:swagger {:ui "/kouta-indeksoija"
+   {:swagger {:ui "/kouta-indeksoija/swagger"
               :spec "/kouta-indeksoija/swagger.json"
               :data {:info {:title "kouta-indeksoija"
                             :description "Elasticsearch wrapper for tarjonta api."}}}

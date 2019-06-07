@@ -59,7 +59,7 @@
   :ring {:handler kouta-indeksoija-service.api/app
          :init kouta-indeksoija-service.api/init
          :destroy kouta-indeksoija-service.api/stop
-         :browser-uri "kouta-indeksoija"}
+         :browser-uri "kouta-indeksoija/swagger"}
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [org.clojure/tools.namespace "0.2.11"]
