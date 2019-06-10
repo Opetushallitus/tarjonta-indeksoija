@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
             [kouta-indeksoija-service.elastic.tools :as tools]
-            [kouta-indeksoija-service.elastic.queue :as queue]
-            [kouta-indeksoija-service.indexer.job :as j]))
+            [kouta-indeksoija-service.elastic.queue :as queue]))
 
 (defn parse
   [body]
@@ -30,7 +29,7 @@
 
 (defn reset-test-data
   ([reset-jobs?]
-   (when reset-jobs? (j/reset-jobs))
+   ;(when reset-jobs? (j/reset-jobs))
    (tools/delete-index "indexdata")
    (tools/delete-index "eperuste")
    (tools/delete-index "osaamisalakuvaus")

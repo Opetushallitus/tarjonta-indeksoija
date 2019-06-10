@@ -1,5 +1,4 @@
 {:elastic-url "{{kouta_indeksoija_elastic_url}}"
- :cron-string "{{kouta_indeksoija_cron_string}}"
  :cas {:username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
  :hosts {:kouta-backend "http://{{host_alb_virkailija}}"
@@ -14,4 +13,5 @@
          :dlq "{{kouta_indeksoija_sqs_queue_dlq}}"}
  :sqs-region "{{kouta_indeksoija_sqs_region}}"
  :sqs-endpoint "{{kouta_indeksoija_sqs_endpoint}}"
- :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"}
+ :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"
+ :queueing-cron-string "{{kouta_indeksoija_cron_string}}"}

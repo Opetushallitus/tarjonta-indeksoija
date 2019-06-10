@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.indexer-job-test
   (:require [clojure.test :refer :all]
             [mount.core :as mount]
-            [kouta-indeksoija-service.indexer.job :as job]
+   ;[kouta-indeksoija-service.indexer.job :as job]
             [kouta-indeksoija-service.elastic.docs :as docs]
             [kouta-indeksoija-service.elastic.queue :as queue]
             [kouta-indeksoija-service.elastic.admin :refer [initialize-indices]]
@@ -12,7 +12,7 @@
 (use-fixtures :once (fn [tests] (mount/start) (reset-test-data true) (tests) (mount/stop)))
 (use-fixtures :each (fn [test] (test) (reset-test-data true)))
 
-(deftest indexer-job-test
+(comment deftest indexer-job-test
   (testing "Indexer should start scheduled indexing and index objects"
     (let [oid "1.2.246.562.10.39920288212"]
       (with-externals-mock

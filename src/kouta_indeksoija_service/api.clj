@@ -4,9 +4,6 @@
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.indexer.index :as i]
-            [kouta-indeksoija-service.indexer.job :as j]
-            [kouta-indeksoija-service.queue.job :as qjob]
-            [kouta-indeksoija-service.queue.queue :as q]
             [kouta-indeksoija-service.indexer.queue :as queue]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
             [kouta-indeksoija-service.kouta.indexer :as kouta]
@@ -21,11 +18,10 @@
             [compojure.api.sweet :refer :all]
             [compojure.route :as route]
             [ring.util.http-response :refer :all]
-            [schema.core :as s]
             [mount.core :as mount]
             [clojure.tools.logging :as log]
-            [compojure.api.exception :as ex]
-            [environ.core]))
+            [environ.core]
+            [kouta-indeksoija-service.scheduled.jobs :as jobs]))
 
 (defn init []
   (mount/start)
@@ -37,15 +33,13 @@
   (if (and (admin/check-elastic-status)
            (admin/initialize-indices))
     (do
-      (j/start-indexer-job)
-      (qjob/start-handle-dlq-job)
-      (q/index-from-queue!))
+      (jobs/schedule-jobs))
     (do
       (log/error "Application startup canceled due to Elastic client error or absence.")
       (System/exit 0))))
 
 (defn stop []
-  (j/reset-jobs)
+  (jobs/reset-jobs)
   (mount/stop))
 
 (defn error-handler*
@@ -183,6 +177,37 @@
          :query-params [index :- String]
          (ok (admin/reset-index index))))
 
+     (context "/jobs" []
+       :tags ["jobs"]
+
+       (GET "/list" []
+         :summary "Listaa tiedot järjestelmän ajastetuista prosesseista"
+         (ok (jobs/get-jobs-info)))
+
+       (GET "/pause-dlq" []
+         :summary "Keskeyttää dlq-jonoa siivoavan prosessin"
+         (ok (jobs/pause-dlq-job)))
+
+       (GET "/resume-dlq" []
+         :summary "Käynnistää dlq-jonoa siivoavan prosessin"
+         (ok (jobs/pause-dlq-job)))
+
+       (GET "/pause-sqs" []
+         :summary "Keskeyttää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity oppijan puolelle ja esikatseluun!"
+         (ok (jobs/pause-dlq-job)))
+
+       (GET "/resume-sqs" []
+         :summary "Käynnistää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi"
+         (ok (jobs/resume-sqs-job)))
+
+       (GET "/pause-queueing" []
+         :summary "Keskeyttää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
+         (ok (jobs/pause-queueing-job)))
+
+       (GET "/resume-queueing" []
+         :summary "Käynnistää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
+         (ok (jobs/pause-queueing-job))))
+
      (context "/indexer" []
        :tags ["indexer"]
        (GET "/all" []
@@ -211,13 +236,19 @@
          :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
          (ok {:result (queue/empty-queue)}))
 
+
+
        (GET "/start" []
          :summary "Käynnistää indeksoinnin taustaoperaation."
-         (ok {:result (j/start-stop-indexer true)}))
+         ;(ok {:result (j/start-stop-indexer true)})
+         (ok)
+         )
 
        (GET "/stop" []
          :summary "Sammuttaa indeksoinnin taustaoperaation."
-         (ok {:result (j/start-stop-indexer false)}))))
+         ;(ok {:result (j/start-stop-indexer false)})
+         (ok)
+         )))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)

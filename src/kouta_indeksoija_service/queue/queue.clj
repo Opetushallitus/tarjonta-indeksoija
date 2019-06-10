@@ -63,33 +63,28 @@
          (sqs/delete-message :queue-url (:queue received)
                              :receipt-handle msg))))))
 
-
-(defn index-from-queue!
-  "Start future to receive messages from queues and index them. On errors just
-  prints log message and continues receiving."
+(defn index-from-sqs
   []
-  (future
-    (log/info "Start listening on queues.")
-    (loop []
-      (try
-        (handle-messages-from-queues
-          (fn
-            [messages]
-            (doseq [step [#(state/set-states! ::state/started %)
-                          #(indexer/index-oids (combine-messages %))
-                          #(state/set-states! ::state/indexed %)]]
-              (step messages))))
-        (catch QueueDoesNotExistException e
-          (log/error e "Queues do not exist. Sleeping for 30 seconds and continue polling.")
-          (Thread/sleep 30000))
-        (catch Exception e
-          (log/error e "Error in receiving indexing messages. Sleeping for 3 seconds and continue polling.")
-          (Thread/sleep 3000)))
-      (recur))
-    (log/warn "Stopped listening on queues.")))
+  (log/info "Start listening on queues.")
+  (loop []
+    (try
+      (handle-messages-from-queues
+       (fn
+         [messages]
+         (doseq [step [#(state/set-states! ::state/started %)
+                       #(indexer/index-oids (combine-messages %))
+                       #(state/set-states! ::state/indexed %)]]
+           (step messages))))
+      (catch QueueDoesNotExistException e
+        (log/error e "Queues do not exist. Sleeping for 30 seconds and continue polling.")
+        (Thread/sleep 30000))
+      (catch Exception e
+        (log/error e "Error in receiving indexing messages. Sleeping for 3 seconds and continue polling.")
+        (Thread/sleep 3000)))
+    (recur)))
 
 
-(defn handle-failed
+(defn clean-dlq
   "Handle messages from DLQ. Mark message states to failed."
   []
   (if-let [dlq (queue :dlq)]
@@ -98,4 +93,3 @@
         (state/set-states! ::state/failed failed)
         (doseq [msg failed] (sqs/delete-message :queue-url dlq :receipt-handle (:receipt-handle msg)))))
     (log/error "No DLQ found.")))
-

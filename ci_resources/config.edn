@@ -1,5 +1,4 @@
 {:elastic-url "http://foo.bar:9200"
- :cron-string "*/15 * * ? * *"
  :cas {:username "foo"
        :password "bar"}
  :hosts {:kouta-backend "http://localhost"
@@ -14,4 +13,5 @@
          :dlq "indexing-dql"}
  :sqs-region ""
  :sqs-endpoint ""
- :dlq-cron-string "*/15 * * ? * *"}
+ :dlq-cron-string "*/15 * * ? * *"
+ :queueing-cron-string "*/15 * * ? * *"}
