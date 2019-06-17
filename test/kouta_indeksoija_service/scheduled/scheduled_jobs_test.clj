@@ -12,7 +12,7 @@
     (with-redefs [env {:dlq-cron-string "*/1 * * ? * *" :queueing-cron-string "*/1 * * ? * *"}
                   kouta-indeksoija-service.queue.queue/clean-dlq (fn [] (reset! dlq-called true))
                   kouta-indeksoija-service.queue.queue/index-from-sqs (fn [] (do (reset! sqs-called true) (loop [] (recur))))
-                  kouta-indeksoija-service.indexer.queue/queue-changes (fn [] (reset! que-called true))]
+                  kouta-indeksoija-service.queuer.queuer/queue-changes (fn [] (reset! que-called true))]
 
     (testing "Jobs should"
       (testing "schedule all jobs"

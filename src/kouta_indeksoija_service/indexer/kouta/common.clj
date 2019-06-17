@@ -1,7 +1,7 @@
-(ns kouta-indeksoija-service.kouta.common
+(ns kouta-indeksoija-service.indexer.kouta.common
   (:require [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.kouta.cache.tarjoaja :as tarjoaja]
+            [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]))
 

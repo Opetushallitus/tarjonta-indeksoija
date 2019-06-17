@@ -1,11 +1,11 @@
-(ns kouta-indeksoija-service.kouta.indexable
-  (:require [kouta-indeksoija-service.elastic.docs :as docs]
+(ns kouta-indeksoija-service.indexer.indexable
+  (:require [kouta-indeksoija-service.elastic.tools :as tools]
             [clojure.tools.logging :as log]))
 
 (defn- upsert-index
   [index-name docs]
   (when (not-empty docs)
-    (docs/upsert-docs index-name docs)))
+    (tools/upsert-docs index-name docs)))
 
 (defn do-index
   [index-name oids f]
@@ -19,4 +19,4 @@
 
 (defn get
   [index-name oid]
-  (docs/get-doc index-name oid))
+  (tools/get-doc index-name oid))

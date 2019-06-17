@@ -1,9 +1,9 @@
-(ns kouta-indeksoija-service.kouta.koulutus-search
+(ns kouta-indeksoija-service.indexer.kouta.koulutus-search
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.kouta.common :as common]
-            [kouta-indeksoija-service.kouta.tools.hakuaika :refer [->real-hakuajat]]
-            [kouta-indeksoija-service.kouta.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
+            [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "koulutus-kouta-search")
 

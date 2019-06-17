@@ -1,7 +1,7 @@
-(ns kouta-indeksoija-service.kouta.haku
+(ns kouta-indeksoija-service.indexer.kouta.haku
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.kouta.common :as common]
-            [kouta-indeksoija-service.kouta.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "haku-kouta")
 

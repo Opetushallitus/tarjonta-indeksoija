@@ -1,8 +1,15 @@
-(ns kouta-indeksoija-service.indexer.docs.organisaatio
+(ns kouta-indeksoija-service.indexer.organisaatio.organisaatio
   (:require [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]
-            [kouta-indeksoija-service.indexer.docs.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]
+            [kouta-indeksoija-service.indexer.organisaatio.pictures :refer [store-pictures]]
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
             [clojure.string :as str]))
+
+(def index-name "organisaatio")
+
+;TODO -> Tämä on vielä vanhan mallinen organisaation indeksointi ennen koutaa
 
 (defn- recursive-find-oppilaitostyyppi [organisaatio]
   (if (nil? organisaatio)
@@ -41,3 +48,21 @@
                          (cond-> tyyppi (assoc :tyyppi tyyppi))
                          (cond-> oppilaitostyyppiUri (assoc :oppilaitostyyppi {:koodiUri oppilaitostyyppiUri :nimi oppilaitostyyppiNimi})))]
       (assoc organisaatio :searchData searchData))))
+
+(defn create-index-entry
+  [oid]
+  (-> (organisaatio-client/get-doc {:oid oid}) append-search-data))
+
+(defn create-index-entries
+  [oids]
+  (doall (pmap create-index-entry oids)))
+
+(defn do-index
+  [oids]
+  (let [indexed-docs (indexable/do-index index-name oids create-index-entries)]
+    (store-pictures oids)
+    indexed-docs))
+
+(defn get
+  [oid]
+  (indexable/get index-name oid))

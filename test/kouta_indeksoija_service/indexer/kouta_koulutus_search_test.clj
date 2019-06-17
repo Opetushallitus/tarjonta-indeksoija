@@ -1,7 +1,7 @@
-(ns kouta-indeksoija-service.kouta.kouta-koulutus-search-test
+(ns kouta-indeksoija-service.indexer.kouta-koulutus-search-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
-            [kouta-indeksoija-service.kouta.tools.hakuaika :refer [->real-hakuajat]]))
+            [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]))
 
 (deftest hakuajat-test
 

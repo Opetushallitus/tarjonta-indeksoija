@@ -1,10 +1,9 @@
-(ns kouta-indeksoija-service.indexer.search-data-test
+(ns kouta-indeksoija-service.indexer.organisaatio-search-data-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.indexer.docs.organisaatio :as org-appender]
+            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :as o]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.koodisto :as koodisto-client]
-            [kouta-indeksoija-service.test-tools :refer [reset-test-data]]
-            [mocks.externals-mock :refer [with-externals-mock]]))
+            [kouta-indeksoija-service.test-tools :refer [reset-test-data]]))
 
 (use-fixtures :each (fn [test] (test) (reset-test-data false)))
 
@@ -17,5 +16,5 @@
                                                                                                                :oppilaitostyyppi "oppilaitostyyppi_22#1"
                                                                                                                :children [{ :oid "oid"}]}]}]}]})
                   koodisto-client/get-koodi-with-cache (fn [x y] {:metadata [{:nimi "Koulu" :kieli "FI"}, {:nimi "School" :kieli "EN"}]})]
-      (let [res (org-appender/append-search-data {:oid "oid"})]
+      (let [res (o/append-search-data {:oid "oid"})]
         (is (= {:oid "oid" :searchData {:oppilaitostyyppi { :koodiUri "oppilaitostyyppi_22#1" :nimi { :fi "Koulu" :en "School"}} :tyyppi "amm" }} res))))))

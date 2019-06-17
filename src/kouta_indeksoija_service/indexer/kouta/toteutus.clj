@@ -1,8 +1,8 @@
-(ns kouta-indeksoija-service.kouta.toteutus
+(ns kouta-indeksoija-service.indexer.kouta.toteutus
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.kouta.common :as common]
-            [kouta-indeksoija-service.kouta.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "toteutus-kouta")
 

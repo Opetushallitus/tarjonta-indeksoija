@@ -39,6 +39,5 @@
 
   (defn refresh-s3 [obj pics]
     (cond
-      (= (:type obj) "koulutus") (update-pics (:oid obj) (:type obj) pics)
       (= (:type obj) "organisaatio") (update-pics (:oid obj) (:type obj) pics)
       :else true))

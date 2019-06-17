@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.scheduled.scheduler :as scheduler]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.queue :as queue]
-            [kouta-indeksoija-service.indexer.queue :as indexer-queue]))
+            [kouta-indeksoija-service.queuer.queuer :as queuer]))
 
 (defjob dlq-job [ctx] (queue/clean-dlq))
 
@@ -37,7 +37,7 @@
   []
   (scheduler/resume-job sqs-job-name))
 
-(defjob queueing-job [ctx] (indexer-queue/queue-changes))
+(defjob queueing-job [ctx] (queuer/queue-changes))
 
 (defonce queueing-job-name "queueing")
 

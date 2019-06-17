@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.docs.tyyppi
+(ns kouta-indeksoija-service.indexer.tools.tyyppi
   (:require [clojure.string :refer [split]]))
 
 (defn remove-uri-version [uri]

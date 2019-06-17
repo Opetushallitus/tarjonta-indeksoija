@@ -1,18 +1,17 @@
-(ns kouta-indeksoija-service.kouta.kouta-indexer-test
+(ns kouta-indeksoija-service.indexer.kouta-indexer-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.kouta.indexer :as i]
-            [kouta-indeksoija-service.kouta.koulutus :as koulutus]
-            [kouta-indeksoija-service.kouta.koulutus-search :as search]
-            [kouta-indeksoija-service.kouta.toteutus :as toteutus]
-            [kouta-indeksoija-service.kouta.haku :as haku]
-            [kouta-indeksoija-service.kouta.valintaperuste :as valintaperuste]
-            [kouta-indeksoija-service.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.indexer.indexer :as i]
+            [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
+            [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
+            [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
+            [kouta-indeksoija-service.indexer.kouta.haku :as haku]
+            [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.elastic.tools :refer [get-by-id]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
             [cheshire.core :as cheshire]
-            [clj-test-utils.elasticsearch-mock-utils :refer :all]
-            [mocks.externals-mock :refer [with-externals-mock]]))
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
 (defn no-timestamp
  [json]
@@ -178,7 +177,7 @@
     (fixture/with-mocked-indexing
       (testing "Indexer should index all"
         (check-all-nil)
-        (i/index-all)
+        (i/index-all-kouta)
         (is (= haku-oid (:oid (read haku/index-name haku-oid))))
         (is (= hakukohde-oid (:oid (read hakukohde/index-name hakukohde-oid))))
         (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))

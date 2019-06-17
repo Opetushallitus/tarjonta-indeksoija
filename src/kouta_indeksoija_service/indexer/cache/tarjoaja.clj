@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.kouta.cache.tarjoaja
+(ns kouta-indeksoija-service.indexer.cache.tarjoaja
   (:require [kouta-indeksoija-service.rest.organisaatio :as organisaatio-service]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [clojure.core.cache :as cache]))

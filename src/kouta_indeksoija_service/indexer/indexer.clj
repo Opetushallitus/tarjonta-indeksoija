@@ -1,13 +1,18 @@
-(ns kouta-indeksoija-service.kouta.indexer
+(ns kouta-indeksoija-service.indexer.indexer
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.kouta.koulutus :as koulutus]
-            [kouta-indeksoija-service.kouta.koulutus-search :as koulutus-search]
-            [kouta-indeksoija-service.kouta.toteutus :as toteutus]
-            [kouta-indeksoija-service.kouta.haku :as haku]
-            [kouta-indeksoija-service.kouta.hakukohde :as hakukohde]
-            [kouta-indeksoija-service.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
+            [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
+            [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
+            [kouta-indeksoija-service.indexer.kouta.haku :as haku]
+            [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
+            [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
+            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :as organisaatio]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+            [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
+            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [clojure.tools.logging :as log]))
 
 (defn- get-oids
@@ -69,6 +74,23 @@
   [oid]
   (index-valintaperusteet [oid]))
 
+(defn index-eperusteet
+  [oids]
+  (eperuste/do-index oids)
+  (osaamisalakuvaus/do-index oids))
+
+(defn index-eperuste
+  [oid]
+  (index-eperusteet [oid]))
+
+(defn index-organisaatiot
+  [oids]
+  (organisaatio/do-index oids))
+
+(defn index-organisaatio
+  [oid]
+  (index-organisaatiot [oid]))
+
 (defn index-oids
   [oids]
   (let [start (. System (currentTimeMillis))]
@@ -76,16 +98,20 @@
               (count (:koulutukset oids)) "koulutusta, "
               (count (:toteutukset oids)) "toteutusta, "
               (count (:haut oids)) "hakua, "
-              (count (:hakukohteet oids)) "hakukohdetta ja "
-              (count (:valintaperusteet oids)) "valintaperustetta")
+              (count (:hakukohteet oids)) "hakukohdetta, "
+              (count (:valintaperusteet oids)) "valintaperustetta, "
+              (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
+              (count (:organisaatiot oids)) "organisaatiota.")
     (index-koulutukset (:koulutukset oids))
     (index-toteutukset (:toteutukset oids))
     (index-haut (:haut oids))
     (index-hakukohteet (:hakukohteet oids))
     (index-valintaperusteet (:valintaperusteet oids))
+    (index-eperusteet (:eperusteet oids))
+    (index-organisaatiot (:organisaatiot oids))
     (log/info (str "Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
-(defn index-since
+(defn index-since-kouta
   [since]
   (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet"))
   (let [start (. System (currentTimeMillis))
@@ -94,15 +120,15 @@
     (index-oids oids)
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
-(defn- all-oids
+(defn- all-kouta-oids
   []
   (kouta-backend/get-last-modified (long->rfc1123 0)))
 
-(defn index-all
+(defn index-all-kouta
   []
   (log/info (str "Indeksoidaan kouta-backendistä kaikki"))
   (let [start (. System (currentTimeMillis))
-        oids (all-oids)]
+        oids (all-kouta-oids)]
     (koulutus/do-index (:koulutukset oids))
     (koulutus-search/do-index (:koulutukset oids))
     (toteutus/do-index (:toteutukset oids))
@@ -113,20 +139,28 @@
 
 (defn index-all-koulutukset
   []
-  (index-koulutukset (:koulutukset (all-oids))))
+  (index-koulutukset (:koulutukset (all-kouta-oids))))
 
 (defn index-all-toteutukset
   []
-  (index-toteutukset (:toteutukset (all-oids))))
+  (index-toteutukset (:toteutukset (all-kouta-oids))))
 
 (defn index-all-haut
   []
-  (index-haut (:haut (all-oids))))
+  (index-haut (:haut (all-kouta-oids))))
 
 (defn index-all-hakukohteet
   []
-  (index-hakukohteet (:hakukohteet (all-oids))))
+  (index-hakukohteet (:hakukohteet (all-kouta-oids))))
 
 (defn index-all-valintaperusteet
   []
-  (index-valintaperusteet (:valintaperusteet (all-oids))))
+  (index-valintaperusteet (:valintaperusteet (all-kouta-oids))))
+
+(defn index-all-eperusteet
+  []
+  (index-eperusteet (:eperusteet (vec (map :oid (eperusteet-client/find-all))))))
+
+(defn index-all-organisaatiot
+  []
+  (index-organisaatiot (:organisaatiot (vec (map :oid (organisaatio-client/find-docs nil))))))

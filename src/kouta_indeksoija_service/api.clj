@@ -1,18 +1,19 @@
 (ns kouta-indeksoija-service.api
   (:require [kouta-indeksoija-service.elastic.admin :as admin]
-            [kouta-indeksoija-service.elastic.docs :as docs]
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.indexer.index :as i]
-            [kouta-indeksoija-service.indexer.queue :as queue]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
-            [kouta-indeksoija-service.kouta.indexer :as kouta]
-            [kouta-indeksoija-service.kouta.koulutus :as koulutus]
-            [kouta-indeksoija-service.kouta.toteutus :as toteutus]
-            [kouta-indeksoija-service.kouta.haku :as haku]
-            [kouta-indeksoija-service.kouta.hakukohde :as hakukohde]
-            [kouta-indeksoija-service.kouta.valintaperuste :as valintaperuste]
-            [kouta-indeksoija-service.kouta.koulutus-search :as koulutus-search]
+            [kouta-indeksoija-service.indexer.indexer :as indexer]
+            [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
+            [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
+            [kouta-indeksoija-service.indexer.kouta.haku :as haku]
+            [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
+            [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
+            [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
+            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :as organisaatio]
+            [kouta-indeksoija-service.indexer.organisaatio.pictures :as organisaatio-pic]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -21,7 +22,8 @@
             [mount.core :as mount]
             [clojure.tools.logging :as log]
             [environ.core]
-            [kouta-indeksoija-service.scheduled.jobs :as jobs]))
+            [kouta-indeksoija-service.scheduled.jobs :as jobs]
+            [kouta-indeksoija-service.queuer.queuer :as queuer]))
 
 (defn init []
   (mount/start)
@@ -66,56 +68,56 @@
          :query-params [{since :- Long 0}]
          :summary "Indeksoi uudet ja muuttuneet koulutukset, toteutukset, hakukohteet, haut ja valintaperusteet kouta-backendistä. Default kaikki."
          (ok {:result (if (= 0 since)
-                        (kouta/index-all)
-                        (kouta/index-since since))}))
+                        (indexer/index-all-kouta)
+                        (indexer/index-since-kouta since))}))
 
        (POST "/koulutus" []
          :summary "Indeksoi koulutuksen tiedot kouta-backendistä."
          :query-params [oid :- String]
-         (ok {:result (kouta/index-koulutus oid)}))
+         (ok {:result (indexer/index-koulutus oid)}))
 
        (POST "/koulutukset" []
          :summary "Indeksoi kaikki koulutukset kouta-backendistä."
-         (ok {:result (kouta/index-all-koulutukset)}))
+         (ok {:result (indexer/index-all-koulutukset)}))
 
        (POST "/toteutus" []
          :summary "Indeksoi toteutuksen tiedot kouta-backendistä."
          :query-params [oid :- String]
-         (ok {:result (kouta/index-toteutus oid)}))
+         (ok {:result (indexer/index-toteutus oid)}))
 
        (POST "/toteutukset" []
          :summary "Indeksoi kaikki toteutukset kouta-backendistä."
-         (ok {:result (kouta/index-all-toteutukset)}))
+         (ok {:result (indexer/index-all-toteutukset)}))
 
        (POST "/hakukohde" []
          :summary "Indeksoi hakukohteen tiedot kouta-backendistä."
          :query-params [oid :- String]
-         (ok {:result (kouta/index-hakukohde oid)}))
+         (ok {:result (indexer/index-hakukohde oid)}))
 
        (POST "/hakukohteet" []
          :summary "Indeksoi kaikki hakukohteet kouta-backendistä."
-         (ok {:result (kouta/index-all-hakukohteet)}))
+         (ok {:result (indexer/index-all-hakukohteet)}))
 
        (POST "/haku" []
          :summary "Indeksoi haun tiedot kouta-backendistä."
          :query-params [oid :- String]
-         (ok {:result (kouta/index-haku oid)}))
+         (ok {:result (indexer/index-haku oid)}))
 
        (POST "/haut" []
          :summary "Indeksoi kaikki haut kouta-backendistä."
-         (ok {:result (kouta/index-all-haut)}))
+         (ok {:result (indexer/index-all-haut)}))
 
        (POST "/valintaperuste" []
          :summary "Indeksoi valintaperusteen tiedot kouta-backendistä."
          :query-params [oid :- String]
-         (ok {:result (kouta/index-valintaperuste oid)})))
+         (ok {:result (indexer/index-valintaperuste oid)}))
 
-     (POST "/valintaperusteet" []
-       :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
-       (ok {:result (kouta/index-all-valintaperusteet)}))
+       (POST "/valintaperusteet" []
+         :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
+         (ok {:result (indexer/index-all-valintaperusteet)})))
 
-     (context "/admin" []
-       :tags ["admin"]
+     (context "/indexed" []
+       :tags ["indexed"]
 
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella. (HUOM! Täällä on koulutuksia, jotka eivät näy oppijan koulutushaussa)"
@@ -150,23 +152,31 @@
        (GET "/organisaatio" []
          :summary "Hakee yhden organisaation oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (docs/get-organisaatio oid)}))
+         (ok {:result (organisaatio/get oid)}))
 
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (docs/get-eperuste oid)}))
+         (ok {:result (eperuste/get oid)}))
+
+       (GET "/osaamisalakuvaus" []
+         :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
+         :query-params [oid :- String]
+         (ok {:result (osaamisalakuvaus/get oid)})))
+
+     (context "/admin" []
+       :tags ["admin"]
 
        (GET "/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
          (ok {:result (admin/get-elastic-status)}))
 
-       (GET "/s3/organisaatio" []
+       (POST "/s3/organisaatio" []
          :summary "Hakee yhden organisaation kuvat ja tallentaa ne s3:een"
          :query-params [oid :- String]
-         (ok {:result (i/store-picture {:oid oid :type "organisaatio"})}))
+         (ok {:result (organisaatio-pic/store-picture oid)}))
 
-       (GET "/query" []
+       (POST "/query" []
          :summary "Tekee haun haluttuun indeksiin"
          :query-params [index :- String
                         query :- String]
@@ -184,71 +194,71 @@
          :summary "Listaa tiedot järjestelmän ajastetuista prosesseista"
          (ok (jobs/get-jobs-info)))
 
-       (GET "/pause-dlq" []
+       (POST "/pause-dlq" []
          :summary "Keskeyttää dlq-jonoa siivoavan prosessin"
          (ok (jobs/pause-dlq-job)))
 
-       (GET "/resume-dlq" []
+       (POST "/resume-dlq" []
          :summary "Käynnistää dlq-jonoa siivoavan prosessin"
          (ok (jobs/pause-dlq-job)))
 
-       (GET "/pause-sqs" []
+       (POST "/pause-sqs" []
          :summary "Keskeyttää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity oppijan puolelle ja esikatseluun!"
          (ok (jobs/pause-dlq-job)))
 
-       (GET "/resume-sqs" []
+       (POST "/resume-sqs" []
          :summary "Käynnistää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi"
          (ok (jobs/resume-sqs-job)))
 
-       (GET "/pause-queueing" []
+       (POST "/pause-queueing" []
          :summary "Keskeyttää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
          (ok (jobs/pause-queueing-job)))
 
-       (GET "/resume-queueing" []
+       (POST "/resume-queueing" []
          :summary "Käynnistää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
          (ok (jobs/pause-queueing-job))))
 
      (context "/indexer" []
        :tags ["indexer"]
-       (GET "/all" []
-         :summary "Lisää kaikki organisaatiot ja eperusteet indeksoitavien listalle."
-         (ok {:result (queue/queue-all)}))
 
-       (GET "/eperusteet" []
-         :summary "Lisää kaikki eperusteet indeksoitavien listalle"
-         (ok {:result (queue/queue-all-eperusteet)}))
+       (POST "/eperusteet" []
+         :summary "Indeksoi kaikki ePerusteet ja niiden osaamisalat"
+         (ok {:result (indexer/index-all-eperusteet)}))
 
-       (GET "/organisaatiot" []
-         :summary "Lisää kaikki organisaatiot indeksoitavien listalle"
-         (ok {:result (queue/queue-all-organisaatiot)}))
+       (POST "/organisaatiot" []
+         :summary "Indeksoi kaikki organisaatiot"
+         (ok {:result (indexer/index-all-organisaatiot)}))
 
-       (GET "/eperuste" []
-         :summary "Lisää ePerusteen indeksoitavien listalle. (oid==id)"
+       (POST "/eperuste" []
+         :summary "Indeksoi ePerusteen ja sen osaamisalat (oid==id)"
          :query-params [oid :- String]
-         (ok {:result (queue/queue "eperuste" oid)}))
+         (ok {:result (indexer/index-eperuste oid)}))
 
-       (GET "/organisaatio" []
-         :summary "Lisää organisaation indeksoitavien listalle."
+       (POST "/organisaatio" []
+         :summary "Indeksoi organisaation"
          :query-params [oid :- String]
-         (ok {:result (queue/queue "organisaatio" oid)}))
+         (ok {:result (indexer/index-organisaatio oid)})))
 
-       (GET "/empty" []
-         :summary "Tyhjentää indeksoijan jonon. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
-         (ok {:result (queue/empty-queue)}))
+     (context "/queuer" []
+       :tags ["queuer"]
 
+       (POST "/eperusteet" []
+         :summary "Lisää kaikki ePerusteet ja niiden osaamisalat indeksoinnin jonoon"
+         (ok {:result (queuer/queue-all-eperusteet)}))
 
+       (POST "/organisaatiot" []
+         :summary "Lisää kaikki organisaatiot  indeksoinnin jonoon"
+         (ok {:result (queuer/queue-all-organisaatiot)}))
 
-       (GET "/start" []
-         :summary "Käynnistää indeksoinnin taustaoperaation."
-         ;(ok {:result (j/start-stop-indexer true)})
-         (ok)
-         )
+       (POST "/eperuste" []
+         :summary "Lisää ePeruste ja sen osaamisalat (oid==id)  indeksoinnin jonoon"
+         :query-params [oid :- String]
+         (ok {:result (queuer/queue-eperuste oid)}))
 
-       (GET "/stop" []
-         :summary "Sammuttaa indeksoinnin taustaoperaation."
-         ;(ok {:result (j/start-stop-indexer false)})
-         (ok)
-         )))
+       (POST "/organisaatio" []
+         :summary "Lisää organisaatio indeksoinnin jonoon"
+         :query-params [oid :- String]
+         (ok {:result (queuer/queue-organisaatio oid)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)

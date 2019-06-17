@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.kouta.tools.hakuaika)
+(ns kouta-indeksoija-service.indexer.tools.hakuaika)
 
 (defn- ->to-distinct-vec
   [coll]
