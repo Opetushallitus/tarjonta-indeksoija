@@ -18,7 +18,7 @@
 
 (defn mock-eperuste-oids
   []
-  (vec (map (fn [x] {:oid (str x)}) (range 21))))
+  (vec (map #(str %) (range 21))))
 
 (defn mock-organisaatio-oids
   []
@@ -26,11 +26,11 @@
 
 (defn mock-eperuste-changes
   [l]
-  [{:oid "111"} {:oid "222"} {:oid "333"}])
+  ["111" "222" "333"])
 
 (defn mock-organisaatio-changes
   [l]
-  [{:oid "555"} {:oid "666"} {:oid "777"}])
+  ["555" "666" "777"])
 
 (deftest queuer-test
   (testing "Queuer should"

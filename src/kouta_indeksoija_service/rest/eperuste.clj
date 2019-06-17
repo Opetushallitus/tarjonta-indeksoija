@@ -10,26 +10,25 @@
                        (not (nil? last-modified)) (assoc :muokattu last-modified))]
     (get->json-body (resolve-url :eperusteet-service.perusteet) params)))
 
-(defn- to-queue-entries [data]
-  (map (fn [x] {:oid (str (:id x)) :type "eperuste"}) (:data data)))
-
 (defn- find
   ([last-modified]
    (with-error-logging
     (loop [page-nr 0 result []]
       (let [data (get-perusteet-page page-nr last-modified)
-            total-result (conj result (to-queue-entries data))]
+            total-result (vec (conj result (map #(-> % :id str) (:data data))))]
         (if (<= (:sivuja data) (+ 1 page-nr))
           (flatten total-result)
           (recur (+ 1 page-nr) total-result))))))
   ([] (find nil)))
 
-(defn get-doc [entry]
+(defn get-doc
+  [eperuste-id]
   (with-error-logging
    (get->json-body
-    (resolve-url :eperusteet-service.peruste.kaikki (:oid entry)))))
+    (resolve-url :eperusteet-service.peruste.kaikki eperuste-id))))
 
-(defn get-osaamisalakuvaukset [eperuste-id]
+(defn get-osaamisalakuvaukset
+  [eperuste-id]
   (with-error-logging
    (let [res (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id))
          suoritustavat (keys res)
@@ -37,19 +36,18 @@
          assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa
                                                                       :type "osaamisalakuvaus"
                                                                       :oid (:id osaamisala)
-                                                                      :eperuste-oid eperuste-id))
-         docs (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat)))]
-     (if (empty? docs)
-       nil
-       {:docs docs}))))
+                                                                      :eperuste-oid eperuste-id))]
+     (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat))))))
 
-(defn find-all []
+(defn find-all
+  []
   (let [res (find)]
     (log/info (str "Found total " (count res) " docs from ePerusteet"))
     res))
 
-(defn find-changes [last-modified]
+(defn find-changes
+  [last-modified]
   (let [res (find last-modified)]
-    (when (< 0 (count res))
+    (when (seq res)
       (log/info (str "Found " (count res) " changes since " (time/long->date-time-string (long last-modified)) " from ePerusteet")))
     res))

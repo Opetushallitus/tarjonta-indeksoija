@@ -51,7 +51,7 @@
 
 (defn create-index-entry
   [oid]
-  (-> (organisaatio-client/get-doc {:oid oid}) append-search-data))
+  (-> (organisaatio-client/get-doc oid) append-search-data))
 
 (defn create-index-entries
   [oids]

@@ -6,7 +6,7 @@
 
 (defn- get-pics
   [oid]
-  (if-let [pic (-> {:oid oid}
+  (if-let [pic (-> oid
                    (o/get-doc true) ;TODO lue kuva samasta kyselystä kuin indeksointi?
                    (:metadata)
                    (:kuvaEncoded))]
@@ -16,7 +16,7 @@
 (defn store-picture
   [oid]
   (if-let [pics (not-empty (get-pics oid))]
-    (s3/refresh-s3 {:type "organisaatio" :oid oid} pics)
+    (s3/refresh-s3 oid "organisaatio" pics)
     (log/info "Organisaatiolla " oid " ei ole kuvia")))
 
 (defn store-pictures

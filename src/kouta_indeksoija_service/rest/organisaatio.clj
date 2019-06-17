@@ -8,30 +8,29 @@
             [clojure.core.memoize :as memoize]))
 
 (defn get-doc
-  ([obj include-image]
+  ([oid include-image]
    (with-error-logging
-      (-> (resolve-url :organisaatio-service.organisaatio (:oid obj))
+      (-> (resolve-url :organisaatio-service.organisaatio oid)
           (get->json-body {:query-params {:includeImage include-image}}))))
-  ([obj]
-   (get-doc obj false)))
+  ([oid]
+   (get-doc oid false)))
 
 (defn find-docs
   [oid]
   (with-error-logging
     (if (nil? oid)
-      (->> (get->json-body (resolve-url :organisaatio-service.rest.organisaatio))
-           (map #(assoc {} :type "organisaatio" :oid %)))
+      (vec (get->json-body (resolve-url :organisaatio-service.rest.organisaatio)))
       (->> (get->json-body (resolve-url :organisaatio-service.v2.hae)
                            {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid})
            :organisaatiot
            (map #(conj (string/split (:parentOidPath %) #"/") (:oid %)))
            flatten
            distinct
-           (map #(assoc {} :type "organisaatio" :oid %))))))
+           vec))))
 
 (defn get-all-oids
   []
-  (set (map :oid (find-docs nil))))
+  (find-docs nil))
 
 (defn get-tyyppi-hierarkia
   [oid]
@@ -45,9 +44,9 @@
     (let [date-string (long->date-time-string last-modified)]
       (let [res (->> (get->json-body (resolve-url :organisaatio-service.v2.muutetut.oid) {:lastModifiedSince date-string})
                      (:oids)
-                     (map (fn [x] {:oid x :type "organisaatio"}))
-                     (filter (fn [x] (not (clojure.string/blank? (:oid x))))))]
-        (when (< 0 (count res))
+                     (remove clojure.string/blank?)
+                     (vec))]
+        (when (seq res)
          (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu"))
         res))))
 

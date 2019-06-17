@@ -28,7 +28,7 @@
 
 (defn queue-all-eperusteet
   []
-  (let [all-eperusteet (map :oid (eperusteet-client/find-all))]
+  (let [all-eperusteet (eperusteet-client/find-all)]
     (doseq [eperusteet (partition-all 20 all-eperusteet)]
       (queue :eperusteet eperusteet))))
 
@@ -51,10 +51,10 @@
   (wait-for-elastic-lock
    (let [now (System/currentTimeMillis)
          last-modified (get-last-queued-time)
-         organisaatio-changes (set (organisaatio-client/find-last-changes last-modified))
-         eperuste-changes (set (eperusteet-client/find-changes last-modified))
-         changes-since (remove nil? (clojure.set/union organisaatio-changes eperuste-changes))]
-     (when-not (empty? changes-since)
-       (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" (count changes-since) "changes.")
-       (queue :organisaatiot (map :oid organisaatio-changes) :eperusteet (map :oid eperuste-changes))
+         organisaatio-changes (organisaatio-client/find-last-changes last-modified)
+         eperuste-changes (eperusteet-client/find-changes last-modified)
+         changes-count (+ (count organisaatio-changes) (count eperuste-changes))]
+     (when (< 0 changes-count)
+       (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
+       (queue :organisaatiot organisaatio-changes :eperusteet eperuste-changes)
        (set-last-queued-time now)))))

@@ -21,31 +21,30 @@
   [since]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.modified-since (url-encode since)) {:query-params {:lastModified since}}))
 
-(defn get-doc
-  [obj]
-  (let [type (:type obj)
-        url-keyword (keyword (str "kouta-backend." type (if (= "valintaperuste" type) ".id" ".oid")))]
-    (cas-authenticated-get-as-json (resolve-url url-keyword (:oid obj)))))
+(defn- get-doc
+  [type oid]
+  (let [url-keyword (keyword (str "kouta-backend." type (if (= "valintaperuste" type) ".id" ".oid")))]
+    (cas-authenticated-get-as-json (resolve-url url-keyword oid))))
 
 (defn get-koulutus
   [oid]
-  (get-doc {:type "koulutus" :oid oid}))
+  (get-doc "koulutus" oid))
 
 (defn get-toteutus
   [oid]
-  (get-doc {:type "toteutus" :oid oid}))
+  (get-doc "toteutus" oid))
 
 (defn get-haku
   [oid]
-  (get-doc {:type "haku" :oid oid}))
+  (get-doc "haku" oid))
 
 (defn get-hakukohde
   [oid]
-  (get-doc {:type "hakukohde" :oid oid}))
+  (get-doc "hakukohde" oid))
 
 (defn get-valintaperuste
   [id]
-  (get-doc {:type "valintaperuste" :oid id}))
+  (get-doc "valintaperuste" id))
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]

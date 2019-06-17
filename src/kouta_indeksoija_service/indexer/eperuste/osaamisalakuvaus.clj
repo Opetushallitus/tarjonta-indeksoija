@@ -7,7 +7,7 @@
 (defn create-index-entry
   [eperuste-id]
   (let [osaamisalakuvaukset (eperuste-service/get-osaamisalakuvaukset eperuste-id)]
-    (map #(assoc %1 :oid (str (:id %1)) :tyyppi "osaamisalakuvaus") (:docs osaamisalakuvaukset))))
+    (map #(assoc %1 :oid (str (:id %1)) :tyyppi "osaamisalakuvaus") osaamisalakuvaukset)))
 
 (defn create-index-entries
   [oids]

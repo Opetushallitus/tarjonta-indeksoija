@@ -5,13 +5,13 @@
             [base64-clj.core :as b64]))
 
 (defn get-organisaatio-doc
-  ([obj]
-   (tools/parse (str "test/resources/organisaatiot/" (:oid obj) ".json")))
-  ([obj include-image]
+  ([oid]
+   (tools/parse (str "test/resources/organisaatiot/" oid ".json")))
+  ([oid include-image]
    (if include-image
       {:metadata {:kuvaEncoded (b64/encode "jee")}}
-      (get-organisaatio-doc obj))))
+      (get-organisaatio-doc oid))))
 
 (defn get-eperuste-doc
-  [obj]
-  (tools/parse (str "test/resources/eperusteet/" (:oid obj) ".json")))
+  [id]
+  (tools/parse (str "test/resources/eperusteet/" id ".json")))

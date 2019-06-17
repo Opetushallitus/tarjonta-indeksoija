@@ -159,8 +159,8 @@
 
 (defn index-all-eperusteet
   []
-  (index-eperusteet (:eperusteet (vec (map :oid (eperusteet-client/find-all))))))
+  (index-eperusteet (:eperusteet (eperusteet-client/find-all))))
 
 (defn index-all-organisaatiot
   []
-  (index-organisaatiot (:organisaatiot (vec (map :oid (organisaatio-client/find-docs nil))))))
+  (index-organisaatiot (:organisaatiot (organisaatio-client/find-docs nil))))

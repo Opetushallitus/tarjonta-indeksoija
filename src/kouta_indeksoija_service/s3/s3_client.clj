@@ -37,7 +37,7 @@
     (log/info (str "Updating " (count pics) " pics for " type " " oid "..."))
     (doall (map #(upload-pic oid type %) pics)))
 
-  (defn refresh-s3 [obj pics]
+  (defn refresh-s3 [oid type pics]
     (cond
-      (= (:type obj) "organisaatio") (update-pics (:oid obj) (:type obj) pics)
+      (= type "organisaatio") (update-pics oid type pics)
       :else true))

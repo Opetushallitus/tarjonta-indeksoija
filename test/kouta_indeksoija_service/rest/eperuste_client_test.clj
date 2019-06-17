@@ -30,7 +30,7 @@
   (testing "eperuste client should"
     (testing "get one page"
       (with-redefs [client/get mock-get-one]
-        (is (= [{:oid "0" :type "eperuste"}] (find-all)))))
+        (is (= ["0"] (find-all)))))
 
     (testing "get zero pages"
       (with-redefs [client/get mock-get-none]
@@ -38,11 +38,7 @@
 
     (testing "get many pages"
       (with-redefs [client/get mock-get-many]
-        (let [expected [{:oid "0" :type "eperuste"}, {:oid "1" :type "eperuste"},
-                        {:oid "2" :type "eperuste"}, {:oid "3" :type "eperuste"},
-                        {:oid "4" :type "eperuste"}, {:oid "5" :type "eperuste"},
-                        {:oid "6" :type "eperuste"}, {:oid "7" :type "eperuste"},
-                        {:oid "8" :type "eperuste"}, {:oid "9" :type "eperuste"}]]
+        (let [expected ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]]
           (is (= expected (find-all))))))
 
     (testing "set no muokattu param when fetching all"
