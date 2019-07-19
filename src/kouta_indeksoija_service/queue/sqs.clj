@@ -2,7 +2,8 @@
   (:require [amazonica.core :as amazonica]
             [amazonica.aws.sqs :as sqs]
             [kouta-indeksoija-service.util.conf :refer [env sqs-endpoint]]
-            [clojure.string :refer [blank?]])
+            [clojure.string :refer [blank?]]
+            [cheshire.core :refer [generate-string]])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
 (def long-poll-wait-time    20)
@@ -41,3 +42,10 @@
                     :queue-url queue
                     :max-number-of-messages max-number-of-messages
                     :delete false)))
+
+(defn send-message
+  [queue message]
+  (let [true-message (if (string? message) message (generate-string message))]
+    (with-endpoint #(sqs/send-message
+                     :queue-url queue
+                     :message-body true-message))))

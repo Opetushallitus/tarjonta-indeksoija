@@ -7,7 +7,7 @@
 
 (defonce env (load-config :merge [(source/from-system-props) (source/from-env)]))
 
-(defstate job-pool :start (qs/start (qs/initialize)))
+
 
 (defn- ->not-blank
   [s]

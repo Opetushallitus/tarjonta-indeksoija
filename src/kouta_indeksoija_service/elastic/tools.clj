@@ -83,3 +83,11 @@
    (let [data (bulk-update-failed-data index type documents)
          res (e/bulk index type data)]
      {:errors (not (every? false? (:errors res)))})))
+
+(defn upsert-docs
+  [type docs]
+  (bulk-upsert type type docs))
+
+(defn get-doc
+  [type id]
+  (get-by-id type type id))

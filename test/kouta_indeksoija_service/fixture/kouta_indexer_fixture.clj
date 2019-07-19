@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.fixture.kouta-indexer-fixture
   (:require [kouta-indeksoija-service.elastic.admin :as admin]
-            [kouta-indeksoija-service.kouta.indexer :as indexer]
+            [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
             [clojure.test :refer :all]
@@ -128,21 +128,21 @@
 
 (defn reset-indices
   []
-  (tools/delete-index kouta-indeksoija-service.kouta.koulutus/index-name)
-  (tools/delete-index kouta-indeksoija-service.kouta.toteutus/index-name)
-  (tools/delete-index kouta-indeksoija-service.kouta.haku/index-name)
-  (tools/delete-index kouta-indeksoija-service.kouta.hakukohde/index-name)
-  (tools/delete-index kouta-indeksoija-service.kouta.valintaperuste/index-name)
-  (tools/delete-index kouta-indeksoija-service.kouta.koulutus-search/index-name))
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.toteutus/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name))
 
 (defn refresh-indices
   []
-  (tools/refresh-index kouta-indeksoija-service.kouta.koulutus/index-name)
-  (tools/refresh-index kouta-indeksoija-service.kouta.toteutus/index-name)
-  (tools/refresh-index kouta-indeksoija-service.kouta.haku/index-name)
-  (tools/refresh-index kouta-indeksoija-service.kouta.hakukohde/index-name)
-  (tools/refresh-index kouta-indeksoija-service.kouta.valintaperuste/index-name)
-  (tools/refresh-index kouta-indeksoija-service.kouta.koulutus-search/index-name))
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.toteutus/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name))
 
 (defn reset-mocks
   []
@@ -206,7 +206,7 @@
                  kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
 
-                 kouta-indeksoija-service.kouta.common/muokkaaja
+                 kouta-indeksoija-service.indexer.kouta.common/muokkaaja
                  kouta-indeksoija-service.fixture.external-services/mock-muokkaaja]
      (do ~@body)))
 
@@ -220,11 +220,11 @@
   [oids]
   (with-mocked-indexing
     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
-      (indexer/index-all)))
+      (indexer/index-all-kouta)))
   (refresh-indices))
 
 (defn index-all
   []
   (with-mocked-indexing
-   (indexer/index-all))
+   (indexer/index-all-kouta))
   (refresh-indices))

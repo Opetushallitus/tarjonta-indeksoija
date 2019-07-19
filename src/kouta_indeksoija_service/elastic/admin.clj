@@ -1,12 +1,16 @@
 (ns kouta-indeksoija-service.elastic.admin
   (:require [kouta-indeksoija-service.elastic.tools :as t]
             [kouta-indeksoija-service.elastic.settings :as settings]
-            [kouta-indeksoija-service.kouta.koulutus-search :refer [index-name] :rename {index-name koulutus-search-index}]
-            [kouta-indeksoija-service.kouta.koulutus :refer [index-name] :rename {index-name koulutus-index}]
-            [kouta-indeksoija-service.kouta.toteutus :refer [index-name] :rename {index-name toteutus-index}]
-            [kouta-indeksoija-service.kouta.haku :refer [index-name] :rename {index-name haku-index}]
-            [kouta-indeksoija-service.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
-            [kouta-indeksoija-service.kouta.valintaperuste :refer [index-name] :rename {index-name valintaperuste-index}]
+            [kouta-indeksoija-service.indexer.kouta.koulutus-search :refer [index-name] :rename {index-name koulutus-search-index}]
+            [kouta-indeksoija-service.indexer.kouta.koulutus :refer [index-name] :rename {index-name koulutus-index}]
+            [kouta-indeksoija-service.indexer.kouta.toteutus :refer [index-name] :rename {index-name toteutus-index}]
+            [kouta-indeksoija-service.indexer.kouta.haku :refer [index-name] :rename {index-name haku-index}]
+            [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
+            [kouta-indeksoija-service.indexer.kouta.valintaperuste :refer [index-name] :rename {index-name valintaperuste-index}]
+            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :refer [index-name] :rename {index-name organisaatio-index}]
+            [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
+            [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
+            [kouta-indeksoija-service.queuer.last-queued :refer [index-name] :rename {index-name last-queued-index}]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
@@ -37,8 +41,11 @@
 
 (defn- initialize-index-settings
   []
-  (let [all-index-names ["eperuste" "osaamisalakuvaus" "organisaatio" "palaute"
-                         "indexdata" "lastindex"
+  (let [all-index-names [eperuste-index
+                         osaamisalakuvaus-index
+                         organisaatio-index
+                         "palaute"
+                         last-queued-index
                          koulutus-search-index
                          koulutus-index
                          toteutus-index
@@ -67,8 +74,9 @@
 
 (defn- initialize-index-mappings
   []
-  (update-indices-mappings settings/stemmer-settings-eperuste     ["eperuste" "osaamisalakuvaus"])
-  (update-indices-mappings settings/stemmer-settings-organisaatio ["organisaatio"])
+  (update-indices-mappings settings/stemmer-settings-eperuste     [eperuste-index
+                                                                   osaamisalakuvaus-index])
+  (update-indices-mappings settings/stemmer-settings-organisaatio [organisaatio-index])
   (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index])
   (update-indices-mappings settings/kouta-settings                [koulutus-index
                                                                    toteutus-index
@@ -80,8 +88,7 @@
   []
   (log/info "Initializing indices")
   (and (initialize-index-settings)
-       (initialize-index-mappings)
-       (update-index-mappings settings/indexdata-mappings "indexdata")))
+       (initialize-index-mappings)))
 
 (defn reset-index
   [index]

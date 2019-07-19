@@ -106,15 +106,6 @@
                        {:lakkautusPvm {:match "lakkautusPvm"
                                        :mapping {:type "date"}}}]})
 
-(def indexdata-mappings
-  {:properties {:oid {:type "text"
-                      :fields {:keyword {:type "keyword"
-                                         :ignore_above 256}}}
-                :timestamp {:type "long"}
-                :type {:type "text"
-                       :fields {:keyword {:type "keyword"
-                                          :ignore_above 256}}}}})
-
 (def kouta-settings-search
   {:dynamic_templates [{:nested {:match "toteutukset"
                                  :match_mapping_type "object"

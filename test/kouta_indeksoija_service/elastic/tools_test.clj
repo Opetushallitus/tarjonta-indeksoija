@@ -5,8 +5,7 @@
             [kouta-indeksoija-service.elastic.tools :as tools]
             [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
             [kouta-indeksoija-service.test-tools :refer [refresh-index reset-test-data]]
-            [clj-test-utils.elasticsearch-mock-utils :refer :all]
-            [kouta-indeksoija-service.elastic.admin :as admin]))
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10 id-offset 100}}]
