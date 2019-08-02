@@ -5,6 +5,7 @@
   "aloituspaikat" : 100,
   "ensikertalaisenAloituspaikat" : 0,
   "hakulomaketyyppi" : "ei sähköistä",
+  "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
   "alkamiskausi" : {
     "koodiUri" : "kausi_k#1",
     "nimi" : {
@@ -87,10 +88,15 @@
     "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
     "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
   },
-  "hakulomake" : {
+  "hakulomakeKuvaus" : {
     "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
     "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
   },
+  "hakulomakeLinkki" : {
+    "fi" : "https://koulu.test/hakemusinfo fi",
+    "sv" : "https://koulu.test/hakemusinfo sv"
+  },
+  "eriHakulomakeKuinHaulla" : true,
   "muokkaaja" : {
     "oid" : "1.2.246.562.24.62301161440",
     "nimi" : "Kalle Ankka"
