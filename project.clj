@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.1.3-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.1.4-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -75,8 +75,8 @@
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.21"]
-                                                       [fi.oph.kouta/kouta-backend "0.2-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "0.2-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-backend "0.3-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "0.3-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -86,8 +86,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.21"]
-                                      [fi.oph.kouta/kouta-backend "0.2-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "0.2-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "0.3-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "0.3-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"

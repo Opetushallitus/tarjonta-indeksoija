@@ -24,7 +24,7 @@
   [t ]
   (-> t
       (dissoc :koulutusOid)
-      (update-in [:metadata] dissoc :kuvaus :yhteystieto)
+      (update-in [:metadata] dissoc :kuvaus :yhteyshenkilo)
       (update-in [:metadata :opetus] dissoc :osiot)
       (update-in [:metadata :asiasanat] transform-asiasanat)
       (update-in [:metadata :ammattinimikkeet] transform-asiasanat)))

@@ -18,13 +18,10 @@
     "opetuskielet": [
       "kieli_fi#1"
     ],
-    "opetusaikaKoodiUri": "opetusaikakk_1#1",
-    "opetustapaKoodiUri": "opetuspaikkakk_1#1",
+    "opetusaikaKoodiUrit": ["opetusaikakk_1#1"],
+    "opetustapaKoodiUrit": ["opetuspaikkakk_1#1"],
     "onkoMaksullinen": true,
-    "maksunMaara": {
-      "fi": "200,50 euroa",
-      "sv": "200,50 euro"
-    },
+    "maksunMaara": 200.5,
     "kuvaus": {
       "fi": "Kuvaus fi",
       "sv": "Kuvaus sv"
@@ -96,7 +93,7 @@
       "arvo": "hevonen"
     }
   ],
-  "yhteystieto": {
+  "yhteyshenkilo": {
     "nimi": {
       "fi": "Aku Ankka",
       "sv": "Aku Ankka"

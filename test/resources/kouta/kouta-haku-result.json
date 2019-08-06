@@ -131,7 +131,7 @@
     "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
-    "yhteystieto" : {
+    "yhteyshenkilo" : {
       "nimi" : {
         "fi" : "Aku Ankka",
         "sv" : "Aku Ankka"
@@ -157,5 +157,29 @@
       "alkaa" : "2022-10-10T12:00",
       "paattyy" : "2022-12-10T12:00"
     }]
-  }
+  },
+  "valintakokeet" : [{
+    "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "tyyppi" : {
+      "koodiUri" : "valintakokeentyyppi_1#1",
+      "nimi" : {
+        "fi" : "valintakokeentyyppi_1#1 nimi fi",
+        "sv" : "valintakokeentyyppi_1#1 nimi sv"
+      }
+    },
+    "tilaisuudet" : [{
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"},
+        "postinumero" : "12345",
+        "postitoimipaikka" : {
+          "fi" : "Kaupunki",
+          "sv" : "SV kaupunki"}},
+      "aika" : {
+        "alkaa" : "2019-02-05T09:49",
+        "paattyy" : "2019-02-05T09:58"},
+      "lisatietoja" : {
+        "fi" : "lisätietieto fi",
+        "sv" : "lisätieto sv"}}]}]
 }

@@ -109,10 +109,7 @@
       } ],
       "opetus" : {
         "alkamisaikaKuvaus" : { },
-        "maksunMaara" : {
-          "fi" : "200,50 euroa",
-          "sv" : "200,50 euro"
-        },
+        "maksunMaara" : 200.5,
         "lukuvuosimaksuKuvaus" : {},
         "onkoStipendia" : false,
         "stipendinMaara" : {},
@@ -121,19 +118,25 @@
         "lukuvuosimaksu" : {},
         "opetuskieli" : [ ],
         "maksullisuusKuvaus" : { },
-        "opetustapa" : [ ],
+        "opetustapa" : [{
+          "koodiUri" : "opetuspaikkakk_1#1",
+          "nimi" : {
+            "fi" : "opetuspaikkakk_1#1 nimi fi",
+            "sv" : "opetuspaikkakk_1#1 nimi sv"
+          }
+        }],
         "lisatiedot" : [ ],
         "opetustapaKuvaus" : { },
         "opetuskieletKuvaus" : { },
         "onkoMaksullinen" : true,
         "opetusaikaKuvaus" : { },
-        "opetusaika" : {
+        "opetusaika" : [{
           "koodiUri" : "opetusaikakk_1#1",
           "nimi" : {
             "fi" : "opetusaikakk_1#1 nimi fi",
             "sv" : "opetusaikakk_1#1 nimi sv"
           }
-        }
+        }]
       },
       "asiasanat" : [ {
         "fi" : "robotiikka"
@@ -243,7 +246,11 @@
       "hakukohteet" : [ {
         "kaytetaanHaunAikataulua" : false,
         "aloituspaikat" : 100,
+        "minAloituspaikat" : 99,
+        "maxAloituspaikat" : 101,
         "ensikertalaisenAloituspaikat" : 0,
+        "minEnsikertalaisenAloituspaikat" : 0,
+        "maxEnsikertalaisenAloituspaikat" : 0,
         "hakulomaketyyppi" : "ei sähköistä",
         "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
         "alkamiskausi" : {
@@ -253,6 +260,7 @@
             "sv" : "kausi_k#1 nimi sv"
           }
         },
+        "kaytetaanHaunAlkamiskautta" : false,
         "modified" : "2019-02-05T09:49",
         "nimi" : {
           "fi" : "Koulutuksen 0 toteutuksen 2 hakukohde 0 fi",
@@ -266,7 +274,7 @@
           "fi" : "https://koulu.test/hakemusinfo fi",
           "sv" : "https://koulu.test/hakemusinfo sv"
         },
-        "eriHakulomakeKuinHaulla" : true,
+        "kaytetaanHaunHakulomaketta" : false,
         "muokkaaja" : "1.2.246.562.24.62301161440",
         "hakuajat" : [ {
           "alkaa" : "2018-10-10T12:00",
@@ -332,10 +340,7 @@
       } ],
       "opetus" : {
         "alkamisaikaKuvaus" : { },
-        "maksunMaara" : {
-          "fi" : "200,50 euroa",
-          "sv" : "200,50 euro"
-        },
+        "maksunMaara" : 200.5,
         "lukuvuosimaksuKuvaus" : {},
         "onkoStipendia" : false,
         "stipendinMaara" : {},
@@ -344,19 +349,25 @@
         "lukuvuosimaksu" : {},
         "opetuskieli" : [ ],
         "maksullisuusKuvaus" : { },
-        "opetustapa" : [ ],
+        "opetustapa" : [{
+          "koodiUri" : "opetuspaikkakk_1#1",
+          "nimi" : {
+            "fi" : "opetuspaikkakk_1#1 nimi fi",
+            "sv" : "opetuspaikkakk_1#1 nimi sv"
+          }
+        }],
         "lisatiedot" : [ ],
         "opetustapaKuvaus" : { },
         "opetuskieletKuvaus" : { },
         "onkoMaksullinen" : true,
         "opetusaikaKuvaus" : { },
-        "opetusaika" : {
+        "opetusaika" : [{
           "koodiUri" : "opetusaikakk_1#1",
           "nimi" : {
             "fi" : "opetusaikakk_1#1 nimi fi",
             "sv" : "opetusaikakk_1#1 nimi sv"
           }
-        }
+        }]
       },
       "asiasanat" : [ {
         "fi" : "robotiikka"
@@ -431,7 +442,8 @@
         "fi" : "Opintojen lisätieto ",
         "sv" : "Opintojen lisätieto sv"
       }
-    } ]
+    } ],
+    "koulutusala" : []
   },
   "koulutustyyppi" : "amm"
 }

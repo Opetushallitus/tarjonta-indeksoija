@@ -102,10 +102,7 @@
     } ],
     "opetus" : {
       "alkamisaikaKuvaus" : { },
-      "maksunMaara" : {
-        "fi" : "200,50 euroa",
-        "sv" : "200,50 euro"
-      },
+      "maksunMaara" : 200.5,
       "lukuvuosimaksuKuvaus" : {},
       "onkoStipendia" : false,
       "stipendinMaara" : {},
@@ -114,19 +111,25 @@
       "lukuvuosimaksu" : {},
       "opetuskieli" : [ ],
       "maksullisuusKuvaus" : { },
-      "opetustapa" : [ ],
+      "opetustapa" : [{
+        "koodiUri" : "opetuspaikkakk_1#1",
+        "nimi" : {
+          "fi" : "opetuspaikkakk_1#1 nimi fi",
+          "sv" : "opetuspaikkakk_1#1 nimi sv"
+        }
+      }],
       "lisatiedot" : [ ],
       "opetustapaKuvaus" : { },
       "opetuskieletKuvaus" : { },
       "onkoMaksullinen" : true,
       "opetusaikaKuvaus" : { },
-      "opetusaika" : {
+      "opetusaika" : [{
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {
           "fi" : "opetusaikakk_1#1 nimi fi",
           "sv" : "opetusaikakk_1#1 nimi sv"
         }
-      }
+      }]
     },
     "asiasanat" : [ {
       "kieli" : "fi",
@@ -160,7 +163,7 @@
       "kieli" : "fi",
       "arvo" : "hevonen"
     } ],
-    "yhteystieto" : {
+    "yhteyshenkilo" : {
       "nimi" : {
         "fi" : "Aku Ankka",
         "sv" : "Aku Ankka"

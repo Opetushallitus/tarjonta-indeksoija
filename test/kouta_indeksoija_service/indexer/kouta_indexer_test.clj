@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta-indexer-test
   (:require [clojure.test :refer :all]
+   [clojure.data :refer [diff]]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
@@ -113,6 +114,13 @@
     (is (= nil (read hakukohde/index-name hakukohde-oid)))
     (is (= nil (read valintaperuste/index-name valintaperuste-id))))
 
+  (defn compare-json
+    [expected actual]
+    (let [difference (diff expected actual)]
+      (is (= nil (first difference)))
+      (is (= nil (second difference)))
+      (is (= expected actual))))
+
   (deftest index-tallennettu-koulutus-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index tallennettu koulutus only to koulutus index"
@@ -120,8 +128,8 @@
         (check-all-nil)
         (i/index-koulutus koulutus-oid)
         (is (= nil (read search/index-name koulutus-oid)))
-        (is (= (no-timestamp (merge (json "kouta-koulutus-result") {:tila "tallennettu"}))
-               (no-timestamp (read koulutus/index-name koulutus-oid))))
+        (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "tallennettu"}))
+                      (no-timestamp (read koulutus/index-name koulutus-oid)))
         (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
 
   (deftest index-julkaistu-koulutus-test
@@ -129,17 +137,17 @@
       (testing "Indexer should index julkaistu koulutus also to search index"
         (check-all-nil)
         (i/index-koulutus koulutus-oid)
-        (is (= (no-timestamp (json "kouta-koulutus-search-result"))
-               (no-timestamp (read search/index-name koulutus-oid))))
-        (is (= (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"}))
-               (no-timestamp (read koulutus/index-name koulutus-oid)))))))
+        (compare-json (no-timestamp (json "kouta-koulutus-search-result"))
+                      (no-timestamp (read search/index-name koulutus-oid)))
+        (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"}))
+                      (no-timestamp (read koulutus/index-name koulutus-oid))))))
 
   (deftest index-toteutus-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index toteutus to toteutus index and update related indexes"
         (check-all-nil)(i/index-toteutus toteutus-oid)
-        (is (= (no-timestamp (json "kouta-toteutus-result"))
-               (no-timestamp (read toteutus/index-name toteutus-oid))))
+        (compare-json (no-timestamp (json "kouta-toteutus-result"))
+                      (no-timestamp (read toteutus/index-name toteutus-oid)))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
         (is (= koulutus-oid (:oid (read koulutus/index-name koulutus-oid)))))))
 
@@ -147,8 +155,8 @@
     (fixture/with-mocked-indexing
       (testing "Indexer should index haku to haku index and update related indexes"
         (check-all-nil)(i/index-haku haku-oid)
-        (is (= (no-timestamp (json "kouta-haku-result"))
-               (no-timestamp (read haku/index-name haku-oid))))
+        (compare-json (no-timestamp (json "kouta-haku-result"))
+                      (no-timestamp (read haku/index-name haku-oid)))
         (is (= nil (:oid (read toteutus/index-name toteutus-oid))))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
         (is (= nil (read koulutus/index-name koulutus-oid))))))
@@ -158,8 +166,8 @@
       (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
         (check-all-nil)
         (i/index-hakukohde hakukohde-oid)
-        (is (= (no-timestamp (json "kouta-hakukohde-result"))
-               (no-timestamp (read hakukohde/index-name hakukohde-oid))))
+        (compare-json (no-timestamp (json "kouta-hakukohde-result"))
+                      (no-timestamp (read hakukohde/index-name hakukohde-oid)))
         (is (= haku-oid (:oid (read haku/index-name haku-oid))))
         (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
@@ -170,8 +178,8 @@
       (testing "Indexer should index valintaperuste to valintaperuste index"
        (check-all-nil)
        (i/index-valintaperuste valintaperuste-id)
-       (is (= (no-timestamp (json "kouta-valintaperuste-result"))
-              (no-timestamp (read valintaperuste/index-name valintaperuste-id)))))))
+       (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
+              (no-timestamp (read valintaperuste/index-name valintaperuste-id))))))
 
   (deftest index-all-test
     (fixture/with-mocked-indexing
