@@ -8,7 +8,9 @@
 (defn create-index-entry
   [id]
   (let [valintaperuste (common/complete-entry (kouta-backend/get-valintaperuste id))]
-    valintaperuste))
+    (if-let [sorakuvaus-id (:sorakuvausId valintaperuste)]
+      (assoc valintaperuste :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus sorakuvaus-id)))
+      valintaperuste)))
 
 (defn create-index-entries
   [oids]

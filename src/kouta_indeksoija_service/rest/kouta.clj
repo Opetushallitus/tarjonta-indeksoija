@@ -23,7 +23,7 @@
 
 (defn- get-doc
   [type oid]
-  (let [url-keyword (keyword (str "kouta-backend." type (if (= "valintaperuste" type) ".id" ".oid")))]
+  (let [url-keyword (keyword (str "kouta-backend." type (if (or (= "valintaperuste" type) (= "sorakuvaus" type)) ".id" ".oid")))]
     (cas-authenticated-get-as-json (resolve-url url-keyword oid))))
 
 (defn get-koulutus
@@ -45,6 +45,10 @@
 (defn get-valintaperuste
   [id]
   (get-doc "valintaperuste" id))
+
+(defn get-sorakuvaus
+  [id]
+  (get-doc "sorakuvaus" id))
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]
@@ -76,3 +80,7 @@
 (defn list-hakukohteet-by-valintaperuste
   [valintaperuste-id]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.valintaperuste.hakukohteet-list valintaperuste-id)))
+
+(defn list-valintaperusteet-by-sorakuvaus
+  [sorakuvaus-id]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.valintaperusteet-list sorakuvaus-id)))

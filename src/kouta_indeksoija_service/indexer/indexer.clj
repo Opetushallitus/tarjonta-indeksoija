@@ -74,6 +74,15 @@
   [oid]
   (index-valintaperusteet [oid]))
 
+(defn index-sorakuvaukset
+  [oids]
+  (let [valintaperusteet (apply concat (map kouta-backend/list-valintaperusteet-by-sorakuvaus oids))]
+    (index-valintaperusteet (get-oids :id valintaperusteet))))
+
+(defn index-sorakuvaus
+  [oid]
+  (index-sorakuvaukset [oid]))
+
 (defn index-eperusteet
   [oids]
   (eperuste/do-index oids)
@@ -100,12 +109,14 @@
               (count (:haut oids)) "hakua, "
               (count (:hakukohteet oids)) "hakukohdetta, "
               (count (:valintaperusteet oids)) "valintaperustetta, "
+              (count (:sorakuvaukset oids)) "sora-kuvausta, "
               (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
               (count (:organisaatiot oids)) "organisaatiota.")
     (index-koulutukset (:koulutukset oids))
     (index-toteutukset (:toteutukset oids))
     (index-haut (:haut oids))
     (index-hakukohteet (:hakukohteet oids))
+    (index-sorakuvaukset (:sorakuvaukset oids))
     (index-valintaperusteet (:valintaperusteet oids))
     (index-eperusteet (:eperusteet oids))
     (index-organisaatiot (:organisaatiot oids))
