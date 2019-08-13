@@ -128,6 +128,10 @@
   [toteutusOid]
   (->keywordized-json (.listHakukohteetByToteutus KoutaFixture toteutusOid)))
 
+(defn mock-list-hakukohteet-by-valintaperuste
+  [valintaperusteId]
+  (->keywordized-json (.listHakukohteetByValintaperuste KoutaFixture valintaperusteId)))
+
 (defn mock-list-koulutukset-by-haku
   [hakuOid]
   (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid)))
@@ -214,6 +218,9 @@
 
                  kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-toteutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-toteutus
+
+                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-valintaperuste
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-valintaperuste
 
                  kouta-indeksoija-service.rest.kouta/list-koulutukset-by-haku
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutukset-by-haku

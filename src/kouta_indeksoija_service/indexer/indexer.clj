@@ -62,13 +62,9 @@
 
 (defn index-valintaperusteet
   [oids]
-
-   ;TODO: Ei vielä tiedetä, halutaanko hakukohteita valintaperustelistaukseen etusivulle
-   (comment let [entries (valintaperuste/do-index oids)
-         hakukohteet (apply concat (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
-     (hakukohde/do-index (get-oids :oid hakukohteet)))
-
-   (valintaperuste/do-index oids))
+  (let [entries (valintaperuste/do-index oids)
+        hakukohteet (apply concat (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
+     (hakukohde/do-index (get-oids :oid hakukohteet))))
 
 (defn index-valintaperuste
   [oid]
