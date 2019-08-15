@@ -53,7 +53,7 @@
         response (request {:url url :method :get :throw-exceptions false :follow-redirects false})]
     (if-let [session-id (-> response :cookies (get "session") :value)]
       session-id
-      (throw (RuntimeException. (format "Unable to parse session ID! Uri = %s got status code %s" url (:status response)))))))
+      (throw (RuntimeException. (format "Unable to parse session ID! Uri = %s and response %s" url response))))))
 
 (defn get
   [service jsession?]
