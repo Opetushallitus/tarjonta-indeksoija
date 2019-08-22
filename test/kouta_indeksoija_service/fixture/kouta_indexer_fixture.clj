@@ -27,6 +27,7 @@
 (defonce default-haku-map (->clj-map (.DefaultHaku KoutaFixture)))
 (defonce default-hakukohde-map (->clj-map (.DefaultHakukohde KoutaFixture)))
 (defonce default-valintaperuste-map (->clj-map (.DefaultValintaperuste KoutaFixture)))
+(defonce default-sorakuvaus-map (->clj-map (.DefaultSorakuvaus KoutaFixture)))
 
 (defn add-koulutus-mock
   [oid & {:as params}]
@@ -102,6 +103,19 @@
   [id]
   (->keywordized-json (.getValintaperuste KoutaFixture id)))
 
+(defn add-sorakuvaus-mock
+  [id & {:as params}]
+  (let [sorakuvaus (merge default-sorakuvaus-map {:organisaatio Oppilaitos1} params)]
+    (.addSorakuvaus KoutaFixture id (->java-map sorakuvaus))))
+
+(defn update-sorakuvaus-mock
+  [id & {:as params}]
+  (.updateSorakuvaus KoutaFixture id (->java-map params)))
+
+(defn mock-get-sorakuvaus
+  [id]
+  (->keywordized-json (.getSorakuvaus KoutaFixture id)))
+
 (defn mock-get-hakukohteet-by-haku
   [hakuOid]
   (->keywordized-json (.listHakukohteetByHaku KoutaFixture hakuOid)))
@@ -114,6 +128,10 @@
   [toteutusOid]
   (->keywordized-json (.listHakukohteetByToteutus KoutaFixture toteutusOid)))
 
+(defn mock-list-hakukohteet-by-valintaperuste
+  [valintaperusteId]
+  (->keywordized-json (.listHakukohteetByValintaperuste KoutaFixture valintaperusteId)))
+
 (defn mock-list-koulutukset-by-haku
   [hakuOid]
   (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid)))
@@ -121,6 +139,10 @@
 (defn mock-get-hakutiedot-for-koulutus
   [oid]
   (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid)))
+
+(defn mock-list-valintaperusteet-by-sorakuvaus
+  [sorakuvausId]
+  (->keywordized-json (.listValintaperusteetBySorakuvaus KoutaFixture sorakuvausId)))
 
 (defn mock-get-last-modified
   [since]
@@ -185,6 +207,9 @@
                  kouta-indeksoija-service.rest.kouta/get-valintaperuste
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-valintaperuste
 
+                 kouta-indeksoija-service.rest.kouta/get-sorakuvaus
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-sorakuvaus
+
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
 
@@ -194,8 +219,14 @@
                  kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-toteutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-toteutus
 
+                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-valintaperuste
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-valintaperuste
+
                  kouta-indeksoija-service.rest.kouta/list-koulutukset-by-haku
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutukset-by-haku
+
+                 kouta-indeksoija-service.rest.kouta/list-valintaperusteet-by-sorakuvaus
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-valintaperusteet-by-sorakuvaus
 
                  kouta-indeksoija-service.rest.kouta/get-last-modified
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-last-modified

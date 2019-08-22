@@ -1,8 +1,8 @@
 {:elastic-url "{{kouta_indeksoija_elastic_url}}"
  :cas {:username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
- :hosts {:kouta-backend "http://{{host_alb_virkailija}}"
-         :virkailija-internal "http://{{host_alb_virkailija}}"
+ :hosts {:kouta-backend "https://{{host_virkailija}}"
+         :virkailija-internal "https://{{host_virkailija}}"
          :cas "https://{{host_cas}}"}
  :s3-dev-disabled "false"
  :s3-bucket "{{kouta_indeksoija_s3_bucket}}"

@@ -36,7 +36,8 @@
       toteutus-oid "1.2.246.562.17.00000000000000000001"
       haku-oid "1.2.246.562.29.00000000000000000001"
       hakukohde-oid "1.2.246.562.20.00000000000000000001"
-      valintaperuste-id "a5e88367-555b-4d9e-aa43-0904e5ea0a13"]
+      valintaperuste-id "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+      sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"]
 
   (fixture/add-koulutus-mock koulutus-oid
                              :tila "julkaistu"
@@ -99,9 +100,16 @@
                               :hakuaikaPaattyy "2030-11-10T12:00"
                               :modified "2019-02-05T09:49")
 
+  (fixture/add-sorakuvaus-mock sorakuvaus-id
+                               :tila "arkistoitu"
+                               :nimi "Sorakuvaus 0"
+                               :muokkaaja "1.2.246.562.24.62301161440"
+                               :modified "2019-02-05T09:49")
+
   (fixture/add-valintaperuste-mock valintaperuste-id
                                    :tila "arkistoitu"
                                    :nimi "Valintaperuste 0"
+                                   :sorakuvaus sorakuvaus-id
                                    :muokkaaja "1.2.246.562.24.62301161440"
                                    :modified "2019-02-05T09:49")
 
@@ -181,6 +189,15 @@
        (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
               (no-timestamp (read valintaperuste/index-name valintaperuste-id))))))
 
+  (deftest index-sorakuvaus-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index valintaperuste related to sorakuvaus to valintaperuste index"
+       (check-all-nil)
+       (i/index-sorakuvaus sorakuvaus-id)
+       (is (= hakukohde-oid (:oid (read hakukohde/index-name hakukohde-oid))))
+       (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
+                     (no-timestamp (read valintaperuste/index-name valintaperuste-id))))))
+
   (deftest index-all-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index all"
@@ -204,6 +221,18 @@
         (is (= nil (:oid (read koulutus/index-name koulutus-oid))))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
         (is (= nil (:id (read valintaperuste/index-name valintaperuste-id)))))))
+
+  (deftest index-changes-oids-test-2
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index changed oids 2"
+       (check-all-nil)
+       (i/index-oids {:sorakuvaukset [sorakuvaus-id]})
+       (is (= nil (:oid (read haku/index-name haku-oid))))
+       (is (= hakukohde-oid (:oid (read hakukohde/index-name hakukohde-oid))))
+       (is (= nil (:oid (read toteutus/index-name toteutus-oid))))
+       (is (= nil (:oid (read koulutus/index-name koulutus-oid))))
+       (is (= nil (:oid (read search/index-name koulutus-oid))))
+       (is (= valintaperuste-id (:id (read valintaperuste/index-name valintaperuste-id)))))))
 
   (deftest index-all-koulutukset-test
     (fixture/with-mocked-indexing
@@ -259,7 +288,7 @@
        (check-all-nil)
        (i/index-all-valintaperusteet)
        (is (= nil (read haku/index-name haku-oid)))
-       (is (= nil (read hakukohde/index-name hakukohde-oid)))
+       (is (= hakukohde-oid (:oid (read hakukohde/index-name hakukohde-oid))))
        (is (= nil (read toteutus/index-name toteutus-oid)))
        (is (= nil (read koulutus/index-name koulutus-oid)))
        (is (= nil (read search/index-name koulutus-oid)))

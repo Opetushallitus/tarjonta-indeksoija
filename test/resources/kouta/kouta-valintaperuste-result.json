@@ -2,6 +2,43 @@
   "koulutustyyppi" : "amm",
   "tila" : "arkistoitu",
   "modified" : "2019-02-05T09:49",
+  "sorakuvausId" : "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
+  "sorakuvaus" : {
+    "tila" : "arkistoitu",
+    "modified" : "2019-02-05T09:49",
+    "nimi" : {
+      "fi" : "Sorakuvaus 0 fi",
+      "sv" : "Sorakuvaus 0 sv"
+    },
+    "muokkaaja" : {
+      "oid" : "1.2.246.562.24.62301161440",
+      "nimi" : "Kalle Ankka"
+    },
+    "id" : "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
+    "kielivalinta" : ["fi", "sv"],
+    "julkinen" : false,
+    "organisaatio" : {
+      "paikkakunta" : {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      },
+      "nimi" : {
+        "fi" : "Kiva ammattikorkeakoulu",
+        "sv" : "Kiva ammattikorkeakoulu sv"
+      },
+      "oid" : "1.2.246.562.10.54545454545"
+    },
+    "metadata" : {
+      "kuvaus" : {
+        "fi" : "kuvaus fi",
+        "sv" : "kuvaus sv"
+      }
+    },
+    "koulutustyyppi" : "amm"
+  },
   "hakutapa" : {
     "koodiUri" : "hakutapa_01#1",
     "nimi" : {
@@ -33,7 +70,7 @@
       "sv" : "haunkohdejoukontarkenne_1#1 nimi sv"
     }
   },
-  "onkoJulkinen" : false,
+  "julkinen" : false,
   "timestamp" : 1549373605863,
   "organisaatio" : {
     "paikkakunta" : {
@@ -239,19 +276,19 @@
       },
       "kielitaidonVoiOsoittaa" : [ {
         "kielitaito" : {
-          "koodiUri" : "jokukoodiuri_kk#1",
+          "koodiUri" : "kielitaidonosoittaminen_01#1",
           "nimi" : {
-            "fi" : "jokukoodiuri_kk#1 nimi fi",
-            "sv" : "jokukoodiuri_kk#1 nimi sv"
+            "fi" : "kielitaidonosoittaminen_01#1 nimi fi",
+            "sv" : "kielitaidonosoittaminen_01#1 nimi sv"
           }
         },
         "lisatieto" : { }
       }, {
         "kielitaito" : {
-          "koodiUri" : "jokukoodiuri_muu#1",
+          "koodiUri" : "kielitaidonosoittaminen_03#1",
           "nimi" : {
-            "fi" : "jokukoodiuri_muu#1 nimi fi",
-            "sv" : "jokukoodiuri_muu#1 nimi sv"
+            "fi" : "kielitaidonosoittaminen_03#1 nimi fi",
+            "sv" : "kielitaidonosoittaminen_03#1 nimi sv"
           }
         },
         "lisatieto" : {
@@ -261,45 +298,45 @@
       } ],
       "vaatimukset" : [ {
         "kielitaitovaatimus" : {
-          "koodiUri" : "koodiuri_yl#1",
+          "koodiUri" : "kielitaitovaatimustyypit_01#1",
           "nimi" : {
-            "fi" : "koodiuri_yl#1 nimi fi",
-            "sv" : "koodiuri_yl#1 nimi sv"
+            "fi" : "kielitaitovaatimustyypit_01#1 nimi fi",
+            "sv" : "kielitaitovaatimustyypit_01#1 nimi sv"
           }
         },
         "kielitaitovaatimusKuvaukset" : [ {
           "kielitaitovaatimusKuvaus" : {
-            "koodiUri" : "koodiUri_read#1",
+            "koodiUri" : "kielitaitovaatimustyypitkuvaus_01#1",
             "nimi" : {
-              "fi" : "koodiUri_read#1 nimi fi",
-              "sv" : "koodiUri_read#1 nimi sv"
+              "fi" : "kielitaitovaatimustyypitkuvaus_01#1 nimi fi",
+              "sv" : "kielitaitovaatimustyypitkuvaus_01#1 nimi sv"
             }
           },
           "kielitaitovaatimusTaso" : "1"
         } ]
       }, {
         "kielitaitovaatimus" : {
-          "koodiUri" : "koodiuri_toefl#1",
+          "koodiUri" : "kielitaitovaatimustyypit_02#1",
           "nimi" : {
-            "fi" : "koodiuri_toefl#1 nimi fi",
-            "sv" : "koodiuri_toefl#1 nimi sv"
+            "fi" : "kielitaitovaatimustyypit_02#1 nimi fi",
+            "sv" : "kielitaitovaatimustyypit_02#1 nimi sv"
           }
         },
         "kielitaitovaatimusKuvaukset" : [ {
           "kielitaitovaatimusKuvaus" : {
-            "koodiUri" : "koodiUri_read#1",
+            "koodiUri" : "kielitaitovaatimustyypitkuvaus_01#1",
             "nimi" : {
-              "fi" : "koodiUri_read#1 nimi fi",
-              "sv" : "koodiUri_read#1 nimi sv"
+              "fi" : "kielitaitovaatimustyypitkuvaus_01#1 nimi fi",
+              "sv" : "kielitaitovaatimustyypitkuvaus_01#1 nimi sv"
             }
           },
           "kielitaitovaatimusTaso" : "A"
         }, {
           "kielitaitovaatimusKuvaus" : {
-            "koodiUri" : "koodiUri_write#1",
+            "koodiUri" : "kielitaitovaatimustyypitkuvaus_02#1",
             "nimi" : {
-              "fi" : "koodiUri_write#1 nimi fi",
-              "sv" : "koodiUri_write#1 nimi sv"
+              "fi" : "kielitaitovaatimustyypitkuvaus_02#1 nimi fi",
+              "sv" : "kielitaitovaatimustyypitkuvaus_02#1 nimi sv"
             }
           },
           "kielitaitovaatimusTaso" : "A"
