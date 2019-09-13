@@ -2,7 +2,8 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.notifier.notifier :refer [send-toteutus-notification]]))
 
 (def index-name "toteutus-kouta")
 
@@ -20,7 +21,7 @@
 
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (send-toteutus-notification (indexable/do-index index-name oids create-index-entries)))
 
 (defn get
   [oid]

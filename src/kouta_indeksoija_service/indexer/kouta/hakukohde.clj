@@ -2,7 +2,8 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.toteutus :refer [to-list-item]]))
+            [kouta-indeksoija-service.indexer.tools.toteutus :refer [to-list-item]]
+            [kouta-indeksoija-service.notifier.notifier :refer [send-hakukohde-notification]]))
 
 (def index-name "hakukohde-kouta")
 
@@ -37,7 +38,7 @@
 
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (send-hakukohde-notification (indexable/do-index index-name oids create-index-entries)) )
 
 (defn get
   [oid]
