@@ -6,12 +6,14 @@
 
 (defn- load-config
   []
-  (let [{:keys [virkailija-internal cas kouta-backend]
-         :or {virkailija-internal "" cas "" kouta-backend ""}} (:hosts env)]
+  (let [{:keys [virkailija-internal cas kouta-backend kouta-external notifier-target]
+         :or {virkailija-internal "" cas "" kouta-backend "" kouta-external ""}} (:hosts env)]
     (reset! url-properties
       (doto (OphProperties. (into-array String ["/kouta-indeksoija-oph.properties"]))
               (.addDefault "host-kouta-backend" kouta-backend)
+              (.addDefault "host-kouta-external" kouta-external)
               (.addDefault "host-virkailija-internal" virkailija-internal)
+              (.addDefault "host-notifier-target" notifier-target)
               (.addDefault "host-cas" cas)))))
 
 (defn resolve-url

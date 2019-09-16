@@ -2,8 +2,10 @@
  :cas {:username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
  :hosts {:kouta-backend "http://{{host_virkailija}}"
+         :kouta-external "http://{{host_virkailija}}"
          :virkailija-internal "http://{{host_virkailija}}"
-         :cas "https://{{host_cas}}"}
+         :cas "https://{{host_cas}}"
+         :notifier-target "{{kouta_indeksoija_notifier_target}}"}
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"

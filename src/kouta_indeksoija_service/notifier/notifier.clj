@@ -1,42 +1,52 @@
 (ns kouta-indeksoija-service.notifier.notifier
   (:require [kouta-indeksoija-service.rest.util :refer [post]]
             [clj-log.error-log :refer [with-error-logging-value]]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [kouta-indeksoija-service.util.urls :refer [resolve-url]]))
 
-(def receiver "http://localhost:6006")
-(def external-url "http://localhost:8097")
+(def receiver (resolve-url :notifier-target))
 
 (defn- to-message
-  [type id object]
+  [type id url object]
   (-> {}
       (assoc :type type)
       (assoc id (id object))
       (assoc :organisaatioOid (:oid (:organisaatio object)))
       (assoc :modified (:modified object))
-      (assoc :url (str external-url "/" type "/" (id object)))))
+      (assoc :url url)))
 
-(defn- to-sendable-koulutus
+(defn- to-message-koulutus
   [koulutus]
-  (assoc (to-message "koulutus" :oid koulutus) :tarjoajat (map :oid (:tarjoajat koulutus))))
+  (let [url (resolve-url :kouta-external.koulutus.oid (:oid koulutus))
+        tarjoajat (map :oid (:tarjoajat koulutus))
+        message (to-message "koulutus" :oid url koulutus)]
+    (assoc message :tarjoajat tarjoajat)))
 
-(defn- to-sendable-haku
+(defn- to-message-haku
   [haku]
-  (to-message "haku" :oid haku))
+  (let [url (resolve-url :kouta-external.haku.oid (:oid haku))]
+    (to-message "haku" :oid url haku)))
 
-(defn- to-sendable-hakukohde
+(defn- to-message-hakukohde
   [hakukohde]
-  (to-message "hakukohde" :oid hakukohde))
+  (let [url (resolve-url :kouta-external.hakukohde.oid (:oid hakukohde))]
+    (to-message "hakukohde" :oid url hakukohde)))
 
-(defn- to-sendable-toteutus
+(defn- to-message-toteutus
   [toteutus]
-  (assoc (to-message "toteutus" :oid toteutus) :tarjoajat (map :oid (:tarjoajat toteutus))))
+  (let [url (resolve-url :kouta-external.toteutus.oid (:oid toteutus))
+        tarjoajat (map :oid (:tarjoajat toteutus))
+        message (to-message "toteutus" :oid url toteutus)]
+    (assoc message :tarjoajat tarjoajat)))
 
-(defn- to-sendable-valintaperuste
+(defn- to-message-valintaperuste
   [valintaperuste]
-  (to-message "valintaperuste" :id valintaperuste))
+  (let [url (resolve-url :kouta-external.valintaperuste.id (:id valintaperuste))]
+    (to-message "valintaperuste" :id url valintaperuste)))
 
 (defn- send-notification
   [body]
+  (log/debug "Sending notification message" body "to" receiver)
   (post receiver {:form-params body
                   :content-type :json}))
 
@@ -44,7 +54,7 @@
   [objects]
   (with-error-logging-value
    objects
-   (let [messages (map to-sendable-koulutus objects)]
+   (let [messages (map to-message-koulutus objects)]
      (doall (map send-notification messages))
      objects)))
 
@@ -52,7 +62,7 @@
   [objects]
   (with-error-logging-value
    objects
-   (let [messages (map to-sendable-haku objects)]
+   (let [messages (map to-message-haku objects)]
      (doall (map send-notification messages))
      objects)))
 
@@ -60,7 +70,7 @@
   [objects]
   (with-error-logging-value
    objects
-   (let [messages (map to-sendable-hakukohde objects)]
+   (let [messages (map to-message-hakukohde objects)]
      (doall (map send-notification messages))
      objects)))
 
@@ -68,7 +78,7 @@
   [objects]
   (with-error-logging-value
    objects
-   (let [messages (map to-sendable-toteutus objects)]
+   (let [messages (map to-message-toteutus objects)]
      (doall (map send-notification messages))
      objects)))
 
@@ -76,6 +86,6 @@
   [objects]
   (with-error-logging-value
    objects
-   (let [messages (map to-sendable-valintaperuste objects)]
+   (let [messages (map to-message-valintaperuste objects)]
      (doall (map send-notification messages))
      objects)))
