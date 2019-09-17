@@ -16,4 +16,5 @@
  :sqs-region ""
  :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"
- :queueing-cron-string "*/15 * * ? * *"}
+ :queueing-cron-string "*/15 * * ? * *"
+ :notifier-disabled "true"}

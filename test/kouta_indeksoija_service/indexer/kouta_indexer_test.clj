@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta-indexer-test
   (:require [clojure.test :refer :all]
-   [clojure.data :refer [diff]]
+            [clojure.data :refer [diff]]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
@@ -14,6 +14,7 @@
             [kouta-indeksoija-service.fixture.external-services :as mocks]
             [cheshire.core :as cheshire]
             [kouta-indeksoija-service.test-tools :refer [parse]]
+            [mocks.notifier-target-mock :as notifier-target-mock]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
 (defn no-timestamp
@@ -158,37 +159,47 @@
   (deftest index-julkaistu-koulutus-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index julkaistu koulutus also to search index"
+        (notifier-target-mock/clear)
         (check-all-nil)
         (i/index-koulutus koulutus-oid)
         (compare-json (no-timestamp (json "kouta-koulutus-search-result"))
                       (no-timestamp (read search/index-name koulutus-oid)))
         (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"}))
-                      (no-timestamp (read koulutus/index-name koulutus-oid))))))
+                      (no-timestamp (read koulutus/index-name koulutus-oid)))
+        (compare-json (json "kouta-koulutus-notification")
+                      (get @notifier-target-mock/received koulutus-oid)))))
 
   (deftest index-toteutus-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index toteutus to toteutus index and update related indexes"
+        (notifier-target-mock/clear)
         (check-all-nil)
         (i/index-toteutus toteutus-oid)
         (compare-json (no-timestamp (json "kouta-toteutus-result"))
                       (no-timestamp (read toteutus/index-name toteutus-oid)))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
-        (is (= koulutus-oid (:oid (read koulutus/index-name koulutus-oid)))))))
+        (is (= koulutus-oid (:oid (read koulutus/index-name koulutus-oid))))
+        (compare-json (json "kouta-toteutus-notification")
+                      (get @notifier-target-mock/received toteutus-oid)))))
 
   (deftest index-haku-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index haku to haku index and update related indexes"
+        (notifier-target-mock/clear)
         (check-all-nil)
         (i/index-haku haku-oid)
         (compare-json (no-timestamp (json "kouta-haku-result"))
                       (no-timestamp (read haku/index-name haku-oid)))
         (is (= nil (:oid (read toteutus/index-name toteutus-oid))))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
-        (is (= nil (read koulutus/index-name koulutus-oid))))))
+        (is (= nil (read koulutus/index-name koulutus-oid)))
+        (compare-json (json "kouta-haku-notification")
+                      (get @notifier-target-mock/received haku-oid)))))
 
   (deftest index-hakukohde-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
+        (notifier-target-mock/clear)
         (check-all-nil)
         (i/index-hakukohde hakukohde-oid)
         (compare-json (no-timestamp (json "kouta-hakukohde-result"))
@@ -196,15 +207,20 @@
         (is (= haku-oid (:oid (read haku/index-name haku-oid))))
         (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
-        (is (= nil (read koulutus/index-name koulutus-oid))))))
+        (is (= nil (read koulutus/index-name koulutus-oid)))
+        (compare-json (json "kouta-hakukohde-notification")
+                      (get @notifier-target-mock/received hakukohde-oid)))))
 
   (deftest index-valintaperuste-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index valintaperuste to valintaperuste index"
+       (notifier-target-mock/clear)
        (check-all-nil)
        (i/index-valintaperuste valintaperuste-id)
        (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
-              (no-timestamp (read valintaperuste/index-name valintaperuste-id))))))
+                     (no-timestamp (read valintaperuste/index-name valintaperuste-id)))
+       (compare-json (json "kouta-valintaperuste-notification")
+                     (get @notifier-target-mock/received valintaperuste-id)))))
 
   (deftest index-sorakuvaus-test
     (fixture/with-mocked-indexing

@@ -2,6 +2,7 @@
   (:require [kouta-indeksoija-service.rest.util :refer [post]]
             [clj-log.error-log :refer [with-error-logging-value]]
             [clojure.tools.logging :as log]
+            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]))
 
 (def receiver (resolve-url :notifier-target))
@@ -46,9 +47,10 @@
 
 (defn- send-notification
   [body]
-  (log/debug "Sending notification message" body "to" receiver)
-  (post receiver {:form-params body
-                  :content-type :json}))
+  (if (not= (:notifier-disabled env) "true")
+    ((log/debug "Sending notification message" body "to" receiver)
+     (post receiver {:form-params body
+                     :content-type :json}))))
 
 (defn send-koulutus-notification
   [objects]

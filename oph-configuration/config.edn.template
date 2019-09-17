@@ -16,4 +16,5 @@
  :sqs-region "{{kouta_indeksoija_sqs_region}}"
  :sqs-endpoint "{{kouta_indeksoija_sqs_endpoint}}"
  :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"
- :queueing-cron-string "{{kouta_indeksoija_cron_string}}"}
+ :queueing-cron-string "{{kouta_indeksoija_cron_string}}"
+ :notifier-disabled "{{kouta_indeksoija_notifier_disabled}}"}

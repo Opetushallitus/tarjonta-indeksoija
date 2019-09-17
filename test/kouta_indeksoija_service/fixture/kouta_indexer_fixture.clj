@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
+            [mocks.notifier-target-mock]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
@@ -309,7 +310,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
 
                  kouta-indeksoija-service.indexer.kouta.common/muokkaaja
-                 kouta-indeksoija-service.fixture.external-services/mock-muokkaaja]
+                 kouta-indeksoija-service.fixture.external-services/mock-muokkaaja
+
+                 kouta-indeksoija-service.notifier.notifier/send-notification
+                 mocks.notifier-target-mock/add]
      (do ~@body)))
 
 (defn index-oppilaitokset

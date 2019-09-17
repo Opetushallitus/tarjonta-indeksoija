@@ -16,4 +16,5 @@
  :sqs-region "eu-west-1"
  :sqs-endpoint "http://localhost:4576"
  :dlq-cron-string "*/15 * * ? * *"
- :queueing-cron-string "*/15 * * ? * *"}
+ :queueing-cron-string "*/15 * * ? * *"
+ :notifier-disabled "true"}
