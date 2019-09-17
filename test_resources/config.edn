@@ -4,8 +4,7 @@
  :hosts {:kouta-backend "https://localhost"
          :kouta-external "https://localhost"
          :virkailija-internal "https://localhost"
-         :cas "https://localhost"
-         :notifier-target "http://localhost"}
+         :cas "https://localhost"}
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
@@ -17,4 +16,4 @@
  :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"
  :queueing-cron-string "*/15 * * ? * *"
- :notifier-disabled "true"}
+ :notifier-targets ""}

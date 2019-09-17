@@ -2,7 +2,7 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.notifier.notifier :refer [send-valintaperuste-notification]]))
+            [kouta-indeksoija-service.notifier.notifier :refer [send-valintaperuste-notifications]]))
 
 (def index-name "valintaperuste-kouta")
 
@@ -19,7 +19,7 @@
 
 (defn do-index
   [oids]
-  (send-valintaperuste-notification (indexable/do-index index-name oids create-index-entries)))
+  (send-valintaperuste-notifications (indexable/do-index index-name oids create-index-entries)))
 
 (defn get
   [oid]

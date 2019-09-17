@@ -3,9 +3,10 @@
             [clj-log.error-log :refer [with-error-logging-value]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.util.urls :refer [resolve-url]]))
+            [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+            [clojure.string :as str]))
 
-(def receiver (resolve-url :notifier-target))
+(def receivers (filter not-empty (str/split (:notifier-targets env) #",")))
 
 (defn- to-message
   [type id url object]
@@ -45,49 +46,50 @@
   (let [url (resolve-url :kouta-external.valintaperuste.id (:id valintaperuste))]
     (to-message "valintaperuste" :id url valintaperuste)))
 
-(defn- send-notification
+(defn- send-notifications
   [body]
-  (if (not= (:notifier-disabled env) "true")
-    ((log/debug "Sending notification message" body "to" receiver)
-     (post receiver {:form-params body
-                     :content-type :json}))))
+  (let [msg {:form-params body
+             :content-type :json}]
+    (doall (map (fn [receiver]
+                  (log/debug "Sending notification message" body "to" receiver)
+                  (post receiver msg)) receivers))))
 
-(defn send-koulutus-notification
+(defn send-koulutus-notifications
   [objects]
   (with-error-logging-value
    objects
    (let [messages (map to-message-koulutus objects)]
-     (doall (map send-notification messages))
+     (doall (map send-notifications messages))
      objects)))
 
-(defn send-haku-notification
+(defn send-haku-notifications
   [objects]
   (with-error-logging-value
    objects
    (let [messages (map to-message-haku objects)]
-     (doall (map send-notification messages))
+     (doall (map send-notifications messages))
      objects)))
 
-(defn send-hakukohde-notification
+(defn send-hakukohde-notifications
   [objects]
   (with-error-logging-value
    objects
    (let [messages (map to-message-hakukohde objects)]
-     (doall (map send-notification messages))
+     (doall (map send-notifications messages))
      objects)))
 
-(defn send-toteutus-notification
+(defn send-toteutus-notifications
   [objects]
   (with-error-logging-value
    objects
    (let [messages (map to-message-toteutus objects)]
-     (doall (map send-notification messages))
+     (doall (map send-notifications messages))
      objects)))
 
-(defn send-valintaperuste-notification
+(defn send-valintaperuste-notifications
   [objects]
   (with-error-logging-value
    objects
    (let [messages (map to-message-valintaperuste objects)]
-     (doall (map send-notification messages))
+     (doall (map send-notifications messages))
      objects)))
