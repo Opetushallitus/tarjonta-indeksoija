@@ -85,7 +85,7 @@
                                  (utils/global-elasticsearch-fixture)]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
-                                      [cloud.localstack/localstack-utils "0.1.21"]
+                                      [cloud.localstack/localstack-utils "0.1.22"]
                                       [fi.oph.kouta/kouta-backend "0.4-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.4-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]

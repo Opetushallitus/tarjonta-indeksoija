@@ -5,7 +5,9 @@
 (defn- docker-config []
   (let [builder (LocalstackDockerConfiguration/builder)]
     (.randomizePorts builder true)
+    (.pullNewImage builder false)
     (.environmentVariables builder {"SERVICES" "sqs"})
+    (.imageTag builder "0.10.2")
     (.build builder)))
 
 

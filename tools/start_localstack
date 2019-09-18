@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 id_file=".localstack"
+localstack_version=0.10.2
 
 wait_for_ready () {
     echo "Wait for services to be started..."
@@ -35,7 +36,7 @@ create_queues () {
 
 start_container() {
     echo "Starting Localstack container"
-    docker run -d -e "SERVICES=sqs" -p 4576:4576 localstack/localstack:latest  > ${id_file}
+    docker run -d -e "SERVICES=sqs" -p 4576:4576 localstack/localstack:${localstack_version}  > ${id_file}
     echo "Container started"
 }
 
