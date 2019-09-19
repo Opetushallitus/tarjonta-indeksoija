@@ -28,6 +28,8 @@
 (defonce default-hakukohde-map (->clj-map (.DefaultHakukohde KoutaFixture)))
 (defonce default-valintaperuste-map (->clj-map (.DefaultValintaperuste KoutaFixture)))
 (defonce default-sorakuvaus-map (->clj-map (.DefaultSorakuvaus KoutaFixture)))
+(defonce default-oppilaitos-map (->clj-map (.DefaultOppilaitos KoutaFixture)))
+(defonce default-oppilaitoksen-osa-map (->clj-map (.DefaultOppilaitoksenOsa KoutaFixture)))
 
 (defn add-koulutus-mock
   [oid & {:as params}]
@@ -112,6 +114,32 @@
   [id & {:as params}]
   (.updateSorakuvaus KoutaFixture id (->java-map params)))
 
+(defn add-oppilaitos-mock
+  [oid & {:as params}]
+  (let [oppilaitos (merge default-oppilaitos-map {:organisaatio Oppilaitos1} params)]
+    (.addOppilaitos KoutaFixture oid (->java-map oppilaitos))))
+
+(defn update-oppilaitos-mock
+  [oid & {:as params}]
+  (.updateOppilaitos KoutaFixture oid (->java-map params)))
+
+(defn mock-get-oppilaitos
+  [oid]
+  (->keywordized-json (.getOppilaitos KoutaFixture oid)))
+
+(defn add-oppilaitoksen-osa-mock
+  [oid oppilaitosOid & {:as params}]
+  (let [oppilaitosen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
+    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitosen-osa))))
+
+(defn update-oppilaitoksen-osa-mock
+  [oid & {:as params}]
+  (.updateOppilaitoksenOsa KoutaFixture oid (->java-map params)))
+
+(defn mock-get-oppilaitoksen-osa
+  [oid]
+  (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid)))
+
 (defn mock-get-sorakuvaus
   [id]
   (->keywordized-json (.getSorakuvaus KoutaFixture id)))
@@ -144,6 +172,10 @@
   [sorakuvausId]
   (->keywordized-json (.listValintaperusteetBySorakuvaus KoutaFixture sorakuvausId)))
 
+(defn mock-get-oppilaitoksen-osat-by-oppilaitos
+  [oppilaitosOid]
+  (->keywordized-json (.getOppilaitostenOsatByOppilaitos KoutaFixture oppilaitosOid)))
+
 (defn mock-get-last-modified
   [since]
   (->keywordized-json (.getLastModified KoutaFixture since)))
@@ -155,7 +187,8 @@
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name))
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn refresh-indices
   []
@@ -164,7 +197,8 @@
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
-  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name))
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn reset-mocks
   []
@@ -210,6 +244,9 @@
                  kouta-indeksoija-service.rest.kouta/get-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-sorakuvaus
 
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitos
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
+
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
 
@@ -227,6 +264,9 @@
 
                  kouta-indeksoija-service.rest.kouta/list-valintaperusteet-by-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-valintaperusteet-by-sorakuvaus
+
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osat
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osat-by-oppilaitos
 
                  kouta-indeksoija-service.rest.kouta/get-last-modified
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-last-modified

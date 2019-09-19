@@ -50,6 +50,17 @@
   [id]
   (get-doc "sorakuvaus" id))
 
+(defn get-oppilaitos
+  [oid]
+  (let [response (-> (resolve-url :kouta-backend.oppilaitos.oid oid)
+                     (cas-authenticated-get {:as :json :throw-exceptions false}))
+        status   (:status response)
+        body     (:body response)]
+    (cond
+      (= 404 status) {}
+      (= 200 status) body
+      :else (println "Getting oppilaitos " oid " from Kouta failed with status " status " and body " body))))
+
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]
    (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.toteutukset koulutus-oid)
@@ -84,3 +95,7 @@
 (defn list-valintaperusteet-by-sorakuvaus
   [sorakuvaus-id]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.valintaperusteet-list sorakuvaus-id)))
+
+(defn get-oppilaitoksen-osat
+  [oppilaitos-oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.osat oppilaitos-oid)))

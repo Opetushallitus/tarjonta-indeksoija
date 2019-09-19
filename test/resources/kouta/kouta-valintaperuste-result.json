@@ -87,7 +87,7 @@
     "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
-    "koulutustyyppi" : "amm",
+    "tyyppi" : "amm",
     "valintatavat" : [ {
       "valintatapa" : {
         "koodiUri" : "valintatapajono_av#1",

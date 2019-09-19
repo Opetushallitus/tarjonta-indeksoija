@@ -11,11 +11,11 @@
 (def elastic-lock? (atom false :error-handler #(log/error %)))
 
 (defn- queue
-  [& {:keys [organisaatiot eperusteet] :or {organisaatiot [], eperusteet []}}]
+  [& {:keys [oppilaitokset eperusteet] :or {oppilaitokset [], eperusteet []}}]
   (sqs/send-message
    (q/queue :fast)
    (cond-> {}
-           (not-empty organisaatiot) (assoc :organisaatiot (vec organisaatiot))
+           (not-empty oppilaitokset) (assoc :oppilaitokset (vec oppilaitokset))
            (not-empty eperusteet) (assoc :eperusteet (vec eperusteet)))))
 
 (defmacro wait-for-elastic-lock
@@ -36,15 +36,15 @@
   [oid]
   (queue :eperusteet [oid]))
 
-(defn queue-all-organisaatiot
+(defn queue-all-oppilaitokset-from-organisaatiopalvelu
   []
-  (let [all-organisaatiot (organisaatio-client/get-all-oids)]
+  (let [all-organisaatiot (organisaatio-client/get-all-oppilaitos-oids)]
     (doseq [organisaatiot (partition-all 20 all-organisaatiot)]
-      (queue :organisaatiot organisaatiot))))
+      (queue :oppilaitokset organisaatiot))))
 
-(defn queue-organisaatio
+(defn queue-oppilaitos
   [oid]
-  (queue :organisaatiot [oid]))
+  (queue :oppilaitokset [oid]))
 
 (defn queue-changes
   []
@@ -56,5 +56,5 @@
          changes-count (+ (count organisaatio-changes) (count eperuste-changes))]
      (when (< 0 changes-count)
        (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
-       (queue :organisaatiot organisaatio-changes :eperusteet eperuste-changes)
+       (queue :oppilaitokset organisaatio-changes :eperusteet eperuste-changes)
        (set-last-queued-time now)))))

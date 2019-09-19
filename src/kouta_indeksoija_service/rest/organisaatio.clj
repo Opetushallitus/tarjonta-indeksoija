@@ -18,25 +18,33 @@
 (defn find-docs
   [oid]
   (with-error-logging
-    (if (nil? oid)
-      (vec (get->json-body (resolve-url :organisaatio-service.rest.organisaatio)))
-      (->> (get->json-body (resolve-url :organisaatio-service.v2.hae)
-                           {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid})
-           :organisaatiot
-           (map #(conj (string/split (:parentOidPath %) #"/") (:oid %)))
-           flatten
-           distinct
-           vec))))
+   (->> (get->json-body (resolve-url :organisaatio-service.v2.hae)
+                        {:aktiiviset true :suunnitellut false :lakkautetut false :oid oid})
+        :organisaatiot
+        (map #(conj (string/split (:parentOidPath %) #"/") (:oid %)))
+        flatten
+        distinct
+        vec)))
 
-(defn get-all-oids
+(defn get-all-oppilaitos-oids
   []
-  (find-docs nil))
+  (with-error-logging
+   (->> (get->json-body (resolve-url :organisaatio-service.v2.hae.tyyppi)
+                        {:aktiiviset true :suunnitellut false :lakkautetut false :organsaatiotyyppi "Oppilaitos"})
+     :organisaatiot
+     (map #(:oid %))
+     vec)))
 
 (defn get-tyyppi-hierarkia
   [oid]
   (with-error-logging
    (get->json-body (resolve-url :organisaatio-service.v2.hierarkia.tyyppi)
                    {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid})))
+
+(defn get-hierarkia-v4
+  [oid & {:as params}]
+  (get->json-body (resolve-url :organisaatio-service.v4.hierarkia.hae)
+                  (merge {:aktiiviset true :suunnitellut true :lakkautetut false :oid oid :skipParents false} params)))
 
 (defn find-last-changes
   [last-modified]

@@ -9,11 +9,10 @@
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
-            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :as organisaatio]
-            [kouta-indeksoija-service.indexer.organisaatio.pictures :as organisaatio-pic]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -149,10 +148,10 @@
          :query-params [oid :- String]
          (ok {:result (koulutus-search/get oid)}))
 
-       (GET "/organisaatio" []
-         :summary "Hakee yhden organisaation oidin perusteella."
+       (GET "/oppilaitos" []
+         :summary "Hakee yhden oppilaitoksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (organisaatio/get oid)}))
+         (ok {:result (oppilaitos/get oid)}))
 
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
@@ -170,11 +169,6 @@
        (GET "/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
          (ok {:result (admin/get-elastic-status)}))
-
-       (POST "/s3/organisaatio" []
-         :summary "Hakee yhden organisaation kuvat ja tallentaa ne s3:een"
-         :query-params [oid :- String]
-         (ok {:result (organisaatio-pic/store-picture oid)}))
 
        (POST "/query" []
          :summary "Tekee haun haluttuun indeksiin"
@@ -226,8 +220,8 @@
          (ok {:result (indexer/index-all-eperusteet)}))
 
        (POST "/organisaatiot" []
-         :summary "Indeksoi kaikki organisaatiot"
-         (ok {:result (indexer/index-all-organisaatiot)}))
+         :summary "Indeksoi kaikki oppilaitokset"
+         (ok {:result (indexer/index-all-oppilaitokset)}))
 
        (POST "/eperuste" []
          :summary "Indeksoi ePerusteen ja sen osaamisalat (oid==id)"
@@ -235,9 +229,9 @@
          (ok {:result (indexer/index-eperuste oid)}))
 
        (POST "/organisaatio" []
-         :summary "Indeksoi organisaation"
+         :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (ok {:result (indexer/index-organisaatio oid)})))
+         (ok {:result (indexer/index-oppilaitos oid)})))
 
      (context "/queuer" []
        :tags ["queuer"]
@@ -246,19 +240,19 @@
          :summary "Lisää kaikki ePerusteet ja niiden osaamisalat indeksoinnin jonoon"
          (ok {:result (queuer/queue-all-eperusteet)}))
 
-       (POST "/organisaatiot" []
-         :summary "Lisää kaikki organisaatiot  indeksoinnin jonoon"
-         (ok {:result (queuer/queue-all-organisaatiot)}))
+       (POST "/oppilaitokset" []
+         :summary "Lisää kaikki aktiiviset oppilaitokset organisaatiopalvelusta  indeksoinnin jonoon"
+         (ok {:result (queuer/queue-all-oppilaitokset-from-organisaatiopalvelu)}))
 
        (POST "/eperuste" []
          :summary "Lisää ePeruste ja sen osaamisalat (oid==id)  indeksoinnin jonoon"
          :query-params [oid :- String]
          (ok {:result (queuer/queue-eperuste oid)}))
 
-       (POST "/organisaatio" []
-         :summary "Lisää organisaatio indeksoinnin jonoon"
+       (POST "/oppilaitos" []
+         :summary "Lisää oppilaitos/organisaatio indeksoinnin jonoon"
          :query-params [oid :- String]
-         (ok {:result (queuer/queue-organisaatio oid)}))))
+         (ok {:result (queuer/queue-oppilaitos oid)}))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)

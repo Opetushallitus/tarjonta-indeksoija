@@ -6,9 +6,9 @@
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
-            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :as organisaatio]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
@@ -88,13 +88,13 @@
   [oid]
   (index-eperusteet [oid]))
 
-(defn index-organisaatiot
+(defn index-oppilaitokset
   [oids]
-  (organisaatio/do-index oids))
+  (oppilaitos/do-index oids))
 
-(defn index-organisaatio
+(defn index-oppilaitos
   [oid]
-  (index-organisaatiot [oid]))
+  (index-oppilaitokset [oid]))
 
 (defn index-oids
   [oids]
@@ -107,7 +107,7 @@
               (count (:valintaperusteet oids)) "valintaperustetta, "
               (count (:sorakuvaukset oids)) "sora-kuvausta, "
               (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
-              (count (:organisaatiot oids)) "organisaatiota.")
+              (count (:oppilaitokset oids)) "oppilaitosta.")
     (index-koulutukset (:koulutukset oids))
     (index-toteutukset (:toteutukset oids))
     (index-haut (:haut oids))
@@ -115,7 +115,7 @@
     (index-sorakuvaukset (:sorakuvaukset oids))
     (index-valintaperusteet (:valintaperusteet oids))
     (index-eperusteet (:eperusteet oids))
-    (index-organisaatiot (:organisaatiot oids))
+    (index-oppilaitokset (:oppilaitokset oids))
     (log/info (str "Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
 (defn index-since-kouta
@@ -168,6 +168,6 @@
   []
   (index-eperusteet (:eperusteet (eperusteet-client/find-all))))
 
-(defn index-all-organisaatiot
+(defn index-all-oppilaitokset
   []
-  (index-organisaatiot (:organisaatiot (organisaatio-client/find-docs nil))))
+  (index-oppilaitokset (:oppilaitokset (organisaatio-client/get-all-oppilaitos-oids))))

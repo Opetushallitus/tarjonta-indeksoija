@@ -1,9 +1,8 @@
-(ns kouta-indeksoija-service.indexer.services-indexer-test
+(ns kouta-indeksoija-service.indexer.eperuste-indexer-test
   (:require [clojure.test :refer :all]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
-            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :as organisaatio]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
@@ -26,16 +25,3 @@
             picture-list (s3/list-keys)]
         (is (= 0 (count picture-list)))
         (is (= "koulutustyyppi_12" (get indexed-eperuste :koulutustyyppi)))))))
-
-(deftest organisaatio-index-test
-  (testing "index organisaatio"
-    (with-redefs [env {:s3-dev-disabled "false"}
-                  kouta-indeksoija-service.rest.organisaatio/get-doc mock/get-organisaatio-doc
-                  kouta-indeksoija-service.rest.organisaatio/get-tyyppi-hierarkia (fn [x] {:organisaatiot []})]
-      (let [oid "1.2.246.562.10.39920288212"]
-        (i/index-organisaatiot [oid])
-        (let [indexed-org (organisaatio/get oid)
-              picture-list (s3/list-keys)]
-          (is (= 1 (count picture-list)))
-          (is (= "organisaatio/1.2.246.562.10.39920288212/1.2.246.562.10.39920288212.jpg" (first picture-list)))
-          (is (= "muu" (get-in indexed-org [:searchData :tyyppi]))))))))

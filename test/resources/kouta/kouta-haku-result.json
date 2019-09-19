@@ -172,10 +172,14 @@
         "osoite" : {
           "fi" : "Kivatie 1",
           "sv" : "kivavägen 1"},
-        "postinumero" : "12345",
-        "postitoimipaikka" : {
-          "fi" : "Kaupunki",
-          "sv" : "SV kaupunki"}},
+        "postinumero" : {
+          "koodiUri" : "posti_04230#2",
+          "nimi" : {
+            "fi": "posti_04230#2 nimi fi",
+            "sv": "posti_04230#2 nimi sv"
+          }
+        }
+      },
       "aika" : {
         "alkaa" : "2019-02-05T09:49",
         "paattyy" : "2019-02-05T09:58"},

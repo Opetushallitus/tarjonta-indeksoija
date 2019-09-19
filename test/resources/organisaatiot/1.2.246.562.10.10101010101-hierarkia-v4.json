@@ -1,0 +1,130 @@
+{
+    "numHits": 19,
+    "organisaatiot": [
+        {
+            "oid": "1.2.246.562.10.10101010100",
+            "alkuPvm": 313106400000,
+            "parentOid": "1.2.246.562.10.00000000001",
+            "parentOidPath": "1.2.246.562.10.10101010100/1.2.246.562.10.00000000001",
+            "ytunnus": "9999999-7",
+            "toimipistekoodi": "",
+            "match": true,
+            "nimi": {
+                "fi": "Tanhualan Yliopisto"
+            },
+            "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+            ],
+            "kotipaikkaUri": "kunta_091",
+            "children": [
+                {
+                    "oid": "1.2.246.562.10.10101010101",
+                    "alkuPvm": 725839200000,
+                    "parentOid": "1.2.246.562.10.10101010100",
+                    "parentOidPath": "1.2.246.562.10.10101010101/1.2.246.562.10.10101010100/1.2.246.562.10.00000000001",
+                    "oppilaitosKoodi": "00000",
+                    "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+                    "toimipistekoodi": "00000",
+                    "match": false,
+                    "nimi": {
+                        "sv": "Tanhuala universitet",
+                        "fi": "Tanhualan Yliopisto",
+                        "en": "University of Tanhuala"
+                    },
+                    "kieletUris": [
+                        "oppilaitoksenopetuskieli_1#1",
+                        "oppilaitoksenopetuskieli_2#1",
+                        "oppilaitoksenopetuskieli_4#1"
+                    ],
+                    "kotipaikkaUri": "kunta_091",
+                    "children": [
+                        {
+                            "oid": "1.2.246.562.10.10101010102",
+                            "alkuPvm": 1546293600000,
+                            "parentOid": "1.2.246.562.10.10101010101",
+                            "parentOidPath": "1.2.246.562.10.10101010102/1.2.246.562.10.10101010101/1.2.246.562.10.10101010100/1.2.246.562.10.00000000001",
+                            "toimipistekoodi": "6666666",
+                            "match": false,
+                            "nimi": {
+                                "sv": "Tanhuala universitet, Farmaceutiska fakulteten",
+                                "fi": "Tanhualan yliopisto, Farmasian tiedekunta",
+                                "en": "University of Tanhuala, Faculty of Pharmacy"
+                            },
+                            "kieletUris": [
+                                "oppilaitoksenopetuskieli_1#1"
+                            ],
+                            "kotipaikkaUri": "kunta_091",
+                            "children": [
+                                {
+                                    "oid": "1.2.246.562.10.10101010109",
+                                    "alkuPvm": 1553205600000,
+                                    "parentOid": "1.2.246.562.10.10101010102",
+                                    "parentOidPath": "1.2.246.562.10.10101010109/1.2.246.562.10.10101010102/1.2.246.562.10.10101010101/1.2.246.562.10.10101010100/1.2.246.562.10.00000000001",
+                                    "toimipistekoodi": "7778878",
+                                    "match": false,
+                                    "nimi": {
+                                        "sv": "Tanhuala universitet, Farmaceutiska fakulteten extra",
+                                        "fi": "Tanhualan yliopisto, Farmasian tiedekunta extra",
+                                        "en": "University of Tanhuala, Faculty of Pharmacy extra"
+                                    },
+                                    "kieletUris": [
+                                        "oppilaitoksenopetuskieli_1#1",
+                                        "oppilaitoksenopetuskieli_2#1",
+                                        "oppilaitoksenopetuskieli_4#1"
+                                    ],
+                                    "kotipaikkaUri": "kunta_091",
+                                    "children": [],
+                                    "aliOrganisaatioMaara": 0,
+                                    "organisaatiotyypit": [
+                                        "organisaatiotyyppi_03"
+                                    ],
+                                    "status": "AKTIIVINEN"
+                                }
+                            ],
+                            "aliOrganisaatioMaara": 0,
+                            "organisaatiotyypit": [
+                                "organisaatiotyyppi_03"
+                            ],
+                            "status": "AKTIIVINEN"
+                        },
+                        {
+                            "oid": "1.2.246.562.10.10101010103",
+                            "alkuPvm": 725839200000,
+                            "parentOid": "1.2.246.562.10.10101010101",
+                            "parentOidPath": "1.2.246.562.10.10101010103/1.2.246.562.10.10101010101/1.2.246.562.10.10101010100/1.2.246.562.10.00000000001",
+                            "toimipistekoodi": "77777777",
+                            "match": false,
+                            "nimi": {
+                                "sv": "Tanhuala universitet, Veterin\u00e4rmedicinska fakulteten",
+                                "fi": "Tanhualan yliopisto, El\u00e4inl\u00e4\u00e4ketieteellinen tiedekunta",
+                                "en": "University of Tanhuala, Faculty of Veterinary Medicine"
+                            },
+                            "kieletUris": [
+                                "oppilaitoksenopetuskieli_1#1",
+                                "oppilaitoksenopetuskieli_2#1",
+                                "oppilaitoksenopetuskieli_4#1"
+                            ],
+                            "kotipaikkaUri": "kunta_091",
+                            "children": [],
+                            "aliOrganisaatioMaara": 0,
+                            "organisaatiotyypit": [
+                                "organisaatiotyyppi_03"
+                            ],
+                            "status": "AKTIIVINEN"
+                        }
+                    ],
+                    "aliOrganisaatioMaara": 16,
+                    "organisaatiotyypit": [
+                        "organisaatiotyyppi_02"
+                    ],
+                    "status": "AKTIIVINEN"
+                }
+            ],
+            "aliOrganisaatioMaara": 1,
+            "organisaatiotyypit": [
+                "organisaatiotyyppi_01"
+            ],
+            "status": "AKTIIVINEN"
+        }
+    ]
+}
