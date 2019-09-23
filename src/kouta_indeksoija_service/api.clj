@@ -210,15 +210,31 @@
 
        (POST "/resume-dlq" []
          :summary "Käynnistää dlq-jonoa siivoavan prosessin"
-         (ok (jobs/pause-dlq-job)))
+         (ok (jobs/resume-dlq-job)))
 
        (POST "/pause-sqs" []
          :summary "Keskeyttää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity oppijan puolelle ja esikatseluun!"
-         (ok (jobs/pause-dlq-job)))
+         (ok (jobs/pause-sqs-job)))
 
        (POST "/resume-sqs" []
          :summary "Käynnistää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi"
          (ok (jobs/resume-sqs-job)))
+
+       (POST "/pause-notification-dlq" []
+         :summary "Keskeyttää notifikaatioiden dlq-jonoa siivoavan prosessin"
+         (ok (jobs/pause-notification-dlq-job)))
+
+       (POST "/resume-notification-dlq" []
+         :summary "Käynnistää notifikaatioiden dlq-jonoa siivoavan prosessin"
+         (ok (jobs/resume-notification-dlq-job)))
+
+       (POST "/pause-notification-sqs" []
+         :summary "Keskeyttää prosessin, joka lukee notifikaatioita sqs-jonosta ja lähettää ne ulkoisille integraatioille. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity ulkoisille integraatiolle."
+         (ok (jobs/pause-notification-job)))
+
+       (POST "/resume-notification-sqs" []
+         :summary "Käynnistää prosessin, joka lukee notifikaatioita sqs-jonosta ja lähettää ne ulkoisille integraatioille."
+         (ok (jobs/resume-notification-job)))
 
        (POST "/pause-queueing" []
          :summary "Keskeyttää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
@@ -226,7 +242,7 @@
 
        (POST "/resume-queueing" []
          :summary "Käynnistää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
-         (ok (jobs/pause-queueing-job))))
+         (ok (jobs/resume-queueing-job))))
 
      (context "/indexer" []
        :tags ["indexer"]

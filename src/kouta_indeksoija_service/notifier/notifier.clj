@@ -4,9 +4,29 @@
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [kouta-indeksoija-service.queue.sqs :as sqs]
+            [kouta-indeksoija-service.elastic.tools :refer [get-id]]))
 
 (def receivers (filter not-empty (str/split (:notifier-targets env) #",")))
+
+(defn send-notification
+  [receiver body]
+  (let [msg {:form-params body
+             :content-type :json
+             :force-redirects true}]
+    (log/info "Sending notification message about" (:type body) (get-id body) "to" receiver)
+    (post receiver msg)))
+
+(defn- queue-notifications
+  [body]
+  (let [message {:message body}]
+    (doall
+     (map
+      #(sqs/send-message
+        (sqs/find-queue (:notifications (:queue env)))
+        (assoc message :receiver %))
+      receivers))))
 
 (defn- to-message
   [type id url object]
@@ -57,7 +77,7 @@
 (defn- send-notifications
   [->message objects]
   (with-error-logging (let [messages (map ->message objects)]
-     (doseq [message messages] (send-notification-messages message))
+     (doseq [message messages] (queue-notifications message))
      objects)))
 
 (defn notify

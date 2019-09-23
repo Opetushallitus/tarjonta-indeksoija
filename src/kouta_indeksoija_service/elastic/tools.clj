@@ -28,7 +28,7 @@
     (-> (e/get-document (index-name index) (index-name type) id)
         (:_source))))
 
-(defn- get-id
+(defn get-id
   [doc]
   (or (:oid doc) (:id doc)))
 
