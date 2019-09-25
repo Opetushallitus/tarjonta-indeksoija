@@ -8,10 +8,12 @@
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.elastic.tools :refer [get-by-id]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
             [cheshire.core :as cheshire]
+            [kouta-indeksoija-service.test-tools :refer [parse]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
 (defn no-timestamp
@@ -37,7 +39,9 @@
       haku-oid "1.2.246.562.29.00000000000000000001"
       hakukohde-oid "1.2.246.562.20.00000000000000000001"
       valintaperuste-id "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
-      sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"]
+      sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"
+      oppilaitos-oid "1.2.246.562.10.10101010101"
+      oppilaitoksen-osa-oid "1.2.246.562.10.10101010102"]
 
   (fixture/add-koulutus-mock koulutus-oid
                              :tila "julkaistu"
@@ -112,6 +116,17 @@
                                    :sorakuvaus sorakuvaus-id
                                    :muokkaaja "1.2.246.562.24.62301161440"
                                    :modified "2019-02-05T09:49")
+
+  (fixture/add-oppilaitos-mock oppilaitos-oid
+                               :tila "julkaistu"
+                               :muokkaaja "1.2.246.562.24.62301161440"
+                               :modified "2019-02-05T09:49")
+
+  (fixture/add-oppilaitoksen-osa-mock "1.2.246.562.10.10101010102"
+                                      oppilaitos-oid
+                                      :tila "julkaistu"
+                                      :muokkaaja "1.2.246.562.24.62301161440"
+                                      :modified "2019-02-05T09:49")
 
   (defn check-all-nil
     []
@@ -197,6 +212,21 @@
        (is (= hakukohde-oid (:oid (read hakukohde/index-name hakukohde-oid))))
        (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
                      (no-timestamp (read valintaperuste/index-name valintaperuste-id))))))
+
+  (deftest index-oppilaitos-test
+    (fixture/with-mocked-indexing
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 (fn [oid & {:as params}] (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json")))]
+       (testing "Indexer should index oppilaitos and it's osat to oppilaitos index"
+         (check-all-nil)
+         (i/index-oppilaitos oppilaitos-oid)
+         (compare-json (no-timestamp (json "kouta-oppilaitos-result"))
+                       (no-timestamp (read oppilaitos/index-name oppilaitos-oid))))
+
+       (testing "Indexer should index oppilaitos and it's osat to oppilaitos index when given oppilaitoksen osa oid"
+         (check-all-nil)
+         (i/index-oppilaitos oppilaitoksen-osa-oid)
+         (compare-json (no-timestamp (json "kouta-oppilaitos-result"))
+                       (no-timestamp (read oppilaitos/index-name oppilaitos-oid)))))))
 
   (deftest index-all-test
     (fixture/with-mocked-indexing

@@ -28,6 +28,8 @@
 (defonce default-hakukohde-map (->clj-map (.DefaultHakukohde KoutaFixture)))
 (defonce default-valintaperuste-map (->clj-map (.DefaultValintaperuste KoutaFixture)))
 (defonce default-sorakuvaus-map (->clj-map (.DefaultSorakuvaus KoutaFixture)))
+(defonce default-oppilaitos-map (->clj-map (.DefaultOppilaitos KoutaFixture)))
+(defonce default-oppilaitoksen-osa-map (->clj-map (.DefaultOppilaitoksenOsa KoutaFixture)))
 
 (defn add-koulutus-mock
   [oid & {:as params}]
@@ -40,7 +42,8 @@
 
 (defn mock-get-koulutus
   [oid]
-  (->keywordized-json (.getKoulutus KoutaFixture oid)))
+  (locking KoutaFixture
+    (->keywordized-json (.getKoulutus KoutaFixture oid))))
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
@@ -53,14 +56,16 @@
 
 (defn mock-get-toteutus
   [oid]
-  (->keywordized-json (.getToteutus KoutaFixture oid)))
+  (locking KoutaFixture
+    (->keywordized-json (.getToteutus KoutaFixture oid))))
 
 (defn mock-get-toteutukset
   ([koulutusOid vainJulkaistut]
    (comment let [pred (fn [e] (and (= (:koulutusOid (val e)) koulutusOid) (or (not vainJulkaistut) (= (:tila (val e)) "julkaistu"))))
          mapper (fn [e] (->toteutus-mock-response (name (key e)) koulutusOid (val e)))]
      (map mapper (find-from-atom toteutukset pred)))
-   (->keywordized-json (.getToteutuksetByKoulutus KoutaFixture koulutusOid vainJulkaistut)))
+   (locking KoutaFixture
+     (->keywordized-json (.getToteutuksetByKoulutus KoutaFixture koulutusOid vainJulkaistut))))
   ([koulutusOid]
    (mock-get-toteutukset koulutusOid false)))
 
@@ -75,7 +80,8 @@
 
 (defn mock-get-haku
   [oid]
-  (->keywordized-json (.getHaku KoutaFixture oid)))
+  (locking KoutaFixture
+    (->keywordized-json (.getHaku KoutaFixture oid))))
 
 (defn add-hakukohde-mock
   [oid toteutusOid hakuOid & {:as params}]
@@ -88,7 +94,8 @@
 
 (defn mock-get-hakukohde
   [oid]
-  (->keywordized-json (.getHakukohde KoutaFixture oid)))
+  (locking KoutaFixture
+    (->keywordized-json (.getHakukohde KoutaFixture oid))))
 
 (defn add-valintaperuste-mock
   [id & {:as params}]
@@ -101,7 +108,8 @@
 
 (defn mock-get-valintaperuste
   [id]
-  (->keywordized-json (.getValintaperuste KoutaFixture id)))
+  (locking KoutaFixture
+    (->keywordized-json (.getValintaperuste KoutaFixture id))))
 
 (defn add-sorakuvaus-mock
   [id & {:as params}]
@@ -112,41 +120,83 @@
   [id & {:as params}]
   (.updateSorakuvaus KoutaFixture id (->java-map params)))
 
+(defn add-oppilaitos-mock
+  [oid & {:as params}]
+  (let [oppilaitos (merge default-oppilaitos-map {:organisaatio Oppilaitos1} params)]
+    (.addOppilaitos KoutaFixture oid (->java-map oppilaitos))))
+
+(defn update-oppilaitos-mock
+  [oid & {:as params}]
+  (.updateOppilaitos KoutaFixture oid (->java-map params)))
+
+(defn mock-get-oppilaitos
+  [oid]
+  (locking KoutaFixture
+    (->keywordized-json (.getOppilaitos KoutaFixture oid))))
+
+(defn add-oppilaitoksen-osa-mock
+  [oid oppilaitosOid & {:as params}]
+  (let [oppilaitosen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
+    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitosen-osa))))
+
+(defn update-oppilaitoksen-osa-mock
+  [oid & {:as params}]
+  (.updateOppilaitoksenOsa KoutaFixture oid (->java-map params)))
+
+(defn mock-get-oppilaitoksen-osa
+  [oid]
+  (locking KoutaFixture
+    (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid))))
+
 (defn mock-get-sorakuvaus
   [id]
-  (->keywordized-json (.getSorakuvaus KoutaFixture id)))
+  (locking KoutaFixture
+    (->keywordized-json (.getSorakuvaus KoutaFixture id))))
 
 (defn mock-get-hakukohteet-by-haku
   [hakuOid]
-  (->keywordized-json (.listHakukohteetByHaku KoutaFixture hakuOid)))
+  (locking KoutaFixture
+    (->keywordized-json (.listHakukohteetByHaku KoutaFixture hakuOid))))
 
 (defn mock-list-haut-by-toteutus
   [toteutusOid]
-  (->keywordized-json (.listHautByToteutus KoutaFixture toteutusOid)))
+  (locking KoutaFixture
+    (->keywordized-json (.listHautByToteutus KoutaFixture toteutusOid))))
 
 (defn mock-list-hakukohteet-by-toteutus
   [toteutusOid]
-  (->keywordized-json (.listHakukohteetByToteutus KoutaFixture toteutusOid)))
+  (locking KoutaFixture
+    (->keywordized-json (.listHakukohteetByToteutus KoutaFixture toteutusOid))))
 
 (defn mock-list-hakukohteet-by-valintaperuste
   [valintaperusteId]
-  (->keywordized-json (.listHakukohteetByValintaperuste KoutaFixture valintaperusteId)))
+  (locking KoutaFixture
+    (->keywordized-json (.listHakukohteetByValintaperuste KoutaFixture valintaperusteId))))
 
 (defn mock-list-koulutukset-by-haku
   [hakuOid]
-  (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid)))
+  (locking KoutaFixture
+    (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid))))
 
 (defn mock-get-hakutiedot-for-koulutus
   [oid]
-  (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid)))
+  (locking KoutaFixture
+    (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid))))
 
 (defn mock-list-valintaperusteet-by-sorakuvaus
   [sorakuvausId]
-  (->keywordized-json (.listValintaperusteetBySorakuvaus KoutaFixture sorakuvausId)))
+  (locking KoutaFixture
+    (->keywordized-json (.listValintaperusteetBySorakuvaus KoutaFixture sorakuvausId))))
+
+(defn mock-get-oppilaitoksen-osat-by-oppilaitos
+  [oppilaitosOid]
+  (locking KoutaFixture
+    (->keywordized-json (.getOppilaitostenOsatByOppilaitos KoutaFixture oppilaitosOid))))
 
 (defn mock-get-last-modified
   [since]
-  (->keywordized-json (.getLastModified KoutaFixture since)))
+  (locking KoutaFixture
+    (->keywordized-json (.getLastModified KoutaFixture since))))
 
 (defn reset-indices
   []
@@ -155,7 +205,8 @@
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name))
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn refresh-indices
   []
@@ -164,7 +215,8 @@
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
-  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name))
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn reset-mocks
   []
@@ -186,6 +238,8 @@
 
 (defmacro with-mocked-indexing
   [& body]
+  ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
+  ;It can be temporarily fixed by using locked in mocking functions, but better solution would be superb!
   `(with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutus
 
@@ -210,6 +264,9 @@
                  kouta-indeksoija-service.rest.kouta/get-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-sorakuvaus
 
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitos
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
+
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
 
@@ -228,11 +285,17 @@
                  kouta-indeksoija-service.rest.kouta/list-valintaperusteet-by-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-valintaperusteet-by-sorakuvaus
 
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osat
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osat-by-oppilaitos
+
                  kouta-indeksoija-service.rest.kouta/get-last-modified
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-last-modified
 
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
+
+                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
+                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio-hierarkia
 
                  kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
@@ -240,6 +303,12 @@
                  kouta-indeksoija-service.indexer.kouta.common/muokkaaja
                  kouta-indeksoija-service.fixture.external-services/mock-muokkaaja]
      (do ~@body)))
+
+(defn index-oppilaitokset
+  [oids]
+  (with-mocked-indexing
+   (indexer/index-oppilaitokset oids))
+  (refresh-indices))
 
 (defn index-oids-with-related-indices
   [oids]

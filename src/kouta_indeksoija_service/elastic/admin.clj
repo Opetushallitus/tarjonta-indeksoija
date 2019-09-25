@@ -7,7 +7,7 @@
             [kouta-indeksoija-service.indexer.kouta.haku :refer [index-name] :rename {index-name haku-index}]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :refer [index-name] :rename {index-name valintaperuste-index}]
-            [kouta-indeksoija-service.indexer.organisaatio.organisaatio :refer [index-name] :rename {index-name organisaatio-index}]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [index-name] :rename {index-name oppilaitos-index}]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
             [kouta-indeksoija-service.queuer.last-queued :refer [index-name] :rename {index-name last-queued-index}]
@@ -43,7 +43,6 @@
   []
   (let [all-index-names [eperuste-index
                          osaamisalakuvaus-index
-                         organisaatio-index
                          "palaute"
                          last-queued-index
                          koulutus-search-index
@@ -51,7 +50,8 @@
                          toteutus-index
                          haku-index
                          hakukohde-index
-                         valintaperuste-index]
+                         valintaperuste-index
+                         oppilaitos-index]
         new-indices (filter #(not (e/index-exists %)) (map t/index-name all-index-names))
         results (map #(e/create-index % settings/index-settings) new-indices)
         ack (map #(:acknowledged %) results)]
@@ -76,13 +76,13 @@
   []
   (update-indices-mappings settings/stemmer-settings-eperuste     [eperuste-index
                                                                    osaamisalakuvaus-index])
-  (update-indices-mappings settings/stemmer-settings-organisaatio [organisaatio-index])
   (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index])
   (update-indices-mappings settings/kouta-settings                [koulutus-index
                                                                    toteutus-index
                                                                    haku-index
                                                                    hakukohde-index
-                                                                   valintaperuste-index]))
+                                                                   valintaperuste-index
+                                                                   oppilaitos-index]))
 
 (defn initialize-indices
   []

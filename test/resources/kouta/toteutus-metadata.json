@@ -3,7 +3,7 @@
   "kuvaus": {},
   "osaamisalat": [
     {
-      "koodi": "osaamisala_koodi_uri#1",
+      "koodiUri": "osaamisala_koodi_uri#1",
       "linkki": {
         "fi": "http://osaamisala/linkki/fi",
         "sv": "http://osaamisala/linkki/sv"

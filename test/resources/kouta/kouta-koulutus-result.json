@@ -185,10 +185,10 @@
     },
     "lisatiedot" : [ {
       "otsikko" : {
-        "koodiUri" : "koulutuksenjarjestamisenlisaosiot_3#1",
+        "koodiUri" : "koulutuksenlisatiedot_03#1",
         "nimi" : {
-          "fi" : "koulutuksenjarjestamisenlisaosiot_3#1 nimi fi",
-          "sv" : "koulutuksenjarjestamisenlisaosiot_3#1 nimi sv"
+          "fi" : "koulutuksenlisatiedot_03#1 nimi fi",
+          "sv" : "koulutuksenlisatiedot_03#1 nimi sv"
         }
       },
       "teksti" : {
