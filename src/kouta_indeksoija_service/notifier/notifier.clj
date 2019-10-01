@@ -4,7 +4,8 @@
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [kouta-indeksoija-service.indexer.indexer :as indexer]))
 
 (def receivers (filter not-empty (str/split (:notifier-targets env) #",")))
 
@@ -54,42 +55,52 @@
                   (log/debug "Sending notification message" body "to" receiver)
                   (post receiver msg)) receivers))))
 
-(defn send-koulutus-notifications
-  [objects]
+(defn- send-koulutus-notifications
+  [koulutukset]
   (with-error-logging-value
-   objects
-   (let [messages (map to-message-koulutus objects)]
+   koulutukset
+   (let [messages (map to-message-koulutus koulutukset)]
      (doall (map send-notifications messages))
-     objects)))
+     koulutukset)))
 
-(defn send-haku-notifications
-  [objects]
+(defn- send-haku-notifications
+  [haut]
   (with-error-logging-value
-   objects
-   (let [messages (map to-message-haku objects)]
+   haut
+   (let [messages (map to-message-haku haut)]
      (doall (map send-notifications messages))
-     objects)))
+     haut)))
 
-(defn send-hakukohde-notifications
-  [objects]
+(defn- send-hakukohde-notifications
+  [hakukohteet]
   (with-error-logging-value
-   objects
-   (let [messages (map to-message-hakukohde objects)]
+   hakukohteet
+   (let [messages (map to-message-hakukohde hakukohteet)]
      (doall (map send-notifications messages))
-     objects)))
+     hakukohteet)))
 
-(defn send-toteutus-notifications
-  [objects]
+(defn- send-toteutus-notifications
+  [toteutukset]
   (with-error-logging-value
-   objects
-   (let [messages (map to-message-toteutus objects)]
+   toteutukset
+   (let [messages (map to-message-toteutus toteutukset)]
      (doall (map send-notifications messages))
-     objects)))
+     toteutukset)))
 
-(defn send-valintaperuste-notifications
-  [objects]
+(defn- send-valintaperuste-notifications
+  [valintaperusteet]
   (with-error-logging-value
-   objects
-   (let [messages (map to-message-valintaperuste objects)]
+   valintaperusteet
+   (let [messages (map to-message-valintaperuste valintaperusteet)]
      (doall (map send-notifications messages))
-     objects)))
+     valintaperusteet)))
+
+(defn notify
+  [things]
+  (->
+   things
+   (indexer/rewrite-non-empty :koulutukset send-koulutus-notifications)
+   (indexer/rewrite-non-empty :haut send-haku-notifications)
+   (indexer/rewrite-non-empty :hakukohteet send-hakukohde-notifications)
+   (indexer/rewrite-non-empty :toteutukset send-toteutus-notifications)
+   (indexer/rewrite-non-empty :valintaperusteet send-valintaperuste-notifications)))

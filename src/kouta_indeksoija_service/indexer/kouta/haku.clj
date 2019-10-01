@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.haku
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.notifier.notifier :refer [send-haku-notifications]]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "haku-kouta")
 
@@ -19,7 +18,7 @@
 
 (defn do-index
   [oids]
-  (send-haku-notifications (indexable/do-index index-name oids create-index-entries)) )
+  (indexable/do-index index-name oids create-index-entries))
 
 (defn get
   [oid]

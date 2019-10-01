@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta-indexer-test
   (:require [clojure.test :refer :all]
             [clojure.data :refer [diff]]
-            [kouta-indeksoija-service.indexer.indexer :as i]
+            [kouta-indeksoija-service.indexer.indexer-api :as i]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]

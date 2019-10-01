@@ -65,12 +65,12 @@ and stopped with `tools\stop_localstack`, this requires that Docker is installed
 The application can notify others when information is indexed. This is controlled with `:notifier-targets`
 value in `dev_resources/config.edn`. It should be defaulted to `""`, ie. no changes will be sent.
 
-When wanting to validate locally that the notifications are working, one of the easiest way is with `http-echo-server`:
-* Run `npm install http-echo-server -g` to install it
-* Run `PORT=9200 http-echo-server` to run it in port 9200
+When wanting to validate locally that the notifications are working, one of the easiest way is with `dummy-web-server.py` in `tools`:
+* Run `python2 tools/dummy-we-server.py 9200` to start it in port 9200.
 * Change `:notifier-targets` in `dev_resources/config.edn` to `"http://localhost:9200"`
+* You can edit the script to set the return code and headers.
 
-`http-echo-server` will echo everything sent to it back to the sender and print it to console.
+The script will log every access to console.
 
 #### Running
 

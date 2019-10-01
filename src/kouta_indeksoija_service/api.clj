@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
-            [kouta-indeksoija-service.indexer.indexer :as indexer]
+            [kouta-indeksoija-service.indexer.indexer-api :as indexer]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]

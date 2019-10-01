@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.fixture.kouta-indexer-fixture
   (:require [kouta-indeksoija-service.elastic.admin :as admin]
-            [kouta-indeksoija-service.indexer.indexer :as indexer]
+            [kouta-indeksoija-service.indexer.indexer-api :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
             [mocks.notifier-target-mock]

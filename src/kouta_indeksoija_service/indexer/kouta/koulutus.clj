@@ -3,8 +3,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.toteutus :refer [to-list-item]]
-            [kouta-indeksoija-service.notifier.notifier :refer [send-koulutus-notifications]]))
+            [kouta-indeksoija-service.indexer.tools.toteutus :refer [to-list-item]]))
 
 (def index-name "koulutus-kouta")
 
@@ -22,7 +21,7 @@
 
 (defn do-index
   [oids]
-  (send-koulutus-notifications (indexable/do-index index-name oids create-index-entries)))
+  (indexable/do-index index-name oids create-index-entries))
 
 (defn get
   [oid]

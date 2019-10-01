@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [kouta-indeksoija-service.queue.state :as state]
-            [kouta-indeksoija-service.indexer.indexer :as indexer])
+            [kouta-indeksoija-service.indexer.indexer-api :as indexer])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
 
