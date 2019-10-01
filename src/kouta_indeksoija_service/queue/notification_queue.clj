@@ -1,12 +1,9 @@
 (ns kouta-indeksoija-service.queue.notification-queue
   (:require [clojure.tools.logging :as log]
             [clj-log.error-log :refer [with-error-logging]]
-            [cheshire.core :as json]
-            [clojure.core.reducers :as r]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [kouta-indeksoija-service.queue.queue :as queue]
-            [kouta-indeksoija-service.queue.state :as state]
             [kouta-indeksoija-service.notifier.notifier :refer [send-notification]]
             [kouta-indeksoija-service.elastic.tools :refer [get-id]])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
@@ -19,8 +16,8 @@
     (map #(assoc % :queue q) messages)))
 
 (defn handle-messages-from-queues
-  "Receive messages from queues and call handler function on them. If handling is
-  successful delete messages from queue."
+  "Receive messages from queues and call handler function on them. Delete the successfully
+  handled messages from the queue."
   ([handler] (handle-messages-from-queues handler queue/body-json->map))
   ([handler unwrapper]
    (let [messages (receive-messages-from-notification-queue)]

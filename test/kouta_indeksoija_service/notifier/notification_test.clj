@@ -4,13 +4,6 @@
             [clojure.data :refer [diff]]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
-            [kouta-indeksoija-service.indexer.indexer :as i]
-            [kouta-indeksoija-service.indexer.kouta.haku :as haku]
-            [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
-            [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
-            [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
-            [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
-            [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json]]
             [mocks.notifier-target-mock :as notifier-target-mock]
@@ -26,7 +19,7 @@
   [& body]
   ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
   ;It can be temporarily fixed by using locked in mocking functions, but better solution would be superb!
-  `(with-redefs [kouta-indeksoija-service.notifier.notifier/send-notification-messages
+  `(with-redefs [kouta-indeksoija-service.notifier.notifier/queue-notification-messages
                  mocks.notifier-target-mock/add]
      (do ~@body)))
 

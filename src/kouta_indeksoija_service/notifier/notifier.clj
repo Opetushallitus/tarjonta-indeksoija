@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.notifier.notifier
   (:require [kouta-indeksoija-service.rest.util :refer [post]]
-            [clj-log.error-log :refer [with-error-logging]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
@@ -18,15 +17,13 @@
     (log/info "Sending notification message about" (:type body) (get-id body) "to" receiver)
     (post receiver msg)))
 
-(defn- queue-notifications
+(defn- queue-notification-messages
   [body]
   (let [message {:message body}]
-    (doall
-     (map
-      #(sqs/send-message
-        (sqs/find-queue (:notifications (:queue env)))
-        (assoc message :receiver %))
-      receivers))))
+    (doseq [receiver receivers]
+      (sqs/send-message
+       (sqs/find-queue (:notifications (:queue env)))
+       (assoc message :receiver receiver)))))
 
 (defn- to-message
   [type id url object]
@@ -66,25 +63,17 @@
   (let [url (resolve-url :kouta-external.valintaperuste.id (:id valintaperuste))]
     (to-message "valintaperuste" :id url valintaperuste)))
 
-(defn- send-notification-messages
-  [body]
-  (let [msg {:form-params body
-             :content-type :json}]
-    (doseq [receiver receivers]
-      (log/debug "Sending notification message" body "to" receiver)
-      (post receiver msg))))
-
-(defn- send-notifications
+(defn- queue-notifications
   [->message objects]
-  (with-error-logging (let [messages (map ->message objects)]
-     (doseq [message messages] (queue-notifications message))
-     objects)))
+  (let [messages (map ->message objects)]
+     (doseq [message messages] (queue-notification-messages message))
+     objects))
 
 (defn notify
   [objects]
-  (send-notifications koulutus->message (:koulutukset objects))
-  (send-notifications haku->message (:haut objects))
-  (send-notifications hakukohde->message (:hakukohteet objects))
-  (send-notifications toteutus->message (:toteutukset objects))
-  (send-notifications valintaperuste->message (:valintaperusteet objects))
+  (queue-notifications koulutus->message (:koulutukset objects))
+  (queue-notifications haku->message (:haut objects))
+  (queue-notifications hakukohde->message (:hakukohteet objects))
+  (queue-notifications toteutus->message (:toteutukset objects))
+  (queue-notifications valintaperuste->message (:valintaperusteet objects))
   objects)
