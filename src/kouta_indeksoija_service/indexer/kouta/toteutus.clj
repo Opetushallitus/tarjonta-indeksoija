@@ -10,7 +10,9 @@
   [oid]
   (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
         hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-toteutus oid))]
-    (assoc toteutus :hakukohteet hakukohde-list)))
+    (-> toteutus
+        (common/assoc-organisaatiot)
+        (assoc :hakukohteet hakukohde-list))))
 
 (defn create-index-entries
   [oids]

@@ -168,7 +168,8 @@
   (deftest index-toteutus-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index toteutus to toteutus index and update related indexes"
-        (check-all-nil)(i/index-toteutus toteutus-oid)
+        (check-all-nil)
+        (i/index-toteutus toteutus-oid)
         (compare-json (no-timestamp (json "kouta-toteutus-result"))
                       (no-timestamp (read toteutus/index-name toteutus-oid)))
         (is (= koulutus-oid (:oid (read search/index-name koulutus-oid))))
@@ -177,7 +178,8 @@
   (deftest index-haku-test
     (fixture/with-mocked-indexing
       (testing "Indexer should index haku to haku index and update related indexes"
-        (check-all-nil)(i/index-haku haku-oid)
+        (check-all-nil)
+        (i/index-haku haku-oid)
         (compare-json (no-timestamp (json "kouta-haku-result"))
                       (no-timestamp (read haku/index-name haku-oid)))
         (is (= nil (:oid (read toteutus/index-name toteutus-oid))))
@@ -281,7 +283,7 @@
      (testing "Indexer should index all toteutukset"
        (check-all-nil)
        (i/index-all-toteutukset)
-       (is (= nil (read haku/index-name haku-oid)))
+       (is (= haku-oid (:oid (read haku/index-name haku-oid))))
        (is (= nil (read hakukohde/index-name hakukohde-oid)))
        (is (= toteutus-oid (:oid (read toteutus/index-name toteutus-oid))))
        (is (= koulutus-oid (:oid (read koulutus/index-name koulutus-oid))))

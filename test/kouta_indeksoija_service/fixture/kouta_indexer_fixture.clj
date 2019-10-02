@@ -178,6 +178,11 @@
   (locking KoutaFixture
     (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid))))
 
+(defn mock-list-toteutukset-by-haku
+  [hakuOid]
+  (locking KoutaFixture
+    (->keywordized-json (.listToteutuksetByHaku KoutaFixture hakuOid))))
+
 (defn mock-get-hakutiedot-for-koulutus
   [oid]
   (locking KoutaFixture
@@ -281,6 +286,9 @@
 
                  kouta-indeksoija-service.rest.kouta/list-koulutukset-by-haku
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutukset-by-haku
+
+                 kouta-indeksoija-service.rest.kouta/list-toteutukset-by-haku
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-toteutukset-by-haku
 
                  kouta-indeksoija-service.rest.kouta/list-valintaperusteet-by-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-valintaperusteet-by-sorakuvaus

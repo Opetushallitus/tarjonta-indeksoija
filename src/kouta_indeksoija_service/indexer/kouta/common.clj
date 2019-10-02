@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
-  (:require [kouta-indeksoija-service.rest.kouta :refer [get-toteutus-list-for-koulutus]]
+  (:require [kouta-indeksoija-service.rest.kouta :refer [get-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [clojure.string :refer [replace]]
@@ -46,6 +46,12 @@
   (if-let [oids (:tarjoajat entry)]
     (assoc entry :tarjoajat (map #(tarjoaja/get-tarjoaja %1) oids))
     entry))
+
+(defn assoc-organisaatiot
+  [entry]
+  (let [organisaatio (get-in entry [:organisaatio :oid])
+        tarjoajat (map :oid (:tarjoajat entry))]
+    (assoc entry :organisaatiot (vec (distinct (remove nil? (conj tarjoajat organisaatio)))))))
 
 (defn complete-entry
   [entry]
