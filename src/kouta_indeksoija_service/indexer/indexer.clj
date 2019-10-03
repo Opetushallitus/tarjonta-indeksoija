@@ -72,9 +72,9 @@
 
 (defn rewrite-non-empty
   [map keyword f]
-  (if (empty? (keyword map))
-    map
-    (assoc map keyword (f (keyword map)))))
+  (if (contains? map keyword)
+    (assoc map keyword (f (keyword map)))
+    map))
 
 (defn index-oids
   [oids]

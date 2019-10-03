@@ -312,7 +312,7 @@
                  kouta-indeksoija-service.indexer.kouta.common/muokkaaja
                  kouta-indeksoija-service.fixture.external-services/mock-muokkaaja
 
-                 kouta-indeksoija-service.notifier.notifier/send-notifications
+                 kouta-indeksoija-service.notifier.notifier/send-notification-messages
                  mocks.notifier-target-mock/add]
      (do ~@body)))
 
