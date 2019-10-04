@@ -8,109 +8,99 @@
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]))
 
 (defn index-oids
-  [oids]
-  (notifier/notify (indexer/index-oids oids)))
+  [oids notify]
+  (let [indexed (indexer/index-oids oids)]
+    (if notify (notifier/notify indexed))
+    indexed))
 
 (defn index-koulutukset
-  [oids]
-  (index-oids {:koulutukset oids}))
+  [oids notify]
+  (index-oids {:koulutukset oids} notify))
 
 (defn index-toteutukset
-  [oids]
-  (index-oids {:toteutukset oids}))
+  [oids notify]
+  (index-oids {:toteutukset oids} notify))
 
 (defn index-haut
-  [oids]
-  (index-oids {:haut oids}))
+  [oids notify]
+  (index-oids {:haut oids} notify))
 
 (defn index-hakukohteet
-  [oids]
-  (index-oids {:hakukohteet oids}))
+  [oids notify]
+  (index-oids {:hakukohteet oids} notify))
 
 (defn index-valintaperusteet
-  [oids]
-  (index-oids {:valintaperusteet oids}))
+  [oids notify]
+  (index-oids {:valintaperusteet oids} notify))
 
 (defn index-sorakuvaukset
-  [oids]
-  (index-oids {:sorakuvaukset oids}))
+  [oids notify]
+  (index-oids {:sorakuvaukset oids} notify))
 
 (defn index-eperusteet
   [oids]
-  (index-oids {:eperusteet oids}))
+  (index-oids {:eperusteet oids} false))
 
 (defn index-oppilaitokset
   [oids]
-  (index-oids {:oppilaitokset oids}))
+  (index-oids {:oppilaitokset oids} false))
 
 (defn index-koulutus
-  [oid]
-  (index-koulutukset (list oid)))
+  [oid notify]
+  (index-koulutukset [oid] notify))
 
 (defn index-toteutus
-  [oid]
-  (index-toteutukset (list oid)))
+  [oid notify]
+  (index-toteutukset [oid] notify))
 
 (defn index-haku
-  [oid]
-  (index-haut (list oid)))
+  [oid notify]
+  (index-haut [oid] notify))
 
 (defn index-hakukohde
-  [oid]
-  (index-hakukohteet (list oid)))
+  [oid notify]
+  (index-hakukohteet [oid] notify))
 
 (defn index-valintaperuste
-  [oid]
-  (index-valintaperusteet (list oid)))
-
-(defn index-sorakuvaus
-  [oid]
-  (index-sorakuvaukset (list oid)))
+  [oid notify]
+  (index-valintaperusteet [oid] notify))
 
 (defn index-eperuste
   [oid]
-  (index-eperusteet (list oid)))
+  (index-eperusteet [oid]))
 
 (defn index-oppilaitos
   [oid]
-  (index-oppilaitokset (list oid)))
+  (index-oppilaitokset [oid]))
 
 (defn index-since-kouta
-  [since]
+  [since notify]
   (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet"))
   (let [start (. System (currentTimeMillis))
         date (long->rfc1123 since)
         oids (kouta-backend/get-last-modified date)]
-    (index-oids oids)
+    (index-oids oids notify)
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
-(defn- all-kouta-oids
-  []
-  (kouta-backend/get-last-modified (long->rfc1123 0)))
-
-(defn index-all-kouta
-  []
-  (indexer/index-all-kouta (all-kouta-oids)))
-
 (defn index-all-koulutukset
-  []
-  (index-koulutukset (:koulutukset (all-kouta-oids))))
+  [notify]
+  (index-koulutukset (:koulutukset (kouta-backend/all-kouta-oids)) notify))
 
 (defn index-all-toteutukset
-  []
-  (index-toteutukset (:toteutukset (all-kouta-oids))))
+  [notify]
+  (index-toteutukset (:toteutukset (kouta-backend/all-kouta-oids)) notify))
 
 (defn index-all-haut
-  []
-  (index-haut (:haut (all-kouta-oids))))
+  [notify]
+  (index-haut (:haut (kouta-backend/all-kouta-oids)) notify))
 
 (defn index-all-hakukohteet
-  []
-  (index-hakukohteet (:hakukohteet (all-kouta-oids))))
+  [notify]
+  (index-hakukohteet (:hakukohteet (kouta-backend/all-kouta-oids)) notify))
 
 (defn index-all-valintaperusteet
-  []
-  (index-valintaperusteet (:valintaperusteet (all-kouta-oids))))
+  [notify]
+  (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids)) notify))
 
 (defn index-all-eperusteet
   []

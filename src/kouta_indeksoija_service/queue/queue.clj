@@ -72,7 +72,7 @@
        (fn
          [messages]
          (doseq [step [#(state/set-states! ::state/started %)
-                       #(indexer/index-oids (combine-messages %))
+                       #(indexer/index-oids (combine-messages %) true)
                        #(state/set-states! ::state/indexed %)]]
            (step messages))))
       (catch QueueDoesNotExistException e
