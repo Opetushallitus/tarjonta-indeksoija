@@ -89,6 +89,10 @@
   "metadata" : {
     "tyyppi" : "amm",
     "valintatavat" : [ {
+      "nimi" : {
+        "fi" : "Valintatapa1 fi",
+        "sv" : "Valintatapa1 sv"
+      },
       "valintatapa" : {
         "koodiUri" : "valintatapajono_av#1",
         "nimi" : {
@@ -198,6 +202,10 @@
       "enimmaispisteet" : 201.15,
       "vahimmaispisteet" : 182.1
     }, {
+      "nimi" : {
+        "fi" : "Valintatapa2 fi",
+        "sv" : "Valintatapa2 sv"
+      },
       "valintatapa" : {
         "koodiUri" : "valintatapajono_tv#1",
         "nimi" : {
