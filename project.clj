@@ -14,7 +14,7 @@
                                :password :env/artifactory_password
                                :snapshots true}]]
   :managed-dependencies [[org.flatland/ordered "1.5.7"]]
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.10.0"]
                  [metosin/compojure-api "1.1.10" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
                                                               com.fasterxml.jackson.dataformat/jackson-dataformat-smile
@@ -64,7 +64,7 @@
                                   [ring/ring-mock "0.3.0"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [criterium "0.4.4"]]
-                   :plugins [[lein-ring "0.10.0"]
+                   :plugins [[lein-ring "0.12.5"]
                              [jonase/eastwood "0.3.5"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
