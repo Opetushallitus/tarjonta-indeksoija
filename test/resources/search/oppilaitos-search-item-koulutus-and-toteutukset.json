@@ -1,0 +1,45 @@
+{
+  "oid" : "1.2.246.562.10.77777777777",
+  "nimi" : {
+    "fi" : "Oppilaitos fi 1.2.246.562.10.77777777777",
+    "sv" : "Oppilaitos sv 1.2.246.562.10.77777777777"
+  },
+  "kielivalinta" : [ "fi", "sv" ],
+  "kuvaus" : {
+    "fi" : "Esittely",
+    "sv" : "Esittely sv"
+  },
+  "koulutusohjelmia" : 2,
+  "hits" : [ {
+    "koulutustyyppi" : "amm",
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ],
+    "sijainti" : [ "kunta_091" ],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
+    "terms" : {
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777777", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777772" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777777", "Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777772" ],
+      "en" : [ ]
+    }
+  }, {
+    "koulutustyyppi" : "amm",
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],
+    "sijainti" : [ "kunta_091", "kunta_091" ],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
+    "terms" : {
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777777", "Hevostoteutus 1 fi", "Toimipiste fi 1.2.246.562.10.777777777771", "Toimipiste fi 1.2.246.562.10.777777777773", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777777", "Hevostoteutus 1 sv", "Toimipiste sv 1.2.246.562.10.777777777771", "Toimipiste sv 1.2.246.562.10.777777777773", "hepparna", "heppa" ],
+      "en" : [ "horses", "horse" ]
+    }
+  }, {
+    "koulutustyyppi" : "amm",
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1" ],
+    "sijainti" : [ "kunta_091" ],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
+    "terms" : {
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777777", "Hevostoteutus 2 fi", "Toimipiste fi 1.2.246.562.10.777777777771", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777777", "Hevostoteutus 2 sv", "Toimipiste sv 1.2.246.562.10.777777777771" ],
+      "en" : [ ]
+    }
+  } ],
+  "timestamp" : 1570709741918
+}

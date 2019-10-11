@@ -78,6 +78,10 @@
   ([koulutus-oid]
    (get-toteutus-list-for-koulutus koulutus-oid false)))
 
+(defn get-koulutukset-by-tarjoaja
+  [oppilaitos-oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.tarjoaja.oid oppilaitos-oid)))
+
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.hakutiedot koulutus-oid)))

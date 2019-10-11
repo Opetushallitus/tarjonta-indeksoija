@@ -65,7 +65,7 @@
                                                                                   :parentOid oppilaitos-oid,
                                                                                   :parentOidPath (str toimipiste-oid "/" oppilaitos-oid "/"  koulutustoimija-oid  "/1.2.246.562.10.10101010100"),
                                                                                   :toimipistekoodi "00000",
-                                                                                  :nimi { :fi (str "Oppilaitos fi " oppilaitos-oid), :sv (str "Oppilaitos sv " oppilaitos-oid)}
+                                                                                  :nimi { :fi (str "Toimipiste fi " toimipiste-oid), :sv (str "Toimipiste sv " toimipiste-oid)}
                                                                                   :kieletUris [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ],
                                                                                   :kotipaikkaUri "kunta_091",
                                                                                   :aliOrganisaatioMaara 0,

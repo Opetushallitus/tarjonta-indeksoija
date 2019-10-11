@@ -2,6 +2,7 @@
   (:require [kouta-indeksoija-service.elastic.tools :as t]
             [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :refer [index-name] :rename {index-name koulutus-search-index}]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :refer [index-name] :rename {index-name oppilaitos-search-index}]
             [kouta-indeksoija-service.indexer.kouta.koulutus :refer [index-name] :rename {index-name koulutus-index}]
             [kouta-indeksoija-service.indexer.kouta.toteutus :refer [index-name] :rename {index-name toteutus-index}]
             [kouta-indeksoija-service.indexer.kouta.haku :refer [index-name] :rename {index-name haku-index}]
@@ -46,6 +47,7 @@
                          "palaute"
                          last-queued-index
                          koulutus-search-index
+                         oppilaitos-search-index
                          koulutus-index
                          toteutus-index
                          haku-index
@@ -76,7 +78,8 @@
   []
   (update-indices-mappings settings/stemmer-settings-eperuste     [eperuste-index
                                                                    osaamisalakuvaus-index])
-  (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index])
+  (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index
+                                                                   oppilaitos-search-index])
   (update-indices-mappings settings/kouta-settings                [koulutus-index
                                                                    toteutus-index
                                                                    haku-index
