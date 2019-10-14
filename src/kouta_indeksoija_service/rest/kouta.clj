@@ -84,6 +84,10 @@
   [haku-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.hakukohteet-list haku-oid)))
 
+(defn list-toteutukset-by-haku
+  [haku-oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.toteutukset-list haku-oid)))
+
 (defn list-koulutukset-by-haku
   [haku-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.koulutukset-list haku-oid)))

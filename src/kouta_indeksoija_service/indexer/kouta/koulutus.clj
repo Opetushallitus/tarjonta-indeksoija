@@ -2,26 +2,17 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.tools.toteutus :refer [to-list-item]]))
 
 (def index-name "koulutus-kouta")
-
-(defn- to-list-item
-  [toteutus]
-  (-> {}
-      (assoc :oid (:oid toteutus))
-      (assoc :organisaatio (:organisaatio toteutus))
-      (assoc :nimi (:nimi toteutus))
-      (assoc :tila (:tila toteutus))
-      (assoc :tarjoajat (:tarjoajat toteutus))
-      (assoc :muokkaaja (:muokkaaja toteutus))
-      (assoc :modified (:modified toteutus))))
 
 (defn create-index-entry
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
     (-> koulutus
+        (common/assoc-organisaatiot)
         (assoc :toteutukset (map to-list-item toteutukset)))))
 
 (defn create-index-entries

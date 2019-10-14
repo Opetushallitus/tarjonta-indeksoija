@@ -8,8 +8,9 @@
 (defn create-index-entry
   [oid]
   (let [haku (common/complete-entry (kouta-backend/get-haku oid))
-        hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-haku oid))]
-    (assoc haku :hakukohteet hakukohde-list)))
+        hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-haku oid))
+        toteutus-list (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))]
+    (assoc haku :hakukohteet (vec (map (fn [h] (assoc h :toteutus (common/assoc-organisaatiot (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list))))) hakukohde-list)))))
 
 (defn create-index-entries
   [oids]

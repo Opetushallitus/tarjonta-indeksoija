@@ -30,8 +30,10 @@
 
 (defn index-toteutukset
   [oids]
-  (let [entries (toteutus/do-index oids)]
-    (index-koulutukset (get-oids :koulutusOid entries))))
+  (let [entries (toteutus/do-index oids)
+        haut (set (apply concat (map kouta-backend/list-haut-by-toteutus oids)))]
+    (index-koulutukset (get-oids :koulutusOid entries))
+    (haku/do-index (get-oids :oid haut))))
 
 (defn index-toteutus
   [oid]
