@@ -217,6 +217,7 @@
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos-search/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn indices-fixture
@@ -232,6 +233,7 @@
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos-search/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn reset-mocks
@@ -245,6 +247,7 @@
 (defn teardown
   []
   (reset-mocks)
+  (println "MOCKS RESETTED")
   (reset-indices))
 
 (defn mock-indexing-fixture [test]

@@ -36,12 +36,12 @@
 
 (use-fixtures :each (fn [test] (do (test) (fixture/reset-indices))))
 
-(let [oppilaitos-oid1 "1.2.246.562.10.10101010101"
-      oppilaitos-oid2 "1.2.246.562.10.77777777777"
-      koulutus-oid1   "1.2.246.562.13.00000000000000000001"
-      koulutus-oid2   "1.2.246.562.13.00000000000000000002"
-      toteutus-oid1   "1.2.246.562.17.00000000000000000001"
-      toteutus-oid2   "1.2.246.562.17.00000000000000000002"]
+(let [oppilaitos-oid1 "1.2.246.562.10.10101010199"
+      oppilaitos-oid2 "1.2.246.562.10.77777777799"
+      koulutus-oid1   "1.2.246.562.13.00000000000000000099"
+      koulutus-oid2   "1.2.246.562.13.00000000000000000098"
+      toteutus-oid1   "1.2.246.562.17.00000000000000000099"
+      toteutus-oid2   "1.2.246.562.17.00000000000000000098"]
 
   (fixture/add-oppilaitos-mock oppilaitos-oid1 :tila "julkaistu")
   (fixture/add-oppilaitos-mock oppilaitos-oid2 :tila "julkaistu")
