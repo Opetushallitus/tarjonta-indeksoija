@@ -175,4 +175,6 @@
 
 (defn index-all-oppilaitokset
   []
-  (index-oppilaitokset (:oppilaitokset (organisaatio-client/get-all-oppilaitos-oids))))
+  (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)]
+    (log/info "Indeksoidaa " (count oppilaitokset) " oppilaitosta.")
+    (index-oppilaitokset oppilaitokset)))
