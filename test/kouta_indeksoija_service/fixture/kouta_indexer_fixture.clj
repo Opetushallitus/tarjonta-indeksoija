@@ -247,7 +247,6 @@
 (defn teardown
   []
   (reset-mocks)
-  (println "MOCKS RESETTED")
   (reset-indices))
 
 (defn mock-indexing-fixture [test]

@@ -12,7 +12,7 @@
   "koulutusohjelmia" : 2,
   "hits" : [ {
     "koulutustyyppi" : "amm",
-    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ],
+    "opetuskielet" : [ ],
     "sijainti" : [ "kunta_091" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
     "terms" : {
@@ -23,7 +23,7 @@
   }, {
     "koulutustyyppi" : "amm",
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],
-    "sijainti" : [ "kunta_091", "kunta_091" ],
+    "sijainti" : [ "kunta_091" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
     "terms" : {
       "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevostoteutus 1 fi", "Toimipiste fi 1.2.246.562.10.777777777993", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen" ],

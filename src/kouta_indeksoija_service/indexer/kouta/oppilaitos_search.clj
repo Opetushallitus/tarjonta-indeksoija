@@ -5,45 +5,27 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer :all]))
+            [kouta-indeksoija-service.indexer.tools.general :refer :all]
+            [kouta-indeksoija-service.indexer.tools.search :refer :all]))
 
 (def index-name "oppilaitos-kouta-search")
-
-(defn hit
-  [& {:keys [koulutustyyppi opetuskieliUrit tarjoajat oppilaitos koulutusalaUrit nimi asiasanat ammattinimikkeet]
-      :or {koulutustyyppi nil opetuskieliUrit [] tarjoajat [] oppilaitos {} koulutusalaUrit [] nimi {} asiasanat [] ammattinimikkeet []}}]
-
-  (defn- terms
-    [lng-keyword]
-    (distinct (remove nil? (concat (vector (lng-keyword (:nimi oppilaitos)) (lng-keyword nimi))
-                                   (map #(-> % :nimi lng-keyword) tarjoajat)
-                                   (map lng-keyword asiasanat)
-                                   (map lng-keyword ammattinimikkeet)))))
-
-  {:koulutustyyppi koulutustyyppi
-   :opetuskielet  (vec opetuskieliUrit)
-   :sijainti      (vec (map :kotipaikkaUri tarjoajat))
-   :koulutusalat  (vec koulutusalaUrit)
-   :terms         {:fi (terms :fi)
-                   :sv (terms :sv)
-                   :en (terms :en)}})
-
-(defn oppilaitos-hit
-  [oppilaitos]
-  (hit :opetuskieliUrit (:kieletUris oppilaitos)
-       :tarjoajat (vector oppilaitos)
-       :oppilaitos oppilaitos))
 
 (defn- tarjoaja-organisaatiot
   [oppilaitos tarjoajat]
   (vec (map #(organisaatio-tool/find-from-organisaatio-and-children oppilaitos %) tarjoajat)))
 
+(defn oppilaitos-hit
+  [oppilaitos]
+  (hit :opetuskieliUrit (:kieletUris oppilaitos)
+       :tarjoajat       (vector oppilaitos)
+       :oppilaitokset   (vector oppilaitos)))
+
 (defn koulutus-hit
   [oppilaitos koulutus]
   (hit :koulutustyyppi  (:koulutustyyppi koulutus)
-       :opetuskieliUrit (:kieletUris oppilaitos)
+       ;:opetuskieliUrit (:kieletUris oppilaitos)
        :tarjoajat       (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
-       :oppilaitos      oppilaitos
+       :oppilaitokset   (vector oppilaitos)
        :koulutusalaUrit (get-in koulutus [:metadata :koulutusalaKoodiUrit])
        :nimi            (:nimi koulutus)))
 
@@ -52,7 +34,7 @@
   (hit :koulutustyyppi   (:koulutustyyppi koulutus)
        :opetuskieliUrit  (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
        :tarjoajat        (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
-       :oppilaitos       oppilaitos
+       :oppilaitokset   (vector oppilaitos)
        :koulutusalaUrit  (get-in koulutus [:metadata :koulutusalaKoodiUrit])
        :nimi             (:nimi toteutus)
        :asiasanat        (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))

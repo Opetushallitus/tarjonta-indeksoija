@@ -8,7 +8,9 @@
    [kouta-indeksoija-service.indexer.kouta.haku :as haku]
    [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
    [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
-   [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
+   [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
+   [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
+   [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
    [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
    [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]))
 
@@ -31,12 +33,18 @@
 
 (defn check-all-nil
   []
-  (is (= nil (get-doc search/index-name koulutus-oid)))
-  (is (= nil (get-doc koulutus/index-name koulutus-oid)))
-  (is (= nil (get-doc toteutus/index-name toteutus-oid)))
-  (is (= nil (get-doc haku/index-name haku-oid)))
-  (is (= nil (get-doc hakukohde/index-name hakukohde-oid)))
-  (is (= nil (get-doc valintaperuste/index-name valintaperuste-id))))
+  (is (nil? (read koulutus-search/index-name koulutus-oid)))
+  (is (nil? (read koulutus/index-name koulutus-oid)))
+  (is (nil? (read toteutus/index-name toteutus-oid)))
+  (is (nil? (read haku/index-name haku-oid)))
+  (is (nil? (read hakukohde/index-name hakukohde-oid)))
+  (is (nil? (read valintaperuste/index-name valintaperuste-id)))
+  (is (nil? (read oppilaitos/index-name oppilaitos-oid)))
+  (is (nil? (read oppilaitos/index-name mocks/Oppilaitos1)))
+  (is (nil? (read oppilaitos/index-name mocks/Oppilaitos2)))
+  (is (nil? (read oppilaitos-search/index-name oppilaitos-oid)))
+  (is (nil? (read oppilaitos-search/index-name mocks/Oppilaitos1)))
+  (is (nil? (read oppilaitos-search/index-name mocks/Oppilaitos2))))
 
 (defn common-indexer-fixture
   [tests]

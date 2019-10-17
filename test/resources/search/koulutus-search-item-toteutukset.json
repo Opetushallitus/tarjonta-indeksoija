@@ -1,0 +1,32 @@
+{
+  "oid" : "1.2.246.562.13.00000000000000000098",
+  "nimi" : {
+    "fi" : "Hevosalan perustutkinto 0 fi",
+    "sv" : "Hevosalan perustutkinto 0 sv"
+  },
+  "kielivalinta" : [ "fi", "sv" ],
+  "tutkintonimikkeet" : null,
+  "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
+  "hits" : [ {
+    "koulutustyyppi" : "amm",
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],
+    "sijainti" : [ "kunta_091"],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
+    "terms" : {
+      "fi" : [ "Hevostoteutus 1 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "Toimipiste fi 1.2.246.562.10.777777777993", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen" ],
+      "sv" : [ "Hevostoteutus 1 sv", "Oppilaitos sv 1.2.246.562.10.77777777799", "Toimipiste sv 1.2.246.562.10.777777777991", "Toimipiste sv 1.2.246.562.10.777777777993", "hepparna", "heppa" ],
+      "en" : [ "horses", "horse" ]
+    }
+  }, {
+    "koulutustyyppi" : "amm",
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1" ],
+    "sijainti" : [ "kunta_091" ],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
+    "terms" : {
+      "fi" : [ "Hevostoteutus 2 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri" ],
+      "sv" : [ "Hevostoteutus 2 sv", "Oppilaitos sv 1.2.246.562.10.77777777799", "Toimipiste sv 1.2.246.562.10.777777777991" ],
+      "en" : [ ]
+    }
+  } ],
+  "timestamp" : 1571294237566
+}

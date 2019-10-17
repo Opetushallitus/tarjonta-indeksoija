@@ -27,3 +27,11 @@
 (defn find-from-organisaatio-and-children
   [organisaatio oid]
   (recursive-hierarkia-v4-search #(= (:oid %) oid) (vector organisaatio)))
+
+(defn find-from-hierarkia
+  [hierarkia oid]
+  (recursive-hierarkia-v4-search #(= (:oid %) oid) (:organisaatiot hierarkia)))
+
+(defn find-oids-from-hierarkia
+  [hierarkia oids]
+  (vec (map #(find-from-hierarkia hierarkia %) oids)))

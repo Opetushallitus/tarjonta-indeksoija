@@ -46,9 +46,22 @@
   [json]
   (println (cheshire/generate-string json {:pretty true})))
 
+(defn order-primitive-arrays-for-comparison
+  [json]
+
+  (defn primitive?
+    [x]
+    (or (string? x) (number? x) (boolean? x)))
+
+  (defn sort-primitive-array
+    [x]
+    (if (and (vector? x) (seq x) (primitive? (first x))) (sort x) x))
+
+  (clojure.walk/postwalk sort-primitive-array json))
+
 (defn compare-json
   [expected actual]
-  (let [difference (diff expected actual)]
+  (let [difference (diff (order-primitive-arrays-for-comparison expected)
+                         (order-primitive-arrays-for-comparison actual))]
     (is (= nil (first difference)))
-    (is (= nil (second difference)))
-    (is (= expected actual))))
+    (is (= nil (second difference)))))
