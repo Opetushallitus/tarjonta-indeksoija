@@ -64,18 +64,18 @@
          (sqs/delete-message :queue-url (:queue received)
                              :receipt-handle msg))))))
 
+(defn handle-messages
+  [messages]
+  (doseq [step [#(state/set-states! ::state/started %)
+                #(notifier/notify (indexer/index-oids (combine-messages %)))
+                #(state/set-states! ::state/indexed %)]]
+    (step messages)))
+
 (defn index-from-sqs
   []
   (log/info "Start listening on queues.")
   (loop []
-    (try
-      (handle-messages-from-queues
-       (fn
-         [messages]
-         (doseq [step [#(state/set-states! ::state/started %)
-                       #(notifier/notify (indexer/index-oids (combine-messages %)))
-                       #(state/set-states! ::state/indexed %)]]
-           (step messages))))
+    (try (handle-messages-from-queues handle-messages)
       (catch QueueDoesNotExistException e
         (log/error e "Queues do not exist. Sleeping for 30 seconds and continue polling.")
         (Thread/sleep 30000))

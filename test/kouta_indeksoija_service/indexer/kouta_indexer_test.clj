@@ -146,3 +146,63 @@
      (is (= nil (:oid (get-doc koulutus/index-name koulutus-oid))))
      (is (= nil (:oid (get-doc search/index-name koulutus-oid))))
      (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
+
+(deftest index-all-koulutukset-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index all koulutukset"
+     (check-all-nil)
+     (i/index-all-koulutukset)
+     (is (= nil (get-doc haku/index-name haku-oid)))
+     (is (= nil (get-doc hakukohde/index-name hakukohde-oid)))
+     (is (= nil (get-doc toteutus/index-name toteutus-oid)))
+     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+     (is (= koulutus-oid (:oid (get-doc search/index-name koulutus-oid))))
+     (is (= nil (get-doc valintaperuste/index-name valintaperuste-id))))))
+
+(deftest index-all-toteutukset-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index all toteutukset"
+     (check-all-nil)
+     (i/index-all-toteutukset)
+     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+     (is (= nil (get-doc hakukohde/index-name hakukohde-oid)))
+     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+     (is (= koulutus-oid (:oid (get-doc search/index-name koulutus-oid))))
+     (is (= nil (get-doc valintaperuste/index-name valintaperuste-id))))))
+
+(deftest index-all-hakukohteet-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index all hakukohteet"
+     (check-all-nil)
+     (i/index-all-hakukohteet)
+     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+     (is (= nil (get-doc koulutus/index-name koulutus-oid)))
+     (is (= koulutus-oid (:oid (get-doc search/index-name koulutus-oid))))
+     (is (= nil (get-doc valintaperuste/index-name valintaperuste-id))))))
+
+(deftest index-all-haut-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index all haut"
+     (check-all-nil)
+     (i/index-all-haut)
+     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+     (is (= nil (get-doc hakukohde/index-name hakukohde-oid)))
+     (is (= nil (get-doc toteutus/index-name toteutus-oid)))
+     (is (= nil (get-doc koulutus/index-name koulutus-oid)))
+     (is (= koulutus-oid (:oid (get-doc search/index-name koulutus-oid))))
+     (is (= nil (get-doc valintaperuste/index-name valintaperuste-id))))))
+
+(deftest index-all-valintaperusteet-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index all valintaperusteet"
+     (check-all-nil)
+     (i/index-all-valintaperusteet)
+     (is (= nil (get-doc haku/index-name haku-oid)))
+     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+     (is (= nil (get-doc toteutus/index-name toteutus-oid)))
+     (is (= nil (get-doc koulutus/index-name koulutus-oid)))
+     (is (= nil (get-doc search/index-name koulutus-oid)))
+     (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
