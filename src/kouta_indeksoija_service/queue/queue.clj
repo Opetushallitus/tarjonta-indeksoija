@@ -6,7 +6,8 @@
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [kouta-indeksoija-service.queue.state :as state]
-            [kouta-indeksoija-service.indexer.indexer-api :as indexer])
+            [kouta-indeksoija-service.indexer.indexer :as indexer]
+            [kouta-indeksoija-service.notifier.notifier :as notifier])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
 
@@ -72,7 +73,7 @@
        (fn
          [messages]
          (doseq [step [#(state/set-states! ::state/started %)
-                       #(indexer/index-oids (combine-messages %) true)
+                       #(notifier/notify (indexer/index-oids (combine-messages %)))
                        #(state/set-states! ::state/indexed %)]]
            (step messages))))
       (catch QueueDoesNotExistException e

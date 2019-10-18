@@ -1,11 +1,10 @@
 (ns kouta-indeksoija-service.notifier.notifier
   (:require [kouta-indeksoija-service.rest.util :refer [post]]
-            [clj-log.error-log :refer [with-error-logging-value]]
+            [clj-log.error-log :refer [with-error-logging]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-            [clojure.string :as str]
-            [kouta-indeksoija-service.indexer.indexer :as indexer]))
+            [clojure.string :as str]))
 
 (def receivers (filter not-empty (str/split (:notifier-targets env) #",")))
 
@@ -51,16 +50,14 @@
   [body]
   (let [msg {:form-params body
              :content-type :json}]
-    (doall (map (fn [receiver]
-                  (log/debug "Sending notification message" body "to" receiver)
-                  (post receiver msg)) receivers))))
+    (doseq [receiver receivers]
+      (log/debug "Sending notification message" body "to" receiver)
+      (post receiver msg))))
 
 (defn- send-notifications
   [->message objects]
-  (with-error-logging-value
-   objects
-   (let [messages (map ->message objects)]
-     (doall (map send-notification-messages messages))
+  (with-error-logging (let [messages (map ->message objects)]
+     (doseq [message messages] (send-notification-messages message))
      objects)))
 
 (defn notify
@@ -69,4 +66,5 @@
   (send-notifications haku->message (:haut objects))
   (send-notifications hakukohde->message (:hakukohteet objects))
   (send-notifications toteutus->message (:toteutukset objects))
-  (send-notifications valintaperuste->message (:valintaperusteet objects)))
+  (send-notifications valintaperuste->message (:valintaperusteet objects))
+  objects)

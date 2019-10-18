@@ -3,7 +3,7 @@
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clj-test-utils.s3-mock-utils :refer :all]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
-            [kouta-indeksoija-service.indexer.indexer-api :as i]
+            [kouta-indeksoija-service.indexer.indexer :as i]
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
             [kouta-indeksoija-service.test-tools :refer :all]

@@ -4,7 +4,6 @@
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.s3.s3-client :as s3-client]
             [kouta-indeksoija-service.indexer.indexer :as indexer]
-            [kouta-indeksoija-service.indexer.indexer-api :as indexer-api]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
@@ -23,7 +22,8 @@
             [clojure.tools.logging :as log]
             [environ.core]
             [kouta-indeksoija-service.scheduled.jobs :as jobs]
-            [kouta-indeksoija-service.queuer.queuer :as queuer]))
+            [kouta-indeksoija-service.queuer.queuer :as queuer]
+            [kouta-indeksoija-service.notifier.notifier :as notifier]))
 
 (defn init []
   (mount/start)
@@ -48,6 +48,11 @@
   [^Exception e data request]
   (log/error e))
 
+(defn- with-notifications
+  [keyword notify result]
+  (if notify (notifier/notify {keyword result}))
+  (ok {:result result}))
+
 (def service-api
   (api
    {:swagger {:ui "/kouta-indeksoija/swagger"
@@ -65,67 +70,66 @@
        :tags ["kouta"]
 
        (POST "/all" []
-         :query-params [{since :- Long 0}
-                        {notify :- Boolean false}]
+         :query-params [{since :- Long 0}]
          :summary "Indeksoi uudet ja muuttuneet koulutukset, toteutukset, hakukohteet, haut ja valintaperusteet kouta-backendistä. Default kaikki."
          (ok {:result (if (= 0 since)
                         (indexer/index-all-kouta)
-                        (indexer-api/index-since-kouta since notify))}))
+                        (indexer/index-since-kouta since))}))
 
        (POST "/koulutus" []
          :summary "Indeksoi koulutuksen tiedot kouta-backendistä."
          :query-params [oid :- String
-                        {notify :- Boolean true}]
-         (ok {:result (indexer-api/index-koulutus oid notify)}))
+                        {notify :- Boolean false}]
+         (with-notifications :koulutukset notify (indexer/index-koulutus oid)))
 
        (POST "/koulutukset" []
          :summary "Indeksoi kaikki koulutukset kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (ok {:result (indexer-api/index-all-koulutukset notify)}))
+         (with-notifications :koulutukset notify (indexer/index-all-koulutukset)))
 
        (POST "/toteutus" []
          :summary "Indeksoi toteutuksen tiedot kouta-backendistä."
          :query-params [oid :- String
-                        {notify :- Boolean true}]
-         (ok {:result (indexer-api/index-toteutus oid notify)}))
+                        {notify :- Boolean false}]
+         (with-notifications :toteutukset notify (indexer/index-toteutus oid)))
 
        (POST "/toteutukset" []
          :summary "Indeksoi kaikki toteutukset kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (ok {:result (indexer-api/index-all-toteutukset notify)}))
+         (with-notifications :toteutukset notify (indexer/index-all-toteutukset)))
 
        (POST "/hakukohde" []
          :summary "Indeksoi hakukohteen tiedot kouta-backendistä."
          :query-params [oid :- String
-                        {notify :- Boolean true}]
-         (ok {:result (indexer-api/index-hakukohde oid notify)}))
+                        {notify :- Boolean false}]
+         (with-notifications :hakukohteet notify (indexer/index-hakukohde oid)))
 
        (POST "/hakukohteet" []
          :summary "Indeksoi kaikki hakukohteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (ok {:result (indexer-api/index-all-hakukohteet notify)}))
+         (with-notifications :hakukohteet notify (indexer/index-all-hakukohteet)))
 
        (POST "/haku" []
          :summary "Indeksoi haun tiedot kouta-backendistä."
          :query-params [oid :- String
-                        {notify :- Boolean true}]
-         (ok {:result (indexer-api/index-haku oid notify)}))
+                        {notify :- Boolean false}]
+         (with-notifications :haku notify (indexer/index-haku oid)))
 
        (POST "/haut" []
          :summary "Indeksoi kaikki haut kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (ok {:result (indexer-api/index-all-haut notify)}))
+         (with-notifications :haku notify (indexer/index-all-haut)))
 
        (POST "/valintaperuste" []
          :summary "Indeksoi valintaperusteen tiedot kouta-backendistä."
          :query-params [oid :- String
-                        {notify :- Boolean true}]
-         (ok {:result (indexer-api/index-valintaperuste oid notify)}))
+                        {notify :- Boolean false}]
+         (with-notifications :valintaperusteet notify (indexer/index-valintaperuste oid)))
 
        (POST "/valintaperusteet" []
          :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (ok {:result (indexer-api/index-all-valintaperusteet notify)})))
+         (with-notifications :valintaperusteet notify (indexer/index-all-valintaperusteet))))
 
      (context "/indexed" []
        :tags ["indexed"]
@@ -229,21 +233,21 @@
 
        (POST "/eperusteet" []
          :summary "Indeksoi kaikki ePerusteet ja niiden osaamisalat"
-         (ok {:result (indexer-api/index-all-eperusteet)}))
+         (ok {:result (indexer/index-all-eperusteet)}))
 
        (POST "/organisaatiot" []
          :summary "Indeksoi kaikki oppilaitokset"
-         (ok {:result (indexer-api/index-all-oppilaitokset)}))
+         (ok {:result (indexer/index-all-oppilaitokset)}))
 
        (POST "/eperuste" []
          :summary "Indeksoi ePerusteen ja sen osaamisalat (oid==id)"
          :query-params [oid :- String]
-         (ok {:result (indexer-api/index-eperuste oid)}))
+         (ok {:result (indexer/index-eperuste oid)}))
 
        (POST "/organisaatio" []
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (ok {:result (indexer-api/index-oppilaitos oid)})))
+         (ok {:result (indexer/index-oppilaitos oid)})))
 
      (context "/queuer" []
        :tags ["queuer"]

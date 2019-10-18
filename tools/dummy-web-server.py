@@ -15,6 +15,7 @@ Send a POST request::
 """
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 #import SocketServer
+import sys
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -40,7 +41,7 @@ class S(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=S, port=80):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print 'Starting httpd...'
+    print >>sys.stderr, 'Starting httpd...'
     httpd.serve_forever()
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.indexer
-  (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
+  (:require [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
@@ -24,6 +23,10 @@
   (koulutus-search/do-index oids)
   (koulutus/do-index oids))
 
+(defn index-koulutus
+  [oid]
+  (index-koulutukset [oid]))
+
 (defn index-toteutukset
   [oids]
   (let [entries (toteutus/do-index oids)
@@ -32,11 +35,19 @@
     (haku/do-index (get-oids :oid haut))
     entries))
 
+(defn index-toteutus
+  [oid]
+  (index-toteutukset [oid]))
+
 (defn index-haut
   [oids]
   (let [koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku oids)))]
     (koulutus-search/do-index (get-oids :oid koulutukset)))
   (haku/do-index oids))
+
+(defn index-haku
+  [oid]
+  (index-haut [oid]))
 
 (defn index-hakukohteet
   [oids]
@@ -48,6 +59,10 @@
     (koulutus-search/do-index (get-oids :oid koulutukset))
     hakukohde-entries))
 
+(defn index-hakukohde
+  [oid]
+  (index-hakukohteet [oid]))
+
 (defn index-valintaperusteet
   [oids]
   (let [entries (valintaperuste/do-index oids)
@@ -55,26 +70,36 @@
     (hakukohde/do-index (get-oids :oid hakukohteet))
     entries))
 
+(defn index-valintaperuste
+  [oid]
+  (index-valintaperusteet [oid]))
+
 (defn index-sorakuvaukset
   [oids]
   (let [valintaperusteet (apply concat (map kouta-backend/list-valintaperusteet-by-sorakuvaus oids))]
     (index-valintaperusteet (get-oids :id valintaperusteet)))
   oids)
 
+(defn index-sorakuvaus
+  [oid]
+  (index-sorakuvaukset [oid]))
+
 (defn index-eperusteet
   [oids]
   (osaamisalakuvaus/do-index oids)
   (eperuste/do-index oids))
 
+(defn index-eperuste
+  [oid]
+  (index-eperusteet [oid]))
+
 (defn index-oppilaitokset
   [oids]
   (oppilaitos/do-index oids))
 
-(defn rewrite-non-empty
-  [map keyword f]
-  (if (contains? map keyword)
-    (assoc map keyword (f (keyword map)))
-    map))
+(defn index-oppilaitos
+  [oid]
+  (index-oppilaitokset [oid]))
 
 (defn index-oids
   [oids]
@@ -88,23 +113,32 @@
               (count (:sorakuvaukset oids)) "sora-kuvausta, "
               (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
               (count (:oppilaitokset oids)) "oppilaitosta.")
-    (let [ret (-> oids
-                  (rewrite-non-empty :koulutukset index-koulutukset)
-                  (rewrite-non-empty :toteutukset index-toteutukset)
-                  (rewrite-non-empty :haut index-haut)
-                  (rewrite-non-empty :hakukohteet index-hakukohteet)
-                  (rewrite-non-empty :valintaperusteet index-valintaperusteet)
-                  (rewrite-non-empty :sorakuvaukset index-sorakuvaukset)
-                  (rewrite-non-empty :eperusteet index-eperusteet)
-                  (rewrite-non-empty :oppilaitokset index-oppilaitokset))]
+    (let [ret (cond-> {}
+                      (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids)))
+                      (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids)))
+                      (contains? oids :haut) (assoc :haut (index-haut (:haut oids)))
+                      (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids)))
+                      (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids)))
+                      (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids)))
+                      (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids)))
+                      (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids))))]
       (log/info (str "Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))
       ret)))
+
+(defn index-since-kouta
+  [since]
+  (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet"))
+  (let [start (. System (currentTimeMillis))
+        date (long->rfc1123 since)
+        oids (kouta-backend/get-last-modified date)]
+    (index-oids oids)
+    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
 (defn index-all-kouta
   []
   (log/info (str "Indeksoidaan kouta-backendistä kaikki"))
-  (let [oids (kouta-backend/all-kouta-oids)
-        start (. System (currentTimeMillis))]
+  (let [start (. System (currentTimeMillis))
+        oids (kouta-backend/all-kouta-oids)]
     (koulutus/do-index (:koulutukset oids))
     (koulutus-search/do-index (:koulutukset oids))
     (toteutus/do-index (:toteutukset oids))
@@ -112,3 +146,31 @@
     (hakukohde/do-index (:hakukohteet oids))
     (valintaperuste/do-index (:valintaperusteet oids))
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
+
+(defn index-all-koulutukset
+  []
+  (index-koulutukset (:koulutukset (kouta-backend/all-kouta-oids))))
+
+(defn index-all-toteutukset
+  []
+  (index-toteutukset (:toteutukset (kouta-backend/all-kouta-oids))))
+
+(defn index-all-haut
+  []
+  (index-haut (:haut (kouta-backend/all-kouta-oids))))
+
+(defn index-all-hakukohteet
+  []
+  (index-hakukohteet (:hakukohteet (kouta-backend/all-kouta-oids))))
+
+(defn index-all-valintaperusteet
+  []
+  (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids))))
+
+(defn index-all-eperusteet
+  []
+  (index-eperusteet (:eperusteet (eperusteet-client/find-all))))
+
+(defn index-all-oppilaitokset
+  []
+  (index-oppilaitokset (:oppilaitokset (organisaatio-client/get-all-oppilaitos-oids))))
