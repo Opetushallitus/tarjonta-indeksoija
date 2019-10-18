@@ -27,6 +27,12 @@
      (if koodi-uri
        (mock-koodisto (subs koodi-uri 0 (clojure.string/index-of koodi-uri "_")) koodi-uri)))))
 
+(defn mock-alakoodit
+  [koodi-uri alakoodi-uri]
+  (vector
+   { :koodiUri (str alakoodi-uri "_01") :nimi {:fi (str alakoodi-uri "_01" " nimi fi") :sv (str alakoodi-uri "_01" " nimi sv")}}
+   { :koodiUri (str alakoodi-uri "_02") :nimi {:fi (str alakoodi-uri "_02" " nimi fi") :sv (str alakoodi-uri "_02" " nimi sv")}}))
+
 (defn mock-get-henkilo-nimi-with-cache
   [oid]
   (locking oid "Kalle Ankka"))

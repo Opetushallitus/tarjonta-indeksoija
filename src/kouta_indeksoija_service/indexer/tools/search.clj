@@ -1,4 +1,6 @@
-(ns kouta-indeksoija-service.indexer.tools.search)
+(ns kouta-indeksoija-service.indexer.tools.search
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]))
 
 (defn hit
   [& {:keys [koulutustyyppi opetuskieliUrit tarjoajat oppilaitokset koulutusalaUrit nimi asiasanat ammattinimikkeet]
@@ -19,3 +21,15 @@
    :terms         {:fi (terms :fi)
                    :sv (terms :sv)
                    :en (terms :en)}})
+
+(defn koulutusalaKoodiUrit
+  [koulutus]
+  (if (ammatillinen? koulutus)
+    (vec (map :koodiUri (koulutusalat (get-in koulutus [:koulutus :koodiUri]))))
+    (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
+
+(defn tutkintonimikeKoodiUrit
+  [koulutus]
+  (if (ammatillinen? koulutus)
+    (vec (map :koodiUri (tutkintonimikkeet (get-in koulutus [:koulutus :koodiUri]))))
+    (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])))

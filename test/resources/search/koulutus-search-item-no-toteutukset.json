@@ -5,13 +5,13 @@
     "sv" : "Autoalan perustutkinto 0 sv"
   },
   "kielivalinta" : [ "fi", "sv" ],
-  "tutkintonimikkeet" : null,
+  "tutkintonimikkeet" : ["tutkintonimikkeet_01", "tutkintonimikkeet_02"],
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
   "hits" : [ {
     "koulutustyyppi" : "amm",
     "opetuskielet" : [ ],
     "sijainti" : [ "kunta_091" ],
-    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso2_054#1", "kansallinenkoulutusluokitus2016koulutusalataso2_055#1" ],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
     "terms" : {
       "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992" ],
       "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799" ,"Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992" ],

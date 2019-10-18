@@ -26,7 +26,7 @@
        ;:opetuskieliUrit (:kieletUris oppilaitos)
        :tarjoajat       (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
        :oppilaitokset   (vector oppilaitos)
-       :koulutusalaUrit (get-in koulutus [:metadata :koulutusalaKoodiUrit])
+       :koulutusalaUrit (koulutusalaKoodiUrit koulutus)
        :nimi            (:nimi koulutus)))
 
 (defn toteutus-hit
@@ -35,7 +35,7 @@
        :opetuskieliUrit  (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
        :tarjoajat        (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
        :oppilaitokset   (vector oppilaitos)
-       :koulutusalaUrit  (get-in koulutus [:metadata :koulutusalaKoodiUrit])
+       :koulutusalaUrit  (koulutusalaKoodiUrit koulutus)
        :nimi             (:nimi toteutus)
        :asiasanat        (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
        :ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))

@@ -7,6 +7,8 @@
 
 (def index-name "koulutus-kouta")
 
+;TODO: amm tutkintonimikkeet, koulutuksen laajuus, opetuskielet, suunniteltu kesto ja koulutusaste
+
 (defn create-index-entry
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
