@@ -10,7 +10,7 @@
   "hits" : [ {
     "koulutustyyppi" : "amm",
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],
-    "sijainti" : [ "kunta_091"],
+    "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
     "terms" : {
       "fi" : [ "Hevostoteutus 1 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "Toimipiste fi 1.2.246.562.10.777777777993", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen" ],
@@ -20,7 +20,7 @@
   }, {
     "koulutustyyppi" : "amm",
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1" ],
-    "sijainti" : [ "kunta_091" ],
+    "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
     "terms" : {
       "fi" : [ "Hevostoteutus 2 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri" ],

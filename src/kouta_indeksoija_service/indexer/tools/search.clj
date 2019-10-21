@@ -14,13 +14,16 @@
                                    (map lng-keyword asiasanat)
                                    (map lng-keyword ammattinimikkeet)))))
 
-  {:koulutustyyppi koulutustyyppi
-   :opetuskielet  (vec opetuskieliUrit)
-   :sijainti      (vec (distinct (map :kotipaikkaUri tarjoajat)))
-   :koulutusalat  (vec koulutusalaUrit)
-   :terms         {:fi (terms :fi)
-                   :sv (terms :sv)
-                   :en (terms :en)}})
+  (let [kunnat (distinct (map :kotipaikkaUri tarjoajat))
+        maakunnat (distinct (map #(:koodiUri (maakunta %)) kunnat))]
+
+    {:koulutustyyppi koulutustyyppi
+     :opetuskielet  (vec opetuskieliUrit)
+     :sijainti      (vec (concat kunnat maakunnat))
+     :koulutusalat  (vec koulutusalaUrit)
+     :terms         {:fi (terms :fi)
+                     :sv (terms :sv)
+                     :en (terms :en)}}))
 
 (defn koulutusalaKoodiUrit
   [koulutus]
