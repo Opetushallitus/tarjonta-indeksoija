@@ -37,11 +37,29 @@
   [oid]
   (locking oid "Kalle Ankka"))
 
+(defn- oppilaitos1-hierarkia?
+  [oid]
+  (or (= Oppilaitos1 oid) (= Toimipiste1OfOppilaitos1 oid) (= Toimipiste1OfOppilaitos2 oid)))
+
+(defn- oppilaitos2-hierarkia?
+  [oid]
+  (or (= Oppilaitos2 oid) (= Toimipiste1OfOppilaitos2 oid)))
+
+(defn- get-oids
+  [oid]
+  (if (oppilaitos1-hierarkia? oid)
+    [Koulutustoimija Oppilaitos1 [Toimipiste1OfOppilaitos1 Toimipiste2OfOppilaitos1]]
+    (if (oppilaitos2-hierarkia? oid)
+      [Koulutustoimija Oppilaitos2 [Toimipiste1OfOppilaitos2]]
+      [(str oid "55") oid [(str oid "1"), (str oid "2"), (str oid "3")]])))
+
 (defn mock-organisaatio-hierarkia
-  [oppilaitos-oid & {:as params}]
-  (locking oppilaitos-oid ;with-redefs used in kouta-indexer-fixture is not thread safe
-    (let [koulutustoimija-oid (str oppilaitos-oid "55")
-          oppilaitoksen-osa-oids [(str oppilaitos-oid "1"), (str oppilaitos-oid "2"), (str oppilaitos-oid "3")]]
+  [oid & {:as params}]
+  (locking oid ;with-redefs used in kouta-indexer-fixture is not thread safe
+    (let [oids (get-oids oid)
+          koulutustoimija-oid (first oids)
+          oppilaitos-oid (second oids)
+          oppilaitoksen-osa-oids (last oids)]
       {:numHits (+ 2 (count oppilaitoksen-osa-oids)),
        :organisaatiot [{:oid koulutustoimija-oid,
                         :alkuPvm 313106400000,

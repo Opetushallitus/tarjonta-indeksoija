@@ -21,8 +21,10 @@
 
 (defn index-koulutukset
   [oids]
-  (koulutus-search/do-index oids)
-  (koulutus/do-index oids))
+  (let [entries (koulutus/do-index oids)]
+    (koulutus-search/do-index oids)
+    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)))
+    entries))
 
 (defn index-koulutus
   [oid]
@@ -147,6 +149,8 @@
     (haku/do-index (:haut oids))
     (hakukohde/do-index (:hakukohteet oids))
     (valintaperuste/do-index (:valintaperusteet oids))
+    (oppilaitos/do-index (:oppilaitokset oids))
+    (oppilaitos-search/do-index (:oppilaitokset oids))
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
 (defn index-all-koulutukset

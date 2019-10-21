@@ -6,7 +6,8 @@
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
+  (:import (fi.oph.kouta.external KoutaFixtureTool$)
+           (java.util NoSuchElementException)))
 
 (defonce KoutaFixture KoutaFixtureTool$/MODULE$)
 
@@ -137,8 +138,9 @@
 
 (defn mock-get-oppilaitos
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getOppilaitos KoutaFixture oid))))
+  (try (locking KoutaFixture
+         (->keywordized-json (.getOppilaitos KoutaFixture oid)))
+       (catch NoSuchElementException e nil)))
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
@@ -151,8 +153,9 @@
 
 (defn mock-get-oppilaitoksen-osa
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid))))
+  (try (locking KoutaFixture
+         (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid)))
+       (catch NoSuchElementException e nil)))
 
 (defn mock-get-sorakuvaus
   [id]
