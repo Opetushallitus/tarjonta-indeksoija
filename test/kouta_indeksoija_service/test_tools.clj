@@ -1,5 +1,7 @@
 (ns kouta-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
+            [clojure.test :refer [is]]
+            [clojure.data :refer [diff]]
             [kouta-indeksoija-service.elastic.tools :as tools]))
 
 (defn parse
@@ -39,3 +41,14 @@
   (and
    (not-empty actual)
    (every? #(in? % expected) actual)))
+
+(defn debug-pretty
+  [json]
+  (println (cheshire/generate-string json {:pretty true})))
+
+(defn compare-json
+  [expected actual]
+  (let [difference (diff expected actual)]
+    (is (= nil (first difference)))
+    (is (= nil (second difference)))
+    (is (= expected actual))))

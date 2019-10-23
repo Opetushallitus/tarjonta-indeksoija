@@ -213,6 +213,11 @@
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
+(defn indices-fixture
+  [tests]
+  (tests)
+  (reset-indices))
+
 (defn refresh-indices
   []
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus/index-name)

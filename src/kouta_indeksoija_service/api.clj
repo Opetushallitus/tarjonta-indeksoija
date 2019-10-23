@@ -22,7 +22,8 @@
             [clojure.tools.logging :as log]
             [environ.core]
             [kouta-indeksoija-service.scheduled.jobs :as jobs]
-            [kouta-indeksoija-service.queuer.queuer :as queuer]))
+            [kouta-indeksoija-service.queuer.queuer :as queuer]
+            [kouta-indeksoija-service.notifier.notifier :as notifier]))
 
 (defn init []
   (mount/start)
@@ -46,6 +47,11 @@
 (defn error-handler*
   [^Exception e data request]
   (log/error e))
+
+(defn- with-notifications
+  [keyword notify result]
+  (if notify (notifier/notify {keyword result}))
+  (ok {:result result}))
 
 (def service-api
   (api
@@ -72,48 +78,58 @@
 
        (POST "/koulutus" []
          :summary "Indeksoi koulutuksen tiedot kouta-backendistä."
-         :query-params [oid :- String]
-         (ok {:result (indexer/index-koulutus oid)}))
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-notifications :koulutukset notify (indexer/index-koulutus oid)))
 
        (POST "/koulutukset" []
          :summary "Indeksoi kaikki koulutukset kouta-backendistä."
-         (ok {:result (indexer/index-all-koulutukset)}))
+         :query-params [{notify :- Boolean false}]
+         (with-notifications :koulutukset notify (indexer/index-all-koulutukset)))
 
        (POST "/toteutus" []
          :summary "Indeksoi toteutuksen tiedot kouta-backendistä."
-         :query-params [oid :- String]
-         (ok {:result (indexer/index-toteutus oid)}))
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-notifications :toteutukset notify (indexer/index-toteutus oid)))
 
        (POST "/toteutukset" []
          :summary "Indeksoi kaikki toteutukset kouta-backendistä."
-         (ok {:result (indexer/index-all-toteutukset)}))
+         :query-params [{notify :- Boolean false}]
+         (with-notifications :toteutukset notify (indexer/index-all-toteutukset)))
 
        (POST "/hakukohde" []
          :summary "Indeksoi hakukohteen tiedot kouta-backendistä."
-         :query-params [oid :- String]
-         (ok {:result (indexer/index-hakukohde oid)}))
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-notifications :hakukohteet notify (indexer/index-hakukohde oid)))
 
        (POST "/hakukohteet" []
          :summary "Indeksoi kaikki hakukohteet kouta-backendistä."
-         (ok {:result (indexer/index-all-hakukohteet)}))
+         :query-params [{notify :- Boolean false}]
+         (with-notifications :hakukohteet notify (indexer/index-all-hakukohteet)))
 
        (POST "/haku" []
          :summary "Indeksoi haun tiedot kouta-backendistä."
-         :query-params [oid :- String]
-         (ok {:result (indexer/index-haku oid)}))
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-notifications :haku notify (indexer/index-haku oid)))
 
        (POST "/haut" []
          :summary "Indeksoi kaikki haut kouta-backendistä."
-         (ok {:result (indexer/index-all-haut)}))
+         :query-params [{notify :- Boolean false}]
+         (with-notifications :haku notify (indexer/index-all-haut)))
 
        (POST "/valintaperuste" []
          :summary "Indeksoi valintaperusteen tiedot kouta-backendistä."
-         :query-params [oid :- String]
-         (ok {:result (indexer/index-valintaperuste oid)}))
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-notifications :valintaperusteet notify (indexer/index-valintaperuste oid)))
 
        (POST "/valintaperusteet" []
          :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
-         (ok {:result (indexer/index-all-valintaperusteet)})))
+         :query-params [{notify :- Boolean false}]
+         (with-notifications :valintaperusteet notify (indexer/index-all-valintaperusteet))))
 
      (context "/indexed" []
        :tags ["indexed"]

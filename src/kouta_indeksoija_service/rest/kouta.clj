@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.rest.kouta
  (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+           [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
            [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request]]
            [clj-log.error-log :refer [with-error-logging]]
            [ring.util.codec :refer [url-encode]]
@@ -20,6 +21,10 @@
 (defn get-last-modified
   [since]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.modified-since (url-encode since)) {:query-params {:lastModified since}}))
+
+(defn all-kouta-oids
+  []
+  (get-last-modified (long->rfc1123 0)))
 
 (defn- get-doc
   [type oid]

@@ -2,6 +2,7 @@
  :cas {:username "foo"
        :password "bar"}
  :hosts {:kouta-backend "http://localhost"
+         :kouta-external "http://localhost"
          :virkailija-internal "http://localhost"
          :cas "http://localhost"}
  :s3-dev-disabled "true"
@@ -14,4 +15,5 @@
  :sqs-region ""
  :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"
- :queueing-cron-string "*/15 * * ? * *"}
+ :queueing-cron-string "*/15 * * ? * *"
+ :notifier-targets ""}

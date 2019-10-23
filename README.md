@@ -61,6 +61,17 @@ and stopped with `tools\stop_localstack`, this requires that Docker is installed
 
 `tools\send_local` can be used to send messages to local queues.
 
+##### Notifier
+The application can notify others when information is indexed. This is controlled with `:notifier-targets`
+value in `dev_resources/config.edn`. It should be defaulted to `""`, ie. no changes will be sent.
+
+When wanting to validate locally that the notifications are working, one of the easiest way is with `dummy-web-server.py` in `tools`:
+* Run `python2 tools/dummy-we-server.py 9200` to start it in port 9200.
+* Change `:notifier-targets` in `dev_resources/config.edn` to `"http://localhost:9200"`
+* You can edit the script to set the return code and headers.
+
+The script will log every access to console.
+
 #### Running
 
 Running the application or tests from the commandline work with the aliases provided in

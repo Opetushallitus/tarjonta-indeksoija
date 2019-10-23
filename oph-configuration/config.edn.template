@@ -2,6 +2,7 @@
  :cas {:username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
  :hosts {:kouta-backend "https://{{host_virkailija}}"
+         :kouta-external "https://{{host_virkailija}}"
          :virkailija-internal "https://{{host_virkailija}}"
          :cas "https://{{host_cas}}"}
  :s3-dev-disabled "false"
@@ -14,4 +15,5 @@
  :sqs-region "{{kouta_indeksoija_sqs_region}}"
  :sqs-endpoint "{{kouta_indeksoija_sqs_endpoint}}"
  :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"
- :queueing-cron-string "{{kouta_indeksoija_cron_string}}"}
+ :queueing-cron-string "{{kouta_indeksoija_cron_string}}"
+ :notifier-targets "{{kouta_indeksoija_notifier_targets}}"}
