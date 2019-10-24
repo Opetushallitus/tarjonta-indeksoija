@@ -1,7 +1,11 @@
 (ns kouta-indeksoija-service.elastic.settings)
 
 (def index-settings
-  {:index.mapping.total_fields.limit 2000
+  {
+   :index {
+           :mapping.total_fields.limit 2000
+           :max_ngram_diff 10
+           }
    :analysis {:filter {:edge_ngram_long_words {:type "edge_ngram"
                                                :min_gram "6"
                                                :max_gram "12"}

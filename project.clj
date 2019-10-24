@@ -77,7 +77,7 @@
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.21"]
                                                        [fi.oph.kouta/kouta-backend "0.7-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.7-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.2.6-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
@@ -88,7 +88,7 @@
                                       [cloud.localstack/localstack-utils "0.1.22"]
                                       [fi.oph.kouta/kouta-backend "0.7-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.7-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.2.6-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
