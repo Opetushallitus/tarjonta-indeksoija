@@ -19,13 +19,6 @@
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :once common-indexer-fixture)
 
-(defn compare-json
-  [expected actual]
-  (let [difference (diff expected actual)]
-    (is (nil? (first difference)))
-    (is (nil? (second difference)))
-    (is (= expected actual))))
-
 (deftest index-tallennettu-koulutus-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index tallennettu koulutus only to koulutus index"
@@ -121,7 +114,7 @@
       (check-all-nil)
       (i/index-oppilaitos oppilaitoksen-osa-oid)
       (compare-json (no-timestamp (json "kouta-oppilaitos-result"))
-                    (no-timestamp (read oppilaitos/index-name oppilaitos-oid)))))))
+                    (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid)))))))
 
 (deftest index-all-test
   (fixture/with-mocked-indexing
