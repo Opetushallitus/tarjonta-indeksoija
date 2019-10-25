@@ -62,6 +62,10 @@
   [allowed-tarjoaja-oids entries]
   (seq (filter #(not (empty? (:tarjoajat %))) (map #(remove-not-allowed-tarjoaja-oids allowed-tarjoaja-oids %) entries))))
 
+(defn- assoc-paikkakunnat
+  [entry]
+  (assoc entry :paikkakunnat (vec (distinct (filter #(clojure.string/starts-with? % "kunta") (mapcat :sijainti (:hits entry)))))))
+
 (defn create-index-entry
   [oid]
   (let [hierarkia (organisaatio-client/get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
@@ -79,7 +83,8 @@
               (create-base-entry koulutukset)
               (assoc :hits (if koulutukset
                              (vec (mapcat #(koulutus-hits %) koulutukset))
-                             (vector (oppilaitos-hit oppilaitos))))))))))
+                             (vector (oppilaitos-hit oppilaitos))))
+              (assoc-paikkakunnat)))))))
 
 (defn create-index-entries
   [oids]

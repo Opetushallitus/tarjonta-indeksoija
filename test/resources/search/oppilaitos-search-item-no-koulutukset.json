@@ -9,6 +9,7 @@
     "fi" : "Esittely",
     "sv" : "Esittely sv"
   },
+  "paikkakunnat" : ["kunta_091"],
   "koulutusohjelmia" : 0,
   "hits" : [ {
     "koulutustyyppi" : null,
