@@ -74,9 +74,9 @@
                    :ring {:reload-paths ["src"]}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
-             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.21"]
-                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245"]
-                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245" :classifier "tests"]
+             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
+                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v2"]
+                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v2" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -86,8 +86,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245"]
-                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v2"]
+                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v2" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
