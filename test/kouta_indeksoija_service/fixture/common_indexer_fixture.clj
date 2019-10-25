@@ -28,8 +28,10 @@
   (dissoc json :timestamp))
 
 (defn json
-  [name]
-  (cheshire/parse-string (slurp (str "test/resources/kouta/" name ".json")) true))
+  ([path name]
+   (cheshire/parse-string (slurp (str path name ".json")) true))
+  ([name]
+   (json "test/resources/kouta/" name)))
 
 (defn check-all-nil
   []
@@ -133,4 +135,5 @@
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49")
 
-  (tests))
+  (tests)
+  (fixture/teardown))
