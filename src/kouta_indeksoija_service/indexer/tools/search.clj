@@ -14,8 +14,8 @@
                                    (map lng-keyword asiasanat)
                                    (map lng-keyword ammattinimikkeet)))))
 
-  (let [kunnat (distinct (map :kotipaikkaUri tarjoajat))
-        maakunnat (distinct (map #(:koodiUri (maakunta %)) kunnat))]
+  (let [kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
+        maakunnat (remove nil? (distinct (map #(:koodiUri (maakunta %)) kunnat)))]
 
     {:koulutustyyppi koulutustyyppi
      :opetuskielet  (vec opetuskieliUrit)
