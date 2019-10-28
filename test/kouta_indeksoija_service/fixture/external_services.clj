@@ -39,7 +39,7 @@
 
 (defn- oppilaitos1-hierarkia?
   [oid]
-  (or (= Oppilaitos1 oid) (= Toimipiste1OfOppilaitos1 oid) (= Toimipiste1OfOppilaitos2 oid)))
+  (or (= Oppilaitos1 oid) (= Toimipiste1OfOppilaitos1 oid) (= Toimipiste2OfOppilaitos1 oid)))
 
 (defn- oppilaitos2-hierarkia?
   [oid]
@@ -53,46 +53,48 @@
       [Koulutustoimija Oppilaitos2 [Toimipiste1OfOppilaitos2]]
       [(str oid "55") oid [(str oid "1"), (str oid "2"), (str oid "3")]])))
 
+(defn create-organisaatio-hierarkia
+  [koulutustoimija oppilaitos oppilaitoksen-osat]
+  {:numHits (+ 2 (count oppilaitoksen-osat)),
+   :organisaatiot [{:oid (:oid koulutustoimija),
+                    :alkuPvm 313106400000,
+                    :parentOid "1.2.246.562.10.00000000001",
+                    :parentOidPath (str (:oid koulutustoimija)  "/1.2.246.562.10.10101010100"),
+                    :nimi (or (:nimi koulutustoimija) { :fi (str "Koulutustoimija fi " (:oid koulutustoimija)), :sv (str "Koulutustoimija sv " (:oid koulutustoimija))})
+                    :kieletUris (or (:kielet koulutustoimija) ["oppilaitoksenopetuskieli_1#1"]),
+                    :kotipaikkaUri (or (:kotipaikka koulutustoimija) "kunta_091"),
+                    :organisaatiotyypit [ "organisaatiotyyppi_01" ],
+                    :status "AKTIIVINEN"
+                    :children [{:oid (:oid oppilaitos),
+                                :alkuPvm 725839200000,
+                                :parentOid (:oid koulutustoimija),
+                                :parentOidPath (str (:oid oppilaitos) "/"  (:oid koulutustoimija)  "/1.2.246.562.10.10101010100"),
+                                :oppilaitosKoodi "00000",
+                                :oppilaitostyyppi "oppilaitostyyppi_42#1",
+                                :toimipistekoodi "00000",
+                                :nimi (or (:nimi oppilaitos) { :fi (str "Oppilaitos fi " (:oid oppilaitos)), :sv (str "Oppilaitos sv " (:oid oppilaitos))})
+                                :kieletUris (or (:kielet oppilaitos) [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ]),
+                                :kotipaikkaUri (or (:kotipaikka oppilaitos) "kunta_091"),
+                                :aliOrganisaatioMaara (count oppilaitoksen-osat),
+                                :organisaatiotyypit [ "organisaatiotyyppi_02" ],
+                                :status "AKTIIVINEN"
+                                :children (vec (map #(let [toimipiste %] {:oid (:oid toimipiste),
+                                                                          :alkuPvm 725839200000,
+                                                                          :parentOid (:oid oppilaitos),
+                                                                          :parentOidPath (str (:oid toimipiste) "/" (:oid oppilaitos) "/"  (:oid koulutustoimija)  "/1.2.246.562.10.10101010100"),
+                                                                          :toimipistekoodi "00000",
+                                                                          :nimi (or (:nimi toimipiste) { :fi (str "Toimipiste fi " (:oid toimipiste)), :sv (str "Toimipiste sv " (:oid toimipiste))})
+                                                                          :kieletUris (or (:kielet toimipiste) [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ]),
+                                                                          :kotipaikkaUri (or (:kotipaikka toimipiste) "kunta_091"),
+                                                                          :aliOrganisaatioMaara 0,
+                                                                          :organisaatiotyypit [ "organisaatiotyyppi_03" ],
+                                                                          :status "AKTIIVINEN"
+                                                                          :children []}) oppilaitoksen-osat))}]}]})
 (defn mock-organisaatio-hierarkia
   [oid & {:as params}]
-  (locking oid ;with-redefs used in kouta-indexer-fixture is not thread safe
-    (let [oids (get-oids oid)
-          koulutustoimija-oid (first oids)
-          oppilaitos-oid (second oids)
-          oppilaitoksen-osa-oids (last oids)]
-      {:numHits (+ 2 (count oppilaitoksen-osa-oids)),
-       :organisaatiot [{:oid koulutustoimija-oid,
-                        :alkuPvm 313106400000,
-                        :parentOid "1.2.246.562.10.00000000001",
-                        :parentOidPath (str koulutustoimija-oid  "/1.2.246.562.10.10101010100"),
-                        :nimi { :fi (str "Koulutustoimija fi " koulutustoimija-oid), :sv (str "Koulutustoimija sv " koulutustoimija-oid)}
-                        :kieletUris [ "oppilaitoksenopetuskieli_1#1" ],
-                        :kotipaikkaUri "kunta_091",
-                        :aliOrganisaatioMaara 1,
-                        :organisaatiotyypit [ "organisaatiotyyppi_01" ],
-                        :status "AKTIIVINEN"
-                        :children [{:oid oppilaitos-oid,
-                                    :alkuPvm 725839200000,
-                                    :parentOid koulutustoimija-oid,
-                                    :parentOidPath (str oppilaitos-oid "/"  koulutustoimija-oid  "/1.2.246.562.10.10101010100"),
-                                    :oppilaitosKoodi "00000",
-                                    :oppilaitostyyppi "oppilaitostyyppi_42#1",
-                                    :toimipistekoodi "00000",
-                                    :nimi { :fi (str "Oppilaitos fi " oppilaitos-oid), :sv (str "Oppilaitos sv " oppilaitos-oid)}
-                                    :kieletUris [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ],
-                                    :kotipaikkaUri "kunta_091",
-                                    :aliOrganisaatioMaara (count oppilaitoksen-osa-oids),
-                                    :organisaatiotyypit [ "organisaatiotyyppi_02" ],
-                                    :status "AKTIIVINEN"
-                                    :children (vec (map #(let [toimipiste-oid %] {:oid toimipiste-oid,
-                                                                                  :alkuPvm 725839200000,
-                                                                                  :parentOid oppilaitos-oid,
-                                                                                  :parentOidPath (str toimipiste-oid "/" oppilaitos-oid "/"  koulutustoimija-oid  "/1.2.246.562.10.10101010100"),
-                                                                                  :toimipistekoodi "00000",
-                                                                                  :nimi { :fi (str "Toimipiste fi " toimipiste-oid), :sv (str "Toimipiste sv " toimipiste-oid)}
-                                                                                  :kieletUris [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ],
-                                                                                  :kotipaikkaUri "kunta_091",
-                                                                                  :aliOrganisaatioMaara 0,
-                                                                                  :organisaatiotyypit [ "organisaatiotyyppi_03" ],
-                                                                                  :status "AKTIIVINEN"
-                                                                                  :children []}) oppilaitoksen-osa-oids))}]}]})))
+  (locking mock-organisaatio-hierarkia ;with-redefs used in kouta-indexer-fixture is not thread safe
+    (let [oids (get-oids oid)]
+      (create-organisaatio-hierarkia
+       {:oid (first oids)}
+       {:oid (second oids)}
+       (vec (map (fn [o] {:oid o}) (last oids)))))))

@@ -347,11 +347,17 @@
   (refresh-indices))
 
 (defn index-oids-without-related-indices
-  [oids]
-  (with-mocked-indexing
+  ([oids]
+   (with-mocked-indexing
     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
       (indexer/index-all-kouta)))
-  (refresh-indices))
+   (refresh-indices))
+  ([oids organisaatio-hierarkia-mock]
+   (with-mocked-indexing
+    (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
+                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock]
+      (indexer/index-all-kouta)))
+   (refresh-indices)))
 
 (defn index-all
   []
