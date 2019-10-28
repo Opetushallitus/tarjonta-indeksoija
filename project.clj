@@ -12,6 +12,7 @@
                  ["snapshots" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"
                                :username :env/artifactory_username
                                :password :env/artifactory_password
+                               :sign-releases false
                                :snapshots true}]]
   :managed-dependencies [[org.flatland/ordered "1.5.7"]]
   :dependencies [[org.clojure/clojure "1.10.0"]
