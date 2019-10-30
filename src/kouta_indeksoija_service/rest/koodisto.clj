@@ -56,9 +56,7 @@
 (defn list-alakoodit-with-cache
   [koodi-uri alakoodi-uri]
   (when (and koodi-uri alakoodi-uri)
-    (let [alakoodit (get-alakoodit-with-cache koodi-uri)]
-      (when (< 0 (count alakoodit))
-        (find #(= (get-in % [:koodisto :koodistoUri]) alakoodi-uri) alakoodit)))))
+    (filter #(= (get-in % [:koodisto :koodistoUri]) alakoodi-uri) (get-alakoodit-with-cache koodi-uri))))
 
 (defn list-alakoodi-nimet-with-cache
   [koodi-uri alakoodi-uri]
