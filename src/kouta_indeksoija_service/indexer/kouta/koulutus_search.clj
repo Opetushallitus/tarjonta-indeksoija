@@ -44,7 +44,10 @@
   (-> koulutus
       (select-keys [:oid :nimi :kielivalinta])
       (assoc :tutkintonimikkeet (tutkintonimikeKoodiUrit koulutus))
-      (assoc :kuvaus (get-in koulutus [:metadata :kuvaus]))))
+      (assoc :kuvaus (get-in koulutus [:metadata :kuvaus]))
+      (assoc :koulutustyyppi (:koulutustyyppi koulutus))
+      (assoc :opintojenlaajuus (opintojenlaajuusKoodiUri koulutus))
+      (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))))
 
 ;TODO
 ; (defn get-toteutuksen-hakutieto

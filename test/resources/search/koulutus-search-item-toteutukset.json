@@ -7,6 +7,9 @@
   "kielivalinta" : [ "fi", "sv" ],
   "tutkintonimikkeet" : ["tutkintonimikkeet_01", "tutkintonimikkeet_02"],
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
+  "opintojenlaajuus" : "opintojenlaajuus_01",
+  "opintojenlaajuusyksikko" : "opintojenlaajuusyksikko_01",
+  "koulutustyyppi" : "amm",
   "hits" : [ {
     "koulutustyyppi" : "amm",
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],

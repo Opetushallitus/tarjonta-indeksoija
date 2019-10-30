@@ -28,11 +28,23 @@
 (defn koulutusalaKoodiUrit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (koulutusalat (get-in koulutus [:koulutus :koodiUri]))))
+    (vec (map :koodiUri (koulutusalat (:koulutusKoodiUri koulutus))))
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
 (defn tutkintonimikeKoodiUrit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (tutkintonimikkeet (get-in koulutus [:koulutus :koodiUri]))))
+    (vec (map :koodiUri (tutkintonimikkeet (:koulutusKoodiUri koulutus))))
     (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])))
+
+(defn opintojenlaajuusKoodiUri
+  [koulutus]
+  (if (ammatillinen? koulutus)
+    (some-> koulutus :koulutusKoodiUri (opintojenlaajuus) :koodiUri)
+    (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
+
+(defn opintojenlaajuusyksikkoKoodiUri
+  [koulutus]
+  (if (ammatillinen? koulutus)
+    (some-> koulutus :koulutusKoodiUri (opintojenlaajuusyksikko) :koodiUri)
+    (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])))
