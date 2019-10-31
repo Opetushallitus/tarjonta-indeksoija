@@ -78,8 +78,8 @@
   []
   (update-indices-mappings settings/stemmer-settings-eperuste     [eperuste-index
                                                                    osaamisalakuvaus-index])
-  (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index])
-  (update-indices-mappings settings/kouta-settings-search-new     [oppilaitos-search-index])
+  (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index
+                                                                   oppilaitos-search-index])
   (update-indices-mappings settings/kouta-settings                [koulutus-index
                                                                    toteutus-index
                                                                    haku-index
