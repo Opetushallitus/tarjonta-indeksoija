@@ -47,7 +47,7 @@
   (when koodi-uri
     (let [with-versio (extract-versio koodi-uri)]
       (if (contains? with-versio :versio)
-        (get-koodi-with-url (resolve-url :koodisto-service.alakoodit-versio (:koodi with-versio) (:versio with-versio)))
+        (get-koodi-with-url (resolve-url :koodisto-service.alakoodit-koodi-versio (:koodi with-versio) (:versio with-versio)))
         (get-koodi-with-url (resolve-url :koodisto-service.alakoodit (:koodi with-versio)))))))
 
 (def get-alakoodit-with-cache
