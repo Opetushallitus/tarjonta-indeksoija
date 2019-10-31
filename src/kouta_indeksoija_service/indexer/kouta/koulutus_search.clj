@@ -6,7 +6,8 @@
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.tools.general :refer :all]
             [kouta-indeksoija-service.indexer.tools.search :refer :all]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.kouta.common :as common]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -48,7 +49,8 @@
       (assoc :kuvaus (get-in koulutus [:metadata :kuvaus]))
       (assoc :koulutustyyppi (:koulutustyyppi koulutus))
       (assoc :opintojenlaajuus (opintojenlaajuusKoodiUri koulutus))
-      (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))))
+      (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
+      (common/decorate-koodi-uris)))
 
 ;TODO
 ; (defn get-toteutuksen-hakutieto

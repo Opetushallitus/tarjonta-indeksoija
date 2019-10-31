@@ -64,7 +64,8 @@
 
 (defn- assoc-paikkakunnat
   [entry]
-  (assoc entry :paikkakunnat (vec (distinct (filter #(clojure.string/starts-with? % "kunta") (mapcat :sijainti (:hits entry)))))))
+  (let [paikkakuntaKoodiUrit (vec (distinct (filter #(clojure.string/starts-with? % "kunta") (mapcat :sijainti (:hits entry)))))]
+    (assoc entry :paikkakunnat (vec (map get-koodi-nimi-with-cache paikkakuntaKoodiUrit)))))
 
 (defn create-index-entry
   [oid]

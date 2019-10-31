@@ -9,7 +9,13 @@
     "fi" : "Esittely",
     "sv" : "Esittely sv"
   },
-  "paikkakunnat" : ["kunta_091"],
+  "paikkakunnat" : [ {
+    "koodiUri" : "kunta_091",
+    "nimi" : {
+      "fi" : "kunta_091 nimi fi",
+      "sv" : "kunta_091 nimi sv"
+    }
+  } ],
   "koulutusohjelmia" : 2,
   "hits" : [ {
     "koulutustyyppi" : "amm",

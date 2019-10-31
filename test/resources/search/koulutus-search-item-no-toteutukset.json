@@ -5,12 +5,42 @@
     "sv" : "Autoalan perustutkinto 0 sv"
   },
   "kielivalinta" : [ "fi", "sv" ],
-  "tutkintonimikkeet" : ["tutkintonimikkeet_01", "tutkintonimikkeet_02"],
+  "tutkintonimikkeet" : [ {
+    "koodiUri" : "tutkintonimikkeet_01",
+    "nimi" : {
+      "fi" : "tutkintonimikkeet_01 nimi fi",
+      "sv" : "tutkintonimikkeet_01 nimi sv"
+    }
+  }, {
+    "koodiUri" : "tutkintonimikkeet_02",
+    "nimi" : {
+      "fi" : "tutkintonimikkeet_02 nimi fi",
+      "sv" : "tutkintonimikkeet_02 nimi sv"
+    }
+  } ],
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
-  "opintojenlaajuus" : "opintojenlaajuus_01",
-  "opintojenlaajuusyksikko" : "opintojenlaajuusyksikko_01",
+  "opintojenlaajuus" : {
+    "koodiUri" : "opintojenlaajuus_01",
+    "nimi" : {
+      "fi" : "opintojenlaajuus_01 nimi fi",
+      "sv" : "opintojenlaajuus_01 nimi sv"
+    }
+  },
+  "opintojenlaajuusyksikko" : {
+    "koodiUri" : "opintojenlaajuusyksikko_01",
+    "nimi" : {
+      "fi" : "opintojenlaajuusyksikko_01 nimi fi",
+      "sv" : "opintojenlaajuusyksikko_01 nimi sv"
+    }
+  },
   "koulutustyyppi" : "amm",
-  "koulutus" : "koulutus_351301#1",
+  "koulutus" : {
+    "koodiUri" : "koulutus_351301#1",
+    "nimi" : {
+      "fi" : "koulutus_351301#1 nimi fi",
+      "sv" : "koulutus_351301#1 nimi sv"
+    }
+  },
   "hits" : [ {
     "koulutustyyppi" : "amm",
     "opetuskielet" : [ ],
