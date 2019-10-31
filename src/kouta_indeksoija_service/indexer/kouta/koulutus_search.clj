@@ -43,6 +43,7 @@
   [koulutus]
   (-> koulutus
       (select-keys [:oid :nimi :kielivalinta])
+      (assoc :koulutus (:koulutusKoodiUri koulutus))
       (assoc :tutkintonimikkeet (tutkintonimikeKoodiUrit koulutus))
       (assoc :kuvaus (get-in koulutus [:metadata :kuvaus]))
       (assoc :koulutustyyppi (:koulutustyyppi koulutus))
