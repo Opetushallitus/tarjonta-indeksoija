@@ -88,7 +88,7 @@
                                                                    hakukohde-index
                                                                    valintaperuste-index
                                                                    oppilaitos-index])
-  (update-index-mappings settings/settings-koodisto               [koodisto-index]))
+  (update-indices-mappings settings/settings-koodisto              [koodisto-index]))
 
 (defn initialize-indices
   []
