@@ -16,13 +16,9 @@
      :koodisto koodisto
      :koodit (vec (map create-koodi-entry koodit))}))
 
-(defn create-index-entries
-  [koodistot]
-  (doall (pmap create-index-entry koodistot)))
-
 (defn do-index
   [koodistot]
-  (indexable/do-index index-name koodistot create-index-entries))
+  (indexable/do-index index-name koodistot create-index-entry))
 
 (defn get
   [koodisto]

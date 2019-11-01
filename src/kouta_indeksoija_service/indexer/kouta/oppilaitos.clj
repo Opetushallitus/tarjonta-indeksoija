@@ -48,13 +48,9 @@
         (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (:children organisaatio)))]
           (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries))))))
 
-(defn create-index-entries
-  [oids]
-  (doall (pmap create-index-entry oids)))
-
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (indexable/do-index index-name oids create-index-entry))
 
 (defn get
   [oid]

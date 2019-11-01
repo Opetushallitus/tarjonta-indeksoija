@@ -14,13 +14,9 @@
         (common/assoc-organisaatiot)
         (assoc :hakukohteet hakukohde-list))))
 
-(defn create-index-entries
-  [oids]
-  (doall (pmap create-index-entry oids)))
-
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (indexable/do-index index-name oids create-index-entry))
 
 (defn get
   [oid]

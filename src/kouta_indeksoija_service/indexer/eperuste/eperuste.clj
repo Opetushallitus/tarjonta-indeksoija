@@ -9,13 +9,9 @@
   (when-let [eperuste (eperuste-service/get-doc oid)]
     (assoc eperuste :oid (str (:id eperuste)) :tyyppi "eperuste")))
 
-(defn create-index-entries
-  [oids]
-  (doall (pmap create-index-entry oids)))
-
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (indexable/do-index index-name oids create-index-entry))
 
 (defn get
   [oid]
