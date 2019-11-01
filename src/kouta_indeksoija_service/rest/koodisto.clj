@@ -23,6 +23,11 @@
   (with-error-logging
    (get->json-body url)))
 
+(defn get-koodit
+  [koodisto]
+  (when koodisto
+    (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodit koodisto))))
+
 (defn get-koodi
   [koodisto koodi-uri]
   (when koodi-uri

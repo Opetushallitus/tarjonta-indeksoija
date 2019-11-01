@@ -9,6 +9,7 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
+            [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
@@ -104,6 +105,10 @@
 (defn index-oppilaitos
   [oid]
   (index-oppilaitokset [oid]))
+
+(defn index-koodistot
+  [koodistot]
+  (koodisto/do-index koodistot))
 
 (defn index-oids
   [oids]

@@ -18,6 +18,7 @@
   ([reset-jobs?]
    ;(when reset-jobs? (j/reset-jobs))
    (tools/delete-index "eperuste")
+   (tools/delete-index "koodisto")
    (tools/delete-index "osaamisalakuvaus")
    (tools/delete-index "organisaatio")
    (tools/delete-index "palaute")

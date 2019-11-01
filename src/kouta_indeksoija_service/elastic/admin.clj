@@ -11,6 +11,7 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [index-name] :rename {index-name oppilaitos-index}]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
+            [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
             [kouta-indeksoija-service.queuer.last-queued :refer [index-name] :rename {index-name last-queued-index}]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
@@ -53,7 +54,8 @@
                          haku-index
                          hakukohde-index
                          valintaperuste-index
-                         oppilaitos-index]
+                         oppilaitos-index
+                         koodisto-index]
         new-indices (filter #(not (e/index-exists %)) (map t/index-name all-index-names))
         results (map #(e/create-index % settings/index-settings) new-indices)
         ack (map #(:acknowledged %) results)]
@@ -85,7 +87,8 @@
                                                                    haku-index
                                                                    hakukohde-index
                                                                    valintaperuste-index
-                                                                   oppilaitos-index]))
+                                                                   oppilaitos-index])
+  (update-index-mappings settings/settings-koodisto               [koodisto-index]))
 
 (defn initialize-indices
   []
