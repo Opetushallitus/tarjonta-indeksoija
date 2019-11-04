@@ -62,14 +62,7 @@
 
 (defn get-oppilaitos
   [oid]
-  (let [response (-> (resolve-url :kouta-backend.oppilaitos.oid oid)
-                     (cas-authenticated-get {:as :json :throw-exceptions false}))
-        status   (:status response)
-        body     (:body response)]
-    (cond
-      (= 404 status) {}
-      (= 200 status) body
-      :else (println "Getting oppilaitos " oid " from Kouta failed with status " status " and body " body))))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]

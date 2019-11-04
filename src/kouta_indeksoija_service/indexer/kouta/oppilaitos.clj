@@ -38,7 +38,7 @@
   (let [hierarkia (organisaatio-client/get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)] ;
     (when-let [organisaatio (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
       (let [oppilaitos-oid (:oid organisaatio)
-            oppilaitos(kouta-backend/get-oppilaitos oppilaitos-oid)
+            oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
             oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)]
 
         (defn- osa
