@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos-search
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -69,9 +69,9 @@
 
 (defn create-index-entry
   [oid]
-  (let [hierarkia (organisaatio-client/get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
+  (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (let [allowed-tarjoaja-oids (map :oid (organisaatio-tool/get-organisaatio-keys-flat hierarkia [:oid]))]
+      (let [allowed-tarjoaja-oids (organisaatio-tool/get-all-oids-flat hierarkia)]
 
         (defn- koulutus-hits
           [koulutus]

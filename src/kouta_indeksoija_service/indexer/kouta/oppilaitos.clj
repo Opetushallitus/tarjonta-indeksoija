@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos
   (:require [clojure.set :refer [rename-keys]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
@@ -35,7 +35,7 @@
 
 (defn create-index-entry
   [oid]
-  (let [hierarkia (organisaatio-client/get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)] ;
+  (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [organisaatio (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
       (let [oppilaitos-oid (:oid organisaatio)
             oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})

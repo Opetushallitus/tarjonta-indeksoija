@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus-search
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.tools.general :refer :all]
@@ -13,7 +13,7 @@
 
 (defn get-tarjoaja-and-oppilaitos
   [oid]
-  (let [hierarkia (organisaatio-client/get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
+  (let [hierarkia (cache/get-hierarkia oid)]
     {:tarjoaja (organisaatio-tool/find-from-hierarkia hierarkia oid)
      :oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)}))
 
