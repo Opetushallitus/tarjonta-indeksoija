@@ -34,7 +34,7 @@
 (defn index-toteutukset
   [oids]
   (let [entries (toteutus/do-index oids)
-        haut (set (apply concat (map kouta-backend/list-haut-by-toteutus oids)))]
+        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)]
     (index-koulutukset (get-oids :koulutusOid entries))
     (haku/do-index (get-oids :oid haut))
     entries))
@@ -45,8 +45,10 @@
 
 (defn index-haut
   [oids]
-  (let [koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku oids)))]
-    (koulutus-search/do-index (get-oids :oid koulutukset)))
+  (let [koulutukset (mapcat kouta-backend/list-koulutukset-by-haku oids)
+        toteutukset (mapcat kouta-backend/list-toteutukset-by-haku oids)]
+    (koulutus-search/do-index (get-oids :oid koulutukset))
+    (toteutus/do-index (get-oids :oid toteutukset)))
   (haku/do-index oids))
 
 (defn index-haku
@@ -56,8 +58,8 @@
 (defn index-hakukohteet
   [oids]
   (let [hakukohde-entries (hakukohde/do-index oids)
-        haku-oids (get-oids :hakuOid hakukohde-entries)
-        koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku haku-oids)))]
+        haku-oids         (get-oids :hakuOid hakukohde-entries)
+        koulutukset       (mapcat kouta-backend/list-koulutukset-by-haku haku-oids)]
     (haku/do-index haku-oids)
     (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
     (koulutus-search/do-index (get-oids :oid koulutukset))
@@ -69,8 +71,8 @@
 
 (defn index-valintaperusteet
   [oids]
-  (let [entries (valintaperuste/do-index oids)
-        hakukohteet (apply concat (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
+  (let [entries     (valintaperuste/do-index oids)
+        hakukohteet (mapcat kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries))]
     (hakukohde/do-index (get-oids :oid hakukohteet))
     entries))
 
@@ -80,7 +82,7 @@
 
 (defn index-sorakuvaukset
   [oids]
-  (let [valintaperusteet (apply concat (map kouta-backend/list-valintaperusteet-by-sorakuvaus oids))]
+  (let [valintaperusteet (mapcat kouta-backend/list-valintaperusteet-by-sorakuvaus oids)]
     (index-valintaperusteet (get-oids :id valintaperusteet)))
   oids)
 

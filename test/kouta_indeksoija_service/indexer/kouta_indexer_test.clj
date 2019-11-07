@@ -12,7 +12,7 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-            [kouta-indeksoija-service.test-tools :refer [parse compare-json]]
+            [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [kouta-indeksoija-service.fixture.external-services :as mocks]))
 
@@ -59,7 +59,7 @@
      (i/index-haut [haku-oid])
      (compare-json (no-timestamp (json "kouta-haku-result"))
                    (no-timestamp (get-doc haku/index-name haku-oid)))
-     (is (nil? (:oid (get-doc toteutus/index-name toteutus-oid))))
+     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
@@ -201,7 +201,7 @@
      (i/index-all-haut)
      (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
      (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
-     (is (nil? (get-doc toteutus/index-name toteutus-oid)))
+     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))

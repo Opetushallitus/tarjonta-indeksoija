@@ -37,6 +37,21 @@
   "kielivalinta" : [ "fi", "sv" ],
   "hakukohteet" : [ {
     "tila" : "arkistoitu",
+    "hakulomakeKuvaus" : {
+      "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
+      "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
+    },
+    "aloituspaikat" : 100,
+    "ensikertalaisenAloituspaikat" : 0,
+    "minAloituspaikat" : 99,
+    "hakulomakeLinkki" : {
+      "fi" : "https://koulu.test/hakemusinfo fi",
+      "sv" : "https://koulu.test/hakemusinfo sv"
+    },
+    "minEnsikertalaisenAloituspaikat" : 0,
+    "maxAloituspaikat" : 101,
+    "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
+    "hakulomaketyyppi" : "ei sähköistä",
     "modified" : "2019-02-05T09:49",
     "toteutusOid" : "1.2.246.562.17.00000000000000000001",
     "nimi" : {
@@ -47,8 +62,28 @@
       "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"
     },
+    "hakutapa" : {
+      "koodiUri" : "hakutapa_03#1",
+      "nimi" : {
+        "fi" : "hakutapa_03#1 nimi fi",
+        "sv" : "hakutapa_03#1 nimi sv"
+      }
+    },
     "oid" : "1.2.246.562.20.00000000000000000001",
+    "hakuajat" : [ {
+      "alkaa" : "2020-10-10T12:00",
+      "paattyy" : "2020-11-10T12:00"
+    } ],
     "hakuOid" : "1.2.246.562.29.00000000000000000001",
+    "alkamiskausi" : {
+      "koodiUri" : "kausi_k#1",
+      "nimi" : {
+        "fi" : "kausi_k#1 nimi fi",
+        "sv" : "kausi_k#1 nimi sv"
+      }
+    },
+    "maxEnsikertalaisenAloituspaikat" : 0,
+    "alkamisvuosi" : "2020",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
