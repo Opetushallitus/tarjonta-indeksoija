@@ -1,4 +1,5 @@
-(ns kouta-indeksoija-service.indexer.tools.organisaatio)
+(ns kouta-indeksoija-service.indexer.tools.organisaatio
+  (:require [clojure.set :refer [intersection]]))
 
 (defn- recursive-hierarkia-v4-search
   [pred level]
@@ -9,6 +10,20 @@
 (defn oppilaitos?
   [organisaatio]
   (not (empty? (filter #(= "organisaatiotyyppi_02" %) (:organisaatiotyypit organisaatio)))))
+
+(defonce invalid-organisaatiotyypit #{"organisaatiotyyppi_05",
+                                      "organisaatiotyyppi_06",
+                                      "organisaatiotyyppi_07",
+                                      "organisaatiotyyppi_08"})
+
+(defn indexable?
+  [organisaatio]
+  (let [organisaatiotyypit (set (:organisaatiotyypit organisaatio))]
+    (empty? (intersection invalid-organisaatiotyypit organisaatiotyypit))))
+
+(defn indexable-children
+  [organisaatio]
+  (filter indexable? (:children organisaatio)))
 
 (defn find-oppilaitos-from-hierarkia
   [hierarkia]
