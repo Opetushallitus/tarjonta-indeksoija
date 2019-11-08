@@ -11,9 +11,12 @@
  :queue {:priority "{{kouta_indeksoija_sqs_queue_priority}}"
          :fast "{{kouta_indeksoija_sqs_queue_fast}}"
          :slow "{{kouta_indeksoija_sqs_queue_slow}}"
-         :dlq "{{kouta_indeksoija_sqs_queue_dlq}}"}
+         :dlq "{{kouta_indeksoija_sqs_queue_dlq}}"
+         :notifications "{{kouta_indeksoija_sqs_queue_notifications}}"
+         :notifications-dlq "{{kouta_indeksoija_sqs_queue_notifications_dlq}}"}
  :sqs-region "{{kouta_indeksoija_sqs_region}}"
  :sqs-endpoint "{{kouta_indeksoija_sqs_endpoint}}"
  :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"
+ :notification-dlq-cron-string "{{kouta_indeksoija_notification_dlq_cron_string}}"
  :queueing-cron-string "{{kouta_indeksoija_cron_string}}"
  :notifier-targets "{{kouta_indeksoija_notifier_targets}}"}

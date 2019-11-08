@@ -66,8 +66,8 @@ The application can notify others when information is indexed. This is controlle
 value in `dev_resources/config.edn`. It should be defaulted to `""`, ie. no changes will be sent.
 
 When wanting to validate locally that the notifications are working, one of the easiest way is with `dummy-web-server.py` in `tools`:
-* Run `python2 tools/dummy-we-server.py 9200` to start it in port 9200.
-* Change `:notifier-targets` in `dev_resources/config.edn` to `"http://localhost:9200"`
+* Run `python2 tools/dummy-web-server.py 9900` to start it in port 9900.
+* Change `:notifier-targets` in `dev_resources/config.edn` to `"http://localhost:9900"`
 * You can edit the script to set the return code and headers.
 
 The script will log every access to console.

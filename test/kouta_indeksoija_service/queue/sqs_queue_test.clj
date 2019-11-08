@@ -9,7 +9,9 @@
             [kouta-indeksoija-service.queue.localstack :as localstack]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.queue :refer :all]
-            [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order? contains-elements-in-any-order?]]))
+            [kouta-indeksoija-service.queue.sqs :refer [queue]]
+            [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order? contains-elements-in-any-order?]]
+            [kouta-indeksoija-service.queue.notification-queue :as notification-queue]))
 
 (defonce test-long-poll-time 5)
 
@@ -18,7 +20,9 @@
 (defonce queues {:priority (str "priority-" (uuid))
                  :fast (str "fast-" (uuid))
                  :slow (str "slow-" (uuid))
-                 :dlq (str "dlq-"  (uuid))})
+                 :dlq (str "dlq-"  (uuid))
+                 :notifications (str "notifications-"  (uuid))
+                 :notifications-dlq (str "notifications-dlq-"  (uuid))})
 
 (defn- message-bodies [response] (seq (map #(:body %) (:messages response))))
 
@@ -72,10 +76,12 @@
 
     (testing-with-queues-fixture "Queue should contain SQS queues"
       (let [base_sqs (str (localstack/sqs-endpoint) "/queue/")]
-        (is (clojure.string/starts-with? (queue :priority) (str base_sqs "priority-")))
-        (is (clojure.string/starts-with? (queue :fast)     (str base_sqs "fast-")))
-        (is (clojure.string/starts-with? (queue :slow)     (str base_sqs "slow-")))
-        (is (clojure.string/starts-with? (queue :dlq)      (str base_sqs "dlq-")))))
+        (is (clojure.string/starts-with? (queue :priority)          (str base_sqs "priority-")))
+        (is (clojure.string/starts-with? (queue :fast)              (str base_sqs "fast-")))
+        (is (clojure.string/starts-with? (queue :slow)              (str base_sqs "slow-")))
+        (is (clojure.string/starts-with? (queue :dlq)               (str base_sqs "dlq-")))
+        (is (clojure.string/starts-with? (queue :notifications)     (str base_sqs "notifications-")))
+        (is (clojure.string/starts-with? (queue :notifications-dlq) (str base_sqs "notifications-dlq-")))))
 
     (testing "Receive-messages-from-queues should"
       (testing-with-queues-fixture "receive messages from :priority queue first"
@@ -131,6 +137,32 @@
           (with-redefs [sqs/delete-message (fn [& {:keys [queue-url]}] (swap! deleted conj queue-url))]
             (try
               (handle-messages-from-queues (fn [messages] (throw (new Exception))))
+              (catch Exception e)))
+          (is (= [] @deleted)))))
+
+    (testing "Notification-queue handle-messages-from-queues should"
+
+      (testing-with-queues-fixture "receive parsed messages from queues and call 'handler' function for them"
+        (doseq [msg expected-messages] (sqs/send-message (queue :notifications) msg))
+        (is (= (contains-same-elements-in-any-order? (map #(json/parse-string % true) expected-messages)
+                                                     (let [handled (atom ())]
+                                                       (notification-queue/handle-messages-from-queues (fn [received] (swap! handled concat received)))
+                                                       @handled)))))
+
+      (testing-with-queues-fixture "delete messages after successful handling"
+        (doseq [msg expected-messages] (sqs/send-message (queue :notifications) msg))
+        (let [notifications (queue :notifications)
+              deleted        (atom [])]
+          (with-redefs [sqs/delete-message (fn [& {:keys [queue-url]}] (swap! deleted conj queue-url))]
+            (notification-queue/handle-messages-from-queues (constantly ()))
+            (is (= (count expected-messages) (count (filter #(= notifications %) @deleted)))))))
+
+      (testing-with-queues-fixture "not delete messages before successful handling"
+        (doseq [msg expected-messages] (sqs/send-message (queue :notifications) msg))
+        (let [deleted (atom [])]
+          (with-redefs [sqs/delete-message (fn [& {:keys [queue-url]}] (swap! deleted conj queue-url))]
+            (try
+              (notification-queue/handle-messages-from-queues (fn [messages] (throw (new Exception))))
               (catch Exception e)))
           (is (= [] @deleted)))))
 

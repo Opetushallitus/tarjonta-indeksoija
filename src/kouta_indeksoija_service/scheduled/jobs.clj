@@ -3,13 +3,14 @@
             [kouta-indeksoija-service.scheduled.scheduler :as scheduler]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.queue :as queue]
+            [kouta-indeksoija-service.queue.notification-queue :as notification-queue]
             [kouta-indeksoija-service.queuer.queuer :as queuer]))
 
 (defjob dlq-job [ctx] (queue/clean-dlq))
 
 (defonce dlq-job-name "dlq")
 
-(defn schedule-dlg-job
+(defn schedule-dlq-job
   []
   (scheduler/schedule-cron-job dlq-job-name dlq-job (:dlq-cron-string env)))
 
@@ -53,11 +54,45 @@
   []
   (scheduler/resume-job queueing-job-name))
 
+(defjob notification-job [ctx] (notification-queue/read-and-send-notifications))
+
+(defonce notification-job-name "notification")
+
+(defn schedule-notification-job
+  []
+  (scheduler/schedule-one-time-job notification-job-name notification-job))
+
+(defn pause-notification-job
+  []
+  (scheduler/pause-job notification-job-name))
+
+(defn resume-notification-job
+  []
+  (scheduler/resume-job notification-job-name))
+
+(defjob notification-dlq-job [ctx] (notification-queue/clean-dlq))
+
+(defonce notification-dlq-job-name "notification-dlq")
+
+(defn schedule-notification-dlq-job
+  []
+  (scheduler/schedule-cron-job notification-dlq-job-name notification-dlq-job (:notification-dlq-cron-string env)))
+
+(defn pause-notification-dlq-job
+  []
+  (scheduler/pause-job notification-dlq-job-name))
+
+(defn resume-notification-dlq-job
+  []
+  (scheduler/resume-job notification-dlq-job-name))
+
 (defn schedule-jobs
   []
   (schedule-sqs-job)
-  (schedule-dlg-job)
-  (schedule-queueing-job))
+  (schedule-dlq-job)
+  (schedule-queueing-job)
+  (schedule-notification-job)
+  (schedule-notification-dlq-job))
 
 (defn get-jobs-info
   []

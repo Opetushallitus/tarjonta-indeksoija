@@ -18,10 +18,6 @@
     (fn [x y] (merge-with (fn [a b] (distinct (concat a b))) x y))
     messages))
 
-(defn queue
-  [priority]
-  (sqs/find-queue (get (:queue env) priority)))
-
 (defn receive
   [{:keys [q f]}]
   (assoc (f q) :queue q))
@@ -42,9 +38,9 @@
   (collect-first
     receive
     #(seq (:messages %))
-    [{:q (queue :priority) :f sqs/long-poll}
-     {:q (queue :fast) :f sqs/short-poll}
-     {:q (queue :slow) :f sqs/short-poll}]))
+    [{:q (sqs/queue :priority) :f sqs/long-poll}
+     {:q (sqs/queue :fast) :f sqs/short-poll}
+     {:q (sqs/queue :slow) :f sqs/short-poll}]))
 
 (defn body-json->map
   [msg]
@@ -88,7 +84,7 @@
 (defn clean-dlq
   "Handle messages from DLQ. Mark message states to failed."
   []
-  (if-let [dlq (queue :dlq)]
+  (if-let [dlq (sqs/queue :dlq)]
     (when-let [failed (seq (:messages (sqs/short-poll dlq)))]
       (do
         (state/set-states! ::state/failed failed)

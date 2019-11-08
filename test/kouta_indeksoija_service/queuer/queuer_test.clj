@@ -34,7 +34,7 @@
 
 (deftest queuer-test
   (testing "Queuer should"
-    (with-redefs [kouta-indeksoija-service.queue.queue/queue mock-queue-name
+    (with-redefs [kouta-indeksoija-service.queue.sqs/queue mock-queue-name
                   kouta-indeksoija-service.queue.sqs/send-message mock-send-message
                   kouta-indeksoija-service.rest.eperuste/find-all mock-eperuste-oids
                   kouta-indeksoija-service.rest.organisaatio/get-all-oppilaitos-oids mock-organisaatio-oids

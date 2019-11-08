@@ -11,9 +11,12 @@
  :queue {:priority "priority-indexing-queue"
          :fast "fast-indexing-queue"
          :slow "slow-indexing-queue"
-         :dlq "indexing-dql"}
+         :dlq "indexing-dql"
+         :notifications "notifications-queue"
+         :notifications-dlq "notifications-dlq"}
  :sqs-region ""
  :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"
+ :notification-dlq-cron-string "7/30 * * ? * *"
  :queueing-cron-string "*/15 * * ? * *"
  :notifier-targets ""}
