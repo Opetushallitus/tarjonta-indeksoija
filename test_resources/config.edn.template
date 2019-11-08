@@ -11,7 +11,9 @@
  :queue {:priority "koutaIndeksoijaPriority"
          :fast "koutaIndeksoijaFast"
          :slow "koutaIndeksoijaSlow"
-         :dlq "koutaIndeksoijaDlq"}
+         :dlq "koutaIndeksoijaDlq"
+         :notifications "koutaIndeksoijaNotifications"
+         :notifications-dlq "koutaIndeksoijaNotificationsDlq"}
  :sqs-region "eu-west-1"
  :sqs-endpoint "http://localhost:4576"
  :dlq-cron-string "*/15 * * ? * *"

@@ -9,6 +9,7 @@
             [kouta-indeksoija-service.queue.localstack :as localstack]
             [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.queue :refer :all]
+            [kouta-indeksoija-service.queue.sqs :refer [queue]]
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order? contains-elements-in-any-order?]]
             [kouta-indeksoija-service.queue.notification-queue :as notification-queue]))
 

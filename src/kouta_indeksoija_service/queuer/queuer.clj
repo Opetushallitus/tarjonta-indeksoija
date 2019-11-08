@@ -4,7 +4,6 @@
             [kouta-indeksoija-service.queuer.last-queued :refer [set-last-queued-time get-last-queued-time]]
             [kouta-indeksoija-service.util.time :refer [long->date-time-string]]
             [clojure.tools.logging :as log]
-            [kouta-indeksoija-service.queue.queue :as q]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [clojure.set :refer [union]]))
 
@@ -13,7 +12,7 @@
 (defn- queue
   [& {:keys [oppilaitokset eperusteet] :or {oppilaitokset [], eperusteet []}}]
   (sqs/send-message
-   (q/queue :fast)
+   (sqs/queue :fast)
    (cond-> {}
            (not-empty oppilaitokset) (assoc :oppilaitokset (vec oppilaitokset))
            (not-empty eperusteet) (assoc :eperusteet (vec eperusteet)))))

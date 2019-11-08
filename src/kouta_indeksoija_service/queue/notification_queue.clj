@@ -5,12 +5,12 @@
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [kouta-indeksoija-service.queue.queue :as queue]
             [kouta-indeksoija-service.notifier.notifier :refer [send-notification]]
-            [kouta-indeksoija-service.elastic.tools :refer [get-id]])
+            [kouta-indeksoija-service.util.tools :refer [get-id]])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
 (defn receive-messages-from-notification-queue
   []
-  (let [q (queue/queue :notifications)
+  (let [q (sqs/queue :notifications)
         res (sqs/long-poll q)
         messages (:messages res)]
     (map #(assoc % :queue q) messages)))
@@ -43,7 +43,7 @@
     (try
       (handle-messages-from-queues
        (fn [message]
-         (send-notification (:receiver message) (:message message))))
+         (send-notification message)))
       (catch QueueDoesNotExistException e
         (log/error e "Notification queue does not exist. Sleeping for 30 seconds and continue polling.")
         (Thread/sleep 30000))
@@ -56,7 +56,7 @@
 (defn clean-dlq
   "Handle messages from DLQ. Log failed messages."
   []
-  (if-let [dlq (queue/queue :notifications-dlq)]
+  (if-let [dlq (sqs/queue :notifications-dlq)]
     (when-let [failed (seq (:messages (sqs/short-poll dlq)))]
       (do
         (doseq [msg failed]

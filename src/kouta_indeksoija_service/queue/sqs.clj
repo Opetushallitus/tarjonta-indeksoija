@@ -21,6 +21,9 @@
     q
     (throw (QueueDoesNotExistException. (str "No queue '" name "' found")))))
 
+(defn queue
+  [priority]
+  (find-queue (get (:queue env) priority)))
 
 (defn delete-message
   [& {:keys [queue-url receipt-handle]}]

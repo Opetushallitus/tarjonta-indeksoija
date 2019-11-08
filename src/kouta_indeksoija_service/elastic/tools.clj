@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.elastic.tools
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
+            [kouta-indeksoija-service.util.tools :refer [get-id]]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
@@ -27,10 +28,6 @@
   (with-error-logging
     (-> (e/get-document (index-name index) (index-name type) id)
         (:_source))))
-
-(defn get-id
-  [doc]
-  (or (:oid doc) (:id doc)))
 
 (defn- upsert-operation
   [doc index type]
