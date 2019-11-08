@@ -102,14 +102,9 @@
       }
     } ],
     "opetus" : {
-      "alkamisaikaKuvaus" : { },
       "maksunMaara" : 200.5,
-      "lukuvuosimaksuKuvaus" : {},
       "onkoStipendia" : false,
-      "stipendinMaara" : {},
       "stipendinKuvaus" : {},
-      "onkoLukuvuosimaksua" : false,
-      "lukuvuosimaksu" : {},
       "opetuskieli" : [ ],
       "maksullisuusKuvaus" : { },
       "opetustapa" : [{
