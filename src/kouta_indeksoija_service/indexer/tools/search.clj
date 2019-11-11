@@ -3,8 +3,8 @@
             [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]))
 
 (defn hit
-  [& {:keys [koulutustyyppi opetuskieliUrit tarjoajat oppilaitokset koulutusalaUrit nimi asiasanat ammattinimikkeet]
-      :or {koulutustyyppi nil opetuskieliUrit [] tarjoajat [] oppilaitokset [] koulutusalaUrit [] nimi {} asiasanat [] ammattinimikkeet []}}]
+  [& {:keys [koulutustyyppi koulutustyyppiUrit opetuskieliUrit tarjoajat oppilaitokset koulutusalaUrit nimi asiasanat ammattinimikkeet]
+      :or {koulutustyyppi nil koulutustyyppiUrit [] opetuskieliUrit [] tarjoajat [] oppilaitokset [] koulutusalaUrit [] nimi {} asiasanat [] ammattinimikkeet []}}]
 
   (defn- terms
     [lng-keyword]
@@ -17,13 +17,13 @@
   (let [kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
         maakunnat (remove nil? (distinct (map #(:koodiUri (maakunta %)) kunnat)))]
 
-    {:koulutustyyppi koulutustyyppi
-     :opetuskielet  (vec opetuskieliUrit)
-     :sijainti      (vec (concat kunnat maakunnat))
-     :koulutusalat  (vec koulutusalaUrit)
-     :terms         {:fi (terms :fi)
-                     :sv (terms :sv)
-                     :en (terms :en)}}))
+    {:koulutustyypit (vec (concat (vector koulutustyyppi) koulutustyyppiUrit))
+     :opetuskielet   (vec opetuskieliUrit)
+     :sijainti       (vec (concat kunnat maakunnat))
+     :koulutusalat   (vec koulutusalaUrit)
+     :terms          {:fi (terms :fi)
+                      :sv (terms :sv)
+                      :en (terms :en)}}))
 
 (defn koulutusalaKoodiUrit
   [koulutus]
@@ -36,6 +36,12 @@
   (if (ammatillinen? koulutus)
     (vec (map :koodiUri (tutkintonimikkeet (:koulutusKoodiUri koulutus))))
     (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])))
+
+(defn koulutustyyppiKoodiUrit
+  [koulutus]
+  (if (ammatillinen? koulutus)
+    (vec (map :koodiUri (koulutustyypit (:koulutusKoodiUri koulutus))))
+    []))
 
 (defn opintojenlaajuusKoodiUri
   [koulutus]

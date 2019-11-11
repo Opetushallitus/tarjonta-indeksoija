@@ -7,6 +7,7 @@
             [kouta-indeksoija-service.elastic.tools :refer [get-by-id]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
+            [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 

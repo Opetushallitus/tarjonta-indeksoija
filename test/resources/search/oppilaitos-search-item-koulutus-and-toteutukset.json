@@ -18,7 +18,7 @@
   } ],
   "koulutusohjelmia" : 2,
   "hits" : [ {
-    "koulutustyyppi" : "amm",
+    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
     "opetuskielet" : [ ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
@@ -28,7 +28,7 @@
       "en" : [ ]
     }
   }, {
-    "koulutustyyppi" : "amm",
+    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
@@ -38,7 +38,7 @@
       "en" : [ "horses", "horse" ]
     }
   }, {
-    "koulutustyyppi" : "amm",
+    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1" ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],

@@ -14,41 +14,43 @@
 (defn get-tarjoaja-and-oppilaitos
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
-    {:tarjoaja (organisaatio-tool/find-from-hierarkia hierarkia oid)
+    {:tarjoaja   (organisaatio-tool/find-from-hierarkia hierarkia oid)
      :oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)}))
 
 (defn koulutus-hit
   [koulutus]
   (let [organisaatiot (map get-tarjoaja-and-oppilaitos (:tarjoajat koulutus))]
-    (hit :koulutustyyppi (:koulutustyyppi koulutus)
-         :tarjoajat (vec (map :tarjoaja organisaatiot))
-         :oppilaitokset (vec (map :oppilaitos organisaatiot))
-         :koulutusalaUrit (koulutusalaKoodiUrit koulutus)
-         :nimi (:nimi koulutus))))
+    (hit :koulutustyyppi     (:koulutustyyppi koulutus)
+         :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
+         :tarjoajat          (vec (map :tarjoaja organisaatiot))
+         :oppilaitokset      (vec (map :oppilaitos organisaatiot))
+         :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+         :nimi               (:nimi koulutus))))
 
 (defn toteutus-hit
   [koulutus toteutus]
   (let [organisaatiot (map get-tarjoaja-and-oppilaitos (:tarjoajat toteutus))]
-    (hit :koulutustyyppi (:koulutustyyppi koulutus)
-         :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-         :tarjoajat (vec (map :tarjoaja organisaatiot))
-         :oppilaitokset (vec (map :oppilaitos organisaatiot))
-         :koulutusalaUrit (koulutusalaKoodiUrit koulutus)
-         :nimi (:nimi toteutus)
-         ;:hakuOnKaynnissa (->real-hakuajat hakutieto) TODO
-         ;:haut (:haut hakutieto) TODO
-         :asiasanat (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
-         :ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet])))))
+    (hit :koulutustyyppi     (:koulutustyyppi koulutus)
+         :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
+         :opetuskieliUrit    (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+         :tarjoajat          (vec (map :tarjoaja organisaatiot))
+         :oppilaitokset      (vec (map :oppilaitos organisaatiot))
+         :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+         :nimi               (:nimi toteutus)
+         ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
+         ;:haut              (:haut hakutieto) TODO
+         :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
+         :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet])))))
 
 (defn- create-base-entry
   [koulutus]
   (-> koulutus
       (select-keys [:oid :nimi :kielivalinta])
-      (assoc :koulutus (:koulutusKoodiUri koulutus))
-      (assoc :tutkintonimikkeet (tutkintonimikeKoodiUrit koulutus))
-      (assoc :kuvaus (get-in koulutus [:metadata :kuvaus]))
-      (assoc :koulutustyyppi (:koulutustyyppi koulutus))
-      (assoc :opintojenlaajuus (opintojenlaajuusKoodiUri koulutus))
+      (assoc :koulutus                (:koulutusKoodiUri koulutus))
+      (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
+      (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
+      (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
+      (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
       (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
       (common/decorate-koodi-uris)))
 

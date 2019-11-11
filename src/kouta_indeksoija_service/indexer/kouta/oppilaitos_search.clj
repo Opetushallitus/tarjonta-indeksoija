@@ -29,30 +29,32 @@
 
 (defn koulutus-hit
   [oppilaitos koulutus]
-  (hit :koulutustyyppi  (:koulutustyyppi koulutus)
-       ;:opetuskieliUrit (:kieletUris oppilaitos)
-       :tarjoajat       (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
-       :oppilaitokset   (vector oppilaitos)
-       :koulutusalaUrit (koulutusalaKoodiUrit koulutus)
-       :nimi            (:nimi koulutus)))
+  (hit :koulutustyyppi     (:koulutustyyppi koulutus)
+       :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
+       ;:opetuskieliUrit   (:kieletUris oppilaitos)
+       :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
+       :oppilaitokset      (vector oppilaitos)
+       :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+       :nimi               (:nimi koulutus)))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
-  (hit :koulutustyyppi   (:koulutustyyppi koulutus)
-       :opetuskieliUrit  (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-       :tarjoajat        (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
-       :oppilaitokset   (vector oppilaitos)
-       :koulutusalaUrit  (koulutusalaKoodiUrit koulutus)
-       :nimi             (:nimi toteutus)
-       :asiasanat        (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
-       :ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))
+  (hit :koulutustyyppi     (:koulutustyyppi koulutus)
+       :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
+       :opetuskieliUrit    (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+       :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
+       :oppilaitokset      (vector oppilaitos)
+       :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+       :nimi               (:nimi toteutus)
+       :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
+       :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))
 
 (defn- get-kouta-oppilaitos
   [oid]
   (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
     (when (julkaistu? oppilaitos)
       {:kielivalinta (:kielivalinta oppilaitos)
-       :kuvaus (get-in oppilaitos [:metadata :esittely])})))
+       :kuvaus       (get-in oppilaitos [:metadata :esittely])})))
 
 (defn- create-base-entry
   [oppilaitos koulutukset]

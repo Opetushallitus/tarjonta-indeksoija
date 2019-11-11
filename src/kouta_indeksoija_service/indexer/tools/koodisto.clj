@@ -24,3 +24,7 @@
 (defn koulutusalat
   [koulutusKoodiUri]
   (list-alakoodi-nimet-with-cache koulutusKoodiUri "kansallinenkoulutusluokitus2016koulutusalataso1"))
+
+(defn koulutustyypit
+  [koulutusKoodiUri]
+  (list-alakoodi-nimet-with-cache koulutusKoodiUri "koulutustyyppi"))
