@@ -18,7 +18,7 @@
   } ],
   "koulutusohjelmia" : 0,
   "hits" : [ {
-    "koulutustyypit" : ["kk"],
+    "koulutustyypit" : ["yo"],
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ ],

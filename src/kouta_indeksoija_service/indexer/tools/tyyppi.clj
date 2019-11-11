@@ -17,11 +17,11 @@
     "oppilaitostyyppi_24" "amm" ;;Ammatilliset aikuiskoulutuskeskukset
     "oppilaitostyyppi_28" "amm" ;;Palo-, poliisi- ja vartiointialojen oppilaitokset
     "oppilaitostyyppi_29" "amm" ;;Sotilasalan ammatilliset oppilaitokset
-    "oppilaitostyyppi_41" "kk"  ;;Ammattikorkeakoulut
-    "oppilaitostyyppi_42" "kk"  ;;Yliopistot
-    "oppilaitostyyppi_43" "kk"  ;;Sotilaskorkeakoulut
-    "oppilaitostyyppi_45" "kk"  ;;Lastentarhanopettajaopistot
-    "oppilaitostyyppi_46" "kk"  ;;Väliaikaiset ammattikorkeakoulut
+    "oppilaitostyyppi_41" "amk"  ;;Ammattikorkeakoulut
+    "oppilaitostyyppi_42" "yo"  ;;Yliopistot
+    "oppilaitostyyppi_43" "yo"  ;;Sotilaskorkeakoulut
+    "oppilaitostyyppi_45" "yo"  ;;Lastentarhanopettajaopistot
+    "oppilaitostyyppi_46" "amk"  ;;Väliaikaiset ammattikorkeakoulut
     "oppilaitostyyppi_61" "muu" ;;Musiikkioppilaitokset
     "oppilaitostyyppi_62" "muu" ;;Liikunnan koulutuskeskukset
     "oppilaitostyyppi_63" "muu" ;;Kansanopistot
