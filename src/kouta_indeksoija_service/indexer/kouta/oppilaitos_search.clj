@@ -6,7 +6,8 @@
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer :all]
-            [kouta-indeksoija-service.indexer.tools.search :refer :all]))
+            [kouta-indeksoija-service.indexer.tools.search :refer :all]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
 
 (def index-name "oppilaitos-kouta-search")
 
@@ -14,9 +15,15 @@
   [oppilaitos tarjoajat]
   (vec (map #(organisaatio-tool/find-from-organisaatio-and-children oppilaitos %) tarjoajat)))
 
+(defn- koulutustyyppi-for-organisaatio
+  [organisaatio]
+  (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
+    (oppilaitostyyppi-uri-to-tyyppi oppilaitostyyppi)))
+
 (defn oppilaitos-hit
   [oppilaitos]
-  (hit :opetuskieliUrit (:kieletUris oppilaitos)
+  (hit :koulutustyyppi  (koulutustyyppi-for-organisaatio oppilaitos)
+       :opetuskieliUrit (:kieletUris oppilaitos)
        :tarjoajat       (vector oppilaitos)
        :oppilaitokset   (vector oppilaitos)))
 
