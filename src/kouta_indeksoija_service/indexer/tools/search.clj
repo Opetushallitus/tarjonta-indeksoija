@@ -4,12 +4,12 @@
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
 (defn hit
-  [& {:keys [koulutustyyppi koulutustyyppiUrit opetuskieliUrit tarjoajat oppilaitokset koulutusalaUrit nimi asiasanat ammattinimikkeet]
-      :or {koulutustyyppi nil koulutustyyppiUrit [] opetuskieliUrit [] tarjoajat [] oppilaitokset [] koulutusalaUrit [] nimi {} asiasanat [] ammattinimikkeet []}}]
+  [& {:keys [koulutustyyppi koulutustyyppiUrit opetuskieliUrit tarjoajat oppilaitokset koulutusalaUrit nimet asiasanat ammattinimikkeet]
+      :or {koulutustyyppi nil koulutustyyppiUrit [] opetuskieliUrit [] tarjoajat [] oppilaitokset [] koulutusalaUrit [] nimet [] asiasanat [] ammattinimikkeet []}}]
 
   (defn- terms
     [lng-keyword]
-    (distinct (remove nil? (concat (vector (lng-keyword nimi))
+    (distinct (remove nil? (concat (map lng-keyword nimet)
                                    (map #(-> % :nimi lng-keyword) oppilaitokset)
                                    (map #(-> % :nimi lng-keyword) tarjoajat)
                                    (map lng-keyword asiasanat)

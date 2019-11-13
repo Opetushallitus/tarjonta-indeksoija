@@ -25,7 +25,7 @@
          :tarjoajat          (vec (map :tarjoaja organisaatiot))
          :oppilaitokset      (vec (map :oppilaitos organisaatiot))
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
-         :nimi               (:nimi koulutus))))
+         :nimet              (vector (:nimi koulutus)))))
 
 (defn toteutus-hit
   [koulutus toteutus]
@@ -36,7 +36,7 @@
          :tarjoajat          (vec (map :tarjoaja organisaatiot))
          :oppilaitokset      (vec (map :oppilaitos organisaatiot))
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
-         :nimi               (:nimi toteutus)
+         :nimet              (vector (:nimi koulutus) (:nimi toteutus))
          ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
          ;:haut              (:haut hakutieto) TODO
          :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
