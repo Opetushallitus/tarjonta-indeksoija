@@ -1,6 +1,7 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]))
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
 (defn hit
   [& {:keys [koulutustyyppi koulutustyyppiUrit opetuskieliUrit tarjoajat oppilaitokset koulutusalaUrit nimi asiasanat ammattinimikkeet]
@@ -14,13 +15,17 @@
                                    (map lng-keyword asiasanat)
                                    (map lng-keyword ammattinimikkeet)))))
 
+  (defn- clean-uris
+    [uris]
+    (vec (map remove-uri-version uris)))
+
   (let [kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
         maakunnat (remove nil? (distinct (map #(:koodiUri (maakunta %)) kunnat)))]
 
-    {:koulutustyypit (vec (concat (vector koulutustyyppi) koulutustyyppiUrit))
-     :opetuskielet   (vec opetuskieliUrit)
-     :sijainti       (vec (concat kunnat maakunnat))
-     :koulutusalat   (vec koulutusalaUrit)
+    {:koulutustyypit (clean-uris (concat (vector koulutustyyppi) koulutustyyppiUrit))
+     :opetuskielet   (clean-uris opetuskieliUrit)
+     :sijainti       (clean-uris (concat kunnat maakunnat))
+     :koulutusalat   (clean-uris koulutusalaUrit)
      :terms          {:fi (terms :fi)
                       :sv (terms :sv)
                       :en (terms :en)}}))

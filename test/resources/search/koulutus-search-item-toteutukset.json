@@ -43,7 +43,7 @@
   },
   "hits" : [ {
     "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
-    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_3#1" ],
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_3" ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
     "terms" : {
@@ -53,7 +53,7 @@
     }
   }, {
     "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
-    "opetuskielet" : [ "oppilaitoksenopetuskieli_1#1" ],
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1" ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02" ],
     "terms" : {
