@@ -76,26 +76,26 @@
   (let [paikkakuntaKoodiUrit (vec (distinct (filter #(clojure.string/starts-with? % "kunta") (mapcat :sijainti (:hits entry)))))]
     (assoc entry :paikkakunnat (vec (map get-koodi-nimi-with-cache paikkakuntaKoodiUrit)))))
 
+(defn- create-koulutus-hits
+  [oppilaitos allowed-tarjoaja-oids koulutus]
+  (if-let [toteutukset (filter-and-reduce-entries-by-tarjoajat allowed-tarjoaja-oids (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))]
+    (vec (map #(toteutus-hit oppilaitos koulutus %) toteutukset))
+    (vector (koulutus-hit oppilaitos koulutus))))
+
 (defn create-index-entry
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
       (when (organisaatio-tool/indexable? oppilaitos)
-        (let [allowed-tarjoaja-oids (organisaatio-tool/get-all-oids-flat hierarkia)]
-
-          (defn- koulutus-hits
-            [koulutus]
-            (if-let [toteutukset (filter-and-reduce-entries-by-tarjoajat allowed-tarjoaja-oids (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))]
-              (vec (map #(toteutus-hit oppilaitos koulutus %) toteutukset))
-              (vector (koulutus-hit oppilaitos koulutus))))
-
-          (let [koulutukset (filter-and-reduce-entries-by-tarjoajat allowed-tarjoaja-oids (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
-            (-> oppilaitos
-                (create-base-entry koulutukset)
-                (assoc :hits (if koulutukset
-                               (vec (mapcat #(koulutus-hits %) koulutukset))
-                               (vector (oppilaitos-hit oppilaitos))))
-                (assoc-paikkakunnat))))))))
+        (let [allowed-tarjoaja-oids (organisaatio-tool/get-all-oids-flat hierarkia)
+              koulutus-hits (partial create-koulutus-hits oppilaitos allowed-tarjoaja-oids)
+              koulutukset (filter-and-reduce-entries-by-tarjoajat allowed-tarjoaja-oids (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
+          (-> oppilaitos
+              (create-base-entry koulutukset)
+              (assoc :hits (if koulutukset
+                             (vec (mapcat #(koulutus-hits %) koulutukset))
+                             (vector (oppilaitos-hit oppilaitos))))
+              (assoc-paikkakunnat)))))))
 
 (defn do-index
   [oids]

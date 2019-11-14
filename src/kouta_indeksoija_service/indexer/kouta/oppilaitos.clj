@@ -40,11 +40,8 @@
       (when (organisaatio-tool/indexable? organisaatio)
         (let [oppilaitos-oid (:oid organisaatio)
               oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
-              oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)]
-
-          (defn- osa
-            [child]
-            (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))
+              oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
+              osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
 
           (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (organisaatio-tool/indexable-children organisaatio)))]
             (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries)))))))
