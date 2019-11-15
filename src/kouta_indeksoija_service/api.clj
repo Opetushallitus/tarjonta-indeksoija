@@ -267,8 +267,8 @@
          (ok {:result (indexer/index-oppilaitos oid)}))
 
        (POST "/koodistot" []
-         :summary "Indeksoi koodistojen uusimmat versiot."
-         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2"}]
+         :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
+         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,koulutustyyppi"}]
          (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))})))
 
      (context "/queuer" []

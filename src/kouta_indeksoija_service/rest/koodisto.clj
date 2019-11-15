@@ -65,13 +65,9 @@
 
 (defn list-alakoodi-nimet-with-cache
   [koodi-uri alakoodi-uri]
-
-  (defn- alakoodi->nimi-json
-    [alakoodi]
-    {:koodiUri (:koodiUri alakoodi)
-     :nimi     (extract-koodi-nimi alakoodi)})
-
-  (vec (map alakoodi->nimi-json (list-alakoodit-with-cache koodi-uri alakoodi-uri))))
+  (let [alakoodi->nimi-json (fn [alakoodi] {:koodiUri (:koodiUri alakoodi)
+                                            :nimi     (extract-koodi-nimi alakoodi)})]
+    (vec (map alakoodi->nimi-json (list-alakoodit-with-cache koodi-uri alakoodi-uri)))))
 
 (defn get-alakoodi-nimi-with-cache
   [koodi-uri alakoodi-uri]
