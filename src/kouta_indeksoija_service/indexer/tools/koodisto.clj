@@ -21,9 +21,13 @@
   [koulutusKoodiUri]
   (get-alakoodi-nimi-with-cache koulutusKoodiUri "opintojenlaajuusyksikko"))
 
-(defn koulutusalat
+(defn koulutusalat-taso1
   [koulutusKoodiUri]
   (list-alakoodi-nimet-with-cache koulutusKoodiUri "kansallinenkoulutusluokitus2016koulutusalataso1"))
+
+(defn koulutusalat-taso2
+  [koulutusKoodiUri]
+  (list-alakoodi-nimet-with-cache koulutusKoodiUri "kansallinenkoulutusluokitus2016koulutusalataso2"))
 
 (defn koulutustyypit
   [koulutusKoodiUri]

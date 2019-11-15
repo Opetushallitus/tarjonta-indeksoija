@@ -31,7 +31,9 @@
 (defn koulutusalaKoodiUrit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (koulutusalat (:koulutusKoodiUri koulutus))))
+    (let [koulutusKoodiUri (:koulutusKoodiUri koulutus)]
+      (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
+                   (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
 (defn tutkintonimikeKoodiUrit
