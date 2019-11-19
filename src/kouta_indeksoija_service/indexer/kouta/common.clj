@@ -4,7 +4,9 @@
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [clojure.string :refer [replace]]
-            [clojure.walk :refer [postwalk]]))
+            [clojure.walk :refer [postwalk]]
+            [clojure.tools.logging :as log]
+            [clojure.string :as string]))
 
 (defn- strip-koodi-uri-key
   [key]
@@ -19,9 +21,9 @@
 
 (defn- decorate-koodi-value
   [value]
-  (if (and (string? value) (re-find (re-pattern "\\w+_\\w+[#\\d{1,2}]?") value))
-    (get-koodi-nimi-with-cache value)
-    value))
+  (if (and (string? value) (re-find (re-pattern "^\\w+_\\w+[#\\d]{0,3}$") (string/trim value)))
+      (get-koodi-nimi-with-cache value)
+      value))
 
 (defn decorate-koodi-uris
   [x]
