@@ -27,9 +27,9 @@
      (if koodi-uri
        (mock-koodisto (subs koodi-uri 0 (clojure.string/index-of koodi-uri "_")) koodi-uri)))))
 
-(defn mock-muokkaaja
+(defn mock-get-henkilo-nimi-with-cache
   [oid]
-  (locking oid {:nimi "Kalle Ankka"}))
+  (locking oid "Kalle Ankka"))
 
 (defn mock-organisaatio-hierarkia
   [oppilaitos-oid & {:as params}]

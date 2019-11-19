@@ -26,7 +26,7 @@
   (let [session-id (:session-id cas-session)]
     (-> opts
         (assoc :follow-redirects false :throw-exceptions false)
-        (update-in [:headers] assoc "Cookie" (if (:jsession cas-session) (str "JSESSIONID=" @session-id) (str "session=" @session-id))))))
+        (update-in [:headers] assoc "Cookie" (if (:jsession? cas-session) (str "JSESSIONID=" @session-id) (str "session=" @session-id))))))
 
 (defn cas-authenticated-request
   ([cas-session opts]

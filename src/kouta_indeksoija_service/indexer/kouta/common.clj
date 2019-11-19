@@ -2,6 +2,7 @@
   (:require [kouta-indeksoija-service.rest.kouta :refer [get-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
+            [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]))
 
@@ -32,13 +33,13 @@
     (assoc (dissoc entry :organisaatioOid) :organisaatio (tarjoaja/get-tarjoaja oid))
     entry))
 
-;TODO -> Hae muokkaaja oppijanumerorekisteristä (vaatii CASsin)
-(def muokkaaja (memoize (fn [oid] {:nimi (rand-nth ["Aku Ankka" "Minni Hiiri" "Mikki Hiiri"])})))
 
 (defn assoc-muokkaaja
   [entry]
   (if-let [oid (:muokkaaja entry)]
-    (assoc entry :muokkaaja {:oid oid :nimi (:nimi (muokkaaja oid))})
+    (if-let [nimi (get-henkilo-nimi-with-cache oid)]
+      (assoc entry :muokkaaja {:oid oid :nimi nimi})
+      (assoc entry :muokkaaja {:oid oid}))
     entry))
 
 (defn assoc-tarjoajat
