@@ -37,8 +37,9 @@
 
 (defn- parse-jsession-id
   [response]
-  (when-let [cookie (-> response :headers :set-cookie)]
-    (nth (re-find #"JSESSIONID=(\w*);" cookie) 1)))
+  (or (when-let [cookie (-> response :headers :set-cookie)]
+        (nth (re-find #"JSESSIONID=(\w*);" cookie) 1 nil))
+      (some-> response :cookies (get "JSESSIONID") :value)))
 
 (defn- get-jsession-id
   [service-url st]

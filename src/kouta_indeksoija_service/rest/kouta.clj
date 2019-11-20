@@ -12,9 +12,14 @@
 
 (defn- cas-authenticated-get-as-json
   ([url opts]
-   (with-error-logging
-     (log/debug (str "GET => " url))
-     (:body (cas-authenticated-get url (assoc opts :as :json)))))
+   (log/debug (str "GET => " url))
+   (let [response (cas-authenticated-get url (assoc opts :as :json :throw-exceptions false))
+         status   (:status response)
+         body     (:body response)]
+     (cond
+       (= 200 status) body
+       (= 404 status) (do (log/warn  "Got " status " from GET: " url " with body " body) nil)
+       :else          (do (log/error "Got " status " from GET: " url " with response " response) nil))))
   ([url]
    (cas-authenticated-get-as-json url {})))
 
