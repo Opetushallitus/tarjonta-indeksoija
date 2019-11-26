@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.1.9-KTO-245-v8-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.1.10-KTO-245-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -76,8 +76,8 @@
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v3"]
-                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v3" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-backend "0.10-SNAPSHOT-KTO-245"]
+                                                       [fi.oph.kouta/kouta-backend "0.10-SNAPSHOT-KTO-245" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -87,8 +87,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v3"]
-                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-245-v3" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "0.10-SNAPSHOT-KTO-245"]
+                                      [fi.oph.kouta/kouta-backend "0.10-SNAPSHOT-KTO-245" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"

@@ -328,10 +328,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
 
                  kouta-indeksoija-service.rest.oppijanumerorekisteri/get-henkilo-nimi-with-cache
-                 kouta-indeksoija-service.fixture.external-services/mock-get-henkilo-nimi-with-cache]
+                 kouta-indeksoija-service.fixture.external-services/mock-get-henkilo-nimi-with-cache
 
                  kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache
-                 kouta-indeksoija-service.fixture.external-services/mock-alakoodit
+                 kouta-indeksoija-service.fixture.external-services/mock-alakoodit]
      (do ~@body)))
 
 (defn index-oppilaitokset
