@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.rest.util
   (:require [clj-http.client :as client]
+            [clojure.string :refer [upper-case]]
             [clojure.tools.logging :as log]))
 
 (defn add-callerinfo [options]
@@ -25,8 +26,31 @@
       add-callerinfo
       client/request))
 
+(defn handle-error
+  [url method-name response]
+  (let [status   (:status response)
+        body     (:body response)]
+    (case status
+      200 body
+      404 (do (log/warn  "Got " status " from " method-name ": " url " with body " body) nil)
+          (do (log/error "Got " status " from " method-name ": " url " with response " response) nil))))
+
+(defn ->json-body-with-error-handling
+  [url method opts]
+  (let [method-name (upper-case (str method))
+        f           (case method :post post :put put :get get)]
+    (log/debug method-name " => " url)
+    (let [response (f url (merge opts {:throw-exceptions false :as :json}))]
+      (handle-error url method-name response))))
+
 (defn get->json-body
   ([url query-params]
-   (:body (get url {:as :json :query-params query-params})))
+   (->json-body-with-error-handling url :get {:query-params query-params}))
   ([url]
-   (:body (get url {:as :json}))))
+    (get->json-body url {})))
+
+(defn post->json-body
+  ([url body content-type]
+   (->json-body-with-error-handling url :post {:body body :content-type (keyword content-type)}))
+  ([url body]
+   (post->json-body url body :json)))

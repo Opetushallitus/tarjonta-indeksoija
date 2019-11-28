@@ -20,8 +20,7 @@
 (defn- get-koodi-with-url
   [url]
   (log/info url)
-  (with-error-logging
-   (get->json-body url)))
+  (get->json-body url))
 
 (defn get-koodit
   [koodisto]
