@@ -8,7 +8,9 @@
    [kouta-indeksoija-service.indexer.kouta.haku :as haku]
    [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
    [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
-   [kouta-indeksoija-service.indexer.kouta.koulutus-search :as search]
+   [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
+   [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
+   [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
    [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
    [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]))
 
@@ -26,17 +28,25 @@
   (dissoc json :timestamp))
 
 (defn json
-  [name]
-  (cheshire/parse-string (slurp (str "test/resources/kouta/" name ".json")) true))
+  ([path name]
+   (cheshire/parse-string (slurp (str path name ".json")) true))
+  ([name]
+   (json "test/resources/kouta/" name)))
 
 (defn check-all-nil
   []
-  (is (= nil (get-doc search/index-name koulutus-oid)))
-  (is (= nil (get-doc koulutus/index-name koulutus-oid)))
-  (is (= nil (get-doc toteutus/index-name toteutus-oid)))
-  (is (= nil (get-doc haku/index-name haku-oid)))
-  (is (= nil (get-doc hakukohde/index-name hakukohde-oid)))
-  (is (= nil (get-doc valintaperuste/index-name valintaperuste-id))))
+  (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
+  (is (nil? (get-doc koulutus/index-name koulutus-oid)))
+  (is (nil? (get-doc toteutus/index-name toteutus-oid)))
+  (is (nil? (get-doc haku/index-name haku-oid)))
+  (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
+  (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))
+  (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid)))
+  (is (nil? (get-doc oppilaitos/index-name mocks/Oppilaitos1)))
+  (is (nil? (get-doc oppilaitos/index-name mocks/Oppilaitos2)))
+  (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid)))
+  (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))
+  (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos2))))
 
 (defn common-indexer-fixture
   [tests]
@@ -125,4 +135,5 @@
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49")
 
-  (tests))
+  (tests)
+  (fixture/teardown))

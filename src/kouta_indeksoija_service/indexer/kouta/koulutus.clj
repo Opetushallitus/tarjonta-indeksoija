@@ -7,6 +7,8 @@
 
 (def index-name "koulutus-kouta")
 
+;TODO: amm tutkintonimikkeet, koulutuksen laajuus, opetuskielet, suunniteltu kesto ja koulutusaste
+
 (defn create-index-entry
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
@@ -15,13 +17,9 @@
         (common/assoc-organisaatiot)
         (assoc :toteutukset (map to-list-item toteutukset)))))
 
-(defn create-index-entries
-  [oids]
-  (doall (pmap create-index-entry oids)))
-
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (indexable/do-index index-name oids create-index-entry))
 
 (defn get
   [oid]

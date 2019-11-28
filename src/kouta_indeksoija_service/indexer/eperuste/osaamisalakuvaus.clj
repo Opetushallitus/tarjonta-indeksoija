@@ -9,13 +9,9 @@
   (let [osaamisalakuvaukset (eperuste-service/get-osaamisalakuvaukset eperuste-id)]
     (map #(assoc %1 :oid (str (:id %1)) :tyyppi "osaamisalakuvaus") osaamisalakuvaukset)))
 
-(defn create-index-entries
-  [oids]
-  (apply concat (doall (pmap create-index-entry oids))))
-
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (indexable/do-index index-name oids create-index-entry))
 
 (defn get
   [oid]

@@ -6,7 +6,8 @@
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
+  (:import (fi.oph.kouta.external KoutaFixtureTool$)
+           (java.util NoSuchElementException)))
 
 (defonce KoutaFixture KoutaFixtureTool$/MODULE$)
 
@@ -44,6 +45,12 @@
   [oid]
   (locking KoutaFixture
     (->keywordized-json (.getKoulutus KoutaFixture oid))))
+
+(defn mock-get-koulutukset-by-tarjoaja
+  [oid]
+  (let [oids (str oid "," oid "1," oid "2," oid "3")]
+  (locking KoutaFixture
+    (->keywordized-json (.getKoulutuksetByTarjoajat KoutaFixture oids)))))
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
@@ -131,8 +138,9 @@
 
 (defn mock-get-oppilaitos
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getOppilaitos KoutaFixture oid))))
+  (try (locking KoutaFixture
+         (->keywordized-json (.getOppilaitos KoutaFixture oid)))
+       (catch NoSuchElementException e nil)))
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
@@ -145,8 +153,9 @@
 
 (defn mock-get-oppilaitoksen-osa
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid))))
+  (try (locking KoutaFixture
+         (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid)))
+       (catch NoSuchElementException e nil)))
 
 (defn mock-get-sorakuvaus
   [id]
@@ -211,6 +220,7 @@
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos-search/index-name)
   (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn indices-fixture
@@ -226,6 +236,7 @@
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
+  (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos-search/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
 (defn reset-mocks
@@ -295,6 +306,9 @@
                  kouta-indeksoija-service.rest.kouta/list-toteutukset-by-haku
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-toteutukset-by-haku
 
+                 kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
+
                  kouta-indeksoija-service.rest.kouta/list-valintaperusteet-by-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-valintaperusteet-by-sorakuvaus
 
@@ -314,7 +328,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
 
                  kouta-indeksoija-service.rest.oppijanumerorekisteri/get-henkilo-nimi-with-cache
-                 kouta-indeksoija-service.fixture.external-services/mock-get-henkilo-nimi-with-cache]
+                 kouta-indeksoija-service.fixture.external-services/mock-get-henkilo-nimi-with-cache
+
+                 kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-alakoodit]
      (do ~@body)))
 
 (defn index-oppilaitokset
@@ -330,11 +347,17 @@
   (refresh-indices))
 
 (defn index-oids-without-related-indices
-  [oids]
-  (with-mocked-indexing
+  ([oids]
+   (with-mocked-indexing
     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
       (indexer/index-all-kouta)))
-  (refresh-indices))
+   (refresh-indices))
+  ([oids organisaatio-hierarkia-mock]
+   (with-mocked-indexing
+    (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
+                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock]
+      (indexer/index-all-kouta)))
+   (refresh-indices)))
 
 (defn index-all
   []

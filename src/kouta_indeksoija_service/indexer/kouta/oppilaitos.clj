@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos
   (:require [clojure.set :refer [rename-keys]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
@@ -35,26 +35,20 @@
 
 (defn create-index-entry
   [oid]
-  (let [hierarkia (organisaatio-client/get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)] ;
+  (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [organisaatio (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (let [oppilaitos-oid (:oid organisaatio)
-            oppilaitos(kouta-backend/get-oppilaitos oppilaitos-oid)
-            oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)]
+      (when (organisaatio-tool/indexable? organisaatio)
+        (let [oppilaitos-oid (:oid organisaatio)
+              oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
+              oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
+              osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
 
-        (defn- osa
-          [child]
-          (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))
-
-        (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (:children organisaatio)))]
-          (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries))))))
-
-(defn create-index-entries
-  [oids]
-  (doall (pmap create-index-entry oids)))
+          (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (organisaatio-tool/indexable-children organisaatio)))]
+            (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries)))))))
 
 (defn do-index
   [oids]
-  (indexable/do-index index-name oids create-index-entries))
+  (indexable/do-index index-name oids create-index-entry))
 
 (defn get
   [oid]

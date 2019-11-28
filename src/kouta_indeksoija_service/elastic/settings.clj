@@ -68,8 +68,31 @@
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
 
+(def settings-koodisto
+  {:dynamic_templates [{:nested {:match "koodit"
+                                 :match_mapping_type "object"
+                                 :mapping { :type "nested" }}}
+                       {:fi {:match "fi"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "finnish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:sv {:match "sv"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "swedish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:en {:match "en"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "english"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
+
 (def kouta-settings-search
-  {:dynamic_templates [{:nested {:match "toteutukset"
+  {:dynamic_templates [{:nested {:match "hits"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
                        {:hakuOnKaynnissa {:match "hakuOnKaynnissa"
@@ -81,13 +104,25 @@
                              :mapping {:type "text"
                                        :analyzer "finnish"
                                        :norms { :enabled false}
-                                       :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:sv {:match "sv"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "swedish"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                       {:en {:match "en"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "english"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:tila {:match "tila"
                                :match_mapping_type "string"
                                :mapping {:type "text"
                                          :analyzer "finnish"
                                          :norms { :enabled false}
-                                         :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
+                                         :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-settings
   {:dynamic_templates [{:muokkaaja {:match "muokkaaja.nimi"

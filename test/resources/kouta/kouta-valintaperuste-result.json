@@ -213,6 +213,10 @@
           "sv" : "valintatapajono_tv#1 nimi sv"
         }
       },
+      "nimi" : {
+        "fi" : "Valintatapa2 fi",
+        "sv" : "Valintatapa2 sv"
+      },
       "kuvaus" : {
         "fi" : "kuvaus 2 fi",
         "sv" : "kuvaus 2 sv"
@@ -351,5 +355,38 @@
         } ]
       } ]
     } ]
-  }
+  },
+  "valintakokeet" : [ {
+    "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "tyyppi" : {
+      "koodiUri" : "valintakokeentyyppi_1#1",
+      "nimi" : {
+        "fi" : "valintakokeentyyppi_1#1 nimi fi",
+        "sv" : "valintakokeentyyppi_1#1 nimi sv"
+      }
+    },
+    "tilaisuudet" : [ {
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumero" : {
+          "koodiUri" : "posti_04230#2",
+          "nimi" : {
+            "fi" : "posti_04230#2 nimi fi",
+            "sv" : "posti_04230#2 nimi sv"
+          }
+        }
+      },
+      "aika" : {
+        "alkaa" : "2019-02-05T09:49",
+        "paattyy" : "2019-02-05T09:58"
+      },
+      "lisatietoja" : {
+        "fi" : "lisätietieto fi",
+        "sv" : "lisätieto sv"
+      }
+    } ]
+  } ]
 }

@@ -111,6 +111,31 @@
                                 "organisaatiotyyppi_03"
                             ],
                             "status": "AKTIIVINEN"
+                        },
+                        {
+                            "oid": "1.2.246.562.10.10101010104",
+                            "alkuPvm": 725839200000,
+                            "parentOid": "1.2.246.562.10.10101010101",
+                            "parentOidPath": "1.2.246.562.10.10101010104/1.2.246.562.10.10101010101/1.2.246.562.10.10101010100/1.2.246.562.10.00000000001",
+                            "toimipistekoodi": "77777799",
+                            "match": false,
+                            "nimi": {
+                                "sv": "foo",
+                                "fi": "bar",
+                                "en": "foobar"
+                            },
+                            "kieletUris": [
+                                "oppilaitoksenopetuskieli_1#1",
+                                "oppilaitoksenopetuskieli_2#1",
+                                "oppilaitoksenopetuskieli_4#1"
+                            ],
+                            "kotipaikkaUri": "kunta_091",
+                            "children": [],
+                            "aliOrganisaatioMaara": 0,
+                            "organisaatiotyypit": [
+                                "organisaatiotyyppi_06"
+                            ],
+                            "status": "AKTIIVINEN"
                         }
                     ],
                     "aliOrganisaatioMaara": 16,

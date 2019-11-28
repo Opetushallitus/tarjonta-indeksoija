@@ -6,8 +6,10 @@
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
+            [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
@@ -20,8 +22,10 @@
 
 (defn index-koulutukset
   [oids]
-  (koulutus-search/do-index oids)
-  (koulutus/do-index oids))
+  (let [entries (koulutus/do-index oids)]
+    (koulutus-search/do-index oids)
+    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)))
+    entries))
 
 (defn index-koulutus
   [oid]
@@ -30,7 +34,7 @@
 (defn index-toteutukset
   [oids]
   (let [entries (toteutus/do-index oids)
-        haut (set (apply concat (map kouta-backend/list-haut-by-toteutus oids)))]
+        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)]
     (index-koulutukset (get-oids :koulutusOid entries))
     (haku/do-index (get-oids :oid haut))
     entries))
@@ -41,8 +45,10 @@
 
 (defn index-haut
   [oids]
-  (let [koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku oids)))]
-    (koulutus-search/do-index (get-oids :oid koulutukset)))
+  (let [koulutukset (mapcat kouta-backend/list-koulutukset-by-haku oids)
+        toteutukset (mapcat kouta-backend/list-toteutukset-by-haku oids)]
+    (koulutus-search/do-index (get-oids :oid koulutukset))
+    (toteutus/do-index (get-oids :oid toteutukset)))
   (haku/do-index oids))
 
 (defn index-haku
@@ -52,8 +58,8 @@
 (defn index-hakukohteet
   [oids]
   (let [hakukohde-entries (hakukohde/do-index oids)
-        haku-oids (get-oids :hakuOid hakukohde-entries)
-        koulutukset (set (apply concat (map kouta-backend/list-koulutukset-by-haku haku-oids)))]
+        haku-oids         (get-oids :hakuOid hakukohde-entries)
+        koulutukset       (mapcat kouta-backend/list-koulutukset-by-haku haku-oids)]
     (haku/do-index haku-oids)
     (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
     (koulutus-search/do-index (get-oids :oid koulutukset))
@@ -65,8 +71,8 @@
 
 (defn index-valintaperusteet
   [oids]
-  (let [entries (valintaperuste/do-index oids)
-        hakukohteet (apply concat (map kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries)))]
+  (let [entries     (valintaperuste/do-index oids)
+        hakukohteet (mapcat kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries))]
     (hakukohde/do-index (get-oids :oid hakukohteet))
     entries))
 
@@ -76,7 +82,7 @@
 
 (defn index-sorakuvaukset
   [oids]
-  (let [valintaperusteet (apply concat (map kouta-backend/list-valintaperusteet-by-sorakuvaus oids))]
+  (let [valintaperusteet (mapcat kouta-backend/list-valintaperusteet-by-sorakuvaus oids)]
     (index-valintaperusteet (get-oids :id valintaperusteet)))
   oids)
 
@@ -95,11 +101,16 @@
 
 (defn index-oppilaitokset
   [oids]
-  (oppilaitos/do-index oids))
+  (oppilaitos/do-index oids)
+  (oppilaitos-search/do-index oids))
 
 (defn index-oppilaitos
   [oid]
   (index-oppilaitokset [oid]))
+
+(defn index-koodistot
+  [koodistot]
+  (koodisto/do-index koodistot))
 
 (defn index-oids
   [oids]
@@ -145,6 +156,8 @@
     (haku/do-index (:haut oids))
     (hakukohde/do-index (:hakukohteet oids))
     (valintaperuste/do-index (:valintaperusteet oids))
+    (oppilaitos/do-index (:oppilaitokset oids))
+    (oppilaitos-search/do-index (:oppilaitokset oids))
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
 (defn index-all-koulutukset
@@ -173,4 +186,6 @@
 
 (defn index-all-oppilaitokset
   []
-  (index-oppilaitokset (:oppilaitokset (organisaatio-client/get-all-oppilaitos-oids))))
+  (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)]
+    (log/info "Indeksoidaa " (count oppilaitokset) " oppilaitosta.")
+    (index-oppilaitokset oppilaitokset)))

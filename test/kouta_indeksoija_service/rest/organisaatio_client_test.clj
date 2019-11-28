@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.rest.util :as client]))
 
 (defn mock-last-modified [url opts]
-  {:body (tools/parse (str "test/resources/organisaatiot/last-modified.json"))})
+  {:status 200 :body (tools/parse (str "test/resources/organisaatiot/last-modified.json"))})
 
 (deftest organisaatio-client-test
   (testing "Organisaatio client should"

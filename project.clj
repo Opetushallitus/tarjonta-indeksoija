@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.1.8-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.1.11-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -12,6 +12,7 @@
                  ["snapshots" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local"
                                :username :env/artifactory_username
                                :password :env/artifactory_password
+                               :sign-releases false
                                :snapshots true}]]
   :managed-dependencies [[org.flatland/ordered "1.5.7"]]
   :dependencies [[org.clojure/clojure "1.10.0"]
@@ -74,9 +75,9 @@
                    :ring {:reload-paths ["src"]}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
-             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.21"]
-                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-253"]
-                                                       [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-253" :classifier "tests"]
+             :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
+                                                       [fi.oph.kouta/kouta-backend "0.11-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "0.11-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -86,8 +87,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-253"]
-                                      [fi.oph.kouta/kouta-backend "0.9-SNAPSHOT-KTO-253" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "0.11-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "0.11-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
