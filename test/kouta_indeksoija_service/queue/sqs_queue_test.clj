@@ -49,8 +49,8 @@
   (test)
   (call-for-queue-urls sqs/delete-queue))
 
-(use-fixtures :once mount-fixture docker-test-fixture)
-(use-fixtures :each queues-fixture)
+;(use-fixtures :once mount-fixture docker-test-fixture)
+;(use-fixtures :each queues-fixture)
 
 (defn empty-queues
   []
@@ -66,7 +66,7 @@
        ~@test
        (empty-queues))))
 
-(deftest docker-sqs-test
+(comment deftest docker-sqs-test
   (with-redefs [env {:queue queues}
                 kouta-indeksoija-service.queue.sqs/long-poll-wait-time test-long-poll-time]
   (let [expected-messages     [(json/generate-string {:oid ["expected-123.123.123" "expected-123.123.231"] :boid ["expected-123.123"]})

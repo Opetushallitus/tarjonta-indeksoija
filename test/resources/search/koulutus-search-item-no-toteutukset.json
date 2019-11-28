@@ -1,0 +1,57 @@
+{
+  "oid" : "1.2.246.562.13.00000000000000000099",
+  "nimi" : {
+    "fi" : "Autoalan perustutkinto 0 fi",
+    "sv" : "Autoalan perustutkinto 0 sv"
+  },
+  "kielivalinta" : [ "fi", "sv" ],
+  "tutkintonimikkeet" : [ {
+    "koodiUri" : "tutkintonimikkeet_01",
+    "nimi" : {
+      "fi" : "tutkintonimikkeet_01 nimi fi",
+      "sv" : "tutkintonimikkeet_01 nimi sv"
+    }
+  }, {
+    "koodiUri" : "tutkintonimikkeet_02",
+    "nimi" : {
+      "fi" : "tutkintonimikkeet_02 nimi fi",
+      "sv" : "tutkintonimikkeet_02 nimi sv"
+    }
+  } ],
+  "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
+  "opintojenlaajuus" : {
+    "koodiUri" : "opintojenlaajuus_01",
+    "nimi" : {
+      "fi" : "opintojenlaajuus_01 nimi fi",
+      "sv" : "opintojenlaajuus_01 nimi sv"
+    }
+  },
+  "opintojenlaajuusyksikko" : {
+    "koodiUri" : "opintojenlaajuusyksikko_01",
+    "nimi" : {
+      "fi" : "opintojenlaajuusyksikko_01 nimi fi",
+      "sv" : "opintojenlaajuusyksikko_01 nimi sv"
+    }
+  },
+  "koulutustyyppi" : "amm",
+  "koulutus" : {
+    "koodiUri" : "koulutus_351301#1",
+    "nimi" : {
+      "fi" : "koulutus_351301#1 nimi fi",
+      "sv" : "koulutus_351301#1 nimi sv"
+    }
+  },
+  "hits" : [ {
+    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
+    "opetuskielet" : [ ],
+    "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+                       "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "terms" : {
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799" ,"Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992" ],
+      "en" : [ ]
+    }
+  } ],
+  "timestamp" : 1571294237902
+}

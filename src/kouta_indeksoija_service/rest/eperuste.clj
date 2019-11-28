@@ -12,32 +12,29 @@
 
 (defn- find
   ([last-modified]
-   (with-error-logging
     (loop [page-nr 0 result []]
-      (let [data (get-perusteet-page page-nr last-modified)
+      (let [data (or (get-perusteet-page page-nr last-modified) {:data [] :sivuja -1})
             total-result (vec (conj result (map #(-> % :id str) (:data data))))]
-        (if (<= (:sivuja data) (+ 1 page-nr))
-          (flatten total-result)
-          (recur (+ 1 page-nr) total-result))))))
+          (if (<= (:sivuja data) (+ 1 page-nr))
+            (flatten total-result)
+            (recur (+ 1 page-nr) total-result)))))
   ([] (find nil)))
 
 (defn get-doc
   [eperuste-id]
-  (with-error-logging
-   (get->json-body
-    (resolve-url :eperusteet-service.peruste.kaikki eperuste-id))))
+  (get->json-body
+    (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
 (defn get-osaamisalakuvaukset
   [eperuste-id]
-  (with-error-logging
-   (let [res (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id))
-         suoritustavat (keys res)
-         osaamisalat (fn [suoritustapa] (apply concat (-> res suoritustapa vals)))
-         assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa
-                                                                      :type "osaamisalakuvaus"
-                                                                      :oid (:id osaamisala)
-                                                                      :eperuste-oid eperuste-id))]
-     (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat))))))
+  (when-let [res (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id))]
+    (let [suoritustavat (keys res)
+          osaamisalat (fn [suoritustapa] (apply concat (-> res suoritustapa vals)))
+          assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa
+                                                                       :type "osaamisalakuvaus"
+                                                                       :oid (:id osaamisala)
+                                                                       :eperuste-oid eperuste-id))]
+      (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat))))))
 
 (defn find-all
   []

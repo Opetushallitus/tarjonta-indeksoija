@@ -15,7 +15,7 @@
   (testing "Payload for bulk operation should be partitioned correctly"
     (with-redefs [max-payload-size 2025]
       (let [docs (dummy-indexdata :amount 50 :id-offset 1000)
-            data (tools/bulk-upsert-data "indexdata" "indexdata" docs)
+            data (tools/->bulk-upsert-data "indexdata" "indexdata" docs)
             bulk-data (bulk-partitions data)]
         (is (= 4 (count bulk-data)))
         (println (nth bulk-data 0))

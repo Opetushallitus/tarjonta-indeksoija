@@ -4,14 +4,16 @@
             [kouta-indeksoija-service.rest.util :as client]))
 
 (defn mock-get-one [url opts]
-  {:body {:data [{:id 0 :oid "0"}],
+  {:status 200
+   :body {:data [{:id 0 :oid "0"}],
           :sivuja 1,
           :kokonaismäärä 1,
           :sivukoko 100,
           :sivu 0}})
 
 (defn mock-get-none [url opts]
-  {:body {:data [],
+  {:status 200
+   :body {:data [],
           :sivuja 0,
           :kokonaismäärä 0,
           :sivukoko 100
@@ -20,7 +22,8 @@
 (defn mock-get-many [url opts]
   (let [sivu (:sivu (:query-params opts))
         x (* 2 sivu)]
-    {:body {:data (map (fn [i] {:id i}) (range x (+ x 2))),
+    {:status 200
+     :body {:data (map (fn [i] {:id i}) (range x (+ x 2))),
             :sivuja 5,
             :kokonaismäärä 10,
             :sivukoko 2

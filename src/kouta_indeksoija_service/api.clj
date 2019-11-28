@@ -23,7 +23,8 @@
             [environ.core]
             [kouta-indeksoija-service.scheduled.jobs :as jobs]
             [kouta-indeksoija-service.queuer.queuer :as queuer]
-            [kouta-indeksoija-service.notifier.notifier :as notifier]))
+            [kouta-indeksoija-service.notifier.notifier :as notifier]
+            [kouta-indeksoija-service.util.tools :refer [comma-separated-string->vec]]))
 
 (defn init []
   (mount/start)
@@ -263,7 +264,12 @@
        (POST "/organisaatio" []
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (ok {:result (indexer/index-oppilaitos oid)})))
+         (ok {:result (indexer/index-oppilaitos oid)}))
+
+       (POST "/koodistot" []
+         :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
+         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,koulutustyyppi"}]
+         (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))})))
 
      (context "/queuer" []
        :tags ["queuer"]

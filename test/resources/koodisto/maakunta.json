@@ -1,0 +1,1175 @@
+[
+  {
+    "koodiUri": "maakunta_05",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_05",
+    "version": 19,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "05",
+    "paivitysPvm": 1518082681524,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1998-03-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Kanta-Häme",
+        "kuvaus": "Kanta-Häme",
+        "lyhytNimi": "Kanta-Häme",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Egentliga Tavastland",
+        "kuvaus": "Egentliga Tavastland",
+        "lyhytNimi": "Egentliga Tavastland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Kanta-Häme",
+        "kuvaus": "Kanta-Häme",
+        "lyhytNimi": "Kanta-Häme",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_04",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_04",
+    "version": 31,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "04",
+    "paivitysPvm": 1518082687708,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Satakunta",
+        "kuvaus": "Satakunta",
+        "lyhytNimi": "Satakunta",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Satakunta",
+        "kuvaus": "Satakunta",
+        "lyhytNimi": "Satakunta",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Satakunta",
+        "kuvaus": "Satakunta",
+        "lyhytNimi": "Satakunta",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_21",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_21",
+    "version": 19,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "21",
+    "paivitysPvm": 1518082683018,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Åland",
+        "kuvaus": "Åland",
+        "lyhytNimi": "Åland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Ahvenanmaa",
+        "kuvaus": "Ahvenanmaa",
+        "lyhytNimi": "Ahvenanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Åland",
+        "kuvaus": "Åland",
+        "lyhytNimi": "Åland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_18",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_18",
+    "version": 12,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "18",
+    "paivitysPvm": 1518082691859,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Kainuu",
+        "kuvaus": "Kainuu",
+        "lyhytNimi": "Kainuu",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Kajanaland",
+        "kuvaus": "Kajanaland",
+        "lyhytNimi": "Kajanaland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Kainuu",
+        "kuvaus": "Kainuu",
+        "lyhytNimi": "Kainuu",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_08",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_08",
+    "version": 16,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "08",
+    "paivitysPvm": 1518082692177,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Kymenlaakso",
+        "kuvaus": "Kymenlaakso",
+        "lyhytNimi": "Kymenlaakso",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Kymenlaakso",
+        "kuvaus": "Kymenlaakso",
+        "lyhytNimi": "Kymenlaakso",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Kymmenedalen",
+        "kuvaus": "Kymmenedalen",
+        "lyhytNimi": "Kymmenedalen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_07",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_07",
+    "version": 17,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "07",
+    "paivitysPvm": 1518082689692,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Päijät-Häme",
+        "kuvaus": "Päijät-Häme",
+        "lyhytNimi": "Päijät-Häme",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Päijänne-Tavastland",
+        "kuvaus": "Päijänne-Tavastland",
+        "lyhytNimi": "Päijänne-Tavastland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Päijät-Häme",
+        "kuvaus": "Päijät-Häme",
+        "lyhytNimi": "Päijät-Häme",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_06",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_06",
+    "version": 42,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "06",
+    "paivitysPvm": 1518082686217,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Birkaland",
+        "kuvaus": "Birkaland",
+        "lyhytNimi": "Birkaland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Pirkanmaa",
+        "kuvaus": "Pirkanmaa",
+        "lyhytNimi": "Pirkanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Pirkanmaa",
+        "kuvaus": "Pirkanmaa",
+        "lyhytNimi": "Pirkanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_01",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_01",
+    "version": 43,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "01",
+    "paivitysPvm": 1518082691143,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Uusimaa",
+        "kuvaus": "Uusimaa",
+        "lyhytNimi": "Uusimaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Nyland",
+        "kuvaus": "Nyland",
+        "lyhytNimi": "Nyland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Uusimaa",
+        "kuvaus": "Uusimaa",
+        "lyhytNimi": "Uusimaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_17",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_17",
+    "version": 48,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "17",
+    "paivitysPvm": 1518082692976,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "North Ostrobothnia",
+        "kuvaus": "North Ostrobothnia",
+        "lyhytNimi": "North Ostrobothnia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Pohjois-Pohjanmaa",
+        "kuvaus": "Pohjois-Pohjanmaa",
+        "lyhytNimi": "Pohjois-Pohjanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Norra Österbotten",
+        "kuvaus": "Norra Österbotten",
+        "lyhytNimi": "Norra Österbotten",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_14",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_14",
+    "version": 30,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "14",
+    "paivitysPvm": 1518082687173,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Etelä-Pohjanmaa",
+        "kuvaus": "Etelä-Pohjanmaa",
+        "lyhytNimi": "Etelä-Pohjanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "South Ostrobothnia",
+        "kuvaus": "South Ostrobothnia",
+        "lyhytNimi": "South Ostrobothnia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Södra Österbotten",
+        "kuvaus": "Södra Österbotten",
+        "lyhytNimi": "Södra Österbotten",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_09",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_09",
+    "version": 17,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "09",
+    "paivitysPvm": 1518082691483,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Etelä-Karjala",
+        "kuvaus": "Etelä-Karjala",
+        "lyhytNimi": "Etelä-Karjala",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Södra Karelen",
+        "kuvaus": "Södra Karelen",
+        "lyhytNimi": "Södra Karelen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "South Karelia",
+        "kuvaus": "South Karelia",
+        "lyhytNimi": "South Karelia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_99",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_99",
+    "version": 3,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "99",
+    "paivitysPvm": 1518082624448,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Ei tiedossa (maakunta)",
+        "kuvaus": "Ei tiedossa (maakunta)",
+        "lyhytNimi": "Ei tiedossa (maakunta)",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Okänt landskap",
+        "kuvaus": "Okänt landskap",
+        "lyhytNimi": "Okänt landskap",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_15",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_15",
+    "version": 23,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "15",
+    "paivitysPvm": 1518082688085,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1998-03-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Pohjanmaa",
+        "kuvaus": "Pohjanmaa",
+        "lyhytNimi": "Pohjanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Österbotten",
+        "kuvaus": "Österbotten",
+        "lyhytNimi": "Österbotten",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Ostrobothnia",
+        "kuvaus": "Ostrobothnia",
+        "lyhytNimi": "Ostrobothnia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_10",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_10",
+    "version": 28,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "10",
+    "paivitysPvm": 1518082688344,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Etelä-Savo",
+        "kuvaus": "Etelä-Savo",
+        "lyhytNimi": "Etelä-Savo",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Södra Savolax",
+        "kuvaus": "Södra Savolax",
+        "lyhytNimi": "Södra Savolax",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Etelä-Savo",
+        "kuvaus": "Etelä-Savo",
+        "lyhytNimi": "Etelä-Savo",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_20",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_20",
+    "version": 2,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "20",
+    "paivitysPvm": 1517831343747,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1997-09-01",
+    "voimassaLoppuPvm": "2010-12-31",
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Östra Nyland",
+        "kuvaus": "Östra Nyland",
+        "lyhytNimi": "Östra Nyland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Itä-Uusimaa",
+        "kuvaus": "Itä-Uusimaa",
+        "lyhytNimi": "Itä-Uusimaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_11",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_11",
+    "version": 28,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "11",
+    "paivitysPvm": 1518082694501,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Pohjois-Savo",
+        "kuvaus": "Pohjois-Savo",
+        "lyhytNimi": "Pohjois-Savo",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Pohjois-Savo",
+        "kuvaus": "Pohjois-Savo",
+        "lyhytNimi": "Pohjois-Savo",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Norra Savolax",
+        "kuvaus": "Norra Savolax",
+        "lyhytNimi": "Norra Savolax",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_12",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_12",
+    "version": 22,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "12",
+    "paivitysPvm": 1518082693486,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "North Karelia",
+        "kuvaus": "North Karelia",
+        "lyhytNimi": "North Karelia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Norra Karelen",
+        "kuvaus": "Norra Karelen",
+        "lyhytNimi": "Norra Karelen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Pohjois-Karjala",
+        "kuvaus": "Pohjois-Karjala",
+        "lyhytNimi": "Pohjois-Karjala",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_13",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_13",
+    "version": 33,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "13",
+    "paivitysPvm": 1518082693839,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Central Finland",
+        "kuvaus": "Central Finland",
+        "lyhytNimi": "Central Finland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Mellersta Finland",
+        "kuvaus": "Mellersta Finland",
+        "lyhytNimi": "Mellersta Finland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Keski-Suomi",
+        "kuvaus": "Keski-Suomi",
+        "lyhytNimi": "Keski-Suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_16",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_16",
+    "version": 14,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "16",
+    "paivitysPvm": 1518082687368,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Central Ostrobothnia",
+        "kuvaus": "Central Ostrobothnia",
+        "lyhytNimi": "Central Ostrobothnia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Keski-Pohjanmaa",
+        "kuvaus": "Keski-Pohjanmaa",
+        "lyhytNimi": "Keski-Pohjanmaa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Mellersta Österbotten",
+        "kuvaus": "Mellersta Österbotten",
+        "lyhytNimi": "Mellersta Österbotten",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_02",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_02",
+    "version": 61,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "02",
+    "paivitysPvm": 1518082693655,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Varsinais-Suomi",
+        "kuvaus": "Varsinais-Suomi",
+        "lyhytNimi": "Varsinais-Suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Egentliga Finland",
+        "kuvaus": "Egentliga Finland",
+        "lyhytNimi": "Egentliga Finland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Varsinais-Suomi",
+        "kuvaus": "Varsinais-Suomi",
+        "lyhytNimi": "Varsinais-Suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "maakunta_19",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/maakunta_19",
+    "version": 25,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "maakunta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "19",
+    "paivitysPvm": 1518082690242,
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1993-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "HYVAKSYTTY",
+    "metadata": [
+      {
+        "nimi": "Lappland",
+        "kuvaus": "Lappland",
+        "lyhytNimi": "Lappland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Lappi",
+        "kuvaus": "Lappi",
+        "lyhytNimi": "Lappi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Lapland",
+        "kuvaus": "Lapland",
+        "lyhytNimi": "Lapland",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  }
+]

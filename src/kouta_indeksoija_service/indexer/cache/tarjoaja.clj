@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.cache.tarjoaja
   (:require [kouta-indeksoija-service.rest.organisaatio :as organisaatio-service]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache get-alakoodi-nimi-with-cache]]
             [clojure.core.cache :as cache]))
 
 (defonce cache_time_millis (* 1000 60 20))
@@ -11,11 +11,15 @@
   [organisaatio]
   (get-koodi-nimi-with-cache "kunta" (:kotipaikkaUri organisaatio)))
 
+(defn maakunta
+  [organisaatio]
+  (get-alakoodi-nimi-with-cache (:kotipaikkaUri organisaatio) "maakunta_01"))
+
 (defn tarjoaja
   [organisaatio]
   {:paikkakunta (paikkakunta organisaatio)
-   :nimi (:nimi organisaatio)
-   :oid (:oid organisaatio)})
+   :nimi        (:nimi organisaatio)
+   :oid         (:oid organisaatio)})
 
 (defn get-tarjoaja
   [oid]

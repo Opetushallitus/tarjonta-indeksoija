@@ -1,6 +1,8 @@
 (ns kouta-indeksoija-service.rest.cas.session
   (:require [kouta-indeksoija-service.rest.util :refer [request]]
             [kouta-indeksoija-service.rest.cas.session-id :as cas-session-id]
+            [kouta-indeksoija-service.rest.util :refer [handle-error]]
+            [clojure.string :refer [upper-case]]
             [clojure.tools.logging :as log]))
 
 (defrecord CasSession [service session-id jsession?])
@@ -40,3 +42,12 @@
        res)))
   ([cas-client method url opts]
    (cas-authenticated-request cas-client (assoc opts :url url :method method))))
+
+(defn cas-authenticated-request-as-json
+  ([cas-client method url opts]
+   (let [method-name (upper-case (str method))]
+     (log/debug method-name " => " url)
+     (let [response (cas-authenticated-request cas-client method url (assoc opts :as :json :throw-exceptions false))]
+       (handle-error url method-name response))))
+  ([cas-client method url]
+   (cas-authenticated-request-as-json cas-client method url {})))

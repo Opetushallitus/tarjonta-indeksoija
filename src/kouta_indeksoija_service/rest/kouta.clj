@@ -1,31 +1,19 @@
 (ns kouta-indeksoija-service.rest.kouta
  (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
            [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
-           [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request]]
+           [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
            [clj-log.error-log :refer [with-error-logging]]
            [ring.util.codec :refer [url-encode]]
            [clojure.tools.logging :as log]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
 
-(defonce cas-authenticated-get (partial cas-authenticated-request cas-session :get))
-
-(defn- cas-authenticated-get-as-json
-  ([url opts]
-   (log/debug (str "GET => " url))
-   (let [response (cas-authenticated-get url (assoc opts :as :json :throw-exceptions false))
-         status   (:status response)
-         body     (:body response)]
-     (cond
-       (= 200 status) body
-       (= 404 status) (do (log/warn  "Got " status " from GET: " url " with body " body) nil)
-       :else          (do (log/error "Got " status " from GET: " url " with response " response) nil))))
-  ([url]
-   (cas-authenticated-get-as-json url {})))
+(defonce cas-authenticated-get-as-json (partial cas-authenticated-request-as-json cas-session :get))
 
 (defn get-last-modified
   [since]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.modified-since (url-encode since)) {:query-params {:lastModified since}}))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.modified-since (url-encode since))
+                                 {:query-params {:lastModified since}}))
 
 (defn all-kouta-oids
   []
@@ -62,14 +50,7 @@
 
 (defn get-oppilaitos
   [oid]
-  (let [response (-> (resolve-url :kouta-backend.oppilaitos.oid oid)
-                     (cas-authenticated-get {:as :json :throw-exceptions false}))
-        status   (:status response)
-        body     (:body response)]
-    (cond
-      (= 404 status) {}
-      (= 200 status) body
-      :else (println "Getting oppilaitos " oid " from Kouta failed with status " status " and body " body))))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]
@@ -77,6 +58,10 @@
                                   {:query-params {:vainJulkaistut vainJulkaistut}}))
   ([koulutus-oid]
    (get-toteutus-list-for-koulutus koulutus-oid false)))
+
+(defn get-koulutukset-by-tarjoaja
+  [oppilaitos-oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.tarjoaja.oid oppilaitos-oid)))
 
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid]

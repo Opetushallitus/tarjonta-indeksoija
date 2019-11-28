@@ -1,0 +1,32 @@
+{
+  "oid" : "1.2.246.562.10.10101010199",
+  "nimi" : {
+    "fi" : "Oppilaitos fi 1.2.246.562.10.10101010199",
+    "sv" : "Oppilaitos sv 1.2.246.562.10.10101010199"
+  },
+  "kielivalinta" : [ "fi", "sv" ],
+  "kuvaus" : {
+    "fi" : "Esittely",
+    "sv" : "Esittely sv"
+  },
+  "paikkakunnat" : [ {
+    "koodiUri" : "kunta_091",
+    "nimi" : {
+      "fi" : "kunta_091 nimi fi",
+      "sv" : "kunta_091 nimi sv"
+    }
+  } ],
+  "koulutusohjelmia" : 0,
+  "hits" : [ {
+    "koulutustyypit" : ["yo"],
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2" ],
+    "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "koulutusalat" : [ ],
+    "terms" : {
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.10101010199" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.10101010199" ],
+      "en" : [ ]
+    }
+  } ],
+  "timestamp" : 1570702371459
+}
