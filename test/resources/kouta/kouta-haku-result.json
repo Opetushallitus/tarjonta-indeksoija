@@ -230,7 +230,7 @@
     "oid" : "1.2.246.562.10.54545454545"
   },
   "metadata" : {
-    "yhteyshenkilo" : {
+    "yhteyshenkilot" : [{
       "nimi" : {
         "fi" : "Aku Ankka",
         "sv" : "Aku Ankka"
@@ -251,7 +251,7 @@
         "fi" : "http://opintopolku.fi",
         "sv" : "http://studieinfo.fi"
       }
-    },
+    }],
     "tulevaisuudenAikataulu" : [{
       "alkaa" : "2022-10-10T12:00",
       "paattyy" : "2022-12-10T12:00"
