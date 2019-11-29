@@ -21,7 +21,7 @@
 
 (defn- decorate-koodi-value
   [value]
-  (if (and (string? value) (re-find (re-pattern "^\\w+_\\w+[#\\d]{0,3}$") (string/trim value)))
+  (if (and (string? value) (re-find (re-pattern "^\\w+_\\w+(#\\d{1,3})?$") (string/trim value)))
       (get-koodi-nimi-with-cache value)
       value))
 
