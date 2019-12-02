@@ -93,7 +93,7 @@
       "arvo": "hevonen"
     }
   ],
-  "yhteyshenkilo": {
+  "yhteyshenkilot": [{
     "nimi": {
       "fi": "Aku Ankka",
       "sv": "Aku Ankka"
@@ -110,5 +110,5 @@
       "fi": "123",
       "sv": "123"
     }
-  }
+  }]
 }

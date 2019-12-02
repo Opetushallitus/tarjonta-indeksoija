@@ -194,7 +194,7 @@
       "kieli" : "fi",
       "arvo" : "hevonen"
     } ],
-    "yhteyshenkilo" : {
+    "yhteyshenkilot" : [{
       "nimi" : {
         "fi" : "Aku Ankka",
         "sv" : "Aku Ankka"
@@ -212,6 +212,6 @@
         "sv" : "123"
       },
       "wwwSivu" : {}
-    }
+    }]
   }
 }
