@@ -182,10 +182,12 @@
 
 (defn index-all-eperusteet
   []
-  (index-eperusteet (:eperusteet (eperusteet-client/find-all))))
+  (let [eperusteet (eperusteet-client/find-all)]
+    (log/info "Indeksoidaan " (count eperusteet) " eperustetta")
+    (index-eperusteet eperusteet)))
 
 (defn index-all-oppilaitokset
   []
   (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)]
-    (log/info "Indeksoidaa " (count oppilaitokset) " oppilaitosta.")
+    (log/info "Indeksoidaan " (count oppilaitokset) " oppilaitosta.")
     (index-oppilaitokset oppilaitokset)))
