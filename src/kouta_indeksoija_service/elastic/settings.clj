@@ -48,6 +48,8 @@
                                             "english_stemmer"]}}
               :normalizer {:case_insensitive {:filter "lowercase"}}}})
 
+(def index-settings-eperuste (merge index-settings {:index.mapping.total_fields.limit 4000}))
+
 (def stemmer-settings-eperuste
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"

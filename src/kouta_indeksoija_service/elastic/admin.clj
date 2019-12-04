@@ -41,6 +41,12 @@
   {:cluster_health (:body (get-cluster-health))
    :indices-info (get-indices-info)})
 
+(defn- get-index-settings
+  [index]
+  (if (= index eperuste-index)
+    settings/index-settings-eperuste
+    settings/index-settings))
+
 (defn- initialize-index-settings
   []
   (let [all-index-names [eperuste-index
@@ -57,7 +63,7 @@
                          oppilaitos-index
                          koodisto-index]
         new-indices (filter #(not (e/index-exists %)) (map t/index-name all-index-names))
-        results (map #(e/create-index % settings/index-settings) new-indices)
+        results (map (fn [i] (e/create-index i (get-index-settings i))) new-indices)
         ack (map #(:acknowledged %) results)]
     (every? true? ack)))
 
