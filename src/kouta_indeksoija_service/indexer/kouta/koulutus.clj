@@ -14,7 +14,7 @@
 (defn enrich-ammatillinen-metadata
   [koulutus]
   (if (ammatillinen? koulutus)
-    (let [koulutusKoodi (:koulutusKoodiUri koulutus)]
+    (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])]
       (-> koulutus
           (assoc-in [:metadata :tutkintonimike]          (tutkintonimikkeet koulutusKoodi))
           (assoc-in [:metadata :opintojenLaajuus]        (opintojenlaajuus koulutusKoodi))
