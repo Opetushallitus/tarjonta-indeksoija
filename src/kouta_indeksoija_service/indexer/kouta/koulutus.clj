@@ -9,8 +9,6 @@
 
 (def index-name "koulutus-kouta")
 
-;TODO: amm tutkintonimikkeet, koulutuksen laajuus, opetuskielet, suunniteltu kesto ja koulutusaste
-
 (defn enrich-ammatillinen-metadata
   [koulutus]
   (if (ammatillinen? koulutus)
