@@ -88,6 +88,7 @@
   },
   "metadata" : {
     "tyyppi" : "amm",
+    "kuvaus" : {"fi": "kuvaus", "sv": "kuvaus sv"},
     "valintatavat" : [ {
       "nimi" : {
         "fi" : "Valintatapa1 fi",
