@@ -199,7 +199,46 @@
         "sv" : "Opintojen lisätieto sv"
       }
     } ],
-    "koulutusala" : []
+    "koulutusala" : [ {
+      "koodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+      "nimi" : {
+        "fi" : "kansallinenkoulutusluokitus2016koulutusalataso1_01 nimi fi",
+        "sv" : "kansallinenkoulutusluokitus2016koulutusalataso1_01 nimi sv"
+      }
+    }, {
+      "koodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+      "nimi" : {
+        "fi" : "kansallinenkoulutusluokitus2016koulutusalataso1_02 nimi fi",
+        "sv" : "kansallinenkoulutusluokitus2016koulutusalataso1_02 nimi sv"
+      }
+    }],
+    "tutkintonimike" : [ {
+      "koodiUri" : "tutkintonimikkeet_01",
+      "nimi" : {
+        "fi" : "tutkintonimikkeet_01 nimi fi",
+        "sv" : "tutkintonimikkeet_01 nimi sv"
+      }
+    }, {
+      "koodiUri" : "tutkintonimikkeet_02",
+      "nimi" : {
+        "fi" : "tutkintonimikkeet_02 nimi fi",
+        "sv" : "tutkintonimikkeet_02 nimi sv"
+      }
+    } ],
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_01",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_01 nimi fi",
+        "sv" : "opintojenlaajuus_01 nimi sv"
+      }
+    },
+    "opintojenLaajuusyksikko" : {
+      "koodiUri" : "opintojenlaajuusyksikko_01",
+      "nimi" : {
+        "fi" : "opintojenlaajuusyksikko_01 nimi fi",
+        "sv" : "opintojenlaajuusyksikko_01 nimi sv"
+      }
+    }
   },
   "koulutustyyppi" : "amm",
   "organisaatiot" : ["1.2.246.562.10.54545454545"]
