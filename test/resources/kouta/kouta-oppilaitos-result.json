@@ -148,6 +148,7 @@
     },
     "kielivalinta" : [ "fi", "sv" ],
     "teemakuva": "https://testi.fi/oppilaitos-teemakuva/oid/kuva.jpg",
+    "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
