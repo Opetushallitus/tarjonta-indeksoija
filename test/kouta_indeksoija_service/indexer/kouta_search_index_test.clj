@@ -92,5 +92,6 @@
        (testing "Create correct search item when koulutus has toteutukset"
          (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
          (i/index-koulutus koulutus-oid2)
+         (debug-pretty (get-doc koulutus/index-name koulutus-oid2))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-toteutukset"))
                        (no-timestamp (get-doc koulutus/index-name koulutus-oid2))))))))

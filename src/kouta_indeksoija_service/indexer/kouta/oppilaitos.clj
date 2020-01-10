@@ -35,7 +35,7 @@
 
 (defn create-index-entry
   [oid]
-  (let [hierarkia (cache/get-hierarkia oid)]
+  (let [hierarkia (cache/get-hierarkia oid)]                ;koko hierarkia
     (when-let [organisaatio (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
       (when (organisaatio-tool/indexable? organisaatio)
         (let [oppilaitos-oid (:oid organisaatio)

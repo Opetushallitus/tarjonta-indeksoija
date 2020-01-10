@@ -12,3 +12,7 @@
 (defn comma-separated-string->vec
   [s]
   (vec (remove blank? (some-> s (split #",")))))
+
+(defn ->distinct-vec
+  [coll]
+  (vec (distinct (remove nil? coll))))
