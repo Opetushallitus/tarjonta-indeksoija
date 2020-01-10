@@ -1,17 +1,25 @@
 (ns kouta-indeksoija-service.indexer.cache.hierarkia
   (:require [kouta-indeksoija-service.rest.organisaatio :refer [get-hierarkia-v4]]
-            [kouta-indeksoija-service.indexer.tools.organisaatio :refer [get-all-oids-flat]]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :refer :all]
             [clojure.core.cache :as cache]))
 
 (defonce hierarkia_cache_time_millis (* 1000 60 20))
 
 (defonce HIERARKIA_CACHE (atom (cache/ttl-cache-factory {} :ttl hierarkia_cache_time_millis)))
 
-(defn- cache-hierarkia
+(defn- do-cache
+  [hierarkia oids]
+  (doseq [oid oids]
+    (swap! HIERARKIA_CACHE cache/through-cache oid (constantly hierarkia))))
+
+(defn cache-hierarkia
   [oid]
   (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
-    (doseq [oid (get-all-oids-flat hierarkia)]
-      (swap! HIERARKIA_CACHE cache/through-cache oid (constantly hierarkia)))))
+    (let [this (find-from-hierarkia hierarkia oid)]
+      (cond
+        (koulutustoimija? this) (do-cache hierarkia (vector oid))
+        (oppilaitos? this)      (do-cache hierarkia (filter #(not (koulutustoimija? %)) (get-all-oids-flat hierarkia)))
+        :else                   (cache-hierarkia (:oid (find-oppilaitos-from-hierarkia hierarkia)))))))
 
 (defn get-hierarkia
   [oid]
