@@ -14,12 +14,14 @@
 
 (defn cache-hierarkia
   [oid]
+
   (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
     (let [this (find-from-hierarkia hierarkia oid)]
       (cond
         (koulutustoimija? this) (do-cache hierarkia (vector oid))
         (oppilaitos? this)      (do-cache hierarkia (filter #(not (koulutustoimija? %)) (get-all-oids-flat hierarkia)))
-        :else                   (cache-hierarkia (:oid (find-oppilaitos-from-hierarkia hierarkia)))))))
+        :else                   (when-let [oppilaitos-oid (:oid (find-oppilaitos-from-hierarkia hierarkia))]
+                                  (cache-hierarkia oppilaitos-oid))))))
 
 (defn get-hierarkia
   [oid]
