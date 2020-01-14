@@ -65,7 +65,8 @@
           "fi" : "kunta_091 nimi fi",
           "sv" : "kunta_091 nimi sv"
         }
-      } ]
+      } ],
+      "koulutustyyppi" : "yo"
     }
   } ],
   "timestamp" : 1571294237902

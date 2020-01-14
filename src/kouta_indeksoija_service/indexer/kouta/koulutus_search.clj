@@ -9,7 +9,6 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [cheshire.core :as cheshire]
             [kouta-indeksoija-service.indexer.tools.tarjoaja :as tarjoaja]))
 
 (def index-name "koulutus-kouta-search")
@@ -26,7 +25,8 @@
          :nimet              (vector (:nimi koulutus))
          :oppilaitosOid      (:oid oppilaitos)
          :onkoTuleva         true
-         :nimi               (:nimi oppilaitos))))
+         :nimi               (:nimi oppilaitos)
+         :metadata           {:koulutustyyppi (koulutustyyppi-for-organisaatio oppilaitos)})))
 
 (defn jarjestaja-hits
   [hierarkia koulutus toteutukset]
@@ -52,7 +52,8 @@
              :metadata           {:tutkintonimikkeetKoodiUrit (tutkintonimikeKoodiUrit koulutus)
                                   :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
                                   :onkoMaksullinen            (:onkoMaksullinen opetus)
-                                  :maksunMaara                (:maksunMaara opetus)}))))
+                                  :maksunMaara                (:maksunMaara opetus)
+                                  :koulutustyyppi             (koulutustyyppi-for-organisaatio oppilaitos)}))))
 
 (defn tuleva-jarjestaja?
   [hierarkia toteutukset]

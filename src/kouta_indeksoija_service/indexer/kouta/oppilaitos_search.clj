@@ -8,9 +8,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer :all]
-            [cheshire.core :as cheshire]
-            [kouta-indeksoija-service.indexer.tools.search :refer :all]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
+            [kouta-indeksoija-service.indexer.tools.search :refer :all]))
 
 (def index-name "oppilaitos-kouta-search")
 
@@ -18,17 +16,13 @@
   [oppilaitos tarjoajat]
   (vec (map #(organisaatio-tool/find-from-organisaatio-and-children oppilaitos %) tarjoajat)))
 
-(defn- koulutustyyppi-for-organisaatio
-  [organisaatio]
-  (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
-    (oppilaitostyyppi-uri-to-tyyppi oppilaitostyyppi)))
-
 (defn- tutkintonimikkeet-for-osaamisala
   [osaamisalaKoodiUri]
   (list-alakoodi-nimet-with-cache osaamisalaKoodiUri "tutkintonimikkeet"))
 
 (defn- tutkintonimikket-for-toteutus
   [toteutus]
+  ;TODO -> eperusteet
   (when (ammatillinen? toteutus)
     (->> (get-in toteutus [:metadata :osaamisalat :koodiUri])
          (mapcat tutkintonimikkeet-for-osaamisala)
@@ -53,11 +47,11 @@
        :koulutusOid        (:oid koulutus)
        :onkoTuleva         true
        :nimi               (:nimi koulutus)
-       :metadata           {:tutkintonimikkeetKoodiUrit (tutkintonimikeKoodiUrit koulutus)
-                            :opintojenLaajuusKoodiUri (opintojenlaajuusKoodiUri koulutus)
+       :metadata           {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
+                            :opintojenLaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
                             :opintojenLaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
-                            :koulutustyypitKoodiUrit (koulutustyyppiKoodiUrit koulutus)
-                            :koulutusalatKoodiUrit (koulutusalaKoodiUrit koulutus)}))
+                            :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
+                            :koulutustyyppi                  (:koulutustyyppi koulutus)}))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
@@ -76,10 +70,11 @@
          :toteutusOid        (:oid toteutus)
          :nimi               (:nimi toteutus)
          :onkoTuleva         false
-         :metadata           {:tutkintonimikkeet   (tutkintonimikket-for-toteutus toteutus)
+         :metadata           {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
                               :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                               :onkoMaksullinen     (:onkoMaksullinen opetus)
-                              :maksunMaara         (:maksunMaara opetus)})))
+                              :maksunMaara         (:maksunMaara opetus)
+                              :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn- get-kouta-oppilaitos
   [oid]

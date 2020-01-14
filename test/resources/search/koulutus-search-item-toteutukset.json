@@ -87,7 +87,8 @@
           "fi" : "kunta_091 nimi fi",
           "sv" : "kunta_091 nimi sv"
         }
-      } ]
+      } ],
+      "koulutustyyppi" : "yo"
     }
   }, {
     "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
@@ -135,7 +136,8 @@
           "fi" : "kunta_091 nimi fi",
           "sv" : "kunta_091 nimi sv"
         }
-      } ]
+      } ],
+      "koulutustyyppi" : "yo"
     }
   } ],
   "timestamp" : 1571294237566

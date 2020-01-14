@@ -42,6 +42,7 @@
           "sv" : "kunta_091 nimi sv"
         }
       } ],
+      "koulutustyyppi" : "amm",
       "tutkintonimikkeet" : [ {
         "koodiUri" : "tutkintonimikkeet_01",
         "nimi" : {
@@ -81,31 +82,6 @@
           "fi" : "koulutustyyppi_02 nimi fi",
           "sv" : "koulutustyyppi_02 nimi sv"
         }
-      } ],
-      "koulutusalat" : [ {
-        "koodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso1_01",
-        "nimi" : {
-          "fi" : "kansallinenkoulutusluokitus2016koulutusalataso1_01 nimi fi",
-          "sv" : "kansallinenkoulutusluokitus2016koulutusalataso1_01 nimi sv"
-        }
-      }, {
-        "koodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso1_02",
-        "nimi" : {
-          "fi" : "kansallinenkoulutusluokitus2016koulutusalataso1_02 nimi fi",
-          "sv" : "kansallinenkoulutusluokitus2016koulutusalataso1_02 nimi sv"
-        }
-      }, {
-        "koodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso2_01",
-        "nimi" : {
-          "fi" : "kansallinenkoulutusluokitus2016koulutusalataso2_01 nimi fi",
-          "sv" : "kansallinenkoulutusluokitus2016koulutusalataso2_01 nimi sv"
-        }
-      }, {
-        "koodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso2_02",
-        "nimi" : {
-          "fi" : "kansallinenkoulutusluokitus2016koulutusalataso2_02 nimi fi",
-          "sv" : "kansallinenkoulutusluokitus2016koulutusalataso2_02 nimi sv"
-        }
       } ]
     }
   }, {
@@ -142,6 +118,7 @@
           "sv" : "opetusaikakk_1#1 nimi sv"
         }
       } ],
+      "koulutustyyppi" : "amm",
       "onkoMaksullinen" : true,
       "maksunMaara" : 200.5
     }
@@ -179,6 +156,7 @@
           "sv" : "opetusaikakk_1#1 nimi sv"
         }
       } ],
+      "koulutustyyppi" : "amm",
       "onkoMaksullinen" : true,
       "maksunMaara" : 200.5
     }

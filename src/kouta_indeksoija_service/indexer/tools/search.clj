@@ -2,7 +2,8 @@
   (:require [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
-            [kouta-indeksoija-service.indexer.kouta.common :as common]))
+            [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
 
 (defn- clean-uris
   [uris]
@@ -95,3 +96,8 @@
   (if (ammatillinen? koulutus)
     (some-> koulutus :koulutusKoodiUri (opintojenlaajuusyksikko) :koodiUri)
     (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])))
+
+(defn koulutustyyppi-for-organisaatio
+  [organisaatio]
+  (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
+    (oppilaitostyyppi-uri-to-tyyppi oppilaitostyyppi)))
