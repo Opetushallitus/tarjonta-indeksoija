@@ -61,7 +61,7 @@
 
 (defn get-koulutukset-by-tarjoaja
   [oppilaitos-oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.tarjoaja.oid oppilaitos-oid)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.tarjoaja.koulutukset oppilaitos-oid)))
 
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid]
