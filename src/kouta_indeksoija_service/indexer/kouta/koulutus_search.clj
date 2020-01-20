@@ -36,7 +36,7 @@
 
         (hit :koulutustyyppi     (:koulutustyyppi koulutus)
              :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
-             :opetuskieliUrit    (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+             :opetuskieliUrit    (:opetuskieliKoodiUrit opetus)
              :tarjoajat          (vec (map #(organisaatio-tool/find-from-hierarkia hierarkia %) (:tarjoajat toteutus)))
              :oppilaitos         oppilaitos
              :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
