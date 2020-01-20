@@ -70,6 +70,7 @@
      (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
        (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
        (i/index-oppilaitos oppilaitos-oid2)
+       (debug-pretty (get-doc oppilaitos/index-name oppilaitos-oid2))
        (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
                      (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))))))
 
@@ -92,5 +93,6 @@
        (testing "Create correct search item when koulutus has toteutukset"
          (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
          (i/index-koulutus koulutus-oid2)
+         (debug-pretty (get-doc koulutus/index-name koulutus-oid2))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-toteutukset"))
                        (no-timestamp (get-doc koulutus/index-name koulutus-oid2))))))))

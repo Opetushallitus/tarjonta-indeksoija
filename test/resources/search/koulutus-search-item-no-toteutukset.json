@@ -51,6 +51,22 @@
       "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992" ],
       "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799" ,"Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992" ],
       "en" : [ ]
+    },
+    "onkoTuleva" : true,
+    "oppilaitosOid" : "1.2.246.562.10.77777777799",
+    "nimi" : {
+      "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
+      "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
+    },
+    "metadata" : {
+      "kunnat" : [ {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      } ],
+      "koulutustyyppi" : "yo"
     }
   } ],
   "timestamp" : 1571294237902

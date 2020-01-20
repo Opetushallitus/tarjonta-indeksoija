@@ -14,16 +14,16 @@
        (log/error e "Indeksoinnissa " oid " tapahtui virhe.")
        nil)))
 
-(defn do-index-all
+(defn- create-docs
   [oids f]
-  (doall (pmap #(eat-and-log-errors % f) oids)))
+  (flatten (doall (pmap #(eat-and-log-errors % f) oids))))
 
 (defn do-index
   [index-name oids f]
   (when-not (empty? oids)
     (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-name))
     (let [start (. System (currentTimeMillis))
-          docs (remove nil? (do-index-all oids f))]
+          docs (remove nil? (create-docs oids f))]
       (upsert-index index-name docs)
       (log/info (str "Indeksointi " index-name " kesti " (- (. System (currentTimeMillis)) start) " ms."))
       docs)))
