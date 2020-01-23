@@ -298,5 +298,9 @@
         "sv" : "lisätieto sv"
       }
     } ]
-  } ]
+  } ],
+  "yhdenPaikanSaanto": {
+    "voimassa": false,
+    "syy": "Hakukohde ei julkaistu"
+  }
 }

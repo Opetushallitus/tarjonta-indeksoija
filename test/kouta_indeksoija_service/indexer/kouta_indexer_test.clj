@@ -17,7 +17,7 @@
             [kouta-indeksoija-service.fixture.external-services :as mocks]))
 
 (use-fixtures :each fixture/indices-fixture)
-(use-fixtures :once common-indexer-fixture)
+(use-fixtures :each common-indexer-fixture)
 
 (deftest index-tallennettu-koulutus-test
   (fixture/with-mocked-indexing
@@ -106,6 +106,79 @@
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
+
+(deftest index-hakukohde-yps-haku-not-julkaistu-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde without yps if haku not julkaistu"
+     (check-all-nil)
+     (fixture/update-haku-mock haku-oid :tila "tallennettu")
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Haku ei julkaistu" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
+(deftest index-hakukohde-yps-hakukohde-not-julkaistu-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde without yps if hakukohde not julkaistu"
+     (check-all-nil)
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu")
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Hakukohde ei julkaistu" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
+(deftest index-hakukohde-yps-not-korkeakoulutus-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde without yps if not korkeakoulutus"
+     (check-all-nil)
+     (fixture/update-haku-mock haku-oid :tila "julkaistu")
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu")
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amm")
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Ei korkeakoulutus koulutusta" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
+(deftest index-hakukohde-yps-not-jatkotutkintohaku-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde without yps if not jatkotutkintohaku"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true")
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_1#1")
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Haun kohdejoukon tarkenne on haunkohdejoukontarkenne_1#1" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
+(deftest index-hakukohde-yps-jatkotutkintohaku-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with yps if jatkotutkintohaku"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :johtaaTutkintoon "true")
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1")
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
+(deftest index-hakukohde-yps-no-tarkenne-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with yps if no tarkenne"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true")
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri nil)
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
+
+(deftest index-hakukohde-yps-haun-alkamiskausi-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde using haun alkamiskausi with yps if no tarkenne"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true")
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true")
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020" :kohdejoukonTarkenneKoodiUri nil)
+     (i/index-hakukohteet [hakukohde-oid])
+     (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
 (deftest index-valintaperuste-test
   (fixture/with-mocked-indexing
@@ -284,7 +357,7 @@
      (check-all-nil)
      (i/index-all-haut)
      (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-     (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
+     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
      (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))

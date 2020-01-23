@@ -6,29 +6,108 @@
 (def index-name "hakukohde-kouta")
 
 (defn- assoc-valintaperuste
-  [hakukohde]
+  [hakukohde valintaperuste]
   (cond-> (dissoc hakukohde :valintaperusteId)
-          (some? (:valintaperusteId hakukohde)) (assoc :valintaperuste (-> hakukohde
-                                                                           :valintaperusteId
-                                                                           (kouta-backend/get-valintaperuste)
+          (some? (:valintaperusteId hakukohde)) (assoc :valintaperuste (-> valintaperuste
                                                                            (dissoc :metadata)
                                                                            (common/complete-entry)))))
 
 (defn- assoc-toteutus
-  [hakukohde]
-  (assoc hakukohde :toteutus (-> hakukohde
-                                 :toteutusOid
-                                 (kouta-backend/get-toteutus)
+  [hakukohde toteutus]
+  (assoc hakukohde :toteutus (-> toteutus
                                  (common/complete-entry)
                                  (common/toteutus->list-item))))
 
+(defn- julkaistu?
+  [haku-tai-hakukohde]
+  (= "julkaistu" (:tila haku-tai-hakukohde)))
+
+(defn- korkeakoulutusta?
+  [koulutus]
+  (contains? #{"yo" "amk"} (:koulutustyyppi koulutus)))
+
+(defn- johtaa-tutkintoon?
+  [koulutus]
+  (:johtaaTutkintoon koulutus))
+
+(defn- alkamiskausi-kevat?
+  [haku hakukohde]
+  (-> (if (:kaytetaanHaunAlkamiskautta hakukohde) haku hakukohde)
+      :alkamiskausiKoodiUri
+      (clojure.string/starts-with? "kausi_k#")))
+
+(defn- alkamisvuosi
+  [haku hakukohde]
+  (-> (if (:kaytetaanHaunAlkamiskautta hakukohde) haku hakukohde)
+      :alkamisvuosi
+      Integer/valueOf))
+
+(defn- alkamiskausi-ennen-syksya-2016?
+  [haku hakukohde]
+  (let [alkamisvuosi (alkamisvuosi haku hakukohde)]
+    (or (< alkamisvuosi 2016)
+        (and (= alkamisvuosi 2016)
+             (alkamiskausi-kevat? haku hakukohde)))))
+
+(defn- some-kohdejoukon-tarkenne?
+  [haku]
+  (not (clojure.string/blank? (:kohdejoukonTarkenneKoodiUri haku))))
+
+(defn- jatkotutkintohaku-tarkenne?
+  [haku]
+  (clojure.string/starts-with?
+   (:kohdejoukonTarkenneKoodiUri haku)
+   "haunkohdejoukontarkenne_3#"))
+
+(defn- ->ei-yps
+  [syy]
+  {:voimassa false :syy syy})
+
+(def ^:private yps
+  {:voimassa true
+   :syy      "Hakukohde on yhden paikan säännön piirissä"})
+
+(defn- assoc-yps
+  [hakukohde haku koulutus]
+  (assoc
+   hakukohde
+   :yhdenPaikanSaanto
+   (cond (not (julkaistu? haku))
+         (->ei-yps "Haku ei julkaistu")
+
+         (not (julkaistu? hakukohde))
+         (->ei-yps "Hakukohde ei julkaistu")
+
+         (not (korkeakoulutusta? koulutus))
+         (->ei-yps "Ei korkeakoulutus koulutusta")
+
+         (not (johtaa-tutkintoon? koulutus))
+         (->ei-yps "Ei tutkintoon johtavaa koulutusta")
+
+         (alkamiskausi-ennen-syksya-2016? haku hakukohde)
+         (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
+
+         (and (some-kohdejoukon-tarkenne? haku)
+              (not (jatkotutkintohaku-tarkenne? haku)))
+         (->ei-yps (str "Haun kohdejoukon tarkenne on "
+                        (:kohdejoukonTarkenneKoodiUri haku)))
+
+         :else
+         yps)))
+
 (defn create-index-entry
   [oid]
-  (indexable/->index-entry oid (-> oid
-                                   (kouta-backend/get-hakukohde)
-                                   (common/complete-entry)
-                                   (assoc-toteutus)
-                                   (assoc-valintaperuste))))
+  (let [hakukohde      (kouta-backend/get-hakukohde oid)
+        haku           (kouta-backend/get-haku (:hakuOid hakukohde))
+        toteutus       (kouta-backend/get-toteutus (:toteutusOid hakukohde))
+        koulutus       (kouta-backend/get-koulutus (:koulutusOid toteutus))
+        valintaperuste (kouta-backend/get-valintaperuste (:valintaperusteId hakukohde))]
+    (indexable/->index-entry oid
+                             (-> hakukohde
+                                 (assoc-yps haku koulutus)
+                                 (common/complete-entry)
+                                 (assoc-toteutus toteutus)
+                                 (assoc-valintaperuste valintaperuste)))))
 
 (defn do-index
   [oids]
