@@ -28,9 +28,9 @@
 (defn create-index-entry
   [koodisto]
   (let [koodit (koodisto-service/get-koodit koodisto)]
-    {:id koodisto
-     :koodisto koodisto
-     :koodit (vec (map (partial create-koodi-entry koodisto) koodit))}))
+    (indexable/->index-entry koodisto {:id koodisto
+                                       :koodisto koodisto
+                                       :koodit (vec (map (partial create-koodi-entry koodisto) koodit))})))
 
 (defn do-index
   [koodistot]

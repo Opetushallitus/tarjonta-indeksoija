@@ -14,8 +14,7 @@
 
 (defn cache-hierarkia
   [oid]
-
-  (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
+  (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut true :skipParents false)]
     (let [this (find-from-hierarkia hierarkia oid)]
       (cond
         (koulutustoimija? this) (do-cache hierarkia (vector oid))

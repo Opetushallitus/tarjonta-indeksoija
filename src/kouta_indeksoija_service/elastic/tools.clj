@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.util.tools :refer [get-id]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
+            [cheshire.core :as cheshire]
             [environ.core]
             [clojure.tools.logging :as log]))
 
@@ -39,45 +40,61 @@
     (catch Exception e
       (handle-exception e))))
 
-(defn- upsert-operation
-  [doc index type]
-  {"index" {:_index (index-name index) :_type (index-name type) :_id (get-id doc)}})
-
-(defn- upsert-doc
-  [doc type now]
-  (assoc (dissoc doc :_index :_type) :timestamp now))
-
-(defn ->bulk-upsert-data
-  [index type documents]
-  (let [operations (map #(upsert-operation % index type) documents)
-        now (System/currentTimeMillis)
-        documents (map #(upsert-doc % type now) documents)]
-    (interleave operations documents)))
-
-(defn- execute-bulk-upsert
-  [index type documents]
-  (let [data   (->bulk-upsert-data index type documents)
-        res    (e/bulk index type data)
-        failed (filter #(true? (:errors %)) res)]
-    (if-not (empty? failed)
-      (let [errors (group-by :error (map :index (mapcat (fn [x] (filter #(-> % (:index) (:status) (> 299)) (:items x))) failed)))]
-        (doseq [error (keys errors)]
-          (log/error "Bulk upsert to index " index " failed with error: " error " for ids: " (vec (map :_id (get errors error)))))
-        errors)
-      [])))
-
-(defn bulk-upsert
-  [index type documents]
-  (try
-    (execute-bulk-upsert index type documents)
-    (catch Exception e
-      (handle-exception e)
-      (vec (map get-id documents)))))
-
-(defn upsert-docs
-  [type docs]
-  (bulk-upsert type type docs))
-
 (defn get-doc
   [type id]
   (get-by-id type type id))
+
+(defrecord BulkAction [action id doc])
+
+(defn ->index-action
+  [id doc]
+  (map->BulkAction {:action "index" :id id :doc doc}))
+
+(defn ->delete-action
+  [id]
+  (map->BulkAction {:action "delete" :id id :doc nil}))
+
+(defn- bulk-action
+  [index action]
+  {(keyword (:action action)) {:_index index :_type index :_id (:id action)}})
+
+(defn- bulk-doc
+  [doc time]
+  (assoc (dissoc doc :_index :_type) :timestamp time))
+
+(defn ->bulk-actions
+  [index actions]
+  (let [true-index (index-name index)
+        time       (System/currentTimeMillis)]
+    (-> (for [action actions]
+          (let [bulk-action (bulk-action true-index action)
+                bulk-doc    (when-let [doc (:doc action)] (bulk-doc doc time))]
+            (remove nil? [bulk-action bulk-doc])))
+        (flatten))))
+
+(defn log-and-get-bulk-errors
+  [response]
+  (let [simplify (fn [x] (let [map-entry (first x)]
+                           (assoc (val map-entry) :action (name (key map-entry)))))
+        not-ok-results (->> response
+                            (mapcat :items)
+                            (map simplify)
+                            (filter #(> (:status %) 299)))
+        errors (group-by #(select-keys % [:action :status :error :result :_index]) not-ok-results)]
+    (doseq [error (keys errors)]
+      (log/error (str "Bulk action '" (:action error) "' to index '" (:_index error) "' failed with status '" (:status error) "' and error '" (or (:error error) (:result error)) "' for (o)ids " (vec (map :_id (get errors error))))))
+    not-ok-results))
+
+(defn- execute-bulk-actions
+  [index actions]
+  (let [data   (->bulk-actions index actions)
+        res    (e/bulk index index data)]
+    (log-and-get-bulk-errors res)))
+
+(defn bulk
+  [index actions]
+  (try
+    (execute-bulk-actions index actions)
+    (catch Exception e
+      (handle-exception e)
+      (vec (map :id actions)))))

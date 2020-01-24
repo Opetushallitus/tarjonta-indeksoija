@@ -105,15 +105,16 @@
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (when (organisaatio-tool/indexable? oppilaitos)
+      (if (and (organisaatio-tool/indexable? oppilaitos) (organisaatio-tool/aktiivinen? oppilaitos))
         (let [koulutus-hits (partial create-koulutus-hits oppilaitos hierarkia)
               koulutukset (tarjoaja/get-tarjoaja-entries hierarkia (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
-          (-> oppilaitos
-              (create-base-entry koulutukset)
-              (assoc :hits (if koulutukset
-                             (vec (mapcat #(koulutus-hits %) koulutukset))
-                             (vector (oppilaitos-hit oppilaitos))))
-              (assoc-paikkakunnat)))))))
+          (indexable/->index-entry (:oid oppilaitos) (-> oppilaitos
+                                                         (create-base-entry koulutukset)
+                                                         (assoc :hits (if koulutukset
+                                                                        (vec (mapcat #(koulutus-hits %) koulutukset))
+                                                                        (vector (oppilaitos-hit oppilaitos))))
+                                                         (assoc-paikkakunnat))))
+        (indexable/->delete-entry (:oid oppilaitos))))))
 
 (defn do-index
   [oids]

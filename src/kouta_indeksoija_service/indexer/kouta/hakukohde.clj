@@ -25,11 +25,11 @@
 
 (defn create-index-entry
   [oid]
-  (-> oid
-      (kouta-backend/get-hakukohde)
-      (common/complete-entry)
-      (assoc-toteutus)
-      (assoc-valintaperuste)))
+  (indexable/->index-entry oid (-> oid
+                                   (kouta-backend/get-hakukohde)
+                                   (common/complete-entry)
+                                   (assoc-toteutus)
+                                   (assoc-valintaperuste))))
 
 (defn do-index
   [oids]

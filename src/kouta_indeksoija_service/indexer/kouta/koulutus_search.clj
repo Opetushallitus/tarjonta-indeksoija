@@ -104,10 +104,11 @@
 (defn create-index-entry
   [oid]
   (let [koulutus (kouta-backend/get-koulutus oid)]
-    (when (julkaistu? koulutus)
-      (-> koulutus
-          (assoc-jarjestaja-hits)
-          (create-entry)))))
+    (if (julkaistu? koulutus)
+      (indexable/->index-entry oid (-> koulutus
+                                       (assoc-jarjestaja-hits)
+                                       (create-entry)))
+      (indexable/->delete-entry oid))))
 
 (defn do-index
   [oids]

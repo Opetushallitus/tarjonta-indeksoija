@@ -41,6 +41,21 @@
      (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"}))
                    (no-timestamp (get-doc koulutus/index-name koulutus-oid))))))
 
+(deftest index-arkistoitu-koulutus-test
+  (fixture/with-mocked-indexing
+    (testing "Indexer should delete koulutus from search indexes when it's arkistoitu"
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid])
+      (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
+      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+      (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (fixture/update-koulutus-mock koulutus-oid :tila "arkistoitu")
+      (i/index-koulutukset [koulutus-oid])
+      (is (= "arkistoitu" (:tila (get-doc koulutus/index-name koulutus-oid))))
+      (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
+      (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
+
 (deftest index-toteutus-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index toteutus to toteutus index and update related indexes"
@@ -51,6 +66,21 @@
      (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid)))))))
+
+(deftest index-arkistoitu-toteutus-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index delete toteutus from search indexes when it's arkistoitu"
+     (check-all-nil)
+     (fixture/update-toteutus-mock toteutus-oid :tila "julkaistu")
+     (i/index-toteutukset [toteutus-oid])
+     (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
+     (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
+     (fixture/update-toteutus-mock toteutus-oid :tila "arkistoitu")
+     (i/index-toteutukset [toteutus-oid])
+     (is (= "arkistoitu" (:tila (get-doc toteutus/index-name toteutus-oid))))
+     (is (= 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+     (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid))))))
 
 (deftest index-haku-test
   (fixture/with-mocked-indexing
@@ -126,6 +156,22 @@
        (check-all-nil)
        (i/index-oppilaitos oppilaitos-oid)
        (check-all-nil)))))
+
+(deftest index-passiivinen-oppilaitos-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should delete passivoitu oppilaitos from indexes"
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia]
+       (check-all-nil)
+       (i/index-oppilaitokset [oppilaitos-oid]))
+     (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]
+                   (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+                              [:organisaatiot 0 :children 0 :status]
+                              (constantly "PASSIIVINEN")))]
+       (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
+       (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
+       (i/index-oppilaitokset [oppilaitos-oid])
+       (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
+       (is (= nil (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))))))
 
 (deftest index-all-test
   (fixture/with-mocked-indexing

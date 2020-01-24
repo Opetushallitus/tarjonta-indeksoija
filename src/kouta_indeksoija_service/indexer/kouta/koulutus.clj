@@ -24,10 +24,10 @@
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
-    (-> koulutus
-        (common/assoc-organisaatiot)
-        (enrich-ammatillinen-metadata)
-        (assoc :toteutukset (map to-list-item toteutukset)))))
+    (indexable/->index-entry oid (-> koulutus
+                                     (common/assoc-organisaatiot)
+                                     (enrich-ammatillinen-metadata)
+                                     (assoc :toteutukset (map to-list-item toteutukset))))))
 
 (defn do-index
   [oids]

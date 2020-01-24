@@ -48,6 +48,14 @@
   (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))
   (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos2))))
 
+(defn filter-hits-by-key
+  [search-index oid key expected]
+  (filter #(= expected (get % key)) (:hits (get-doc search-index oid))))
+
+(defn count-hits-by-key
+  [search-index oid key expected]
+  (count (filter-hits-by-key search-index oid key expected)))
+
 (defn common-indexer-fixture
   [tests]
   (fixture/add-koulutus-mock koulutus-oid
@@ -58,7 +66,7 @@
                              :modified "2019-01-31T09:11"
                              :tarjoajat "1.2.246.562.10.54545454545")
 
-  (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000001"
+  (fixture/add-toteutus-mock toteutus-oid
                              koulutus-oid
                              :tila "arkistoitu"
                              :nimi "Koulutuksen 0 toteutus 0"

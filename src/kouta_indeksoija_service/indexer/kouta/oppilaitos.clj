@@ -37,14 +37,15 @@
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]                ;koko hierarkia
     (when-let [organisaatio (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (when (organisaatio-tool/indexable? organisaatio)
+      (if (and (organisaatio-tool/indexable? organisaatio) (organisaatio-tool/aktiivinen? organisaatio))
         (let [oppilaitos-oid (:oid organisaatio)
               oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
               oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
               osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
 
-          (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (organisaatio-tool/indexable-children organisaatio)))]
-            (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries)))))))
+          (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (organisaatio-tool/indexable-and-aktiivinen-children organisaatio)))]
+            (indexable/->index-entry oppilaitos-oid (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries))))
+        (indexable/->delete-entry (:oid organisaatio))))))
 
 (defn do-index
   [oids]

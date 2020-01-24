@@ -7,7 +7,8 @@
 (defn create-index-entry
   [oid]
   (when-let [eperuste (eperuste-service/get-doc oid)]
-    (assoc eperuste :oid (str (:id eperuste)) :tyyppi "eperuste")))
+    (let [id (str (:id eperuste))]
+      (indexable/->index-entry id (assoc eperuste :oid id :tyyppi "eperuste")))))
 
 (defn do-index
   [oids]
