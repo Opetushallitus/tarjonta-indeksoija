@@ -31,14 +31,18 @@
   [organisaatio]
   (= "AKTIIVINEN" (:status organisaatio)))
 
-(defn indexable?
+(defn valid-oppilaitostyyppi?
   [organisaatio]
   (let [organisaatiotyypit (set (:organisaatiotyypit organisaatio))]
     (empty? (intersection invalid-organisaatiotyypit organisaatiotyypit))))
 
-(defn indexable-and-aktiivinen-children
+(defn indexable?
   [organisaatio]
-  (filter aktiivinen? (filter indexable? (:children organisaatio))))
+  (and (aktiivinen? organisaatio) (valid-oppilaitostyyppi? organisaatio)))
+
+(defn get-indexable-children
+  [organisaatio]
+  (filter indexable? (:children organisaatio)))
 
 (defn find-koulutustoimija-from-hierarkia
   [hierarkia]

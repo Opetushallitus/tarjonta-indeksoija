@@ -69,7 +69,7 @@
 (defn find-distinct-oppilaitos-oids
   [tarjoajat]
   (->> tarjoajat
-       (map cache/get-hierarkia)                            ;ei väliä onko koko vai ei
+       (map cache/get-hierarkia)
        (map organisaatio-tool/find-oppilaitos-from-hierarkia)
        (map :oid)
        (->distinct-vec)))
@@ -80,7 +80,7 @@
     (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
           ;hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus oid)) TODO
           ]
-      (->> (for [hierarkia (map cache/get-hierarkia (find-distinct-oppilaitos-oids (:tarjoajat koulutus)))] ;koko hierarkia
+      (->> (for [hierarkia (map cache/get-hierarkia (find-distinct-oppilaitos-oids (:tarjoajat koulutus)))]
              (if (tuleva-jarjestaja? hierarkia toteutukset)
                {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
                {:hits (jarjestaja-hits hierarkia koulutus toteutukset)}))
