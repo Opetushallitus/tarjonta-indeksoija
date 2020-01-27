@@ -67,3 +67,9 @@
 (defn complete-entries
   [entries]
   (map complete-entry entries))
+
+(defn toteutus->list-item
+  [toteutus]
+  (-> toteutus
+      (select-keys [:oid :organisaatio :nimi :tila :tarjoajat :muokkaaja :modified :organisaatiot])
+      (assoc-organisaatiot)))
