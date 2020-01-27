@@ -4,6 +4,7 @@
             [kouta-indeksoija-service.queuer.last-queued :refer [set-last-queued-time get-last-queued-time]]
             [kouta-indeksoija-service.util.time :refer [long->date-time-string]]
             [clojure.tools.logging :as log]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [clojure.set :refer [union]]))
 
@@ -35,14 +36,21 @@
   [oid]
   (queue :eperusteet [oid]))
 
+(defn- clear-organisaatio-cache
+  [oids]
+  (doseq [oid oids]
+    (cache/clear-hierarkia oid)))
+
 (defn queue-all-oppilaitokset-from-organisaatiopalvelu
   []
   (let [all-organisaatiot (organisaatio-client/get-all-oppilaitos-oids)]
     (doseq [organisaatiot (partition-all 20 all-organisaatiot)]
+      (clear-organisaatio-cache organisaatiot)
       (queue :oppilaitokset organisaatiot))))
 
 (defn queue-oppilaitos
   [oid]
+  (clear-organisaatio-cache [oid])
   (queue :oppilaitokset [oid]))
 
 (defn queue-changes
@@ -55,5 +63,6 @@
          changes-count (+ (count organisaatio-changes) (count eperuste-changes))]
      (when (< 0 changes-count)
        (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
+       (clear-organisaatio-cache organisaatio-changes)
        (queue :oppilaitokset organisaatio-changes :eperusteet eperuste-changes)
        (set-last-queued-time now)))))
