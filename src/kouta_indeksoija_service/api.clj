@@ -249,14 +249,6 @@
      (context "/indexer" []
        :tags ["indexer"]
 
-       (POST "/eperusteet" []
-         :summary "Indeksoi kaikki ePerusteet ja niiden osaamisalat"
-         (ok {:result (indexer/index-all-eperusteet)}))
-
-       (POST "/organisaatiot" []
-         :summary "Indeksoi kaikki oppilaitokset"
-         (ok {:result (indexer/index-all-oppilaitokset)}))
-
        (POST "/eperuste" []
          :summary "Indeksoi ePerusteen ja sen osaamisalat (oid==id)"
          :query-params [oid :- String]
