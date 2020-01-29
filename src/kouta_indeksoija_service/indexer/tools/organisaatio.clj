@@ -77,3 +77,15 @@
 (defn find-oids-from-hierarkia
   [hierarkia oids]
   (vec (map #(find-from-hierarkia hierarkia %) oids)))
+
+(defn filter-indexable-for-hierarkia
+  [hierarkia oids]
+  (->> oids
+       (map #(find-from-hierarkia hierarkia %))
+       (remove nil?)
+       (filter indexable?)
+       (vec)))
+
+(defn filter-indexable-oids-for-hierarkia
+  [hierarkia oids]
+  (vec (map :oid (filter-indexable-for-hierarkia hierarkia oids))))
