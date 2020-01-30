@@ -138,6 +138,7 @@
     } ],
     "opetus" : {
       "maksunMaara" : 200.5,
+      "koulutuksenTarkkaAlkamisaika" : true,
       "onkoStipendia" : false,
       "stipendinKuvaus" : {},
       "opetuskieli" : [ ],

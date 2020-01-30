@@ -22,6 +22,7 @@
     "opetustapaKoodiUrit": ["opetuspaikkakk_1#1"],
     "onkoMaksullinen": true,
     "maksunMaara": 200.5,
+    "koulutuksenTarkkaAlkamisaika" : true,
     "kuvaus": {
       "fi": "Kuvaus fi",
       "sv": "Kuvaus sv"
