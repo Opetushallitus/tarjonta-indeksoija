@@ -76,15 +76,17 @@
 
 (defn assoc-jarjestaja-hits
   [koulutus]
-  (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
-        ;hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus oid)) TODO
-        ]
-    (->> (for [hierarkia (map cache/get-hierarkia (find-distinct-oppilaitos-oids (:tarjoajat koulutus)))] ;koko hierarkia
-           (if (tuleva-jarjestaja? hierarkia toteutukset)
-             {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
-             {:hits (jarjestaja-hits hierarkia koulutus toteutukset)}))
-         (apply merge-with concat)
-         (merge koulutus))))
+  (if (seq (:tarjoajat koulutus))
+    (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
+          ;hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus oid)) TODO
+          ]
+      (->> (for [hierarkia (map cache/get-hierarkia (find-distinct-oppilaitos-oids (:tarjoajat koulutus)))] ;koko hierarkia
+             (if (tuleva-jarjestaja? hierarkia toteutukset)
+               {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
+               {:hits (jarjestaja-hits hierarkia koulutus toteutukset)}))
+           (apply merge-with concat)
+           (merge koulutus)))
+    (assoc koulutus :hits [(tuleva-jarjestaja-hit {} koulutus)])))
 
 (defn- create-entry
   [koulutus]
