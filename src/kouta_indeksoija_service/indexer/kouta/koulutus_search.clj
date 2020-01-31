@@ -8,18 +8,17 @@
             [kouta-indeksoija-service.indexer.tools.search :refer :all]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [kouta-indeksoija-service.indexer.tools.tarjoaja :as tarjoaja]))
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
 
 (def index-name "koulutus-kouta-search")
 
 (defn tuleva-jarjestaja-hit
   [hierarkia koulutus]
   (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)
-        tarjoajat  (:tarjoajat (tarjoaja/remove-other-tarjoajat-from-entry hierarkia koulutus))]
+        tarjoajat  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))]
     (hit :koulutustyyppi     (:koulutustyyppi koulutus)
          :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
-         :tarjoajat          (vec (map #(organisaatio-tool/find-from-hierarkia hierarkia %) tarjoajat))
+         :tarjoajat          tarjoajat
          :oppilaitos         oppilaitos
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
          :nimet              (vector (:nimi koulutus))
@@ -30,34 +29,38 @@
 
 (defn jarjestaja-hits
   [hierarkia koulutus toteutukset]
-  (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-    (for [toteutus (tarjoaja/get-tarjoaja-entries hierarkia toteutukset)
-          :let [opetus (get-in toteutus [:metadata :opetus])]]
+    (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
+      (vec (for [toteutus (->> toteutukset
+                               (map (fn [t] (->> (:tarjoajat t)
+                                                 (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
+                                                 (assoc t :tarjoajat))))
+                               (filter #(seq (:tarjoajat %))))
+                 :let [opetus (get-in toteutus [:metadata :opetus])]]
 
-        (hit :koulutustyyppi     (:koulutustyyppi koulutus)
-             :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
-             :opetuskieliUrit    (:opetuskieliKoodiUrit opetus)
-             :tarjoajat          (vec (map #(organisaatio-tool/find-from-hierarkia hierarkia %) (:tarjoajat toteutus)))
-             :oppilaitos         oppilaitos
-             :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
-             :nimet              (vector (:nimi koulutus) (:nimi toteutus))
-             ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
-             ;:haut              (:haut hakutieto) TODO
-             ;:logo              TODO
-             :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
-             :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
-             :toteutusOid        (:oid toteutus)
-             :onkoTuleva         false
-             :nimi               (:nimi oppilaitos)
-             :metadata           {:tutkintonimikkeetKoodiUrit (tutkintonimikeKoodiUrit koulutus)
-                                  :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
-                                  :onkoMaksullinen            (:onkoMaksullinen opetus)
-                                  :maksunMaara                (:maksunMaara opetus)
-                                  :koulutustyyppi             (koulutustyyppi-for-organisaatio oppilaitos)}))))
+             (hit :koulutustyyppi     (:koulutustyyppi koulutus)
+                  :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
+                  :opetuskieliUrit    (:opetuskieliKoodiUrit opetus)
+                  :tarjoajat          (:tarjoajat toteutus)
+                  :oppilaitos         oppilaitos
+                  :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+                  :nimet              (vector (:nimi koulutus) (:nimi toteutus))
+                  ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
+                  ;:haut              (:haut hakutieto) TODO
+                  ;:logo              TODO
+                  :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
+                  :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
+                  :toteutusOid        (:oid toteutus)
+                  :onkoTuleva         false
+                  :nimi               (:nimi oppilaitos)
+                  :metadata           {:tutkintonimikkeetKoodiUrit (tutkintonimikeKoodiUrit koulutus)
+                                       :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
+                                       :onkoMaksullinen            (:onkoMaksullinen opetus)
+                                       :maksunMaara                (:maksunMaara opetus)
+                                       :koulutustyyppi             (koulutustyyppi-for-organisaatio oppilaitos)})))))
 
 (defn tuleva-jarjestaja?
   [hierarkia toteutukset]
-  (-> (organisaatio-tool/find-oids-from-hierarkia hierarkia (mapcat :tarjoajat toteutukset))
+  (-> (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (mapcat :tarjoajat toteutukset))
       (->distinct-vec)
       (empty?)))
 
@@ -66,11 +69,13 @@
 ;  [hakutiedot t]
 ;  (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot)))
 
-(defn find-distinct-oppilaitos-oids
+(defn find-indexable-oppilaitos-oids
   [tarjoajat]
   (->> tarjoajat
-       (map cache/get-hierarkia)                            ;ei väliä onko koko vai ei
+       (map cache/get-hierarkia)
        (map organisaatio-tool/find-oppilaitos-from-hierarkia)
+       (remove nil?)
+       (filter organisaatio-tool/indexable?)
        (map :oid)
        (->distinct-vec)))
 
@@ -80,7 +85,7 @@
     (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
           ;hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus oid)) TODO
           ]
-      (->> (for [hierarkia (map cache/get-hierarkia (find-distinct-oppilaitos-oids (:tarjoajat koulutus)))] ;koko hierarkia
+      (->> (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
              (if (tuleva-jarjestaja? hierarkia toteutukset)
                {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
                {:hits (jarjestaja-hits hierarkia koulutus toteutukset)}))
@@ -104,10 +109,11 @@
 (defn create-index-entry
   [oid]
   (let [koulutus (kouta-backend/get-koulutus oid)]
-    (when (julkaistu? koulutus)
-      (-> koulutus
-          (assoc-jarjestaja-hits)
-          (create-entry)))))
+    (if (julkaistu? koulutus)
+      (indexable/->index-entry oid (-> koulutus
+                                       (assoc-jarjestaja-hits)
+                                       (create-entry)))
+      (indexable/->delete-entry oid))))
 
 (defn do-index
   [oids]

@@ -13,6 +13,8 @@
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [clojure.tools.logging :as log]))
 
@@ -101,8 +103,16 @@
 
 (defn index-oppilaitokset
   [oids]
-  (oppilaitos/do-index oids)
-  (oppilaitos-search/do-index oids))
+
+  (let [get-organisaation-koulutukset (fn [oid] (map :oid (-> oid
+                                                              (hierarkia/get-hierarkia)
+                                                              (organisaatio-tool/find-oppilaitos-from-hierarkia)
+                                                              (:oid)
+                                                              (kouta-backend/get-koulutukset-by-tarjoaja))))]
+    (let [entries (oppilaitos/do-index oids)]
+      (oppilaitos-search/do-index oids)
+      (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids))
+      entries)))
 
 (defn index-oppilaitos
   [oid]

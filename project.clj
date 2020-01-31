@@ -40,7 +40,7 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.2.2-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.2.4-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
@@ -76,8 +76,8 @@
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "0.15-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "0.15-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-backend "0.18-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "0.18-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -87,8 +87,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "0.15-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "0.15-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "0.18-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "0.18-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.2.5-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"

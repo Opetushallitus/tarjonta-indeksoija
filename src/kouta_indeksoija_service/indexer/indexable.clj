@@ -2,10 +2,18 @@
   (:require [kouta-indeksoija-service.elastic.tools :as tools]
             [clojure.tools.logging :as log]))
 
-(defn- upsert-index
-  [index-name docs]
-  (when (not-empty docs)
-    (tools/upsert-docs index-name docs)))
+(defn ->index-entry
+  [id doc]
+  (when doc (tools/->index-action id doc)))
+
+(defn ->delete-entry
+  [id]
+  (tools/->delete-action id))
+
+(defn- bulk
+  [index-name actions]
+  (when (not-empty actions)
+    (tools/bulk index-name actions)))
 
 (defn- eat-and-log-errors
   [oid f]
@@ -14,7 +22,7 @@
        (log/error e "Indeksoinnissa " oid " tapahtui virhe.")
        nil)))
 
-(defn- create-docs
+(defn- create-actions
   [oids f]
   (flatten (doall (pmap #(eat-and-log-errors % f) oids))))
 
@@ -23,10 +31,10 @@
   (when-not (empty? oids)
     (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-name))
     (let [start (. System (currentTimeMillis))
-          docs (remove nil? (create-docs oids f))]
-      (upsert-index index-name docs)
+          actions (remove nil? (create-actions oids f))]
+      (bulk index-name actions)
       (log/info (str "Indeksointi " index-name " kesti " (- (. System (currentTimeMillis)) start) " ms."))
-      docs)))
+      (vec (remove nil? (map :doc actions))))))
 
 (defn get
   [index-name oid]

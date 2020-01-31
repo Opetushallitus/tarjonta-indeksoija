@@ -14,8 +14,7 @@
 
 (defn cache-hierarkia
   [oid]
-
-  (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut false :skipParents false)]
+  (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut true :skipParents false)]
     (let [this (find-from-hierarkia hierarkia oid)]
       (cond
         (koulutustoimija? this) (do-cache hierarkia (vector oid))
@@ -29,3 +28,13 @@
     hierarkia
     (do (cache-hierarkia oid)
         (cache/lookup @HIERARKIA_CACHE oid))))
+
+(defn- do-evict
+  [oids]
+  (doseq [oid oids]
+    (swap! HIERARKIA_CACHE cache/evict oid)))
+
+(defn clear-hierarkia
+  [oid]
+  (when-let [hierarkia (cache/lookup @HIERARKIA_CACHE oid)]
+    (do-evict (get-all-oids-flat hierarkia))))

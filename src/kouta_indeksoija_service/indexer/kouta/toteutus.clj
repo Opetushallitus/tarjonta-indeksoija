@@ -53,10 +53,10 @@
   (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
         hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-toteutus oid))
         hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
-    (-> toteutus
-        (common/assoc-organisaatiot)
-        (assoc :hakukohteet hakukohde-list)
-        (assoc-hakutiedot hakutiedot))))
+    (indexable/->index-entry oid (-> toteutus
+                                     (common/assoc-organisaatiot)
+                                     (assoc :hakukohteet hakukohde-list)
+                                     (assoc-hakutiedot hakutiedot)))))
 
 (defn do-index
   [oids]

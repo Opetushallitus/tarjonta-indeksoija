@@ -33,18 +33,25 @@
                                                                (common/complete-entry)
                                                                (dissoc :oppilaitosOid :oid)))))
 
+(defn- oppilaitos-entry-with-osat
+  [organisaatio]
+  (let [oppilaitos-oid (:oid organisaatio)
+        oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
+        oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
+        find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
+
+    (-> (oppilaitos-entry organisaatio oppilaitos)
+        (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
+                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
+                          (vec))))))
+
 (defn create-index-entry
   [oid]
-  (let [hierarkia (cache/get-hierarkia oid)]                ;koko hierarkia
-    (when-let [organisaatio (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (when (organisaatio-tool/indexable? organisaatio)
-        (let [oppilaitos-oid (:oid organisaatio)
-              oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
-              oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
-              osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
-
-          (let [oppilaitoksen-osa-entries (vec (map #(oppilaitoksen-osa-entry % (osa %)) (organisaatio-tool/indexable-children organisaatio)))]
-            (assoc (oppilaitos-entry organisaatio oppilaitos) :osat oppilaitoksen-osa-entries)))))))
+  (let [hierarkia (cache/get-hierarkia oid)]
+    (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
+      (if (organisaatio-tool/indexable? oppilaitos)
+        (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos))
+        (indexable/->delete-entry (:oid oppilaitos))))))
 
 (defn do-index
   [oids]

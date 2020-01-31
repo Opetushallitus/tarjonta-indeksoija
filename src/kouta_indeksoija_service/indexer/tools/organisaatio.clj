@@ -27,12 +27,20 @@
   [organisaatio]
   (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-koulutustoimija))
 
-(defn indexable?
+(defn aktiivinen?
+  [organisaatio]
+  (= "AKTIIVINEN" (:status organisaatio)))
+
+(defn valid-oppilaitostyyppi?
   [organisaatio]
   (let [organisaatiotyypit (set (:organisaatiotyypit organisaatio))]
     (empty? (intersection invalid-organisaatiotyypit organisaatiotyypit))))
 
-(defn indexable-children
+(defn indexable?
+  [organisaatio]
+  (and (aktiivinen? organisaatio) (valid-oppilaitostyyppi? organisaatio)))
+
+(defn get-indexable-children
   [organisaatio]
   (filter indexable? (:children organisaatio)))
 
@@ -69,3 +77,15 @@
 (defn find-oids-from-hierarkia
   [hierarkia oids]
   (vec (map #(find-from-hierarkia hierarkia %) oids)))
+
+(defn filter-indexable-for-hierarkia
+  [hierarkia oids]
+  (->> oids
+       (map #(find-from-hierarkia hierarkia %))
+       (remove nil?)
+       (filter indexable?)
+       (vec)))
+
+(defn filter-indexable-oids-for-hierarkia
+  [hierarkia oids]
+  (vec (map :oid (filter-indexable-for-hierarkia hierarkia oids))))

@@ -3,7 +3,6 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.toteutus :refer [to-list-item]]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]))
 
@@ -24,10 +23,10 @@
   [oid]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
-    (-> koulutus
-        (common/assoc-organisaatiot)
-        (enrich-ammatillinen-metadata)
-        (assoc :toteutukset (map to-list-item toteutukset)))))
+    (indexable/->index-entry oid (-> koulutus
+                                     (common/assoc-organisaatiot)
+                                     (enrich-ammatillinen-metadata)
+                                     (assoc :toteutukset (map common/toteutus->list-item toteutukset))))))
 
 (defn do-index
   [oids]

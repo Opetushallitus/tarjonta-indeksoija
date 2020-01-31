@@ -13,6 +13,7 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -248,14 +249,6 @@
      (context "/indexer" []
        :tags ["indexer"]
 
-       (POST "/eperusteet" []
-         :summary "Indeksoi kaikki ePerusteet ja niiden osaamisalat"
-         (ok {:result (indexer/index-all-eperusteet)}))
-
-       (POST "/organisaatiot" []
-         :summary "Indeksoi kaikki oppilaitokset"
-         (ok {:result (indexer/index-all-oppilaitokset)}))
-
        (POST "/eperuste" []
          :summary "Indeksoi ePerusteen ja sen osaamisalat (oid==id)"
          :query-params [oid :- String]
@@ -264,7 +257,8 @@
        (POST "/organisaatio" []
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (ok {:result (indexer/index-oppilaitos oid)}))
+         (ok {:result (do (organisaatio-cache/clear-hierarkia [oid])
+                          (indexer/index-oppilaitos oid))}))
 
        (POST "/koodistot" []
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."

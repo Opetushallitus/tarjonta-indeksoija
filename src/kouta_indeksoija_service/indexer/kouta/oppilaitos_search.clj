@@ -2,7 +2,6 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
-            [kouta-indeksoija-service.indexer.tools.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
@@ -95,25 +94,36 @@
   (let [paikkakuntaKoodiUrit (vec (distinct (filter #(clojure.string/starts-with? % "kunta") (mapcat :sijainti (:hits entry)))))]
     (assoc entry :paikkakunnat (vec (map get-koodi-nimi-with-cache paikkakuntaKoodiUrit)))))
 
+(defn- get-tarjoaja-entries
+  [hierarkia entries]
+  (vec (remove nil? (for [entry entries]
+                      (when-let [indexable-oids (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry))]
+                        (assoc entry :tarjoajat indexable-oids))))))
+
 (defn- create-koulutus-hits
   [oppilaitos hierarkia koulutus]
-  (if-let [toteutukset (tarjoaja/get-tarjoaja-entries hierarkia (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))]
+  (if-let [toteutukset (seq (get-tarjoaja-entries hierarkia (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true)))]
     (vec (map #(toteutus-hit oppilaitos koulutus %) toteutukset))
     (vector (koulutus-hit oppilaitos koulutus))))
+
+(defn- create-oppilaitos-entry-with-hits
+  [oppilaitos hierarkia]
+  (let [koulutus-hits (partial create-koulutus-hits oppilaitos hierarkia)
+        koulutukset (get-tarjoaja-entries hierarkia (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
+    (-> oppilaitos
+        (create-base-entry koulutukset)
+        (assoc :hits (if (seq koulutukset)
+                       (vec (mapcat #(koulutus-hits %) koulutukset))
+                       (vector (oppilaitos-hit oppilaitos))))
+        (assoc-paikkakunnat))))
 
 (defn create-index-entry
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (when (organisaatio-tool/indexable? oppilaitos)
-        (let [koulutus-hits (partial create-koulutus-hits oppilaitos hierarkia)
-              koulutukset (tarjoaja/get-tarjoaja-entries hierarkia (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
-          (-> oppilaitos
-              (create-base-entry koulutukset)
-              (assoc :hits (if koulutukset
-                             (vec (mapcat #(koulutus-hits %) koulutukset))
-                             (vector (oppilaitos-hit oppilaitos))))
-              (assoc-paikkakunnat)))))))
+      (if (organisaatio-tool/indexable? oppilaitos)
+        (indexable/->index-entry (:oid oppilaitos) (create-oppilaitos-entry-with-hits oppilaitos hierarkia))
+        (indexable/->delete-entry (:oid oppilaitos))))))
 
 (defn do-index
   [oids]

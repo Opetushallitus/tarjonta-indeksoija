@@ -4,10 +4,15 @@
 
 (def index-name "osaamisalakuvaus")
 
+(defn- ->to-index-entry
+  [osaamisalakuvaus]
+  (let [id (str (:id osaamisalakuvaus))]
+    (indexable/->index-entry id (assoc osaamisalakuvaus :oid id :tyyppi "osaamisalakuvaus"))))
+
 (defn create-index-entry
   [eperuste-id]
   (let [osaamisalakuvaukset (eperuste-service/get-osaamisalakuvaukset eperuste-id)]
-    (map #(assoc %1 :oid (str (:id %1)) :tyyppi "osaamisalakuvaus") osaamisalakuvaukset)))
+    (map ->to-index-entry osaamisalakuvaukset)))
 
 (defn do-index
   [oids]
