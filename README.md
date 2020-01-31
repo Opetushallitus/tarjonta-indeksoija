@@ -51,9 +51,14 @@ at least those that test SQS integration.
 #### Requirements
 
 ##### Elasticsearch
-Application requires a local Elasticsearch index listening on port 9200. On Mac you can
-install Elasticsearch with `brew install elasticsearch` and run with `elasticsearch` from
+Application requires a local Elasticsearch index listening on port 9200. 
+
+On Mac you can install Elasticsearch with `brew install elasticsearch` and run with `elasticsearch` from
 console, it will by default run on correct port.
+
+Or you can start an Elasticsearch container with docker:
+
+```docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.8.6```
 
 ##### SQS
 Application requires a local SQS on port 4576. SQS can be started with `tools\start_localstack`

@@ -8,12 +8,16 @@
 
 (def index-name "koulutus-kouta")
 
+(defn- remove-not-valid-tutkintonimikkeet
+  [tutkintonimikkeet]
+  (filter #(not= "tutkintonimikkeet_00000" (:koodiUri %)) tutkintonimikkeet))
+
 (defn enrich-ammatillinen-metadata
   [koulutus]
   (if (ammatillinen? koulutus)
     (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])]
       (-> koulutus
-          (assoc-in [:metadata :tutkintonimike]          (tutkintonimikkeet koulutusKoodi))
+          (assoc-in [:metadata :tutkintonimike]          (remove-not-valid-tutkintonimikkeet (tutkintonimikkeet koulutusKoodi)))
           (assoc-in [:metadata :opintojenLaajuus]        (opintojenlaajuus koulutusKoodi))
           (assoc-in [:metadata :opintojenLaajuusyksikko] (opintojenlaajuusyksikko koulutusKoodi))
           (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi))))
