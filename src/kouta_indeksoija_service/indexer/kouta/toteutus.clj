@@ -7,55 +7,54 @@
 
 (def index-name "toteutus-kouta")
 
-(defn- find-by-oid
-  ([coll oid key]
-   (first (filter #(= oid (get % key)) coll)))
-  ([coll oid]
-   (find-by-oid coll oid :oid)))
+(defn- determine-correct-aikataulu-and-hakulomake
+  [ht-haku ht-hakukohde]
+  (let [hakulomakeKeys  [:hakulomaketyyppi :hakulomakeAtaruId :hakulomakeKuvaus :hakulomakeLinkki]
+        alkamisaikaKeys [:alkamiskausiKoodiUri :alkamisvuosi]
+        aikatauluKeys   [:hakuajat]]
+    (merge {}
+           (if (true? (:kaytetaanHaunHakulomaketta ht-hakukohde))
+             (select-keys ht-haku hakulomakeKeys)
+             (select-keys ht-hakukohde hakulomakeKeys))
+           (if (true? (:kaytetaanHaunAlkamiskautta ht-hakukohde))
+             (select-keys ht-haku alkamisaikaKeys)
+             (select-keys ht-hakukohde alkamisaikaKeys))
+           (if (true? (:kaytetaanHaunAikataulua ht-hakukohde))
+             (select-keys ht-haku aikatauluKeys)
+             (select-keys ht-hakukohde aikatauluKeys)))))
 
-(defn- merge-hakutiedot-to-hakukohde
-  [hakutiedot hakukohde]
-  (let [haun-hakutiedot        (first (filter #(= (:hakuOid hakukohde) (:hakuOid %)) hakutiedot))
-        hakukohteen-hakutiedot (first (filter #(= (:oid hakukohde) (:hakukohdeOid %)) (:hakukohteet haun-hakutiedot)))]
-
-    (->> (-> (select-keys hakukohteen-hakutiedot [:aloituspaikat
-                                                  :minAloituspaikat
-                                                  :maxAloituspaikat
-                                                  :ensikertalaisenAloituspaikat
-                                                  :minEnsikertalaisenAloituspaikat
-                                                  :maxEnsikertalaisenAloituspaikat])
-             (merge (-> (true? (:kaytetaanHaunHakulomaketta hakukohteen-hakutiedot))
-                        (if haun-hakutiedot hakukohteen-hakutiedot)
-                        (select-keys [:hakulomaketyyppi
-                                      :hakulomakeAtaruId
-                                      :hakulomakeKuvaus
-                                      :hakulomakeLinkki])))
-             (merge (-> (true? (:kaytetaanHaunAlkamiskautta hakukohteen-hakutiedot))
-                        (if haun-hakutiedot hakukohteen-hakutiedot)
-                        (select-keys [:alkamiskausiKoodiUri
-                                      :alkamisvuosi])))
-             (merge (-> (true? (:kaytetaanHaunAikataulua hakukohteen-hakutiedot))
-                        (if haun-hakutiedot hakukohteen-hakutiedot)
-                        (select-keys [:hakuajat])))
-             (merge (select-keys haun-hakutiedot [:hakutapaKoodiUri])))
-         (remove #(-> % val nil?))
-         (common/decorate-koodi-uris)
-         (merge hakukohde))))
+(defn- determine-correct-hakutiedot
+  [ht-toteutus]
+  (-> (for [ht-haku (:haut ht-toteutus)]
+        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri])
+            (assoc :hakukohteet (vec (for [ht-hakukohde (:hakukohteet ht-haku)]
+                                       (merge (select-keys ht-hakukohde [:hakukohdeOid
+                                                                         :nimi
+                                                                         :valintaperusteId
+                                                                         :pohjakoulutusvaatimusKoodiUrit
+                                                                         :pohjakoulutusvaatimusTarkenne
+                                                                         :aloituspaikat
+                                                                         :minAloituspaikat
+                                                                         :maxAloituspaikat
+                                                                         :ensikertalaisenAloituspaikat
+                                                                         :minEnsikertalaisenAloituspaikat
+                                                                         :maxEnsikertalaisenAloituspaikat])
+                                              (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde)))))))
+      (vec)
+      (common/decorate-koodi-uris)))
 
 (defn- assoc-hakutiedot
   [toteutus hakutiedot]
-  (if-let [toteutuksen-hakutiedot (first (filter (fn [x] (= (:toteutusOid x) (:oid toteutus))) hakutiedot))]
-    (assoc toteutus :hakukohteet (vec (map #(merge-hakutiedot-to-hakukohde (:haut toteutuksen-hakutiedot) %) (:hakukohteet toteutus))))
+  (if-let [ht-toteutus (first (filter (fn [x] (= (:toteutusOid x) (:oid toteutus))) hakutiedot))]
+    (assoc toteutus :hakutiedot (determine-correct-hakutiedot ht-toteutus))
     toteutus))
 
 (defn create-index-entry
   [oid]
   (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
-        hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-toteutus oid))
         hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
     (indexable/->index-entry oid (-> toteutus
                                      (common/assoc-organisaatiot)
-                                     (assoc :hakukohteet hakukohde-list)
                                      (assoc-hakutiedot hakutiedot)))))
 
 (defn do-index
