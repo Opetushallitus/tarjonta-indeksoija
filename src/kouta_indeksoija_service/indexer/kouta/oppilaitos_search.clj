@@ -96,9 +96,11 @@
 
 (defn- get-tarjoaja-entries
   [hierarkia entries]
-  (vec (remove nil? (for [entry entries]
-                      (when-let [indexable-oids (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry))]
-                        (assoc entry :tarjoajat indexable-oids))))))
+  (->> (for [entry entries]
+         (when-let [indexable-oids (seq (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry)))]
+           (assoc entry :tarjoajat indexable-oids)))
+       (remove nil?)
+       (vec)))
 
 (defn- create-koulutus-hits
   [oppilaitos hierarkia koulutus]

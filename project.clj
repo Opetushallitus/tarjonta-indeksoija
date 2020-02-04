@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.1.14-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.1.15-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
