@@ -100,6 +100,7 @@
      (assoc :koulutus                (:koulutusKoodiUri koulutus))
      (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
      (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
+     (assoc :teemakuva               (:teemakuva koulutus))
      (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
      (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
      (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
