@@ -57,6 +57,7 @@
         "oid" : "1.2.246.562.10.54545454545"
       },
       "kielivalinta" : [ "fi", "sv" ],
+      "teemakuva": "https://testi.domain/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
       "metadata" : {
         "yhteystiedot" : {
           "osoite" : {
@@ -146,6 +147,7 @@
       "nimi" : "Kalle Ankka"
     },
     "kielivalinta" : [ "fi", "sv" ],
+    "teemakuva": "https://testi.domain/oppilaitos-teemakuva/oid/kuva.jpg",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
