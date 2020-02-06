@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -11,11 +12,12 @@
 (defn enrich-ammatillinen-metadata
   [koulutus]
   (if (ammatillinen? koulutus)
-    (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])]
+    (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+          eperuste (get-eperuste koulutusKoodi)]
       (-> koulutus
-          (assoc-in [:metadata :tutkintonimike]          (tutkintonimikkeet koulutusKoodi))
-          (assoc-in [:metadata :opintojenLaajuus]        (opintojenlaajuus koulutusKoodi))
-          (assoc-in [:metadata :opintojenLaajuusyksikko] (opintojenlaajuusyksikko koulutusKoodi))
+          (assoc-in [:metadata :tutkintonimike]          (vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
+          (assoc-in [:metadata :opintojenLaajuus]        (:opintojenlaajuus eperuste))
+          (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenlaajuusyksikko eperuste))
           (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi))))
     koulutus))
 

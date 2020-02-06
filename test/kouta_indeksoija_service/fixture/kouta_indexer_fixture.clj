@@ -331,7 +331,11 @@
                  kouta-indeksoija-service.fixture.external-services/mock-get-henkilo-nimi-with-cache
 
                  kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache
-                 kouta-indeksoija-service.fixture.external-services/mock-alakoodit]
+                 kouta-indeksoija-service.fixture.external-services/mock-alakoodit
+
+                 kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi
+                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste-by-koulutus-koodi
+                 ]
      (do ~@body)))
 
 (defn index-oppilaitokset

@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
 
 (defn- clean-uris
@@ -76,7 +77,8 @@
 (defn tutkintonimikeKoodiUrit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (tutkintonimikkeet (:koulutusKoodiUri koulutus))))
+    (when-let [eperuste (get-eperuste (:koulutusKoodiUri koulutus))]
+      (vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
     (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])))
 
 (defn koulutustyyppiKoodiUrit
@@ -88,13 +90,15 @@
 (defn opintojenlaajuusKoodiUri
   [koulutus]
   (if (ammatillinen? koulutus)
-    (some-> koulutus :koulutusKoodiUri (opintojenlaajuus) :koodiUri)
+    (when-let [eperuste (get-eperuste (:koulutusKoodiUri koulutus))]
+      (get-in eperuste [:opintojenlaajuus :koodiUri]))
     (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
 (defn opintojenlaajuusyksikkoKoodiUri
   [koulutus]
   (if (ammatillinen? koulutus)
-    (some-> koulutus :koulutusKoodiUri (opintojenlaajuusyksikko) :koodiUri)
+    (when-let [eperuste (get-eperuste (:koulutusKoodiUri koulutus))]
+      (get-in eperuste [:opintojenlaajuusyksikko :koodiUri]))
     (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])))
 
 (defn koulutustyyppi-for-organisaatio

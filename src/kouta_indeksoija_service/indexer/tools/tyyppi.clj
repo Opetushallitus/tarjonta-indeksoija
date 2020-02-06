@@ -63,3 +63,12 @@
     "koulutustyyppi_24" "muu" ;; Pelastusalan koulutus
     "koulutustyyppi_26" "amm" ;; Ammatillinen perustutkinto (reformin mukainen)
     "muu"))
+
+(defn eperuste-laajuusyksikko->opintojenlaajuusyksikko
+  [laajuusyksikko]
+  (case laajuusyksikko
+    "OPINTOPISTE"  "opintojenlaajuusyksikko_2"
+    "OPINTOVIIKKO" "opintojenlaajuusyksikko_1"
+    "OSAAMISPISTE" "opintojenlaajuusyksikko_6"
+    "KURSSI"       "opintojenlaajuusyksikko_4"
+    nil))
