@@ -3,11 +3,11 @@
 (def index-settings
   {:index.mapping.total_fields.limit 2000
    :analysis {:filter {:edge_ngram_long_words {:type "edge_ngram"
-                                               :min_gram "6"
-                                               :max_gram "12"}
+                                               :min_gram "3"
+                                               :max_gram "9"}
                        :edge_gram_compound_words {:type "ngram"
-                                                  :min_gram "6"
-                                                  :max_gram "12"}
+                                                  :min_gram "3"
+                                                  :max_gram "9"}
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
                        :finnish_keywords {:type "keyword_marker"
@@ -30,7 +30,7 @@
                                                     :language "possessive_english"}}
               :analyzer {:finnish {:tokenizer "standard"
                                    :filter ["lowercase"
-                                            "edge_gram_compound_words"
+                                            ;"edge_gram_compound_words"
                                             "edge_ngram_long_words"
                                             "finnish_stop"
                                             "finnish_keywords"
