@@ -21,17 +21,17 @@
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
   "teemakuva": "https://testi.domain/koulutus-teemakuva/oid/kuva.jpg",
   "opintojenlaajuus" : {
-    "koodiUri" : "opintojenlaajuus_01",
+    "koodiUri" : "opintojenlaajuus_150",
     "nimi" : {
-      "fi" : "opintojenlaajuus_01 nimi fi",
-      "sv" : "opintojenlaajuus_01 nimi sv"
+      "fi" : "opintojenlaajuus_150 nimi fi",
+      "sv" : "opintojenlaajuus_150 nimi sv"
     }
   },
   "opintojenlaajuusyksikko" : {
-    "koodiUri" : "opintojenlaajuusyksikko_01",
+    "koodiUri" : "opintojenlaajuusyksikko_6",
     "nimi" : {
-      "fi" : "opintojenlaajuusyksikko_01 nimi fi",
-      "sv" : "opintojenlaajuusyksikko_01 nimi sv"
+      "fi" : "opintojenlaajuusyksikko_6 nimi fi",
+      "sv" : "opintojenlaajuusyksikko_6 nimi sv"
     }
   },
   "koulutustyyppi" : "amm",

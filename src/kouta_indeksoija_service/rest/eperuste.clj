@@ -48,3 +48,14 @@
     (when (seq res)
       (log/info (str "Found " (count res) " changes since " (time/long->date-time-string (long last-modified)) " from ePerusteet")))
     res))
+
+(defn- search-and-get-first-eperuste
+  [params]
+  (let [r (get->json-body (resolve-url :eperusteet-service.perusteet) params)]
+    (when-let [id (some-> r :data (first) :id)]
+      (get-doc id))))
+
+(defn get-by-koulutuskoodi
+  [koulutuskoodi]
+  (or (search-and-get-first-eperuste {:tuleva false :siirtyma false :voimassaolo true :poistunut false :koulutuskoodi koulutuskoodi})
+      (search-and-get-first-eperuste {:tuleva false :siirtyma true :voimassaolo false :poistunut false :koulutuskoodi koulutuskoodi})))

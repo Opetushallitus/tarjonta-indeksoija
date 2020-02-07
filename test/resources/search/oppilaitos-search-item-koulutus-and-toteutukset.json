@@ -57,17 +57,17 @@
         }
       } ],
       "opintojenLaajuus" : {
-        "koodiUri" : "opintojenlaajuus_01",
+        "koodiUri" : "opintojenlaajuus_150",
         "nimi" : {
-          "fi" : "opintojenlaajuus_01 nimi fi",
-          "sv" : "opintojenlaajuus_01 nimi sv"
+          "fi" : "opintojenlaajuus_150 nimi fi",
+          "sv" : "opintojenlaajuus_150 nimi sv"
         }
       },
       "opintojenLaajuusyksikko" : {
-        "koodiUri" : "opintojenlaajuusyksikko_01",
+        "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
-          "fi" : "opintojenlaajuusyksikko_01 nimi fi",
-          "sv" : "opintojenlaajuusyksikko_01 nimi sv"
+          "fi" : "opintojenlaajuusyksikko_6 nimi fi",
+          "sv" : "opintojenlaajuusyksikko_6 nimi sv"
         }
       },
       "koulutustyypit" : [ {

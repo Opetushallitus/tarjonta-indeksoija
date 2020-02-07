@@ -37,6 +37,16 @@
   [oid]
   (locking oid "Kalle Ankka"))
 
+(defn mock-get-eperuste-by-koulutus-koodi
+  [koulutuskoodi]
+  {:id 12345
+   :koulutukset[ {:nimi {:fi (str "koulutus " koulutuskoodi " nimi fi")
+                         :sv (str "koulutus " koulutuskoodi " nimi sv")} ,
+                  :koulutuskoodiUri koulutuskoodi}]
+   :tutkintonimikkeet [{:tutkintonimikeUri "tutkintonimikkeet_01" :nimi {:fi "tutkintonimikkeet_01 nimi fi" :sv "tutkintonimikkeet_01 nimi sv"}}
+                       {:tutkintonimikeUri "tutkintonimikkeet_02" :nimi {:fi "tutkintonimikkeet_02 nimi fi" :sv "tutkintonimikkeet_02 nimi sv"}}],
+   :suoritustavat [{:laajuusYksikko "OSAAMISPISTE" :rakenne {:muodostumisSaanto {:laajuus {:minimi 150 :maksimi 150}}}}]})
+
 (defn- oppilaitos1-hierarkia?
   [oid]
   (or (= Oppilaitos1 oid) (= Toimipiste1OfOppilaitos1 oid) (= Toimipiste2OfOppilaitos1 oid)))
