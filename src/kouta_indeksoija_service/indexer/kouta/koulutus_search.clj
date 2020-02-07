@@ -21,6 +21,7 @@
          :tarjoajat          tarjoajat
          :oppilaitos         oppilaitos
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+         :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
          :nimet              (vector (:nimi koulutus))
          :oppilaitosOid      (:oid oppilaitos)
          :onkoTuleva         true
@@ -43,6 +44,7 @@
                   :tarjoajat          (:tarjoajat toteutus)
                   :oppilaitos         oppilaitos
                   :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+                  :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
                   :nimet              (vector (:nimi koulutus) (:nimi toteutus))
                   ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
                   ;:haut              (:haut hakutieto) TODO

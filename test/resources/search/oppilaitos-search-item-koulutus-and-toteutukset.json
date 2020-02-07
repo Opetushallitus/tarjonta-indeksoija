@@ -24,8 +24,8 @@
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
                        "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
     "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992" ],
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
       "en" : [ ]
     },
     "koulutusOid" : "1.2.246.562.13.00000000000000000099",
@@ -91,8 +91,8 @@
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
                        "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
     "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 fi" ,"Hevostoteutus 1 fi", "Toimipiste fi 1.2.246.562.10.777777777993", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 sv" ,"Hevostoteutus 1 sv", "Toimipiste sv 1.2.246.562.10.777777777993", "Toimipiste sv 1.2.246.562.10.777777777991", "hepparna", "heppa" ],
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 fi" ,"Hevostoteutus 1 fi", "Toimipiste fi 1.2.246.562.10.777777777993", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 sv" ,"Hevostoteutus 1 sv", "Toimipiste sv 1.2.246.562.10.777777777993", "Toimipiste sv 1.2.246.562.10.777777777991", "hepparna", "heppa", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
       "en" : [ "horses", "horse" ]
     },
     "koulutusOid" : "1.2.246.562.13.00000000000000000098",
@@ -129,8 +129,8 @@
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
                        "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
     "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 fi", "Hevostoteutus 2 fi", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 sv", "Hevostoteutus 2 sv", "Toimipiste sv 1.2.246.562.10.777777777991" ],
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 fi", "Hevostoteutus 2 fi", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 sv", "Hevostoteutus 2 sv", "Toimipiste sv 1.2.246.562.10.777777777991", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
       "en" : [ ]
     },
     "koulutusOid" : "1.2.246.562.13.00000000000000000098",
