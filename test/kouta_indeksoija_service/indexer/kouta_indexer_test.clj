@@ -157,6 +157,33 @@
        (i/index-oppilaitos oppilaitos-oid)
        (check-all-nil)))))
 
+(deftest index-oppilaitos-test-4
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index also koulutus when indexing oppilaitos"
+     (check-all-nil)
+     (i/index-oppilaitokset [mocks/Oppilaitos1])
+     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid)))))))
+
+(deftest index-organisaatio-no-oppilaitokset-test
+  (fixture/with-mocked-indexing
+   (with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja (fn [oid] (throw (Exception. (str "I was called with [" oid "]"))))
+                 kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid] {:numHits 1,
+                                                                                           :organisaatiot [{:oid oid,
+                                                                                                            :alkuPvm 313106400000,
+                                                                                                            :parentOid "1.2.246.562.10.00000000001",
+                                                                                                            :parentOidPath (str oid  "/1.2.246.562.10.10101010100"),
+                                                                                                            :nimi {:fi "nimi fi"}
+                                                                                                            :kieletUris ["oppilaitoksenopetuskieli_1#1"],
+                                                                                                            :kotipaikkaUri "kunta_091",
+                                                                                                            :organisaatiotyypit [ "organisaatiotyyppi_01" ],
+                                                                                                            :status "AKTIIVINEN"
+                                                                                                            :children []}]})]
+     (testing "Indexer should not index organisaatio without oppilaitos"
+       (check-all-nil)
+       (i/index-oppilaitos "1.2.246.562.10.101010101012222222")
+       (check-all-nil)))))
+
 (deftest index-passiivinen-oppilaitos-test
   (fixture/with-mocked-indexing
    (testing "Indexer should delete passivoitu oppilaitos from indexes"
