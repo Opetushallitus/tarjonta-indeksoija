@@ -42,6 +42,7 @@
        :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
        :oppilaitos         oppilaitos
        :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+       :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
        :nimet              (vector (:nimi koulutus))
        :koulutusOid        (:oid koulutus)
        :onkoTuleva         true
@@ -62,6 +63,7 @@
          :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
          :oppilaitos         oppilaitos
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
+         :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
          :nimet              (vector (:nimi koulutus) (:nimi toteutus))
          :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
          :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
