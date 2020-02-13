@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.admin :as admin]
+            [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
             [clj-elasticsearch.elastic-utils :refer [elastic-host]]
             [clj-http.client :as http]))
 
@@ -24,4 +25,7 @@
                (get-in res [:body :hakukohde-kouta_test :mappings :hakukohde-kouta_test])))))
 
     (testing "should get elastic-status"
-      (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status)))))))
+      (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status)))))
+
+    (testing "get cluster health"
+      (is (= 200 (first (admin/healthcheck)))))))

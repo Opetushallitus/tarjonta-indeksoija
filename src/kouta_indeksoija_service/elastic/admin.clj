@@ -22,8 +22,7 @@
 
 (defn get-cluster-health
   []
-  (with-error-logging
-   (e/get-cluster-health)))
+  (e/get-cluster-health))
 
 (defn check-elastic-status
   []
@@ -33,13 +32,45 @@
 
 (defn get-indices-info
   []
-  (with-error-logging
-   (e/get-indices-info)))
+  (e/get-indices-info))
 
 (defn get-elastic-status
   []
   {:cluster_health (:body (get-cluster-health))
    :indices-info (get-indices-info)})
+
+(defn- healthy?
+  [x]
+  (or (= "green" x)
+      (= "yellow" x)))
+
+(defn healthcheck
+  []
+  (let [status   (atom 200)
+        parse    (fn [response]
+                   {:cluster_health (let [cluster-status (get-in response [:cluster_health :status])
+                                          cluster-health (healthy? cluster-status)]
+                                      (when (not cluster-health)
+                                        (reset! status 500))
+                                      {:cluster   (get-in response [:cluster_health :cluster_name])
+                                       :status    cluster-status
+                                       :healthy   cluster-health})
+                    :indices_health (vec (for [index-info (:indices-info response)
+                                               :let [index-status (:health index-info)
+                                                     index-health (healthy? index-status)]]
+                                           (do (when (not index-health)
+                                                 (reset! status 500))
+                                               {:index   (:index index-info)
+                                                :status  index-status
+                                                :healthy index-health})))})
+        body      (try
+                   (-> (get-elastic-status)
+                       (parse))
+                   (catch Exception e
+                     (reset! status 500)
+                     (log/error e)
+                     {:error (.getMessage e)}))]
+  [@status body]))
 
 (defn- get-index-settings
   [index]

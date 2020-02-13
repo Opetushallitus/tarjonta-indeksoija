@@ -1,7 +1,6 @@
 (ns kouta-indeksoija-service.queue.notification-queue
   (:require [clojure.tools.logging :as log]
             [clj-log.error-log :refer [with-error-logging]]
-            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.sqs :as sqs]
             [kouta-indeksoija-service.queue.queue :as queue]
             [kouta-indeksoija-service.notifier.notifier :refer [send-notification]]

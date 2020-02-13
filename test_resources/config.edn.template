@@ -8,12 +8,12 @@
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
- :queue {:priority "koutaIndeksoijaPriority"
-         :fast "koutaIndeksoijaFast"
-         :slow "koutaIndeksoijaSlow"
-         :dlq "koutaIndeksoijaDlq"
-         :notifications "koutaIndeksoijaNotifications"
-         :notifications-dlq "koutaIndeksoijaNotificationsDlq"}
+ :queue {:priority {:name "koutaIndeksoijaPriority" :health-threshold 10}
+         :fast {:name "koutaIndeksoijaFast" :health-threshold 10}
+         :slow {:name "koutaIndeksoijaSlow" :health-threshold 10}
+         :dlq {:name "koutaIndeksoijaDlq" :health-threshold 10}
+         :notifications {:name "koutaIndeksoijaNotifications" :health-threshold 10}
+         :notifications-dlq {:name "koutaIndeksoijaNotificationsDlq" :health-threshold 10}}
  :sqs-region "eu-west-1"
  :sqs-endpoint "http://localhost:4576"
  :dlq-cron-string "*/15 * * ? * *"

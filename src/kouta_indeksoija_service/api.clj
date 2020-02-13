@@ -25,7 +25,8 @@
             [kouta-indeksoija-service.scheduled.jobs :as jobs]
             [kouta-indeksoija-service.queuer.queuer :as queuer]
             [kouta-indeksoija-service.notifier.notifier :as notifier]
-            [kouta-indeksoija-service.util.tools :refer [comma-separated-string->vec]]))
+            [kouta-indeksoija-service.util.tools :refer [comma-separated-string->vec]]
+            [kouta-indeksoija-service.queue.admin :as sqs]))
 
 (defn init []
   (mount/start)
@@ -67,6 +68,16 @@
      (GET "/healthcheck" []
        :summary "Healthcheck API."
        (ok "OK"))
+
+     (GET "/healthcheck/deep" []
+       :summary "Palauttaa 500, jos sqs-jonot tai elasticsearch ei ole terveitä"
+       (let [[status1 body1] (sqs/healthcheck)
+             [status2 body2] (admin/healthcheck)]
+         (if (and (= 200 status1) (= 200 status2))
+           (ok {:sqs-health body1
+                :elasticsearch-health body2})
+           (internal-server-error {:sqs-health body1
+                                   :elasticsearch-health body2}))))
 
      (context "/kouta" []
        :tags ["kouta"]
@@ -184,17 +195,21 @@
      (context "/admin" []
        :tags ["admin"]
 
-       (GET "/status" []
+       (GET "/index/status" []
          :summary "Hakee klusterin ja indeksien tiedot."
          (ok {:result (admin/get-elastic-status)}))
 
-       (POST "/query" []
+       (POST "/queue/status" []
+         :summary "Palauttaa tiedon kaikkien sqs-jonojen tilasta"
+         (ok (sqs/status)))
+
+       (POST "/index/query" []
          :summary "Tekee haun haluttuun indeksiin"
          :query-params [index :- String
                         query :- String]
          (ok (admin/search index query)))
 
-       (POST "/reset" []
+       (POST "/index/reset" []
          :summary "Resetoi/tyhjentää halutun indeksin. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
          :query-params [index :- String]
          (ok (admin/reset-index index))))
