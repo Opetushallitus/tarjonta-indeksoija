@@ -199,11 +199,11 @@
          :summary "Hakee klusterin ja indeksien tiedot."
          (ok {:result (admin/get-elastic-status)}))
 
-       (POST "/queue/status" []
+       (GET "/queue/status" []
          :summary "Palauttaa tiedon kaikkien sqs-jonojen tilasta"
          (ok (sqs/status)))
 
-       (POST "/index/query" []
+       (GET "/index/query" []
          :summary "Tekee haun haluttuun indeksiin"
          :query-params [index :- String
                         query :- String]
