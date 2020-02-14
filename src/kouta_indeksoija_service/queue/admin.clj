@@ -11,10 +11,12 @@
 
 (defn- parse-int
   [x]
-  (try
-    (Integer/parseInt x)
-    (catch Exception e
-      nil)))
+  (if (not (number? x))
+    (try
+      (Integer/parseInt x)
+      (catch Exception e
+        nil))
+    x))
 
 (defn- healthy?
   [apprx-messages health-threshold]
@@ -27,7 +29,7 @@
   (let [status (atom 200)
         body   (try
                  (->> (for [priority (conf/priorities)
-                            :let [health-threshold  (conf/health-threshold priority)
+                            :let [health-threshold (or (parse-int (conf/health-threshold priority)) 20)
                                   queue-attributes (sqs/get-queue-attributes priority "ApproximateNumberOfMessages" "QueueArn")
                                   apprx-messages   (some-> queue-attributes :ApproximateNumberOfMessages)
                                   health           (healthy? apprx-messages health-threshold)]]
