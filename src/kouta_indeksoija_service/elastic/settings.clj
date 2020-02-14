@@ -2,12 +2,11 @@
 
 (def index-settings
   {:index.mapping.total_fields.limit 2000
-   :analysis {:filter {:edge_ngram_long_words {:type "edge_ngram"
-                                               :min_gram "3"
-                                               :max_gram "9"}
-                       :edge_gram_compound_words {:type "ngram"
-                                                  :min_gram "3"
-                                                  :max_gram "9"}
+   :analysis {:filter {:edge_ngram_long_words {:type "edge_ngram" ;auto autom automa automaa
+                                               :min_gram "4"
+                                               :max_gram "7"}
+                       :truncate_search_keyword {:type "truncate"
+                                                 :length "7"} ;pitää olla sama kuin max_gram edge n-gram filterissä!
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
                        :finnish_keywords {:type "keyword_marker"
@@ -27,14 +26,23 @@
                        :english_stemmer {:type "stemmer"
                                          :language "english"}
                        :english_possessive_stemmer {:type "stemmer"
-                                                    :language "possessive_english"}}
-              :analyzer {:finnish {:tokenizer "standard"
+                                                    :language "possessive_english"}},
+              :tokenizer {:edge_gram_compound_words_tokenizer {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
+                                                               :min_gram "4"
+                                                               :max_gram "12"
+                                                               :token_chars ["letter", "digit"]}}
+              :analyzer {:finnish {:tokenizer "edge_gram_compound_words_tokenizer"
                                    :filter ["lowercase"
-                                            ;"edge_gram_compound_words"
-                                            "edge_ngram_long_words"
                                             "finnish_stop"
                                             "finnish_keywords"
-                                            "finnish_stemmer"]}
+                                            "finnish_stemmer"
+                                            "edge_ngram_long_words"]}
+                         :finnish_keyword {:tokenizer "standard"
+                                           :filter ["lowercase"
+                                                    "finnish_stop"
+                                                    "finnish_keywords"
+                                                    "finnish_stemmer"
+                                                    "truncate_search_keyword"]}
                          :swedish {:tokenizer "standard"
                                    :filter ["lowercase"
                                             "swedish_stop"
@@ -105,6 +113,7 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"
+                                       :search_analyzer "finnish_keyword"
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:sv {:match "sv"
@@ -130,13 +139,14 @@
   {:dynamic_templates [{:muokkaaja {:match "muokkaaja.nimi"
                                     :match_mapping_type "string"
                                     :mapping {:type "text"
-                                       :analyzer "finnish"
-                                       :norms { :enabled false}
-                                       :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                                              :analyzer "finnish"
+                                              :norms { :enabled false}
+                                              :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"
+                                       :search_analyzer "finnish_keyword"
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:tila {:match "tila"
