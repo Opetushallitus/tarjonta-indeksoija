@@ -20,12 +20,12 @@
 
 (defn expected-sqs-health
   [nr healthy]
-  {:priority {:QueueArn "koutaQueue:priority", :ApproximateNumberOfMessages nr, :healthy healthy, :health-threshold 10},
-   :fast {:QueueArn "koutaQueue:fast", :ApproximateNumberOfMessages nr, :healthy healthy, :health-threshold 10},
-   :slow {:QueueArn "koutaQueue:slow", :ApproximateNumberOfMessages nr, :healthy healthy, :health-threshold 10},
-   :dlq {:QueueArn "koutaQueue:dlq", :ApproximateNumberOfMessages nr, :healthy healthy, :health-threshold 10},
-   :notifications {:QueueArn "koutaQueue:notifications", :ApproximateNumberOfMessages nr, :healthy healthy, :health-threshold 10},
-   :notifications-dlq {:QueueArn "koutaQueue:notifications-dlq", :ApproximateNumberOfMessages nr, :healthy healthy, :health-threshold 10}})
+  {:priority {:QueueArn "koutaQueue:priority", :ApproximateNumberOfMessages (str nr), :healthy healthy, :health-threshold 10},
+   :fast {:QueueArn "koutaQueue:fast", :ApproximateNumberOfMessages (str nr), :healthy healthy, :health-threshold 10},
+   :slow {:QueueArn "koutaQueue:slow", :ApproximateNumberOfMessages (str nr), :healthy healthy, :health-threshold 10},
+   :dlq {:QueueArn "koutaQueue:dlq", :ApproximateNumberOfMessages (str nr), :healthy healthy, :health-threshold 10},
+   :notifications {:QueueArn "koutaQueue:notifications", :ApproximateNumberOfMessages (str nr), :healthy healthy, :health-threshold 10},
+   :notifications-dlq {:QueueArn "koutaQueue:notifications-dlq", :ApproximateNumberOfMessages (str nr), :healthy healthy, :health-threshold 10}})
 
 (defn expected-queue-health
   [c-status c-healthy i-status i-healthy]
