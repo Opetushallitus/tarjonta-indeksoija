@@ -28,4 +28,4 @@
       (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status)))))
 
     (testing "get cluster health"
-      (is (= 200 (first (admin/healthcheck)))))))
+      (is (= true (first (admin/healthcheck)))))))

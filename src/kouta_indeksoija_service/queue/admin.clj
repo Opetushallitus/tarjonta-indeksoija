@@ -26,23 +26,17 @@
 
 (defn healthcheck
   []
-  (let [status (atom 200)
-        body   (try
-                 (->> (for [priority (conf/priorities)
-                            :let [health-threshold (or (parse-int (conf/health-threshold priority)) 20)
-                                  queue-attributes (sqs/get-queue-attributes priority "ApproximateNumberOfMessages" "QueueArn")
-                                  apprx-messages   (some-> queue-attributes :ApproximateNumberOfMessages)
-                                  health           (healthy? apprx-messages health-threshold)]]
-                        (do
-                          (when (not health)
-                            (reset! status 500))
-                          {(keyword priority) {:QueueArn (some-> queue-attributes :QueueArn)
-                                               :ApproximateNumberOfMessages apprx-messages
-                                               :healthy health
-                                               :health-threshold health-threshold}}))
-                      (into {}))
-                    (catch Exception e
-                      (reset! status 500)
-                      (log/error e)
-                      {:error (.getMessage e)}))]
-    [@status body]))
+  (try
+    (let [result (for [priority (conf/priorities)
+                       :let [health-threshold (or (parse-int (conf/health-threshold priority)) 20)
+                             queue-attributes (sqs/get-queue-attributes priority "ApproximateNumberOfMessages" "QueueArn")
+                             apprx-messages   (some-> queue-attributes :ApproximateNumberOfMessages)
+                             health           (healthy? apprx-messages health-threshold)]]
+                   [health {(keyword priority) {:QueueArn (some-> queue-attributes :QueueArn)
+                                                :ApproximateNumberOfMessages apprx-messages
+                                                :healthy health
+                                                :health-threshold health-threshold}}])]
+      [(not-any? false? (map first result)) (into {} (map second result))])
+    (catch Exception e
+      (log/error e)
+      [false {:error (.getMessage e)}])))

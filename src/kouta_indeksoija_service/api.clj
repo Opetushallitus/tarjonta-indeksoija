@@ -71,13 +71,12 @@
 
      (GET "/healthcheck/deep" []
        :summary "Palauttaa 500, jos sqs-jonot tai elasticsearch ei ole terveitä"
-       (let [[status1 body1] (sqs/healthcheck)
-             [status2 body2] (admin/healthcheck)]
-         (if (and (= 200 status1) (= 200 status2))
-           (ok {:sqs-health body1
-                :elasticsearch-health body2})
-           (internal-server-error {:sqs-health body1
-                                   :elasticsearch-health body2}))))
+       (let [[sqs-healthy? sqs-body] (sqs/healthcheck)
+             [els-healthy? els-body] (admin/healthcheck)
+             body {:sqs-health sqs-body :elasticsearch-health els-body}]
+         (if (and sqs-healthy? els-healthy?)
+           (ok body)
+           (internal-server-error body))))
 
      (context "/kouta" []
        :tags ["kouta"]

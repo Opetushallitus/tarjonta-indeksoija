@@ -46,31 +46,25 @@
 
 (defn healthcheck
   []
-  (let [status   (atom 200)
-        parse    (fn [response]
-                   {:cluster_health (let [cluster-status (get-in response [:cluster_health :status])
-                                          cluster-health (healthy? cluster-status)]
-                                      (when (not cluster-health)
-                                        (reset! status 500))
-                                      {:cluster   (get-in response [:cluster_health :cluster_name])
-                                       :status    cluster-status
-                                       :healthy   cluster-health})
-                    :indices_health (vec (for [index-info (:indices-info response)
-                                               :let [index-status (:health index-info)
-                                                     index-health (healthy? index-status)]]
-                                           (do (when (not index-health)
-                                                 (reset! status 500))
-                                               {:index   (:index index-info)
-                                                :status  index-status
-                                                :healthy index-health})))})
-        body      (try
-                   (-> (get-elastic-status)
-                       (parse))
-                   (catch Exception e
-                     (reset! status 500)
-                     (log/error e)
-                     {:error (.getMessage e)}))]
-  [@status body]))
+  (try
+    (let [response       (get-elastic-status)
+          cluster-health (let [cluster-status (get-in response [:cluster_health :status])
+                               cluster-health (healthy? cluster-status)]
+                           [cluster-health {:cluster   (get-in response [:cluster_health :cluster_name])
+                                            :status    cluster-status
+                                            :healthy   cluster-health}])
+          indices-health (for [index-info (:indices-info response)
+                               :let [index-status (:health index-info)
+                                     index-health (healthy? index-status)]]
+                           [index-health {:index   (:index index-info)
+                                          :status  index-status
+                                          :healthy index-health}])]
+      [(and (first cluster-health) (not-any? false? (map first indices-health)))
+       {:cluster_health (second cluster-health)
+        :indices_health (vec (map second indices-health))}])
+    (catch Exception e
+      (log/error e)
+      [false {:error (.getMessage e)}])))
 
 (defn- get-index-settings
   [index]

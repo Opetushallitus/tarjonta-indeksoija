@@ -15,9 +15,6 @@
 
 (defn name
   [priority]
-  ;(println (:queue env))
-
-
   (get-in (:queue env) [(keyword priority) :name]))
 
 (defn health-threshold
