@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste]]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi, get-eperuste-by-id]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -9,11 +9,13 @@
 
 (def index-name "koulutus-kouta")
 
+;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
 (defn enrich-ammatillinen-metadata
   [koulutus]
   (if (ammatillinen? koulutus)
     (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
-          eperuste (get-eperuste koulutusKoodi)]
+          eperusteId (:ePerusteId koulutus)
+          eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi)) ]
       (-> koulutus
           (assoc-in [:metadata :tutkintonimike]          (vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
           (assoc-in [:metadata :opintojenLaajuus]        (:opintojenlaajuus eperuste))
