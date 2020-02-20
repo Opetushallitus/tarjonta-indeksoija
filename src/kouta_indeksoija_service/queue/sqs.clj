@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.queue.sqs
   (:require [amazonica.core :as amazonica]
             [amazonica.aws.sqs :as sqs]
-            [kouta-indeksoija-service.util.conf :refer [env sqs-endpoint]]
+            [kouta-indeksoija-service.queue.conf :as conf]
             [clojure.string :refer [blank?]]
             [cheshire.core :refer [generate-string]])
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
@@ -11,8 +11,8 @@
 
 (defn- with-endpoint
   [f]
-  (if (not (blank? sqs-endpoint))
-    (amazonica/with-credential {:endpoint sqs-endpoint} (f))
+  (if (not (blank? conf/sqs-endpoint))
+    (amazonica/with-credential {:endpoint conf/sqs-endpoint} (f))
     (f)))
 
 (defn find-queue
@@ -23,7 +23,7 @@
 
 (defn queue
   [priority]
-  (find-queue (get (:queue env) priority)))
+  (find-queue (conf/name priority)))
 
 (defn delete-message
   [& {:keys [queue-url receipt-handle]}]
@@ -52,3 +52,7 @@
     (with-endpoint #(sqs/send-message
                      :queue-url queue
                      :message-body true-message))))
+
+(defn get-queue-attributes
+  [priority & attr]
+  (with-endpoint #(sqs/get-queue-attributes (queue priority) attr)))

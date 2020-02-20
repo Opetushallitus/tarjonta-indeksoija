@@ -8,12 +8,12 @@
  :s3-dev-disabled "true"
  :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
  :s3-region "eu-west-1"
- :queue {:priority "priority-indexing-queue"
-         :fast "fast-indexing-queue"
-         :slow "slow-indexing-queue"
-         :dlq "indexing-dql"
-         :notifications "notifications-queue"
-         :notifications-dlq "notifications-dlq"}
+ :queue {:priority {:name "priority-indexing-queue" :health-threshold 10}
+         :fast {:name "fast-indexing-queue" :health-threshold 10}
+         :slow {:name "slow-indexing-queue" :health-threshold 10}
+         :dlq {:name "indexing-dql" :health-threshold 10}
+         :notifications {:name "notifications-queue" :health-threshold 10}
+         :notifications-dlq {:name "notifications-dlq" :health-threshold 10}}
  :sqs-region ""
  :sqs-endpoint ""
  :dlq-cron-string "*/15 * * ? * *"

@@ -8,12 +8,12 @@
  :s3-dev-disabled "false"
  :s3-bucket "{{kouta_indeksoija_s3_bucket}}"
  :s3-region "{{kouta_indeksoija_s3_region}}"
- :queue {:priority "{{kouta_indeksoija_sqs_queue_priority}}"
-         :fast "{{kouta_indeksoija_sqs_queue_fast}}"
-         :slow "{{kouta_indeksoija_sqs_queue_slow}}"
-         :dlq "{{kouta_indeksoija_sqs_queue_dlq}}"
-         :notifications "{{kouta_indeksoija_sqs_queue_notifications}}"
-         :notifications-dlq "{{kouta_indeksoija_sqs_queue_notifications_dlq}}"}
+ :queue {:priority {:name "{{kouta_indeksoija_sqs_queue_priority}}" :health-threshold "{{kouta_indeksoija_sqs_queue_priority_health_threshold}}"}
+                 :fast {:name "{{kouta_indeksoija_sqs_queue_fast}}" :health-threshold "{{kouta_indeksoija_sqs_queue_fast_health_threshold}}"}
+                 :slow {:name "{{kouta_indeksoija_sqs_queue_slow}}" :health-threshold "{{kouta_indeksoija_sqs_queue_slow_health_threshold}}"}
+                 :dlq {:name "{{kouta_indeksoija_sqs_queue_dlq}}" :health-threshold "{{kouta_indeksoija_sqs_queue_dlq_health_threshold}}"}
+                 :notifications {:name "{{kouta_indeksoija_sqs_queue_notifications}}" :health-threshold "{{kouta_indeksoija_sqs_queue_notifications_health_threshold}}"}
+                 :notifications-dlq {:name "{{kouta_indeksoija_sqs_queue_notifications_dlq}}" :health-threshold "{{kouta_indeksoija_sqs_queue_notifications_dlq_health_threshold}}"}}
  :sqs-region "{{kouta_indeksoija_sqs_region}}"
  :sqs-endpoint "{{kouta_indeksoija_sqs_endpoint}}"
  :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"

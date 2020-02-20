@@ -22,8 +22,7 @@
 
 (defn get-cluster-health
   []
-  (with-error-logging
-   (e/get-cluster-health)))
+  (e/get-cluster-health))
 
 (defn check-elastic-status
   []
@@ -33,13 +32,39 @@
 
 (defn get-indices-info
   []
-  (with-error-logging
-   (e/get-indices-info)))
+  (e/get-indices-info))
 
 (defn get-elastic-status
   []
   {:cluster_health (:body (get-cluster-health))
    :indices-info (get-indices-info)})
+
+(defn- healthy?
+  [x]
+  (or (= "green" x)
+      (= "yellow" x)))
+
+(defn healthcheck
+  []
+  (try
+    (let [response       (get-elastic-status)
+          cluster-health (let [cluster-status (get-in response [:cluster_health :status])
+                               cluster-health (healthy? cluster-status)]
+                           [cluster-health {:cluster   (get-in response [:cluster_health :cluster_name])
+                                            :status    cluster-status
+                                            :healthy   cluster-health}])
+          indices-health (for [index-info (:indices-info response)
+                               :let [index-status (:health index-info)
+                                     index-health (healthy? index-status)]]
+                           [index-health {:index   (:index index-info)
+                                          :status  index-status
+                                          :healthy index-health}])]
+      [(and (first cluster-health) (not-any? false? (map first indices-health)))
+       {:cluster_health (second cluster-health)
+        :indices_health (vec (map second indices-health))}])
+    (catch Exception e
+      (log/error e)
+      [false {:error (.getMessage e)}])))
 
 (defn- get-index-settings
   [index]
