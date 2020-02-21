@@ -57,7 +57,7 @@
         "oid" : "1.2.246.562.10.54545454545"
       },
       "kielivalinta" : [ "fi", "sv" ],
-      "teemakuva": "https://testi.domain/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
+      "teemakuva": "https://testi.fi/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
       "metadata" : {
         "yhteystiedot" : {
           "osoite" : {
@@ -74,8 +74,8 @@
             }
           },
           "wwwSivu" : {
-            "fi" : "www.tiedekunta.fi",
-            "sv" : "www.tiedekunta.sv"
+            "fi" : "https://www.tiedekunta.fi",
+            "sv" : "https://www.tiedekunta.sv"
           },
           "puhelinnumero" : {
             "fi" : "123",
@@ -147,7 +147,7 @@
       "nimi" : "Kalle Ankka"
     },
     "kielivalinta" : [ "fi", "sv" ],
-    "teemakuva": "https://testi.domain/oppilaitos-teemakuva/oid/kuva.jpg",
+    "teemakuva": "https://testi.fi/oppilaitos-teemakuva/oid/kuva.jpg",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
@@ -188,8 +188,8 @@
           }
         },
         "wwwSivu" : {
-          "fi" : "www.oppilaitos.fi",
-          "sv" : "www.oppilaitos.sv"
+          "fi" : "http://www.oppilaitos.fi",
+          "sv" : "http://www.oppilaitos.sv"
         },
         "puhelinnumero" : {
           "fi" : "123",
