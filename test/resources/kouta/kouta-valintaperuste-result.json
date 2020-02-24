@@ -377,8 +377,8 @@
         }
       },
       "aika" : {
-        "alkaa" : "2029-02-05T09:49",
-        "paattyy" : "2029-02-05T09:58"
+        "alkaa" : "!!startTime1",
+        "paattyy" : "!!endTime1"
       },
       "lisatietoja" : {
         "fi" : "lisätietieto fi",

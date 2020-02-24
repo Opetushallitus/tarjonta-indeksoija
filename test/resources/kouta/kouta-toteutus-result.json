@@ -72,8 +72,8 @@
     },
     "oid" : "1.2.246.562.20.00000000000000000001",
     "hakuajat" : [ {
-      "alkaa" : "2029-10-10T12:00",
-      "paattyy" : "2029-11-10T12:00"
+      "alkaa" : "!!startTime1",
+      "paattyy" : "!!endTime1"
     } ],
     "hakuOid" : "1.2.246.562.29.00000000000000000001",
     "alkamiskausi" : {
@@ -84,7 +84,7 @@
       }
     },
     "maxEnsikertalaisenAloituspaikat" : 0,
-    "alkamisvuosi" : "2020",
+    "alkamisvuosi" : "!!thisYear",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
@@ -148,7 +148,7 @@
       },
       "koulutuksenAlkamisvuosi": 2020,
       "koulutuksenTarkkaAlkamisaika": true,
-      "koulutuksenAlkamispaivamaara": "2029-10-12T09:00",
+      "koulutuksenAlkamispaivamaara": "!!time3",
       "onkoStipendia" : false,
       "stipendinKuvaus" : {},
       "opetuskieli": [ {

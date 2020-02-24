@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta-search-index-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [no-timestamp json]]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [no-timestamp json read-json-as-string]]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos]
@@ -30,21 +30,21 @@
                                :nimi "Autoalan perustutkinto 0"
                                :koulutusKoodiUri "koulutus_351301#1"
                                :tarjoajat (str oppilaitos-oid2 "2")
-                               :metadata (slurp (str "test/resources/search/koulutus-metadata.json")))
+                               :metadata (read-json-as-string "test/resources/search/" "koulutus-metadata"))
 
     (fixture/add-koulutus-mock koulutus-oid2
                                :tila "julkaistu"
                                :nimi "Hevosalan perustutkinto 0"
                                :koulutusKoodiUri "koulutus_361104#1"
                                :tarjoajat oppilaitos-oid2
-                               :metadata (slurp (str "test/resources/search/koulutus-metadata.json")))
+                               :metadata (read-json-as-string "test/resources/search/" "koulutus-metadata"))
 
     (fixture/add-toteutus-mock toteutus-oid1
                                koulutus-oid2
                                :tila "julkaistu"
                                :nimi "Hevostoteutus 1"
                                :tarjoajat (str oppilaitos-oid2 "1" "," oppilaitos-oid2 "3")
-                               :metadata (slurp (str "test/resources/search/toteutus-metadata.json")))
+                               :metadata (read-json-as-string "test/resources/search/" "toteutus-metadata"))
 
     (fixture/add-toteutus-mock toteutus-oid2
                                koulutus-oid2

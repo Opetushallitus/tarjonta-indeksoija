@@ -1,6 +1,6 @@
 {
   "tila" : "julkaistu",
-  "hakukohteenMuokkaamisenTakaraja" : "2029-10-12T12:00",
+  "hakukohteenMuokkaamisenTakaraja" : "!!endTime1",
   "hakulomaketyyppi" : "ei sähköistä",
   "hakulomakeAtaruId" : "dcd38a87-912e-4e91-8840-99c7e242dd53",
   "alkamiskausi" : {
@@ -194,8 +194,8 @@
   },
   "oid" : "1.2.246.562.29.00000000000000000001",
   "hakuajat" : [ {
-    "alkaa" : "2029-10-10T12:00",
-    "paattyy" : "2029-11-10T12:00"
+    "alkaa" : "!!startTime1",
+    "paattyy" : "!!endTime1"
   } ],
   "kohdejoukko" : {
     "koodiUri" : "haunkohdejoukko_02#2",
@@ -213,8 +213,8 @@
     }
   },
   "timestamp" : 1549368453241,
-  "alkamisvuosi" : "2020",
-  "hakukohteenLiittamisenTakaraja" : "2029-10-11T12:00",
+  "alkamisvuosi" : "!!thisYear",
+  "hakukohteenLiittamisenTakaraja" : "!!startTime1",
   "organisaatio" : {
     "paikkakunta" : {
       "koodiUri" : "kunta_091",
@@ -253,8 +253,8 @@
       }
     }],
     "tulevaisuudenAikataulu" : [{
-      "alkaa" : "2029-10-10T12:00",
-      "paattyy" : "2029-12-10T12:00"
+      "alkaa" : "!!startTime1",
+      "paattyy" : "!!endTime1"
     }]
   }
 }

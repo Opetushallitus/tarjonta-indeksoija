@@ -23,6 +23,7 @@
     "onkoMaksullinen": true,
     "maksunMaara": 200.5,
     "koulutuksenTarkkaAlkamisaika" : true,
+    "koulutuksenAlkamispaivamaara": "!!time3",
     "kuvaus": {
       "fi": "Kuvaus fi",
       "sv": "Kuvaus sv"
@@ -110,7 +111,7 @@
       "arvo": "horse"
     }
   ],
-  "yhteyshenkilo": {
+  "yhteyshenkilot": [{
     "nimi": {
       "fi": "Aku Ankka",
       "sv": "Aku Ankka"
@@ -127,5 +128,5 @@
       "fi": "123",
       "sv": "123"
     }
-  }
+  }]
 }

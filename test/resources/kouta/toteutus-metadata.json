@@ -25,7 +25,7 @@
     "koulutuksenTarkkaAlkamisaika" : true,
     "koulutuksenAlkamiskausi": "kausi_k#1",
     "koulutuksenAlkamisvuosi": 2020,
-    "koulutuksenAlkamispaivamaara": "2029-10-12T09:00",
+    "koulutuksenAlkamispaivamaara": "!!time3",
     "kuvaus": {
       "fi": "Kuvaus fi",
       "sv": "Kuvaus sv"

@@ -2,6 +2,10 @@
   (:require
    [cheshire.core :as cheshire]
    [clojure.test :refer :all]
+   [clojure.string :as string]
+   [clj-time.format :as format]
+   [clj-time.local :as local]
+   [clj-time.core :as time]
    [kouta-indeksoija-service.elastic.tools :refer [get-by-id get-doc]]
    [kouta-indeksoija-service.fixture.external-services :as mocks]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
@@ -27,9 +31,43 @@
   [json]
   (dissoc json :timestamp))
 
+(def time-tags
+  {:startTime1 ["09:49" 1]
+   :endTime1 ["09:58" 1]
+   :time3 ["09:58" 3]})
+
+(defn test-date
+  [[ time days-in-future]]
+  (let [now (local/local-now)
+        today (time/local-date (.getYear now) (.getMonthOfYear now) (.getDayOfMonth now))
+        read-time (format/parse-local-time time)
+        as-today (.toLocalDateTime today read-time)
+        formatter (format/formatters :date-hour-minute)]
+    (format/unparse-local formatter (.plusDays as-today days-in-future))))
+
+(defn replace-time
+  [json-string key-string time-tag]
+  (string/replace json-string key-string (test-date (time-tag time-tags))))
+
+(defn replace-times
+  [json-string]
+  (-> json-string
+      (replace-time "!!startTime1" :startTime1)
+      (replace-time "!!endTime1" :endTime1)
+      (replace-time "!!time3" :time3)
+      (string/replace "!!thisYear" "2020")))
+
+(defn read-json-as-string
+  ([path name]
+   (let [raw (slurp (str path name ".json"))
+         replaced (replace-times raw)]
+     replaced))
+  ([name]
+   (read-json-as-string "test/resources/kouta/" name)))
+
 (defn json
   ([path name]
-   (cheshire/parse-string (slurp (str path name ".json")) true))
+   (cheshire/parse-string (read-json-as-string path name) true))
   ([name]
    (json "test/resources/kouta/" name)))
 
@@ -73,7 +111,7 @@
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16"
                              :tarjoajat (str mocks/Toimipiste1OfOppilaitos1 "," mocks/Toimipiste2OfOppilaitos1)
-                             :metadata (slurp (str "test/resources/kouta/toteutus-metadata.json")))
+                             :metadata (read-json-as-string "toteutus-metadata"))
 
   (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000002"
                              koulutus-oid
@@ -82,7 +120,7 @@
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16"
                              :tarjoajat mocks/Toimipiste1OfOppilaitos1
-                             :metadata (slurp (str "test/resources/kouta/toteutus-metadata.json")))
+                             :metadata (read-json-as-string "toteutus-metadata"))
 
   (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000003"
                              koulutus-oid
@@ -91,7 +129,7 @@
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16"
                              :tarjoajat mocks/Toimipiste2OfOppilaitos1
-                             :metadata (slurp (str "test/resources/kouta/toteutus-metadata.json")))
+                             :metadata (read-json-as-string "toteutus-metadata"))
 
   (fixture/add-haku-mock haku-oid
                          :tila "julkaistu"
