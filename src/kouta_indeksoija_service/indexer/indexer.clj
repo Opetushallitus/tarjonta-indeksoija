@@ -47,11 +47,11 @@
 
 (defn index-haut
   [oids]
-  (let [koulutukset (mapcat kouta-backend/list-koulutukset-by-haku oids)
-        toteutukset (mapcat kouta-backend/list-toteutukset-by-haku oids)]
-    (koulutus-search/do-index (get-oids :oid koulutukset))
-    (toteutus/do-index (get-oids :oid toteutukset)))
-  (haku/do-index oids))
+  (let [entries           (haku/do-index oids)
+        hakukohde-entries (hakukohde/do-index (get-oids :oid (mapcat :hakukohteet entries)))
+        toteutus-entries  (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
+        _                 (koulutus-search/do-index (get-oids :koulutusOid toteutus-entries))]
+    entries))
 
 (defn index-haku
   [oid]

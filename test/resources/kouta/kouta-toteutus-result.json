@@ -139,7 +139,15 @@
     } ],
     "opetus" : {
       "maksunMaara" : 200.5,
-      "koulutuksenTarkkaAlkamisaika" : true,
+      "koulutuksenAlkamiskausi": {
+        "koodiUri": "kausi_k#1",
+        "nimi": {
+          "fi": "kausi_k#1 nimi fi",
+          "sv": "kausi_k#1 nimi sv"
+        }
+      },
+      "koulutuksenAlkamisvuosi": 2020,
+      "koulutuksenTarkkaAlkamisaika": true,
       "onkoStipendia" : false,
       "stipendinKuvaus" : {},
       "opetuskieli" : [ ],
