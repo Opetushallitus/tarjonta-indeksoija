@@ -2,15 +2,16 @@
 
 (def index-settings
   {:index.mapping.total_fields.limit 2000
-   :analysis {:filter {:edge_ngram_long_words {:type "edge_ngram" ;auto autom automa automaa
-                                               :min_gram "4"
-                                               :max_gram "7"}
-                       :truncate_search_keyword {:type "truncate"
-                                                 :length "7"} ;pitää olla sama kuin max_gram edge n-gram filterissä!
+   :analysis {:filter {:ngram_compound_words_and_conjugations {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
+                                                               :min_gram "5"
+                                                               :max_gram "30"
+                                                               :max_ngram_diff "35"
+                                                               :token_chars ["letter", "digit"]}
+                       :ngram_for_long_words {:type "condition"
+                                              :filter ["ngram_compound_words_and_conjugations"]
+                                              :script {:source "token.getTerm().length() > 4"}}
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
-                       :finnish_keywords {:type "keyword_marker"
-                                          :keywords "_finnish_keywords_"}
                        :finnish_stemmer {:type "stemmer"
                                          :language "finnish"}
                        :swedish_stop {:type "stop"
@@ -27,22 +28,17 @@
                                          :language "english"}
                        :english_possessive_stemmer {:type "stemmer"
                                                     :language "possessive_english"}},
-              :tokenizer {:edge_gram_compound_words_tokenizer {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
-                                                               :min_gram "4"
-                                                               :max_gram "12"
-                                                               :token_chars ["letter", "digit"]}}
-              :analyzer {:finnish {:tokenizer "edge_gram_compound_words_tokenizer"
+              :analyzer {:finnish {:type "custom"
+                                   :tokenizer "standard"
                                    :filter ["lowercase"
                                             "finnish_stop"
-                                            "finnish_keywords"
-                                            "finnish_stemmer"
-                                            "edge_ngram_long_words"]}
-                         :finnish_keyword {:tokenizer "standard"
+                                            "ngram_for_long_words"
+                                            "remove_duplicates"]}
+                         :finnish_keyword {:type "custom"
+                                           :tokenizer "standard"
                                            :filter ["lowercase"
                                                     "finnish_stop"
-                                                    "finnish_keywords"
-                                                    "finnish_stemmer"
-                                                    "truncate_search_keyword"]}
+                                                    "finnish_stemmer"]}
                          :swedish {:tokenizer "standard"
                                    :filter ["lowercase"
                                             "swedish_stop"
