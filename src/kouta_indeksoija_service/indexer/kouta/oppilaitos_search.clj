@@ -45,6 +45,7 @@
        :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
        :nimet              (vector (:nimi koulutus))
        :koulutusOid        (:oid koulutus)
+       :kuva               (:teemakuva koulutus)
        :onkoTuleva         true
        :nimi               (:nimi koulutus)
        :metadata           {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
@@ -70,6 +71,7 @@
          :koulutusOid        (:oid koulutus)
          :toteutusOid        (:oid toteutus)
          :nimi               (:nimi toteutus)
+         :kuva               (:teemakuva toteutus)
          :onkoTuleva         false
          :metadata           {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
                               :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)

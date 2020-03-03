@@ -27,6 +27,7 @@
              toteutusOid
              onkoTuleva
              nimi
+             kuva
              metadata]
       :or {koulutustyyppi nil
            koulutustyyppiUrit []
@@ -43,6 +44,7 @@
            toteutusOid nil
            onkoTuleva nil
            nimi {}
+           kuva nil
            metadata {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) tutkintonimikeUrit))
@@ -68,6 +70,7 @@
             (not (nil? koulutusOid))   (assoc :koulutusOid koulutusOid)
             (not (nil? toteutusOid))   (assoc :toteutusOid toteutusOid)
             (not (nil? oppilaitosOid)) (assoc :oppilaitosOid oppilaitosOid)
+            (not (nil? kuva))          (assoc :kuva kuva)
             (not (nil? onkoTuleva))    (assoc :onkoTuleva onkoTuleva)
             (not (empty? nimi))        (assoc :nimi nimi))))
 

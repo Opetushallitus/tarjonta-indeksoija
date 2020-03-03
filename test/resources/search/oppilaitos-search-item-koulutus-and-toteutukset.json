@@ -33,6 +33,7 @@
       "fi" : "Autoalan perustutkinto 0 fi",
       "sv" : "Autoalan perustutkinto 0 sv"
     },
+    "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : true,
     "metadata" : {
       "kunnat" : [ {
@@ -101,6 +102,7 @@
       "fi" : "Hevostoteutus 1 fi",
       "sv" : "Hevostoteutus 1 sv"
     },
+    "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
     "metadata" : {
       "kunnat" : [ {
@@ -139,6 +141,7 @@
       "fi" : "Hevostoteutus 2 fi",
       "sv" : "Hevostoteutus 2 sv"
     },
+    "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
     "metadata" : {
       "kunnat" : [ {
