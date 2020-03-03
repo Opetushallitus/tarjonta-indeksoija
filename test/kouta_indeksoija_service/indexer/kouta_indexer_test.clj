@@ -107,22 +107,22 @@
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
 
-(deftest index-hakukohde-yps-haku-not-julkaistu-test
+(deftest index-hakukohde-yps-haku-luonnos-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index hakukohde without yps if haku not julkaistu"
+   (testing "Indexer should index hakukohde without yps if haku luonnos"
      (check-all-nil)
      (fixture/update-haku-mock haku-oid :tila "tallennettu")
      (i/index-hakukohteet [hakukohde-oid])
-     (is (= "Haku ei julkaistu" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= "Haku on luonnos tilassa" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
      (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
-(deftest index-hakukohde-yps-hakukohde-not-julkaistu-test
+(deftest index-hakukohde-yps-hakukohde-luonnos-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index hakukohde without yps if hakukohde not julkaistu"
+   (testing "Indexer should index hakukohde without yps if hakukohde luonnos"
      (check-all-nil)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu")
      (i/index-hakukohteet [hakukohde-oid])
-     (is (= "Hakukohde ei julkaistu" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
+     (is (= "Hakukohde on luonnos tilassa" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
      (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
 (deftest index-hakukohde-yps-not-korkeakoulutus-test

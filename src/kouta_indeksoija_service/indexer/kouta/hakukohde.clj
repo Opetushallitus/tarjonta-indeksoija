@@ -18,9 +18,9 @@
                                  (common/complete-entry)
                                  (common/toteutus->list-item))))
 
-(defn- julkaistu?
+(defn- luonnos?
   [haku-tai-hakukohde]
-  (= "julkaistu" (:tila haku-tai-hakukohde)))
+  (= "tallennettu" (:tila haku-tai-hakukohde)))
 
 (defn- korkeakoulutusta?
   [koulutus]
@@ -72,11 +72,11 @@
   (assoc
    hakukohde
    :yhdenPaikanSaanto
-   (cond (not (julkaistu? haku))
-         (->ei-yps "Haku ei julkaistu")
+   (cond (luonnos? haku)
+         (->ei-yps "Haku on luonnos tilassa")
 
-         (not (julkaistu? hakukohde))
-         (->ei-yps "Hakukohde ei julkaistu")
+         (luonnos? hakukohde)
+         (->ei-yps "Hakukohde on luonnos tilassa")
 
          (not (korkeakoulutusta? koulutus))
          (->ei-yps "Ei korkeakoulutus koulutusta")
