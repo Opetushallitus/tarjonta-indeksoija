@@ -31,37 +31,29 @@
   [json]
   (dissoc json :timestamp))
 
-(def time-tags
-  {:startTime1 ["09:49" 1]
-   :endTime1 ["09:58" 1]
-   :time3 ["09:58" 3]})
+(defonce formatter (format/formatters :date-hour-minute))
 
 (defn test-date
-  [[ time days-in-future]]
-  (let [now (local/local-now)
-        today (time/local-date (.getYear now) (.getMonthOfYear now) (.getDayOfMonth now))
-        read-time (format/parse-local-time time)
-        as-today (.toLocalDateTime today read-time)
-        formatter (format/formatters :date-hour-minute)]
-    (format/unparse-local formatter (.plusDays as-today days-in-future))))
-
-(defn replace-time
-  [json-string key-string time-tag]
-  (string/replace json-string key-string (test-date (time-tag time-tags))))
+  [time days-in-future]
+  (let [read-time (format/parse-local-time time)
+        test-date (-> (time/today)
+                      (.toLocalDateTime read-time)
+                      (.plusDays days-in-future))]
+    (format/unparse-local formatter test-date)))
 
 (defn replace-times
   [json-string]
   (-> json-string
-      (replace-time "!!startTime1" :startTime1)
-      (replace-time "!!endTime1" :endTime1)
-      (replace-time "!!time3" :time3)
+      (string/replace "!!startTime1" (test-date "09:49" 1))
+      (string/replace "!!endTime1" (test-date "09:58" 1))
+      (string/replace "!!time3" (test-date "09:58" 3))
       (string/replace "!!thisYear" "2020")))
 
 (defn read-json-as-string
   ([path name]
-   (let [raw (slurp (str path name ".json"))
-         replaced (replace-times raw)]
-     replaced))
+   (-> (str path name ".json")
+       (slurp)
+       (replace-times)))
   ([name]
    (read-json-as-string "test/resources/kouta/" name)))
 
