@@ -4,7 +4,7 @@
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
             [clojure.test :refer :all]
-            [cheshire.core :refer [parse-string]]
+            [cheshire.core :refer [parse-string, generate-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
   (:import (fi.oph.kouta.external KoutaFixtureTool$)
            (java.util NoSuchElementException)))
@@ -31,6 +31,20 @@
 (defonce default-sorakuvaus-map (->clj-map (.DefaultSorakuvaus KoutaFixture)))
 (defonce default-oppilaitos-map (->clj-map (.DefaultOppilaitos KoutaFixture)))
 (defonce default-oppilaitoksen-osa-map (->clj-map (.DefaultOppilaitoksenOsa KoutaFixture)))
+
+(defonce yo-koulutus-metadata
+         (generate-string
+          {:tyyppi               "yo"
+           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1",
+                                  "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+
+(defonce amk-koulutus-metadata
+         (generate-string
+          {:tyyppi               "amk"
+           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1",
+                                  "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defn add-koulutus-mock
   [oid & {:as params}]

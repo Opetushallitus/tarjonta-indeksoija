@@ -1,7 +1,7 @@
 {
   "kaytetaanHaunAikataulua" : false,
   "tila" : "arkistoitu",
-  "liitteidenToimitusaika" : "2020-10-13T12:00",
+  "liitteidenToimitusaika" : "!!time3",
   "aloituspaikat" : 100,
   "minAloituspaikat" : 99,
   "maxAloituspaikat" : 101,
@@ -113,8 +113,8 @@
           }
         },
         "aika" : {
-          "alkaa" : "2019-02-05T09:49",
-          "paattyy" : "2019-02-05T09:58"
+          "alkaa" : "!!startTime1",
+          "paattyy" : "!!endTime1"
         },
         "lisatietoja" : {
           "fi" : "lisätietieto fi",
@@ -201,14 +201,20 @@
   "oid" : "1.2.246.562.20.00000000000000000001",
   "liitteetOnkoSamaToimitusaika" : true,
   "hakuajat" : [ {
-    "alkaa" : "2020-10-10T12:00",
-    "paattyy" : "2020-11-10T12:00"
+    "alkaa" : "!!startTime1",
+    "paattyy" : "!!endTime1"
   } ],
   "hakuOid" : "1.2.246.562.29.00000000000000000001",
   "liitteetOnkoSamaToimitusosoite" : false,
   "liitteet" : [ {
     "id" : "de7e733b-36a2-4d3f-ac71-32ccae96dc32",
-    "tyyppi" : "moi",
+    "tyyppi": {
+      "koodiUri": "liitetyypitamm_2#1",
+      "nimi": {
+        "fi": "liitetyypitamm_2#1 nimi fi",
+        "sv": "liitetyypitamm_2#1 nimi sv"
+      }
+    },
     "nimi" : {
       "fi" : "liite 1 Fi",
       "sv" : "liite 1 Sv"
@@ -217,11 +223,17 @@
       "fi" : "kuvaus Fi",
       "sv" : "kuvaus Sv"
     },
-    "toimitusaika" : "2019-02-05T09:58",
+    "toimitusaika" : "!!endTime1",
     "toimitustapa" : "hakijapalvelu"
   }, {
     "id" : "59b5a1c9-316b-4007-a14e-cc2b617bab46",
-    "tyyppi" : "terve",
+    "tyyppi": {
+      "koodiUri": "liitetyypitamm_1#1",
+      "nimi": {
+        "fi": "liitetyypitamm_1#1 nimi fi",
+        "sv": "liitetyypitamm_1#1 nimi sv"
+      }
+    },
     "nimi" : {
       "fi" : "liite 2 Fi",
       "sv" : "liite 2 Sv"
@@ -250,7 +262,7 @@
   } ],
   "kielivalinta" : [ "fi", "sv" ],
   "timestamp" : 1549372069493,
-  "alkamisvuosi" : "2020",
+  "alkamisvuosi" : "!!thisYear",
   "kaytetaanHaunAlkamiskautta" : false,
   "organisaatio" : {
     "paikkakunta" : {
@@ -290,8 +302,8 @@
         }
       },
       "aika" : {
-        "alkaa" : "2019-02-05T09:49",
-        "paattyy" : "2019-02-05T09:58"
+        "alkaa" : "!!startTime1",
+        "paattyy" : "!!endTime1"
       },
       "lisatietoja" : {
         "fi" : "lisätietieto fi",

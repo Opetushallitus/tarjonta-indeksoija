@@ -19,7 +19,7 @@
     }
   } ],
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
-  "teemakuva": "https://testi.domain/koulutus-teemakuva/oid/kuva.jpg",
+  "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
   "opintojenlaajuus" : {
     "koodiUri" : "opintojenlaajuus_150",
     "nimi" : {

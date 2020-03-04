@@ -140,7 +140,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde without yps if not jatkotutkintohaku"
      (check-all-nil)
-     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true")
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
      (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_1#1")
      (i/index-hakukohteet [hakukohde-oid])
@@ -151,7 +151,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde with yps if jatkotutkintohaku"
      (check-all-nil)
-     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :johtaaTutkintoon "true")
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :johtaaTutkintoon "true" :metadata fixture/yo-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
      (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1")
      (i/index-hakukohteet [hakukohde-oid])
@@ -162,7 +162,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde with yps if no tarkenne"
      (check-all-nil)
-     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true")
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
      (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri nil)
      (i/index-hakukohteet [hakukohde-oid])
@@ -173,7 +173,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde using haun alkamiskausi with yps if no tarkenne"
      (check-all-nil)
-     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true")
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true")
      (fixture/update-haku-mock haku-oid :tila "julkaistu" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020" :kohdejoukonTarkenneKoodiUri nil)
      (i/index-hakukohteet [hakukohde-oid])

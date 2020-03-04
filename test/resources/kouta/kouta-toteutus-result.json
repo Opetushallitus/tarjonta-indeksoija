@@ -35,7 +35,7 @@
   },
   "oid" : "1.2.246.562.17.00000000000000000001",
   "kielivalinta" : [ "fi", "sv" ],
-  "teemakuva": "https://testi.domain/toteutus-teemakuva/oid/kuva.jpg",
+  "teemakuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
   "hakukohteet" : [ {
     "tila" : "arkistoitu",
     "hakulomakeKuvaus" : {
@@ -72,8 +72,8 @@
     },
     "oid" : "1.2.246.562.20.00000000000000000001",
     "hakuajat" : [ {
-      "alkaa" : "2020-10-10T12:00",
-      "paattyy" : "2020-11-10T12:00"
+      "alkaa" : "!!startTime1",
+      "paattyy" : "!!endTime1"
     } ],
     "hakuOid" : "1.2.246.562.29.00000000000000000001",
     "alkamiskausi" : {
@@ -84,7 +84,7 @@
       }
     },
     "maxEnsikertalaisenAloituspaikat" : 0,
-    "alkamisvuosi" : "2020",
+    "alkamisvuosi" : "!!thisYear",
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
@@ -122,15 +122,15 @@
     "kuvaus" : { },
     "osaamisalat" : [ {
       "koodi" : {
-        "koodiUri" : "osaamisala_koodi_uri#1",
+        "koodiUri" : "osaamisala_1#1",
         "nimi" : {
-          "fi" : "osaamisala_koodi_uri#1 nimi fi",
-          "sv" : "osaamisala_koodi_uri#1 nimi sv"
+          "fi" : "osaamisala_1#1 nimi fi",
+          "sv" : "osaamisala_1#1 nimi sv"
         }
       },
       "linkki" : {
-        "fi" : "http://osaamisala/linkki/fi",
-        "sv" : "http://osaamisala/linkki/sv"
+        "fi" : "http://osaamisala.fi/linkki/fi",
+        "sv" : "http://osaamisala.fi/linkki/sv"
       },
       "otsikko" : {
         "fi" : "Katso osaamisalan tarkempi kuvaus tästä",
@@ -148,9 +148,16 @@
       },
       "koulutuksenAlkamisvuosi": 2020,
       "koulutuksenTarkkaAlkamisaika": true,
+      "koulutuksenAlkamispaivamaara": "!!time3",
       "onkoStipendia" : false,
       "stipendinKuvaus" : {},
-      "opetuskieli" : [ ],
+      "opetuskieli": [ {
+          "koodiUri": "oppilaitoksenopetuskieli_1#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"
+          }
+      } ],
       "maksullisuusKuvaus" : { },
       "opetustapa" : [{
         "koodiUri" : "opetuspaikkakk_1#1",
