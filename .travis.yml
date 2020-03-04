@@ -44,7 +44,7 @@ deploy:
     script: lein deploy
     skip_cleanup: true
     on:
-      branch: elasticsearch-settings
+      branch: master
   - provider: script
     script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
     on:
