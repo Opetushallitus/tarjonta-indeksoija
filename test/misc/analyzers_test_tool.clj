@@ -132,6 +132,8 @@
   (println "=================")
   (analyze index "Lääketieteen koulutus (ylempi AMK)")
   (println "=================")
+  (analyze index "Tie")
+  (println "=================")
   (analyze index "Tiede")
   (println "=================")
   (analyze index "Vaa'anmittauksen erikoisammattikoulutus - (alempi AMK)")

@@ -19,13 +19,13 @@
   (str elastic-url "/" test-index-name "/" postfix))
 
 (defonce settings {:analysis {:filter {:compound_words_filter {:type "ngram"
-                                                               :min_gram "4"
+                                                               :min_gram "3"
                                                                :max_gram "30"
                                                                :max_ngram_diff "35"
                                                                :token_chars ["letter", "digit"]}
                                        :conditional_filter {:type "condition"
                                                             :filter ["compound_words_filter"]
-                                                            :script {:source "token.getTerm().length() > 4"}}
+                                                            :script {:source "token.getTerm().length() > 3"}}
                                        :finnish_stop {:type "stop"
                                                       :stopwords "_finnish_"}
                                        :finnish_stemmer {:type "stemmer"
@@ -102,14 +102,15 @@
 (defn search
   [keyword]
   (let [res (u/elastic-post (get-url "_search")
-                            {:query {:nested {:path "hits", :query {:bool {:must {:match {:hits.terms.fi {:query keyword :operator "and" :fuzziness "AUTO:8,12"}}}}}}}})] ;Tämä matkii konfo-backedin tekemää hakua
+                            {:size 15
+                             :query {:nested {:path "hits", :query {:bool {:must {:match {:hits.terms.fi {:query keyword :operator "and" :fuzziness "AUTO:8,12"}}}}}}}})] ;Tämä matkii konfo-backedin tekemää hakua
     ;(debug-pretty res)
     (vec (map :_id (get-in res [:hits :hits])))))
 
 (defn execute-test-search
   []
   (let [exec (fn [t e] (let [r (search t)] (println (= (set e) (set r)) "=" t (sort r) "expected=" (sort e))))]
-    (exec "vammainen" [oid10])
+    ;(exec "vammainen" [oid10])
     (exec "tutkinto" [oid6 oid7 oid8 oid9 oid10 oid11 oid12 oid13 oid14 oid15 oid16 oid17 oid18 oid19])
     (exec "erikoisammattitutkinto" [oid10])
     (exec "perust" [oid6 oid7 oid8 oid11 oid12 oid13 oid16 oid18])
@@ -117,7 +118,7 @@
     (exec "puhtaus" [oid9])                                 ;(EI puhevammaisten)
     (exec "palvelu" [oid9])
     (exec "ammattitutkinto" [oid9 oid10 oid14 oid15 oid17])                   ;EI ammattioppilaitos tai ammattikorkeakoulu
-    (exec "sosiaaliala" [oid6])
+    ;(exec "sosiaaliala" [oid6])
     (exec "terveys" [oid6])
     (exec "musiikkioppilaitos" [oid5])
     (exec "auto" [oid4 oid12])
@@ -126,21 +127,23 @@
     (exec "lääketiede" [oid1])
     (exec "muusikko" [oid5])
     (exec "insinööri" [oid4])
+    (exec "ins" [oid4])
     (exec "tekniikka" [oid4 oid15])
     (exec "muusikon koulutus" [oid5])
     (exec "maanmittausalan perus" [oid7])           ; ei muita perustutkintoja
     (exec "tietojenkäsittelytiede" [oid3])
-    (exec "automaatiikka" [oid4])
+    ;(exec "automaatiikka" [oid4])
     (exec "hius" [oid11])
     (exec "kauneudenhoito" [oid11])
-    (exec "hoito" [oid11 oid14 oid18 oid19])
+    ;(exec "hoito" [oid11 oid14 oid18 oid19])
     (exec "psykologia" [oid2])
-    (exec "tiede" [oid1 oid3])
+    ;(exec "tiede" [oid1 oid3])
     (exec "lääk" [oid1 oid7])
     (exec "eläin" [oid14])
     (exec "eläinten" [oid14])
     (exec "merimies" [oid17])
     (exec "sosiaali" [oid6])
+    (exec "tie" [oid1 oid3 oid15])
     (exec "ensihoitaja" [oid19])))
 
 (defn -main

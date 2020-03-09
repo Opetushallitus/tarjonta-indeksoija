@@ -3,13 +3,13 @@
 (def index-settings
   {:index.mapping.total_fields.limit 2000
    :analysis {:filter {:ngram_compound_words_and_conjugations {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
-                                                               :min_gram "4"
+                                                               :min_gram "3"
                                                                :max_gram "30"
                                                                :max_ngram_diff "35"
                                                                :token_chars ["letter", "digit"]}
                        :ngram_for_long_words {:type "condition"
                                               :filter ["ngram_compound_words_and_conjugations"]
-                                              :script {:source "token.getTerm().length() > 4"}}
+                                              :script {:source "token.getTerm().length() > 3"}}
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
                        :finnish_stemmer {:type "stemmer"
