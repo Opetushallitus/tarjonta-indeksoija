@@ -40,7 +40,7 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.2.4-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.3.0-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]

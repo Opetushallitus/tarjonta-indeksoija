@@ -35,7 +35,7 @@
 (defn get-by-id
   [index type id]
   (try
-    (-> (e/get-document (index-name index) (index-name type) id)
+    (-> (e/get-document (index-name type) id)
         (:_source))
     (catch Exception e
       (handle-exception e))))
@@ -88,7 +88,7 @@
 (defn- execute-bulk-actions
   [index actions]
   (let [data   (->bulk-actions index actions)
-        res    (e/bulk index index data)]
+        res    (e/bulk index data)]
     (log-and-get-bulk-errors res)))
 
 (defn bulk

@@ -10,14 +10,15 @@
 
 (defn set-last-queued-time
   [timestamp]
-  (let [url (u/elastic-url (t/index-name index-name) (t/index-name index-name) "1/_update")
+  (let [url (u/elastic-url (t/index-name index-name) "_doc" "1" "_update")
         query {:doc {:timestamp timestamp} :doc_as_upsert true}]
     (u/elastic-post url query)))
 
 (defn get-last-queued-time
   []
-  (with-error-logging-value (System/currentTimeMillis)
-                            (let [res (e/get-document (t/index-name index-name) (t/index-name index-name) "1")]
-                              (if (:found res)
-                                (get-in res [:_source :timestamp])
-                                (System/currentTimeMillis)))))
+  (with-error-logging-value
+    (System/currentTimeMillis)
+    (let [res (e/get-document (t/index-name index-name) "1")]
+      (if (:found res)
+        (get-in res [:_source :timestamp])
+        (System/currentTimeMillis)))))
