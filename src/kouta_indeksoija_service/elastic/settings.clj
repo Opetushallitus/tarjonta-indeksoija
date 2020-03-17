@@ -7,9 +7,6 @@
                                                                :max_gram "30"
                                                                :max_ngram_diff "35"
                                                                :token_chars ["letter", "digit"]}
-                       :ngram_for_long_words {:type "condition"
-                                              :filter ["ngram_compound_words_and_conjugations"]
-                                              :script {:source "token.getTerm().length() > 3"}}
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
                        :finnish_stemmer {:type "stemmer"
@@ -35,7 +32,7 @@
                                    :tokenizer "standard"
                                    :filter ["lowercase"
                                             "finnish_stop"
-                                            "ngram_for_long_words"
+                                            "ngram_compound_words_and_conjugations"
                                             "remove_duplicates"]}
                          :finnish_keyword {:type "custom"
                                            :tokenizer "standard"
