@@ -79,7 +79,7 @@
                 haku-oid
                 hakukohde-oid
                 toteutus-oid
-                valintaperuste-id)
+                valintaperuste-id
+                sorakuvaus-id)
       (are [id] (empty? (get @notifier-target-mock/received id))
-                sorakuvaus-id
                 oppilaitos-oid)))))

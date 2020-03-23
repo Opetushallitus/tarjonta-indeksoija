@@ -8,6 +8,7 @@
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.indexer.kouta.sorakuvaus :as sorakuvaus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
@@ -238,12 +239,13 @@
 
 (deftest index-sorakuvaus-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index valintaperuste related to sorakuvaus to valintaperuste index"
+   (testing "Indexer should index sorakuvaus to sorakuvaus index and valintaperuste related to sorakuvaus to valintaperuste index"
      (check-all-nil)
      (i/index-sorakuvaukset [sorakuvaus-id])
      (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
-     (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
-                   (no-timestamp (get-doc valintaperuste/index-name valintaperuste-id))))))
+     (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id))))
+     (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
+                   (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
 
 (defn mock-organisaatio-hierarkia
   [oid & {:as params}]

@@ -65,6 +65,11 @@
   (let [url (resolve-url :kouta-external.valintaperuste.id (:id valintaperuste))]
     (to-message "valintaperuste" :id url valintaperuste)))
 
+(defn- sorakuvaus->message
+  [sorakuvaus]
+  (let [url (resolve-url :kouta-external.sorakuvaus.id (:id sorakuvaus))]
+    (to-message "valintaperuste" :id url sorakuvaus)))
+
 (defn- queue-notifications
   [->message objects]
   (let [messages (map ->message objects)]
@@ -78,4 +83,5 @@
   (queue-notifications hakukohde->message (:hakukohteet objects))
   (queue-notifications toteutus->message (:toteutukset objects))
   (queue-notifications valintaperuste->message (:valintaperusteet objects))
+  (queue-notifications sorakuvaus->message (:sorakuvaukset objects))
   objects)

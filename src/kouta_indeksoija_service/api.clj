@@ -10,6 +10,7 @@
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
+            [kouta-indeksoija-service.indexer.kouta.sorakuvaus :as sorakuvaus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
@@ -200,7 +201,18 @@
        (POST "/valintaperusteet" []
          :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :valintaperusteet notify (indexer/index-all-valintaperusteet))))
+         (with-notifications :valintaperusteet notify (indexer/index-all-valintaperusteet)))
+
+       (POST "/sorakuvaus" []
+         :summary "Indeksoi sorakuvausten tiedot kouta-backendistä."
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-notifications :sorakuvaukset notify (indexer/index-sorakuvaus oid)))
+
+       (POST "/sorakuvaukset" []
+         :summary "Indeksoi kaikki sorakuvaukset kouta-backendistä."
+         :query-params [{notify :- Boolean false}]
+         (with-notifications :sorakuvaukset notify (indexer/index-all-sorakuvaukset))))
 
      (context "/indexed" []
        :tags ["indexed"]
@@ -244,6 +256,11 @@
          :summary "Hakee yhden oppilaitoksen tiedot oppilaitosten hakuindeksistä (oppijan oppilaitoshaku) oidin perusteella. Vain julkaistuja oppilaitoksia."
          :query-params [oid :- String]
          (ok {:result (oppilaitos-search/get oid)}))
+
+       (GET "/sorakuvaus" []
+         :summary "Hakee yhden sorakuvauksen oidin perusteella."
+         :query-params [id :- String]
+         (ok {:result (sorakuvaus/get id)}))
 
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."

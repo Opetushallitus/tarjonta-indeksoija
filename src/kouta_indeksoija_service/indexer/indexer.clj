@@ -6,6 +6,7 @@
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
+            [kouta-indeksoija-service.indexer.kouta.sorakuvaus :as sorakuvaus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
@@ -90,9 +91,10 @@
 
 (defn index-sorakuvaukset
   [oids]
-  (let [valintaperusteet (mapcat kouta-backend/list-valintaperusteet-by-sorakuvaus oids)]
-    (index-valintaperusteet (get-oids :id valintaperusteet)))
-  oids)
+  (let [entries          (sorakuvaus/do-index oids)
+        valintaperusteet (mapcat kouta-backend/list-valintaperusteet-by-sorakuvaus (get-oids :id entries))]
+    (index-valintaperusteet (get-oids :id valintaperusteet))
+    entries))
 
 (defn index-sorakuvaus
   [oid]
@@ -181,6 +183,7 @@
     (hakukohde/do-index (:hakukohteet oids))
     (valintaperuste/do-index (:valintaperusteet oids))
     (oppilaitos/do-index (:oppilaitokset oids))
+    (sorakuvaus/do-index (:sorakuvaukset oids))
     (oppilaitos-search/do-index (:oppilaitokset oids))
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
 
@@ -203,6 +206,10 @@
 (defn index-all-valintaperusteet
   []
   (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids))))
+
+(defn index-all-sorakuvaukset
+  []
+  (index-sorakuvaukset (:sorakuvaukset (kouta-backend/all-kouta-oids))))
 
 (defn index-all-eperusteet
   []
