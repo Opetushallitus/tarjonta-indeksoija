@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.elastic.admin
   (:require [kouta-indeksoija-service.elastic.tools :as t]
-            [kouta-indeksoija-service.elastic.settings :as settings]
+            [kouta-indeksoija-service.elastic.settings :refer :all]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :refer [index-name] :rename {index-name koulutus-search-index}]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :refer [index-name] :rename {index-name oppilaitos-search-index}]
             [kouta-indeksoija-service.indexer.kouta.koulutus :refer [index-name] :rename {index-name koulutus-index}]
@@ -18,7 +18,7 @@
             [clj-elasticsearch.elastic-utils :as u]
             [kouta-indeksoija-service.rest.util :as http]
             [clojure.tools.logging :as log]
-            [cheshire.core :refer [generate-string]]))
+            [cheshire.core :refer [parse-string]]))
 
 (defn get-cluster-health
   []
@@ -66,77 +66,174 @@
       (log/error e)
       [false {:error (.getMessage e)}])))
 
-(defn- get-index-settings
+(defn delete-index
   [index]
-  (if (= index eperuste-index)
-    settings/index-settings-eperuste
-    settings/index-settings))
-
-(defn- initialize-index-settings
-  []
-  (let [all-index-names [eperuste-index
-                         osaamisalakuvaus-index
-                         "palaute"
-                         last-queued-index
-                         koulutus-search-index
-                         oppilaitos-search-index
-                         koulutus-index
-                         toteutus-index
-                         haku-index
-                         hakukohde-index
-                         valintaperuste-index
-                         oppilaitos-index
-                         koodisto-index]
-        new-indices (filter #(not (e/index-exists %)) (map t/index-name all-index-names))
-        results (map (fn [i] (e/create-index i (get-index-settings i))) new-indices)
-        ack (map #(:acknowledged %) results)]
-    (every? true? ack)))
-
-(defn- update-index-mappings
-  [settings index]
-  (log/info "Creating mappings for" index index)
-  (let [url (str u/elastic-host "/" (t/index-name index) "/_mappings/" (t/index-name index))]
-    (with-error-logging
-     (-> url
-         (http/put {:body (generate-string settings) :as :json :content-type :json})
-         :body
-         :acknowledged))))
-
-(defn- update-indices-mappings
-  [settings indices]
-  (let [update-fn (partial update-index-mappings settings)]
-    (doall (map update-fn indices))))
-
-(defn- initialize-index-mappings
-  []
-  (update-indices-mappings settings/stemmer-settings-eperuste     [eperuste-index
-                                                                   osaamisalakuvaus-index])
-  (update-indices-mappings settings/kouta-settings-search         [koulutus-search-index
-                                                                   oppilaitos-search-index])
-  (update-indices-mappings settings/kouta-settings                [koulutus-index
-                                                                   toteutus-index
-                                                                   haku-index
-                                                                   hakukohde-index
-                                                                   valintaperuste-index
-                                                                   oppilaitos-index])
-  (update-indices-mappings settings/settings-koodisto              [koodisto-index]))
-
-(defn initialize-indices
-  []
-  (log/info "Initializing indices")
-  (and (initialize-index-settings)
-       (initialize-index-mappings)))
-
-(defn reset-index
-  [index]
-  (log/warn "WARNING! Resetting index " index "! All indexed data is lost!")
-  (let [delete-res (t/delete-index index)
-        init-res (initialize-indices)]
-    { :delete-queue delete-res
-      :init-indices init-res }))
+  (log/warn "WARNING! Deleting index " index "! All indexed data is lost!")
+  { :delete-index (t/delete-index index)})
 
 (defn search [index query]
   (let [res (e/simple-search index query)]
     (if (= 200 (:status res))
       (:body res)
       res)))
+
+(defn- create-index
+  [raw-index-name settings mappings]
+  (let [result (e/create-index raw-index-name settings mappings)]
+    (if (:acknowledged result)
+      raw-index-name
+      (throw (Exception. (str "Creating index" raw-index-name "failed with result" result))))))
+
+(defn- create-new-index-with-virkailija-alias
+  [index-name settings mappings]
+  (let [raw-index-name   (t/->raw-index-name index-name)
+        virkailija-alias (t/->virkailija-alias index-name)]
+    (log/info "Creating new write index" raw-index-name "for alias" virkailija-alias)
+    (when (create-index raw-index-name settings mappings)
+      (e/move-alias virkailija-alias raw-index-name true)
+      (log/info "Index" raw-index-name "created with alias" virkailija-alias)
+      raw-index-name)))
+
+(defn- create-new-index-with-virkailija-alias-if-not-exists
+  [index-name settings mappings]
+  (if-let [write-index (e/find-write-index (t/->virkailija-alias index-name))]
+    (log/info "Write index for alias" (t/->virkailija-alias index-name) "exists already:" write-index "No need to create it.")
+    (create-new-index-with-virkailija-alias index-name settings mappings)))
+
+(defn- create-new-index-if-not-exists
+  [index-name settings mappings]
+  (when (not (e/index-exists index-name))
+    (create-index index-name settings mappings)
+    index-name))
+
+(defonce kouta-indices-settings-and-mappings
+  [[koulutus-index index-settings kouta-mappings]
+   [toteutus-index index-settings kouta-mappings]
+   [hakukohde-index index-settings kouta-mappings]
+   [haku-index index-settings kouta-mappings]
+   [oppilaitos-index index-settings kouta-mappings]
+   [valintaperuste-index index-settings kouta-mappings]
+   [koulutus-search-index index-settings kouta-search-mappings]
+   [oppilaitos-search-index index-settings kouta-search-mappings]])
+
+(defonce eperuste-indices-settings-and-mappings
+  [[eperuste-index index-settings-eperuste eperuste-mappings]
+   [osaamisalakuvaus-index index-settings eperuste-mappings]])
+
+(defonce koodisto-indices-settings-and-mappings
+  [[koodisto-index index-settings koodisto-mappings]])
+
+(defonce indices-settings-and-mappings
+  (into [] (concat kouta-indices-settings-and-mappings eperuste-indices-settings-and-mappings koodisto-indices-settings-and-mappings)))
+
+(defn initialize-indices
+  []
+  (try
+    (create-new-index-if-not-exists last-queued-index index-settings nil)
+    (doseq [[index settings mappings] indices-settings-and-mappings]
+      (when-let [raw-index-name (create-new-index-with-virkailija-alias-if-not-exists index settings mappings)]
+        (e/move-alias (t/->oppija-alias index) raw-index-name false)
+        raw-index-name))
+    true
+    (catch Exception e
+      (log/error "Unable to create indices in startup" e)
+      false)))
+
+(defn- initialize-new-indices-for-reindexing
+  [indices-with-settings-and-mappings]
+  (vec
+    (for [[index settings mappings] indices-with-settings-and-mappings]
+      (create-new-index-with-virkailija-alias index settings mappings))))
+
+(defn initialize-all-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing indices-settings-and-mappings))
+
+(defn initialize-kouta-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing kouta-indices-settings-and-mappings))
+
+(defn initialize-eperuste-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing eperuste-indices-settings-and-mappings))
+
+(defn initialize-koodisto-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing koodisto-indices-settings-and-mappings))
+
+(defn initialize-new-index-for-reindexing
+  [index]
+  (if-let [[i settings mappings] (first (filter #(= index (first %)) indices-settings-and-mappings))]
+    (create-new-index-with-virkailija-alias index settings mappings)
+    (throw (Exception. (str "Unknown index name" index "Valid index names are" (vec (map first indices-settings-and-mappings)))))))
+
+(defn move-oppija-alias-to-virkailija-index
+  [index]
+  (when-let [raw-index-name (e/find-write-index (t/->virkailija-alias index))]
+    (e/move-alias (t/->oppija-alias index) raw-index-name false)
+    raw-index-name))
+
+(defn move-oppija-aliases-to-virkailija-indices
+  []
+  (vec
+    (for [[index settings mappings] indices-settings-and-mappings]
+      (move-oppija-alias-to-virkailija-index index))))
+
+(defn list-indices-and-aliases
+  []
+  (into (sorted-map) (e/list-aliases)))
+
+(defonce all-virkailija-alias-names
+  (vec (map #(t/->virkailija-alias (first %)) indices-settings-and-mappings)))
+
+(defonce all-oppija-alias-names
+  (vec (map #(t/->oppija-alias (first %)) indices-settings-and-mappings)))
+
+(defn- has-alias?
+  [all-indices-with-aliases index]
+  (not (empty? (keys (get-in all-indices-with-aliases [index :aliases])))))
+
+(defn delete-indices
+  [indices]
+  (apply merge-with {}
+         (for [index indices]
+           (let [index-name (name index)
+                 all-indices-with-aliases (list-indices-and-aliases)
+                 exists? #(contains? all-indices-with-aliases %)
+                 alias? (partial has-alias? all-indices-with-aliases)]
+             (println index)
+             (if (exists? (keyword index))
+               (if (alias? (keyword index))
+                 {index "Cannot delete index with aliases"}
+                 (if (= last-queued-index index-name)
+                   {index "Cannot delete index for last queued"}
+                   {index (-> (e/delete-index index-name)
+                              :body
+                              (parse-string)
+                              (get "acknowledged"))}))
+               {index "Unknown index"})))))
+
+(defn list-unused-indices
+  []
+  (->> (let [all-indices-with-aliases (list-indices-and-aliases)]
+         (for [index (keys all-indices-with-aliases)]
+           (when (and (empty? (keys (get-in all-indices-with-aliases [index :aliases])))
+                      (not (= last-queued-index (name index))))
+             index)))
+       (remove nil?)
+       (sort)
+       (vec)))
+
+(defn delete-unused-indices
+  []
+  (delete-indices (list-unused-indices)))
+
+(defn list-indices-with-alias
+  [alias]
+  (e/list-indices-with-alias alias))
+
+(defn sync-all-aliases
+  []
+  (vec
+    (for [[index s m] indices-settings-and-mappings]
+      (e/move-read-alias-to-write-index (t/->virkailija-alias index) (t/->oppija-alias index)))))

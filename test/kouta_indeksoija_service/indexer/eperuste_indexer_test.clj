@@ -7,14 +7,14 @@
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
             [kouta-indeksoija-service.test-tools :refer :all]
-            [kouta-indeksoija-service.util.conf :refer [env]]))
+            [kouta-indeksoija-service.util.conf :refer [env]]
+            [kouta-indeksoija-service.elastic.admin :as admin]))
 
-(defn empty-s3 []
-  (let [keys (s3/list-keys)]
-    (if (not (empty? keys)) (s3/delete keys))))
-
-(use-fixtures :once (fn [tests] (init-s3-mock) (tests) (stop-s3-mock)))
-(use-fixtures :each (fn [test] (test) (reset-test-data false) (empty-s3)))
+(use-fixtures :once (fn [tests]
+                      (admin/initialize-eperuste-indices-for-reindexing)
+                      (init-s3-mock)
+                      (tests)
+                      (stop-s3-mock)))
 
 (deftest eperuste-index-test
   (testing "do index eperuste"

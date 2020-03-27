@@ -11,6 +11,7 @@
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
@@ -26,7 +27,10 @@
             [kouta-indeksoija-service.queuer.queuer :as queuer]
             [kouta-indeksoija-service.notifier.notifier :as notifier]
             [kouta-indeksoija-service.util.tools :refer [comma-separated-string->vec]]
-            [kouta-indeksoija-service.queue.admin :as sqs]))
+            [kouta-indeksoija-service.queue.admin :as sqs]
+            [schema.core :as schema]))
+
+(schema/defschema Indices [schema/Str])
 
 (defn init []
   (mount/start)
@@ -77,6 +81,46 @@
          (if (and sqs-healthy? els-healthy?)
            (ok body)
            (internal-server-error body))))
+
+     (context "/rebuild" []
+       :tags ["rebuild"]
+
+       (POST "/indices/all" []
+         :summary "Luo uudelleen kaikki indeksit katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-all-indices-for-reindexing)))
+
+       (POST "/indices/kouta" []
+         :summary "Luo uudelleen kaikki kouta-datan (ja oppilaitosten!) indeksit katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-kouta-indices-for-reindexing)))
+
+       (POST "/indices/eperuste" []
+         :summary "Luo uudelleen kaikki eperuste-datan indeksit katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-eperuste-indices-for-reindexing)))
+
+       (POST "/indices/koodisto" []
+         :summary "Luo uudelleen kaikki koodisto-datan indeksit katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-koodisto-indices-for-reindexing)))
+
+       (GET "/indices/list" []
+         :summary "Listaa kaikki indeksit ja niihin liitetyt aliakset"
+         (ok (admin/list-indices-and-aliases)))
+
+       (GET "/indices/list/unused" []
+         :summary "Listaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
+         (ok (admin/list-unused-indices)))
+
+       (DELETE "/indices/unused" []
+         :summary "Poistaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
+         (ok (admin/delete-unused-indices)))
+
+       (DELETE "/indices" []
+         :summary "Poistaa listatut indeksit."
+         :body [indices Indices]
+         (ok (admin/delete-indices indices)))
+
+       (POST "/indices/aliases/sync" []
+         :summary "Synkkaa oppijan aliakset osoittamaan samoihin indekseihin kuin virkailijan aliakset"
+         (ok (admin/sync-all-aliases))))
 
      (context "/kouta" []
        :tags ["kouta"]
@@ -181,6 +225,11 @@
          :query-params [oid :- String]
          (ok {:result (oppilaitos/get oid)}))
 
+       (GET "/oppilaitos-haku" []
+         :summary "Hakee yhden oppilaitoksen tiedot oppilaitosten hakuindeksistä (oppijan oppilaitoshaku) oidin perusteella. Vain julkaistuja oppilaitoksia."
+         :query-params [oid :- String]
+         (ok {:result (oppilaitos-search/get oid)}))
+
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
          :query-params [oid :- String]
@@ -198,6 +247,19 @@
          :summary "Hakee klusterin ja indeksien tiedot."
          (ok {:result (admin/get-elastic-status)}))
 
+       (GET "/aliases/all" []
+         :summary "Listaa kaikki indeksit ja niihin liitetyt aliakset."
+         (ok (admin/list-indices-and-aliases)))
+
+       (GET "/alias" []
+         :summary "Listaa aliakseen liitetyt indeksit"
+         :query-params [alias :- String]
+         (ok (admin/list-indices-with-alias alias)))
+
+       (POST "/aliases/sync" []
+         :summary "Synkkaa kaikki virkailijan ja oppijan aliakset osoittamaan samoihin indekseihin"
+         (ok (admin/sync-all-aliases)))
+
        (GET "/queue/status" []
          :summary "Palauttaa tiedon kaikkien sqs-jonojen tilasta"
          (ok (sqs/status)))
@@ -208,10 +270,10 @@
                         query :- String]
          (ok (admin/search index query)))
 
-       (POST "/index/reset" []
-         :summary "Resetoi/tyhjentää halutun indeksin. HUOM! ÄLÄ KÄYTÄ, JOS ET TIEDÄ, MITÄ TEET!"
+       (POST "/index/delete" []
+         :summary "Poistaa halutun indeksin. HUOM! ÄLÄ KÄYTÄ, ELLET OLE VARMA, MITÄ TEET!"
          :query-params [index :- String]
-         (ok (admin/reset-index index))))
+         (ok (admin/delete-index index))))
 
      (context "/jobs" []
        :tags ["jobs"]
@@ -276,7 +338,7 @@
 
        (POST "/koodistot" []
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
-         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,koulutustyyppi"}]
+         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi"}]
          (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))})))
 
      (context "/queuer" []

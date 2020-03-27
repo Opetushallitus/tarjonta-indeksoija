@@ -1,9 +1,12 @@
 (ns kouta-indeksoija-service.queuer.last-queued-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.queuer.last-queued :refer [index-name set-last-queued-time get-last-queued-time]]
-            [kouta-indeksoija-service.test-tools :refer [refresh-index]]))
+            [kouta-indeksoija-service.elastic.admin :as admin]
+            [clj-elasticsearch.elastic-connect :refer [refresh-index]]
+            [kouta-indeksoija-service.queuer.last-queued :refer [index-name set-last-queued-time get-last-queued-time]]))
 
 (deftest last-queued-test
+
+  (admin/initialize-indices)
 
   (testing "should keep last queued time up to date"
     (let [now (System/currentTimeMillis)

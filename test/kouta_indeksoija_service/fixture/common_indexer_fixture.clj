@@ -6,9 +6,10 @@
    [clj-time.format :as format]
    [clj-time.local :as local]
    [clj-time.core :as time]
-   [kouta-indeksoija-service.elastic.tools :refer [get-by-id get-doc]]
+   [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
    [kouta-indeksoija-service.fixture.external-services :as mocks]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
+   [kouta-indeksoija-service.elastic.admin :as admin]
    [kouta-indeksoija-service.indexer.kouta.haku :as haku]
    [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
    [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
@@ -88,6 +89,7 @@
 
 (defn common-indexer-fixture
   [tests]
+  (admin/initialize-indices)
   (fixture/add-koulutus-mock koulutus-oid
                              :tila "julkaistu"
                              :nimi "Autoalan perustutkinto 0"

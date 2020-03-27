@@ -12,12 +12,16 @@
   (coerce/from-long long))
 
 (defn date-time->date-time-string
-  [datetime]
-  (format/unparse formatter-with-time datetime))
+  ([datetime formatter]
+   (format/unparse formatter datetime))
+  ([datetime]
+   (date-time->date-time-string datetime formatter-with-time)))
 
 (defn long->date-time-string
-  [long]
-  (date-time->date-time-string (long->date-time long)))
+  ([long]
+   (date-time->date-time-string (long->date-time long)))
+  ([long formatter]
+   (date-time->date-time-string (long->date-time long) formatter)))
 
 ;purkkaratkaisu, clj-time formatoi time zonen väärin (UTC eikä GMT, https://stackoverflow.com/questions/25658897/is-utc-a-valid-timezone-name-for-rfc-1123-specification)
 (defn long->rfc1123

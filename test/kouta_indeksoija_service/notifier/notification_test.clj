@@ -2,6 +2,7 @@
   (:require [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clojure.test :refer :all]
             [clojure.data :refer [diff]]
+            [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
@@ -9,11 +10,9 @@
             [mocks.notifier-target-mock :as notifier-target-mock]
             [kouta-indeksoija-service.queue.queue :as queue]))
 
-(use-fixtures :each
-              notifier-target-mock/notifier-mock-fixture
-              fixture/indices-fixture)
+(use-fixtures :each notifier-target-mock/notifier-mock-fixture)
 
-(use-fixtures :once common-indexer-fixture)
+(use-fixtures :once (fn [tests] (admin/initialize-indices) (tests)) common-indexer-fixture)
 
 (defmacro with-mocked-notifications
   [& body]

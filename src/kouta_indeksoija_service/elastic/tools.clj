@@ -3,16 +3,29 @@
             [kouta-indeksoija-service.util.tools :refer [get-id]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
-            [cheshire.core :as cheshire]
+            [kouta-indeksoija-service.util.time :as time]
+            [clj-time.format :as format]
             [environ.core]
             [clojure.tools.logging :as log]))
 
 (defn init-elastic-client []
   (intern 'clj-elasticsearch.elastic-utils 'elastic-host (:elastic-url env)))
 
-(defn index-name
-  [name]
-  (u/index-name name (Boolean/valueOf (:test environ.core/env))))
+(defn ->virkailija-alias
+  [index-name]
+  (str index-name "-virkailija"))
+
+(defn ->oppija-alias
+  [index-name]
+  index-name)
+
+(defonce index-time-postfix-formatter (format/formatter "dd-MM-yyyy-'at'-HH.mm.ss.SSS"))
+
+(defn ->raw-index-name
+  ([index-name postfix]
+   (str index-name "-" postfix))
+  ([index-name]
+   (->raw-index-name index-name (time/long->date-time-string (System/currentTimeMillis) index-time-postfix-formatter))))
 
 (defn handle-exception
   [e]
@@ -24,25 +37,25 @@
 (defn refresh-index
   [index]
   (try
-    (e/refresh-index (index-name index))
+    (e/refresh-index (->virkailija-alias index))
     (catch Exception e
       (handle-exception e))))
 
 (defn delete-index
   [index]
-  (e/delete-index (index-name index)))
+  (e/delete-index index))
 
 (defn get-by-id
-  [index type id]
+  [index id]
   (try
-    (-> (e/get-document (index-name type) id)
+    (-> (e/get-document (->virkailija-alias index) id)
         (:_source))
     (catch Exception e
       (handle-exception e))))
 
 (defn get-doc
-  [type id]
-  (get-by-id type type id))
+  [index id]
+  (get-by-id index id))
 
 (defrecord BulkAction [action id doc])
 
@@ -56,7 +69,7 @@
 
 (defn- bulk-action
   [index action]
-  {(keyword (:action action)) {:_index index :_type index :_id (:id action)}})
+  {(keyword (:action action)) {:_index index :_type "_doc" :_id (:id action)}})
 
 (defn- bulk-doc
   [doc time]
@@ -64,7 +77,7 @@
 
 (defn ->bulk-actions
   [index actions]
-  (let [true-index (index-name index)
+  (let [true-index index
         time       (System/currentTimeMillis)]
     (-> (for [action actions]
           (let [bulk-action (bulk-action true-index action)

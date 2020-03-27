@@ -149,15 +149,14 @@
 (defn -main
   []
   (intern 'clj-elasticsearch.elastic-utils 'elastic-host elastic-url)
-  (with-redefs [kouta-indeksoija-service.elastic.tools/index-name (fn [x] x)]
-    (try
-      (mock/start-embedded-elasticsearch port)
-      (e/delete-index test-index-name)
-      (e/create-index test-index-name settings)
-      (u/elastic-put (get-url (str "_mappings/" test-index-name)) mappings)
-      (bulk-test-data test-index-name)
-      ;(debug-pretty (u/elastic-get (get-url "_mappings")))
-      ;(debug-pretty (u/elastic-get (get-url "_search?q=*")))
-      (execute-test-search)
-      (e/delete-index test-index-name)
-      (finally (mock/stop-elastic-test)))))
+  (try
+    (mock/start-embedded-elasticsearch port)
+    (e/delete-index test-index-name)
+    (e/create-index test-index-name settings)
+    (u/elastic-put (get-url (str "_mappings/" test-index-name)) mappings)
+    (bulk-test-data test-index-name)
+    ;(debug-pretty (u/elastic-get (get-url "_mappings")))
+    ;(debug-pretty (u/elastic-get (get-url "_search?q=*")))
+    (execute-test-search)
+    (e/delete-index test-index-name)
+    (finally (mock/stop-elastic-test))))
