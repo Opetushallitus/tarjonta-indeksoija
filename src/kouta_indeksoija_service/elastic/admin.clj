@@ -193,36 +193,53 @@
   [all-indices-with-aliases index]
   (not (empty? (keys (get-in all-indices-with-aliases [index :aliases])))))
 
+(defn- last-queued-index?
+  [index]
+  (= last-queued-index (name index)))
+
 (defn delete-indices
   [indices]
   (apply merge-with {}
          (for [index indices]
-           (let [index-name (name index)
-                 all-indices-with-aliases (list-indices-and-aliases)
+           (let [all-indices-with-aliases (list-indices-and-aliases)
                  exists? #(contains? all-indices-with-aliases %)
                  alias? (partial has-alias? all-indices-with-aliases)]
              (println index)
              (if (exists? (keyword index))
                (if (alias? (keyword index))
                  {index "Cannot delete index with aliases"}
-                 (if (= last-queued-index index-name)
+                 (if (last-queued-index? index)
                    {index "Cannot delete index for last queued"}
-                   {index (-> (e/delete-index index-name)
+                   {index (-> (e/delete-index (name index))
                               :body
                               (parse-string)
                               (get "acknowledged"))}))
                {index "Unknown index"})))))
 
-(defn list-unused-indices
-  []
+
+
+(defn- list-and-filter-indices
+  [f]
   (->> (let [all-indices-with-aliases (list-indices-and-aliases)]
          (for [index (keys all-indices-with-aliases)]
-           (when (and (empty? (keys (get-in all-indices-with-aliases [index :aliases])))
-                      (not (= last-queued-index (name index))))
+           (when (and (f (get-in all-indices-with-aliases [index :aliases]))
+                      (not (last-queued-index? index)))
              index)))
        (remove nil?)
        (sort)
        (vec)))
+
+(defn list-unused-indices
+  []
+  (list-and-filter-indices #(empty? (keys %))))
+
+(defn list-virkailija-indices
+  []
+  (list-and-filter-indices #(seq (filter t/virkailija-alias? (keys %)))))
+
+(defn list-oppija-indices
+  []
+  (list-and-filter-indices #(seq (filter t/oppija-alias? (keys %)))))
 
 (defn delete-unused-indices
   []

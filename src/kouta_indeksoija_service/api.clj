@@ -85,6 +85,22 @@
      (context "/rebuild" []
        :tags ["rebuild"]
 
+       (GET "/indices/list" []
+         :summary "Listaa kaikki indeksit ja niihin liitetyt aliakset"
+         (ok (admin/list-indices-and-aliases)))
+
+       (GET "/indices/list/virkailija" []
+         :summary "Listaa kaikki virkailija-puolen käyttämät indeksit"
+         (ok (admin/list-virkailija-indices)))
+
+       (GET "/indices/list/oppija" []
+         :summary "Listaa kaikki oppija-puolen käyttämät indeksit"
+         (ok (admin/list-oppija-indices)))
+
+       (GET "/indices/list/unused" []
+         :summary "Listaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
+         (ok (admin/list-unused-indices)))
+
        (POST "/indices/all" []
          :summary "Luo uudelleen kaikki indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-all-indices-for-reindexing)))
@@ -100,14 +116,6 @@
        (POST "/indices/koodisto" []
          :summary "Luo uudelleen kaikki koodisto-datan indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-koodisto-indices-for-reindexing)))
-
-       (GET "/indices/list" []
-         :summary "Listaa kaikki indeksit ja niihin liitetyt aliakset"
-         (ok (admin/list-indices-and-aliases)))
-
-       (GET "/indices/list/unused" []
-         :summary "Listaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
-         (ok (admin/list-unused-indices)))
 
        (DELETE "/indices/unused" []
          :summary "Poistaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"

@@ -6,6 +6,7 @@
             [kouta-indeksoija-service.util.time :as time]
             [clj-time.format :as format]
             [environ.core]
+            [clojure.string :as c-str]
             [clojure.tools.logging :as log]))
 
 (defn init-elastic-client []
@@ -18,6 +19,14 @@
 (defn ->oppija-alias
   [index-name]
   index-name)
+
+(defn virkailija-alias?
+  [alias]
+  (c-str/ends-with? alias "-virkailija"))
+
+(defn oppija-alias?
+  [alias]
+  (not (virkailija-alias? alias)))
 
 (defonce index-time-postfix-formatter (format/formatter "dd-MM-yyyy-'at'-HH.mm.ss.SSS"))
 
