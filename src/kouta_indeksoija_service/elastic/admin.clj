@@ -226,6 +226,7 @@
                       (not (last-queued-index? index)))
              index)))
        (remove nil?)
+       (map name)
        (sort)
        (vec)))
 
@@ -253,4 +254,7 @@
   []
   (vec
     (for [[index s m] indices-settings-and-mappings]
-      (e/move-read-alias-to-write-index (t/->virkailija-alias index) (t/->oppija-alias index)))))
+      (let [real-index (e/move-read-alias-to-write-index (t/->virkailija-alias index) (t/->oppija-alias index))]
+        (log/info "Moved" (t/->oppija-alias index) "to" real-index)
+        {:alias (t/->oppija-alias index)
+         :index real-index}))))

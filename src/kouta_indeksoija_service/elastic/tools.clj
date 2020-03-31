@@ -36,6 +36,11 @@
   ([index-name]
    (->raw-index-name index-name (time/long->date-time-string (System/currentTimeMillis) index-time-postfix-formatter))))
 
+(defn raw-index-name->index-name
+  [raw-index-name]
+  (let [length (count (name raw-index-name))]
+    (subs (name raw-index-name) 0 (- length 27))))
+
 (defn handle-exception
   [e]
   (if-let [ex-d (ex-data e)]
