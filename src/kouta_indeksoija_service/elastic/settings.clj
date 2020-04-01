@@ -3,17 +3,17 @@
 (def index-settings
   {:index.mapping.total_fields.limit 2000
    :analysis {:filter {:ngram_compound_words_and_conjugations {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
-                                                               :min_gram "5"
+                                                               :min_gram "3"
                                                                :max_gram "30"
                                                                :max_ngram_diff "35"
                                                                :token_chars ["letter", "digit"]}
-                       :ngram_for_long_words {:type "condition"
-                                              :filter ["ngram_compound_words_and_conjugations"]
-                                              :script {:source "token.getTerm().length() > 4"}}
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
                        :finnish_stemmer {:type "stemmer"
                                          :language "finnish"}
+                       :finnish_stemmer_for_long_words {:type "condition"
+                                                        :filter ["finnish_stemmer"]
+                                                        :script {:source "token.getTerm().length() > 5"}}
                        :swedish_stop {:type "stop"
                                       :stopwords "_swedish_"}
                        :swedish_keywords {:type "keyword_marker"
@@ -32,13 +32,13 @@
                                    :tokenizer "standard"
                                    :filter ["lowercase"
                                             "finnish_stop"
-                                            "ngram_for_long_words"
+                                            "ngram_compound_words_and_conjugations"
                                             "remove_duplicates"]}
                          :finnish_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
                                                     "finnish_stop"
-                                                    "finnish_stemmer"]}
+                                                    "finnish_stemmer_for_long_words"]}
                          :swedish {:tokenizer "standard"
                                    :filter ["lowercase"
                                             "swedish_stop"

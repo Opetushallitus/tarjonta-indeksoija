@@ -14,7 +14,7 @@
 (defonce elastic-url (str "http://localhost:" port))
 
 (defonce analyzers {:analysis {:filter {:compound_words_filter {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
-                                                                :min_gram "5"
+                                                                :min_gram "4"
                                                                 :max_gram "30"
                                                                 :token_chars ["letter", "digit"]}
                                         :conditional_filter {:type "condition"
@@ -113,22 +113,6 @@
                                                                      "finnish_stop"
                                                                      "finnish_stemmer"]}}}})
 
-(comment defn bulk-test-data
-  [index]
-  (elastic/bulk index [(->index-entry oid1  {:hits [{:terms [{:fi ["Lääketieteen koulutus" "lääkäri"] :sug ["Lääketieteen koulutus" "lääkäri"]}]}]})
-                       (->index-entry oid2  {:hits [{:terms [{:fi ["Humanistinen koulutus (ylempi AMK)" "psykologi" "ammattikorkeakoulu"]}]}]})
-                       (->index-entry oid3  {:hits [{:terms [{:fi ["Tietojenkäsittelytieteen koulutus"]}]}]})
-                       (->index-entry oid4  {:hits [{:terms [{:fi ["Automaatiotekniikka" "automaatioinsinööri" "ammattioppilaitos"]}]}]})
-                       (->index-entry oid5  {:hits [{:terms [{:fi ["Muusikon koulutus" "musiikkioppilaitokset"]}]}]})
-                       (->index-entry oid6  {:hits [{:terms [{:fi ["Sosiaali- ja terveysalan perustutkinto"]}]}]})
-                       (->index-entry oid7  {:hits [{:terms [{:fi ["Maanmittausalan perustutkinto" "lääkekokeilu"] :sug ["Maanmittausalan perustutkinto" "lääkekokeilu"]}]}]})
-                       (->index-entry oid8  {:hits [{:terms [{:fi ["Pintakäsittelyalan perustutkinto" "maalari" "erikoistumislinja"]}]}]})
-                       (->index-entry oid9  {:hits [{:terms [{:fi ["Puhtaus- ja kiinteistöpalvelualan ammattitutkinto"]}]}]})
-                       (->index-entry oid10 {:hits [{:terms [{:fi ["Puhevammaisten tulkkauksen erikoisammattitutkinto"]}]}]})
-                       (->index-entry oid11 {:hits [{:terms [{:fi ["Hius- ja kauneudenhoitoalan perustutkinto"]}]}]})
-                       (->index-entry oid12 {:hits [{:terms [{:fi ["Autoalan perustutkinto" "automaalari"]}]}]})])
-  (e/refresh-index index))
-
 (defn analyze
   [index text]
   (doseq [analyzer (vector :conditional :keywordish  :finnish_snowball)                                         ;(vec (keys (get-in analyzers [:analysis :analyzer])))
@@ -144,7 +128,13 @@
   (println "=================")
   (analyze index "Hius- ja kauneudenhoitoalan erikoisammattitutkinto")
   (println "=================")
+  (analyze index "Hoito")
+  (println "=================")
   (analyze index "Lääketieteen koulutus (ylempi AMK)")
+  (println "=================")
+  (analyze index "Tie")
+  (println "=================")
+  (analyze index "Tiede")
   (println "=================")
   (analyze index "Vaa'anmittauksen erikoisammattikoulutus - (alempi AMK)")
   (println "=================")
@@ -158,7 +148,41 @@
   (println "=================")
   (analyze index "Maalari")
   (println "=================")
-  (analyze index "Automaalari"))
+  (analyze index "Automaalari")
+  (println "=================")
+  (analyze index "Eläintenhoidon ammattitutkinto")
+  (println "=================")
+  (analyze index "Eläin")
+  (println "=================")
+  (analyze index "Eläinten")
+  (println "=================")
+  (analyze index "Elin")
+  (println "=================")
+  (analyze index "Kauneus")
+  (println "=================")
+  (analyze index "Koira")
+  (println "=================")
+  (analyze index "Tiede")
+  (println "=================")
+  (analyze index "Hius")
+  (println "=================")
+  (analyze index "Ensihoitaja")
+  (println "=================")
+  (analyze index "Lähihoitaja")
+  (println "=================")
+  (analyze index "Sosiaali")
+  (println "=================")
+  (analyze index "Sosiaaliala")
+  (println "=================")
+  (analyze index "Tanssialan perustutkinto")
+  (println "=================")
+  (analyze index "Autoalan perustutkinto")
+  (println "=================")
+  (analyze index "Musiikkioppilaitos")
+  (println "=================")
+  (analyze index "Musiikkioppilaitokset")
+  (println "=================")
+  (analyze index "Seppä"))
 
 (defn -main
   []
