@@ -103,7 +103,6 @@
 
 (defn index-oppilaitokset
   [oids]
-(println oids)
   (let [get-organisaation-koulutukset (fn [oid] (map :oid (some-> oid
                                                                   (hierarkia/get-hierarkia)
                                                                   (organisaatio-tool/find-oppilaitos-from-hierarkia)
