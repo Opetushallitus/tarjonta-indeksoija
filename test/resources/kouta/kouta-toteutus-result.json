@@ -44,13 +44,10 @@
     },
     "aloituspaikat" : 100,
     "ensikertalaisenAloituspaikat" : 0,
-    "minAloituspaikat" : 99,
     "hakulomakeLinkki" : {
       "fi" : "https://koulu.test/hakemusinfo fi",
       "sv" : "https://koulu.test/hakemusinfo sv"
     },
-    "minEnsikertalaisenAloituspaikat" : 0,
-    "maxAloituspaikat" : 101,
     "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
     "hakulomaketyyppi" : "ei sähköistä",
     "modified" : "2019-02-05T09:49",
@@ -83,7 +80,6 @@
         "sv" : "kausi_k#1 nimi sv"
       }
     },
-    "maxEnsikertalaisenAloituspaikat" : 0,
     "alkamisvuosi" : "!!thisYear",
     "organisaatio" : {
       "paikkakunta" : {

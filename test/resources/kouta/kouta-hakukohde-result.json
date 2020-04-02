@@ -3,11 +3,7 @@
   "tila" : "arkistoitu",
   "liitteidenToimitusaika" : "!!time3",
   "aloituspaikat" : 100,
-  "minAloituspaikat" : 99,
-  "maxAloituspaikat" : 101,
   "ensikertalaisenAloituspaikat" : 0,
-  "minEnsikertalaisenAloituspaikat" : 0,
-  "maxEnsikertalaisenAloituspaikat" : 0,
   "hakulomaketyyppi" : "ei sähköistä",
   "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
   "alkamiskausi" : {
