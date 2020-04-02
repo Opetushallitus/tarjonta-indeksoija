@@ -191,39 +191,39 @@
 
 (defn- has-alias?
   [all-indices-with-aliases index]
-  (not (empty? (keys (get-in all-indices-with-aliases [index :aliases])))))
+  (not (empty? (keys (get-in all-indices-with-aliases [(keyword index) :aliases])))))
 
 (defn- last-queued-index?
   [index]
   (= last-queued-index (name index)))
+
+(defn- elasticsearch-index?
+  [index]
+  (clojure.string/starts-with? (name index) "."))
 
 (defn delete-indices
   [indices]
   (apply merge-with {}
          (for [index indices]
            (let [all-indices-with-aliases (list-indices-and-aliases)
-                 exists? #(contains? all-indices-with-aliases %)
+                 exists? #(contains? all-indices-with-aliases (keyword %))
                  alias? (partial has-alias? all-indices-with-aliases)]
-             (println index)
-             (if (exists? (keyword index))
-               (if (alias? (keyword index))
-                 {index "Cannot delete index with aliases"}
-                 (if (last-queued-index? index)
-                   {index "Cannot delete index for last queued"}
-                   {index (-> (e/delete-index (name index))
-                              :body
-                              (parse-string)
-                              (get "acknowledged"))}))
-               {index "Unknown index"})))))
-
-
+             (cond
+               (not (exists? index))        {index "Unknown index"}
+               (alias? index)               {index "Cannot delete index with aliases"}
+               (last-queued-index? index)   {index "Cannot delete index for last queued"}
+               (elasticsearch-index? index) {index "Cannot delete ElasticSearch index"}
+               :else                        {index (-> (e/delete-index (name index))
+                                                       :body
+                                                       (parse-string)
+                                                       (get "acknowledged"))})))))
 
 (defn- list-and-filter-indices
   [f]
   (->> (let [all-indices-with-aliases (list-indices-and-aliases)]
          (for [index (keys all-indices-with-aliases)]
-           (when (and (f (get-in all-indices-with-aliases [index :aliases]))
-                      (not (last-queued-index? index)))
+           (when (and (not (or (last-queued-index? index) (elasticsearch-index? index)))
+                      (f (get-in all-indices-with-aliases [index :aliases])))
              index)))
        (remove nil?)
        (map name)
