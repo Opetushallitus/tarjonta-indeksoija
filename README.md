@@ -1,5 +1,7 @@
 # kouta-indeksoija-service
 
+[Ks. katkoton indeksointi](README_INDEKSOINTI.md)
+
 ## Usage
 
 ### Pre configuration
