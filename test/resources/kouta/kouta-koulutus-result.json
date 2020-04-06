@@ -167,6 +167,7 @@
   },
   "timestamp" : 1549024996125,
   "julkinen" : true,
+  "esikatselu" : false,
   "organisaatio" : {
     "paikkakunta" : {
       "koodiUri" : "kunta_091",
