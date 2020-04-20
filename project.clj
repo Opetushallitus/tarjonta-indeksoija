@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.3.1-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.4.0-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -40,7 +40,7 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.2.4-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.3.0-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
@@ -78,7 +78,7 @@
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
                                                        [fi.oph.kouta/kouta-backend "0.23-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "0.23-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.6-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.2.7-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
@@ -89,7 +89,7 @@
                                       [cloud.localstack/localstack-utils "0.1.22"]
                                       [fi.oph.kouta/kouta-backend "0.23-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "0.23-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.6-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.2.7-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"

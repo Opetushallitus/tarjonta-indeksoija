@@ -2,6 +2,7 @@
   (:require [cheshire.core :as cheshire]
             [clojure.test :refer [is]]
             [clojure.data :refer [diff]]
+            [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.tools :as tools]))
 
 (defn parse
@@ -17,12 +18,8 @@
 (defn reset-test-data
   ([reset-jobs?]
    ;(when reset-jobs? (j/reset-jobs))
-   (tools/delete-index "eperuste")
-   (tools/delete-index "koodisto")
-   (tools/delete-index "osaamisalakuvaus")
-   (tools/delete-index "organisaatio")
-   (tools/delete-index "palaute")
-   (tools/delete-index "lastqueued"))
+   (doseq [index (->> (admin/list-indices-and-aliases) (keys) (map name))]
+     (tools/delete-index index)))
   ([]
    (reset-test-data true)))
 

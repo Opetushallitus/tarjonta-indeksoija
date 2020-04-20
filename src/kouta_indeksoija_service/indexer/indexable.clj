@@ -29,12 +29,13 @@
 (defn do-index
   [index-name oids f]
   (when-not (empty? oids)
-    (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-name))
-    (let [start (. System (currentTimeMillis))
-          actions (remove nil? (create-actions oids f))]
-      (bulk index-name actions)
-      (log/info (str "Indeksointi " index-name " kesti " (- (. System (currentTimeMillis)) start) " ms."))
-      (vec (remove nil? (map :doc actions))))))
+    (let [index-alias (tools/->virkailija-alias index-name)]
+      (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-alias))
+      (let [start (. System (currentTimeMillis))
+            actions (remove nil? (create-actions oids f))]
+        (bulk index-alias actions)
+        (log/info (str "Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms."))
+        (vec (remove nil? (map :doc actions)))))))
 
 (defn get
   [index-name oid]

@@ -4,6 +4,7 @@
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
             [clojure.test :refer :all]
+            [kouta-indeksoija-service.elastic.admin :as admin]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
   (:import (fi.oph.kouta.external KoutaFixtureTool$)
@@ -228,14 +229,8 @@
 
 (defn reset-indices
   []
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.toteutus/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.haku/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.hakukohde/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.valintaperuste/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.koulutus-search/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos-search/index-name)
-  (tools/delete-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
+  (doseq [index (->> (admin/list-indices-and-aliases) (keys) (map name))]
+    (tools/delete-index index)))
 
 (defn indices-fixture
   [tests]

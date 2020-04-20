@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.elastic.tools-test
   (:require [clojure.test :refer :all]
+            [kouta-indeksoija-service.elastic.tools :as t]
             [clj-elasticsearch.elastic-connect :as e]
             [kouta-indeksoija-service.elastic.settings :as s]
             [kouta-indeksoija-service.elastic.tools :as tools]
@@ -20,24 +21,20 @@
        (let [docs (dummy-indexdata :amount 50 :id-offset 1000)
              data (tools/->bulk-actions "indexdata" docs)
              bulk-data (bulk-partitions data)]
-         (is (= 4 (count bulk-data)))
+         (is (= 3 (count bulk-data)))
          (println (nth bulk-data 0))
          (println "=======")
          (println (nth bulk-data 1))
          (println "=======")
          (println (nth bulk-data 2))
-         (println "=======")
-         (println (nth bulk-data 3))
 
          (is (< (count (.getBytes (nth bulk-data 0))) 2025))
          (is (< (count (.getBytes (nth bulk-data 1))) 2025))
          (is (< (count (.getBytes (nth bulk-data 2))) 2025))
-         (is (< (count (.getBytes (nth bulk-data 3))) 2025))
 
          (is (.startsWith (nth bulk-data 0) "{\"index"))
          (is (.startsWith (nth bulk-data 1) "{\"index"))
-         (is (.startsWith (nth bulk-data 2) "{\"index") )
-         (is (.startsWith (nth bulk-data 3) "{\"index")))))
+         (is (.startsWith (nth bulk-data 2) "{\"index")))))
    (testing "should be partitioned correctly when contain both index and delete actions"
      (with-redefs [max-payload-size 2025]
        (let [docs (concat (dummy-indexdata :amount 20 :id-offset 1000)
@@ -66,11 +63,12 @@
   (let [index-name  (str "upsert-" (.toString (java.util.UUID/randomUUID)))
         test-data   (dummy-indexdata :amount 5)
         doc         (:doc (first test-data))
-        get-doc     (fn [] (dissoc (tools/get-by-id index-name index-name (:oid doc)) :timestamp))
+        get-doc     (fn [] (dissoc (tools/get-by-id index-name (:oid doc)) :timestamp))
         bulk-upsert (fn [x] (do (tools/bulk index-name x)
                                 (tools/refresh-index index-name)))]
 
-    (e/create-index (tools/index-name index-name) s/index-settings)
+    (e/create-index index-name s/index-settings)
+    (e/move-alias (t/->virkailija-alias index-name) index-name true)
 
     (testing "Bulk upsert should"
       (testing "create document if it doesn't exist"
@@ -89,7 +87,7 @@
         (bulk-upsert test-data)
         (is (= doc (get-doc)))))
 
-    (e/delete-index (tools/index-name index-name))))
+    (e/delete-index index-name)))
 
 (deftest parse-errors-test
   (let [index-name (str "not-existing-" (.toString (java.util.UUID/randomUUID)))
@@ -101,7 +99,8 @@
                                 (tools/refresh-index index-name)
                                 result))]
 
-        (e/create-index (tools/index-name index-name) s/index-settings)
+        (e/create-index index-name s/index-settings)
+        (e/move-alias (t/->virkailija-alias index-name) index-name true)
 
         (testing "bulk upsert returns both errors and failures"
           (let [result (bulk-upsert test-data)]

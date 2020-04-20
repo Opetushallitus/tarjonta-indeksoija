@@ -9,9 +9,10 @@
             [mocks.externals-mock :as mock]
             [clj-s3.s3-connect :as s3]
             [kouta-indeksoija-service.test-tools :refer :all]
-            [kouta-indeksoija-service.util.conf :refer [env]]))
+            [kouta-indeksoija-service.util.conf :refer [env]]
+            [kouta-indeksoija-service.elastic.admin :as admin]))
 
-(use-fixtures :each (fn [test] (test) (reset-test-data false)))
+(use-fixtures :each (fn [test] (admin/initialize-koodisto-indices-for-reindexing) (test) (reset-test-data false)))
 
 (deftest koodisto-index-test
   (testing "do index koodisto"

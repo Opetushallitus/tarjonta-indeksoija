@@ -54,7 +54,7 @@
 
 (def index-settings-eperuste (merge index-settings {:index.mapping.total_fields.limit 4000}))
 
-(def stemmer-settings-eperuste
+(def eperuste-mappings
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
@@ -74,7 +74,7 @@
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
 
-(def settings-koodisto
+(def koodisto-mappings
   {:dynamic_templates [{:nested {:match "koodit"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
@@ -97,7 +97,7 @@
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
-(def kouta-settings-search
+(def kouta-search-mappings
   {:dynamic_templates [{:nested {:match "hits"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
@@ -131,7 +131,7 @@
                                          :norms { :enabled false}
                                          :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
-(def kouta-settings
+(def kouta-mappings
   {:dynamic_templates [{:muokkaaja {:match "muokkaaja.nimi"
                                     :match_mapping_type "string"
                                     :mapping {:type "text"

@@ -4,10 +4,10 @@
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos]
-            [kouta-indeksoija-service.elastic.tools :refer [get-by-id]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
+            [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
@@ -22,6 +22,7 @@
 
   (defn- test-data-fixture
     [tests]
+    (admin/initialize-indices)
     (fixture/add-oppilaitos-mock oppilaitos-oid1 :tila "julkaistu")
     (fixture/add-oppilaitos-mock oppilaitos-oid2 :tila "julkaistu")
 
@@ -55,7 +56,7 @@
     (fixture/teardown))
 
   (use-fixtures :each fixture/indices-fixture)
-  (use-fixtures :once test-data-fixture)
+  (use-fixtures :each test-data-fixture)
 
   (deftest index-oppilaitos-search-items-test-1
     (fixture/with-mocked-indexing

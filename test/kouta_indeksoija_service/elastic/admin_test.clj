@@ -3,8 +3,17 @@
             [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
-            [clj-elasticsearch.elastic-utils :refer [elastic-host]]
-            [clj-http.client :as http]))
+            [clj-elasticsearch.elastic-utils :refer [elastic-host elastic-url]]
+            [clj-http.client :as http]
+            [clojure.string :refer [starts-with?]]))
+
+(defn- find-hakukohde-index
+  []
+  (->> (admin/list-indices-and-aliases)
+       (keys)
+       (map name)
+       (filter #(starts-with? % "hakukohde-kouta"))
+       (first)))
 
 (deftest elastic-admin-test
   (testing "Elastic admin"
@@ -15,14 +24,16 @@
       (is (admin/initialize-indices)))
 
     (testing "should have index analyzer settings set"
-      (let [res (http/get (str elastic-host "/hakukohde-kouta_test/_settings") {:as :json :content-type :json})]
+      (let [index (find-hakukohde-index)
+            res  (http/get (elastic-url index "_settings") {:as :json :content-type :json})]
         (is (= (:analysis settings/index-settings)
-               (get-in res [:body :hakukohde-kouta_test :settings :index :analysis])))))
+               (get-in res [:body (keyword index) :settings :index :analysis])))))
 
     (testing "should have index stemmer settings set"
-      (let [res (http/get (str elastic-host "/hakukohde-kouta_test/_mappings/") {:as :json :content-type :json})]
-        (is (= settings/kouta-settings
-               (get-in res [:body :hakukohde-kouta_test :mappings :hakukohde-kouta_test])))))
+      (let [index (find-hakukohde-index)
+            res (http/get (elastic-url index "_mappings") {:as :json :content-type :json})]
+        (is (= settings/kouta-mappings
+               (get-in res [:body (keyword index) :mappings :_doc])))))
 
     (testing "should get elastic-status"
       (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status)))))
