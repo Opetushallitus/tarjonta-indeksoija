@@ -99,6 +99,7 @@
   [koulutus]
   (-> koulutus
      (select-keys [:oid :nimi :kielivalinta])
+     (assoc :eperuste                (:ePerusteId koulutus))
      (assoc :koulutus                (:koulutusKoodiUri koulutus))
      (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
      (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))

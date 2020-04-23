@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.cache.eperuste
-  (:require [kouta-indeksoija-service.rest.eperuste :refer [get-by-koulutuskoodi]]
+  (:require [kouta-indeksoija-service.rest.eperuste :as eperuste-service]
             [kouta-indeksoija-service.indexer.tools.organisaatio :refer :all]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [clojure.core.cache :as cache]
@@ -24,14 +24,27 @@
 
 (defn cache-eperuste
   [koodi]
-  (when-let [eperuste (get-by-koulutuskoodi koodi)]
+  (when-let [eperuste (eperuste-service/get-by-koulutuskoodi koodi)]
     (let [stripped (strip eperuste)]
       (swap! EPERUSTE_CACHE cache/through-cache koodi (constantly stripped)))))
 
-(defn get-eperuste
+(defn get-eperuste-by-koulutuskoodi
   [koulutuskoodiUri]
   (let [koodi (remove-uri-version koulutuskoodiUri)]
     (if-let [eperuste (cache/lookup @EPERUSTE_CACHE koodi)]
       eperuste
       (do (cache-eperuste koodi)
           (cache/lookup @EPERUSTE_CACHE koodi)))))
+
+(defn cache-eperuste-by-id
+  [id]
+  (when-let [eperuste (eperuste-service/get-doc id)]
+    (let [stripped (strip eperuste)]
+      (swap! EPERUSTE_CACHE cache/through-cache id (constantly stripped)))))
+
+(defn get-eperuste-by-id
+  [id]
+  (if-let [eperuste (cache/lookup @EPERUSTE_CACHE id)]
+    eperuste
+    (do (cache-eperuste-by-id id)
+        (cache/lookup @EPERUSTE_CACHE id))))
