@@ -39,7 +39,8 @@
     (s3-client/init-s3-connection)
     (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
   (init-elastic-client)
-  (if (and (admin/check-elastic-status)
+  (if (and (admin/initialize-cluster-settings)
+           (admin/check-elastic-status)
            (admin/initialize-indices))
     (do
       (jobs/schedule-jobs))
