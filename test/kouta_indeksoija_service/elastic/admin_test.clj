@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
-            [clj-elasticsearch.elastic-utils :refer [elastic-host elastic-url]]
+            [clj-elasticsearch.elastic-utils :refer [elastic-host elastic-url elastic-get]]
             [clj-http.client :as http]
             [clojure.string :refer [starts-with?]]))
 
@@ -39,4 +39,9 @@
       (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status)))))
 
     (testing "get cluster health"
-      (is (= true (first (admin/healthcheck)))))))
+      (is (= true (first (admin/healthcheck)))))
+    
+    (testing "auto create index settings is correctly set"
+      (is (= {} (-> (elastic-url "_cluster" "settings") (elastic-get) :persistent)))
+      (is (admin/initialize-cluster-settings))
+      (is (= {:action {:auto_create_index "+.*"}} (-> (elastic-url "_cluster" "settings") (elastic-get) :persistent))))))

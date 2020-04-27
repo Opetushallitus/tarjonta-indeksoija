@@ -66,6 +66,12 @@
       (log/error e)
       [false {:error (.getMessage e)}])))
 
+(defn initialize-cluster-settings
+  []
+  (-> (u/elastic-url "_cluster" "settings")
+      (u/elastic-put  {:persistent { :action.auto_create_index "+.*" }})
+      :acknowledged))
+
 (defn delete-index
   [index]
   (log/warn "WARNING! Deleting index " index "! All indexed data is lost!")
