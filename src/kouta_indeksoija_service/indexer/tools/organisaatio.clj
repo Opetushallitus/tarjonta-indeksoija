@@ -89,3 +89,15 @@
 (defn filter-indexable-oids-for-hierarkia
   [hierarkia oids]
   (vec (map :oid (filter-indexable-for-hierarkia hierarkia oids))))
+
+(defn- find-hierarkia-recursive
+  [this oid]
+  (if (= oid (:oid this))
+    this
+    (if-let [children (seq (remove nil? (map #(find-hierarkia-recursive % oid) (:children this))))]
+      (assoc this :children (vec children))
+      nil)))
+
+(defn find-hierarkia
+  [everything oid]
+  {:organisaatiot (vec (remove nil? (map #(find-hierarkia-recursive % oid) (:organisaatiot everything))))})

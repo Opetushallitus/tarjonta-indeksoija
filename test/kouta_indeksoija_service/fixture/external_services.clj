@@ -101,7 +101,7 @@
                                                                           :status "AKTIIVINEN"
                                                                           :children []}) oppilaitoksen-osat))}]}]})
 (defn mock-organisaatio-hierarkia
-  [oid & {:as params}]
+  [oid]
   (locking mock-organisaatio-hierarkia ;with-redefs used in kouta-indexer-fixture is not thread safe
     (let [oids (get-oids oid)]
       (create-organisaatio-hierarkia

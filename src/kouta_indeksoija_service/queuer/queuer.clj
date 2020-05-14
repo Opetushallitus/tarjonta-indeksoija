@@ -36,16 +36,18 @@
   [oid]
   (queue :eperusteet [oid]))
 
-(defn- clear-organisaatio-cache
+(defn clear-organisaatio-cache
   [oids]
-  (doseq [oid oids]
-    (cache/clear-hierarkia oid)))
+  (when (seq oids)
+    (organisaatio-client/clear-get-all-organisaatiot-cache)
+    (doseq [oid oids]
+      (cache/clear-hierarkia oid))))
 
 (defn queue-all-oppilaitokset-from-organisaatiopalvelu
   []
   (let [all-organisaatiot (organisaatio-client/get-all-oppilaitos-oids)]
+    (clear-organisaatio-cache all-organisaatiot)
     (doseq [organisaatiot (partition-all 20 all-organisaatiot)]
-      (clear-organisaatio-cache organisaatiot)
       (queue :oppilaitokset organisaatiot))))
 
 (defn queue-oppilaitos

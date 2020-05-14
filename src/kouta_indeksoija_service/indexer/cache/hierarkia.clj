@@ -1,9 +1,9 @@
 (ns kouta-indeksoija-service.indexer.cache.hierarkia
-  (:require [kouta-indeksoija-service.rest.organisaatio :refer [get-hierarkia-v4]]
-            [kouta-indeksoija-service.indexer.tools.organisaatio :refer :all]
+  (:require [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot-with-cache clear-get-all-organisaatiot-cache get-hierarkia-v4]]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [clojure.core.cache :as cache]))
 
-(defonce hierarkia_cache_time_millis (* 1000 60 20))
+(defonce hierarkia_cache_time_millis (* 1000 60 45))
 
 (defonce HIERARKIA_CACHE (atom (cache/ttl-cache-factory {} :ttl hierarkia_cache_time_millis)))
 
@@ -14,13 +14,13 @@
 
 (defn cache-hierarkia
   [oid]
-  (when-let [hierarkia (get-hierarkia-v4 oid :aktiiviset true :suunnitellut false :lakkautetut true :skipParents false)]
-    (let [this (find-from-hierarkia hierarkia oid)]
+  (when-let [hierarkia (get-hierarkia-v4 oid)]
+    (let [this (o/find-from-hierarkia hierarkia oid)]
       (cond
-        (koulutustoimija? this) (do-cache hierarkia (vector oid))
-        (oppilaitos? this)      (do-cache hierarkia (filter #(not (koulutustoimija? %)) (get-all-oids-flat hierarkia)))
-        :else                   (when-let [oppilaitos-oid (:oid (find-oppilaitos-from-hierarkia hierarkia))]
-                                  (cache-hierarkia oppilaitos-oid))))))
+        (o/koulutustoimija? this) (do-cache hierarkia (vector oid))
+        (o/oppilaitos? this)      (do-cache hierarkia (filter #(not (o/koulutustoimija? %)) (o/get-all-oids-flat hierarkia)))
+        :else                     (when-let [oppilaitos-oid (:oid (o/find-oppilaitos-from-hierarkia hierarkia))]
+                                    (cache-hierarkia oppilaitos-oid))))))
 
 (defn get-hierarkia
   [oid]
@@ -37,4 +37,4 @@
 (defn clear-hierarkia
   [oid]
   (when-let [hierarkia (cache/lookup @HIERARKIA_CACHE oid)]
-    (do-evict (get-all-oids-flat hierarkia))))
+    (do-evict (o/get-all-oids-flat hierarkia))))

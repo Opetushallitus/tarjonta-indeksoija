@@ -383,7 +383,7 @@
        (POST "/organisaatio" []
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (ok {:result (do (organisaatio-cache/clear-hierarkia [oid])
+         (ok {:result (do (queuer/clear-organisaatio-cache [oid])
                           (indexer/index-oppilaitos oid))}))
 
        (POST "/koodistot" []
