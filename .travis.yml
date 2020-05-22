@@ -49,7 +49,7 @@ deploy:
     script: lein deploy
     skip_cleanup: true
     on:
-      branch: KTO-609-indeksoidaan-valittu-eperuste
+      branch: master
   - provider: script
     script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
     on:
