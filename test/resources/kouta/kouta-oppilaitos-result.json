@@ -203,15 +203,15 @@
       },
       "tietoaOpiskelusta" : [ {
         "otsikko" : {
-          "koodiUri" : "koulutuksenlisatiedot_03#1",
+          "koodiUri" : "organisaationkuvaustiedot_03#1",
           "nimi" : {
-            "fi" : "koulutuksenlisatiedot_03#1 nimi fi",
-            "sv" : "koulutuksenlisatiedot_03#1 nimi sv"
+            "fi" : "organisaationkuvaustiedot_03#1 nimi fi",
+            "sv" : "organisaationkuvaustiedot_03#1 nimi sv"
           }
         },
         "teksti" : {
-          "fi" : "Opintojen lisätieto ",
-          "sv" : "Opintojen lisätieto sv"
+          "fi" : "Tietoa opiskelusta ",
+          "sv" : "Tietoa opiskelusta sv"
         }
       } ]
     }
