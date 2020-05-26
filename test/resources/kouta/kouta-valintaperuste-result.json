@@ -353,8 +353,13 @@
       } ]
     } ]
   },
+  "valintakokeidenYleiskuvaus": {},
   "valintakokeet" : [ {
     "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "nimi": {},
+    "tietoja": {},
+    "ohjeetEennakkovalmistautumiseen": {},
+    "ohjeetErityisjarjestelyihin": {},
     "tyyppi" : {
       "koodiUri" : "valintakokeentyyppi_1#1",
       "nimi" : {
@@ -383,7 +388,8 @@
       "lisatietoja" : {
         "fi" : "lisätietieto fi",
         "sv" : "lisätieto sv"
-      }
+      },
+      "jarjestamispaikka" : {}
     } ]
   } ]
 }
