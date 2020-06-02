@@ -34,11 +34,7 @@
                                                                          :pohjakoulutusvaatimusKoodiUrit
                                                                          :pohjakoulutusvaatimusTarkenne
                                                                          :aloituspaikat
-                                                                         :minAloituspaikat
-                                                                         :maxAloituspaikat
-                                                                         :ensikertalaisenAloituspaikat
-                                                                         :minEnsikertalaisenAloituspaikat
-                                                                         :maxEnsikertalaisenAloituspaikat])
+                                                                         :ensikertalaisenAloituspaikat])
                                               (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde)))))))
       (vec)
       (common/decorate-koodi-uris)))
