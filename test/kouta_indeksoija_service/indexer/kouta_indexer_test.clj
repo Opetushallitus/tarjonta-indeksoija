@@ -10,11 +10,13 @@
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
+            [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
-            [kouta-indeksoija-service.fixture.external-services :as mocks]))
+            [kouta-indeksoija-service.fixture.external-services :as mocks]
+            [mocks.externals-mock :as mock]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -40,6 +42,18 @@
      (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
      (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"}))
                    (no-timestamp (get-doc koulutus/index-name koulutus-oid))))))
+
+(deftest index-eperuste-with-koulutus-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index eperuste with koulutus"
+     (let [eperuste-id 12345]
+       (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
+       (check-all-nil)
+       (is (nil? (eperuste/get eperuste-id)))
+       (i/index-koulutukset [koulutus-oid])
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+       (is (= eperuste-id (:id (eperuste/get eperuste-id))))
+       (fixture/update-koulutus-mock koulutus-oid :ePerusteId nil)))))
 
 (deftest index-arkistoitu-koulutus-test
   (fixture/with-mocked-indexing
@@ -276,15 +290,20 @@
 (deftest index-all-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index all"
-     (check-all-nil)
-     (i/index-all-kouta)
-     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
-     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
-     (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
+     (let [eperuste-id 12321]
+       (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
+       (check-all-nil)
+       (is (nil? (eperuste/get eperuste-id)))
+       (i/index-all-kouta)
+       (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+       (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+       (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+       (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+       (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
+       (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id))))
+       (is (= eperuste-id (:id (eperuste/get eperuste-id))))
+       (fixture/update-koulutus-mock koulutus-oid :ePerusteId nil)))))
 
 (deftest index-changes-oids-test
   (fixture/with-mocked-indexing

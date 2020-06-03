@@ -20,12 +20,17 @@
 
 (defn- get-oids
   [key coll]
-  (set (map key coll)))
+  (set (remove clojure.string/blank? (map key coll))))
+
+(defn- get-ids
+  [key coll]
+  (set (remove nil? (map key coll))))
 
 (defn index-koulutukset
   [oids]
   (let [entries (koulutus/do-index oids)]
     (koulutus-search/do-index oids)
+    (eperuste/do-index (get-ids :ePerusteId entries))
     (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)))
     entries))
 
@@ -159,7 +164,8 @@
   (log/info (str "Indeksoidaan kouta-backendistä kaikki"))
   (let [start (. System (currentTimeMillis))
         oids (kouta-backend/all-kouta-oids)]
-    (koulutus/do-index (:koulutukset oids))
+    (let [koulutus-entries (koulutus/do-index (:koulutukset oids))]
+      (eperuste/do-index (get-ids :ePerusteId koulutus-entries)))
     (koulutus-search/do-index (:koulutukset oids))
     (toteutus/do-index (:toteutukset oids))
     (haku/do-index (:haut oids))
