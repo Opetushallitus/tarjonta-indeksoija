@@ -54,3 +54,6 @@ deploy:
     script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
     on:
       all_branches: true
+
+
+
