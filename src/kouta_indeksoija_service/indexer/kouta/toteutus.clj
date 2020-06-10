@@ -23,19 +23,23 @@
              (select-keys ht-haku aikatauluKeys)
              (select-keys ht-hakukohde aikatauluKeys)))))
 
+(defn- create-hakukohteiden-hakutiedot
+  [ht-haku]
+  (for [ht-hakukohde (:hakukohteet ht-haku)]
+    (-> (select-keys ht-hakukohde [:hakukohdeOid
+                                   :nimi
+                                   :valintaperusteId
+                                   :pohjakoulutusvaatimusKoodiUrit
+                                   :pohjakoulutusvaatimusTarkenne
+                                   :aloituspaikat
+                                   :ensikertalaisenAloituspaikat])
+        (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde)))))
+
 (defn- determine-correct-hakutiedot
   [ht-toteutus]
   (-> (for [ht-haku (:haut ht-toteutus)]
         (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri])
-            (assoc :hakukohteet (vec (for [ht-hakukohde (:hakukohteet ht-haku)]
-                                       (merge (select-keys ht-hakukohde [:hakukohdeOid
-                                                                         :nimi
-                                                                         :valintaperusteId
-                                                                         :pohjakoulutusvaatimusKoodiUrit
-                                                                         :pohjakoulutusvaatimusTarkenne
-                                                                         :aloituspaikat
-                                                                         :ensikertalaisenAloituspaikat])
-                                              (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde)))))))
+            (assoc :hakukohteet (vec (create-hakukohteiden-hakutiedot ht-haku)))))
       (vec)
       (common/decorate-koodi-uris)))
 
