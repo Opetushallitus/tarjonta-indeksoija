@@ -36,29 +36,11 @@
   "oid" : "1.2.246.562.17.00000000000000000001",
   "kielivalinta" : [ "fi", "sv" ],
   "teemakuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
-  "hakukohteet" : [ {
-    "tila" : "arkistoitu",
-    "hakulomakeKuvaus" : {
-      "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
-      "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
-    },
-    "aloituspaikat" : 100,
-    "ensikertalaisenAloituspaikat" : 0,
-    "hakulomakeLinkki" : {
-      "fi" : "https://koulu.test/hakemusinfo fi",
-      "sv" : "https://koulu.test/hakemusinfo sv"
-    },
-    "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
-    "hakulomaketyyppi" : "ei sähköistä",
-    "modified" : "2019-02-05T09:49",
-    "toteutusOid" : "1.2.246.562.17.00000000000000000001",
+  "hakutiedot" : [ {
+    "hakuOid" : "1.2.246.562.29.00000000000000000001",
     "nimi" : {
-      "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
-      "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
-    },
-    "muokkaaja" : {
-      "oid" : "1.2.246.562.24.62301161440",
-      "nimi" : "Kalle Ankka"
+      "fi" : "Haku 0 fi",
+      "sv" : "Haku 0 sv"
     },
     "hakutapa" : {
       "koodiUri" : "hakutapa_03#1",
@@ -67,35 +49,55 @@
         "sv" : "hakutapa_03#1 nimi sv"
       }
     },
-    "oid" : "1.2.246.562.20.00000000000000000001",
-    "hakuajat" : [ {
-      "alkaa" : "!!startTime1",
-      "paattyy" : "!!endTime1"
-    } ],
-    "hakuOid" : "1.2.246.562.29.00000000000000000001",
-    "alkamiskausi" : {
-      "koodiUri" : "kausi_k#1",
-      "nimi" : {
-        "fi" : "kausi_k#1 nimi fi",
-        "sv" : "kausi_k#1 nimi sv"
-      }
-    },
-    "alkamisvuosi" : "!!thisYear",
-    "organisaatio" : {
-      "paikkakunta" : {
-        "koodiUri" : "kunta_091",
+    "hakukohteet" : [ {
+      "hakulomakeKuvaus" : {
+        "fi" : "Hakulomake tulostetaan ja toimitetaan postitse fi",
+        "sv" : "Hakulomake tulostetaan ja toimitetaan postitse sv"
+      },
+      "pohjakoulutusvaatimusTarkenne" : {
+        "fi" : "Pohjakoulutusvaatimuksen tarkenne fi",
+        "sv" : "Pohjakoulutusvaatimuksen tarkenne sv"
+      },
+      "aloituspaikat" : 100,
+      "ensikertalaisenAloituspaikat" : 0,
+      "hakulomaketyyppi" : "ei sähköistä",
+      "alkamiskausi" : {
+        "koodiUri" : "kausi_k#1",
         "nimi" : {
-          "fi" : "kunta_091 nimi fi",
-          "sv" : "kunta_091 nimi sv"
+          "fi" : "kausi_k#1 nimi fi",
+          "sv" : "kausi_k#1 nimi sv"
         }
       },
-      "nimi" : {
-        "fi" : "Kiva ammattikorkeakoulu",
-        "sv" : "Kiva ammattikorkeakoulu sv"
+      "pohjakoulutusvaatimus" : [ {
+        "koodiUri" : "pohjakoulutusvaatimustoinenaste_01#2",
+        "nimi" : {
+          "fi" : "pohjakoulutusvaatimustoinenaste_01#2 nimi fi",
+          "sv" : "pohjakoulutusvaatimustoinenaste_01#2 nimi sv"
+        }
+      }, {
+        "koodiUri" : "pohjakoulutusvaatimustoinenaste_02#2",
+        "nimi" : {
+          "fi" : "pohjakoulutusvaatimustoinenaste_02#2 nimi fi",
+          "sv" : "pohjakoulutusvaatimustoinenaste_02#2 nimi sv"
+        }
+      } ],
+      "hakulomakeLinkki" : {
+        "fi" : "https://koulu.test/hakemusinfo fi",
+        "sv" : "https://koulu.test/hakemusinfo sv"
       },
-      "oid" : "1.2.246.562.10.54545454545"
-    },
-    "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+      "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
+      "nimi" : {
+        "fi" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
+        "sv" : "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+      },
+      "hakuajat" : [ {
+        "alkaa" : "!!startTime1",
+        "paattyy" : "!!endTime1"
+      } ],
+      "hakukohdeOid" : "1.2.246.562.20.00000000000000000001",
+      "alkamisvuosi" : "!!thisYear",
+      "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+    } ]
   } ],
   "timestamp" : 1549364610909,
   "organisaatio" : {
