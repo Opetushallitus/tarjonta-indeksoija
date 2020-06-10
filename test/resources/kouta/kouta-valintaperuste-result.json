@@ -89,6 +89,10 @@
   "metadata" : {
     "tyyppi" : "amm",
     "kuvaus" : {"fi": "kuvaus", "sv": "kuvaus sv"},
+    "valintakokeidenYleiskuvaus" : {
+      "fi" : "yleiskuvaus fi",
+      "sv" : "yleiskuvaus sv"
+    },
     "valintatavat" : [ {
       "nimi" : {
         "fi" : "Valintatapa1 fi",
@@ -355,6 +359,26 @@
   },
   "valintakokeet" : [ {
     "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "nimi" : {
+      "fi" : "valintakokeen nimi fi",
+      "sv" : "valintakokeen nimi sv"
+    },
+    "metadata" : {
+      "tietoja" : {
+        "fi" : "tietoa valintakokeesta fi",
+        "sv" : "tietoa valintakokeesta sv"
+      },
+      "liittyyEnnakkovalmistautumista" : true,
+      "ohjeetEnnakkovalmistautumiseen" : {
+        "fi" : "Ennakko-ohjeet fi",
+        "sv" : "Ennakko-ohjeet sv"
+      },
+      "erityisjarjestelytMahdollisia" : true,
+      "ohjeetErityisjarjestelyihin" : {
+        "fi" : "Erityisvalmistelut fi",
+        "sv" : "Erityisvalmistelut sv"
+      }
+    },
     "tyyppi" : {
       "koodiUri" : "valintakokeentyyppi_1#1",
       "nimi" : {
@@ -379,6 +403,10 @@
       "aika" : {
         "alkaa" : "!!startTime1",
         "paattyy" : "!!endTime1"
+      },
+      "jarjestamispaikka" : {
+        "fi" : "Järjestämispaikka fi",
+        "sv" : "Järjestämispaikka sv"
       },
       "lisatietoja" : {
         "fi" : "lisätietieto fi",
