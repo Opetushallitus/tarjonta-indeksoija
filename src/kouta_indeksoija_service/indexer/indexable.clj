@@ -33,7 +33,6 @@
       (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-alias))
       (let [start (. System (currentTimeMillis))
             actions (remove nil? (create-actions oids f))]
-        (println actions)
         (bulk index-alias actions)
         (log/info (str "Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms."))
         (vec (remove nil? (map :doc actions)))))))
