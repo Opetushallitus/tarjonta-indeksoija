@@ -108,6 +108,17 @@
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
 
+(deftest index-haku-hakulomakelinkki-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should create hakulomakeLinkki from hakulomakeAtaruId"
+     (check-all-nil)
+     (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
+     (i/index-haut [haku-oid])
+     (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
+                   {:fi (str "http://localhost/hakemus/dcd38a87-912e-4e91-8840-99c7e242dd53?lang=fi")
+                    :sv (str "http://localhost/hakemus/dcd38a87-912e-4e91-8840-99c7e242dd53?lang=sv")
+                    :en (str "http://localhost/hakemus/dcd38a87-912e-4e91-8840-99c7e242dd53?lang=en")}))))
+
 (deftest index-hakukohde-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
@@ -120,6 +131,29 @@
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
+
+(deftest index-hakukohde-hakulomakelinkki-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should create hakulomakeLinkki from hakulomakeAtaruId"
+     (check-all-nil)
+     (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru")
+     (i/index-hakukohteet [hakukohde-oid])
+     (compare-json (:hakulomakeLinkki (get-doc hakukohde/index-name hakukohde-oid))
+                   {:fi (str "http://localhost/hakemus/369221b1-07d0-4b7a-89bc-04b670d8cff2?lang=fi")
+                    :sv (str "http://localhost/hakemus/369221b1-07d0-4b7a-89bc-04b670d8cff2?lang=sv")
+                    :en (str "http://localhost/hakemus/369221b1-07d0-4b7a-89bc-04b670d8cff2?lang=en")}))))
+
+(deftest index-hakukohde-haun-hakulomakelinkki-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should create hakulomakeLinkki from hakulomakeAtaruId of haku"
+     (check-all-nil)
+     (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
+     (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru" :kaytetaanHaunHakulomaketta "true")
+     (i/index-hakukohteet [hakukohde-oid])
+     (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
+                   {:fi (str "http://localhost/hakemus/dcd38a87-912e-4e91-8840-99c7e242dd53?lang=fi")
+                    :sv (str "http://localhost/hakemus/dcd38a87-912e-4e91-8840-99c7e242dd53?lang=sv")
+                    :en (str "http://localhost/hakemus/dcd38a87-912e-4e91-8840-99c7e242dd53?lang=en")}))))
 
 (deftest index-hakukohde-yps-haku-luonnos-test
   (fixture/with-mocked-indexing

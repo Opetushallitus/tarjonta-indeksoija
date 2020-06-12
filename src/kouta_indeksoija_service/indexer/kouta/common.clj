@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
+            [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]
             [clojure.tools.logging :as log]
@@ -79,3 +80,21 @@
   (-> toteutus
       (select-keys [:oid :organisaatio :nimi :tila :tarjoajat :muokkaaja :modified :organisaatiot])
       (assoc-organisaatiot)))
+
+(defn- create-ataru-link
+  [ataru-id lang]
+  (resolve-url :ataru-hakija.ataru.hakulomake ataru-id lang))
+
+(defn- create-ataru-links
+  [ataru-id]
+  (if ataru-id {:fi (create-ataru-link ataru-id "fi")
+                :sv (create-ataru-link ataru-id "sv")
+                :en (create-ataru-link ataru-id "en")}))
+
+(defn create-hakulomake-linkki
+  [haku]
+  (when-let [linkki (case (:hakulomaketyyppi haku)
+                      "ataru" (create-ataru-links (:hakulomakeAtaruId haku))
+                      "muu"   (:hakulomakeLinkki haku)
+                      nil)]
+    {:hakulomakeLinkki linkki}))

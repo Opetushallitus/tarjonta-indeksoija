@@ -4,7 +4,8 @@
  :hosts {:kouta-backend "http://localhost"
          :kouta-external "http://localhost"
          :virkailija-internal "http://localhost"
-         :cas "http://localhost"}
+         :cas "http://localhost"
+         :ataru-hakija "https://localhost"}
  :s3-dev-disabled "true"
  :s3-bucket "fake-bucket"
  :s3-region "eu-west-1"

@@ -14,8 +14,8 @@
         aikatauluKeys   [:hakuajat]]
     (merge {}
            (if (true? (:kaytetaanHaunHakulomaketta ht-hakukohde))
-             (select-keys ht-haku hakulomakeKeys)
-             (select-keys ht-hakukohde hakulomakeKeys))
+             (conj (select-keys ht-haku hakulomakeKeys) (common/create-hakulomake-linkki ht-haku))
+             (conj (select-keys ht-hakukohde hakulomakeKeys) (common/create-hakulomake-linkki ht-hakukohde)))
            (if (true? (:kaytetaanHaunAlkamiskautta ht-hakukohde))
              (select-keys ht-haku alkamisaikaKeys)
              (select-keys ht-hakukohde alkamisaikaKeys))

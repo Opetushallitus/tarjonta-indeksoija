@@ -6,14 +6,15 @@
 
 (defn- load-config
   []
-  (let [{:keys [virkailija-internal cas kouta-backend kouta-external]
-         :or {virkailija-internal "" cas "" kouta-backend "" kouta-external ""}} (:hosts env)]
+  (let [{:keys [virkailija-internal cas kouta-backend kouta-external ataru-hakija]
+         :or {virkailija-internal "" cas "" kouta-backend "" kouta-external "" ataru-hakija ""}} (:hosts env)]
     (reset! url-properties
       (doto (OphProperties. (into-array String ["/kouta-indeksoija-oph.properties"]))
               (.addDefault "host-kouta-backend" kouta-backend)
               (.addDefault "host-kouta-external" kouta-external)
               (.addDefault "host-virkailija-internal" virkailija-internal)
-              (.addDefault "host-cas" cas)))))
+              (.addDefault "host-cas" cas)
+              (.addDefault "host-ataru-hakija" ataru-hakija)))))
 
 (defn resolve-url
   [key & params]

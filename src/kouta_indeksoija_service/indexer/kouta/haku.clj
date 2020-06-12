@@ -10,9 +10,10 @@
   (let [haku           (common/complete-entry (kouta-backend/get-haku oid))
         hakukohde-list (common/complete-entries (kouta-backend/list-hakukohteet-by-haku oid))
         toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
-        assoc-toteutus (fn [h] (assoc h :toteutus (common/assoc-organisaatiot (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
-        doc            (assoc haku :hakukohteet (vec (map assoc-toteutus hakukohde-list)))]
-    (indexable/->index-entry oid doc)))
+        assoc-toteutus (fn [h] (assoc h :toteutus (common/assoc-organisaatiot (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))]
+    (indexable/->index-entry oid (-> haku
+                                     (assoc :hakukohteet (vec (map assoc-toteutus hakukohde-list)))
+                                     (conj (common/create-hakulomake-linkki haku))))))
 
 (defn do-index
   [oids]

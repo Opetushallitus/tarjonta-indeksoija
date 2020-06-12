@@ -95,6 +95,11 @@
          :else
          yps)))
 
+(defn- assoc-hakulomake-linkki
+  [hakukohde haku]
+  (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
+    (conj hakukohde (common/create-hakulomake-linkki link-holder))))
+
 (defn create-index-entry
   [oid]
   (let [hakukohde      (kouta-backend/get-hakukohde oid)
@@ -107,7 +112,8 @@
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-toteutus toteutus)
-                                 (assoc-valintaperuste valintaperuste)))))
+                                 (assoc-valintaperuste valintaperuste)
+                                 (assoc-hakulomake-linkki haku)))))
 
 (defn do-index
   [oids]
