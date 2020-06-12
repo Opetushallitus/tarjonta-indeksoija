@@ -120,6 +120,10 @@
          :summary "Luo uudelleen kaikki koodisto-datan indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-koodisto-indices-for-reindexing)))
 
+       (POST "/indices/lokalisointi" []
+         :summary "Luo uudelleen kaikki lokalisointi-datan indeksit katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-lokalisointi-indices-for-reindexing)))
+
        (DELETE "/indices/unused" []
          :summary "Poistaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
          (ok (admin/delete-unused-indices)))
@@ -249,7 +253,12 @@
        (GET "/osaamisalakuvaus" []
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (osaamisalakuvaus/get oid)})))
+         (ok {:result (osaamisalakuvaus/get oid)}))
+
+       (GET "/lokalisointi" []
+         :summary "Hakee lokalisoinnit annetulla kielellä."
+         :query-params [lng :- String]
+         (ok {:result (lokalisointi/get lng)})))
 
      (context "/admin" []
        :tags ["admin"]
@@ -375,8 +384,13 @@
          (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))}))
 
        (POST "/lokalisointi" []
-         :summary "Indeksoi oppijan puolen lokalisoinnit lokalisaatiopalvelusta."
-         (ok (lokalisointi/do-index "fi"))))
+         :summary "Indeksoi oppijan puolen lokalisoinnit lokalisaatiopalvelusta annetulla kielellä (fi/sv/en)"
+         :query-params [lng :- String]
+         (ok (indexer/index-lokalisointi lng)))
+
+       (POST "/lokalisointi/kaikki" []
+         :summary "Indeksoi kaikki oppijan puolen lokalisoinnit lokalisaatiopalvelusta"
+         (ok (indexer/index-all-lokalisoinnit))))
 
      (context "/queuer" []
        :tags ["queuer"]

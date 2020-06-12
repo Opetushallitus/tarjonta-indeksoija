@@ -54,6 +54,15 @@
 
 (def index-settings-eperuste (merge index-settings {:index.mapping.total_fields.limit 4000}))
 
+(def index-settings-lokalisointi
+  {:index.mapping.total_fields.limit 2000})
+
+(def lokalisointi-mappings
+  {:dynamic_templates [{:all {:match "*",
+                             :match_mapping_type "string",
+                             :mapping {:type "keyword",
+                                       :norms {:enabled false}}}}]})
+
 (def eperuste-mappings
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"

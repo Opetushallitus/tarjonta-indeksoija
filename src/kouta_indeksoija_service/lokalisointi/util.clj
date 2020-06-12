@@ -24,9 +24,10 @@
 
 (defn localisation->nested-json
   [localisation]
-  (->> (for [{key :key value :value} localisation]
-         (assoc-in {} (split-key key) value))
-       (reduce deep-merge-localisation)))
+  (when localisation
+    (->> (for [{key :key value :value} localisation]
+           (assoc-in {} (split-key key) value))
+         (reduce deep-merge-localisation))))
 
 (defn key-value-pairs->nested-json
   [key-value-pairs]
