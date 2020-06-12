@@ -1,13 +1,19 @@
 (ns kouta-indeksoija-service.lokalisointi.util
   (:require [clojure.string :refer [split]]))
 
+(defn- throw-conflict-exception
+  [a b]
+  (throw (RuntimeException. (str "Unable to index localisation due to conflicting keys. Cannot merge " b " to " a ))))
+
 (defn- deep-merge-localisation
   [a b]
+
   (when (not (map? a))
-    (throw (RuntimeException. (str "Unable to index localisation due to conflicting keys. Cannot merge " b " to " a ))))
+    (throw-conflict-exception a b))
 
   (merge-with (fn [x y]
-                (cond (map? y) (deep-merge-localisation x y)
+                (cond (and (or (map? x) (map? y)) (or (string? x) (string? y))) (throw-conflict-exception x y)
+                      (map? y) (deep-merge-localisation x y)
                       (vector? y) (concat x y)
                       :else y))
               a b))
