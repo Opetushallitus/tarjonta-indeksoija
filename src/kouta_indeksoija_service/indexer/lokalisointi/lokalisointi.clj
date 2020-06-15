@@ -9,9 +9,8 @@
   [lng]
   (when-let [lokalisointi (some-> (lokalisointi-service/get lng)
                                   (seq)
-                                  (util/localisation->nested-json)
-                                  (assoc :oid lng :tyyppi "lokalisointi"))]
-    (indexable/->index-entry lng lokalisointi)))
+                                  (util/localisation->nested-json))]
+    (indexable/->index-entry lng {:lng lng :tyyppi "lokalisointi" :translation lokalisointi})))
 
 (defn do-index
   [lngs]
