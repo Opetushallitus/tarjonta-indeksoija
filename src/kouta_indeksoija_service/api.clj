@@ -362,7 +362,15 @@
 
        (POST "/resume-queueing" []
          :summary "Käynnistää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
-         (ok (jobs/resume-queueing-job))))
+         (ok (jobs/resume-queueing-job)))
+
+       (POST "/pause-lokalisointi-indexing" []
+         :summary "Keskeyttää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
+         (ok (jobs/pause-lokalisaatio-indexing-job)))
+
+       (POST "/resume-lokalisointi-indexing" []
+         :summary "Käynnistää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
+         (ok (jobs/resume-lokalisaatio-indexing-job))))
 
      (context "/indexer" []
        :tags ["indexer"]
