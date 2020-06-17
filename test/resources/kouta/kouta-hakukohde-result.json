@@ -358,5 +358,19 @@
   "yhdenPaikanSaanto": {
     "voimassa": false,
     "syy": "Ei korkeakoulutus koulutusta"
+  },
+  "jarjestyspaikka" : {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Nimi 1.2.246.562.10.67476956288 fi",
+      "en" : "Nimi 1.2.246.562.10.67476956288 en"
+    },
+    "oid" : "1.2.246.562.10.67476956288"
   }
 }

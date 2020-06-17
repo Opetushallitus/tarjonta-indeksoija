@@ -35,6 +35,11 @@
     (assoc (dissoc entry :organisaatioOid) :organisaatio (tarjoaja/get-tarjoaja oid))
     entry))
 
+(defn assoc-jarjestyspaikka
+  [entry]
+  (if-let [oid (:jarjestyspaikkaOid entry)]
+    (assoc (dissoc entry :jarjestyspaikkaOid) :jarjestyspaikka (tarjoaja/get-tarjoaja oid))
+    entry))
 
 (defn assoc-muokkaaja
   [entry]
@@ -62,6 +67,7 @@
       (decorate-koodi-uris)
       (assoc-organisaatio)
       (assoc-tarjoajat)
+      (assoc-jarjestyspaikka)
       (assoc-muokkaaja)))
 
 (defn complete-entries
