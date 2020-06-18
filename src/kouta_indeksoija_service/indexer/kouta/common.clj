@@ -82,19 +82,19 @@
       (assoc-organisaatiot)))
 
 (defn- create-ataru-link
-  [ataru-id lang]
-  (resolve-url :ataru-hakija.ataru.hakulomake ataru-id lang))
+  [haku-oid lang]
+  (resolve-url :ataru-hakija.ataru.hakulomake haku-oid lang))
 
 (defn- create-ataru-links
-  [ataru-id]
-  (if ataru-id {:fi (create-ataru-link ataru-id "fi")
-                :sv (create-ataru-link ataru-id "sv")
-                :en (create-ataru-link ataru-id "en")}))
+  [haku-oid]
+  (if haku-oid {:fi (create-ataru-link haku-oid "fi")
+                :sv (create-ataru-link haku-oid "sv")
+                :en (create-ataru-link haku-oid "en")}))
 
 (defn create-hakulomake-linkki
-  [haku]
-  (when-let [linkki (case (:hakulomaketyyppi haku)
-                      "ataru" (create-ataru-links (:hakulomakeAtaruId haku))
-                      "muu"   (:hakulomakeLinkki haku)
+  [hakulomaketiedot haku-oid]
+  (when-let [linkki (case (:hakulomaketyyppi hakulomaketiedot)
+                      "ataru" (create-ataru-links haku-oid)
+                      "muu"   (:hakulomakeLinkki hakulomaketiedot)
                       nil)]
     {:hakulomakeLinkki linkki}))

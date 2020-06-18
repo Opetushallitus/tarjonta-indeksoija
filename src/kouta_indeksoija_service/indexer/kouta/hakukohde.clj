@@ -98,7 +98,7 @@
 (defn- assoc-hakulomake-linkki
   [hakukohde haku]
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
-    (conj hakukohde (common/create-hakulomake-linkki link-holder))))
+    (conj hakukohde (common/create-hakulomake-linkki link-holder (:oid haku)))))
 
 (defn create-index-entry
   [oid]
