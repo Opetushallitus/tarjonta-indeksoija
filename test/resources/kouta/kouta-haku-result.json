@@ -10,25 +10,26 @@
       "sv" : "kausi_k#1 nimi sv"
     }
   },
-  "modified" : "2019-02-05T09:49",
-  "hakutapa" : {
-    "koodiUri" : "hakutapa_03#1",
-    "nimi" : {
-      "fi" : "hakutapa_03#1 nimi fi",
-      "sv" : "hakutapa_03#1 nimi sv"
+  "modified": "2019-02-05T09:49",
+  "hakutapa": {
+    "koodiUri": "hakutapa_03#1",
+    "nimi": {
+      "fi": "hakutapa_03#1 nimi fi",
+      "sv": "hakutapa_03#1 nimi sv"
     }
   },
-  "hakukohteet" : [ {
-    "tila" : "arkistoitu",
-    "modified" : "2019-02-05T09:49",
-    "toteutusOid" : "1.2.246.562.17.00000000000000000001",
-    "toteutus" : {
-      "oid" : "1.2.246.562.17.00000000000000000001",
-      "koulutusOid" : "1.2.246.562.13.00000000000000000001",
-      "nimi" : {
-        "fi" : "Koulutuksen 0 toteutus 0 fi",
-        "sv" : "Koulutuksen 0 toteutus 0 sv"
-      },
+  "hakukohteet": [
+    {
+      "tila": "arkistoitu",
+      "modified": "2019-02-05T09:49",
+      "toteutusOid": "1.2.246.562.17.00000000000000000001",
+      "toteutus": {
+        "oid": "1.2.246.562.17.00000000000000000001",
+        "koulutusOid": "1.2.246.562.13.00000000000000000001",
+        "nimi": {
+          "fi": "Koulutuksen 0 toteutus 0 fi",
+          "sv": "Koulutuksen 0 toteutus 0 sv"
+        },
       "tila" : "arkistoitu",
       "tarjoajat" : [ {
         "paikkakunta" : {

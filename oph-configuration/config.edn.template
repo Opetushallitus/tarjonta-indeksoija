@@ -4,7 +4,8 @@
  :hosts {:kouta-backend "https://{{host_virkailija}}"
          :kouta-external "https://{{host_virkailija}}"
          :virkailija-internal "https://{{host_virkailija}}"
-         :cas "https://{{host_cas}}"}
+         :cas "https://{{host_cas}}"
+         :ataru-hakija "https://{{host_ataru_hakija}}"}
  :s3-dev-disabled "false"
  :s3-bucket "{{kouta_indeksoija_s3_bucket}}"
  :s3-region "{{kouta_indeksoija_s3_region}}"
