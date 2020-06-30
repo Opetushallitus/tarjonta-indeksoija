@@ -16,7 +16,8 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]))
 
 (defn- get-oids
   [key coll]
@@ -126,6 +127,14 @@
   [koodistot]
   (koodisto/do-index koodistot))
 
+(defn index-lokalisoinnit
+  [lngs]
+  (lokalisointi/do-index lngs))
+
+(defn index-lokalisointi
+  [lng]
+  (index-lokalisoinnit [lng]))
+
 (defn index-oids
   [oids]
   (let [start (. System (currentTimeMillis))]
@@ -206,3 +215,8 @@
   (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)]
     (log/info "Indeksoidaan " (count oppilaitokset) " oppilaitosta.")
     (index-oppilaitokset oppilaitokset)))
+
+(defn index-all-lokalisoinnit
+  []
+  (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä.")
+  (index-lokalisoinnit ["fi" "sv" "en"]))

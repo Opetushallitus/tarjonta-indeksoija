@@ -15,6 +15,8 @@
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
+            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
+            [kouta-indeksoija-service.lokalisointi.service :as lokalisointi-service]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -117,6 +119,10 @@
        (POST "/indices/koodisto" []
          :summary "Luo uudelleen kaikki koodisto-datan indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-koodisto-indices-for-reindexing)))
+
+       (POST "/indices/lokalisointi" []
+         :summary "Luo uudelleen kaikki lokalisointi-datan indeksit katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-lokalisointi-indices-for-reindexing)))
 
        (DELETE "/indices/unused" []
          :summary "Poistaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
@@ -247,7 +253,12 @@
        (GET "/osaamisalakuvaus" []
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (osaamisalakuvaus/get oid)})))
+         (ok {:result (osaamisalakuvaus/get oid)}))
+
+       (GET "/lokalisointi" []
+         :summary "Hakee lokalisoinnit annetulla kielellä."
+         :query-params [lng :- String]
+         (ok {:result (lokalisointi/get lng)})))
 
      (context "/admin" []
        :tags ["admin"]
@@ -282,7 +293,29 @@
        (POST "/index/delete" []
          :summary "Poistaa halutun indeksin. HUOM! ÄLÄ KÄYTÄ, ELLET OLE VARMA, MITÄ TEET!"
          :query-params [index :- String]
-         (ok (admin/delete-index index))))
+         (ok (admin/delete-index index)))
+
+       (POST "/lokalisointi/key-value-pairs" []
+         :summary "Konvertoi jsonin avain-arvo-pareiksi käännösten tekemistä varten"
+         :body [body (describe schema/Any "JSON-muotoiset käännökset (translation.json)")]
+         (ok (lokalisointi-service/->translation-keys body)))
+
+       (POST "/lokalisointi/json" []
+         :summary "Konvertoi avain-arvo-parit jsoniksi"
+         :body [body (describe schema/Any "Avain-arvo-muotoiset käännökset")]
+         (ok (lokalisointi-service/->json body)))
+
+       (POST "/lokalisointi/key-value-pairs/save" []
+         :summary "Tallentaa avain-arvo-parit lokalisointiopalveluun"
+         :query-params [lng :- String]
+         :body [body (describe schema/Any "Käännökset avain-arvo-pareina")]
+         (ok (lokalisointi-service/save-translation-keys-to-localisation-service lng body)))
+
+       (POST "/lokalisointi/json/save" []
+         :summary "Tallentaa jsonin (translation.json) lokalisointiopalveluun"
+         :query-params [lng :- String]
+         :body [body (describe schema/Any "JSON-muotoiset käännökset (translation.json)")]
+         (ok (lokalisointi-service/save-translation-json-to-localisation-service lng body))))
 
      (context "/jobs" []
        :tags ["jobs"]
@@ -329,7 +362,15 @@
 
        (POST "/resume-queueing" []
          :summary "Käynnistää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
-         (ok (jobs/resume-queueing-job))))
+         (ok (jobs/resume-queueing-job)))
+
+       (POST "/pause-lokalisointi-indexing" []
+         :summary "Keskeyttää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
+         (ok (jobs/pause-lokalisaatio-indexing-job)))
+
+       (POST "/resume-lokalisointi-indexing" []
+         :summary "Käynnistää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
+         (ok (jobs/resume-lokalisaatio-indexing-job))))
 
      (context "/indexer" []
        :tags ["indexer"]
@@ -348,7 +389,16 @@
        (POST "/koodistot" []
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
          :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi"}]
-         (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))})))
+         (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))}))
+
+       (POST "/lokalisointi" []
+         :summary "Indeksoi oppijan puolen lokalisoinnit lokalisaatiopalvelusta annetulla kielellä (fi/sv/en)"
+         :query-params [lng :- String]
+         (ok (indexer/index-lokalisointi lng)))
+
+       (POST "/lokalisointi/kaikki" []
+         :summary "Indeksoi kaikki oppijan puolen lokalisoinnit lokalisaatiopalvelusta"
+         (ok (indexer/index-all-lokalisoinnit))))
 
      (context "/queuer" []
        :tags ["queuer"]

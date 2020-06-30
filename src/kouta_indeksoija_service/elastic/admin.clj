@@ -12,6 +12,7 @@
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
+            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :refer [index-name] :rename {index-name lokalisointi-index}]
             [kouta-indeksoija-service.queuer.last-queued :refer [index-name] :rename {index-name last-queued-index}]
             [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
@@ -129,8 +130,14 @@
 (defonce koodisto-indices-settings-and-mappings
   [[koodisto-index index-settings koodisto-mappings]])
 
+(defonce lokalisointi-indices-settings-and-mappings
+  [[lokalisointi-index index-settings-lokalisointi lokalisointi-mappings]])
+
 (defonce indices-settings-and-mappings
-  (into [] (concat kouta-indices-settings-and-mappings eperuste-indices-settings-and-mappings koodisto-indices-settings-and-mappings)))
+  (into [] (concat kouta-indices-settings-and-mappings
+                   eperuste-indices-settings-and-mappings
+                   koodisto-indices-settings-and-mappings
+                   lokalisointi-indices-settings-and-mappings)))
 
 (defn initialize-indices
   []
@@ -166,6 +173,10 @@
 (defn initialize-koodisto-indices-for-reindexing
   []
   (initialize-new-indices-for-reindexing koodisto-indices-settings-and-mappings))
+
+(defn initialize-lokalisointi-indices-for-reindexing
+  []
+  (initialize-new-indices-for-reindexing lokalisointi-indices-settings-and-mappings))
 
 (defn initialize-new-index-for-reindexing
   [index]
