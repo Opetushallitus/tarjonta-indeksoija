@@ -169,6 +169,7 @@
       "opetuskieletKuvaus" : { },
       "onkoMaksullinen" : true,
       "opetusaikaKuvaus" : { },
+      "suunniteltuKestoKuvaus": {},
       "opetusaika" : [{
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {
