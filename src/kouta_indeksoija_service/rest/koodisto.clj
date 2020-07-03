@@ -19,7 +19,7 @@
 
 (defn- get-koodi-with-url
   [url]
-  (log/info url)
+  ;(log/info url)
   (get->json-body url))
 
 (defn get-koodit

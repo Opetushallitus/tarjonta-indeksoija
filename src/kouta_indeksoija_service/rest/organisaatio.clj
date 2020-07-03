@@ -4,7 +4,8 @@
             [clojure.string :as string]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.time :refer :all]
-            [clojure.core.memoize :as memoize]))
+            [clojure.core.memoize :as memoize]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as o]))
 
 (defn get-doc
   ([oid include-image]
@@ -36,10 +37,24 @@
   (get->json-body (resolve-url :organisaatio-service.v2.hierarkia.tyyppi)
                   {:aktiiviset true :suunnitellut true :lakkautetut true :oid oid}))
 
+(defonce oph-oid "1.2.246.562.10.00000000001")
+
+(defn get-all-organisaatiot
+  []
+  (let [url (resolve-url :organisaatio-service.v4.oid.jalkelaiset oph-oid)]
+    (log/info "Fetching all organisaatiot from organisaatio service " url)
+    (get->json-body url)))
+
+(defn clear-get-all-organisaatiot-cache
+  []
+  (memoize/memo-clear! get-all-organisaatiot))
+
+(def get-all-organisaatiot-with-cache
+  (memoize/memo get-all-organisaatiot))
+
 (defn get-hierarkia-v4
-  [oid & {:as params}]
-  (get->json-body (resolve-url :organisaatio-service.v4.hierarkia.hae)
-                  (merge {:aktiiviset true :suunnitellut true :lakkautetut false :oid oid :skipParents false} params)))
+  [oid]
+  (some-> (get-all-organisaatiot-with-cache) (o/find-hierarkia oid)))
 
 (defn find-last-changes
   [last-modified]
