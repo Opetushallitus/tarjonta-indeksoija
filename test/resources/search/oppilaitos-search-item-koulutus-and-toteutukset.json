@@ -4,6 +4,7 @@
     "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
     "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
   },
+  "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
   "kielivalinta" : [ "fi", "sv" ],
   "kuvaus" : {
     "fi" : "Esittely",
