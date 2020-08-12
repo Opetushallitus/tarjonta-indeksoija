@@ -94,10 +94,10 @@
   [this oid]
   (if (= oid (:oid this))
     this
-    (if-let [children (seq (remove nil? (map #(find-hierarkia-recursive % oid) (:children this))))]
-      (assoc this :children (vec children))
+    (if-let [child (first (remove nil? (map #(find-hierarkia-recursive % oid) (:children this))))]
+      (assoc this :children [child])
       nil)))
 
 (defn find-hierarkia
   [everything oid]
-  {:organisaatiot (vec (remove nil? (map #(find-hierarkia-recursive % oid) (:organisaatiot everything))))})
+  {:organisaatiot [(first (remove nil? (map #(find-hierarkia-recursive % oid) (:organisaatiot everything))))]})
