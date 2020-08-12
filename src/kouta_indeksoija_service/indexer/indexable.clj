@@ -38,5 +38,5 @@
         (vec (remove nil? (map :doc actions)))))))
 
 (defn get
-  [index-name oid]
-  (tools/get-doc index-name oid))
+  [index-name oid & query-params]
+  (apply tools/get-doc index-name oid query-params))

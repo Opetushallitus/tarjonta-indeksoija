@@ -8,6 +8,7 @@
             [kouta-indeksoija-service.indexer.tools.search :refer :all]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
 
 (def index-name "koulutus-kouta-search")
@@ -15,7 +16,7 @@
 
 (defn- get-logo
   [oid]
-  (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
+  (let [oppilaitos (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))]
     (when (julkaistu? oppilaitos) (:logo oppilaitos))))
 
 (defn- get-oppilaitos

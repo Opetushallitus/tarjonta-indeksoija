@@ -60,16 +60,16 @@
   (e/delete-index index))
 
 (defn get-by-id
-  [index id]
+  [index id & query-params]
   (try
-    (-> (e/get-document (->virkailija-alias index) id)
+    (-> (apply e/get-document (->virkailija-alias index) id query-params)
         (:_source))
     (catch Exception e
       (handle-exception e))))
 
 (defn get-doc
-  [index id]
-  (get-by-id index id))
+  [index id & query-params]
+  (apply get-by-id index id query-params))
 
 (defrecord BulkAction [action id doc])
 
