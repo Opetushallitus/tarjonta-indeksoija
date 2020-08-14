@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.4.4-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.4.5-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -40,16 +40,16 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.3.0-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.3.1-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
                  [oph/clj-log "0.2.2-SNAPSHOT"]
                  [org.clojure/tools.logging "0.4.0"]
-                 [org.apache.logging.log4j/log4j-api "2.9.0"]
-                 [org.apache.logging.log4j/log4j-core "2.9.0"]
-                 [org.apache.logging.log4j/log4j-slf4j-impl "2.9.0"]
+                 [org.apache.logging.log4j/log4j-slf4j-impl "2.13.2"]
+                 [org.apache.logging.log4j/log4j-api "2.13.2"]
+                 [org.apache.logging.log4j/log4j-core "2.13.2"]
                  [clj-log4j2 "0.2.0"]
                  [ring-cors "0.1.11"]
                  ;;SQS Handling

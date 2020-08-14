@@ -32,7 +32,8 @@
   (hit :koulutustyyppi  (koulutustyyppi-for-organisaatio oppilaitos)
        :opetuskieliUrit (:kieletUris oppilaitos)
        :tarjoajat       (vector oppilaitos)
-       :oppilaitos      oppilaitos))
+       :oppilaitos      oppilaitos
+       :logo            (:logo oppilaitos)))
 
 (defn koulutus-hit
   [oppilaitos koulutus]
@@ -84,7 +85,8 @@
   (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
     (when (julkaistu? oppilaitos)
       {:kielivalinta (:kielivalinta oppilaitos)
-       :kuvaus       (get-in oppilaitos [:metadata :esittely])})))
+       :kuvaus       (get-in oppilaitos [:metadata :esittely])
+       :logo         (:logo oppilaitos)})))
 
 (defn- create-base-entry
   [oppilaitos koulutukset]

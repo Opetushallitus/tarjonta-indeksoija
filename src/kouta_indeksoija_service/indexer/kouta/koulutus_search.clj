@@ -8,13 +8,28 @@
             [kouta-indeksoija-service.indexer.tools.search :refer :all]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
 
 (def index-name "koulutus-kouta-search")
 
+
+(defn- get-logo
+  [oid]
+  (let [oppilaitos (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))]
+    (when (julkaistu? oppilaitos) (:logo oppilaitos))))
+
+(defn- get-oppilaitos
+  [hierarkia]
+  (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)
+        logo       (get-logo (:oid oppilaitos))]
+    (if (nil? logo)
+      oppilaitos
+      (assoc oppilaitos :logo logo))))
+
 (defn tuleva-jarjestaja-hit
   [hierarkia koulutus]
-  (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)
+  (let [oppilaitos (get-oppilaitos hierarkia)
         tarjoajat  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))]
     (hit :koulutustyyppi     (:koulutustyyppi koulutus)
          :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
@@ -23,6 +38,7 @@
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
          :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
          :nimet              (vector (:nimi koulutus))
+         :kuva               (:logo oppilaitos)
          :oppilaitosOid      (:oid oppilaitos)
          :onkoTuleva         true
          :nimi               (:nimi oppilaitos)
@@ -30,7 +46,7 @@
 
 (defn jarjestaja-hits
   [hierarkia koulutus toteutukset]
-    (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
+    (let [oppilaitos (get-oppilaitos hierarkia)]
       (vec (for [toteutus (->> toteutukset
                                (map (fn [t] (->> (:tarjoajat t)
                                                  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
@@ -48,7 +64,7 @@
                   :nimet              (vector (:nimi koulutus) (:nimi toteutus))
                   ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
                   ;:haut              (:haut hakutieto) TODO
-                  ;:logo              TODO
+                  :kuva               (:logo oppilaitos)
                   :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                   :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                   :toteutusOid        (:oid toteutus)

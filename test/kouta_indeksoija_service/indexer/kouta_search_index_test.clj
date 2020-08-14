@@ -84,6 +84,7 @@
         (testing "Create correct search item when koulutus has no toteutukset"
           (is (nil? (get-doc koulutus/index-name koulutus-oid1)))
           (i/index-koulutus koulutus-oid1)
+          (i/index-oppilaitos oppilaitos-oid2)
           (compare-json (no-timestamp (json json-path "koulutus-search-item-no-toteutukset"))
                         (no-timestamp (get-doc koulutus/index-name koulutus-oid1)))))))
 
@@ -93,5 +94,6 @@
        (testing "Create correct search item when koulutus has toteutukset"
          (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
          (i/index-koulutus koulutus-oid2)
+         (i/index-oppilaitos oppilaitos-oid2)
          (compare-json (no-timestamp (json json-path "koulutus-search-item-toteutukset"))
                        (no-timestamp (get-doc koulutus/index-name koulutus-oid2))))))))
