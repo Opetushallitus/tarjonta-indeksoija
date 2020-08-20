@@ -41,6 +41,7 @@
        :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
        ;:opetuskieliUrit   (:kieletUris oppilaitos)
        :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
+       :tarjoajaOids       (:tarjoajat koulutus)
        :oppilaitos         oppilaitos
        :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
        :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
@@ -63,6 +64,7 @@
          :koulutustyyppiUrit (koulutustyyppiKoodiUrit koulutus)
          :opetuskieliUrit    (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
          :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
+         :tarjoajaOids       (:tarjoajat toteutus)
          :oppilaitos         oppilaitos
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
          :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)

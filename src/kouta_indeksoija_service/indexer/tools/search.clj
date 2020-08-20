@@ -16,6 +16,7 @@
              koulutustyyppiUrit
              opetuskieliUrit
              tarjoajat
+             tarjoajaOids
              oppilaitos
              koulutusalaUrit
              nimet
@@ -33,6 +34,7 @@
            koulutustyyppiUrit []
            opetuskieliUrit []
            tarjoajat []
+           tarjoajaOids []
            oppilaitos []
            koulutusalaUrit []
            nimet []
@@ -72,6 +74,7 @@
             (not (nil? oppilaitosOid)) (assoc :oppilaitosOid oppilaitosOid)
             (not (nil? kuva))          (assoc :kuva kuva)
             (not (nil? onkoTuleva))    (assoc :onkoTuleva onkoTuleva)
+            (not (empty? tarjoajaOids)) (assoc :tarjoajat tarjoajaOids)
             (not (empty? nimi))        (assoc :nimi nimi))))
 
 (defn koulutusalaKoodiUrit
