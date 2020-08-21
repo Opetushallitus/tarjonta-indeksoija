@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as search]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "oppilaitos-kouta")
@@ -19,16 +20,24 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
+(defn- assoc-koulutusohjelmia
+  [organisaatio]
+  (->> (kouta-backend/get-koulutukset-by-tarjoaja (:oid organisaatio))
+       (search/get-tarjoaja-entries (cache/get-hierarkia (:oid organisaatio)))
+       (filter :johtaaTutkintoon)
+       (count)
+       (assoc organisaatio :koulutusohjelmia)))
+
 (defn- oppilaitos-entry
   [organisaatio oppilaitos]
-  (cond-> (organisaatio-entry organisaatio)
+  (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio))
           (seq oppilaitos) (assoc :oppilaitos (-> oppilaitos
                                                   (common/complete-entry)
                                                   (dissoc :oid)))))
 
 (defn- oppilaitoksen-osa-entry
   [organisaatio oppilaitoksen-osa]
-  (cond-> (organisaatio-entry organisaatio)
+  (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio))
           (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
                                                                (common/complete-entry)
                                                                (dissoc :oppilaitosOid :oid)))))
