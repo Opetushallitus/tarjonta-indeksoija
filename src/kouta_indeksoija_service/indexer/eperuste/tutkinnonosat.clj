@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.tutkinnonosat.tutkinnonosat
+(ns kouta-indeksoija-service.indexer.eperuste.tutkinnonosat
   (:require [kouta-indeksoija-service.rest.eperuste :as eperuste-service]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
@@ -12,6 +12,7 @@
 
 (defn do-index
   [ids]
+  (prn ids)
   (indexable/do-index index-name ids create-index-entry))
 
 (defn get

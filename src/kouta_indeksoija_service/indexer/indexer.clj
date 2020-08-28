@@ -9,7 +9,7 @@
             [kouta-indeksoija-service.indexer.kouta.sorakuvaus :as sorakuvaus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
-            [kouta-indeksoija-service.indexer.tutkinnonosat.tutkinnonosat :as tutkinnonosat]
+            [kouta-indeksoija-service.indexer.eperuste.tutkinnonosat :as tutkinnonosat]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
@@ -31,17 +31,17 @@
 
 (defn eperuste-ids-on-koulutus [koulutus]
   (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
-    (concat [(:eperusteId koulutus)] (get-ids :eperusteId osat))))
+    (concat [(:eperusteId koulutus)] (map :eperusteId osat))))
 
 (defn eperuste-ids-on-koulutukset [entries]
   (set (remove nil? (map eperuste-ids-on-koulutus entries))))
 
 (defn tutkinnonosat-ids-on-koulutus [koulutus]
   (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
-    (get-ids :tutkinnonosatId osat)))
+    (map :tutkinnonosatId osat)))
 
 (defn tutkinnonosat-ids-on-koulutukset [entries]
-  (set (remove nil? (map tutkinnonosat-ids-on-koulutus entries))))
+  (set (remove nil? (mapcat tutkinnonosat-ids-on-koulutus entries))))
 
 (defn index-koulutukset
   [oids]
