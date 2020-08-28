@@ -11,6 +11,7 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [index-name] :rename {index-name oppilaitos-index}]
             [kouta-indeksoija-service.indexer.kouta.sorakuvaus :refer [index-name] :rename {index-name sorakuvaus-index}]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
+            [kouta-indeksoija-service.indexer.eperuste.tutkinnonosat :refer [index-name] :rename {index-name tutkinnonosat-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :refer [index-name] :rename {index-name lokalisointi-index}]
@@ -127,6 +128,7 @@
 
 (defonce eperuste-indices-settings-and-mappings
   [[eperuste-index index-settings-eperuste eperuste-mappings]
+   [tutkinnonosat-index index-settings eperuste-mappings]
    [osaamisalakuvaus-index index-settings eperuste-mappings]])
 
 (defonce koodisto-indices-settings-and-mappings
