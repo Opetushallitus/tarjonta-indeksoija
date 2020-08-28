@@ -1,0 +1,37 @@
+{
+  "tila" : "arkistoitu",
+  "modified" : "2019-02-05T09:49",
+  "nimi" : {
+    "fi" : "Sorakuvaus 0 fi",
+    "sv" : "Sorakuvaus 0 sv"
+  },
+  "muokkaaja" : {
+    "oid" : "1.2.246.562.24.62301161440",
+    "nimi" : "Kalle Ankka"
+  },
+  "id" : "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
+  "kielivalinta" : [ "fi", "sv" ],
+  "timestamp" : 1584962507177,
+  "julkinen" : false,
+  "organisaatio" : {
+    "paikkakunta" : {
+      "koodiUri" : "kunta_091",
+      "nimi" : {
+        "fi" : "kunta_091 nimi fi",
+        "sv" : "kunta_091 nimi sv"
+      }
+    },
+    "nimi" : {
+      "fi" : "Kiva ammattikorkeakoulu",
+      "sv" : "Kiva ammattikorkeakoulu sv"
+    },
+    "oid" : "1.2.246.562.10.54545454545"
+  },
+  "metadata" : {
+    "kuvaus" : {
+      "fi" : "kuvaus fi",
+      "sv" : "kuvaus sv"
+    }
+  },
+  "koulutustyyppi" : "amm"
+}

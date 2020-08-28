@@ -9,6 +9,7 @@
             [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
             [kouta-indeksoija-service.indexer.kouta.valintaperuste :refer [index-name] :rename {index-name valintaperuste-index}]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [index-name] :rename {index-name oppilaitos-index}]
+            [kouta-indeksoija-service.indexer.kouta.sorakuvaus :refer [index-name] :rename {index-name sorakuvaus-index}]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
@@ -120,6 +121,7 @@
    [haku-index index-settings kouta-mappings]
    [oppilaitos-index index-settings kouta-mappings]
    [valintaperuste-index index-settings kouta-mappings]
+   [sorakuvaus-index index-settings kouta-mappings]
    [koulutus-search-index index-settings kouta-search-mappings]
    [oppilaitos-search-index index-settings kouta-search-mappings]])
 
