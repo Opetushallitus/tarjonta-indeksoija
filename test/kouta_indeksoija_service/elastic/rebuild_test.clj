@@ -118,7 +118,7 @@
 
       (is (= all-index-names (->index-names admin/list-oppija-indices)))
       (is (= all-index-names (->index-names admin/list-virkailija-indices)))
-      (is (= 16 (count (keys (admin/list-indices-and-aliases)))))
+      (is (= 17 (count (keys (admin/list-indices-and-aliases)))))
 
       (is (nil? (get-doc "eperuste-virkailija" "123")))
       (is (= "123" (get-doc "eperuste" "123")))
