@@ -9,6 +9,7 @@
             [kouta-indeksoija-service.indexer.kouta.sorakuvaus :as sorakuvaus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
+            [kouta-indeksoija-service.indexer.tutkinnonosat.tutkinnonosat :as tutkinnonosat]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
@@ -28,11 +29,26 @@
   [key coll]
   (set (remove nil? (map key coll))))
 
+(defn eperuste-ids-on-koulutus [koulutus]
+  (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
+    (concat [(:eperusteId koulutus)] (get-ids :eperusteId osat))))
+
+(defn eperuste-ids-on-koulutukset [entries]
+  (set (remove nil? (map eperuste-ids-on-koulutus entries))))
+
+(defn tutkinnonosat-ids-on-koulutus [koulutus]
+  (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
+    (get-ids :tutkinnonosatId osat)))
+
+(defn tutkinnonosat-ids-on-koulutukset [entries]
+  (set (remove nil? (map tutkinnonosat-ids-on-koulutus entries))))
+
 (defn index-koulutukset
   [oids]
   (let [entries (koulutus/do-index oids)]
     (koulutus-search/do-index oids)
-    (eperuste/do-index (get-ids :ePerusteId entries))
+    (eperuste/do-index (eperuste-ids-on-koulutukset entries))
+    (tutkinnonosat/do-index (tutkinnonosat-ids-on-koulutukset entries))
     (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)))
     entries))
 
@@ -176,7 +192,8 @@
   (let [start (. System (currentTimeMillis))
         oids (kouta-backend/all-kouta-oids)]
     (let [koulutus-entries (koulutus/do-index (:koulutukset oids))]
-      (eperuste/do-index (get-ids :ePerusteId koulutus-entries)))
+      (eperuste/do-index (eperuste-ids-on-koulutukset koulutus-entries))
+      (tutkinnonosat/do-index (tutkinnonosat-ids-on-koulutukset koulutus-entries)))
     (koulutus-search/do-index (:koulutukset oids))
     (toteutus/do-index (:toteutukset oids))
     (haku/do-index (:haut oids))
