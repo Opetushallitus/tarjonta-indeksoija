@@ -34,7 +34,7 @@
     (concat [(:eperusteId koulutus)] (map :eperusteId osat))))
 
 (defn eperuste-ids-on-koulutukset [entries]
-  (set (remove nil? (map eperuste-ids-on-koulutus entries))))
+  (set (remove nil? (mapcat eperuste-ids-on-koulutus entries))))
 
 (defn tutkinnonosat-ids-on-koulutus [koulutus]
   (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
