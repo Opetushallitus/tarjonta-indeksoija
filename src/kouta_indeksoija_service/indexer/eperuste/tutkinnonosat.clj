@@ -12,7 +12,6 @@
 
 (defn do-index
   [ids]
-  (prn ids)
   (indexable/do-index index-name ids create-index-entry))
 
 (defn get
