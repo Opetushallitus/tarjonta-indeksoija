@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as search]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "oppilaitos-kouta")
@@ -19,16 +20,24 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
+(defn- assoc-koulutusohjelmia
+  [organisaatio koulutukset]
+  (->> (filter #(contains? (:tarjoajat %) (:oid organisaatio)) koulutukset)
+       (search/get-tarjoaja-entries (cache/get-hierarkia (:oid organisaatio)))
+       (filter :johtaaTutkintoon)
+       (count)
+       (assoc organisaatio :koulutusohjelmia)))
+
 (defn- oppilaitos-entry
-  [organisaatio oppilaitos]
-  (cond-> (organisaatio-entry organisaatio)
+  [organisaatio oppilaitos koulutukset]
+  (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio) koulutukset)
           (seq oppilaitos) (assoc :oppilaitos (-> oppilaitos
                                                   (common/complete-entry)
                                                   (dissoc :oid)))))
 
 (defn- oppilaitoksen-osa-entry
-  [organisaatio oppilaitoksen-osa]
-  (cond-> (organisaatio-entry organisaatio)
+  [organisaatio oppilaitoksen-osa koulutukset]
+  (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio) koulutukset)
           (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
                                                                (common/complete-entry)
                                                                (dissoc :oppilaitosOid :oid)))))
@@ -38,11 +47,12 @@
   (let [oppilaitos-oid (:oid organisaatio)
         oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
         oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
+        koulutukset (kouta-backend/get-koulutukset-by-tarjoaja (:oid organisaatio))
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
 
-    (-> (oppilaitos-entry organisaatio oppilaitos)
+    (-> (oppilaitos-entry organisaatio oppilaitos koulutukset)
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
-                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
+                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %) koulutukset))
                           (vec))))))
 
 (defn create-index-entry
