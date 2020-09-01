@@ -45,6 +45,11 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
+  - provider: 
+    script: lein deploy
+    skip_cleanup: true
+    on:
+      branch: KTO-706-modified-sekunnin-tarkkuudella
   - provider: script
     script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
     on:

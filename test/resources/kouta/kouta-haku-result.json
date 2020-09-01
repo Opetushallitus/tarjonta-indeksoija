@@ -10,7 +10,7 @@
       "sv" : "kausi_k#1 nimi sv"
     }
   },
-  "modified": "2019-02-05T09:49",
+  "modified": "2019-02-05T09:49:23",
   "hakutapa": {
     "koodiUri": "hakutapa_03#1",
     "nimi": {
@@ -21,7 +21,7 @@
   "hakukohteet": [
     {
       "tila": "arkistoitu",
-      "modified": "2019-02-05T09:49",
+      "modified": "2019-02-05T09:49:23",
       "toteutusOid": "1.2.246.562.17.00000000000000000001",
       "toteutus": {
         "oid": "1.2.246.562.17.00000000000000000001",
@@ -62,7 +62,7 @@
         "oid" : "1.2.246.562.24.62301161440",
         "nimi" : "Kalle Ankka"
       },
-      "modified" : "2019-02-01T13:16",
+      "modified" : "2019-02-01T13:16:23",
       "organisaatio" : {
         "paikkakunta" : {
           "koodiUri" : "kunta_091",
@@ -106,7 +106,7 @@
     "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
   }, {
     "tila" : "julkaistu",
-    "modified" : "2019-02-05T09:49",
+    "modified" : "2019-02-05T09:49:23",
     "toteutusOid" : "1.2.246.562.17.00000000000000000003",
     "toteutus" : {
       "oid" : "1.2.246.562.17.00000000000000000003",
@@ -134,7 +134,7 @@
         "oid" : "1.2.246.562.24.62301161440",
         "nimi" : "Kalle Ankka"
       },
-      "modified" : "2019-02-01T13:16",
+      "modified" : "2019-02-01T13:16:23",
       "organisaatio" : {
         "paikkakunta" : {
           "koodiUri" : "kunta_091",
