@@ -25,10 +25,10 @@
   (get->json-body
     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
-(defn get-tutkinnonosat
-  [tutkinnonosat-id]
+(defn get-tutkinnonosa
+  [tutkinnonosa-id]
   (get->json-body
-    (resolve-url :eperusteet-service.internal.api.tutkinnonosat tutkinnonosat-id)))
+    (resolve-url :eperusteet-service.internal.api.tutkinnonosa tutkinnonosa-id)))
 
 (defn get-osaamisalakuvaukset
   [eperuste-id]

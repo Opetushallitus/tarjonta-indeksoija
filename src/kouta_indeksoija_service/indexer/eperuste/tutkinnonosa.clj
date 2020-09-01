@@ -1,14 +1,14 @@
-(ns kouta-indeksoija-service.indexer.eperuste.tutkinnonosat
+(ns kouta-indeksoija-service.indexer.eperuste.tutkinnonosa
   (:require [kouta-indeksoija-service.rest.eperuste :as eperuste-service]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
-(def index-name "tutkinnonosat")
+(def index-name "tutkinnonosa")
 
 (defn create-index-entry
   [id]
-  (when-let [tutkinnonosat (eperuste-service/get-tutkinnonosat id)]
-    (let [id (str (:id tutkinnonosat))]
-      (indexable/->index-entry id (assoc tutkinnonosat :oid id :tyyppi "tutkinnonosat")))))
+  (when-let [tutkinnonosa (eperuste-service/get-tutkinnonosa id)]
+    (let [id (str (:id tutkinnonosa))]
+      (indexable/->index-entry id (assoc tutkinnonosa :oid id :tyyppi "tutkinnonosa")))))
 
 (defn do-index
   [ids]
