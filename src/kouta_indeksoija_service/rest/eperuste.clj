@@ -25,6 +25,11 @@
   (get->json-body
     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
+(defn get-tutkinnonosa
+  [tutkinnonosa-id]
+  (get->json-body
+    (resolve-url :eperusteet-service.internal.api.tutkinnonosa tutkinnonosa-id)))
+
 (defn get-osaamisalakuvaukset
   [eperuste-id]
   (when-let [res (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id))]
