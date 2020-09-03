@@ -26,6 +26,7 @@
              oppilaitosOid
              koulutusOid
              toteutusOid
+             toteutusNimi
              onkoTuleva
              nimi
              kuva
@@ -44,6 +45,7 @@
            oppilaitosOid nil
            koulutusOid nil
            toteutusOid nil
+           toteutusNimi {}
            onkoTuleva nil
            nimi {}
            kuva nil
@@ -69,13 +71,14 @@
                      :en (terms :en)}
              :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))}
 
-            (not (nil? koulutusOid))   (assoc :koulutusOid koulutusOid)
-            (not (nil? toteutusOid))   (assoc :toteutusOid toteutusOid)
-            (not (nil? oppilaitosOid)) (assoc :oppilaitosOid oppilaitosOid)
-            (not (nil? kuva))          (assoc :kuva kuva)
-            (not (nil? onkoTuleva))    (assoc :onkoTuleva onkoTuleva)
+            (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
+            (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
+            (not (empty? toteutusNimi)) (assoc :toteutusNimi toteutusNimi)
+            (not (nil? oppilaitosOid))  (assoc :oppilaitosOid oppilaitosOid)
+            (not (nil? kuva))           (assoc :kuva kuva)
+            (not (nil? onkoTuleva))     (assoc :onkoTuleva onkoTuleva)
             (not (empty? tarjoajaOids)) (assoc :tarjoajat tarjoajaOids)
-            (not (empty? nimi))        (assoc :nimi nimi))))
+            (not (empty? nimi))         (assoc :nimi nimi))))
 
 (defn koulutusalaKoodiUrit
   [koulutus]

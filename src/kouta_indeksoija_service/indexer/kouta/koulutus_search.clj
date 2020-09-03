@@ -59,6 +59,7 @@
                   :opetuskieliUrit    (:opetuskieliKoodiUrit opetus)
                   :tarjoajat          (:tarjoajat toteutus)
                   :oppilaitos         oppilaitos
+                  :oppilaitosOid      (:oid oppilaitos)
                   :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
                   :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
                   :nimet              (vector (:nimi koulutus) (:nimi toteutus))
@@ -68,6 +69,7 @@
                   :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                   :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                   :toteutusOid        (:oid toteutus)
+                  :toteutusNimi       (:nimi toteutus)
                   :onkoTuleva         false
                   :nimi               (:nimi oppilaitos)
                   :metadata           {:tutkintonimikkeetKoodiUrit (tutkintonimikeKoodiUrit koulutus)
