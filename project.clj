@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.4.7-KTO-773-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.4.7-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -40,7 +40,7 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch + s3
-                 [oph/clj-elasticsearch "0.3.1-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.3.2-SNAPSHOT"]
                  [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
