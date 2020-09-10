@@ -16,16 +16,16 @@
 
 (defn- get-logo
   [oid]
-  (let [oppilaitos (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))]
-    (when (julkaistu? oppilaitos) (:logo oppilaitos))))
+  (when (not (nil? oid))
+    (let [oppilaitos (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))]
+      (when (julkaistu? oppilaitos) (:logo oppilaitos)))))
 
 (defn- get-oppilaitos
   [hierarkia]
-  (let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)
-        logo       (get-logo (:oid oppilaitos))]
-    (if (nil? logo)
-      oppilaitos
-      (assoc oppilaitos :logo logo))))
+  (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
+    (if-let [logo (get-logo (:oid oppilaitos))]
+      (assoc oppilaitos :logo logo)
+      oppilaitos)))
 
 (defn tuleva-jarjestaja-hit
   [hierarkia koulutus]
