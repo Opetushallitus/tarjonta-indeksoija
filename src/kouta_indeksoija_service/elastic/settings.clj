@@ -16,10 +16,11 @@
                                                         :script {:source "token.getTerm().length() > 5"}}
                        :swedish_stop {:type "stop"
                                       :stopwords "_swedish_"}
-                       :swedish_keywords {:type "keyword_marker"
-                                          :keywords "_swedish_keywords_"}
                        :swedish_stemmer {:type "stemmer"
                                          :language "swedish"}
+                       :swedish_stemmer_for_long_words {:type "condition"
+                                                        :filter ["swedish_stemmer"]
+                                                        :script {:source "token.getTerm().length() > 5"}}
                        :english_stop {:type "stop"
                                       :stopwords "_english_"}
                        :english_keywords {:type "keyword_marker"
@@ -39,11 +40,17 @@
                                            :filter ["lowercase"
                                                     "finnish_stop"
                                                     "finnish_stemmer_for_long_words"]}
-                         :swedish {:tokenizer "standard"
+                         :swedish {:type "custom"
+                                   :tokenizer "standard"
                                    :filter ["lowercase"
                                             "swedish_stop"
-                                            "swedish_keywords"
-                                            "swedish_stemmer"]}
+                                            "ngram_compound_words_and_conjugations"
+                                            "remove_duplicates"]}
+                         :swedish_keyword {:type "custom"
+                                           :tokenizer "standard"
+                                           :filter ["lowercase"
+                                                    "swedish_stop"
+                                                    "swedish_stemmer_for_long_words"]}
                          :english {:tokenizer "standard"
                                    :filter ["english_possessive_stemmer"
                                             "lowercase"
@@ -125,6 +132,7 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
+                                       :search_analyzer "swedish_keyword"
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:en {:match "en"
@@ -152,6 +160,13 @@
                              :mapping {:type "text"
                                        :analyzer "finnish"
                                        :search_analyzer "finnish_keyword"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:sv {:match "sv"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "swedish"
+                                       :search_analyzer "swedish_keyword"
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:tila {:match "tila"
