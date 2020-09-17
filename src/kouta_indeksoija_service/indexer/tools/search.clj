@@ -4,6 +4,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi, get-eperuste-by-id]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
 
@@ -100,7 +101,7 @@
   [koulutus]
   (if (ammatillinen? koulutus)
     (when-let [eperuste (get-eperuste koulutus)]
-      (vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
+      (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
     (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])))
 
 (defn koulutustyyppiKoodiUrit
