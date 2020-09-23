@@ -2,6 +2,7 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi, get-eperuste-by-id]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen?]]
@@ -17,7 +18,7 @@
           eperusteId (:ePerusteId koulutus)
           eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi)) ]
       (-> koulutus
-          (assoc-in [:metadata :tutkintonimike]          (vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
+          (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
           (assoc-in [:metadata :opintojenLaajuus]        (:opintojenlaajuus eperuste))
           (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenlaajuusyksikko eperuste))
           (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi))))
