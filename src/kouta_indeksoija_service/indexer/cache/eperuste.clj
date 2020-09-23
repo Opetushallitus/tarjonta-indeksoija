@@ -9,6 +9,35 @@
 
 (defonce EPERUSTE_CACHE (atom (cache/ttl-cache-factory {} :ttl eperuste_cache_time_millis)))
 
+(defn- get-tutkinnon-osat
+  [eperuste]
+  (let [tutkinnonOsat (some-> eperuste :tutkinnonOsat)
+        tutkinnonOsaViitteet (some-> eperuste :suoritustavat (first) :tutkinnonOsaViitteet)]
+    (vec (for [osa tutkinnonOsat
+               :let [viite (first (filter #(= (str (:_tutkinnonOsa %)) (str (:id osa))) tutkinnonOsaViitteet))]]
+           {:id (:id osa)
+            :koodiUri (get-in osa [:koodi :uri])
+            :nimi (get-in osa [:koodi :nimi])
+            :opintojenLaajuus (:laajuus viite)}))))
+
+(defn- filter-osaamisalat
+  [osat]
+  (filter #(not (nil? (:osaamisala %))) osat))
+
+(defn- get-osaamisalat-recursive
+  [osat]
+  (concat (filter-osaamisalat osat) (mapcat #(get-osaamisalat-recursive (:osat %)) osat)))
+
+(defn- get-osaamisalat
+  [eperuste]
+  (let [osat (some-> eperuste :suoritustavat (first) :rakenne :osat)]
+    (vec (for [osaamisala (get-osaamisalat-recursive osat)
+               :let [muodostumissaanto (:muodostumisSaanto osaamisala)]]
+           {:nimi (get-in osaamisala [:osaamisala :nimi])
+            :koodiUri (get-in osaamisala [:osaamisala :osaamisalakoodiUri])
+            :tunniste (:tunniste osaamisala)
+            :opintojenLaajuus (get-in muodostumissaanto [:laajuus :minimi])}))))
+
 (defn- strip
   [eperuste]
   (if-let [suoritustapa (some-> eperuste :suoritustavat (first))]
@@ -16,10 +45,14 @@
           opintojenlaajuusKoodiUri        (when opintojenlaajuusNumero (str "opintojenlaajuus_" opintojenlaajuusNumero))
           opintojenlaajuus                (when opintojenlaajuusKoodiUri (get-koodi-nimi-with-cache opintojenlaajuusKoodiUri))
           opintojenlaajuusyksikkoKoodiUri (eperuste-laajuusyksikko->opintojenlaajuusyksikko (:laajuusYksikko suoritustapa))
-          opintojenlaajuusyksikko         (when opintojenlaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenlaajuusyksikkoKoodiUri))]
+          opintojenlaajuusyksikko         (when opintojenlaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenlaajuusyksikkoKoodiUri))
+          tutkinnonOsat                   (get-tutkinnon-osat eperuste)
+          osaamisalat                     (get-osaamisalat eperuste)]
       (cond-> (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])
               (not (nil? opintojenlaajuus))                (assoc :opintojenlaajuus opintojenlaajuus)
-              (not (nil? opintojenlaajuusyksikko))         (assoc :opintojenlaajuusyksikko opintojenlaajuusyksikko)))
+              (not (nil? opintojenlaajuusyksikko))         (assoc :opintojenlaajuusyksikko opintojenlaajuusyksikko)
+              (not (nil? tutkinnonOsat))                   (assoc :tutkinnonOsat tutkinnonOsat)
+              (not (nil? osaamisalat))                     (assoc :osaamisalat osaamisalat)))
     (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])))
 
 (defn cache-eperuste
