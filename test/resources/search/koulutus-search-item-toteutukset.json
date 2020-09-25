@@ -64,6 +64,7 @@
     },
     "onkoTuleva" : false,
     "metadata" : {
+      "oppilaitosTila" : "julkaistu",
       "tutkintonimikkeet" : [ {
         "koodiUri" : "tutkintonimikkeet_01",
         "nimi" : {
@@ -116,6 +117,7 @@
     },
     "onkoTuleva" : false,
     "metadata" : {
+      "oppilaitosTila" : "julkaistu",
       "tutkintonimikkeet" : [ {
         "koodiUri" : "tutkintonimikkeet_01",
         "nimi" : {

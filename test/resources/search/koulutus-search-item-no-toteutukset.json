@@ -62,6 +62,7 @@
       "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
     },
     "metadata" : {
+      "oppilaitosTila" : "julkaistu",
       "kunnat" : [ {
         "koodiUri" : "kunta_091",
         "nimi" : {
