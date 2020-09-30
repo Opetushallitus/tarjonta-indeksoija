@@ -29,18 +29,22 @@
   [key coll]
   (set (remove nil? (map key coll))))
 
-(defn eperuste-ids-on-koulutus [koulutus]
+(defn eperuste-ids-on-koulutus
+  [koulutus]
   (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
     (concat [(:ePerusteId koulutus)] (map :eperusteId osat))))
 
-(defn eperuste-ids-on-koulutukset [entries]
+(defn eperuste-ids-on-koulutukset 
+  [entries]
   (set (remove nil? (mapcat eperuste-ids-on-koulutus entries))))
 
-(defn tutkinnonosa-ids-on-koulutus [koulutus]
+(defn tutkinnonosa-ids-on-koulutus
+  [koulutus]
   (let [osat (get-in koulutus [:metadata :tutkinnonOsat])]
     (map :tutkinnonosatId osat)))
 
-(defn tutkinnonosa-ids-on-koulutukset [entries]
+(defn tutkinnonosa-ids-on-koulutukset
+  [entries]
   (set (remove nil? (mapcat tutkinnonosa-ids-on-koulutus entries))))
 
 (defn index-koulutukset
