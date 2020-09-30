@@ -50,11 +50,12 @@
        :kuva               (:teemakuva koulutus)
        :onkoTuleva         true
        :nimi               (:nimi koulutus)
-       :metadata           {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
-                            :opintojenLaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
-                            :opintojenLaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
-                            :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
-                            :koulutustyyppi                  (:koulutustyyppi koulutus)}))
+       :metadata           (cond-> {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
+                                    :opintojenLaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
+                                    :opintojenLaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
+                                    :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
+                                    :koulutustyyppi                  (:koulutustyyppi koulutus)}
+                                   (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsaKoodiUrit koulutus)))))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
@@ -76,11 +77,12 @@
          :nimi               (:nimi toteutus)
          :kuva               (:teemakuva toteutus)
          :onkoTuleva         false
-         :metadata           {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
-                              :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                              :onkoMaksullinen     (:onkoMaksullinen opetus)
-                              :maksunMaara         (:maksunMaara opetus)
-                              :koulutustyyppi      (:koulutustyyppi koulutus)})))
+         :metadata           (cond-> {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
+                                      :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                      :onkoMaksullinen     (:onkoMaksullinen opetus)
+                                      :maksunMaara         (:maksunMaara opetus)
+                                      :koulutustyyppi      (:koulutustyyppi koulutus)}
+                                     (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsaKoodiUrit koulutus))))))
 
 (defn- get-kouta-oppilaitos
   [oid]

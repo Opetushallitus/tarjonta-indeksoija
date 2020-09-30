@@ -116,18 +116,21 @@
 
 (defn- create-entry
   [koulutus]
-  (-> koulutus
-     (select-keys [:oid :nimi :kielivalinta])
-     (assoc :eperuste                (:ePerusteId koulutus))
-     (assoc :koulutus                (:koulutusKoodiUri koulutus))
-     (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
-     (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
-     (assoc :teemakuva               (:teemakuva koulutus))
-     (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
-     (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
-     (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
-     (common/decorate-koodi-uris)
-     (assoc :hits (:hits koulutus))))
+  (let [entry (-> koulutus
+                  (select-keys [:oid :nimi :kielivalinta])
+                  (assoc :eperuste                (:ePerusteId koulutus))
+                  (assoc :koulutus                (:koulutusKoodiUri koulutus))
+                  (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
+                  (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
+                  (assoc :teemakuva               (:teemakuva koulutus))
+                  (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
+                  (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
+                  (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
+                  (common/decorate-koodi-uris)
+                  (assoc :hits (:hits koulutus)))]
+    (if (amm-tutkinnon-osa? koulutus)
+      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsaKoodiUrit) (common/decorate-koodi-uris)))
+      entry)))
 
 (defn create-index-entry
   [oid]

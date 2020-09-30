@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen?]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer :all]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
@@ -81,9 +81,26 @@
             (not (empty? tarjoajaOids)) (assoc :tarjoajat tarjoajaOids)
             (not (empty? nimi))         (assoc :nimi nimi))))
 
+(defn- get-koulutusalatasot-by-koulutus-koodi-uri
+  [koulutusKoodiUri]
+  (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
+               (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
+
+(defn- get-koulutusalatasot-for-amm-tutkinnon-osat
+  [koulutus]
+  (when-let [koulutusKoodiUrit (->> (get-in koulutus [:metadata :tutkinnonOsat])
+                                    (map #(some-> % :koulutusKoodiUri remove-uri-version))
+                                    (->distinct-vec))]
+    (->distinct-vec (mapcat get-koulutusalatasot-by-koulutus-koodi-uri koulutusKoodiUrit))))
+
 (defn koulutusalaKoodiUrit
   [koulutus]
-  (if (ammatillinen? koulutus)
+  (if (any-ammatillinen? koulutus)
+    (cond
+      (amm-tutkinnon-osa? koulutus) (get-koulutusalatasot-for-amm-tutkinnon-osat koulutus)
+      :default (get-koulutusalatasot-by-koulutus-koodi-uri (:koulutusKoodiUri koulutus))))
+
+  (if (any-ammatillinen? koulutus)
     (let [koulutusKoodiUri (:koulutusKoodiUri koulutus)]
       (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
                    (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
@@ -110,19 +127,48 @@
     (vec (map :koodiUri (koulutustyypit (:koulutusKoodiUri koulutus))))
     []))
 
+(defn- get-tutkinnon-osa-laajuudet
+  [koulutus eperuste]
+  (let [eperuste-tutkinnon-osat (:tutkinnonOsat eperuste)]
+    (->> (for [tutkinnon-osa (some-> koulutus :metadata :tutkinnonOsat)
+               :let [eperuste-osa (first (filter #(= (:id %) (:tutkinnonosaViite tutkinnon-osa)) eperuste-tutkinnon-osat))]]
+           (some-> eperuste-osa :opintojenLaajuus :koodiUri))
+         (vec))))
+
+(defn- get-osaamisala-laajuus
+  [eperuste koulutus]
+  (when-let [osaamisalaKoodiUri (some-> koulutus :metadata :osaamisalaKoodiUri remove-uri-version)]
+    (some->> (:osaamisalat eperuste)
+             (filter #(= osaamisalaKoodiUri (some-> % :koodiUri remove-uri-version)))
+             (first)
+             :opintojenLaajuus
+             :koodiUri)))
+
 (defn opintojenlaajuusKoodiUri
   [koulutus]
-  (if (ammatillinen? koulutus)
-    (when-let [eperuste (get-eperuste koulutus)]
-      (get-in eperuste [:opintojenlaajuus :koodiUri]))
-    (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
+  (cond
+    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenlaajuus :koodiUri]))
+    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala-laajuus koulutus))
+    :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
 (defn opintojenlaajuusyksikkoKoodiUri
   [koulutus]
-  (if (ammatillinen? koulutus)
-    (when-let [eperuste (get-eperuste koulutus)]
-      (get-in eperuste [:opintojenlaajuusyksikko :koodiUri]))
-    (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])))
+  (cond
+    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenlaajuusyksikko :koodiUri]))
+    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-in [:opintojenlaajuusyksikko :koodiUri]))
+    :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
+
+(defn tutkinnonOsaKoodiUrit
+  [koulutus]
+  (when (amm-tutkinnon-osa? koulutus)
+    (-> (for [tutkinnon-osa (get-in koulutus [:metadata :tutkinnonOsat])
+              :let [eperuste (get-eperuste-by-id (:ePerusteId tutkinnon-osa))
+                    eperuste-tutkinnon-osa (first (filter #(= (:id %) (:tutkinnonosaViite tutkinnon-osa)) (:tutkinnonOsat eperuste)))]]
+          {:eperuste (:ePerusteId tutkinnon-osa)
+           :koulutus (:koulutusKoodiUri tutkinnon-osa)
+           :opintojenLaajuus (some-> eperuste-tutkinnon-osa :opintojenLaajuus :koodiUri)
+           :opintojenLaajuusyksikko (get-in eperuste [:opintojenlaajuusyksikko :koodiUri])
+           :tutkinnonOsatKoodiUri (some-> eperuste-tutkinnon-osa :koodiUri)}))))
 
 (defn koulutustyyppi-for-organisaatio
   [organisaatio]

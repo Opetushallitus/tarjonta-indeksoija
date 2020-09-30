@@ -9,6 +9,11 @@
 
 (defonce EPERUSTE_CACHE (atom (cache/ttl-cache-factory {} :ttl eperuste_cache_time_millis)))
 
+(defn- get-opintojen-laajuus
+  [opintojenlaajuusNumero]
+  (when-let [opintojenlaajuusKoodiUri (when opintojenlaajuusNumero (str "opintojenlaajuus_" (if (double? opintojenlaajuusNumero) (int opintojenlaajuusNumero) opintojenlaajuusNumero)))]
+    (get-koodi-nimi-with-cache opintojenlaajuusKoodiUri)))
+
 (defn- get-tutkinnon-osat
   [eperuste]
   (let [tutkinnonOsat (some-> eperuste :tutkinnonOsat)
@@ -18,7 +23,7 @@
            {:id (:id osa)
             :koodiUri (get-in osa [:koodi :uri])
             :nimi (get-in osa [:koodi :nimi])
-            :opintojenLaajuus (:laajuus viite)}))))
+            :opintojenLaajuus (get-opintojen-laajuus (:laajuus viite))}))))
 
 (defn- filter-osaamisalat
   [osat]
@@ -36,14 +41,12 @@
            {:nimi (get-in osaamisala [:osaamisala :nimi])
             :koodiUri (get-in osaamisala [:osaamisala :osaamisalakoodiUri])
             :tunniste (:tunniste osaamisala)
-            :opintojenLaajuus (get-in muodostumissaanto [:laajuus :minimi])}))))
+            :opintojenLaajuus (get-opintojen-laajuus (get-in muodostumissaanto [:laajuus :minimi]))}))))
 
 (defn- strip
   [eperuste]
   (if-let [suoritustapa (some-> eperuste :suoritustavat (first))]
-    (let [opintojenlaajuusNumero          (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi])
-          opintojenlaajuusKoodiUri        (when opintojenlaajuusNumero (str "opintojenlaajuus_" opintojenlaajuusNumero))
-          opintojenlaajuus                (when opintojenlaajuusKoodiUri (get-koodi-nimi-with-cache opintojenlaajuusKoodiUri))
+    (let [opintojenlaajuus                (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
           opintojenlaajuusyksikkoKoodiUri (eperuste-laajuusyksikko->opintojenlaajuusyksikko (:laajuusYksikko suoritustapa))
           opintojenlaajuusyksikko         (when opintojenlaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenlaajuusyksikkoKoodiUri))
           tutkinnonOsat                   (get-tutkinnon-osat eperuste)

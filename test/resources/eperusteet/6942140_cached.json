@@ -75,7 +75,13 @@
       "sv" : "Trädgårdsarbeten",
       "fi" : "Puutarhatöiden tekeminen"
     },
-    "opintojenLaajuus" : 25
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_25",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_25 nimi fi",
+        "sv" : "opintojenlaajuus_25 nimi sv"
+      }
+    }
   }, {
     "id" : 6940765,
     "koodiUri" : "tutkinnonosat_103909",
@@ -83,7 +89,13 @@
       "fi" : "Puutarha-alan organisaatiossa toimiminen",
       "sv" : "Verksamhet i en organisation inom trädgårdsbranschen"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6940766,
     "koodiUri" : "tutkinnonosat_103910",
@@ -91,7 +103,13 @@
       "sv" : "Kundbetjäning och försäljning i en butik inom trädgårdsbranschen",
       "fi" : "Asiakaspalvelu ja myyntityö puutarha-alan myymälässä"
     },
-    "opintojenLaajuus" : 30
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_30",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_30 nimi fi",
+        "sv" : "opintojenlaajuus_30 nimi sv"
+      }
+    }
   }, {
     "id" : 6958220,
     "koodiUri" : "tutkinnonosat_103911",
@@ -99,7 +117,13 @@
       "fi" : "Myymälätyöskentely puutarha-alalla",
       "sv" : "Arbetet i en butik inom trädgårdsbranschen"
     },
-    "opintojenLaajuus" : 30
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_30",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_30 nimi fi",
+        "sv" : "opintojenlaajuus_30 nimi sv"
+      }
+    }
   }, {
     "id" : 6958221,
     "koodiUri" : "tutkinnonosat_103912",
@@ -107,7 +131,13 @@
       "fi" : "Puutarhakasvien tuottaminen avomaalla",
       "sv" : "Produktion av trädgårdsväxter på friland"
     },
-    "opintojenLaajuus" : 30
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_30",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_30 nimi fi",
+        "sv" : "opintojenlaajuus_30 nimi sv"
+      }
+    }
   }, {
     "id" : 6958222,
     "koodiUri" : "tutkinnonosat_103913",
@@ -115,7 +145,13 @@
       "fi" : "Puutarhakasvien tuottaminen katetuissa olosuhteissa",
       "sv" : "Produktion av trädgårdsväxter i täckta odlingar"
     },
-    "opintojenLaajuus" : 30
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_30",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_30 nimi fi",
+        "sv" : "opintojenlaajuus_30 nimi sv"
+      }
+    }
   }, {
     "id" : 6958223,
     "koodiUri" : "tutkinnonosat_103914",
@@ -123,7 +159,13 @@
       "fi" : "Viheralueiden rakentaminen",
       "sv" : "Att bygga grönområden"
     },
-    "opintojenLaajuus" : 30
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_30",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_30 nimi fi",
+        "sv" : "opintojenlaajuus_30 nimi sv"
+      }
+    }
   }, {
     "id" : 6958224,
     "koodiUri" : "tutkinnonosat_103915",
@@ -131,7 +173,13 @@
       "fi" : "Viheralueiden kunnossapito",
       "sv" : "Underhåll av grönområden"
     },
-    "opintojenLaajuus" : 30
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_30",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_30 nimi fi",
+        "sv" : "opintojenlaajuus_30 nimi sv"
+      }
+    }
   }, {
     "id" : 6958225,
     "koodiUri" : "tutkinnonosat_103916",
@@ -139,7 +187,13 @@
       "sv" : "Rådgivning till kunder i en trädgårdsbutik",
       "fi" : "Asiakkaiden neuvominen puutarhamyymälässä"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958226,
     "koodiUri" : "tutkinnonosat_103917",
@@ -147,7 +201,13 @@
       "fi" : "Erityisviheralueiden kunnossapito",
       "sv" : "Underhåll av specialgrönområden"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958227,
     "koodiUri" : "tutkinnonosat_103918",
@@ -155,7 +215,13 @@
       "fi" : "Kasvillisuuden käyttö viheralueilla",
       "sv" : "Användning av vegetation på grönområden"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958228,
     "koodiUri" : "tutkinnonosat_103919",
@@ -163,7 +229,13 @@
       "sv" : "Produktion av växtgrupp",
       "fi" : "Kasviryhmän  tuottaminen"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958229,
     "koodiUri" : "tutkinnonosat_103920",
@@ -171,7 +243,13 @@
       "sv" : "Blomsterbinderi",
       "fi" : "Kukkasidontatöiden tekeminen"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958460,
     "koodiUri" : "tutkinnonosat_103921",
@@ -179,7 +257,13 @@
       "fi" : "Luonnon monimuotoisuutta tukeva puutarhanhoito",
       "sv" : "Trädgårdsskötsel som stöder naturens mångfald"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958461,
     "koodiUri" : "tutkinnonosat_103922",
@@ -187,7 +271,13 @@
       "fi" : "Puutarha-alan tapahtumapalveluiden tuottaminen",
       "sv" : "Produktion av evenemangstjänster inom trädgårdsbranschen"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958462,
     "koodiUri" : "tutkinnonosat_103923",
@@ -195,7 +285,13 @@
       "sv" : "Att arrangera ett utrymme för försäljning och evenemang inom trädgårdsbranschen",
       "fi" : "Puutarha-alan myynti- ja tapahtumatilan järjestäminen"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : null,
     "koodiUri" : null,
@@ -208,7 +304,13 @@
       "fi" : "Puuvartisten kasvien hoitaminen",
       "sv" : "Skötsel av vedartade växter"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958466,
     "koodiUri" : "tutkinnonosat_103926",
@@ -216,7 +318,13 @@
       "fi" : "Tilan koristelu kasvimateriaalilla",
       "sv" : "Dekorering av utrymmen med växtmaterial"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958468,
     "koodiUri" : "tutkinnonosat_103927",
@@ -224,7 +332,13 @@
       "fi" : "Viheralueiden kivitöiden tekeminen",
       "sv" : "Stenarbeten på grönområden"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958469,
     "koodiUri" : "tutkinnonosat_103928",
@@ -232,7 +346,13 @@
       "fi" : "Viheralueiden puutöiden tekeminen",
       "sv" : "Träarbeten på grönområden"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6979759,
     "koodiUri" : "tutkinnonosat_103929",
@@ -240,7 +360,13 @@
       "sv" : "Byggande av utomhusutrustning och konstruktioner på grönområden",
       "fi" : "Viheralueiden ulkovarusteiden ja rakenteiden rakentaminen"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 6958681,
     "koodiUri" : "tutkinnonosat_103930",
@@ -248,7 +374,13 @@
       "fi" : "Vihersisustuskasvien istutus ja hoito",
       "sv" : "Plantering och skötsel av växter för gröninredning"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 7014557,
     "koodiUri" : "tutkinnonosat_103931",
@@ -256,7 +388,13 @@
       "sv" : "Verksamhet med ansvar för klimatet",
       "fi" : "Ilmastovastuullinen toiminta"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 3202192,
     "koodiUri" : "tutkinnonosat_400010",
@@ -264,7 +402,13 @@
       "fi" : "Huippuosaajana toimiminen          ",
       "sv" : "Arbete som kräver spetskompetens"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 3202194,
     "koodiUri" : "tutkinnonosat_400011",
@@ -272,7 +416,13 @@
       "sv" : "Förberedelse för arbetsplatshandledaruppgifter",
       "fi" : "Työpaikkaohjaajaksi valmentautuminen         "
     },
-    "opintojenLaajuus" : 5
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_5",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_5 nimi fi",
+        "sv" : "opintojenlaajuus_5 nimi sv"
+      }
+    }
   }, {
     "id" : 3202191,
     "koodiUri" : "tutkinnonosat_400009",
@@ -280,7 +430,13 @@
       "fi" : "Yrityksessä toimiminen     ",
       "sv" : "Arbeta i ett företag"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 3202190,
     "koodiUri" : "tutkinnonosat_400008",
@@ -288,7 +444,13 @@
       "fi" : "Yritystoiminnan suunnittelu    ",
       "sv" : "Planering av företagsverksamhet"
     },
-    "opintojenLaajuus" : 15
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_15",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_15 nimi fi",
+        "sv" : "opintojenlaajuus_15 nimi sv"
+      }
+    }
   }, {
     "id" : 3708881,
     "koodiUri" : "tutkinnonosat_400012",
@@ -296,7 +458,13 @@
       "sv" : "Kunnande i kommunikation och interaktion",
       "fi" : "Viestintä- ja vuorovaikutusosaaminen     "
     },
-    "opintojenLaajuus" : 11
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_11",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_11 nimi fi",
+        "sv" : "opintojenlaajuus_11 nimi sv"
+      }
+    }
   }, {
     "id" : 3708883,
     "koodiUri" : "tutkinnonosat_400013",
@@ -304,7 +472,13 @@
       "sv" : "Kunnande i matematik och naturvetenskap",
       "fi" : "Matemaattis-luonnontieteellinen osaaminen     "
     },
-    "opintojenLaajuus" : 6
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_6",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_6 nimi fi",
+        "sv" : "opintojenlaajuus_6 nimi sv"
+      }
+    }
   }, {
     "id" : 3708884,
     "koodiUri" : "tutkinnonosat_400014",
@@ -312,7 +486,13 @@
       "sv" : "Kunnande om samhälle och arbetsliv",
       "fi" : "Yhteiskunta- ja työelämäosaaminen "
     },
-    "opintojenLaajuus" : 9
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_9",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_9 nimi fi",
+        "sv" : "opintojenlaajuus_9 nimi sv"
+      }
+    }
   } ],
   "osaamisalat" : [ {
     "nimi" : {
@@ -322,7 +502,13 @@
     },
     "koodiUri" : "osaamisala_1775",
     "tunniste" : "688e5a51-f2a7-4925-958f-224ca6b48611",
-    "opintojenLaajuus" : 60
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_60",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_60 nimi fi",
+        "sv" : "opintojenlaajuus_60 nimi sv"
+      }
+    }
   }, {
     "nimi" : {
       "sv" : "Kompetensområdet för trädgårdsproduktion",
@@ -331,7 +517,13 @@
     },
     "koodiUri" : "osaamisala_1776",
     "tunniste" : "7577782b-06b7-499c-b52e-e2b5d82b74fd",
-    "opintojenLaajuus" : 60
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_60",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_60 nimi fi",
+        "sv" : "opintojenlaajuus_60 nimi sv"
+      }
+    }
   }, {
     "nimi" : {
       "fi" : "Viheralan osaamisala",
@@ -340,6 +532,12 @@
     },
     "koodiUri" : "osaamisala_1777",
     "tunniste" : "0a30fa5d-27a0-4d9a-aaff-616e9aa29913",
-    "opintojenLaajuus" : 60
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_60",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_60 nimi fi",
+        "sv" : "opintojenlaajuus_60 nimi sv"
+      }
+    }
   } ]
 }
