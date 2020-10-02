@@ -1,5 +1,6 @@
 {
   "opintojenlaajuusyksikko" : null,
+  "opintojenlaajuusNumero" : null,
   "kuvaus" : {
     "fi" : "kuvaus",
     "sv" : "kuvaus sv"
@@ -14,14 +15,15 @@
         "sv" : "koulutus_371101#1 nimi sv"
       }
     },
-    "opintojenLaajuus" : {
+    "opintojenlaajuusNumero" : 50,
+    "opintojenlaajuus" : {
       "koodiUri" : "opintojenlaajuus_50",
       "nimi" : {
         "fi" : "opintojenlaajuus_50 nimi fi",
         "sv" : "opintojenlaajuus_50 nimi sv"
       }
     },
-    "opintojenLaajuusyksikko" : {
+    "opintojenlaajuusyksikko" : {
       "koodiUri" : "opintojenlaajuusyksikko_6",
       "nimi" : {
         "fi" : "opintojenlaajuusyksikko_6 nimi fi",

@@ -1,8 +1,17 @@
 (ns kouta-indeksoija-service.indexer.tools.tyyppi
   (:require [clojure.string :refer [split]]))
 
-(defn remove-uri-version [uri]
-  (if (not (nil? uri)) (first (split uri #"#"))))
+(defn remove-uri-version
+  [uri]
+  (when (not (nil? uri))
+    (first (split uri #"#"))))
+
+(defn koodi-arvo
+  [uri]
+  (some-> uri
+          (remove-uri-version)
+          (split #"_")
+          (second)))
 
 (defn oppilaitostyyppi-uri-to-tyyppi [oppilaitostyyppi-uri]
   (case (remove-uri-version oppilaitostyyppi-uri)

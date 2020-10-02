@@ -53,6 +53,7 @@
     }
   },
   "tutkintonimikkeet" : null,
+  "opintojenlaajuusNumero" : 30,
   "opintojenlaajuus" : {
     "koodiUri" : "opintojenlaajuus_30",
     "nimi" : {

@@ -52,9 +52,9 @@
                                                    :osaamisalakoodiArvo "01",
                                                    :osaamisalakoodiUri "osaamisala_01"},
                                       :muodostumisSaanto {:laajuus {:minimi 30 :maksimi 30}}}]},
-                    :tutkinnonOsaViitteet [{:id 1234, :laajuus 50, :jarjestys 1, :_tutkinnonOsa 122}]}]
-   :tutkinnonOsat [{:id 122 :koodi {:nimi {:fi "tutkinnon osa 122 fi" :sv "tutkinnon osa 122 sv"},
-                                    :uri "tutkinnonosat_12345"}}]})
+                    :tutkinnonOsaViitteet [{:id 122, :laajuus 50, :jarjestys 1, :_tutkinnonOsa 1234}]}]
+   :tutkinnonOsat [{:id 1234 :koodi {:nimi {:fi "tutkinnon osa 123 fi" :sv "tutkinnon osa 123 sv"},
+                                     :uri "tutkinnonosat_12345"}}]})
 
 (defn- oppilaitos1-hierarkia?
   [oid]

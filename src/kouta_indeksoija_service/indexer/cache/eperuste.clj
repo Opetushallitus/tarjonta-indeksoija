@@ -11,8 +11,12 @@
 
 (defn- get-opintojen-laajuus
   [opintojenlaajuusNumero]
-  (when-let [opintojenlaajuusKoodiUri (when opintojenlaajuusNumero (str "opintojenlaajuus_" (if (double? opintojenlaajuusNumero) (int opintojenlaajuusNumero) opintojenlaajuusNumero)))]
-    (get-koodi-nimi-with-cache opintojenlaajuusKoodiUri)))
+  (when opintojenlaajuusNumero
+    (let [opintojenlaajuusNumeroAsInt (if (string? opintojenlaajuusNumero) (Integer/parseInt opintojenlaajuusNumero) (int opintojenlaajuusNumero))
+          opintojenlaajuusKoodiUri (str "opintojenlaajuus_" opintojenlaajuusNumeroAsInt)
+          {:keys [nimi koodiUri]} (get-koodi-nimi-with-cache opintojenlaajuusKoodiUri)]
+      {:opintojenLaajuusNumero opintojenlaajuusNumero
+       :opintojenLaajuus (if (not (or (nil? nimi) (= {} nimi))) {:nimi nimi :koodiUri koodiUri} {})})))
 
 (defn- get-tutkinnon-osat
   [eperuste]
@@ -20,10 +24,11 @@
         tutkinnonOsaViitteet (some-> eperuste :suoritustavat (first) :tutkinnonOsaViitteet)]
     (vec (for [osa tutkinnonOsat
                :let [viite (first (filter #(= (str (:_tutkinnonOsa %)) (str (:id osa))) tutkinnonOsaViitteet))]]
-           {:id (:id osa)
-            :koodiUri (get-in osa [:koodi :uri])
-            :nimi (get-in osa [:koodi :nimi])
-            :opintojenLaajuus (get-opintojen-laajuus (:laajuus viite))}))))
+           (merge
+             {:id (:id osa)
+              :koodiUri (get-in osa [:koodi :uri])
+              :nimi (get-in osa [:koodi :nimi])}
+             (get-opintojen-laajuus (:laajuus viite)))))))
 
 (defn- filter-osaamisalat
   [osat]
@@ -38,10 +43,11 @@
   (let [osat (some-> eperuste :suoritustavat (first) :rakenne :osat)]
     (vec (for [osaamisala (get-osaamisalat-recursive osat)
                :let [muodostumissaanto (:muodostumisSaanto osaamisala)]]
-           {:nimi (get-in osaamisala [:osaamisala :nimi])
-            :koodiUri (get-in osaamisala [:osaamisala :osaamisalakoodiUri])
-            :tunniste (:tunniste osaamisala)
-            :opintojenLaajuus (get-opintojen-laajuus (get-in muodostumissaanto [:laajuus :minimi]))}))))
+           (merge
+            {:nimi (get-in osaamisala [:osaamisala :nimi])
+             :koodiUri (get-in osaamisala [:osaamisala :osaamisalakoodiUri])
+             :tunniste (:tunniste osaamisala)}
+            (get-opintojen-laajuus (get-in muodostumissaanto [:laajuus :minimi])))))))
 
 (defn- strip
   [eperuste]
@@ -52,7 +58,7 @@
           tutkinnonOsat                   (get-tutkinnon-osat eperuste)
           osaamisalat                     (get-osaamisalat eperuste)]
       (cond-> (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])
-              (not (nil? opintojenlaajuus))                (assoc :opintojenlaajuus opintojenlaajuus)
+              (not (nil? opintojenlaajuus))                (merge opintojenlaajuus)
               (not (nil? opintojenlaajuusyksikko))         (assoc :opintojenlaajuusyksikko opintojenlaajuusyksikko)
               (not (nil? tutkinnonOsat))                   (assoc :tutkinnonOsat tutkinnonOsat)
               (not (nil? osaamisalat))                     (assoc :osaamisalat osaamisalat)))

@@ -125,11 +125,12 @@
                   (assoc :teemakuva               (:teemakuva koulutus))
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
                   (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
+                  (assoc :opintojenlaajuusNumero  (opintojenlaajuusNumero koulutus))
                   (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus)))]
     (if (amm-tutkinnon-osa? koulutus)
-      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsaKoodiUrit) (common/decorate-koodi-uris)))
+      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsa) (common/decorate-koodi-uris)))
       entry)))
 
 (defn create-index-entry

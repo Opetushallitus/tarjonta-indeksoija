@@ -1,51 +1,29 @@
 {
-  "oid" : "1.2.246.562.10.77777777799",
-  "nimi" : {
-    "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
-    "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
-  },
-  "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-  "kielivalinta" : [ "fi", "sv" ],
+  "koulutusohjelmia" : 2,
   "kuvaus" : {
     "fi" : "Esittely",
     "sv" : "Esittely sv"
   },
-  "paikkakunnat" : [ {
-    "koodiUri" : "kunta_091",
-    "nimi" : {
-      "fi" : "kunta_091 nimi fi",
-      "sv" : "kunta_091 nimi sv"
-    }
-  } ],
-  "koulutusohjelmia" : 2,
+  "logo" : "https://testi.fi/oppilaitos-logo/oid/logo.png",
   "hits" : [ {
-    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
-    "opetuskielet" : [ ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
-                       "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
+      "fi" : [ "Autoalan perustutkinto 0 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
+      "sv" : [ "Autoalan perustutkinto 0 sv", "Oppilaitos sv 1.2.246.562.10.77777777799", "Toimipiste sv 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
       "en" : [ ]
     },
+    "opetuskielet" : [ ],
+    "tarjoajat" : [ "1.2.246.562.10.777777777992" ],
     "koulutusOid" : "1.2.246.562.13.00000000000000000099",
     "nimi" : {
       "fi" : "Autoalan perustutkinto 0 fi",
       "sv" : "Autoalan perustutkinto 0 sv"
     },
-    "tarjoajat": ["1.2.246.562.10.777777777992"],
-    "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "kuva" : "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : true,
     "metadata" : {
-      "kunnat" : [ {
-        "koodiUri" : "kunta_091",
-        "nimi" : {
-          "fi" : "kunta_091 nimi fi",
-          "sv" : "kunta_091 nimi sv"
-        }
-      } ],
-      "koulutustyyppi" : "amm",
       "tutkintonimikkeet" : [ {
         "koodiUri" : "tutkintonimikkeet_01",
         "nimi" : {
@@ -59,14 +37,64 @@
           "sv" : "tutkintonimikkeet_02 nimi sv"
         }
       } ],
-      "opintojenLaajuus" : {
+      "opintojenlaajuus" : {
         "koodiUri" : "opintojenlaajuus_150",
         "nimi" : {
           "fi" : "opintojenlaajuus_150 nimi fi",
           "sv" : "opintojenlaajuus_150 nimi sv"
         }
       },
-      "opintojenLaajuusyksikko" : {
+      "opintojenlaajuusyksikko" : {
+        "koodiUri" : "opintojenlaajuusyksikko_6",
+        "nimi" : {
+          "fi" : "opintojenlaajuusyksikko_6 nimi fi",
+          "sv" : "opintojenlaajuusyksikko_6 nimi sv"
+        }
+      },
+      "opintojenlaajuusNumero" : 150,
+      "koulutustyypit" : [ {
+        "koodiUri" : "koulutustyyppi_01",
+        "nimi" : {
+          "fi" : "koulutustyyppi_01 nimi fi",
+          "sv" : "koulutustyyppi_01 nimi sv"
+        }
+      }, {
+        "koodiUri" : "koulutustyyppi_02",
+        "nimi" : {
+          "fi" : "koulutustyyppi_02 nimi fi",
+          "sv" : "koulutustyyppi_02 nimi sv"
+        }
+      } ],
+      "koulutustyyppi" : "amm",
+      "kunnat" : [ {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      } ]
+    }
+  }, {
+    "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
+    "terms" : {
+      "fi" : [ "Hevosalan perustutkinto 0 fi", "Hevostoteutus 1 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "Toimipiste fi 1.2.246.562.10.777777777993", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
+      "sv" : [ "Hevosalan perustutkinto 0 sv", "Hevostoteutus 1 sv", "Oppilaitos sv 1.2.246.562.10.77777777799", "Toimipiste sv 1.2.246.562.10.777777777991", "Toimipiste sv 1.2.246.562.10.777777777993", "hepparna", "heppa", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
+      "en" : [ "horses", "horse" ]
+    },
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_3" ],
+    "tarjoajat" : [ "1.2.246.562.10.777777777991", "1.2.246.562.10.777777777993" ],
+    "koulutusOid" : "1.2.246.562.13.00000000000000000098",
+    "toteutusOid" : "1.2.246.562.17.00000000000000000099",
+    "nimi" : {
+      "fi" : "Hevostoteutus 1 fi",
+      "sv" : "Hevostoteutus 1 sv"
+    },
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "kuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
+    "onkoTuleva" : false,
+    "metadata" : {
+      "opintojenlaajuusyksikko" : {
         "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
           "fi" : "opintojenlaajuusyksikko_6 nimi fi",
@@ -85,29 +113,17 @@
           "fi" : "koulutustyyppi_02 nimi fi",
           "sv" : "koulutustyyppi_02 nimi sv"
         }
-      } ]
-    }
-  }, {
-    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
-    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_3" ],
-    "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
-                       "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
-    "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 fi" ,"Hevostoteutus 1 fi", "Toimipiste fi 1.2.246.562.10.777777777993", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 sv" ,"Hevostoteutus 1 sv", "Toimipiste sv 1.2.246.562.10.777777777993", "Toimipiste sv 1.2.246.562.10.777777777991", "hepparna", "heppa", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
-      "en" : [ "horses", "horse" ]
-    },
-    "koulutusOid" : "1.2.246.562.13.00000000000000000098",
-    "toteutusOid" : "1.2.246.562.17.00000000000000000099",
-    "nimi" : {
-      "fi" : "Hevostoteutus 1 fi",
-      "sv" : "Hevostoteutus 1 sv"
-    },
-    "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
-    "onkoTuleva" : false,
-    "tarjoajat": ["1.2.246.562.10.777777777991", "1.2.246.562.10.777777777993"],
-    "metadata" : {
+      } ],
+      "maksunMaara" : 200.5,
+      "opintojenlaajuusNumero" : 150,
+      "opetusajat" : [ {
+        "koodiUri" : "opetusaikakk_1#1",
+        "nimi" : {
+          "fi" : "opetusaikakk_1#1 nimi fi",
+          "sv" : "opetusaikakk_1#1 nimi sv"
+        }
+      } ],
+      "onkoMaksullinen" : true,
       "kunnat" : [ {
         "koodiUri" : "kunta_091",
         "nimi" : {
@@ -116,38 +132,58 @@
         }
       } ],
       "tutkintonimikkeet" : null,
-      "opetusajat" : [ {
-        "koodiUri" : "opetusaikakk_1#1",
-        "nimi" : {
-          "fi" : "opetusaikakk_1#1 nimi fi",
-          "sv" : "opetusaikakk_1#1 nimi sv"
-        }
-      } ],
-      "koulutustyyppi" : "amm",
-      "onkoMaksullinen" : true,
-      "maksunMaara" : 200.5
+      "koulutustyyppi" : "amm"
     }
   }, {
-    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
-    "opetuskielet" : [ "oppilaitoksenopetuskieli_1" ],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
-                       "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 fi", "Hevostoteutus 2 fi", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799", "Hevosalan perustutkinto 0 sv", "Hevostoteutus 2 sv", "Toimipiste sv 1.2.246.562.10.777777777991", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
+      "fi" : [ "Hevosalan perustutkinto 0 fi", "Hevostoteutus 2 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
+      "sv" : [ "Hevosalan perustutkinto 0 sv", "Hevostoteutus 2 sv", "Oppilaitos sv 1.2.246.562.10.77777777799", "Toimipiste sv 1.2.246.562.10.777777777991", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
       "en" : [ ]
     },
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1" ],
+    "tarjoajat" : [ "1.2.246.562.10.777777777991" ],
     "koulutusOid" : "1.2.246.562.13.00000000000000000098",
     "toteutusOid" : "1.2.246.562.17.00000000000000000098",
     "nimi" : {
       "fi" : "Hevostoteutus 2 fi",
       "sv" : "Hevostoteutus 2 sv"
     },
-    "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "kuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
-    "tarjoajat": ["1.2.246.562.10.777777777991"],
     "metadata" : {
+      "opintojenlaajuusyksikko" : {
+        "koodiUri" : "opintojenlaajuusyksikko_6",
+        "nimi" : {
+          "fi" : "opintojenlaajuusyksikko_6 nimi fi",
+          "sv" : "opintojenlaajuusyksikko_6 nimi sv"
+        }
+      },
+      "koulutustyypit" : [ {
+        "koodiUri" : "koulutustyyppi_01",
+        "nimi" : {
+          "fi" : "koulutustyyppi_01 nimi fi",
+          "sv" : "koulutustyyppi_01 nimi sv"
+        }
+      }, {
+        "koodiUri" : "koulutustyyppi_02",
+        "nimi" : {
+          "fi" : "koulutustyyppi_02 nimi fi",
+          "sv" : "koulutustyyppi_02 nimi sv"
+        }
+      } ],
+      "maksunMaara" : 200.5,
+      "opintojenlaajuusNumero" : 150,
+      "opetusajat" : [ {
+        "koodiUri" : "opetusaikakk_1#1",
+        "nimi" : {
+          "fi" : "opetusaikakk_1#1 nimi fi",
+          "sv" : "opetusaikakk_1#1 nimi sv"
+        }
+      } ],
+      "onkoMaksullinen" : true,
       "kunnat" : [ {
         "koodiUri" : "kunta_091",
         "nimi" : {
@@ -156,16 +192,7 @@
         }
       } ],
       "tutkintonimikkeet" : null,
-      "opetusajat" : [ {
-        "koodiUri" : "opetusaikakk_1#1",
-        "nimi" : {
-          "fi" : "opetusaikakk_1#1 nimi fi",
-          "sv" : "opetusaikakk_1#1 nimi sv"
-        }
-      } ],
-      "koulutustyyppi" : "amm",
-      "onkoMaksullinen" : true,
-      "maksunMaara" : 200.5
+      "koulutustyyppi" : "amm"
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
@@ -187,20 +214,21 @@
     "onkoTuleva" : true,
     "metadata" : {
       "tutkintonimikkeet" : null,
-      "opintojenLaajuus" : {
+      "opintojenlaajuus" : {
         "koodiUri" : "opintojenlaajuus_30",
         "nimi" : {
           "fi" : "opintojenlaajuus_30 nimi fi",
           "sv" : "opintojenlaajuus_30 nimi sv"
         }
       },
-      "opintojenLaajuusyksikko" : {
+      "opintojenlaajuusyksikko" : {
         "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
           "fi" : "opintojenlaajuusyksikko_6 nimi fi",
           "sv" : "opintojenlaajuusyksikko_6 nimi sv"
         }
       },
+      "opintojenlaajuusNumero" : 30,
       "koulutustyypit" : [ ],
       "koulutustyyppi" : "amm-osaamisala",
       "kunnat" : [ {
@@ -231,17 +259,11 @@
     "onkoTuleva" : true,
     "metadata" : {
       "tutkintonimikkeet" : null,
-      "opintojenLaajuus" : null,
-      "opintojenLaajuusyksikko" : null,
+      "opintojenlaajuus" : null,
+      "opintojenlaajuusyksikko" : null,
+      "opintojenlaajuusNumero" : null,
       "koulutustyypit" : [ ],
       "koulutustyyppi" : "amm-tutkinnon-osa",
-      "kunnat" : [ {
-        "koodiUri" : "kunta_091",
-        "nimi" : {
-          "fi" : "kunta_091 nimi fi",
-          "sv" : "kunta_091 nimi sv"
-        }
-      } ],
       "tutkinnonOsat" : [ {
         "eperuste" : 123,
         "koulutus" : {
@@ -251,14 +273,15 @@
             "sv" : "koulutus_371101#1 nimi sv"
           }
         },
-        "opintojenLaajuus" : {
+        "opintojenlaajuusNumero" : 50,
+        "opintojenlaajuus" : {
           "koodiUri" : "opintojenlaajuus_50",
           "nimi" : {
             "fi" : "opintojenlaajuus_50 nimi fi",
             "sv" : "opintojenlaajuus_50 nimi sv"
           }
         },
-        "opintojenLaajuusyksikko" : {
+        "opintojenlaajuusyksikko" : {
           "koodiUri" : "opintojenlaajuusyksikko_6",
           "nimi" : {
             "fi" : "opintojenlaajuusyksikko_6 nimi fi",
@@ -272,8 +295,28 @@
             "sv" : "tutkinnonosat_12345 nimi sv"
           }
         }
+      } ],
+      "kunnat" : [ {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
       } ]
     }
   } ],
-  "timestamp" : 1570709741918
+  "nimi" : {
+    "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
+    "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
+  },
+  "paikkakunnat" : [ {
+    "koodiUri" : "kunta_091",
+    "nimi" : {
+      "fi" : "kunta_091 nimi fi",
+      "sv" : "kunta_091 nimi sv"
+    }
+  } ],
+  "oid" : "1.2.246.562.10.77777777799",
+  "kielivalinta" : [ "fi", "sv" ],
+  "timestamp" : 1601550967783
 }

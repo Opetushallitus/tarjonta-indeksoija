@@ -51,11 +51,12 @@
        :onkoTuleva         true
        :nimi               (:nimi koulutus)
        :metadata           (cond-> {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
-                                    :opintojenLaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
-                                    :opintojenLaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
+                                    :opintojenlaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
+                                    :opintojenlaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
+                                    :opintojenlaajuusNumero          (opintojenlaajuusNumero koulutus)
                                     :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
                                     :koulutustyyppi                  (:koulutustyyppi koulutus)}
-                                   (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsaKoodiUrit koulutus)))))
+                                   (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsa koulutus)))))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
@@ -79,10 +80,13 @@
          :onkoTuleva         false
          :metadata           (cond-> {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
                                       :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                      :opintojenlaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
+                                      :opintojenlaajuusNumero          (opintojenlaajuusNumero koulutus)
+                                      :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
                                       :onkoMaksullinen     (:onkoMaksullinen opetus)
                                       :maksunMaara         (:maksunMaara opetus)
                                       :koulutustyyppi      (:koulutustyyppi koulutus)}
-                                     (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsaKoodiUrit koulutus))))))
+                                     (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsa koulutus))))))
 
 (defn- get-kouta-oppilaitos
   [oid]
