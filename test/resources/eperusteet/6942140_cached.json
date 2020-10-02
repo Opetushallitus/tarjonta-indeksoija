@@ -62,7 +62,7 @@
     },
     "koodiUri" : "opintojenlaajuus_180"
   },
-  "opintojenlaajuusyksikko" : {
+  "opintojenLaajuusyksikko" : {
     "koodiUri" : "opintojenlaajuusyksikko_6",
     "nimi" : {
       "fi" : "opintojenlaajuusyksikko_6 nimi fi",

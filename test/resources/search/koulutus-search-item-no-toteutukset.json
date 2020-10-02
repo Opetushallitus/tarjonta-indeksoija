@@ -21,15 +21,15 @@
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
   "eperuste" : 1234,
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
-  "opintojenlaajuusNumero" : 150,
-  "opintojenlaajuus" : {
+  "opintojenLaajuusNumero" : 150,
+  "opintojenLaajuus" : {
     "koodiUri" : "opintojenlaajuus_150",
     "nimi" : {
       "fi" : "opintojenlaajuus_150 nimi fi",
       "sv" : "opintojenlaajuus_150 nimi sv"
     }
   },
-  "opintojenlaajuusyksikko" : {
+  "opintojenLaajuusyksikko" : {
     "koodiUri" : "opintojenlaajuusyksikko_6",
     "nimi" : {
       "fi" : "opintojenlaajuusyksikko_6 nimi fi",

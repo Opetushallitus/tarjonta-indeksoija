@@ -73,7 +73,7 @@
     "koulutustyyppi_26" "amm" ;; Ammatillinen perustutkinto (reformin mukainen)
     "muu"))
 
-(defn eperuste-laajuusyksikko->opintojenlaajuusyksikko
+(defn eperuste-laajuusyksikko->opintojen-laajuusyksikko
   [laajuusyksikko]
   (case laajuusyksikko
     "OPINTOPISTE"  "opintojenlaajuusyksikko_2"

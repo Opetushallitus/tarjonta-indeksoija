@@ -1,5 +1,5 @@
 {
-  "opintojenlaajuusyksikko" : {
+  "opintojenLaajuusyksikko" : {
     "koodiUri" : "opintojenlaajuusyksikko_6",
     "nimi" : {
       "fi" : "opintojenlaajuusyksikko_6 nimi fi",
@@ -53,8 +53,8 @@
     }
   },
   "tutkintonimikkeet" : null,
-  "opintojenlaajuusNumero" : 30,
-  "opintojenlaajuus" : {
+  "opintojenLaajuusNumero" : 30,
+  "opintojenLaajuus" : {
     "koodiUri" : "opintojenlaajuus_30",
     "nimi" : {
       "fi" : "opintojenlaajuus_30 nimi fi",

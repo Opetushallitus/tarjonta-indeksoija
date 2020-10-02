@@ -51,9 +51,9 @@
        :onkoTuleva         true
        :nimi               (:nimi koulutus)
        :metadata           (cond-> {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
-                                    :opintojenlaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
-                                    :opintojenlaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
-                                    :opintojenlaajuusNumero          (opintojenlaajuusNumero koulutus)
+                                    :opintojenLaajuusKoodiUri        (opintojenLaajuusKoodiUri koulutus)
+                                    :opintojenLaajuusyksikkoKoodiUri (opintojenLaajuusyksikkoKoodiUri koulutus)
+                                    :opintojenLaajuusNumero          (opintojenLaajuusNumero koulutus)
                                     :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
                                     :koulutustyyppi                  (:koulutustyyppi koulutus)}
                                    (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsa koulutus)))))
@@ -80,8 +80,8 @@
          :onkoTuleva         false
          :metadata           (cond-> {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
                                       :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                      :opintojenlaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
-                                      :opintojenlaajuusNumero          (opintojenlaajuusNumero koulutus)
+                                      :opintojenLaajuusyksikkoKoodiUri (opintojenLaajuusyksikkoKoodiUri koulutus)
+                                      :opintojenLaajuusNumero          (opintojenLaajuusNumero koulutus)
                                       :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
                                       :onkoMaksullinen     (:onkoMaksullinen opetus)
                                       :maksunMaara         (:maksunMaara opetus)

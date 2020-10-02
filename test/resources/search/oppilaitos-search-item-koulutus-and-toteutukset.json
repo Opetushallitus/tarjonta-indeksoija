@@ -37,21 +37,21 @@
           "sv" : "tutkintonimikkeet_02 nimi sv"
         }
       } ],
-      "opintojenlaajuus" : {
+      "opintojenLaajuus" : {
         "koodiUri" : "opintojenlaajuus_150",
         "nimi" : {
           "fi" : "opintojenlaajuus_150 nimi fi",
           "sv" : "opintojenlaajuus_150 nimi sv"
         }
       },
-      "opintojenlaajuusyksikko" : {
+      "opintojenLaajuusyksikko" : {
         "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
           "fi" : "opintojenlaajuusyksikko_6 nimi fi",
           "sv" : "opintojenlaajuusyksikko_6 nimi sv"
         }
       },
-      "opintojenlaajuusNumero" : 150,
+      "opintojenLaajuusNumero" : 150,
       "koulutustyypit" : [ {
         "koodiUri" : "koulutustyyppi_01",
         "nimi" : {
@@ -94,7 +94,7 @@
     "kuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
     "metadata" : {
-      "opintojenlaajuusyksikko" : {
+      "opintojenLaajuusyksikko" : {
         "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
           "fi" : "opintojenlaajuusyksikko_6 nimi fi",
@@ -115,7 +115,7 @@
         }
       } ],
       "maksunMaara" : 200.5,
-      "opintojenlaajuusNumero" : 150,
+      "opintojenLaajuusNumero" : 150,
       "opetusajat" : [ {
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {
@@ -154,7 +154,7 @@
     "kuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
     "metadata" : {
-      "opintojenlaajuusyksikko" : {
+      "opintojenLaajuusyksikko" : {
         "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
           "fi" : "opintojenlaajuusyksikko_6 nimi fi",
@@ -175,7 +175,7 @@
         }
       } ],
       "maksunMaara" : 200.5,
-      "opintojenlaajuusNumero" : 150,
+      "opintojenLaajuusNumero" : 150,
       "opetusajat" : [ {
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {
@@ -214,21 +214,21 @@
     "onkoTuleva" : true,
     "metadata" : {
       "tutkintonimikkeet" : null,
-      "opintojenlaajuus" : {
+      "opintojenLaajuus" : {
         "koodiUri" : "opintojenlaajuus_30",
         "nimi" : {
           "fi" : "opintojenlaajuus_30 nimi fi",
           "sv" : "opintojenlaajuus_30 nimi sv"
         }
       },
-      "opintojenlaajuusyksikko" : {
+      "opintojenLaajuusyksikko" : {
         "koodiUri" : "opintojenlaajuusyksikko_6",
         "nimi" : {
           "fi" : "opintojenlaajuusyksikko_6 nimi fi",
           "sv" : "opintojenlaajuusyksikko_6 nimi sv"
         }
       },
-      "opintojenlaajuusNumero" : 30,
+      "opintojenLaajuusNumero" : 30,
       "koulutustyypit" : [ ],
       "koulutustyyppi" : "amm-osaamisala",
       "kunnat" : [ {
@@ -259,9 +259,9 @@
     "onkoTuleva" : true,
     "metadata" : {
       "tutkintonimikkeet" : null,
-      "opintojenlaajuus" : null,
-      "opintojenlaajuusyksikko" : null,
-      "opintojenlaajuusNumero" : null,
+      "opintojenLaajuus" : null,
+      "opintojenLaajuusyksikko" : null,
+      "opintojenLaajuusNumero" : null,
       "koulutustyypit" : [ ],
       "koulutustyyppi" : "amm-tutkinnon-osa",
       "tutkinnonOsat" : [ {
@@ -273,15 +273,15 @@
             "sv" : "koulutus_371101#1 nimi sv"
           }
         },
-        "opintojenlaajuusNumero" : 50,
-        "opintojenlaajuus" : {
+        "opintojenLaajuusNumero" : 50,
+        "opintojenLaajuus" : {
           "koodiUri" : "opintojenlaajuus_50",
           "nimi" : {
             "fi" : "opintojenlaajuus_50 nimi fi",
             "sv" : "opintojenlaajuus_50 nimi sv"
           }
         },
-        "opintojenlaajuusyksikko" : {
+        "opintojenLaajuusyksikko" : {
           "koodiUri" : "opintojenlaajuusyksikko_6",
           "nimi" : {
             "fi" : "opintojenlaajuusyksikko_6 nimi fi",

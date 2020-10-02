@@ -124,9 +124,9 @@
                   (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
                   (assoc :teemakuva               (:teemakuva koulutus))
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
-                  (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
-                  (assoc :opintojenlaajuusNumero  (opintojenlaajuusNumero koulutus))
-                  (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
+                  (assoc :opintojenLaajuus        (opintojenLaajuusKoodiUri koulutus))
+                  (assoc :opintojenLaajuusNumero  (opintojenLaajuusNumero koulutus))
+                  (assoc :opintojenLaajuusyksikko (opintojenLaajuusyksikkoKoodiUri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus)))]
     (if (amm-tutkinnon-osa? koulutus)

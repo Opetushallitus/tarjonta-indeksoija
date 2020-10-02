@@ -3,19 +3,19 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :refer :all]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [clojure.core.cache :as cache]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version eperuste-laajuusyksikko->opintojenlaajuusyksikko]]))
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version eperuste-laajuusyksikko->opintojen-laajuusyksikko]]))
 
 (defonce eperuste_cache_time_millis (* 1000 60 20))
 
 (defonce EPERUSTE_CACHE (atom (cache/ttl-cache-factory {} :ttl eperuste_cache_time_millis)))
 
 (defn- get-opintojen-laajuus
-  [opintojenlaajuusNumero]
-  (when opintojenlaajuusNumero
-    (let [opintojenlaajuusNumeroAsInt (if (string? opintojenlaajuusNumero) (Integer/parseInt opintojenlaajuusNumero) (int opintojenlaajuusNumero))
-          opintojenlaajuusKoodiUri (str "opintojenlaajuus_" opintojenlaajuusNumeroAsInt)
-          {:keys [nimi koodiUri]} (get-koodi-nimi-with-cache opintojenlaajuusKoodiUri)]
-      {:opintojenLaajuusNumero opintojenlaajuusNumero
+  [opintojenLaajuusNumero]
+  (when opintojenLaajuusNumero
+    (let [opintojenLaajuusNumeroAsInt (if (string? opintojenLaajuusNumero) (Integer/parseInt opintojenLaajuusNumero) (int opintojenLaajuusNumero))
+          opintojenLaajuusKoodiUri (str "opintojenlaajuus_" opintojenLaajuusNumeroAsInt)
+          {:keys [nimi koodiUri]} (get-koodi-nimi-with-cache opintojenLaajuusKoodiUri)]
+      {:opintojenLaajuusNumero opintojenLaajuusNumero
        :opintojenLaajuus (if (not (or (nil? nimi) (= {} nimi))) {:nimi nimi :koodiUri koodiUri} {})})))
 
 (defn- get-tutkinnon-osat
@@ -52,14 +52,14 @@
 (defn- strip
   [eperuste]
   (if-let [suoritustapa (some-> eperuste :suoritustavat (first))]
-    (let [opintojenlaajuus                (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
-          opintojenlaajuusyksikkoKoodiUri (eperuste-laajuusyksikko->opintojenlaajuusyksikko (:laajuusYksikko suoritustapa))
-          opintojenlaajuusyksikko         (when opintojenlaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenlaajuusyksikkoKoodiUri))
+    (let [opintojenLaajuus                (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
+          opintojenLaajuusyksikkoKoodiUri (eperuste-laajuusyksikko->opintojen-laajuusyksikko (:laajuusYksikko suoritustapa))
+          opintojenLaajuusyksikko         (when opintojenLaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenLaajuusyksikkoKoodiUri))
           tutkinnonOsat                   (get-tutkinnon-osat eperuste)
           osaamisalat                     (get-osaamisalat eperuste)]
       (cond-> (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])
-              (not (nil? opintojenlaajuus))                (merge opintojenlaajuus)
-              (not (nil? opintojenlaajuusyksikko))         (assoc :opintojenlaajuusyksikko opintojenlaajuusyksikko)
+              (not (nil? opintojenLaajuus))                (merge opintojenLaajuus)
+              (not (nil? opintojenLaajuusyksikko))         (assoc :opintojenLaajuusyksikko opintojenLaajuusyksikko)
               (not (nil? tutkinnonOsat))                   (assoc :tutkinnonOsat tutkinnonOsat)
               (not (nil? osaamisalat))                     (assoc :osaamisalat osaamisalat)))
     (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])))
