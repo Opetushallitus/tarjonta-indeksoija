@@ -130,7 +130,7 @@
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus)))]
     (if (amm-tutkinnon-osa? koulutus)
-      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsa) (common/decorate-koodi-uris)))
+      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsat) (common/decorate-koodi-uris)))
       entry)))
 
 (defn create-index-entry

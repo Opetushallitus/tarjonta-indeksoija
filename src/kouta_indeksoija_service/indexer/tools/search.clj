@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi, get-eperuste-by-id]]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
 
 (defn- clean-uris
@@ -163,13 +163,14 @@
     (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
-(defn tutkinnonOsa
+(defn tutkinnonOsat
   [koulutus]
   (when (amm-tutkinnon-osa? koulutus)
     (-> (for [tutkinnon-osa (get-in koulutus [:metadata :tutkinnonOsat])
-              :let [eperuste (get-eperuste-by-id (:ePerusteId tutkinnon-osa))
-                    eperuste-tutkinnon-osa (first (filter #(= (:id %) (:tutkinnonosaId tutkinnon-osa)) (:tutkinnonOsat eperuste)))]]
-          {:eperuste (:ePerusteId tutkinnon-osa)
+              :let [eperuste-id (:ePerusteId tutkinnon-osa)
+                    eperuste (get-eperuste-by-id eperuste-id)
+                    eperuste-tutkinnon-osa (filter-tutkinnon-osa eperuste (:tutkinnonosaId tutkinnon-osa))]]
+          {:eperuste eperuste-id
            :koulutus (:koulutusKoodiUri tutkinnon-osa)
            :opintojenLaajuusNumero (some-> eperuste-tutkinnon-osa :opintojenLaajuusNumero)
            :opintojenLaajuus (some-> eperuste-tutkinnon-osa :opintojenLaajuus :koodiUri)

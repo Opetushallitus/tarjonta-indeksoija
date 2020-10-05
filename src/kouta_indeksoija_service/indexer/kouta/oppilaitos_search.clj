@@ -56,7 +56,7 @@
                                     :opintojenLaajuusNumero          (opintojenLaajuusNumero koulutus)
                                     :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
                                     :koulutustyyppi                  (:koulutustyyppi koulutus)}
-                                   (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsa koulutus)))))
+                                   (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsat koulutus)))))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
@@ -86,7 +86,7 @@
                                       :onkoMaksullinen     (:onkoMaksullinen opetus)
                                       :maksunMaara         (:maksunMaara opetus)
                                       :koulutustyyppi      (:koulutustyyppi koulutus)}
-                                     (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsa koulutus))))))
+                                     (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsat koulutus))))))
 
 (defn- get-kouta-oppilaitos
   [oid]

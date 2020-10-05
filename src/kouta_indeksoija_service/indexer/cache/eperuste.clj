@@ -90,3 +90,10 @@
     eperuste
     (do (cache-eperuste-by-id id)
         (cache/lookup @EPERUSTE_CACHE id))))
+
+(defn filter-tutkinnon-osa
+  [eperuste tutkinnon-osa-id]
+  (some->> eperuste
+           :tutkinnonOsat
+           (filter #(= (:id %) tutkinnon-osa-id))
+           (first)))
