@@ -94,28 +94,7 @@
     "kuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
     "metadata" : {
-      "opintojenLaajuusyksikko" : {
-        "koodiUri" : "opintojenlaajuusyksikko_6",
-        "nimi" : {
-          "fi" : "opintojenlaajuusyksikko_6 nimi fi",
-          "sv" : "opintojenlaajuusyksikko_6 nimi sv"
-        }
-      },
-      "koulutustyypit" : [ {
-        "koodiUri" : "koulutustyyppi_01",
-        "nimi" : {
-          "fi" : "koulutustyyppi_01 nimi fi",
-          "sv" : "koulutustyyppi_01 nimi sv"
-        }
-      }, {
-        "koodiUri" : "koulutustyyppi_02",
-        "nimi" : {
-          "fi" : "koulutustyyppi_02 nimi fi",
-          "sv" : "koulutustyyppi_02 nimi sv"
-        }
-      } ],
       "maksunMaara" : 200.5,
-      "opintojenLaajuusNumero" : 150,
       "opetusajat" : [ {
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {
@@ -154,28 +133,7 @@
     "kuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : false,
     "metadata" : {
-      "opintojenLaajuusyksikko" : {
-        "koodiUri" : "opintojenlaajuusyksikko_6",
-        "nimi" : {
-          "fi" : "opintojenlaajuusyksikko_6 nimi fi",
-          "sv" : "opintojenlaajuusyksikko_6 nimi sv"
-        }
-      },
-      "koulutustyypit" : [ {
-        "koodiUri" : "koulutustyyppi_01",
-        "nimi" : {
-          "fi" : "koulutustyyppi_01 nimi fi",
-          "sv" : "koulutustyyppi_01 nimi sv"
-        }
-      }, {
-        "koodiUri" : "koulutustyyppi_02",
-        "nimi" : {
-          "fi" : "koulutustyyppi_02 nimi fi",
-          "sv" : "koulutustyyppi_02 nimi sv"
-        }
-      } ],
       "maksunMaara" : 200.5,
-      "opintojenLaajuusNumero" : 150,
       "opetusajat" : [ {
         "koodiUri" : "opetusaikakk_1#1",
         "nimi" : {

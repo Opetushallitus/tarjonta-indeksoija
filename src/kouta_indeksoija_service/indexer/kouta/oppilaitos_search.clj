@@ -78,15 +78,11 @@
          :nimi               (:nimi toteutus)
          :kuva               (:teemakuva toteutus)
          :onkoTuleva         false
-         :metadata           (cond-> {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
-                                      :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                      :opintojenLaajuusyksikkoKoodiUri (opintojenLaajuusyksikkoKoodiUri koulutus)
-                                      :opintojenLaajuusNumero          (opintojenLaajuusNumero koulutus)
-                                      :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
-                                      :onkoMaksullinen     (:onkoMaksullinen opetus)
-                                      :maksunMaara         (:maksunMaara opetus)
-                                      :koulutustyyppi      (:koulutustyyppi koulutus)}
-                                     (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsat koulutus))))))
+         :metadata           {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
+                              :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                              :onkoMaksullinen     (:onkoMaksullinen opetus)
+                              :maksunMaara         (:maksunMaara opetus)
+                              :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn- get-kouta-oppilaitos
   [oid]
