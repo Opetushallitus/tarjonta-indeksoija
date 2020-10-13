@@ -1,8 +1,11 @@
 (ns kouta-indeksoija-service.indexer.tools.general)
 
+(defonce Julkaistu "julkaistu")
+(defonce Tallennettu "tallennettu")
+
 (defn julkaistu?
   [entry]
-  (and (not (nil? entry)) (= (:tila entry) "julkaistu")))
+  (and (not (nil? entry)) (= (:tila entry) Julkaistu)))
 
 (defn ammatillinen?
   [koulutus]

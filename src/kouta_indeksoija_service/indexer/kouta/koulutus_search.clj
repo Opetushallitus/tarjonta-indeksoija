@@ -14,18 +14,17 @@
 (def index-name "koulutus-kouta-search")
 
 
-(defn- get-logo
+(defn- get-logo-and-tila
   [oid]
-  (when (not (nil? oid))
-    (let [oppilaitos (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))]
-      (when (julkaistu? oppilaitos) (:logo oppilaitos)))))
+  (when oid
+    (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))))
 
 (defn- get-oppilaitos
   [hierarkia]
   (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-    (if-let [logo (get-logo (:oid oppilaitos))]
-      (assoc oppilaitos :logo logo)
-      oppilaitos)))
+    (let [{:keys [tila logo]} (get-logo-and-tila (:oid oppilaitos))]
+      (cond-> (assoc oppilaitos :tila tila)
+              (julkaistu? {:tila tila}) (assoc :logo logo)))))
 
 (defn tuleva-jarjestaja-hit
   [hierarkia koulutus]
@@ -42,7 +41,8 @@
          :oppilaitosOid      (:oid oppilaitos)
          :onkoTuleva         true
          :nimi               (:nimi oppilaitos)
-         :metadata           {:koulutustyyppi (koulutustyyppi-for-organisaatio oppilaitos)})))
+         :metadata           {:oppilaitosTila (:tila oppilaitos)
+                              :koulutustyyppi (koulutustyyppi-for-organisaatio oppilaitos)})))
 
 (defn jarjestaja-hits
   [hierarkia koulutus toteutukset]
@@ -76,7 +76,8 @@
                                        :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
                                        :onkoMaksullinen            (:onkoMaksullinen opetus)
                                        :maksunMaara                (:maksunMaara opetus)
-                                       :koulutustyyppi             (koulutustyyppi-for-organisaatio oppilaitos)})))))
+                                       :koulutustyyppi             (koulutustyyppi-for-organisaatio oppilaitos)
+                                       :oppilaitosTila             (:tila oppilaitos)})))))
 
 (defn tuleva-jarjestaja?
   [hierarkia toteutukset]
