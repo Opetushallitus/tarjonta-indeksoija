@@ -45,7 +45,7 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-  - provider: 
+  - provider: script
     script: lein deploy
     skip_cleanup: true
     on:
