@@ -44,7 +44,7 @@ deploy:
     script: lein deploy
     skip_cleanup: true
     on:
-      branch: KTO-881-tutkintoon-johtamattomien-indeksointi
+      branch: master
   - provider: script
     script: ./ci-tools/build/upload-image.sh ${ARTIFACT_NAME}
     on:
