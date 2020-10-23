@@ -1,0 +1,82 @@
+{
+  "opintojenLaajuusyksikko" : null,
+  "opintojenLaajuusNumero" : null,
+  "kuvaus" : {
+    "fi" : "kuvaus",
+    "sv" : "kuvaus sv"
+  },
+  "teemakuva" : "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "tutkinnonOsat" : [ {
+    "eperuste" : 123,
+    "koulutus" : {
+      "koodiUri" : "koulutus_371101#1",
+      "nimi" : {
+        "fi" : "koulutus_371101#1 nimi fi",
+        "sv" : "koulutus_371101#1 nimi sv"
+      }
+    },
+    "opintojenLaajuusNumero" : 50,
+    "opintojenLaajuus" : {
+      "koodiUri" : "opintojenlaajuus_50",
+      "nimi" : {
+        "fi" : "opintojenlaajuus_50 nimi fi",
+        "sv" : "opintojenlaajuus_50 nimi sv"
+      }
+    },
+    "opintojenLaajuusyksikko" : {
+      "koodiUri" : "opintojenlaajuusyksikko_6",
+      "nimi" : {
+        "fi" : "opintojenlaajuusyksikko_6 nimi fi",
+        "sv" : "opintojenlaajuusyksikko_6 nimi sv"
+      }
+    },
+    "tutkinnonOsat" : {
+      "koodiUri" : "tutkinnonosat_12345",
+      "nimi" : {
+        "fi" : "tutkinnonosat_12345 nimi fi",
+        "sv" : "tutkinnonosat_12345 nimi sv"
+      }
+    }
+  } ],
+  "hits" : [ {
+    "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "koulutustyypit" : [ "amm-tutkinnon-osa" ],
+    "terms" : {
+      "fi" : [ "Hevosalan tutkinnon osat fi", "Oppilaitos fi 1.2.246.562.10.77777777799" ],
+      "sv" : [ "Hevosalan tutkinnon osat sv", "Oppilaitos sv 1.2.246.562.10.77777777799" ],
+      "en" : [ ]
+    },
+    "opetuskielet" : [ ],
+    "nimi" : {
+      "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
+      "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
+    },
+    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
+    "kuva" : "https://testi.fi/oppilaitos-logo/oid/logo.png",
+    "onkoTuleva" : true,
+    "oppilaitosOid" : "1.2.246.562.10.77777777799",
+    "metadata" : {
+      "koulutustyyppi" : "yo",
+      "oppilaitosTila" : "julkaistu",
+      "kunnat" : [ {
+        "koodiUri" : "kunta_091",
+        "nimi" : {
+          "fi" : "kunta_091 nimi fi",
+          "sv" : "kunta_091 nimi sv"
+        }
+      } ]
+    }
+  } ],
+  "nimi" : {
+    "fi" : "Hevosalan tutkinnon osat fi",
+    "sv" : "Hevosalan tutkinnon osat sv"
+  },
+  "oid" : "1.2.246.562.13.00000000000000000096",
+  "kielivalinta" : [ "fi", "sv" ],
+  "koulutus" : null,
+  "tutkintonimikkeet" : null,
+  "opintojenLaajuus" : null,
+  "timestamp" : 1601287328081,
+  "eperuste" : null,
+  "koulutustyyppi" : "amm-tutkinnon-osa"
+}

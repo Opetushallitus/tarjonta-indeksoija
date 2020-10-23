@@ -50,11 +50,13 @@
        :kuva               (:teemakuva koulutus)
        :onkoTuleva         true
        :nimi               (:nimi koulutus)
-       :metadata           {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
-                            :opintojenLaajuusKoodiUri        (opintojenlaajuusKoodiUri koulutus)
-                            :opintojenLaajuusyksikkoKoodiUri (opintojenlaajuusyksikkoKoodiUri koulutus)
-                            :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
-                            :koulutustyyppi                  (:koulutustyyppi koulutus)}))
+       :metadata           (cond-> {:tutkintonimikkeetKoodiUrit      (tutkintonimikeKoodiUrit koulutus)
+                                    :opintojenLaajuusKoodiUri        (opintojenLaajuusKoodiUri koulutus)
+                                    :opintojenLaajuusyksikkoKoodiUri (opintojenLaajuusyksikkoKoodiUri koulutus)
+                                    :opintojenLaajuusNumero          (opintojenLaajuusNumero koulutus)
+                                    :koulutustyypitKoodiUrit         (koulutustyyppiKoodiUrit koulutus)
+                                    :koulutustyyppi                  (:koulutustyyppi koulutus)}
+                                   (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (tutkinnonOsat koulutus)))))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]

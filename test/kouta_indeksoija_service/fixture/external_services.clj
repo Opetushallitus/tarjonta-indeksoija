@@ -45,7 +45,16 @@
                   :koulutuskoodiUri "koulutus_354345"}]
    :tutkintonimikkeet [{:tutkintonimikeUri "tutkintonimikkeet_01" :nimi {:fi "tutkintonimikkeet_01 nimi fi" :sv "tutkintonimikkeet_01 nimi sv"}}
                        {:tutkintonimikeUri "tutkintonimikkeet_02" :nimi {:fi "tutkintonimikkeet_02 nimi fi" :sv "tutkintonimikkeet_02 nimi sv"}}],
-   :suoritustavat [{:laajuusYksikko "OSAAMISPISTE" :rakenne {:muodostumisSaanto {:laajuus {:minimi 150 :maksimi 150}}}}]})
+   :suoritustavat [{:laajuusYksikko "OSAAMISPISTE"
+                    :rakenne {:muodostumisSaanto {:laajuus {:minimi 150 :maksimi 150}},
+                              :osat [{:tunniste "osaamisala tunniste 1"
+                                      :osaamisala {:nimi {:fi "Osaamisala 01 fi" :sv "Osaamisala 01 sv"},
+                                                   :osaamisalakoodiArvo "01",
+                                                   :osaamisalakoodiUri "osaamisala_01"},
+                                      :muodostumisSaanto {:laajuus {:minimi 30 :maksimi 30}}}]},
+                    :tutkinnonOsaViitteet [{:id 122, :laajuus 50, :jarjestys 1, :_tutkinnonOsa 1234}]}]
+   :tutkinnonOsat [{:id 1234 :koodi {:nimi {:fi "tutkinnon osa 123 fi" :sv "tutkinnon osa 123 sv"},
+                                     :uri "tutkinnonosat_12345"}}]})
 
 (defn- oppilaitos1-hierarkia?
   [oid]

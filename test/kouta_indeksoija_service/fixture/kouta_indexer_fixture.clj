@@ -343,8 +343,7 @@
                  kouta-indeksoija-service.fixture.external-services/mock-alakoodit
 
                  kouta-indeksoija-service.rest.eperuste/get-doc
-                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
-                 ]
+                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste]
      (do ~@body)))
 
 (defn index-oppilaitokset

@@ -13,11 +13,11 @@
   [koulutusKoodiUri]
   (list-alakoodi-nimet-with-cache koulutusKoodiUri "tutkintonimikkeet"))
 
-(defn opintojenlaajuus
+(defn opintojen-laajuus
   [koulutusKoodiUri]
   (get-alakoodi-nimi-with-cache koulutusKoodiUri "opintojenlaajuus"))
 
-(defn opintojenlaajuusyksikko
+(defn opintojen-laajuusyksikko
   [koulutusKoodiUri]
   (get-alakoodi-nimi-with-cache koulutusKoodiUri "opintojenlaajuusyksikko"))
 
