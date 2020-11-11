@@ -88,15 +88,15 @@
       },
       "jarjestyspaikka": {
         "paikkakunta": {
-          "koodiUri": "kunta_091",
+          "koodiUri": "kunta_297",
           "nimi": {
-            "fi": "kunta_091 nimi fi",
-            "sv": "kunta_091 nimi sv"
+            "fi": "kunta_297 nimi fi",
+            "sv": "kunta_297 nimi sv"
           }
         },
         "nimi": {
-          "fi": "Nimi 1.2.246.562.10.67476956288 fi",
-          "en": "Nimi 1.2.246.562.10.67476956288 en"
+          "fi": "Jokin järjestyspaikka",
+          "sv": "Jokin järjestyspaikka sv"
         },
         "oid": "1.2.246.562.10.67476956288"
       },
@@ -184,15 +184,15 @@
       },
       "jarjestyspaikka": {
         "paikkakunta": {
-          "koodiUri": "kunta_091",
+          "koodiUri": "kunta_297",
           "nimi": {
-            "fi": "kunta_091 nimi fi",
-            "sv": "kunta_091 nimi sv"
+            "fi": "kunta_297 nimi fi",
+            "sv": "kunta_297 nimi sv"
           }
         },
         "nimi": {
-          "fi": "Nimi 1.2.246.562.10.67476956288 fi",
-          "en": "Nimi 1.2.246.562.10.67476956288 en"
+          "fi": "Jokin järjestyspaikka",
+          "sv": "Jokin järjestyspaikka sv"
         },
         "oid": "1.2.246.562.10.67476956288"
       },

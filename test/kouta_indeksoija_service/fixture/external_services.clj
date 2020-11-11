@@ -6,6 +6,7 @@
 (def Toimipiste2OfOppilaitos1 "1.2.246.562.10.54545454522")
 (def Oppilaitos2 "1.2.246.562.10.55555555555")
 (def Toimipiste1OfOppilaitos2 "1.2.246.562.10.55555555511")
+(def Jarjestyspaikka "1.2.246.562.10.67476956288")
 
 (defn mock-organisaatio
   [oid]
@@ -15,6 +16,7 @@
       Toimipiste1OfOppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu, Helsingin toimipiste" :sv "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"} :oid oid :kotipaikkaUri "kunta_091" }
       Toimipiste2OfOppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu, Kuopion toimipiste" :sv "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"} :oid oid :kotipaikkaUri "kunta_297" }
       Oppilaitos2 { :nimi { :fi "Toinen kiva ammattikorkeakoulu"} :oid oid :kotipaikkaUri "kunta_532" }
+      Jarjestyspaikka { :nimi { :fi "Jokin järjestyspaikka" :sv "Jokin järjestyspaikka sv"} :oid oid :kotipaikkaUri "kunta_297" }
       { :nimi { :fi (str "Nimi " oid " fi") :en (str "Nimi " oid " en")} :oid oid :kotipaikkaUri "kunta_091" } )))
 
 (defn mock-koodisto
