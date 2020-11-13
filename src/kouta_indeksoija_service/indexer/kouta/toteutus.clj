@@ -33,16 +33,19 @@
                                    :pohjakoulutusvaatimusKoodiUrit
                                    :pohjakoulutusvaatimusTarkenne
                                    :aloituspaikat
+                                   :jarjestyspaikkaOid
                                    :ensikertalaisenAloituspaikat])
-        (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde)))))
+        (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
+        (common/decorate-koodi-uris)
+        (common/assoc-jarjestyspaikka))))
 
 (defn- determine-correct-hakutiedot
   [ht-toteutus]
   (-> (for [ht-haku (:haut ht-toteutus)]
         (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri])
+            (common/decorate-koodi-uris)
             (assoc :hakukohteet (vec (create-hakukohteiden-hakutiedot ht-haku)))))
-      (vec)
-      (common/decorate-koodi-uris)))
+      (vec)))
 
 (defn- assoc-hakutiedot
   [toteutus hakutiedot]
