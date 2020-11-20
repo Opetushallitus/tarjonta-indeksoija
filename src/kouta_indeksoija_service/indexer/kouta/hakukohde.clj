@@ -36,11 +36,15 @@
       :alkamiskausiKoodiUri
       (clojure.string/starts-with? "kausi_k#")))
 
+(defn- get-alkamisvuosi-from-haku [haku]
+  (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi]))
+
 (defn- alkamisvuosi
   [haku hakukohde]
-  (-> (if (:kaytetaanHaunAlkamiskautta hakukohde) haku hakukohde)
-      :alkamisvuosi
-      Integer/valueOf))
+  (let [alkamisvuosi (if (:kaytetaanHaunAlkamiskautta hakukohde)
+                       (get-alkamisvuosi-from-haku haku)
+                       (:alkamisvuosi hakukohde))]
+    (Integer/valueOf alkamisvuosi)))
 
 (defn- alkamiskausi-ennen-syksya-2016?
   [haku hakukohde]
