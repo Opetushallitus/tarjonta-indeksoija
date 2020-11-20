@@ -224,7 +224,7 @@
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true")
-     (fixture/update-haku-mock haku-oid :tila "julkaistu" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020" :kohdejoukonTarkenneKoodiUri nil)
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri nil)
      (i/index-hakukohteet [hakukohde-oid])
      (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
      (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
