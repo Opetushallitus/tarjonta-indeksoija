@@ -5,8 +5,9 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]))
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
 (def index-name "koulutus-kouta")
 
@@ -38,11 +39,29 @@
   [koulutus]
   (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat]))))
 
+(defn- get-osaamisala
+  [eperuste koulutus]
+  (when-let [osaamisalaKoodiUri (some-> koulutus :metadata :osaamisala :koodiUri remove-uri-version)]
+    (some->> eperuste
+             :osaamisalat
+             (filter #(= osaamisalaKoodiUri (some-> % :koodiUri remove-uri-version)))
+             (first))))
+
+(defn- enrich-osaamisala-metadata
+  [koulutus]
+  (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
+        osaamisala (get-osaamisala eperuste koulutus)]
+    (-> koulutus
+        (assoc-in [:metadata :opintojenLaajuus] (:opintojenLaajuus osaamisala))
+        (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
+        (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala)))))
+
 (defn- enrich-metadata
   [koulutus]
   (cond
     (ammatillinen? koulutus) (enrich-ammatillinen-metadata koulutus)
     (amm-tutkinnon-osa? koulutus) (enrich-tutkinnon-osa-metadata koulutus)
+    (amm-osaamisala? koulutus) (enrich-osaamisala-metadata koulutus)
     :default koulutus))
 
 (defn create-index-entry
