@@ -279,7 +279,7 @@
     }],
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "alkamiskausi ja -vuosi",
-      "koulutuksenAlkamisvuosi": "2020",
+      "koulutuksenAlkamisvuosi": "!!thisYear",
       "koulutuksenAlkamiskausi": {
         "koodiUri": "kausi_k#1",
         "nimi": {
