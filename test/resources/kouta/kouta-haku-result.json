@@ -3,13 +3,6 @@
   "hakukohteenMuokkaamisenTakaraja" : "!!endTime1",
   "hakulomaketyyppi" : "ei sähköistä",
   "hakulomakeAtaruId" : "dcd38a87-912e-4e91-8840-99c7e242dd53",
-  "alkamiskausi" : {
-    "koodiUri" : "kausi_k#1",
-    "nimi" : {
-      "fi" : "kausi_k#1 nimi fi",
-      "sv" : "kausi_k#1 nimi sv"
-    }
-  },
   "modified": "2019-02-05T09:49",
   "hakutapa": {
     "koodiUri": "hakutapa_03#1",
@@ -242,7 +235,6 @@
     }
   },
   "timestamp" : 1549368453241,
-  "alkamisvuosi" : "!!thisYear",
   "hakukohteenLiittamisenTakaraja" : "!!startTime1",
   "organisaatio" : {
     "paikkakunta" : {
@@ -284,6 +276,17 @@
     "tulevaisuudenAikataulu" : [{
       "alkaa" : "!!startTime1",
       "paattyy" : "!!endTime1"
-    }]
+    }],
+    "koulutuksenAlkamiskausi": {
+      "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+      "koulutuksenAlkamisvuosi": "!!thisYear",
+      "koulutuksenAlkamiskausi": {
+        "koodiUri": "kausi_k#1",
+        "nimi": {
+          "fi": "kausi_k#1 nimi fi",
+          "sv": "kausi_k#1 nimi sv"
+        }
+      }
+    }
   }
 }
