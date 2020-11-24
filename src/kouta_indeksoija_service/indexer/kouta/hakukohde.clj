@@ -30,23 +30,17 @@
   [koulutus]
   (:johtaaTutkintoon koulutus))
 
-(defn- get-alkamiskausi-koodi-uri-from-haku [haku]
-  (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausiKoodiUri]))
-
 (defn- alkamiskausi-kevat?
   [haku hakukohde]
   (let [alkamiskausi-koodi-uri (if (:kaytetaanHaunAlkamiskautta hakukohde)
-                                 (get-alkamiskausi-koodi-uri-from-haku haku)
+                                 (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausiKoodiUri])
                                  (:alkamiskausiKoodiUri hakukohde))]
     (clojure.string/starts-with? alkamiskausi-koodi-uri "kausi_k#")))
-
-(defn- get-alkamisvuosi-from-haku [haku]
-  (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi]))
 
 (defn- alkamisvuosi
   [haku hakukohde]
   (let [alkamisvuosi (if (:kaytetaanHaunAlkamiskautta hakukohde)
-                       (get-alkamisvuosi-from-haku haku)
+                       (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi])
                        (:alkamisvuosi hakukohde))]
     (Integer/valueOf alkamisvuosi)))
 
