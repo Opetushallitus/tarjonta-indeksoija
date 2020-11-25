@@ -180,6 +180,12 @@
            :opintojenLaajuusyksikko (get-in eperuste [:opintojenLaajuusyksikko :koodiUri])
            :tutkinnonOsatKoodiUri (some-> eperuste-tutkinnon-osa :koodiUri)}))))
 
+(defn osaamisalaKoodiUri
+  [koulutus]
+  (some-> (get-eperuste koulutus)
+          (get-osaamisala koulutus)
+          (:koodiUri)))
+
 (defn koulutustyyppi-for-organisaatio
   [organisaatio]
   (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
