@@ -62,6 +62,7 @@
                   :oppilaitosOid      (:oid oppilaitos)
                   :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
                   :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
+                  :opetustapaUrit     (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
                   :nimet              (vector (:nimi koulutus) (:nimi toteutus))
                   ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
                   ;:haut              (:haut hakutieto) TODO
