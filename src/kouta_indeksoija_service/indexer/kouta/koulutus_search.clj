@@ -130,9 +130,9 @@
                   (assoc :opintojenLaajuusyksikko (opintojenLaajuusyksikkoKoodiUri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus)))]
-    (if (amm-tutkinnon-osa? koulutus)
-      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsat) (common/decorate-koodi-uris)))
-      entry)))
+    (cond-> entry
+            (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (tutkinnonOsat) (common/decorate-koodi-uris)))
+            (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (osaamisalaKoodiUri))})))))
 
 (defn create-index-entry
   [oid]
