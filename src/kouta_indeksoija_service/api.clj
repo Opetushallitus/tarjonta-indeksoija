@@ -2,7 +2,6 @@
   (:require [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.s3.s3-client :as s3-client]
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
@@ -38,9 +37,6 @@
 (defn init []
   (mount/start)
   (log/info "Running init")
-  (if (not= (:s3-dev-disabled env) "true")
-    (s3-client/init-s3-connection)
-    (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
   (init-elastic-client)
   (if (and (admin/initialize-cluster-settings)
            (admin/check-elastic-status)
