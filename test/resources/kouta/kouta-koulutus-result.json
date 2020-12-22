@@ -236,7 +236,7 @@
         }
       }
     ],
-    "koulutusala": [
+    "koulutusalat": [
       {
         "koodiUri": "kansallinenkoulutusluokitus2016koulutusalataso1_01",
         "nimi": {
