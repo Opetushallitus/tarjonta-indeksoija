@@ -37,7 +37,8 @@
 
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]
-  (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat]))))
+  (let [tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat])]
+    (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))))
 
 (defn- get-osaamisala
   [eperuste koulutus]
