@@ -49,12 +49,14 @@
 
 (defn- enrich-osaamisala-metadata
   [koulutus]
-  (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
+  (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+        eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
         osaamisala (get-osaamisala eperuste koulutus)]
     (-> koulutus
         (assoc-in [:metadata :opintojenLaajuus] (:opintojenLaajuus osaamisala))
         (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
-        (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala)))))
+        (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala))
+        (assoc-in [:metadata :koulutusala] (koulutusalat-taso1 koulutusKoodi)))))
 
 (defn- enrich-metadata
   [koulutus]
