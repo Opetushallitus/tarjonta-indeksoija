@@ -70,6 +70,7 @@
          :oppilaitos         oppilaitos
          :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
          :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
+         :opetustapaUrit     (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
          :nimet              (vector (:nimi koulutus) (:nimi toteutus))
          :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
          :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))

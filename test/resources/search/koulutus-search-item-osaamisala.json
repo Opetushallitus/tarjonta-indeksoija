@@ -6,6 +6,13 @@
       "sv" : "opintojenlaajuusyksikko_6 nimi sv"
     }
   },
+  "osaamisala" : {
+    "koodiUri" : "osaamisala_01",
+    "nimi" : {
+      "fi" : "osaamisala_01 nimi fi",
+      "sv" : "osaamisala_01 nimi sv"
+    }
+  },
   "kuvaus" : {
     "fi" : "kuvaus",
     "sv" : "kuvaus sv"
@@ -20,6 +27,7 @@
       "en" : [ ]
     },
     "opetuskielet" : [ ],
+    "opetustavat" : [],
     "nimi" : {
       "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
       "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"

@@ -229,7 +229,9 @@
 
 (defn reset-indices
   []
-  (doseq [index (->> (admin/list-indices-and-aliases) (keys) (map name))]
+  (doseq [index (->> (admin/list-indices-and-aliases)
+                     (keys)
+                     (map name))]
     (tools/delete-index index)))
 
 (defn indices-fixture

@@ -96,7 +96,21 @@
       } ],
       "hakukohdeOid" : "1.2.246.562.20.00000000000000000001",
       "alkamisvuosi" : "!!thisYear",
-      "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+      "valintaperusteId" : "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+      "jarjestyspaikka" : {
+        "paikkakunta" : {
+          "koodiUri" : "kunta_297",
+          "nimi" : {
+            "fi" : "kunta_297 nimi fi",
+            "sv" : "kunta_297 nimi sv"
+          }
+        },
+        "nimi" : {
+          "fi" : "Jokin järjestyspaikka",
+          "sv" : "Jokin järjestyspaikka sv"
+        },
+        "oid" : "1.2.246.562.10.67476956288"
+      }
     } ]
   } ],
   "timestamp" : 1549364610909,

@@ -405,7 +405,7 @@
 
        (POST "/koodistot" []
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
-         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi"}]
+         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi,opetuspaikkakk"}]
          (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))}))
 
        (POST "/lokalisointi" []

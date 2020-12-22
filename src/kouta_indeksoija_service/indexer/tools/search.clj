@@ -24,6 +24,7 @@
              asiasanat
              ammattinimikkeet
              tutkintonimikeUrit
+             opetustapaUrit
              oppilaitosOid
              koulutusOid
              toteutusOid
@@ -43,6 +44,7 @@
            asiasanat []
            ammattinimikkeet []
            tutkintonimikeUrit []
+           opetustapaUrit []
            oppilaitosOid nil
            koulutusOid nil
            toteutusOid nil
@@ -67,6 +69,7 @@
              :opetuskielet (clean-uris opetuskieliUrit)
              :sijainti (clean-uris (concat kunnat maakunnat))
              :koulutusalat (clean-uris koulutusalaUrit)
+             :opetustavat (clean-uris opetustapaUrit)
              :terms {:fi (terms :fi)
                      :sv (terms :sv)
                      :en (terms :en)}
@@ -176,6 +179,12 @@
            :opintojenLaajuus (some-> eperuste-tutkinnon-osa :opintojenLaajuus :koodiUri)
            :opintojenLaajuusyksikko (get-in eperuste [:opintojenLaajuusyksikko :koodiUri])
            :tutkinnonOsatKoodiUri (some-> eperuste-tutkinnon-osa :koodiUri)}))))
+
+(defn osaamisalaKoodiUri
+  [koulutus]
+  (some-> (get-eperuste koulutus)
+          (get-osaamisala koulutus)
+          (:koodiUri)))
 
 (defn koulutustyyppi-for-organisaatio
   [organisaatio]

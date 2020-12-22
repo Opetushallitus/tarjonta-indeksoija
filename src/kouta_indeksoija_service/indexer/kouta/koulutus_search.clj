@@ -62,6 +62,7 @@
                   :oppilaitosOid      (:oid oppilaitos)
                   :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
                   :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
+                  :opetustapaUrit     (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
                   :nimet              (vector (:nimi koulutus) (:nimi toteutus))
                   ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
                   ;:haut              (:haut hakutieto) TODO
@@ -129,9 +130,9 @@
                   (assoc :opintojenLaajuusyksikko (opintojenLaajuusyksikkoKoodiUri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus)))]
-    (if (amm-tutkinnon-osa? koulutus)
-      (assoc entry :tutkinnonOsat (-> koulutus (tutkinnonOsat) (common/decorate-koodi-uris)))
-      entry)))
+    (cond-> entry
+            (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (tutkinnonOsat) (common/decorate-koodi-uris)))
+            (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (osaamisalaKoodiUri))})))))
 
 (defn create-index-entry
   [oid]
