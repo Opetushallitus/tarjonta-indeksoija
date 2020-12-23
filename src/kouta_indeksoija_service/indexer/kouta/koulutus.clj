@@ -21,7 +21,7 @@
         (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
         (assoc-in [:metadata :opintojenLaajuus]        (:opintojenLaajuus eperuste))
         (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
-        (assoc-in [:metadata :koulutusalat]             (koulutusalat-taso1 koulutusKoodi)))))
+        (assoc-in [:metadata :koulutusalat]            (koulutusalat-taso1 koulutusKoodi)))))
 
 (defn- get-enriched-tutkinnon-osat
   [tutkinnon-osat]
@@ -38,7 +38,10 @@
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]
   (let [tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat])]
-    (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))))
+    (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))
+    (assoc-in koulutus [:metadata :koulutusalat] (->> tutkinnon-osat
+                                                     (map #(get-in % [:koulutus :koodiUri]))
+                                                     (mapcat #(koulutusalat-taso1 %))))))
 
 (defn- get-osaamisala
   [eperuste koulutus]
