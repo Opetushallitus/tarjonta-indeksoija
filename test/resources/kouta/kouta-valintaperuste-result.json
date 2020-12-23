@@ -16,7 +16,6 @@
     },
     "id" : "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
     "kielivalinta" : ["fi", "sv"],
-    "julkinen" : false,
     "organisaatio" : {
       "paikkakunta" : {
         "koodiUri" : "kunta_091",
@@ -31,11 +30,27 @@
       },
       "oid" : "1.2.246.562.10.54545454545"
     },
-    "metadata" : {
-      "kuvaus" : {
-        "fi" : "kuvaus fi",
-        "sv" : "kuvaus sv"
-      }
+    "metadata": {
+      "kuvaus": {
+        "fi": "kuvaus fi",
+        "sv": "kuvaus sv"
+      },
+      "koulutusala": {
+        "koodiUri": "kansallinenkoulutusluokitus2016koulutusalataso2_054#1",
+        "nimi": {
+          "fi": "kansallinenkoulutusluokitus2016koulutusalataso2_054#1 nimi fi",
+          "sv": "kansallinenkoulutusluokitus2016koulutusalataso2_054#1 nimi sv"
+        }
+      },
+      "koulutus": [
+        {
+          "koodiUri": "koulutus_371101#1",
+          "nimi": {
+            "fi": "koulutus_371101#1 nimi fi",
+            "sv": "koulutus_371101#1 nimi sv"
+          }
+        }
+      ]
     },
     "koulutustyyppi" : "amm"
   },
