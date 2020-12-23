@@ -6,9 +6,6 @@
          :virkailija-internal "http://{{host_virkailija}}"
          :cas "https://{{host_cas}}"
          :ataru-hakija "https://{{host_ataru_hakija}}"}
- :s3-dev-disabled "true"
- :s3-bucket "opintopolku-hahtuva-koulutusinformaatio"
- :s3-region "eu-west-1"
  :queue {:priority {:name "koutaIndeksoijaPriority" :health-threshold 10}
          :fast {:name "koutaIndeksoijaFast" :health-threshold 10}
          :slow {:name "koutaIndeksoijaSlow" :health-threshold 10}
