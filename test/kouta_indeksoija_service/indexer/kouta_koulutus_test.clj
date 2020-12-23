@@ -62,3 +62,35 @@
      (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
      (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
+
+(defn- mock-koulutusalat-taso1 [koulutusKoodiUri]
+  (cond
+    (= koulutusKoodiUri "koulutus_123123#1") ["joku koulutusala1"]
+    (= koulutusKoodiUri "koulutus_123444#1") ["joku koulutusala2"]
+    (= koulutusKoodiUri "koulutus_222333#1") ["osaamisalan koulutusala"]
+    :else ["mockattu koulutusala"]))
+
+(deftest index-amm-tutkinnon-osa-koulutus
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index koulutusalat for every tutkinnon osa"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
+       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amk-tutkinnon-osa-koulutus-metadata)
+       (check-all-nil)
+       (i/index-koulutukset [koulutus-oid])
+       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+             koulutusalat (get-in koulutus [:metadata :koulutusalat])]
+         (is (= (count koulutusalat) 2))
+         (is (first koulutusalat) "joku koulutusala1")
+         (is (last koulutusalat) "joku koulutusala2"))))))
+
+(deftest index-osaamisala-koulutus
+  (fixture/with-mocked-indexing
+   (testing "Should index koulutusala for osaamisala"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
+       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-osaamisala" :koulutusKoodiUri "koulutus_222333#1" :metadata fixture/amk-osaamisala-koulutus-metadata)
+       (check-all-nil)
+       (i/index-koulutukset [koulutus-oid])
+       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+             koulutusalat (get-in koulutus [:metadata :koulutusalat])]
+         (is (= (count koulutusalat) 1))
+         (is (first koulutusalat) "osaamisalan koulutusala"))))))
