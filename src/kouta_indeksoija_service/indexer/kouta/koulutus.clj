@@ -16,28 +16,32 @@
   [koulutus]
   (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
         eperusteId (:ePerusteId koulutus)
-        eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi)) ]
+        eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi))]
     (-> koulutus
         (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
         (assoc-in [:metadata :opintojenLaajuus]        (:opintojenLaajuus eperuste))
         (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
-        (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi)))))
+        (assoc-in [:metadata :koulutusalat]            (koulutusalat-taso1 koulutusKoodi)))))
 
 (defn- get-enriched-tutkinnon-osat
   [tutkinnon-osat]
   (vec (for [tutkinnon-osa tutkinnon-osat
-            :let [eperuste-id (:ePerusteId tutkinnon-osa)
-                  eperuste (get-eperuste-by-id eperuste-id)
-                  eperuste-tutkinnon-osa (filter-tutkinnon-osa eperuste (:tutkinnonosaId tutkinnon-osa))]]
-        (merge tutkinnon-osa
-               {:opintojenLaajuusNumero (:opintojenLaajuusNumero eperuste-tutkinnon-osa)
-                :opintojenLaajuus (:opintojenLaajuus eperuste-tutkinnon-osa)
-                :opintojenLaajuusyksikko (:opintojenLaajuusyksikko eperuste)
-                :tutkinnonOsat (select-keys eperuste-tutkinnon-osa [:koodiUri :nimi])}))))
+             :let [eperuste-id (:ePerusteId tutkinnon-osa)
+                   eperuste (get-eperuste-by-id eperuste-id)
+                   eperuste-tutkinnon-osa (filter-tutkinnon-osa eperuste (:tutkinnonosaId tutkinnon-osa))]]
+         (merge tutkinnon-osa
+                {:opintojenLaajuusNumero (:opintojenLaajuusNumero eperuste-tutkinnon-osa)
+                 :opintojenLaajuus (:opintojenLaajuus eperuste-tutkinnon-osa)
+                 :opintojenLaajuusyksikko (:opintojenLaajuusyksikko eperuste)
+                 :tutkinnonOsat (select-keys eperuste-tutkinnon-osa [:koodiUri :nimi])}))))
 
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]
-  (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat]))))
+  (let [tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat])]
+    (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))
+    (assoc-in koulutus [:metadata :koulutusalat] (->> tutkinnon-osat
+                                                     (map #(get-in % [:koulutus :koodiUri]))
+                                                     (mapcat #(koulutusalat-taso1 %))))))
 
 (defn- get-osaamisala
   [eperuste koulutus]
@@ -49,12 +53,14 @@
 
 (defn- enrich-osaamisala-metadata
   [koulutus]
-  (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
+  (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+        eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
         osaamisala (get-osaamisala eperuste koulutus)]
     (-> koulutus
         (assoc-in [:metadata :opintojenLaajuus] (:opintojenLaajuus osaamisala))
         (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
-        (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala)))))
+        (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala))
+        (assoc-in [:metadata :koulutusalat] (koulutusalat-taso1 koulutusKoodi)))))
 
 (defn- enrich-metadata
   [koulutus]
