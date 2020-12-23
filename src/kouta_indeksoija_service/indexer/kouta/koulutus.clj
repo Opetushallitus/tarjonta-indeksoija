@@ -16,7 +16,7 @@
   [koulutus]
   (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
         eperusteId (:ePerusteId koulutus)
-        eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi)) ]
+        eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi))]
     (-> koulutus
         (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
         (assoc-in [:metadata :opintojenLaajuus]        (:opintojenLaajuus eperuste))
@@ -26,14 +26,14 @@
 (defn- get-enriched-tutkinnon-osat
   [tutkinnon-osat]
   (vec (for [tutkinnon-osa tutkinnon-osat
-            :let [eperuste-id (:ePerusteId tutkinnon-osa)
-                  eperuste (get-eperuste-by-id eperuste-id)
-                  eperuste-tutkinnon-osa (filter-tutkinnon-osa eperuste (:tutkinnonosaId tutkinnon-osa))]]
-        (merge tutkinnon-osa
-               {:opintojenLaajuusNumero (:opintojenLaajuusNumero eperuste-tutkinnon-osa)
-                :opintojenLaajuus (:opintojenLaajuus eperuste-tutkinnon-osa)
-                :opintojenLaajuusyksikko (:opintojenLaajuusyksikko eperuste)
-                :tutkinnonOsat (select-keys eperuste-tutkinnon-osa [:koodiUri :nimi])}))))
+             :let [eperuste-id (:ePerusteId tutkinnon-osa)
+                   eperuste (get-eperuste-by-id eperuste-id)
+                   eperuste-tutkinnon-osa (filter-tutkinnon-osa eperuste (:tutkinnonosaId tutkinnon-osa))]]
+         (merge tutkinnon-osa
+                {:opintojenLaajuusNumero (:opintojenLaajuusNumero eperuste-tutkinnon-osa)
+                 :opintojenLaajuus (:opintojenLaajuus eperuste-tutkinnon-osa)
+                 :opintojenLaajuusyksikko (:opintojenLaajuusyksikko eperuste)
+                 :tutkinnonOsat (select-keys eperuste-tutkinnon-osa [:koodiUri :nimi])}))))
 
 (defn- enrich-tutkinnon-osa-metadata
   [koulutus]
