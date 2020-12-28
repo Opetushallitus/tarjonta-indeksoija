@@ -78,7 +78,7 @@
        (check-all-nil)
        (i/index-koulutukset [koulutus-oid])
        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-             koulutusalat (get-in koulutus [:metadata :koulutusalat])]
+             koulutusalat (get-in koulutus [:metadata :koulutusala])]
          (is (= (count koulutusalat) 2))
          (is (first koulutusalat) "joku koulutusala1")
          (is (last koulutusalat) "joku koulutusala2"))))))
@@ -91,6 +91,6 @@
        (check-all-nil)
        (i/index-koulutukset [koulutus-oid])
        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-             koulutusalat (get-in koulutus [:metadata :koulutusalat])]
+             koulutusalat (get-in koulutus [:metadata :koulutusala])]
          (is (= (count koulutusalat) 1))
          (is (first koulutusalat) "osaamisalan koulutusala"))))))
