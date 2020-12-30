@@ -41,8 +41,8 @@
     (assoc-in koulutus [:metadata :tutkinnonOsat] (get-enriched-tutkinnon-osat tutkinnon-osat))
     (assoc-in koulutus [:metadata :koulutusala] (->> tutkinnon-osat
                                                      (map #(get-in % [:koulutus :koodiUri]))
-                                                     (distinct)
-                                                     (mapcat #(koulutusalat-taso1 %))))))
+                                                     (mapcat #(koulutusalat-taso1 %))
+                                                     (distinct)))))
 
 (defn- get-osaamisala
   [eperuste koulutus]
