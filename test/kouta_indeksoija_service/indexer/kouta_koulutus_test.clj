@@ -11,6 +11,12 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]))
 
+(defn add-elastic-host [tests]
+  (intern 'clj-elasticsearch.elastic-utils 'elastic-host (str "http://127.0.0.1:9200"))
+  (tests))
+
+(use-fixtures :once add-elastic-host)
+
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 

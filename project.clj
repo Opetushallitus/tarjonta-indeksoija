@@ -82,8 +82,9 @@
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
-                    :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
-                                 (utils/global-elasticsearch-fixture)]}
+                    ;:injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
+                    ;             (utils/global-elasticsearch-fixture)]
+                    }
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
