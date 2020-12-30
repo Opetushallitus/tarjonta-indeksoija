@@ -72,7 +72,7 @@
 
 (deftest index-amm-tutkinnon-osa-koulutus
   (fixture/with-mocked-indexing
-   (testing "Indexer should index koulutusalat for every tutkinnon osa"
+   (testing "Indexer should index distinct koulutusalat for every tutkinnon osa"
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amk-tutkinnon-osa-koulutus-metadata)
        (check-all-nil)
