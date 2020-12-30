@@ -63,12 +63,26 @@
      (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
 
+(def tutkinnon-osa-koulutusala1
+  {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_07",
+   :nimi {:fi "Tekniikan alat",
+          :en "Engineering, manufacturing and construction",
+          :sv "De tekniska områdena"}})
+
+(def tutkinnon-osa-koulutusala2
+  {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_08",
+   :nimi {:fi "Palvelualat"}})
+
+(def osaamisala-koulutusala
+  {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_09",
+   :nimi {:fi "Maa- ja metsätalousalat"}})
+
 (defn- mock-koulutusalat-taso1 [koulutusKoodiUri]
   (cond
-    (= koulutusKoodiUri "koulutus_123123#1") ["joku koulutusala1"]
-    (= koulutusKoodiUri "koulutus_123444#1") ["joku koulutusala2"]
-    (= koulutusKoodiUri "koulutus_222333#1") ["osaamisalan koulutusala"]
-    :else ["mockattu koulutusala"]))
+    (= koulutusKoodiUri "koulutus_123123#1") [tutkinnon-osa-koulutusala1]
+    (= koulutusKoodiUri "koulutus_123125#1") [tutkinnon-osa-koulutusala1]
+    (= koulutusKoodiUri "koulutus_123444#1") [tutkinnon-osa-koulutusala2]
+    (= koulutusKoodiUri "koulutus_222333#1") [osaamisala-koulutusala]))
 
 (deftest index-amm-tutkinnon-osa-koulutus
   (fixture/with-mocked-indexing
@@ -80,8 +94,8 @@
        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
              koulutusalat (get-in koulutus [:metadata :koulutusala])]
          (is (= (count koulutusalat) 2))
-         (is (first koulutusalat) "joku koulutusala1")
-         (is (last koulutusalat) "joku koulutusala2"))))))
+         (is (-> koulutusalat first :nimi :fi) "Tekniikan alat")
+         (is (-> koulutusalat last :nimi :fi) "Palvelualat"))))))
 
 (deftest index-osaamisala-koulutus
   (fixture/with-mocked-indexing
@@ -93,4 +107,4 @@
        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
              koulutusalat (get-in koulutus [:metadata :koulutusala])]
          (is (= (count koulutusalat) 1))
-         (is (first koulutusalat) "osaamisalan koulutusala"))))))
+         (is (-> koulutusalat first :nimi :fi) "Maa- ja metsätalousalat"))))))
