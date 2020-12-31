@@ -78,13 +78,12 @@
                                                        [fi.oph.kouta/kouta-backend "1.1.2-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "1.1.2-SNAPSHOT" :classifier "tests"]
                                                        [fi.oph.kouta/kouta-common "1.1.2-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.7-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
-                    ;:injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
-                    ;             (utils/global-elasticsearch-fixture)]
-                    }
+                    :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
+                                 (utils/global-docker-elastic-fixture)]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
