@@ -90,13 +90,13 @@
                                       [fi.oph.kouta/kouta-backend "1.1.2-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "1.1.2-SNAPSHOT" :classifier "tests"]
                                       [fi.oph.kouta/kouta-common "1.1.2-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.7-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
                                   "-Daws.secretKey=randomKeyForLocalstack"]
                        :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
-                                    (utils/global-elasticsearch-fixture)]}
+                                    (utils/global-docker-elastic-fixture)]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
