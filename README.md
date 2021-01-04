@@ -2,9 +2,6 @@
 
 [Ks. katkoton indeksointi](README_INDEKSOINTI.md)
 
-## Usage
-
-
 
 #### Repl for development
 
@@ -30,19 +27,6 @@ To run tests every time code is changed:
 
 #### Requirements
 
-##### Elasticsearch
-Application requires a local Elasticsearch **(version 6.8.x)** index listening on port 9200. On Mac you can
-install Elasticsearch with `brew install elasticsearch@6` and run with `brew services start elasticsearch` from
-console, it will by default run on correct port. Correctly running Elasticsearch should answer in address `http://localhost:9200`
-
-If all else fails you can install Elasticsearch directly from `https://www.elastic.co/downloads/past-releases/elasticsearch-6-8-12`
-
-##### SQS
-Application requires a local SQS on port 4576. SQS can be started with `tools\start_localstack`
-and stopped with `tools\stop_localstack`, this requires that Docker is installed.
-
-`tools\send_local` can be used to send messages to local queues.
-
 ##### Notifier
 The application can notify others when information is indexed. This is controlled with `:notifier-targets`
 value in `dev_resources/config.edn`. It should be defaulted to `""`, ie. no changes will be sent.
@@ -54,16 +38,6 @@ When wanting to validate locally that the notifications are working, one of the 
 
 The script will log every access to console.
 
-#### Running
-
-Running the application or tests from the commandline work with the aliases provided in
-project.clj. 
-
-To run the application: `lein run`
-
-Ui can be found in: [http://localhost:3000/kouta-indeksoija/ui/index.html]
-
-Running the app itself from the repl doesn't seem worth while.
 
 ### Nuking ElasticSearch settings
 
@@ -89,11 +63,6 @@ git@git.oph.ware.fi:environment-{ophitest|ophp|ophprod|vagrant}.git in deploy/<e
 NOTE: The cron-string variable roughly follows cron scheduler syntax with a few alterations shown 
 [here](http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html).
 
-## License
-
-Copyright (c) 2017 The Finnish National Board of Education - Opetushallitus
-
-For details see LICENSE.txt
 
 
 
@@ -102,15 +71,7 @@ For details see LICENSE.txt
 
 
 
-
-
-
-
-
-
-
-
-# kouta-indeksoija-service
+# kouta-indeksoija
 
 
 ## 1. Palvelun tehtävä
@@ -194,16 +155,33 @@ Esimerkiksi `lein test :only kouta-indeksoija-service.indexer.kouta-koulutus-tes
 Testit käynnistävät Elasticsearchin docker-kontissa satunnaiseen vapaaseen porttiin.
 
 ### 3.3. Ajaminen lokaalisti
+dockerista tietoa tähän
+
+
+Application requires a local SQS on port 4576. SQS can be started with `tools\start_localstack`
+and stopped with `tools\stop_localstack`, this requires that Docker is installed.
+
+`tools\send_local` can be used to send messages to local queues.
+
+
+Running the application or tests from the commandline work with the aliases provided in
+project.clj.
+
+To run the application: `lein run`
+
+Ui can be found in: [http://localhost:3000/kouta-indeksoija/ui/index.html]
+
+Running the app itself from the repl doesn't seem worth while.
+
+
+
 
 How to start the application locally.
-
 What URL(s) to use to access the locally running application?
-
 What kind of credentials do you need to access all relevant pieces of the application?
-
 If there are multiple distinct user roles, you need a test user account for each of them.
 
-### 3.6. Kehitystyökalujen setup
+### 3.4. Kehitystyökalujen setup
 
 If there are some special tricks needed to get the project working in IDEA/Eclipse/something other, then
 describe them here. Preferably attach screenshots, if applicable.
@@ -329,8 +307,11 @@ with these instructions.
 
 Other important or useful things to know.
 
+## License
 
+Copyright (c) 2017 The Finnish National Board of Education - Opetushallitus
 
+For details see LICENSE.txt
 
 
 
