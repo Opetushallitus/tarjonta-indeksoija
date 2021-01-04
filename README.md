@@ -230,6 +230,7 @@ git@git.oph.ware.fi:environment-{ophitest|ophp|ophprod|vagrant}.git in deploy/<e
 
 NOTE: The cron-string variable roughly follows cron scheduler syntax with a few alterations shown
 [here](http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html).
+
 ---
 ---
 ---
