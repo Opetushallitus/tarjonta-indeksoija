@@ -163,9 +163,45 @@ Indeksoijan käyttämät tietolähteet:
 
 ### 3.1. Esivaatimukset
 
-What other software you need to have installed on your local machine in order to set up a development environment?
-Is there are separate file for environmental variables? How does a developer get one that works?
-Are other changes - such as /etc/hosts, port-forwardings - needed?
+Asenna haluamallasi tavalla koneellesi
+1. [Clojure](https://clojure.org/guides/getting_started)
+2. [Docker](https://www.docker.com/get-started) (Elasticsearchia ja localstackia varten)
+3. [AWS cli](https://aws.amazon.com/cli/) (SQS-jonoja varten)
+
+Lisäksi tarvitset Java SDK:n (Unix pohjaisissa käyttöjärjestelmissä auttaa esim. [SDKMAN!](https://sdkman.io/)). 
+Katso [.travis.yml](.travis.yml) mitä versioita sovellus käyttää. Kirjoitushetkellä käytössä openJDK11.
+
+Indeksoijan saa konfiguroitua luomalla tiedoston dev_resources/config.edn (laitettu .gitignore:een) asettamalla sinne tarvittavat arvot.
+Tiedostosta dev_resources/config.edn.template näkee mitä arvoja sovellus tarvitsee toimiakseen.
+Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vasten lokaalilla elasticsearchilla:
+
+```clojure
+{:elastic-url "http://localhost:9200"
+ :cas {:username "kouta"
+ :password "tähän cas:n salasana"}
+ :hosts {:kouta-backend "https://virkailija.untuvaopintopolku.fi"
+ :kouta-external "https://virkailija.untuvaopintopolku.fi"
+ :virkailija-internal "https://virkailija.untuvaopintopolku.fi"
+ :cas "https://virkailija.untuvaopintopolku.fi"
+ :ataru-hakija ""}
+ :queue {:priority {:name "koutaIndeksoijaPriority" :health-threshold 10}
+ :fast {:name "koutaIndeksoijaFast" :health-threshold 10}
+ :slow {:name "koutaIndeksoijaSlow" :health-threshold 10}
+ :dlq {:name "koutaIndeksoijaDlq" :health-threshold 10}
+ :notifications {:name "koutaIndeksoijaNotifications" :health-threshold 10}
+ :notifications-dlq {:name "koutaIndeksoijaNotificationsDlq" :health-threshold 10}}
+ :sqs-region ""
+ :sqs-endpoint "http://localhost:4576"
+ :dlq-cron-string "*/15 * * ? * *"
+ :notification-dlq-cron-string "7/30 * * ? * *"
+ :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
+ :queueing-cron-string "*/15 * * ? * *"
+ :notifier-targets ""}
+```
+
+Cas-salasanan saa kaivettua untuvan ympäristökohtaisesta reposta opintopolku.yml tiedostosta kohdasta _**kouta_indeksoija_cas_password**_
+
+Jos et tiedä mitä tämä tarkoittaa, kysy neuvoa kehitystiimiltä tai OPH:n ylläpidolta. 
 
 ### 3.2. Testien ajaminen
 
