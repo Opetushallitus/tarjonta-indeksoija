@@ -150,31 +150,21 @@ tunnus ja salasana tiedossa. Näihin apua saa kehitystiimiltä tai OPH:n ylläpi
 
 ### 4.2. Asennus
 
-[Ks. katkoton indeksointi](README_INDEKSOINTI.md)
-How a deployment is done.
+Asennus hoituu samoilla työkaluilla kuin muidenkin OPH:n palvelujen. 
+[Cloud-basen dokumentaatiosta](https://github.com/Opetushallitus/cloud-base/tree/master/docs) ja ylläpidolta löytyy apuja.
 
-### 4.3. Verifying that a deployment was successful
+Asennuksen yhteydessä tapahtuvaan mahdolliseen uudelleenindeksointiin löytyy ohjeet 
+täältä: [Katkoton indeksointi](README_INDEKSOINTI.md)
 
-The steps needed to verify that a new version is running in the test environment successfully.
+### 4.3. Lokit
 
+Indeksoijan lokit löytyvät AWS:n cloudwatchista. Ohjeita näihin ylläpidolta.
 
-### 4.4. Rollback
+### 4.4. Continuous integration
 
-How to restore the previous version of the software when a deployment goes wrong?
+https://travis-ci.com/github/Opetushallitus/kouta-indeksoija
 
-### 4.5. Logs
-
-Where are the logs, how to change logging levels, etc.
-
-### 4.6. Monitoring
-
-What kind of monitoring is there in the test environment, if any.
-
-## 5. Continuous integration
-
-Where is/are the CI(s) for this project?
-
-## 6. Lisätietoa
+## 5. Lisätietoa
 
 Vanhan readme:n tiedot joiden paikkansapitävyyttä ei ole selvitetty:
 
