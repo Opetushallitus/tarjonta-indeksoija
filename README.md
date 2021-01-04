@@ -155,36 +155,45 @@ Esimerkiksi `lein test :only kouta-indeksoija-service.indexer.kouta-koulutus-tes
 Testit käynnistävät Elasticsearchin docker-kontissa satunnaiseen vapaaseen porttiin.
 
 ### 3.3. Ajaminen lokaalisti
-dockerista tietoa tähän
 
+Ennen indeksoijan ajamista lokaalisti täytyy pyörimässä olla
+1. Elasticsearch
+2. localstackin sqs-jonot
 
-Application requires a local SQS on port 4576. SQS can be started with `tools\start_localstack`
-and stopped with `tools\stop_localstack`, this requires that Docker is installed.
+---
+#### Elasticsearch-kontti
 
-`tools\send_local` can be used to send messages to local queues.
+Elasticsearchia kannattaa pyörittää docker-kontissa siten että data tallennetaan levylle vaikka kontin 
+sammuttaisi, koska Elasticsearch on "I/O sensitive and the Docker storage driver is not ideal for fast I/O".
+Tämä onnnistuu ajamalla ensin (ainoastataan ensimmäisellä kerralla):
 
+```shell
+docker volume create kouta-elastic-data
+```
+Jonka jälkeen kontin saa käyntiin komennolla:
+```shell
+docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -v kouta-elastic-data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:6.8.13
+```
+Jos tulee tarve poistaa data, komennolla `docker volume --help` saa apua volumeiden hallinnointiin.
 
-Running the application or tests from the commandline work with the aliases provided in
-project.clj.
+---
 
-To run the application: `lein run`
+#### Localstack SQS-jonot
+Indeksoija vaatii lokaalin SQS-palvelun porttiin 4567. Sen voi käynnistää docker-konttiin ajamalla skriptin 
+`tools\start_localstack` ja pysäyttää skriptillä `tools\stop_localstack`. 
 
-Ui can be found in: [http://localhost:3000/kouta-indeksoija/ui/index.html]
+`tools\send_local` skriptiä voi käyttää viestien lähetykseen lokaaleihin jonohin jos jostain syystä
+sellainen tarve tulee.
+---
 
-Running the app itself from the repl doesn't seem worth while.
+Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `lein run`
 
+Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:3000/kouta-indeksoija/swagger/index.html`
 
+### 3.4. Kehitystyökalut
 
-
-How to start the application locally.
-What URL(s) to use to access the locally running application?
-What kind of credentials do you need to access all relevant pieces of the application?
-If there are multiple distinct user roles, you need a test user account for each of them.
-
-### 3.4. Kehitystyökalujen setup
-
-If there are some special tricks needed to get the project working in IDEA/Eclipse/something other, then
-describe them here. Preferably attach screenshots, if applicable.
+Suositeltava kehitysympäristö on [IntelliJ IDEA](https://www.jetbrains.com/idea/) + [Cursive plugin](https://cursive-ide.com/)
+mutta sovelluksen ja testien ajamisen kannalta nämä eivät ole välttämättömiä.
 
 ### 3.7. Versiohallinta
 
