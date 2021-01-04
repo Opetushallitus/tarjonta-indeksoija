@@ -103,7 +103,6 @@ docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0
 Jos tulee tarve poistaa data, komennolla `docker volume --help` saa apua volumeiden hallinnointiin.
 
 ---
-
 #### Localstack SQS-jonot
 Indeksoija vaatii lokaalin SQS-palvelun porttiin 4567. Sen voi käynnistää docker-konttiin ajamalla skriptin 
 `tools\start_localstack` ja pysäyttää skriptillä `tools\stop_localstack`. 
@@ -234,14 +233,8 @@ NOTE: The cron-string variable roughly follows cron scheduler syntax with a few 
 ---
 ---
 
-
-
 ## License
 
 Copyright (c) 2017 The Finnish National Board of Education - Opetushallitus
 
 For details see LICENSE.txt
-
-
-
-
