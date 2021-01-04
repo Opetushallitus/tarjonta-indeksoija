@@ -109,6 +109,7 @@ Indeksoija vaatii lokaalin SQS-palvelun porttiin 4567. Sen voi käynnistää doc
 
 `tools\send_local` skriptiä voi käyttää viestien lähetykseen lokaaleihin jonohin jos jostain syystä
 sellainen tarve tulee.
+
 ---
 
 Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `lein run`
