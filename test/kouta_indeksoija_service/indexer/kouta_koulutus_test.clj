@@ -97,6 +97,22 @@
          (is (-> koulutusalat first :nimi :fi) "Tekniikan alat")
          (is (-> koulutusalat last :nimi :fi) "Palvelualat"))))))
 
+(deftest tutkinnon-osa-enrichment
+  (fixture/with-mocked-indexing
+   (testing "Indexer should enrich tutkinnon osat from eperusteet"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
+       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amk-tutkinnon-osa-koulutus-metadata)
+       (check-all-nil)
+       (i/index-koulutukset [koulutus-oid])
+       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+             tutkinnon-osat (get-in koulutus [:metadata :tutkinnonOsat])
+             tutkinnon-osa (->> tutkinnon-osat
+                               (filter #(= (:tutkinnonosaId %) 1234))
+                               (first))]
+         (is (= (:opintojenLaajuusNumero tutkinnon-osa) 50))
+         (is (= (get-in tutkinnon-osa [:opintojenLaajuus :nimi :fi]) "opintojenlaajuus_50 nimi fi"))
+         (is (= (get-in tutkinnon-osa [:opintojenLaajuusyksikko :nimi :fi]) "opintojenlaajuusyksikko_6 nimi fi")))))))
+
 (deftest index-osaamisala-koulutus
   (fixture/with-mocked-indexing
    (testing "Should index koulutusala for osaamisala"
