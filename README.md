@@ -4,17 +4,7 @@
 
 ## Usage
 
-### Pre configuration
 
-To run the application locally, copy dev_resources/config.edn.template to dev_resources/config.edn 
-and replace all `<fillme>` fields with actual values (get from QA common.properties). This config file is ignored in 
-Git and should not be committed in the future.
-
-### REPL
-
-The dev and test profiles configurations are separated for the repl to ensure that
-tests use different indices than development in elasticsearch. This might seem trivial,
-but when hacking manually you don't want the test cases to nuke your data when autotesting.
 
 #### Repl for development
 
@@ -35,18 +25,6 @@ Create another repl configuration, e.g. Test repl and add JVM argument `-Dtest=t
 To run tests every time code is changed:
 * `(use 'midje.repl)` (no need to use `(go)` here)
 * `(autotest)`
-
-### Tests
-
-To run tests from command line use commands `lein test` or `lein autotest`
-
-To run single test from command line use command `lein test kouta-indeksoija-service.elastic-client-test`.
-
-Tests require that Docker is installed and Docker daemon is up and running. It
-is possible to filter out tests that require Docker by adding filter, ie
-`lein test :filter -docker` or `lein autotest :filter -docker`. These tests include
-at least those that test SQS integration.
-
 
 ### Running the application locally
 
@@ -199,14 +177,21 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
  :notifier-targets ""}
 ```
 
-Cas-salasanan saa kaivettua untuvan ympäristökohtaisesta reposta opintopolku.yml tiedostosta kohdasta _**kouta_indeksoija_cas_password**_
+Cas-salasanan saa kaivettua untuvan ympäristökohtaisesta reposta opintopolku.yml tiedostosta kohdasta `kouta_indeksoija_cas_password`
 
 Jos et tiedä mitä tämä tarkoittaa, kysy neuvoa kehitystiimiltä tai OPH:n ylläpidolta. 
 
 ### 3.2. Testien ajaminen
 
-How to run all tests locally. If there are separate unit, integration and acceptance/e2e tests, remember to
-describe here how to run any/all of them.
+Testit saa ajettua komentoriviltä komennolla `lein test`
+
+Yksittäisen testitiedoston saa ajettua `lein test <namespacen nimi>`. 
+Esimerkiksi `lein test kouta-indeksoija-service.indexer.kouta-koulutus-test`
+
+Yksittäisen testin saa ajettua `lein test :only <namespacen nimi>/<testin nimi>`. 
+Esimerkiksi `lein test :only kouta-indeksoija-service.indexer.kouta-koulutus-test/index-julkaistu-koulutus-test`
+
+Testit käynnistävät Elasticsearchin docker-kontissa satunnaiseen vapaaseen porttiin.
 
 ### 3.3. Ajaminen lokaalisti
 
