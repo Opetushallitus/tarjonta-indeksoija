@@ -110,9 +110,9 @@ Asenna haluamallasi tavalla koneellesi
 Lisäksi tarvitset Java SDK:n (Unix pohjaisissa käyttöjärjestelmissä auttaa esim. [SDKMAN!](https://sdkman.io/)). 
 Katso [.travis.yml](.travis.yml) mitä versioita sovellus käyttää. Kirjoitushetkellä käytössä openJDK11.
 
-Indeksoijan saa konfiguroitua luomalla tiedoston dev_resources/config.edn (laitettu .gitignore:een) asettamalla sinne tarvittavat arvot.
-Tiedostosta dev_resources/config.edn.template näkee mitä arvoja sovellus tarvitsee toimiakseen.
-Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vasten lokaalilla elasticsearchilla:
+Indeksoijan saa konfiguroitua luomalla tiedoston `dev_resources/config.edn` (laitettu .gitignoreen) ja asettamalla sinne
+tarvittavat arvot. Tiedostosta `dev_resources/config.edn.template` näkee mitä arvoja sovellus tarvitsee toimiakseen.
+Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vasten lokaalilla Elasticsearchilla:
 
 ```clojure
 {:elastic-url "http://localhost:9200"
@@ -195,26 +195,19 @@ Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:3000/kouta-indeks
 Suositeltava kehitysympäristö on [IntelliJ IDEA](https://www.jetbrains.com/idea/) + [Cursive plugin](https://cursive-ide.com/)
 mutta sovelluksen ja testien ajamisen kannalta nämä eivät ole välttämättömiä.
 
-### 3.7. Versiohallinta
+### 3.5. Testidata
 
-If using git:
-- What kind of git workflow is used in this project. Merge or rebase?
-- Should commits be squashed, and if yes, in which circumstances?
-- What are the requirements for commit messages?
-- What are the naming conventions for branches?
-- All other git-related stuff that comes to mind.
+Testidataa saa omaan lokaaliin Elasticsearchiin laittamalla tiedoston `dev_resources/config.edn` arvot
 
-If using some other version control than git:
-- The same as above, as is relevant to the version control system in use.
-
-### 3.8. How to make a production data dump and import it into the local development environment
-
-Sometimes you run into hard-to-reproduce bugs, which manifest themselves only with production data.
-
-In those cases it is extremely useful to be able to do a data dump from production and set up the local
-development environment with production data.
-
-Describe how to do that here.
+```clojure
+:hosts {:kouta-backend "https://virkailija.untuvaopintopolku.fi"
+:kouta-external "https://virkailija.untuvaopintopolku.fi"
+:virkailija-internal "https://virkailija.untuvaopintopolku.fi"
+:cas "https://virkailija.untuvaopintopolku.fi"
+```
+osoittamaan haluamaasi testiympäristöä vasten ja ajamalla swaggerista `POST /kouta-indeksoija/api/kouta/all`.
+Voit myös indeksoida vain yksittäisen entiteetin, esimerkiksi ajamalla swaggerista 
+`POST /kouta-indeksoija/api/kouta/koulutus/:oid` 
 
 ## 4. Test environment
 
