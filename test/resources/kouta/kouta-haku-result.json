@@ -303,6 +303,7 @@
     ],
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+      "henkilokohtaisenSuunnitelmanLisatiedot": {},
       "koulutuksenAlkamisvuosi": "!!thisYear",
       "koulutuksenAlkamiskausi": {
         "koodiUri": "kausi_k#1",
