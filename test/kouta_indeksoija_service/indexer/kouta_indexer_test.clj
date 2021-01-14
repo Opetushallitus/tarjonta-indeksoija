@@ -71,19 +71,6 @@
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
                     :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
 
-(deftest index-hakukohde-test
-  (fixture/with-mocked-indexing
-   (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
-     (check-all-nil)
-     (i/index-hakukohteet [hakukohde-oid])
-     (compare-json (no-timestamp (json "kouta-hakukohde-result"))
-                   (no-timestamp (get-doc hakukohde/index-name hakukohde-oid)))
-     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (nil? (get-doc koulutus/index-name koulutus-oid)))
-     (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
-
 (deftest index-hakukohde-hakulomakelinkki-test
   (fixture/with-mocked-indexing
    (testing "Indexer should create hakulomakeLinkki from haku oid"
