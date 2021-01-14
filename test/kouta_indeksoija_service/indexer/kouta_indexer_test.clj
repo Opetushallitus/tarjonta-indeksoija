@@ -71,29 +71,6 @@
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
                     :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
 
-(deftest index-hakukohde-hakulomakelinkki-test
-  (fixture/with-mocked-indexing
-   (testing "Indexer should create hakulomakeLinkki from haku oid"
-     (check-all-nil)
-     (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru")
-     (i/index-hakukohteet [hakukohde-oid])
-     (compare-json (:hakulomakeLinkki (get-doc hakukohde/index-name hakukohde-oid))
-                   {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
-                    :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
-                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
-
-(deftest index-hakukohde-haun-hakulomakelinkki-test
-  (fixture/with-mocked-indexing
-   (testing "Indexer should create hakulomakeLinkki from haku oid"
-     (check-all-nil)
-     (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
-     (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru" :kaytetaanHaunHakulomaketta "true")
-     (i/index-hakukohteet [hakukohde-oid])
-     (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
-                   {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
-                    :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
-                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
-
 (deftest index-hakukohde-yps-haku-luonnos-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde without yps if haku luonnos"
