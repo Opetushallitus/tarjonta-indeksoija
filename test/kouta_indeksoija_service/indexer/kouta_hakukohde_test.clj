@@ -11,7 +11,8 @@
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
-            [kouta-indeksoija-service.fixture.external-services :as mocks]))
+            [kouta-indeksoija-service.fixture.external-services :as mocks]
+            [cheshire.core :refer [generate-string]]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -28,6 +29,20 @@
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
+
+(deftest index-hakukohde-without-alkamiskausi
+  (fixture/with-mocked-indexing
+   (testing "Koulutuksen alkamiskausi is not mandatory for haku and hakukohde. Previously yps calculation would fail if both were missing"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi nil)
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1" :metadata (generate-string {:koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}))
+     (i/index-hakukohteet [hakukohde-oid])
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)
+           yhden-paikan-saanto (:yhdenPaikanSaanto hakukohde)]
+       (is (= hakukohde-oid (:oid hakukohde)))
+       (is (true? (:voimassa yhden-paikan-saanto)))
+       (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy yhden-paikan-saanto)))))))
 
 (deftest index-hakukohde-hakulomakelinkki-test
   (fixture/with-mocked-indexing

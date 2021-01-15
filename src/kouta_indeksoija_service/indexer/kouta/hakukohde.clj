@@ -32,24 +32,26 @@
 
 (defn- alkamiskausi-kevat?
   [haku hakukohde]
-  (let [alkamiskausi-koodi-uri (if (:kaytetaanHaunAlkamiskautta hakukohde)
+  (if-some [alkamiskausi-koodi-uri (if (:kaytetaanHaunAlkamiskautta hakukohde)
                                  (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausiKoodiUri])
                                  (:alkamiskausiKoodiUri hakukohde))]
-    (clojure.string/starts-with? alkamiskausi-koodi-uri "kausi_k#")))
+    (clojure.string/starts-with? alkamiskausi-koodi-uri "kausi_k#")
+    false))
 
 (defn- alkamisvuosi
   [haku hakukohde]
-  (let [alkamisvuosi (if (:kaytetaanHaunAlkamiskautta hakukohde)
+  (when-some [alkamisvuosi (if (:kaytetaanHaunAlkamiskautta hakukohde)
                        (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi])
                        (:alkamisvuosi hakukohde))]
     (Integer/valueOf alkamisvuosi)))
 
 (defn- alkamiskausi-ennen-syksya-2016?
   [haku hakukohde]
-  (let [alkamisvuosi (alkamisvuosi haku hakukohde)]
+  (if-some [alkamisvuosi (alkamisvuosi haku hakukohde)]
     (or (< alkamisvuosi 2016)
         (and (= alkamisvuosi 2016)
-             (alkamiskausi-kevat? haku hakukohde)))))
+             (alkamiskausi-kevat? haku hakukohde)))
+    false))
 
 (defn- some-kohdejoukon-tarkenne?
   [haku]
