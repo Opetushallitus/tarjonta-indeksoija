@@ -60,6 +60,18 @@
           "sv": "hakutapa_03#1 nimi sv"
         }
       },
+      "koulutuksenAlkamiskausi": {
+        "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+        "henkilokohtaisenSuunnitelmanLisatiedot": {},
+        "koulutuksenAlkamiskausi": {
+          "koodiUri": "kausi_k#1",
+          "nimi": {
+            "fi": "kausi_k#1 nimi fi",
+            "sv": "kausi_k#1 nimi sv"
+          }
+        },
+        "koulutuksenAlkamisvuosi": "2021"
+      },
       "hakukohteet": [
         {
           "hakulomakeKuvaus": {

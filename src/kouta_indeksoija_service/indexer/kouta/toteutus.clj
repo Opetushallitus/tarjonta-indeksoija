@@ -42,7 +42,7 @@
 (defn- determine-correct-hakutiedot
   [ht-toteutus]
   (-> (for [ht-haku (:haut ht-toteutus)]
-        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri])
+        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri :koulutuksenAlkamiskausi])
             (common/decorate-koodi-uris)
             (assoc :hakukohteet (vec (create-hakukohteiden-hakutiedot ht-haku)))))
       (vec)))
@@ -57,6 +57,7 @@
   [oid]
   (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
         hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
+    (println (cheshire.core/generate-string hakutiedot))
     (indexable/->index-entry oid (-> toteutus
                                      (common/assoc-organisaatiot)
                                      (assoc-hakutiedot hakutiedot)))))
