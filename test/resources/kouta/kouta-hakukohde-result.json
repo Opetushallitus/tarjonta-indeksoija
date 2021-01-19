@@ -306,6 +306,19 @@
   ],
   "timestamp": 1549372069493,
   "alkamisvuosi": "!!thisYear",
+  "metadata": {
+    "valintakokeidenYleiskuvaus": {
+      "fi": "yleiskuvaus fi",
+      "sv": "yleiskuvaus sv"
+    },
+    "koulutuksenAlkamiskausi": {
+      "alkamiskausityyppi": "tarkka alkamisajankohta",
+      "henkilokohtaisenSuunnitelmanLisatiedot": {},
+      "koulutuksenAlkamispaivamaara": "!!startTime1",
+      "koulutuksenPaattymispaivamaara": "!!endTime1"
+    },
+    "kaytetaanHaunAlkamiskautta": false
+  },
   "kaytetaanHaunAlkamiskautta": false,
   "organisaatio": {
     "paikkakunta": {
