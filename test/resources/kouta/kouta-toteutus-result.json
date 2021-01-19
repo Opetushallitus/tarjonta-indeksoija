@@ -85,12 +85,11 @@
           "aloituspaikat": 100,
           "ensikertalaisenAloituspaikat": 0,
           "hakulomaketyyppi": "ei sähköistä",
-          "alkamiskausi": {
-            "koodiUri": "kausi_k#1",
-            "nimi": {
-              "fi": "kausi_k#1 nimi fi",
-              "sv": "kausi_k#1 nimi sv"
-            }
+          "koulutuksenAlkamiskausi": {
+            "alkamiskausityyppi": "tarkka alkamisajankohta",
+            "henkilokohtaisenSuunnitelmanLisatiedot": {},
+            "koulutuksenAlkamispaivamaara": "!!startTime1",
+            "koulutuksenPaattymispaivamaara": "!!endTime1"
           },
           "pohjakoulutusvaatimus": [
             {
@@ -124,7 +123,6 @@
             }
           ],
           "hakukohdeOid": "1.2.246.562.20.00000000000000000001",
-          "alkamisvuosi": "!!thisYear",
           "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
           "jarjestyspaikka": {
             "paikkakunta": {
