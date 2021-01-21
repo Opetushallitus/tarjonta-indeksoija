@@ -119,7 +119,8 @@ Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:3000/kouta-indeks
 ### 3.4. Kehitystyökalut
 
 Suositeltava kehitysympäristö on [IntelliJ IDEA](https://www.jetbrains.com/idea/) + [Cursive plugin](https://cursive-ide.com/)
-mutta sovelluksen ja testien ajamisen kannalta nämä eivät ole välttämättömiä.
+mutta sovelluksen ja testien ajamisen kannalta nämä eivät ole välttämättömiä. Jos et tee paljon clojure-kehitystä, myöskään cursive ei
+ole välttämätön.
 
 ### 3.5. Testidata
 
