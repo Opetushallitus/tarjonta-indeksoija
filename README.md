@@ -32,6 +32,7 @@ Asenna haluamallasi tavalla koneellesi
 1. [Clojure](https://clojure.org/guides/getting_started)
 2. [Docker](https://www.docker.com/get-started) (Elasticsearchia ja localstackia varten)
 3. [AWS cli](https://aws.amazon.com/cli/) (SQS-jonoja varten)
+4. [Leiningen](https://leiningen.org/) (Valitse asennus haluammallasi package managerilla)
 
 Lisäksi tarvitset Java SDK:n (Unix pohjaisissa käyttöjärjestelmissä auttaa esim. [SDKMAN!](https://sdkman.io/)). 
 Katso [.travis.yml](.travis.yml) mitä versioita sovellus käyttää. Kirjoitushetkellä käytössä openJDK11.
