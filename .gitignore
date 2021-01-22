@@ -17,3 +17,6 @@ dev_resources/config.edn
 .localstack
 pom.xml
 .eastwood
+.lsp
+.calva
+.clj-kondo
