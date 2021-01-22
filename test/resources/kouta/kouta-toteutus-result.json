@@ -93,17 +93,17 @@
           },
           "pohjakoulutusvaatimus": [
             {
-              "koodiUri": "pohjakoulutusvaatimustoinenaste_01#2",
+              "koodiUri": "pohjakoulutusvaatimuskouta_104#1",
               "nimi": {
-                "fi": "pohjakoulutusvaatimustoinenaste_01#2 nimi fi",
-                "sv": "pohjakoulutusvaatimustoinenaste_01#2 nimi sv"
+                "fi": "pohjakoulutusvaatimuskouta_104#1 nimi fi",
+                "sv": "pohjakoulutusvaatimuskouta_104#1 nimi sv"
               }
             },
             {
-              "koodiUri": "pohjakoulutusvaatimustoinenaste_02#2",
+              "koodiUri": "pohjakoulutusvaatimuskouta_109#1",
               "nimi": {
-                "fi": "pohjakoulutusvaatimustoinenaste_02#2 nimi fi",
-                "sv": "pohjakoulutusvaatimustoinenaste_02#2 nimi sv"
+                "fi": "pohjakoulutusvaatimuskouta_109#1 nimi fi",
+                "sv": "pohjakoulutusvaatimuskouta_109#1 nimi sv"
               }
             }
           ],
