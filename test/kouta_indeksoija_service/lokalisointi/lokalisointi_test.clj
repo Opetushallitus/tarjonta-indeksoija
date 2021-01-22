@@ -47,10 +47,10 @@
 
     (testing "Lokalisointi-service should post json to lokalisation service"
       (reset! sent [])
-      (service/save-translation-json-to-localisation-service "fi" translation-json)
+      (service/save-translation-json-to-localisation-service "konfo" "fi" translation-json)
       (is (= (sort comp lokalisation) (sort comp @sent))))
 
     (testing "Lokalisointi-service should post translation keys to lokalisation service"
       (reset! sent [])
-      (service/save-translation-keys-to-localisation-service "fi" key-value-pairs)
+      (service/save-translation-keys-to-localisation-service "konfo" "fi" key-value-pairs)
       (is (= (sort comp lokalisation) (sort comp @sent))))))

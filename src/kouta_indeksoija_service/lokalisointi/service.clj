@@ -12,12 +12,12 @@
   (util/key-value-pairs->nested-json translation-keys))
 
 (defn save-translation-keys-to-localisation-service
-  [lng key-value-pairs]
+  [category lng key-value-pairs]
   (doseq [[k v] key-value-pairs]
-    (lokalisointi-service/post lng (name k) v)))
+    (lokalisointi-service/post category lng (name k) v)))
 
 (defn save-translation-json-to-localisation-service
-  [lng json]
+  [category lng json]
   (->> json
        (->translation-keys)
-       (save-translation-keys-to-localisation-service lng)))
+       (save-translation-keys-to-localisation-service category lng)))
