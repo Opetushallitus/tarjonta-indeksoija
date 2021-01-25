@@ -17,7 +17,7 @@
   []
   (with-redefs [kouta-indeksoija-service.rest.cas.session/cas-authenticated-request-as-json
                 (fn [x y z req] (swap! lokalisointi-service conj (cheshire/parse-string (:body req) true)))]
-    (service/save-translation-json-to-localisation-service "fi" translation-json)))
+    (service/save-translation-json-to-localisation-service "konfo" "fi" translation-json)))
 
 (use-fixtures :once (fn [test]
                       (store-traslation-json-fixture)

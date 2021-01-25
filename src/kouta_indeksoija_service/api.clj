@@ -318,17 +318,17 @@
          :body [body (describe schema/Any "Avain-arvo-muotoiset käännökset")]
          (ok (lokalisointi-service/->json body)))
 
-       (POST "/lokalisointi/key-value-pairs/save" []
-         :summary "Tallentaa avain-arvo-parit lokalisointiopalveluun"
+       (POST "/lokalisointi/json/konfo/save" []
+         :summary "Tallentaa konfo-ui:n käännöstiedoston (translation.json) lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
-         :body [body (describe schema/Any "Käännökset avain-arvo-pareina")]
-         (ok (lokalisointi-service/save-translation-keys-to-localisation-service lng body)))
+         :body [body (describe schema/Any "JSON-muotoiset käännökset")]
+         (ok (lokalisointi-service/save-translation-json-to-localisation-service "konfo" lng body)))
 
-       (POST "/lokalisointi/json/save" []
-         :summary "Tallentaa jsonin (translation.json) lokalisointiopalveluun"
+       (POST "/lokalisointi/json/kouta/save" []
+         :summary "Tallentaa kouta-ui:n käännöstiedoston json-muodossa lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
-         :body [body (describe schema/Any "JSON-muotoiset käännökset (translation.json)")]
-         (ok (lokalisointi-service/save-translation-json-to-localisation-service lng body))))
+         :body [body (describe schema/Any "JSON-muotoiset käännökset")]
+         (ok (lokalisointi-service/save-translation-json-to-localisation-service "kouta" lng body))))
 
      (context "/jobs" []
        :tags ["jobs"]
