@@ -318,12 +318,6 @@
          :body [body (describe schema/Any "Avain-arvo-muotoiset käännökset")]
          (ok (lokalisointi-service/->json body)))
 
-       (POST "/lokalisointi/key-value-pairs/save" []
-         :summary "Tallentaa avain-arvo-parit lokalisointi-palveluun"
-         :query-params [lng :- String]
-         :body [body (describe schema/Any "Käännökset avain-arvo-pareina")]
-         (ok (lokalisointi-service/save-translation-keys-to-localisation-service "kouta" lng body)))
-
        (POST "/lokalisointi/json/konfo/save" []
          :summary "Tallentaa konfo-ui:n käännöstiedoston (translation.json) lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
