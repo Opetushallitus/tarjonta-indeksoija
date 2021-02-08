@@ -6,6 +6,7 @@
   "ensikertalaisenAloituspaikat": 0,
   "hakulomaketyyppi": "ei sähköistä",
   "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
+  "esikatselu": false,
   "alkamiskausi": {
     "koodiUri": "kausi_k#1",
     "nimi": {
@@ -62,6 +63,7 @@
         "sv": "haunkohdejoukko_11#1 nimi sv"
       }
     },
+    "esikatselu": false,
     "kielivalinta": [
       "fi",
       "sv"

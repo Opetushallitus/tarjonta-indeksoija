@@ -108,6 +108,7 @@
     },
     "oid": "1.2.246.562.10.54545454545"
   },
+  "esikatselu": false,
   "metadata": {
     "tyyppi": "amm",
     "kuvaus": {
