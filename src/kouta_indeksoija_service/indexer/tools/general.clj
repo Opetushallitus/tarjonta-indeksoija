@@ -21,7 +21,8 @@
 
 (defn korkeakoulutus?
   [koulutus]
-  (or (= "yo" (:koulutustyyppi koulutus)) (= "amk" (:koulutustyyppi koulutus))))
+  (or (= "yo" (:koulutustyyppi koulutus))
+      (= "amk" (:koulutustyyppi koulutus))))
 
 (defn any-ammatillinen?
   [koulutus]
