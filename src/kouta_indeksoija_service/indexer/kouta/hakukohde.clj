@@ -1,6 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.tools.general :as general]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "hakukohde-kouta")
@@ -21,10 +22,6 @@
 (defn- luonnos?
   [haku-tai-hakukohde]
   (= "tallennettu" (:tila haku-tai-hakukohde)))
-
-(defn- korkeakoulutusta?
-  [koulutus]
-  (contains? #{"yo" "amk"} (:koulutustyyppi koulutus)))
 
 (defn- johtaa-tutkintoon?
   [koulutus]
@@ -82,7 +79,7 @@
          (luonnos? hakukohde)
          (->ei-yps "Hakukohde on luonnos tilassa")
 
-         (not (korkeakoulutusta? koulutus))
+         (not (general/korkeakoulutus? koulutus))
          (->ei-yps "Ei korkeakoulutus koulutusta")
 
          (not (johtaa-tutkintoon? koulutus))

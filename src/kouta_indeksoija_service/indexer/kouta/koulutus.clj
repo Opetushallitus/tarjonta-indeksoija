@@ -5,8 +5,8 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
 (def index-name "koulutus-kouta")
@@ -64,12 +64,18 @@
         (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala))
         (assoc-in [:metadata :koulutusala] (koulutusalat-taso1 koulutusKoodi)))))
 
+(defn- enrich-korkeakoulutus-metadata
+  [koulutus]
+  (-> koulutus
+      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache "opintojenlaajuusyksikko_2#1"))))
+
 (defn- enrich-metadata
   [koulutus]
   (cond
     (ammatillinen? koulutus) (enrich-ammatillinen-metadata koulutus)
     (amm-tutkinnon-osa? koulutus) (enrich-tutkinnon-osa-metadata koulutus)
     (amm-osaamisala? koulutus) (enrich-osaamisala-metadata koulutus)
+    (korkeakoulutus? koulutus) (enrich-korkeakoulutus-metadata koulutus)
     :default koulutus))
 
 (defn create-index-entry
