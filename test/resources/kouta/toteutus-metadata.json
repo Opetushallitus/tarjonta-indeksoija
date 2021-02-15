@@ -20,7 +20,7 @@
     ],
     "opetusaikaKoodiUrit": ["opetusaikakk_1#1"],
     "opetustapaKoodiUrit": ["opetuspaikkakk_1#1"],
-    "koulutuksenAlkamiskausi": {
+    "koulutuksenAlkamiskausiUUSI": {
       "alkamiskausityyppi": "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
       "koulutuksenAlkamispaivamaara": "!!startTime1",

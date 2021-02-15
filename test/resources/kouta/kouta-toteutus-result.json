@@ -198,6 +198,12 @@
           }
         }
       ],
+      "koulutuksenAlkamiskausiUUSI": {
+        "alkamiskausityyppi": "tarkka alkamisajankohta",
+        "henkilokohtaisenSuunnitelmanLisatiedot": {},
+        "koulutuksenAlkamispaivamaara": "!!startTime1",
+        "koulutuksenPaattymispaivamaara": "!!endTime1"
+      },
       "maksullisuusKuvaus": {},
       "opetustapa": [
         {
