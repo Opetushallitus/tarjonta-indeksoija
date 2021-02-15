@@ -7,13 +7,6 @@
   "hakulomaketyyppi": "ei sähköistä",
   "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
   "esikatselu": false,
-  "alkamiskausi": {
-    "koodiUri": "kausi_k#1",
-    "nimi": {
-      "fi": "kausi_k#1 nimi fi",
-      "sv": "kausi_k#1 nimi sv"
-    }
-  },
   "pohjakoulutusvaatimusTarkenne": {
     "fi": "Pohjakoulutusvaatimuksen tarkenne fi",
     "sv": "Pohjakoulutusvaatimuksen tarkenne sv"
@@ -307,7 +300,6 @@
     "sv"
   ],
   "timestamp": 1549372069493,
-  "alkamisvuosi": "!!thisYear",
   "metadata": {
     "valintakokeidenYleiskuvaus": {
       "fi": "yleiskuvaus fi",
@@ -321,7 +313,6 @@
     },
     "kaytetaanHaunAlkamiskautta": false
   },
-  "kaytetaanHaunAlkamiskautta": false,
   "organisaatio": {
     "paikkakunta": {
       "koodiUri": "kunta_091",

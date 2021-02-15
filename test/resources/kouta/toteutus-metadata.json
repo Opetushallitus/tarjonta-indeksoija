@@ -20,12 +20,14 @@
     ],
     "opetusaikaKoodiUrit": ["opetusaikakk_1#1"],
     "opetustapaKoodiUrit": ["opetuspaikkakk_1#1"],
+    "koulutuksenAlkamiskausiUUSI": {
+      "alkamiskausityyppi": "tarkka alkamisajankohta",
+      "henkilokohtaisenSuunnitelmanLisatiedot": {},
+      "koulutuksenAlkamispaivamaara": "!!startTime1",
+      "koulutuksenPaattymispaivamaara": "!!endTime1"
+    },
     "onkoMaksullinen": true,
     "maksunMaara": 200.5,
-    "koulutuksenTarkkaAlkamisaika" : true,
-    "koulutuksenAlkamiskausi": "kausi_k#1",
-    "koulutuksenAlkamisvuosi": 2020,
-    "koulutuksenAlkamispaivamaara": "!!time3",
     "kuvaus": {
       "fi": "Kuvaus fi",
       "sv": "Kuvaus sv"
