@@ -22,10 +22,6 @@
     "opetustapaKoodiUrit": ["opetuspaikkakk_1#1"],
     "onkoMaksullinen": true,
     "maksunMaara": 200.5,
-    "koulutuksenTarkkaAlkamisaika" : true,
-    "koulutuksenAlkamiskausi": "kausi_k#1",
-    "koulutuksenAlkamisvuosi": 2020,
-    "koulutuksenAlkamispaivamaara": "!!time3",
     "kuvaus": {
       "fi": "Kuvaus fi",
       "sv": "Kuvaus sv"
