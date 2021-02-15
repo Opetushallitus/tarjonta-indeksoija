@@ -75,14 +75,14 @@
                      :en (terms :en)}
              :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))}
 
-            (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
-            (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
-            (not (empty? toteutusNimi)) (assoc :toteutusNimi toteutusNimi)
-            (not (nil? oppilaitosOid))  (assoc :oppilaitosOid oppilaitosOid)
-            (not (nil? kuva))           (assoc :kuva kuva)
-            (not (nil? onkoTuleva))     (assoc :onkoTuleva onkoTuleva)
-            (not (empty? tarjoajaOids)) (assoc :tarjoajat tarjoajaOids)
-            (not (empty? nimi))         (assoc :nimi nimi))))
+      (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
+      (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
+      (not (empty? toteutusNimi)) (assoc :toteutusNimi toteutusNimi)
+      (not (nil? oppilaitosOid))  (assoc :oppilaitosOid oppilaitosOid)
+      (not (nil? kuva))           (assoc :kuva kuva)
+      (not (nil? onkoTuleva))     (assoc :onkoTuleva onkoTuleva)
+      (not (empty? tarjoajaOids)) (assoc :tarjoajat tarjoajaOids)
+      (not (empty? nimi))         (assoc :nimi nimi))))
 
 (defn- get-koulutusalatasot-by-koulutus-koodi-uri
   [koulutusKoodiUri]
@@ -164,7 +164,8 @@
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
-    :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
+    (korkeakoulutus? koulutus) "opintojenlaajuusyksikko_2#1" ;opintopistettä
+    :default nil))
 
 (defn tutkinnonOsat
   [koulutus]
