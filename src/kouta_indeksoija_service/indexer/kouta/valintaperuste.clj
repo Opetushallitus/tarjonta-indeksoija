@@ -8,8 +8,6 @@
 (defn create-index-entry
   [id]
   (let [valintaperuste (common/complete-entry (kouta-backend/get-valintaperuste id))]
-    (println "valintaperuste on----------------------------")
-    (println (cheshire.core/generate-string valintaperuste))
     (if-let [sorakuvaus-id (:sorakuvausId valintaperuste)]
       (indexable/->index-entry id (assoc valintaperuste :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus sorakuvaus-id))))
       (indexable/->index-entry id valintaperuste))))
