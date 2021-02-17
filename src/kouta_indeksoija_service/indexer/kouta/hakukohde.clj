@@ -1,6 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.tools.general :as general]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "hakukohde-kouta")
@@ -22,32 +23,32 @@
   [haku-tai-hakukohde]
   (= "tallennettu" (:tila haku-tai-hakukohde)))
 
-(defn- korkeakoulutusta?
-  [koulutus]
-  (contains? #{"yo" "amk"} (:koulutustyyppi koulutus)))
-
 (defn- johtaa-tutkintoon?
   [koulutus]
   (:johtaaTutkintoon koulutus))
 
 (defn- alkamiskausi-kevat?
   [haku hakukohde]
-  (-> (if (:kaytetaanHaunAlkamiskautta hakukohde) haku hakukohde)
-      :alkamiskausiKoodiUri
-      (clojure.string/starts-with? "kausi_k#")))
+  (if-some [alkamiskausi-koodi-uri (if (:kaytetaanHaunAlkamiskautta hakukohde)
+                                 (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausiKoodiUri])
+                                 (:alkamiskausiKoodiUri hakukohde))]
+    (clojure.string/starts-with? alkamiskausi-koodi-uri "kausi_k#")
+    false))
 
 (defn- alkamisvuosi
   [haku hakukohde]
-  (-> (if (:kaytetaanHaunAlkamiskautta hakukohde) haku hakukohde)
-      :alkamisvuosi
-      Integer/valueOf))
+  (when-some [alkamisvuosi (if (:kaytetaanHaunAlkamiskautta hakukohde)
+                       (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamisvuosi])
+                       (:alkamisvuosi hakukohde))]
+    (Integer/valueOf alkamisvuosi)))
 
 (defn- alkamiskausi-ennen-syksya-2016?
   [haku hakukohde]
-  (let [alkamisvuosi (alkamisvuosi haku hakukohde)]
+  (if-some [alkamisvuosi (alkamisvuosi haku hakukohde)]
     (or (< alkamisvuosi 2016)
         (and (= alkamisvuosi 2016)
-             (alkamiskausi-kevat? haku hakukohde)))))
+             (alkamiskausi-kevat? haku hakukohde)))
+    false))
 
 (defn- some-kohdejoukon-tarkenne?
   [haku]
@@ -78,7 +79,7 @@
          (luonnos? hakukohde)
          (->ei-yps "Hakukohde on luonnos tilassa")
 
-         (not (korkeakoulutusta? koulutus))
+         (not (general/korkeakoulutus? koulutus))
          (->ei-yps "Ei korkeakoulutus koulutusta")
 
          (not (johtaa-tutkintoon? koulutus))

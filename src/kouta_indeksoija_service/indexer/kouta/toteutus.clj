@@ -10,16 +10,16 @@
 (defn- determine-correct-aikataulu-and-hakulomake
   [ht-haku ht-hakukohde]
   (let [hakulomakeKeys  [:hakulomaketyyppi :hakulomakeAtaruId :hakulomakeKuvaus :hakulomakeLinkki]
-        alkamisaikaKeys [:alkamiskausiKoodiUri :alkamisvuosi]
+        alkamisaikaKey  [:koulutuksenAlkamiskausi]
         aikatauluKeys   [:hakuajat]
         hakuOid         (:hakuOid ht-haku)]
     (merge {}
            (if (true? (:kaytetaanHaunHakulomaketta ht-hakukohde))
              (conj (select-keys ht-haku hakulomakeKeys) (common/create-hakulomake-linkki ht-haku hakuOid))
              (conj (select-keys ht-hakukohde hakulomakeKeys) (common/create-hakulomake-linkki ht-hakukohde hakuOid)))
-           (if (true? (:kaytetaanHaunAlkamiskautta ht-hakukohde))
-             (select-keys ht-haku alkamisaikaKeys)
-             (select-keys ht-hakukohde alkamisaikaKeys))
+           (if (true? (:kaytetaanHaunAlkamiskauttaUUSI ht-hakukohde))
+             (select-keys ht-haku alkamisaikaKey)
+             (select-keys ht-hakukohde alkamisaikaKey))
            (if (true? (:kaytetaanHaunAikataulua ht-hakukohde))
              (select-keys ht-haku aikatauluKeys)
              (select-keys ht-hakukohde aikatauluKeys)))))
@@ -33,16 +33,19 @@
                                    :pohjakoulutusvaatimusKoodiUrit
                                    :pohjakoulutusvaatimusTarkenne
                                    :aloituspaikat
+                                   :jarjestyspaikkaOid
                                    :ensikertalaisenAloituspaikat])
-        (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde)))))
+        (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
+        (common/decorate-koodi-uris)
+        (common/assoc-jarjestyspaikka))))
 
 (defn- determine-correct-hakutiedot
   [ht-toteutus]
   (-> (for [ht-haku (:haut ht-toteutus)]
-        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri])
+        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri :koulutuksenAlkamiskausi])
+            (common/decorate-koodi-uris)
             (assoc :hakukohteet (vec (create-hakukohteiden-hakutiedot ht-haku)))))
-      (vec)
-      (common/decorate-koodi-uris)))
+      (vec)))
 
 (defn- assoc-hakutiedot
   [toteutus hakutiedot]

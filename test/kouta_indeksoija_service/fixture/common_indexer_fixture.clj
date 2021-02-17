@@ -48,7 +48,9 @@
       (string/replace "!!startTime1" (test-date "09:49" 1))
       (string/replace "!!endTime1" (test-date "09:58" 1))
       (string/replace "!!time3" (test-date "09:58" 3))
-      (string/replace "!!thisYear" "2020")))
+      (string/replace "!!thisYear" (-> (time/today)
+                                       (.getYear)
+                                       (.toString)))))
 
 (defn read-json-as-string
   ([path name]

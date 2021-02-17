@@ -21,6 +21,7 @@
   "hits" : [ {
     "koulutustyypit" : ["yo"],
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2" ],
+    "opetustavat" : [],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ ],
     "terms" : {

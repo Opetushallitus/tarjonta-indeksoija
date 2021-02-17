@@ -2,11 +2,7 @@
   (:require [clojure.test :refer :all]
             [cheshire.core :as cheshire]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
-            [clj-test-utils.s3-mock-utils :refer :all]
-            [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.indexer :as i]
-            [mocks.externals-mock :as mock]
-            [clj-s3.s3-connect :as s3]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
             [kouta-indeksoija-service.lokalisointi.service :as service]
             [kouta-indeksoija-service.test-tools :refer :all]
@@ -21,7 +17,7 @@
   []
   (with-redefs [kouta-indeksoija-service.rest.cas.session/cas-authenticated-request-as-json
                 (fn [x y z req] (swap! lokalisointi-service conj (cheshire/parse-string (:body req) true)))]
-    (service/save-translation-json-to-localisation-service "fi" translation-json)))
+    (service/save-translation-json-to-localisation-service "konfo" "fi" translation-json)))
 
 (use-fixtures :once (fn [test]
                       (store-traslation-json-fixture)

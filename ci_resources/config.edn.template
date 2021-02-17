@@ -6,9 +6,6 @@
          :virkailija-internal "http://{{host_virkailija}}"
          :cas "https://{{host_cas}}"
          :ataru-hakija "http://{{host_ataru_hakija}}"}
- :s3-dev-disabled "false"
- :s3-bucket "{{kouta_indeksoija_s3_bucket}}"
- :s3-region "{{kouta_indeksoija_s3_region}}"
  :queue {:priority {:name "{{kouta_indeksoija_sqs_queue_priority}}" :health-threshold "{{kouta_indeksoija_sqs_queue_priority_health_threshold}}"}
                  :fast {:name "{{kouta_indeksoija_sqs_queue_fast}}" :health-threshold "{{kouta_indeksoija_sqs_queue_fast_health_threshold}}"}
                  :slow {:name "{{kouta_indeksoija_sqs_queue_slow}}" :health-threshold "{{kouta_indeksoija_sqs_queue_slow_health_threshold}}"}

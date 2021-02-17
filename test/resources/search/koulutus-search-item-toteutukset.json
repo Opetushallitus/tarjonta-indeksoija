@@ -21,14 +21,15 @@
   "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
   "eperuste" : 1234,
-  "opintojenlaajuus" : {
+  "opintojenLaajuusNumero" : 150,
+  "opintojenLaajuus" : {
     "koodiUri" : "opintojenlaajuus_150",
     "nimi" : {
       "fi" : "opintojenlaajuus_150 nimi fi",
       "sv" : "opintojenlaajuus_150 nimi sv"
     }
   },
-  "opintojenlaajuusyksikko" : {
+  "opintojenLaajuusyksikko" : {
     "koodiUri" : "opintojenlaajuusyksikko_6",
     "nimi" : {
       "fi" : "opintojenlaajuusyksikko_6 nimi fi",
@@ -46,6 +47,7 @@
   "hits" : [ {
     "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_3" ],
+    "opetustavat" : [ "opetuspaikkakk_1" ],
     "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
@@ -99,6 +101,7 @@
   }, {
     "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1" ],
+    "opetustavat" : [ "opetuspaikkakk_1", "opetuspaikkakk_2" ],
     "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
     "sijainti" : [ "kunta_091", "maakunta_01" ],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 

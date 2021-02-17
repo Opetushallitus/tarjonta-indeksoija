@@ -2,7 +2,6 @@
   (:require [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.s3.s3-client :as s3-client]
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
@@ -38,9 +37,6 @@
 (defn init []
   (mount/start)
   (log/info "Running init")
-  (if (not= (:s3-dev-disabled env) "true")
-    (s3-client/init-s3-connection)
-    (log/info "s3 bucket disabled for dev usage - no pictures will be saved."))
   (init-elastic-client)
   (if (and (admin/initialize-cluster-settings)
            (admin/check-elastic-status)
@@ -322,17 +318,17 @@
          :body [body (describe schema/Any "Avain-arvo-muotoiset käännökset")]
          (ok (lokalisointi-service/->json body)))
 
-       (POST "/lokalisointi/key-value-pairs/save" []
-         :summary "Tallentaa avain-arvo-parit lokalisointiopalveluun"
+       (POST "/lokalisointi/json/konfo/save" []
+         :summary "Tallentaa konfo-ui:n käännöstiedoston (translation.json) lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
-         :body [body (describe schema/Any "Käännökset avain-arvo-pareina")]
-         (ok (lokalisointi-service/save-translation-keys-to-localisation-service lng body)))
+         :body [body (describe schema/Any "JSON-muotoiset käännökset")]
+         (ok (lokalisointi-service/save-translation-json-to-localisation-service "konfo" lng body)))
 
-       (POST "/lokalisointi/json/save" []
-         :summary "Tallentaa jsonin (translation.json) lokalisointiopalveluun"
+       (POST "/lokalisointi/json/kouta/save" []
+         :summary "Tallentaa kouta-ui:n käännöstiedoston json-muodossa lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
-         :body [body (describe schema/Any "JSON-muotoiset käännökset (translation.json)")]
-         (ok (lokalisointi-service/save-translation-json-to-localisation-service lng body))))
+         :body [body (describe schema/Any "JSON-muotoiset käännökset")]
+         (ok (lokalisointi-service/save-translation-json-to-localisation-service "kouta" lng body))))
 
      (context "/jobs" []
        :tags ["jobs"]
@@ -405,7 +401,7 @@
 
        (POST "/koodistot" []
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
-         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi"}]
+         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi,opetuspaikkakk"}]
          (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))}))
 
        (POST "/lokalisointi" []

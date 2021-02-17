@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "0.4.7-SNAPSHOT"
+(defproject kouta-indeksoija-service "0.4.11-SNAPSHOT"
   :description "FIXME: write description"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -39,9 +39,8 @@
                  ;Configuration
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
-                 ;Elasticsearch + s3
+                 ;Elasticsearch
                  [oph/clj-elasticsearch "0.3.2-SNAPSHOT"]
-                 [oph/clj-s3 "0.2.2-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
@@ -76,28 +75,28 @@
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "1.2.0-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "1.2.0-SNAPSHOT" :classifier "tests"]
-                                                       [fi.oph.kouta/kouta-common "1.2.0-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.7-SNAPSHOT"]]
+                                                       [fi.oph.kouta/kouta-backend "2.0.0-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "2.0.0-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-common "2.0.0-SNAPSHOT" :classifier "tests"]
+                                                       [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
-                    :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
-                                 (utils/global-elasticsearch-fixture)]}
+                    :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
+                                 (utils/global-docker-elastic-fixture)]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "1.2.0-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "1.2.0-SNAPSHOT" :classifier "tests"]
-                                      [fi.oph.kouta/kouta-common "1.2.0-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.7-SNAPSHOT"]]
+                                      [fi.oph.kouta/kouta-backend "2.0.0-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "2.0.0-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-common "2.0.0-SNAPSHOT" :classifier "tests"]
+                                      [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
                                   "-Daws.secretKey=randomKeyForLocalstack"]
-                       :injections [(require '[clj-test-utils.elasticsearch-mock-utils :as utils])
-                                    (utils/global-elasticsearch-fixture)]}
+                       :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
+                                    (utils/global-docker-elastic-fixture)]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion

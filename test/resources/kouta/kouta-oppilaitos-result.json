@@ -40,6 +40,7 @@
     "oppilaitoksenOsa" : {
       "tila" : "julkaistu",
       "modified" : "2019-02-05T09:49:23",
+      "esikatselu": false,
       "muokkaaja" : {
         "oid" : "1.2.246.562.24.62301161440",
         "nimi" : "Kalle Ankka"
@@ -145,6 +146,7 @@
   "oppilaitos" : {
     "tila" : "julkaistu",
     "modified" : "2019-02-05T09:49:23",
+    "esikatselu": false,
     "muokkaaja" : {
       "oid" : "1.2.246.562.24.62301161440",
       "nimi" : "Kalle Ankka"

@@ -47,6 +47,19 @@
                                   "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
            :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
+
+(defonce amk-tutkinnon-osa-koulutus-metadata
+         (generate-string
+          {:tyyppi "amm-tutkinnon-osa"
+           :tutkinnonOsat [{:koulutusKoodiUri "koulutus_123123#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}
+                           {:koulutusKoodiUri "koulutus_123125#1" :tutkinnonosaId 1235 :tutkinnonosaViite 5677}
+                           {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}]}))
+
+(defonce amk-osaamisala-koulutus-metadata
+         (generate-string
+          {:tyyppi "amm-osaamisala"
+           :osaamisalaKoodiUri "osaamisala_1111#1"}))
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (merge default-koulutus-map {:organisaatio Oppilaitos1} params)]
@@ -229,7 +242,9 @@
 
 (defn reset-indices
   []
-  (doseq [index (->> (admin/list-indices-and-aliases) (keys) (map name))]
+  (doseq [index (->> (admin/list-indices-and-aliases)
+                     (keys)
+                     (map name))]
     (tools/delete-index index)))
 
 (defn indices-fixture
@@ -343,8 +358,7 @@
                  kouta-indeksoija-service.fixture.external-services/mock-alakoodit
 
                  kouta-indeksoija-service.rest.eperuste/get-doc
-                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
-                 ]
+                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste]
      (do ~@body)))
 
 (defn index-oppilaitokset

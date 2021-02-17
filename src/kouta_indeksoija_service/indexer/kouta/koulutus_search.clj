@@ -62,6 +62,7 @@
                   :oppilaitosOid      (:oid oppilaitos)
                   :koulutusalaUrit    (koulutusalaKoodiUrit koulutus)
                   :tutkintonimikeUrit (tutkintonimikeKoodiUrit koulutus)
+                  :opetustapaUrit     (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
                   :nimet              (vector (:nimi koulutus) (:nimi toteutus))
                   ;:hakuOnKaynnissa   (->real-hakuajat hakutieto) TODO
                   ;:haut              (:haut hakutieto) TODO
@@ -116,18 +117,22 @@
 
 (defn- create-entry
   [koulutus]
-  (-> koulutus
-     (select-keys [:oid :nimi :kielivalinta])
-     (assoc :eperuste                (:ePerusteId koulutus))
-     (assoc :koulutus                (:koulutusKoodiUri koulutus))
-     (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
-     (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
-     (assoc :teemakuva               (:teemakuva koulutus))
-     (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
-     (assoc :opintojenlaajuus        (opintojenlaajuusKoodiUri koulutus))
-     (assoc :opintojenlaajuusyksikko (opintojenlaajuusyksikkoKoodiUri koulutus))
-     (common/decorate-koodi-uris)
-     (assoc :hits (:hits koulutus))))
+  (let [entry (-> koulutus
+                  (select-keys [:oid :nimi :kielivalinta])
+                  (assoc :eperuste                (:ePerusteId koulutus))
+                  (assoc :koulutus                (:koulutusKoodiUri koulutus))
+                  (assoc :tutkintonimikkeet       (tutkintonimikeKoodiUrit koulutus))
+                  (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
+                  (assoc :teemakuva               (:teemakuva koulutus))
+                  (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
+                  (assoc :opintojenLaajuus        (opintojenLaajuusKoodiUri koulutus))
+                  (assoc :opintojenLaajuusNumero  (opintojenLaajuusNumero koulutus))
+                  (assoc :opintojenLaajuusyksikko (opintojenLaajuusyksikkoKoodiUri koulutus))
+                  (common/decorate-koodi-uris)
+                  (assoc :hits (:hits koulutus)))]
+    (cond-> entry
+            (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (tutkinnonOsat) (common/decorate-koodi-uris)))
+            (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (osaamisalaKoodiUri))})))))
 
 (defn create-index-entry
   [oid]
