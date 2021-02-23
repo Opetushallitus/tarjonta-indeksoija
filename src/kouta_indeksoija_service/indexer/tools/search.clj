@@ -2,11 +2,11 @@
   (:require [kouta-indeksoija-service.indexer.tools.general :refer :all]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo]]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
+  ))
 
 (defn- clean-uris
   [uris]
@@ -15,6 +15,7 @@
 (defn hit
   [& {:keys [koulutustyyppi
              koulutustyyppiUrit
+             koulutustyypit
              opetuskieliUrit
              tarjoajat
              tarjoajaOids
@@ -35,6 +36,7 @@
              metadata]
       :or {koulutustyyppi nil
            koulutustyyppiUrit []
+           koulutustyypit []
            opetuskieliUrit []
            tarjoajat []
            tarjoajaOids []
@@ -65,7 +67,8 @@
                                                                (map lng-keyword ammattinimikkeet)
                                                                (map lng-keyword tutkintonimikkeet)))))]
 
-    (cond-> {:koulutustyypit (clean-uris (concat (vector koulutustyyppi) koulutustyyppiUrit))
+    (cond-> {;:koulutustyypit (clean-uris (concat (vector koulutustyyppi) koulutustyyppiUrit))
+             :koulutustyypit (clean-uris koulutustyypit)
              :opetuskielet (clean-uris opetuskieliUrit)
              :sijainti (clean-uris (concat kunnat maakunnat))
              :koulutusalat (clean-uris koulutusalaUrit)
@@ -191,3 +194,11 @@
   [organisaatio]
   (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
     (oppilaitostyyppi-uri-to-tyyppi oppilaitostyyppi)))
+
+(defn deduce-koulutustyypit
+  ([koulutus opetus]
+   (if (:ammatillinenPerustutkintoErityisopetuksena opetus)
+     ["koulutustyyppi_4"]
+     (concat (koulutustyyppiKoodiUrit koulutus) (vector (:koulutustyyppi koulutus)))))
+  ([koulutus]
+   (concat (koulutustyyppiKoodiUrit koulutus) (vector (:koulutustyyppi koulutus)))))

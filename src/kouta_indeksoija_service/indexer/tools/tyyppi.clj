@@ -42,7 +42,7 @@
     "oppilaitostyyppi_93" "muu" ;;Muut koulutuksen järjestäjät
     "oppilaitostyyppi_99" "muu" ;;Muut oppilaitokset
     "oppilaitostyyppi_XX" "muu" ;;Ei tiedossa (oppilaitostyyppi)
-    "muu" ))
+    "muu"))
 
 (defn koulutustyyppi-uri-to-tyyppi [koulutustyyppi-uri]
   (case (remove-uri-version koulutustyyppi-uri)
