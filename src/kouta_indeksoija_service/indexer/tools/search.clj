@@ -1,21 +1,18 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer :all]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [maakunta koulutusalat-taso1 koulutusalat-taso2 koulutustyypit]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
-  ))
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]))
 
 (defn- clean-uris
   [uris]
   (vec (map remove-uri-version uris)))
 
 (defn hit
-  [& {:keys [koulutustyyppi
-             koulutustyyppiUrit
-             koulutustyypit
+  [& {:keys [koulutustyypit
              opetuskieliUrit
              tarjoajat
              tarjoajaOids
@@ -34,9 +31,7 @@
              nimi
              kuva
              metadata]
-      :or {koulutustyyppi nil
-           koulutustyyppiUrit []
-           koulutustyypit []
+      :or {koulutustyypit []
            opetuskieliUrit []
            tarjoajat []
            tarjoajaOids []

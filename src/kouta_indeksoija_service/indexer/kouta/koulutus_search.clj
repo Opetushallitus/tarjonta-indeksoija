@@ -28,9 +28,7 @@
   [hierarkia koulutus]
   (let [oppilaitos (get-oppilaitos hierarkia)
         tarjoajat  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))]
-    (search-tool/hit :koulutustyyppi   (:koulutustyyppi koulutus)
-                     :koulutustyyppiUrit (search-tool/koulutustyyppiKoodiUrit koulutus)
-                     :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus)
+    (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus)
                      :tarjoajat          tarjoajat
                      :oppilaitos         oppilaitos
                      :koulutusalaUrit    (search-tool/koulutusalaKoodiUrit koulutus)
@@ -53,9 +51,7 @@
                              (filter #(seq (:tarjoajat %))))
                :let [opetus (get-in toteutus [:metadata :opetus])]]
 
-           (search-tool/hit :koulutustyyppi   (:koulutustyyppi koulutus)
-                            :koulutustyyppiUrit (search-tool/koulutustyyppiKoodiUrit koulutus)
-                            :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus opetus)
+           (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus opetus)
                             :opetuskieliUrit    (:opetuskieliKoodiUrit opetus)
                             :tarjoajat          (:tarjoajat toteutus)
                             :oppilaitos         oppilaitos
