@@ -186,6 +186,7 @@
       }
     ],
     "opetus": {
+      "ammatillinenPerustutkintoErityisopetuksena": false,
       "maksunMaara": 200.5,
       "onkoStipendia": false,
       "stipendinKuvaus": {},
