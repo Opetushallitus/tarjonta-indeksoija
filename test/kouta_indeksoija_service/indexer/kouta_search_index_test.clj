@@ -151,20 +151,28 @@
          (i/index-oppilaitos oppilaitos-oid2)
          ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
-                       (no-timestamp (get-doc koulutus/index-name koulutus-oid4))))))))
+                       (no-timestamp (get-doc koulutus/index-name koulutus-oid4)))))))
 
-; TODO: ammatillinenPerustutkintoErityisopetuksena test
-; - Mockataan koodiUrit palauttava funktio (palauttaa erityisopetus-koodiurin)
-; - 
+  (defn- mock-koodisto-testi
+    [koodi-uri alakoodi-uri]
+    (vector
+     { :koodiUri "koulutustyyppi_1" :nimi {:fi "joku nimi" :sv "joku nimi sv"}}
+     { :koodiUri "koulutustyyppi_4" :nimi {:fi "joku nimi2" :sv "joku nimi sv2"}}))
 
   (deftest index-koulutus-search-items-test-5
     (fixture/with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2
-                   kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
+                   kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi
+                   kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-testi]
        (testing "amm perustutkinto (TODO)"
-         (is (nil? (get-doc koulutus/index-name koulutus-oid4)))
-         (i/index-koulutus koulutus-oid4)
+         (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
+         (i/index-koulutus koulutus-oid2)
          (i/index-oppilaitos oppilaitos-oid2)
-         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
-         (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
-                       (no-timestamp (get-doc koulutus/index-name koulutus-oid4))))))))
+         (let [indexed-koulutus (get-doc koulutus/index-name koulutus-oid2)
+               koulutustyypit (-> indexed-koulutus
+                                  :hits
+                                  first
+                                  :koulutustyypit)]
+           (is (= ["koulutustyyppi_1" "amm"] koulutustyypit))))))))
+
+
