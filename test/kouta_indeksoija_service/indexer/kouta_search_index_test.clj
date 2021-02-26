@@ -152,3 +152,5 @@
          ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
                        (no-timestamp (get-doc koulutus/index-name koulutus-oid4))))))))
+
+

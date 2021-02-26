@@ -3,6 +3,28 @@
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]))
 
+(defn- mock-koodisto-koulutustyyppi
+  [koodi-uri alakoodi-uri]
+  (vector
+   { :koodiUri "koulutustyyppi_1" :nimi {:fi "joku nimi" :sv "joku nimi sv"}}
+   { :koodiUri "koulutustyyppi_4" :nimi {:fi "joku nimi2" :sv "joku nimi sv2"}}))
+
+(deftest filter-erityisopetus-koulutustyyppi
+  (testing "If not ammatillinen perustutkinto erityisopetuksena, filter out erityisopetus koulutustyyppi from koodisto response"
+    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
+      (let [koulutus {:koulutustyyppi "amm"}
+            toteutus {:ammatillinenPerustutkintoErityisopetuksena false}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus)]
+        (is (= ["koulutustyyppi_1" "amm"] result))))))
+
+(deftest add-only-erityisopetus-koulutustyyppi-koodi
+  (testing "If ammatillinen perustutkinto erityisopetuksena, add only erityisopetus koulutustyyppi koodi"
+    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
+      (let [koulutus {:koulutustyyppi "amm"}
+            toteutus {:ammatillinenPerustutkintoErityisopetuksena true}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus)]
+        (is (= ["koulutustyyppi_4" "amm"] result))))))
+
 (deftest hakuajat-test
 
   (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
