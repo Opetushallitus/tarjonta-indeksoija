@@ -152,3 +152,19 @@
          ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
                        (no-timestamp (get-doc koulutus/index-name koulutus-oid4))))))))
+
+; TODO: ammatillinenPerustutkintoErityisopetuksena test
+; - Mockataan koodiUrit palauttava funktio (palauttaa erityisopetus-koodiurin)
+; - 
+
+  (deftest index-koulutus-search-items-test-5
+    (fixture/with-mocked-indexing
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2
+                   kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
+       (testing "amm perustutkinto (TODO)"
+         (is (nil? (get-doc koulutus/index-name koulutus-oid4)))
+         (i/index-koulutus koulutus-oid4)
+         (i/index-oppilaitos oppilaitos-oid2)
+         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
+         (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
+                       (no-timestamp (get-doc koulutus/index-name koulutus-oid4))))))))

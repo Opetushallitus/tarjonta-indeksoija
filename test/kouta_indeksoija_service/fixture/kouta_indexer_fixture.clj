@@ -34,31 +34,36 @@
 (defonce default-oppilaitoksen-osa-map (->clj-map (.DefaultOppilaitoksenOsa KoutaFixture)))
 
 (defonce yo-koulutus-metadata
-         (generate-string
-          {:tyyppi               "yo"
-           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1",
-                                  "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+  (generate-string
+   {:tyyppi               "yo"
+    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defonce amk-koulutus-metadata
-         (generate-string
-          {:tyyppi               "amk"
-           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1",
-                                  "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+  (generate-string
+   {:tyyppi               "amk"
+    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 
 (defonce amk-tutkinnon-osa-koulutus-metadata
-         (generate-string
-          {:tyyppi "amm-tutkinnon-osa"
-           :tutkinnonOsat [{:koulutusKoodiUri "koulutus_123123#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}
-                           {:koulutusKoodiUri "koulutus_123125#1" :tutkinnonosaId 1235 :tutkinnonosaViite 5677}
-                           {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}]}))
+  (generate-string
+   {:tyyppi "amm-tutkinnon-osa"
+    :tutkinnonOsat [{:koulutusKoodiUri "koulutus_123123#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}
+                    {:koulutusKoodiUri "koulutus_123125#1" :tutkinnonosaId 1235 :tutkinnonosaViite 5677}
+                    {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}]}))
 
 (defonce amk-osaamisala-koulutus-metadata
-         (generate-string
-          {:tyyppi "amm-osaamisala"
-           :osaamisalaKoodiUri "osaamisala_1111#1"}))
+  (generate-string
+   {:tyyppi "amm-osaamisala"
+    :osaamisalaKoodiUri "osaamisala_1111#1"}))
+
+(defonce amm-perustutkinto-erityisopetuksena-metadata
+  (generate-string
+   {:tyyppi "amm"
+    :opetus {:ammatillinenPerustutkintoErityisopetuksena "true"}}))
 
 (defn add-koulutus-mock
   [oid & {:as params}]
@@ -77,8 +82,8 @@
 (defn mock-get-koulutukset-by-tarjoaja
   [oid]
   (let [oids (str oid "," oid "1," oid "2," oid "3")]
-  (locking KoutaFixture
-    (->keywordized-json (.getKoulutuksetByTarjoajat KoutaFixture oids)))))
+    (locking KoutaFixture
+      (->keywordized-json (.getKoulutuksetByTarjoajat KoutaFixture oids)))))
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
@@ -97,8 +102,8 @@
 (defn mock-get-toteutukset
   ([koulutusOid vainJulkaistut]
    (comment let [pred (fn [e] (and (= (:koulutusOid (val e)) koulutusOid) (or (not vainJulkaistut) (= (:tila (val e)) "julkaistu"))))
-         mapper (fn [e] (->toteutus-mock-response (name (key e)) koulutusOid (val e)))]
-     (map mapper (find-from-atom toteutukset pred)))
+                 mapper (fn [e] (->toteutus-mock-response (name (key e)) koulutusOid (val e)))]
+            (map mapper (find-from-atom toteutukset pred)))
    (locking KoutaFixture
      (->keywordized-json (.getToteutuksetByKoulutus KoutaFixture koulutusOid vainJulkaistut))))
   ([koulutusOid]
@@ -364,30 +369,30 @@
 (defn index-oppilaitokset
   [oids]
   (with-mocked-indexing
-   (indexer/index-oppilaitokset oids))
+    (indexer/index-oppilaitokset oids))
   (refresh-indices))
 
 (defn index-oids-with-related-indices
   [oids]
   (with-mocked-indexing
-   (indexer/index-oids oids))
+    (indexer/index-oids oids))
   (refresh-indices))
 
 (defn index-oids-without-related-indices
   ([oids]
    (with-mocked-indexing
-    (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
-      (indexer/index-all-kouta)))
+     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
+       (indexer/index-all-kouta)))
    (refresh-indices))
   ([oids organisaatio-hierarkia-mock]
    (with-mocked-indexing
-    (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
-                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock]
-      (indexer/index-all-kouta)))
+     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
+                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock]
+       (indexer/index-all-kouta)))
    (refresh-indices)))
 
 (defn index-all
   []
   (with-mocked-indexing
-   (indexer/index-all-kouta))
+    (indexer/index-all-kouta))
   (refresh-indices))
