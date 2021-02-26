@@ -60,11 +60,6 @@
    {:tyyppi "amm-osaamisala"
     :osaamisalaKoodiUri "osaamisala_1111#1"}))
 
-(defonce amm-perustutkinto-erityisopetuksena-metadata
-  (generate-string
-   {:tyyppi "amm"
-    :opetus {:ammatillinenPerustutkintoErityisopetuksena "true"}}))
-
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (merge default-koulutus-map {:organisaatio Oppilaitos1} params)]
