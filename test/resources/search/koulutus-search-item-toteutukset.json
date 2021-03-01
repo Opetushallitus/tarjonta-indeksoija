@@ -50,6 +50,10 @@
     "opetustavat" : [ "opetuspaikkakk_1" ],
     "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [{"gte": "2021-03-02T09:49", "lt": "2021-03-02T09:58"}],
+    "hakutavat": ["hakutapa_03"],
+    "valintatavat": ["valintatapajono_av", "valintatapajono_tv"],
+    "pohjakoulutusvaatimukset": ["pohjakoulutusvaatimuskouta_104", "pohjakoulutusvaatimuskouta_109"],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
                        "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
     "terms" : {
@@ -104,6 +108,10 @@
     "opetustavat" : [ "opetuspaikkakk_1", "opetuspaikkakk_2" ],
     "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [{"gte": "2021-03-02T09:49", "lt": "2021-03-02T09:58"}],
+    "hakutavat": ["hakutapa_03"],
+    "valintatavat": ["valintatapajono_av", "valintatapajono_tv"],
+    "pohjakoulutusvaatimukset": ["pohjakoulutusvaatimuskouta_104", "pohjakoulutusvaatimuskouta_109"],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02", 
                        "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
     "terms" : {

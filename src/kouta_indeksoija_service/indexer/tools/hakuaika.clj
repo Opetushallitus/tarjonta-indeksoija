@@ -15,8 +15,8 @@
 
 (defn- kaytetaanHaunAikatauluaHaussa?
   [haku]
-  (or (empty? (:hakukohteet haku))
-      (some kaytetaanHaunAikatauluaHakukohteessa? (:hakukohteet haku))))
+  (and (seq (:hakukohteet haku))
+       (some kaytetaanHaunAikatauluaHakukohteessa? (:hakukohteet haku))))
 
 (defn- haun-hakuajat
   [haku]

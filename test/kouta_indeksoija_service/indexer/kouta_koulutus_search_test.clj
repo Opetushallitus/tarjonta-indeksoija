@@ -1,7 +1,8 @@
 (ns kouta-indeksoija-service.indexer.kouta-koulutus-search-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
-            [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]))
+            [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
+            [kouta-indeksoija-service.indexer.tools.search :refer [hakutapaKoodiUrit pohjakoulutusvaatimusKoodiUrit valintatapaKoodiUrit]]))
 
 (deftest hakuajat-test
 
@@ -23,10 +24,8 @@
         hakukohde3    {:hakuajat [hakuaika4]            :kaytetaanHaunAikataulua false}]
 
     (testing "Hakuajat"
-      (testing "should contain hakujen hakuajat"
-        (is (contains-same-elements-in-any-order?
-              [expected1, expected2, expected3, expected4]
-              (->real-hakuajat {:haut [haku1, haku2]}))))
+      (testing "should not contain anything if hakukohteet is empty"
+        (is (empty? (->real-hakuajat {:haut [haku1, haku2]}))))
 
       (testing "should contain hakukohteiden hakuajat"
         (is (contains-same-elements-in-any-order?
@@ -47,4 +46,35 @@
       (testing "should remove duplicates"
         (is (contains-same-elements-in-any-order?
               [expected1, expected2]
-              (->real-hakuajat {:haut [haku1 (merge haku (:hakukohteet hakukohde1)) haku1]})))))))
+              (->real-hakuajat {:haut
+                                [(merge haku1 {:hakukohteet [(merge hakukohde2 {:kaytetaanHaunAikataulua true})]})
+                                 (merge haku  {:hakukohteet [hakukohde1] })
+                                 haku1]})))))))
+
+(deftest hakutieto-tools-test
+  (let [hakutieto {:haut [{:hakutapaKoodiUri "hakutapa_03#1"
+                           :hakukohteet [{:valintatapaKoodiUrit ["valintatapajono_av#1", "valintatapajono_tv#1"]
+                                          :pohjakoulutusvaatimusKoodiUrit ["pohjakoulutusvaatimuskouta_104#1"]},
+                                         {:valintatapaKoodiUrit ["valintatapajono_cv#1"]}]},
+                          {:hakutapaKoodiUri "hakutapa_02#1"
+                           :hakukohteet [{:valintatapaKoodiUrit []
+                                          :pohjakoulutusvaatimusKoodiUrit ["pohjakoulutusvaatimuskouta_104#1", "pohjakoulutusvaatimuskouta_109#1"]},
+                                         {:valintatapaKoodiUrit ["valintatapajono_cv#1", "valintatapajono_tv#1"]}]}
+                          {:hakutapaKoodiUri "hakutapa_03#1"}
+                          ]}]
+    (testing "valintatapaKoodiUrit should parse properly"
+      (is (contains-same-elements-in-any-order?
+           ["valintatapajono_av#1", "valintatapajono_tv#1", "valintatapajono_cv#1"]
+           (valintatapaKoodiUrit hakutieto))))
+
+    (testing "hakutapaKoodiUrit should parse properly"
+      (is (contains-same-elements-in-any-order?
+           ["hakutapa_02#1", "hakutapa_03#1"]
+           (hakutapaKoodiUrit hakutieto)
+           )))
+
+    (testing "pohjakoulutusvaatimusKoodiUrit should parse properly"
+      (is (contains-same-elements-in-any-order?
+           ["pohjakoulutusvaatimuskouta_104#1", "pohjakoulutusvaatimuskouta_109#1"]
+           (pohjakoulutusvaatimusKoodiUrit hakutieto)
+           )))))
