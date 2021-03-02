@@ -4,7 +4,7 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]
-            [kouta-indeksoija-service.indexer.tools.hakuaika :as hakuaika]
+            [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
@@ -65,7 +65,7 @@
                   :tutkintonimikeUrit        (search-tool/tutkintonimikeKoodiUrit koulutus)
                   :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
                   :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
-                  :hakuajat                  (hakuaika/->real-hakuajat hakutieto)
+                  :hakuajat                  (->real-hakuajat hakutieto)
                   :hakutapaUrit              (search-tool/hakutapaKoodiUrit hakutieto)
                   :valintatapaUrit           (search-tool/valintatapaKoodiUrit hakutieto)
                   :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimusKoodiUrit hakutieto)
