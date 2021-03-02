@@ -40,6 +40,10 @@
   } ],
   "hits" : [ {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutustyypit" : [ "amm-tutkinnon-osa" ],
     "terms" : {
       "fi" : [ "Hevosalan tutkinnon osat fi", "Oppilaitos fi 1.2.246.562.10.77777777799" ],

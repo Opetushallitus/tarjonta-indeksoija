@@ -50,6 +50,10 @@
     "opetustavat" : [],
     "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02",
                        "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
     "terms" : {
