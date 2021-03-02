@@ -3,27 +3,29 @@
             [clojure.string :refer [upper-case]]
             [clojure.tools.logging :as log]))
 
-(defn add-callerinfo [options]
-  (update-in options [:headers] assoc
-             "Caller-Id" "1.2.246.562.10.00000000001.kouta-indeksoija"))
+(defn add-headers [options]
+  (let [caller-id "1.2.246.562.10.00000000001.kouta-indeksoija"]
+    (-> options
+        (assoc-in [:headers "Caller-id"] caller-id)
+        (assoc-in [:headers "CSRF"] caller-id))))
 
 (defn get [url opts]
-  (let [options (add-callerinfo opts)]
+  (let [options (add-headers opts)]
     ;(log/info "Making get call to " url " with options: " options)
     (client/get url options)))
 
 (defn put [url opts]
-  (let [options (add-callerinfo opts)]
+  (let [options (add-headers opts)]
     ;(log/info "Making put call to " url " with options: " options)
     (client/put url options)))
 
 (defn post [url opts]
-  (let [options (add-callerinfo opts)]
+  (let [options (add-headers opts)]
     (client/post url options)))
 
 (defn request [opts]
   (-> opts
-      add-callerinfo
+      add-headers
       client/request))
 
 (defn handle-error

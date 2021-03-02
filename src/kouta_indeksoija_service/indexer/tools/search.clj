@@ -1,20 +1,20 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer :all]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer :all]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [maakunta koulutusalat-taso1 koulutusalat-taso2 koulutustyypit]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo]]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi]]))
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]))
+
+(defonce koodiUriAmmPerustutkintoErityisopetuksena "koulutustyyppi_4")
 
 (defn- clean-uris
   [uris]
   (vec (map remove-uri-version uris)))
 
 (defn hit
-  [& {:keys [koulutustyyppi
-             koulutustyyppiUrit
+  [& {:keys [koulutustyypit
              opetuskieliUrit
              tarjoajat
              tarjoajaOids
@@ -37,8 +37,7 @@
              nimi
              kuva
              metadata]
-      :or {koulutustyyppi nil
-           koulutustyyppiUrit []
+      :or {koulutustyypit []
            opetuskieliUrit []
            tarjoajat []
            tarjoajaOids []
@@ -73,7 +72,8 @@
                                                                (map lng-keyword ammattinimikkeet)
                                                                (map lng-keyword tutkintonimikkeet)))))]
 
-    (cond-> {:koulutustyypit (clean-uris (concat (vector koulutustyyppi) koulutustyyppiUrit))
+    (cond-> {;:koulutustyypit (clean-uris (concat (vector koulutustyyppi) koulutustyyppiUrit))
+             :koulutustyypit (clean-uris koulutustyypit)
              :opetuskielet (clean-uris opetuskieliUrit)
              :sijainti (clean-uris (concat kunnat maakunnat))
              :hakuajat hakuajat
@@ -225,3 +225,14 @@
     (->> hakutieto
          :haut
          (map #(->> % :hakukohteet (map :pohjakoulutusvaatimusKoodiUrit)))))))
+
+(defn- getKoulutustyypitWithoutKoodiUris [koulutus excludedKoulutustyyppiKoodiUri]
+  (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppiKoodiUrit koulutus)) (vector (:koulutustyyppi koulutus))))
+
+(defn deduce-koulutustyypit
+  ([koulutus opetus]
+   (if (:ammatillinenPerustutkintoErityisopetuksena opetus)
+     (concat [koodiUriAmmPerustutkintoErityisopetuksena] (vector (:koulutustyyppi koulutus)))
+     (getKoulutustyypitWithoutKoodiUris koulutus koodiUriAmmPerustutkintoErityisopetuksena)))
+  ([koulutus]
+   (getKoulutustyypitWithoutKoodiUris koulutus koodiUriAmmPerustutkintoErityisopetuksena) ))
