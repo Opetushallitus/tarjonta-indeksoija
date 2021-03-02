@@ -88,7 +88,7 @@
                            :tila "julkaistu"
                            :nimi "Haku 0"
                            :muokkaaja "1.2.246.562.24.62301161440"
-                           :modified "2019-02-05T09:49")
+                           :modified "2019-02-05T09:49:23")
 
     (fixture/add-hakukohde-mock hakukohde-oid1
                                 toteutus-oid1
@@ -97,7 +97,7 @@
                                 :valintaperuste valintaperuste-id1
                                 :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
                                 :muokkaaja "1.2.246.562.24.62301161440"
-                                :modified "2019-02-05T09:49")
+                                :modified "2019-02-05T09:49:23")
 
     (fixture/add-hakukohde-mock hakukohde-oid2
                                 toteutus-oid2
@@ -106,20 +106,20 @@
                                 :valintaperuste valintaperuste-id1
                                 :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
                                 :muokkaaja "1.2.246.562.24.62301161440"
-                                :modified "2019-02-05T09:49")
+                                :modified "2019-02-05T09:49:23")
 
     (fixture/add-sorakuvaus-mock sorakuvaus-id1
                                  :tila "julkaistu"
                                  :nimi "Sorakuvaus 0"
                                  :muokkaaja "1.2.246.562.24.62301161440"
-                                 :modified "2019-02-05T09:49")
+                                 :modified "2019-02-05T09:49:23")
 
     (fixture/add-valintaperuste-mock valintaperuste-id1
                                      :tila "julkaistu"
                                      :nimi "Valintaperuste 0"
                                      :sorakuvaus sorakuvaus-id1
                                      :muokkaaja "1.2.246.562.24.62301161440"
-                                     :modified "2019-02-05T09:49")
+                                     :modified "2019-02-05T09:49:23")
 
     (tests)
     (fixture/teardown))
