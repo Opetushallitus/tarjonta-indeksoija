@@ -4,11 +4,6 @@
   [coll]
   (vec (set coll)))
 
-(defn- ->hakuaika
-  [hakuaika]
-  { :gte (:alkaa hakuaika)
-    :lt  (:paattyy hakuaika) })
-
 (defn- kaytetaanHaunAikatauluaHakukohteessa?
   [hakukohde]
   (true? (:kaytetaanHaunAikataulua hakukohde)))
@@ -21,12 +16,12 @@
 (defn- haun-hakuajat
   [haku]
   (when (kaytetaanHaunAikatauluaHaussa? haku)
-    (map ->hakuaika (:hakuajat haku))))
+    (:hakuajat haku)))
 
 (defn- hakukohteet-hakuajat
   [hakukohde]
   (when (not (kaytetaanHaunAikatauluaHakukohteessa? hakukohde))
-    (map ->hakuaika (:hakuajat hakukohde))))
+    (:hakuajat hakukohde)))
 
 (defn- hakukohteiden-hakuajat
   [haku]

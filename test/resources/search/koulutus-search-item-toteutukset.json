@@ -74,8 +74,8 @@
       ],
       "hakuajat": [
         {
-          "gte": "2021-03-02T09:49",
-          "lt": "2021-03-02T09:58"
+          "alkaa": "!!startTime1",
+          "paattyy": "!!endTime1"
         }
       ],
       "hakutavat": [
@@ -203,8 +203,8 @@
       ],
       "hakuajat": [
         {
-          "gte": "2021-03-02T09:49",
-          "lt": "2021-03-02T09:58"
+          "alkaa": "!!startTime1",
+          "paattyy": "!!endTime1"
         }
       ],
       "hakutavat": [
