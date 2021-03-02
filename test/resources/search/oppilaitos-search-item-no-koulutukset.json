@@ -23,6 +23,10 @@
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2" ],
     "opetustavat" : [],
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutusalat" : [ ],
     "terms" : {
       "fi" : [ "Oppilaitos fi 1.2.246.562.10.10101010199" ],

@@ -21,6 +21,10 @@
              oppilaitos
              koulutusalaUrit
              nimet
+             hakuajat
+             hakutapaUrit
+             valintatapaUrit
+             pohjakoulutusvaatimusUrit
              asiasanat
              ammattinimikkeet
              tutkintonimikeUrit
@@ -40,6 +44,10 @@
            oppilaitos []
            koulutusalaUrit []
            nimet []
+           hakuajat []
+           hakutapaUrit []
+           valintatapaUrit []
+           pohjakoulutusvaatimusUrit []
            asiasanat []
            ammattinimikkeet []
            tutkintonimikeUrit []
@@ -68,6 +76,10 @@
              :koulutustyypit (clean-uris koulutustyypit)
              :opetuskielet (clean-uris opetuskieliUrit)
              :sijainti (clean-uris (concat kunnat maakunnat))
+             :hakuajat hakuajat
+             :hakutavat (clean-uris hakutapaUrit)
+             :valintatavat (clean-uris valintatapaUrit)
+             :pohjakoulutusvaatimukset (clean-uris pohjakoulutusvaatimusUrit)
              :koulutusalat (clean-uris koulutusalaUrit)
              :opetustavat (clean-uris opetustapaUrit)
              :terms {:fi (terms :fi)
@@ -191,6 +203,28 @@
   [organisaatio]
   (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
     (oppilaitostyyppi-uri-to-tyyppi oppilaitostyyppi)))
+
+(defn hakutapaKoodiUrit
+  [hakutieto]
+  (->distinct-vec (->> hakutieto
+                       :haut
+                       (map :hakutapaKoodiUri))))
+
+(defn valintatapaKoodiUrit
+  [hakutieto]
+  (->distinct-vec
+    (flatten
+       (->> hakutieto
+            :haut
+            (map #(->> % :hakukohteet (map :valintatapaKoodiUrit)))))))
+
+(defn pohjakoulutusvaatimusKoodiUrit
+  [hakutieto]
+  (->distinct-vec
+   (flatten
+    (->> hakutieto
+         :haut
+         (map #(->> % :hakukohteet (map :pohjakoulutusvaatimusKoodiUrit)))))))
 
 (defn- getKoulutustyypitWithoutKoodiUris [koulutus excludedKoulutustyyppiKoodiUri]
   (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppiKoodiUrit koulutus)) (vector (:koulutustyyppi koulutus))))

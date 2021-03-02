@@ -7,6 +7,10 @@
   "logo" : "https://testi.fi/oppilaitos-logo/oid/logo.png",
   "hits" : [ {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
       "fi" : [ "Autoalan perustutkinto 0 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
@@ -77,6 +81,10 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
       "fi" : [ "Hevosalan perustutkinto 0 fi", "Hevostoteutus 1 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "Toimipiste fi 1.2.246.562.10.777777777993", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
@@ -117,6 +125,10 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
       "fi" : [ "Hevosalan perustutkinto 0 fi", "Hevostoteutus 2 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
@@ -157,6 +169,10 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutustyypit" : [ "amm-osaamisala" ],
     "terms" : {
       "fi" : [ "Hevosalan osaamisala fi", "Oppilaitos fi 1.2.246.562.10.77777777799" ],
@@ -203,6 +219,10 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
+    "hakuajat": [],
+    "hakutavat": [],
+    "valintatavat": [],
+    "pohjakoulutusvaatimukset": [],
     "koulutustyypit" : [ "amm-tutkinnon-osa" ],
     "terms" : {
       "fi" : [ "Hevosalan tutkinnon osat fi", "Oppilaitos fi 1.2.246.562.10.77777777799" ],

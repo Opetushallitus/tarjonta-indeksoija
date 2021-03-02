@@ -25,7 +25,13 @@
       toteutus-oid1   "1.2.246.562.17.00000000000000000099"
       toteutus-oid2   "1.2.246.562.17.00000000000000000098"
       toteutus-oid3   "1.2.246.562.17.00000000000000000097"
-      toteutus-oid4   "1.2.246.562.17.00000000000000000096"]
+      toteutus-oid4   "1.2.246.562.17.00000000000000000096"
+      haku-oid1       "1.2.246.562.29.00000000000000000001"
+      hakukohde-oid1  "1.2.246.562.20.00000000000000000001"
+      hakukohde-oid2  "1.2.246.562.20.00000000000000000002"
+      valintaperuste-id1 "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+      sorakuvaus-id1 "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"
+      ]
 
   (defn- test-data-fixture
     [tests]
@@ -77,6 +83,43 @@
                                :tila "julkaistu"
                                :nimi "Hevostoteutus 2"
                                :tarjoajat (str oppilaitos-oid2 "1"))
+
+    (fixture/add-haku-mock haku-oid1
+                           :tila "julkaistu"
+                           :nimi "Haku 0"
+                           :muokkaaja "1.2.246.562.24.62301161440"
+                           :modified "2019-02-05T09:49")
+
+    (fixture/add-hakukohde-mock hakukohde-oid1
+                                toteutus-oid1
+                                haku-oid1
+                                :tila "julkaistu"
+                                :valintaperuste valintaperuste-id1
+                                :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
+                                :muokkaaja "1.2.246.562.24.62301161440"
+                                :modified "2019-02-05T09:49")
+
+    (fixture/add-hakukohde-mock hakukohde-oid2
+                                toteutus-oid2
+                                haku-oid1
+                                :tila "julkaistu"
+                                :valintaperuste valintaperuste-id1
+                                :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
+                                :muokkaaja "1.2.246.562.24.62301161440"
+                                :modified "2019-02-05T09:49")
+
+    (fixture/add-sorakuvaus-mock sorakuvaus-id1
+                                 :tila "julkaistu"
+                                 :nimi "Sorakuvaus 0"
+                                 :muokkaaja "1.2.246.562.24.62301161440"
+                                 :modified "2019-02-05T09:49")
+
+    (fixture/add-valintaperuste-mock valintaperuste-id1
+                                     :tila "julkaistu"
+                                     :nimi "Valintaperuste 0"
+                                     :sorakuvaus sorakuvaus-id1
+                                     :muokkaaja "1.2.246.562.24.62301161440"
+                                     :modified "2019-02-05T09:49")
 
     (tests)
     (fixture/teardown))
