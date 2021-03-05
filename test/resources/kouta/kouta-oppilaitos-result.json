@@ -8,7 +8,6 @@
     }
   } ],
   "osat" : [ {
-    "koulutusohjelmia": 0,
     "organisaatiotyyppi" : [ {
       "koodiUri" : "organisaatiotyyppi_03",
       "nimi" : {
@@ -101,7 +100,6 @@
       }
     }
   }, {
-    "koulutusohjelmia": 0,
     "nimi" : {
       "sv" : "Tanhuala universitet, Veterinärmedicinska fakulteten",
       "fi" : "Tanhualan yliopisto, Eläinlääketieteellinen tiedekunta",
