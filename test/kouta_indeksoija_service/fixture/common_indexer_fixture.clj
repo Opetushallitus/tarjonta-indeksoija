@@ -97,7 +97,7 @@
                              :nimi "Autoalan perustutkinto 0"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :julkinen "true"
-                             :modified "2019-01-31T09:11"
+                             :modified "2019-01-31T09:11:23"
                              :tarjoajat "1.2.246.562.10.54545454545")
 
   (fixture/add-toteutus-mock toteutus-oid
@@ -105,7 +105,7 @@
                              :tila "arkistoitu"
                              :nimi "Koulutuksen 0 toteutus 0"
                              :muokkaaja "1.2.246.562.24.62301161440"
-                             :modified "2019-02-01T13:16"
+                             :modified "2019-02-01T13:16:23"
                              :tarjoajat (str mocks/Toimipiste1OfOppilaitos1 "," mocks/Toimipiste2OfOppilaitos1)
                              :metadata (read-json-as-string "toteutus-metadata"))
 
@@ -114,7 +114,7 @@
                              :tila "julkaistu"
                              :nimi "Koulutuksen 0 toteutus 1"
                              :muokkaaja "1.2.246.562.24.62301161440"
-                             :modified "2019-02-01T13:16"
+                             :modified "2019-02-01T13:16:23"
                              :tarjoajat mocks/Toimipiste1OfOppilaitos1
                              :metadata (read-json-as-string "toteutus-metadata"))
 
@@ -123,7 +123,7 @@
                              :tila "julkaistu"
                              :nimi "Koulutuksen 0 toteutus 2"
                              :muokkaaja "1.2.246.562.24.62301161440"
-                             :modified "2019-02-01T13:16"
+                             :modified "2019-02-01T13:16:23"
                              :tarjoajat mocks/Toimipiste2OfOppilaitos1
                              :metadata (read-json-as-string "toteutus-metadata"))
 
@@ -131,7 +131,7 @@
                          :tila "julkaistu"
                          :nimi "Haku 0"
                          :muokkaaja "1.2.246.562.24.62301161440"
-                         :modified "2019-02-05T09:49")
+                         :modified "2019-02-05T09:49:23")
 
   (fixture/add-hakukohde-mock hakukohde-oid
                               toteutus-oid
@@ -140,7 +140,7 @@
                               :valintaperuste valintaperuste-id
                               :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
                               :muokkaaja "1.2.246.562.24.62301161440"
-                              :modified "2019-02-05T09:49")
+                              :modified "2019-02-05T09:49:23")
 
   (fixture/add-hakukohde-mock "1.2.246.562.20.00000000000000000002"
                               "1.2.246.562.17.00000000000000000003"
@@ -151,31 +151,31 @@
                               :muokkaaja "1.2.246.562.24.62301161440"
                               :hakuaikaAlkaa "2018-10-10T12:00"
                               :hakuaikaPaattyy "2030-11-10T12:00"
-                              :modified "2019-02-05T09:49")
+                              :modified "2019-02-05T09:49:23")
 
   (fixture/add-sorakuvaus-mock sorakuvaus-id
                                :tila "arkistoitu"
                                :nimi "Sorakuvaus 0"
                                :muokkaaja "1.2.246.562.24.62301161440"
-                               :modified "2019-02-05T09:49")
+                               :modified "2019-02-05T09:49:23")
 
   (fixture/add-valintaperuste-mock valintaperuste-id
                                    :tila "arkistoitu"
                                    :nimi "Valintaperuste 0"
                                    :sorakuvaus sorakuvaus-id
                                    :muokkaaja "1.2.246.562.24.62301161440"
-                                   :modified "2019-02-05T09:49")
+                                   :modified "2019-02-05T09:49:23")
 
   (fixture/add-oppilaitos-mock oppilaitos-oid
                                :tila "julkaistu"
                                :muokkaaja "1.2.246.562.24.62301161440"
-                               :modified "2019-02-05T09:49")
+                               :modified "2019-02-05T09:49:23")
 
   (fixture/add-oppilaitoksen-osa-mock "1.2.246.562.10.10101010102"
                                       oppilaitos-oid
                                       :tila "julkaistu"
                                       :muokkaaja "1.2.246.562.24.62301161440"
-                                      :modified "2019-02-05T09:49")
+                                      :modified "2019-02-05T09:49:23")
 
   (tests)
   (fixture/teardown))
