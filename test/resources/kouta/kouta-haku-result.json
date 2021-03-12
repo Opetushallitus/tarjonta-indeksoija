@@ -4,7 +4,7 @@
   "hakulomaketyyppi": "ei sähköistä",
   "hakulomakeAtaruId": "dcd38a87-912e-4e91-8840-99c7e242dd53",
   "ajastettuJulkaisu": "!!time3",
-  "modified": "2019-02-05T09:49",
+  "modified": "2019-02-05T09:49:23",
   "hakutapa": {
     "koodiUri": "hakutapa_03#1",
     "nimi": {
@@ -15,7 +15,7 @@
   "hakukohteet": [
     {
       "tila": "arkistoitu",
-      "modified": "2019-02-05T09:49",
+      "modified": "2019-02-05T09:49:23",
       "toteutusOid": "1.2.246.562.17.00000000000000000001",
       "toteutus": {
         "oid": "1.2.246.562.17.00000000000000000001",
@@ -59,7 +59,7 @@
           "oid": "1.2.246.562.24.62301161440",
           "nimi": "Kalle Ankka"
         },
-        "modified": "2019-02-01T13:16",
+        "modified": "2019-02-01T13:16:23",
         "organisaatio": {
           "paikkakunta": {
             "koodiUri": "kunta_091",
@@ -122,7 +122,7 @@
     },
     {
       "tila": "julkaistu",
-      "modified": "2019-02-05T09:49",
+      "modified": "2019-02-05T09:49:23",
       "toteutusOid": "1.2.246.562.17.00000000000000000003",
       "toteutus": {
         "oid": "1.2.246.562.17.00000000000000000003",
@@ -152,7 +152,7 @@
           "oid": "1.2.246.562.24.62301161440",
           "nimi": "Kalle Ankka"
         },
-        "modified": "2019-02-01T13:16",
+        "modified": "2019-02-01T13:16:23",
         "organisaatio": {
           "paikkakunta": {
             "koodiUri": "kunta_091",
@@ -175,6 +175,20 @@
       "nimi": {
         "fi": "Koulutuksen 0 toteutuksen 2 hakukohde 0 fi",
         "sv": "Koulutuksen 0 toteutuksen 2 hakukohde 0 sv"
+      },
+      "jarjestyspaikka": {
+        "paikkakunta": {
+          "koodiUri": "kunta_091",
+          "nimi": {
+            "fi": "kunta_091 nimi fi",
+            "sv": "kunta_091 nimi sv"
+          }
+        },
+        "nimi": {
+          "fi": "Nimi 1.2.246.562.10.67476956288 fi",
+          "en": "Nimi 1.2.246.562.10.67476956288 en"
+        },
+        "oid": "1.2.246.562.10.67476956288"
       },
       "jarjestyspaikka": {
         "paikkakunta": {

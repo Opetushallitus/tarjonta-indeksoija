@@ -7,7 +7,8 @@
   (let [caller-id "1.2.246.562.10.00000000001.kouta-indeksoija"]
     (-> options
         (assoc-in [:headers "Caller-id"] caller-id)
-        (assoc-in [:headers "CSRF"] caller-id))))
+        (assoc-in [:headers "CSRF"] caller-id)
+        (assoc-in [:cookies "CSRF"] {:value caller-id :path "/"}))))
 
 (defn get [url opts]
   (let [options (add-headers opts)]
