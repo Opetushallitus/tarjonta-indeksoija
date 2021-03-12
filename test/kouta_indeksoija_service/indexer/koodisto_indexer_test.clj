@@ -15,7 +15,7 @@
   (testing "do index koodisto"
     (with-redefs [kouta-indeksoija-service.rest.koodisto/get-koodit #(json "test/resources/koodisto/" %)]
       (i/index-koodistot ["maakunta"])
-      (let [result (koodisto/get "maakunta")]
+      (let [result (koodisto/get-from-index "maakunta")]
         (is (= "maakunta" (:koodisto result)))
         (is (= 21 (count (distinct (remove nil? (map :koodiUri (:koodit result)))))))
         (doseq [nimi (map :nimi (:koodit result))]

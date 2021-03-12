@@ -266,7 +266,7 @@
        (GET "/osaamisalakuvaus" []
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (osaamisalakuvaus/get oid)}))
+         (ok {:result (osaamisalakuvaus/get-from-index oid)}))
 
        (GET "/lokalisointi" []
          :summary "Hakee lokalisoinnit annetulla kielellä."
