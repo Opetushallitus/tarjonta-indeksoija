@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.rest.cas.session
+  (:refer-clojure :exclude [empty?])
   (:require [kouta-indeksoija-service.rest.util :refer [request]]
             [kouta-indeksoija-service.rest.cas.session-id :as cas-session-id]
             [kouta-indeksoija-service.rest.util :refer [handle-error]]

@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.queue.conf
+  (:refer-clojure :exclude [name])
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
             [clojure.string :refer [blank?]]))
 

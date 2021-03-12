@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.rest.util
+  (:refer-clojure :exclude [get])
   (:require [clj-http.client :as client]
             [clojure.string :refer [upper-case]]
             [clojure.tools.logging :as log]))
