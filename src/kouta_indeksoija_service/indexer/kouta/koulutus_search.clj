@@ -103,8 +103,7 @@
   [koulutus]
   (if (seq (:tarjoajat koulutus))
     (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
-          hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))
-          ]
+          hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))]
       (->> (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
              (if (tuleva-jarjestaja? hierarkia toteutukset)
                {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
@@ -145,6 +144,6 @@
   [oids]
   (indexable/do-index index-name oids create-index-entry))
 
-(defn get
+(defn get-from-index
   [oid]
   (indexable/get index-name oid))

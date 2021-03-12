@@ -216,7 +216,7 @@
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella. (HUOM! Täällä on koulutuksia, jotka eivät näy oppijan koulutushaussa)"
          :query-params [oid :- String]
-         (ok {:result (koulutus/get oid)}))
+         (ok {:result (koulutus/get-from-index oid)}))
 
        (GET "/toteutus" []
          :summary "Hakee yhden toteutukset oidin perusteella."
@@ -241,7 +241,7 @@
        (GET "/koulutus-haku" []
          :summary "Hakee yhden koulutuksen tiedot koulutusten hakuindeksistä (oppijan koulutushaku) oidin perusteella. Vain julkaistuja koulutuksia."
          :query-params [oid :- String]
-         (ok {:result (koulutus-search/get oid)}))
+         (ok {:result (koulutus-search/get-from-index oid)}))
 
        (GET "/oppilaitos" []
          :summary "Hakee yhden oppilaitoksen oidin perusteella."
