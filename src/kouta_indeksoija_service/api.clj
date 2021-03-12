@@ -271,7 +271,7 @@
        (GET "/lokalisointi" []
          :summary "Hakee lokalisoinnit annetulla kielellä."
          :query-params [lng :- String]
-         (ok {:result (lokalisointi/get lng)})))
+         (ok {:result (lokalisointi/get-from-index lng)})))
 
      (context "/admin" []
        :tags ["admin"]

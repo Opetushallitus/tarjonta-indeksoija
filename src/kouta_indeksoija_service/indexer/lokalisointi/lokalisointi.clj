@@ -16,6 +16,6 @@
   [lngs]
   (indexable/do-index index-name lngs create-index-entry))
 
-(defn get
+(defn get-from-index
   [lng]
   (indexable/get index-name lng))
