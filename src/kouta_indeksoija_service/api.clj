@@ -246,7 +246,7 @@
        (GET "/oppilaitos" []
          :summary "Hakee yhden oppilaitoksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (oppilaitos/get oid)}))
+         (ok {:result (oppilaitos/get-from-index oid)}))
 
        (GET "/oppilaitos-haku" []
          :summary "Hakee yhden oppilaitoksen tiedot oppilaitosten hakuindeksistä (oppijan oppilaitoshaku) oidin perusteella. Vain julkaistuja oppilaitoksia."

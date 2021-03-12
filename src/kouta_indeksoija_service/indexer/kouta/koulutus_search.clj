@@ -16,7 +16,7 @@
 (defn- get-logo-and-tila
   [oid]
   (when oid
-    (:oppilaitos (oppilaitos/get oid :_source "oppilaitos.logo,oppilaitos.tila"))))
+    (:oppilaitos (oppilaitos/get-from-index oid :_source "oppilaitos.logo,oppilaitos.tila"))))
 
 (defn- get-oppilaitos
   [hierarkia]
