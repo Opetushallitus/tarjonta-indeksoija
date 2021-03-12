@@ -16,6 +16,6 @@
   [ids]
   (indexable/do-index index-name ids create-index-entry))
 
-(defn get
+(defn get-from-index
   [id]
   (indexable/get index-name id))

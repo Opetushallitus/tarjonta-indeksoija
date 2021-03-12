@@ -256,7 +256,7 @@
        (GET "/sorakuvaus" []
          :summary "Hakee yhden sorakuvauksen oidin perusteella."
          :query-params [id :- String]
-         (ok {:result (sorakuvaus/get id)}))
+         (ok {:result (sorakuvaus/get-from-index id)}))
 
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
