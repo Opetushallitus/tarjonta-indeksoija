@@ -7,7 +7,7 @@
 
 (defn create-index-entry
   [lng]
-  (when-let [lokalisointi (some-> (lokalisointi-service/get lng)
+  (when-let [lokalisointi (some-> (lokalisointi-service/do-get lng)
                                   (seq)
                                   (util/localisation->nested-json))]
     (indexable/->index-entry lng {:lng lng :tyyppi "lokalisointi" :translation lokalisointi})))
