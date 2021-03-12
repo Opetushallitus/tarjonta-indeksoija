@@ -93,11 +93,21 @@
   [oid & {:as params}]
   (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json")))
 
+(defn- add-toteutus-for-oppilaitos []
+  (fixture/add-koulutus-mock "1.2.246.562.13.00000000000000000002"
+                             :tila "julkaistu"
+                             :nimi "Autoalan perustutkinto 1"
+                             :muokkaaja "1.2.246.562.24.62301161440"
+                             :julkinen "true"
+                             :modified "2019-01-31T09:11:23"
+                             :tarjoajat oppilaitos-oid))
+
 (deftest index-oppilaitos-test
   (fixture/with-mocked-indexing
    (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia]
      (testing "Indexer should index oppilaitos and it's osat to oppilaitos index"
        (check-all-nil)
+       (add-toteutus-for-oppilaitos)
        (i/index-oppilaitokset [oppilaitos-oid])
        (compare-json (no-timestamp (json "kouta-oppilaitos-result"))
                      (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid)))))))
@@ -107,6 +117,7 @@
   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia]
     (testing "Indexer should index oppilaitos and it's osat to oppilaitos index when given oppilaitoksen osa oid"
       (check-all-nil)
+      (add-toteutus-for-oppilaitos)
       (i/index-oppilaitos oppilaitoksen-osa-oid)
       (compare-json (no-timestamp (json "kouta-oppilaitos-result"))
                     (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid)))))))
