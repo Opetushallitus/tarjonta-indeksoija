@@ -1,263 +1,290 @@
 {
   "koulutusohjelmia": 0,
-  "organisaatiotyyppi" : [ {
-    "koodiUri" : "organisaatiotyyppi_02",
-    "nimi" : {
-      "fi" : "organisaatiotyyppi_02 nimi fi",
-      "sv" : "organisaatiotyyppi_02 nimi sv"
+  "organisaatiotyyppi": [
+    {
+      "koodiUri": "organisaatiotyyppi_02",
+      "nimi": {
+        "fi": "organisaatiotyyppi_02 nimi fi",
+        "sv": "organisaatiotyyppi_02 nimi sv"
+      }
     }
-  } ],
-  "osat" : [ {
-    "organisaatiotyyppi" : [ {
-      "koodiUri" : "organisaatiotyyppi_03",
-      "nimi" : {
-        "fi" : "organisaatiotyyppi_03 nimi fi",
-        "sv" : "organisaatiotyyppi_03 nimi sv"
-      }
-    } ],
-    "nimi" : {
-      "sv" : "Tanhuala universitet, Farmaceutiska fakulteten",
-      "fi" : "Tanhualan yliopisto, Farmasian tiedekunta",
-      "en" : "University of Tanhuala, Faculty of Pharmacy"
-    },
-    "oid" : "1.2.246.562.10.10101010102",
-    "status" : "AKTIIVINEN",
-    "opetuskieli" : [ {
-      "koodiUri" : "oppilaitoksenopetuskieli_1#1",
-      "nimi" : {
-        "fi" : "oppilaitoksenopetuskieli_1#1 nimi fi",
-        "sv" : "oppilaitoksenopetuskieli_1#1 nimi sv"
-      }
-    } ],
-    "kotipaikka" : {
-      "koodiUri" : "kunta_091",
-      "nimi" : {
-        "fi" : "kunta_091 nimi fi",
-        "sv" : "kunta_091 nimi sv"
-      }
-    },
-    "oppilaitoksenOsa" : {
-      "tila" : "julkaistu",
-      "modified" : "2019-02-05T09:49:23",
-      "esikatselu": false,
-      "muokkaaja" : {
-        "oid" : "1.2.246.562.24.62301161440",
-        "nimi" : "Kalle Ankka"
-      },
-      "organisaatio" : {
-        "paikkakunta" : {
-          "koodiUri" : "kunta_091",
-          "nimi" : {
-            "fi" : "kunta_091 nimi fi",
-            "sv" : "kunta_091 nimi sv"
+  ],
+  "osat": [
+    {
+      "organisaatiotyyppi": [
+        {
+          "koodiUri": "organisaatiotyyppi_03",
+          "nimi": {
+            "fi": "organisaatiotyyppi_03 nimi fi",
+            "sv": "organisaatiotyyppi_03 nimi sv"
           }
-        },
-        "nimi" : {
-          "fi" : "Kiva ammattikorkeakoulu",
-          "sv" : "Kiva ammattikorkeakoulu sv"
-        },
-        "oid" : "1.2.246.562.10.54545454545"
+        }
+      ],
+      "nimi": {
+        "sv": "Tanhuala universitet, Farmaceutiska fakulteten",
+        "fi": "Tanhualan yliopisto, Farmasian tiedekunta",
+        "en": "University of Tanhuala, Faculty of Pharmacy"
       },
-      "kielivalinta" : [ "fi", "sv" ],
-      "teemakuva": "https://testi.fi/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
-      "metadata" : {
-        "yhteystiedot" : {
-          "osoite" : {
-            "osoite" : {
-              "fi" : "Kivatie 1",
-              "sv" : "kivavägen 1"
-            },
-            "postinumero" : {
-              "koodiUri" : "posti_04230#2",
-              "nimi" : {
-                "fi" : "posti_04230#2 nimi fi",
-                "sv" : "posti_04230#2 nimi sv"
-              }
+      "oid": "1.2.246.562.10.10101010102",
+      "status": "AKTIIVINEN",
+      "opetuskieli": [
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_1#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"
+          }
+        }
+      ],
+      "kotipaikka": {
+        "koodiUri": "kunta_091",
+        "nimi": {
+          "fi": "kunta_091 nimi fi",
+          "sv": "kunta_091 nimi sv"
+        }
+      },
+      "oppilaitoksenOsa": {
+        "tila": "julkaistu",
+        "modified": "2019-02-05T09:49:23",
+        "esikatselu": false,
+        "muokkaaja": {
+          "oid": "1.2.246.562.24.62301161440",
+          "nimi": "Kalle Ankka"
+        },
+        "organisaatio": {
+          "paikkakunta": {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
             }
           },
-          "wwwSivu" : {
-            "fi" : "https://www.tiedekunta.fi",
-            "sv" : "https://www.tiedekunta.sv"
+          "nimi": {
+            "fi": "Kiva ammattikorkeakoulu",
+            "sv": "Kiva ammattikorkeakoulu sv"
           },
-          "puhelinnumero" : {
-            "fi" : "123",
-            "sv" : "123"
+          "oid": "1.2.246.562.10.54545454545"
+        },
+        "kielivalinta": [
+          "fi",
+          "sv"
+        ],
+        "teemakuva": "https://testi.fi/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
+        "metadata": {
+          "yhteystiedot": {
+            "osoite": {
+              "osoite": {
+                "fi": "Kivatie 1",
+                "sv": "kivavägen 1"
+              },
+              "postinumero": {
+                "koodiUri": "posti_04230#2",
+                "nimi": {
+                  "fi": "posti_04230#2 nimi fi",
+                  "sv": "posti_04230#2 nimi sv"
+                }
+              }
+            },
+            "wwwSivu": {
+              "fi": "https://www.tiedekunta.fi",
+              "sv": "https://www.tiedekunta.sv"
+            },
+            "puhelinnumero": {
+              "fi": "123",
+              "sv": "123"
+            },
+            "sahkoposti": {
+              "fi": "aku.ankka@ankkalinnankoulu.fi",
+              "sv": "aku.ankka@ankkalinnankoulu.fi"
+            }
           },
-          "sahkoposti" : {
-            "fi" : "aku.ankka@ankkalinnankoulu.fi",
-            "sv" : "aku.ankka@ankkalinnankoulu.fi"
+          "opiskelijoita": 100,
+          "kampus": {
+            "fi": "Kampus fi",
+            "sv": "Kampus sv"
+          },
+          "esittely": {
+            "fi": "Esittely",
+            "sv": "Esittely sv"
           }
-        },
-        "opiskelijoita" : 100,
-        "kampus" : {
-          "fi" : "Kampus fi",
-          "sv" : "Kampus sv"
-        },
-        "esittely" : {
-          "fi" : "Esittely",
-          "sv" : "Esittely sv"
         }
       }
+    },
+    {
+      "nimi": {
+        "sv": "Tanhuala universitet, Veterinärmedicinska fakulteten",
+        "fi": "Tanhualan yliopisto, Eläinlääketieteellinen tiedekunta",
+        "en": "University of Tanhuala, Faculty of Veterinary Medicine"
+      },
+      "status": "AKTIIVINEN",
+      "opetuskieli": [
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_1#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"
+          }
+        },
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_2#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_2#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_2#1 nimi sv"
+          }
+        },
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_4#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_4#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_4#1 nimi sv"
+          }
+        }
+      ],
+      "kotipaikka": {
+        "koodiUri": "kunta_091",
+        "nimi": {
+          "fi": "kunta_091 nimi fi",
+          "sv": "kunta_091 nimi sv"
+        }
+      },
+      "organisaatiotyyppi": [
+        {
+          "koodiUri": "organisaatiotyyppi_03",
+          "nimi": {
+            "fi": "organisaatiotyyppi_03 nimi fi",
+            "sv": "organisaatiotyyppi_03 nimi sv"
+          }
+        }
+      ],
+      "oid": "1.2.246.562.10.10101010103"
     }
-  }, {
-    "nimi" : {
-      "sv" : "Tanhuala universitet, Veterinärmedicinska fakulteten",
-      "fi" : "Tanhualan yliopisto, Eläinlääketieteellinen tiedekunta",
-      "en" : "University of Tanhuala, Faculty of Veterinary Medicine"
-    },
-    "status" : "AKTIIVINEN",
-    "opetuskieli" : [ {
-      "koodiUri" : "oppilaitoksenopetuskieli_1#1",
-      "nimi" : {
-        "fi" : "oppilaitoksenopetuskieli_1#1 nimi fi",
-        "sv" : "oppilaitoksenopetuskieli_1#1 nimi sv"
-      }
-    }, {
-      "koodiUri" : "oppilaitoksenopetuskieli_2#1",
-      "nimi" : {
-        "fi" : "oppilaitoksenopetuskieli_2#1 nimi fi",
-        "sv" : "oppilaitoksenopetuskieli_2#1 nimi sv"
-      }
-    }, {
-      "koodiUri" : "oppilaitoksenopetuskieli_4#1",
-      "nimi" : {
-        "fi" : "oppilaitoksenopetuskieli_4#1 nimi fi",
-        "sv" : "oppilaitoksenopetuskieli_4#1 nimi sv"
-      }
-    } ],
-    "kotipaikka" : {
-      "koodiUri" : "kunta_091",
-      "nimi" : {
-        "fi" : "kunta_091 nimi fi",
-        "sv" : "kunta_091 nimi sv"
-      }
-    },
-    "organisaatiotyyppi" : [ {
-      "koodiUri" : "organisaatiotyyppi_03",
-      "nimi" : {
-        "fi" : "organisaatiotyyppi_03 nimi fi",
-        "sv" : "organisaatiotyyppi_03 nimi sv"
-      }
-    } ],
-    "oid" : "1.2.246.562.10.10101010103"
-  } ],
-  "oppilaitos" : {
-    "tila" : "julkaistu",
-    "modified" : "2019-02-05T09:49:23",
+  ],
+  "oppilaitos": {
+    "tila": "julkaistu",
+    "modified": "2019-02-05T09:49:23",
     "esikatselu": false,
-    "muokkaaja" : {
-      "oid" : "1.2.246.562.24.62301161440",
-      "nimi" : "Kalle Ankka"
+    "muokkaaja": {
+      "oid": "1.2.246.562.24.62301161440",
+      "nimi": "Kalle Ankka"
     },
-    "kielivalinta" : [ "fi", "sv" ],
+    "kielivalinta": [
+      "fi",
+      "sv"
+    ],
     "teemakuva": "https://testi.fi/oppilaitos-teemakuva/oid/kuva.jpg",
     "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-    "organisaatio" : {
-      "paikkakunta" : {
-        "koodiUri" : "kunta_091",
-        "nimi" : {
-          "fi" : "kunta_091 nimi fi",
-          "sv" : "kunta_091 nimi sv"
+    "organisaatio": {
+      "paikkakunta": {
+        "koodiUri": "kunta_091",
+        "nimi": {
+          "fi": "kunta_091 nimi fi",
+          "sv": "kunta_091 nimi sv"
         }
       },
-      "nimi" : {
-        "fi" : "Kiva ammattikorkeakoulu",
-        "sv" : "Kiva ammattikorkeakoulu sv"
+      "nimi": {
+        "fi": "Kiva ammattikorkeakoulu",
+        "sv": "Kiva ammattikorkeakoulu sv"
       },
-      "oid" : "1.2.246.562.10.54545454545"
+      "oid": "1.2.246.562.10.54545454545"
     },
-    "metadata" : {
-      "esittely" : {
-        "fi" : "Esittely",
-        "sv" : "Esittely sv"
+    "metadata": {
+      "esittely": {
+        "fi": "Esittely",
+        "sv": "Esittely sv"
       },
-      "akatemioita" : 1,
-      "kampuksia" : 2,
-      "toimipisteita" : 2,
-      "tiedekuntia" : 2,
-      "opiskelijoita" : 100,
-      "korkeakouluja" : 1,
-      "yhteystiedot" : {
-        "osoite" : {
-          "osoite" : {
-            "fi" : "Kivatie 1",
-            "sv" : "kivavägen 1"
+      "akatemioita": 1,
+      "kampuksia": 2,
+      "toimipisteita": 2,
+      "tiedekuntia": 2,
+      "opiskelijoita": 100,
+      "korkeakouluja": 1,
+      "yhteystiedot": {
+        "osoite": {
+          "osoite": {
+            "fi": "Kivatie 1",
+            "sv": "kivavägen 1"
           },
-          "postinumero" : {
-            "koodiUri" : "posti_04230#2",
-            "nimi" : {
-              "fi" : "posti_04230#2 nimi fi",
-              "sv" : "posti_04230#2 nimi sv"
+          "postinumero": {
+            "koodiUri": "posti_04230#2",
+            "nimi": {
+              "fi": "posti_04230#2 nimi fi",
+              "sv": "posti_04230#2 nimi sv"
             }
           }
         },
-        "wwwSivu" : {
-          "fi" : "http://www.oppilaitos.fi",
-          "sv" : "http://www.oppilaitos.sv"
+        "wwwSivu": {
+          "fi": "http://www.oppilaitos.fi",
+          "sv": "http://www.oppilaitos.sv"
         },
-        "puhelinnumero" : {
-          "fi" : "123",
-          "sv" : "123"
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
         },
-        "sahkoposti" : {
-          "fi" : "aku.ankka@ankkalinnankoulu.fi",
-          "sv" : "aku.ankka@ankkalinnankoulu.fi"
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
         }
       },
-      "tietoaOpiskelusta" : [ {
-        "otsikko" : {
-          "koodiUri" : "organisaationkuvaustiedot_03#1",
-          "nimi" : {
-            "fi" : "organisaationkuvaustiedot_03#1 nimi fi",
-            "sv" : "organisaationkuvaustiedot_03#1 nimi sv"
+      "tietoaOpiskelusta": [
+        {
+          "otsikko": {
+            "koodiUri": "organisaationkuvaustiedot_03#1",
+            "nimi": {
+              "fi": "organisaationkuvaustiedot_03#1 nimi fi",
+              "sv": "organisaationkuvaustiedot_03#1 nimi sv"
+            }
+          },
+          "teksti": {
+            "fi": "Tietoa opiskelusta ",
+            "sv": "Tietoa opiskelusta sv"
           }
-        },
-        "teksti" : {
-          "fi" : "Tietoa opiskelusta ",
-          "sv" : "Tietoa opiskelusta sv"
         }
-      } ]
+      ]
     }
   },
-  "nimi" : {
-    "sv" : "Tanhuala universitet",
-    "fi" : "Tanhualan Yliopisto",
-    "en" : "University of Tanhuala"
+  "nimi": {
+    "sv": "Tanhuala universitet",
+    "fi": "Tanhualan Yliopisto",
+    "en": "University of Tanhuala"
   },
-  "oid" : "1.2.246.562.10.10101010101",
-  "oppilaitostyyppi" : {
-    "koodiUri" : "oppilaitostyyppi_42#1",
-    "nimi" : {
-      "fi" : "oppilaitostyyppi_42#1 nimi fi",
-      "sv" : "oppilaitostyyppi_42#1 nimi sv"
+  "oid": "1.2.246.562.10.10101010101",
+  "oppilaitostyyppi": {
+    "koodiUri": "oppilaitostyyppi_42#1",
+    "nimi": {
+      "fi": "oppilaitostyyppi_42#1 nimi fi",
+      "sv": "oppilaitostyyppi_42#1 nimi sv"
     }
   },
-  "status" : "AKTIIVINEN",
-  "timestamp" : 1568378788773,
-  "opetuskieli" : [ {
-    "koodiUri" : "oppilaitoksenopetuskieli_1#1",
-    "nimi" : {
-      "fi" : "oppilaitoksenopetuskieli_1#1 nimi fi",
-      "sv" : "oppilaitoksenopetuskieli_1#1 nimi sv"
+  "status": "AKTIIVINEN",
+  "timestamp": 1568378788773,
+  "opetuskieli": [
+    {
+      "koodiUri": "oppilaitoksenopetuskieli_1#1",
+      "nimi": {
+        "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
+        "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"
+      }
+    },
+    {
+      "koodiUri": "oppilaitoksenopetuskieli_2#1",
+      "nimi": {
+        "fi": "oppilaitoksenopetuskieli_2#1 nimi fi",
+        "sv": "oppilaitoksenopetuskieli_2#1 nimi sv"
+      }
+    },
+    {
+      "koodiUri": "oppilaitoksenopetuskieli_4#1",
+      "nimi": {
+        "fi": "oppilaitoksenopetuskieli_4#1 nimi fi",
+        "sv": "oppilaitoksenopetuskieli_4#1 nimi sv"
+      }
     }
-  }, {
-    "koodiUri" : "oppilaitoksenopetuskieli_2#1",
-    "nimi" : {
-      "fi" : "oppilaitoksenopetuskieli_2#1 nimi fi",
-      "sv" : "oppilaitoksenopetuskieli_2#1 nimi sv"
-    }
-  }, {
-    "koodiUri" : "oppilaitoksenopetuskieli_4#1",
-    "nimi" : {
-      "fi" : "oppilaitoksenopetuskieli_4#1 nimi fi",
-      "sv" : "oppilaitoksenopetuskieli_4#1 nimi sv"
-    }
-  } ],
-  "kotipaikka" : {
-    "koodiUri" : "kunta_091",
-    "nimi" : {
-      "fi" : "kunta_091 nimi fi",
-      "sv" : "kunta_091 nimi sv"
+  ],
+  "kotipaikka": {
+    "koodiUri": "kunta_091",
+    "nimi": {
+      "fi": "kunta_091 nimi fi",
+      "sv": "kunta_091 nimi sv"
     }
   }
 }
