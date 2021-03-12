@@ -221,22 +221,22 @@
        (GET "/toteutus" []
          :summary "Hakee yhden toteutukset oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (toteutus/get oid)}))
+         (ok {:result (toteutus/get-from-index oid)}))
 
        (GET "/hakukohde" []
          :summary "Hakee yhden hakukohteen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (hakukohde/get oid)}))
+         (ok {:result (hakukohde/get-from-index oid)}))
 
        (GET "/haku" []
          :summary "Hakee yhden haun oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (haku/get oid)}))
+         (ok {:result (haku/get-from-index oid)}))
 
        (GET "/valintaperuste" []
          :summary "Hakee yhden valintaperusteen id:n perusteella."
          :query-params [id :- String]
-         (ok {:result (valintaperuste/get id)}))
+         (ok {:result (valintaperuste/get-from-index id)}))
 
        (GET "/koulutus-haku" []
          :summary "Hakee yhden koulutuksen tiedot koulutusten hakuindeksistä (oppijan koulutushaku) oidin perusteella. Vain julkaistuja koulutuksia."
