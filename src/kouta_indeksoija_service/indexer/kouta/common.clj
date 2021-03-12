@@ -4,7 +4,6 @@
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-            [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]
             [clojure.tools.logging :as log]
             [clojure.string :as string]))
@@ -14,9 +13,9 @@
   (if (keyword? key)
     (-> key
         (name)
-        (replace "KoodiUrit" "")
-        (replace "KoodiUri" "")
-        (replace "Uri" "")
+        (clojure.string/replace "KoodiUrit" "")
+        (clojure.string/replace "KoodiUri" "")
+        (clojure.string/replace "Uri" "")
         (keyword))
     key))
 

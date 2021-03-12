@@ -21,7 +21,7 @@
 (defn- reset
   [cas-session]
   (let [session-id (:session-id cas-session)]
-    (reset! session-id (cas-session-id/get (:service cas-session) (:jsession? cas-session)))))
+    (reset! session-id (cas-session-id/get-id (:service cas-session) (:jsession? cas-session)))))
 
 (defn- assoc-cas-session-params
   [cas-session opts]
