@@ -20,9 +20,13 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
+(defn- has-value
+  [tarjoajat organisaatio-oid]
+  (some #(= organisaatio-oid %) tarjoajat))
+
 (defn- assoc-koulutusohjelmia
   [organisaatio koulutukset]
-  (->> (filter #(contains? (:tarjoajat %) (:oid organisaatio)) koulutukset)
+  (->> (filter #(has-value (:tarjoajat %) (:oid organisaatio)) koulutukset)
        (search/get-tarjoaja-entries (cache/get-hierarkia (:oid organisaatio)))
        (filter :johtaaTutkintoon)
        (count)
@@ -36,8 +40,10 @@
                                                   (dissoc :oid)))))
 
 (defn- oppilaitoksen-osa-entry
-  [organisaatio oppilaitoksen-osa koulutukset]
-  (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio) koulutukset)
+  [organisaatio oppilaitoksen-osa]
+  ; TODO assoc-koulutusohjelmia ei voi toimia oppilaitosten osien kanssa - ne eivät ole tarjoajia
+  ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
+  (cond-> (organisaatio-entry organisaatio)
           (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
                                                                (common/complete-entry)
                                                                (dissoc :oppilaitosOid :oid)))))
@@ -52,7 +58,7 @@
 
     (-> (oppilaitos-entry organisaatio oppilaitos koulutukset)
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
-                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %) koulutukset))
+                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
                           (vec))))))
 
 (defn create-index-entry
