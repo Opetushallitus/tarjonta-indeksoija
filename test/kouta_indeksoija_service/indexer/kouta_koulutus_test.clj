@@ -42,10 +42,10 @@
       (let [eperuste-id 12345]
         (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
         (check-all-nil)
-        (is (nil? (eperuste/get eperuste-id)))
+        (is (nil? (eperuste/get-from-index eperuste-id)))
         (i/index-koulutukset [koulutus-oid])
         (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-        (is (= eperuste-id (:id (eperuste/get eperuste-id))))
+        (is (= eperuste-id (:id (eperuste/get-from-index eperuste-id))))
         (fixture/update-koulutus-mock koulutus-oid :ePerusteId nil)))))
 
 (deftest index-arkistoitu-koulutus-test

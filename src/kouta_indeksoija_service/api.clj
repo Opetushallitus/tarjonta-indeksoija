@@ -261,7 +261,7 @@
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (eperuste/get oid)}))
+         (ok {:result (eperuste/get-from-index oid)}))
 
        (GET "/osaamisalakuvaus" []
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
