@@ -106,8 +106,7 @@
                              :nimi "Koulutuksen 0 toteutus 0"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16:23"
-                             :tarjoajat (str mocks/Toimipiste1OfOppilaitos1 "," mocks/Toimipiste2OfOppilaitos1)
-                             :metadata (read-json-as-string "toteutus-metadata"))
+                             :tarjoajat (str mocks/Toimipiste1OfOppilaitos1 "," mocks/Toimipiste2OfOppilaitos1))
 
   (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000002"
                              koulutus-oid
@@ -115,8 +114,7 @@
                              :nimi "Koulutuksen 0 toteutus 1"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16:23"
-                             :tarjoajat mocks/Toimipiste1OfOppilaitos1
-                             :metadata (read-json-as-string "toteutus-metadata"))
+                             :tarjoajat mocks/Toimipiste1OfOppilaitos1)
 
   (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000003"
                              koulutus-oid
@@ -124,8 +122,7 @@
                              :nimi "Koulutuksen 0 toteutus 2"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16:23"
-                             :tarjoajat mocks/Toimipiste2OfOppilaitos1
-                             :metadata (read-json-as-string "toteutus-metadata"))
+                             :tarjoajat mocks/Toimipiste2OfOppilaitos1)
 
   (fixture/add-haku-mock haku-oid
                          :tila "julkaistu"

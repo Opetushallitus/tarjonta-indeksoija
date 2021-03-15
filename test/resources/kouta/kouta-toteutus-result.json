@@ -169,10 +169,10 @@
     "osaamisalat": [
       {
         "koodi": {
-          "koodiUri": "osaamisala_1#1",
+          "koodiUri": "osaamisala_0001#1",
           "nimi": {
-            "fi": "osaamisala_1#1 nimi fi",
-            "sv": "osaamisala_1#1 nimi sv"
+            "fi": "osaamisala_0001#1 nimi fi",
+            "sv": "osaamisala_0001#1 nimi sv"
           }
         },
         "linkki": {
@@ -188,8 +188,6 @@
     "opetus": {
       "ammatillinenPerustutkintoErityisopetuksena": false,
       "maksunMaara": 200.5,
-      "onkoStipendia": false,
-      "stipendinKuvaus": {},
       "opetuskieli": [
         {
           "koodiUri": "oppilaitoksenopetuskieli_1#1",
@@ -200,12 +198,24 @@
         }
       ],
       "koulutuksenAlkamiskausiUUSI": {
-        "alkamiskausityyppi": "tarkka alkamisajankohta",
-        "henkilokohtaisenSuunnitelmanLisatiedot": {},
-        "koulutuksenAlkamispaivamaara": "!!startTime1",
-        "koulutuksenPaattymispaivamaara": "!!endTime1"
+        "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+        "henkilokohtaisenSuunnitelmanLisatiedot": {
+          "fi": "Jotakin lisätietoa",
+          "sv": "Jotakin lisätietoa sv"
+        },
+        "koulutuksenAlkamiskausi": {
+          "koodiUri": "kausi_k#1",
+          "nimi": {
+            "fi": "kausi_k#1 nimi fi",
+            "sv": "kausi_k#1 nimi sv"
+          }
+        },
+        "koulutuksenAlkamisvuosi": "2021"
       },
-      "maksullisuusKuvaus": {},
+      "maksullisuusKuvaus": {
+        "fi": "Maksullisuuskuvaus fi",
+        "sv": "Maksullisuuskuvaus sv"
+      },
       "opetustapa": [
         {
           "koodiUri": "opetuspaikkakk_1#1",
@@ -213,14 +223,72 @@
             "fi": "opetuspaikkakk_1#1 nimi fi",
             "sv": "opetuspaikkakk_1#1 nimi sv"
           }
+        },
+        {
+          "koodiUri": "opetuspaikkakk_2#1",
+          "nimi": {
+            "fi": "opetuspaikkakk_2#1 nimi fi",
+            "sv": "opetuspaikkakk_2#1 nimi sv"
+          }
         }
       ],
-      "lisatiedot": [],
-      "opetustapaKuvaus": {},
-      "opetuskieletKuvaus": {},
+      "lisatiedot": [
+        {
+          "otsikko": {
+            "koodiUri": "koulutuksenlisatiedot_03#1",
+            "nimi": {
+              "fi": "koulutuksenlisatiedot_03#1 nimi fi",
+              "sv": "koulutuksenlisatiedot_03#1 nimi sv"
+            }
+          },
+          "teksti": {
+            "fi": "Opintojen rakenteen kuvaus",
+            "sv": "Rakenne kuvaus sv"
+          }
+        },
+        {
+          "otsikko": {
+            "koodiUri": "koulutuksenlisatiedot_03#1",
+            "nimi": {
+              "fi": "koulutuksenlisatiedot_03#1 nimi fi",
+              "sv": "koulutuksenlisatiedot_03#1 nimi sv"
+            }
+          },
+          "teksti": {
+            "fi": "Sisältö kuvaus",
+            "sv": "Sisältö kuvaus sv"
+          }
+        }
+      ],
+      "onkoApuraha": true,
+      "apuraha": {
+        "min": 100,
+        "max": 200,
+        "yksikko": "euro",
+        "kuvaus": {
+          "fi": "apurahakuvaus fi",
+          "sv": "apurahakuvaus sv"
+        }
+      },
+      "opetustapaKuvaus": {
+        "fi": "Opetustapakuvaus fi",
+        "sv": "Opetustapakuvaus sv"
+      },
+      "opetuskieletKuvaus": {
+        "fi": "Kielikuvaus fi",
+        "sv": "Kielikuvaus sv"
+      },
       "onkoMaksullinen": true,
-      "opetusaikaKuvaus": {},
-      "suunniteltuKestoKuvaus": {},
+      "opetusaikaKuvaus": {
+        "fi": "Opetusaikakuvaus fi",
+        "sv": "Opetusaikakuvaus sv"
+      },
+      "suunniteltuKestoKuvaus": {
+        "fi": "Keston kuvaus fi",
+        "sv": "Keston kuvaus sv"
+      },
+      "suunniteltuKestoVuodet": 3,
+      "suunniteltuKestoKuukaudet": 10,
       "opetusaika": [
         {
           "koodiUri": "opetusaikakk_1#1",
@@ -239,40 +307,16 @@
       {
         "kieli": "fi",
         "arvo": "robottiautomatiikka"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "musiikkioppilaitokset"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "hevoset"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "psykologia"
       }
     ],
     "ammattinimikkeet": [
       {
         "kieli": "fi",
-        "arvo": "automaatioinsinööri"
+        "arvo": "insinööri"
       },
       {
         "kieli": "fi",
         "arvo": "koneinsinööri"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "muusikko"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "psykologi"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "hevonen"
       }
     ],
     "yhteyshenkilot": [
@@ -293,7 +337,11 @@
           "fi": "123",
           "sv": "123"
         },
-        "wwwSivu": {}
+        "wwwSivu": {
+          "fi": "http://opintopolku.fi",
+          "sv": "http://studieinfo.fi"
+        }
+
       }
     ]
   }
