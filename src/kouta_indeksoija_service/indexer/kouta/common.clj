@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
+  (:refer-clojure :exclude [replace])
   (:require [kouta-indeksoija-service.rest.kouta :refer [get-koulutus]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
@@ -6,7 +7,6 @@
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]
-            [clojure.tools.logging :as log]
             [clojure.string :as string]))
 
 (defn- strip-koodi-uri-key

@@ -73,6 +73,6 @@
   [oids]
   (indexable/do-index index-name oids create-index-entry))
 
-(defn get
+(defn get-from-index
   [oid & query-params]
   (apply indexable/get index-name oid query-params))

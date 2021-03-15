@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.rest.eperuste
+  (:refer-clojure :exclude [find])
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]

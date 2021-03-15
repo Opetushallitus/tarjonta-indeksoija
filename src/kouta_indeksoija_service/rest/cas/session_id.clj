@@ -56,7 +56,7 @@
       session-id
       (throw (RuntimeException. (format "Unable to parse session ID! Uri = %s and response %s" url response))))))
 
-(defn get
+(defn get-id
   [service jsession?]
   (if jsession?
     (->> (get-ticket-granting-ticket)

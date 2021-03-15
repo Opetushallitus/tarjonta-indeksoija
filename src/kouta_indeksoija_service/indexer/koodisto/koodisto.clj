@@ -36,6 +36,6 @@
   [koodistot]
   (indexable/do-index index-name koodistot create-index-entry))
 
-(defn get
+(defn get-from-index
   [koodisto]
   (indexable/get index-name koodisto))

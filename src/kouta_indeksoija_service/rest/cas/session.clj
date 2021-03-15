@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.rest.cas.session
+  (:refer-clojure :exclude [empty?])
   (:require [kouta-indeksoija-service.rest.util :refer [request]]
             [kouta-indeksoija-service.rest.cas.session-id :as cas-session-id]
             [kouta-indeksoija-service.rest.util :refer [handle-error]]
@@ -21,7 +22,7 @@
 (defn- reset
   [cas-session]
   (let [session-id (:session-id cas-session)]
-    (reset! session-id (cas-session-id/get (:service cas-session) (:jsession? cas-session)))))
+    (reset! session-id (cas-session-id/get-id (:service cas-session) (:jsession? cas-session)))))
 
 (defn- assoc-cas-session-params
   [cas-session opts]

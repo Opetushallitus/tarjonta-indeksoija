@@ -1,4 +1,5 @@
 (ns kouta-indeksoija-service.indexer.indexable
+  (:refer-clojure :exclude [get])
   (:require [kouta-indeksoija-service.elastic.tools :as tools]
             [clojure.tools.logging :as log]))
 

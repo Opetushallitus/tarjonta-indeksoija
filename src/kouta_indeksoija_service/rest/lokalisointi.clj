@@ -7,7 +7,7 @@
 
 (defonce cas-session (init-session (resolve-url :lokalisointi.internal.base) true))
 
-(defn get
+(defn do-get
   [lng]
   (get->json-body (resolve-url :lokalisointi.v1.localisation-category-locale "konfo" lng)))
 

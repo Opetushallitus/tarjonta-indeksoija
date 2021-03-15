@@ -182,7 +182,7 @@
      (let [eperuste-id 12321]
        (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
        (check-all-nil)
-       (is (nil? (eperuste/get eperuste-id)))
+       (is (nil? (eperuste/get-from-index eperuste-id)))
        (i/index-all-kouta)
        (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
        (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
@@ -191,7 +191,7 @@
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
        (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
        (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id))))
-       (is (= eperuste-id (:id (eperuste/get eperuste-id))))
+       (is (= eperuste-id (:id (eperuste/get-from-index eperuste-id))))
        (fixture/update-koulutus-mock koulutus-oid :ePerusteId nil)))))
 
 (deftest index-changes-oids-test

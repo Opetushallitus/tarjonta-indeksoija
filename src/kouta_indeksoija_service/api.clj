@@ -216,62 +216,62 @@
        (GET "/koulutus" []
          :summary "Hakee yhden koulutuksen oidin perusteella. (HUOM! Täällä on koulutuksia, jotka eivät näy oppijan koulutushaussa)"
          :query-params [oid :- String]
-         (ok {:result (koulutus/get oid)}))
+         (ok {:result (koulutus/get-from-index oid)}))
 
        (GET "/toteutus" []
          :summary "Hakee yhden toteutukset oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (toteutus/get oid)}))
+         (ok {:result (toteutus/get-from-index oid)}))
 
        (GET "/hakukohde" []
          :summary "Hakee yhden hakukohteen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (hakukohde/get oid)}))
+         (ok {:result (hakukohde/get-from-index oid)}))
 
        (GET "/haku" []
          :summary "Hakee yhden haun oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (haku/get oid)}))
+         (ok {:result (haku/get-from-index oid)}))
 
        (GET "/valintaperuste" []
          :summary "Hakee yhden valintaperusteen id:n perusteella."
          :query-params [id :- String]
-         (ok {:result (valintaperuste/get id)}))
+         (ok {:result (valintaperuste/get-from-index id)}))
 
        (GET "/koulutus-haku" []
          :summary "Hakee yhden koulutuksen tiedot koulutusten hakuindeksistä (oppijan koulutushaku) oidin perusteella. Vain julkaistuja koulutuksia."
          :query-params [oid :- String]
-         (ok {:result (koulutus-search/get oid)}))
+         (ok {:result (koulutus-search/get-from-index oid)}))
 
        (GET "/oppilaitos" []
          :summary "Hakee yhden oppilaitoksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (oppilaitos/get oid)}))
+         (ok {:result (oppilaitos/get-from-index oid)}))
 
        (GET "/oppilaitos-haku" []
          :summary "Hakee yhden oppilaitoksen tiedot oppilaitosten hakuindeksistä (oppijan oppilaitoshaku) oidin perusteella. Vain julkaistuja oppilaitoksia."
          :query-params [oid :- String]
-         (ok {:result (oppilaitos-search/get oid)}))
+         (ok {:result (oppilaitos-search/get-from-index oid)}))
 
        (GET "/sorakuvaus" []
          :summary "Hakee yhden sorakuvauksen oidin perusteella."
          :query-params [id :- String]
-         (ok {:result (sorakuvaus/get id)}))
+         (ok {:result (sorakuvaus/get-from-index id)}))
 
        (GET "/eperuste" []
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (eperuste/get oid)}))
+         (ok {:result (eperuste/get-from-index oid)}))
 
        (GET "/osaamisalakuvaus" []
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (osaamisalakuvaus/get oid)}))
+         (ok {:result (osaamisalakuvaus/get-from-index oid)}))
 
        (GET "/lokalisointi" []
          :summary "Hakee lokalisoinnit annetulla kielellä."
          :query-params [lng :- String]
-         (ok {:result (lokalisointi/get lng)})))
+         (ok {:result (lokalisointi/get-from-index lng)})))
 
      (context "/admin" []
        :tags ["admin"]

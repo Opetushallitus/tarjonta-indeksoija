@@ -28,6 +28,6 @@
   (with-redefs [kouta-indeksoija-service.rest.util/get->json-body (fn [url] @lokalisointi-service)]
     (testing "should index finnish lokalisointi"
       (i/index-lokalisointi "fi")
-      (let [indeksoitu (lokalisointi/get "fi")]
+      (let [indeksoitu (lokalisointi/get-from-index "fi")]
         (is (= translation-json (:translation indeksoitu)))
         (is (= "fi" (:lng indeksoitu)))))))
