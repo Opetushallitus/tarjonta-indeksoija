@@ -1,7 +1,8 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [maakunta koulutusalat-taso1 koulutusalat-taso2 koulutustyypit]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [pohjakoulutusvaatimuskonfo]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
@@ -218,13 +219,40 @@
             :haut
             (map #(->> % :hakukohteet (map :valintatapaKoodiUrit)))))))
 
+(defn- hasAlakoodi
+  [koodi alakoodit]
+  (some #(= (:koodiUri %) (:koodi (extract-versio koodi)))
+        alakoodit))
+
+(defn- findKonfoAlakoodit
+  [koodiUri]
+  (filter #(->> %
+                (:alakoodit)
+                (hasAlakoodi koodiUri))
+          (pohjakoulutusvaatimuskonfo)))
+
+(defn- mapToKonfoKoodit
+  [koutaKoodiUrit]
+  (->> koutaKoodiUrit
+       (map findKonfoAlakoodit)
+       (flatten)
+       (map :koodiUri)
+       (->distinct-vec)))
+
+(defn- getPohjakoulutusvaatimusKoodiUritFromHakutieto
+  [hakutieto]
+  (->> hakutieto
+       :haut
+       (map #(->> % :hakukohteet (map :pohjakoulutusvaatimusKoodiUrit)))
+       (flatten)
+       (->distinct-vec)))
+
+; NOTE: kouta - konfo pohjakoulutuskoodit ovat suhteessa * : * joten jokaista koutakoodia vastaa taulukko konfokoodeja
 (defn pohjakoulutusvaatimusKoodiUrit
   [hakutieto]
-  (->distinct-vec
-   (flatten
-    (->> hakutieto
-         :haut
-         (map #(->> % :hakukohteet (map :pohjakoulutusvaatimusKoodiUrit)))))))
+  (->> hakutieto
+       (getPohjakoulutusvaatimusKoodiUritFromHakutieto)
+       (mapToKonfoKoodit)))
 
 (defn- getKoulutustyypitWithoutKoodiUris [koulutus excludedKoulutustyyppiKoodiUri]
   (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppiKoodiUrit koulutus)) (vector (:koulutustyyppi koulutus))))

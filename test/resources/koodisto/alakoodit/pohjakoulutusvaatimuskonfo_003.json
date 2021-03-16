@@ -1,0 +1,230 @@
+[
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_yo",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_yo",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "YO",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Lukio ja/tai ylioppilastutkinto",
+        "kuvaus": "-",
+        "lyhytNimi": "-",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Lukio ja/tai ylioppilastutkinto",
+        "kuvaus": "-",
+        "lyhytNimi": "-",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Lukio ja/tai ylioppilastutkinto",
+        "kuvaus": "-",
+        "lyhytNimi": "-",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_122",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_122",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "122",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Finsk gymnasiets lärokurs eller studentexamen",
+        "kuvaus": "Finsk gymnasiets lärokurs eller studentexamen",
+        "lyhytNimi": "Finsk gymnasiets lärokurs eller studentexamen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Finnish general upper secondary school syllabus or matriculation examination",
+        "kuvaus": "Finnish general upper secondary school syllabus or matriculation examination",
+        "lyhytNimi": "Finnish general upper secondary school syllabus or matriculation examination",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Suomalaisen lukion oppimäärä tai ylioppilastutkinto",
+        "kuvaus": "Suomalaisen lukion oppimäärä tai ylioppilastutkinto. Ammattikorkeakoulujen pohjakoulutusvaatimus.",
+        "lyhytNimi": "Suomalaisen lukion oppimäärä tai ylioppilastutkinto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_124",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_124",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "124",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ammatillinen perustutkinto ja ylioppilastutkinto",
+        "kuvaus": "-",
+        "lyhytNimi": "-",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Ammatillinen perustutkinto ja ylioppilastutkinto",
+        "kuvaus": "-",
+        "lyhytNimi": "-",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Ammatillinen perustutkinto ja ylioppilastutkinto",
+        "kuvaus": "-",
+        "lyhytNimi": "-",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_109",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_109",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "109",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Suomalainen ylioppilastutkinto",
+        "kuvaus": "Suomalainen ylioppilastutkinto. Yliopistojen pohjakoulutusvaatimus.",
+        "lyhytNimi": "Suomalainen ylioppilastutkinto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Finnish Matriculation examination",
+        "kuvaus": "Finnish Matriculation examination",
+        "lyhytNimi": "Finnish Matriculation examination",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Finsk studentexamen",
+        "kuvaus": "Finsk studentexamen",
+        "lyhytNimi": "Finsk studentexamen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  }
+]

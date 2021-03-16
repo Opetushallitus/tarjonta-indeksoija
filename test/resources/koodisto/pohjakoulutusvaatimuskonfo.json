@@ -1,0 +1,365 @@
+[
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_pk",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_pk",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "PK",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Peruskoulu",
+        "kuvaus": "Opintopolun konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_am",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_am",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "AM",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ammatillinen perustutkinto",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_125",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_125",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "125",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Erikoisammattitutkinto",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_105",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_105",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "105",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ammattitutkinto",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_007",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_007",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "007",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Maisterin tutkinto",
+        "kuvaus": "Opintopolku konfo/ hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_002",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_002",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "002",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Lukio",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_006",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_006",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "006",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "YAMK tutkinto",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_004",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_004",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "004",
+    "paivitysPvm": "2021-03-09",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "AMK tutkinto",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_003",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_003",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "003",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ylioppilas",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_005",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_005",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "005",
+    "paivitysPvm": "2021-03-04",
+    "paivittajaOid": "1.2.246.562.24.77925329174",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Kandinaatin tutkinto",
+        "kuvaus": "Opintopolku konfo/hakurajaimet",
+        "lyhytNimi": "",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskonfo_001",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskonfo_001",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskonfo",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "001",
+    "paivitysPvm": "2021-03-01",
+    "paivittajaOid": "1.2.246.562.24.16838104094",
+    "voimassaAlkuPvm": "2021-02-28",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ei peruskoulua",
+        "kuvaus": "Uudistetun Opintopolun konfo/hakurajaimet",
+        "lyhytNimi": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  }
+]

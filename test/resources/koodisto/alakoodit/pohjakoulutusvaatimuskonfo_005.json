@@ -1,0 +1,116 @@
+[
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_102",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_102",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "102",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Alempi korkeakoulututkinto",
+        "kuvaus": "Alempi korkeakoulututkinto",
+        "lyhytNimi": "Alempi korkeakoulututkinto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Lägre högskoleexamen",
+        "kuvaus": "Lägre högskoleexamen",
+        "lyhytNimi": "Lägre högskoleexamen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "University Bachelor's degree",
+        "kuvaus": "University Bachelor's degree",
+        "lyhytNimi": "University Bachelor's degree",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_116",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_116",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "116",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ulkomainen korkeakoulututkinto (Bachelor)",
+        "kuvaus": "Ulkomainen korkeakoulututkinto (Bachelor)",
+        "lyhytNimi": "Ulkomainen korkeakoulututkinto (Bachelor)",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Foreign Bachelor's degree",
+        "kuvaus": "Foreign Bachelor's degree",
+        "lyhytNimi": "Foreign Bachelor's degree",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Utländsk högskoleexamen (Bachelor)",
+        "kuvaus": "Utländsk högskoleexamen (Bachelor)",
+        "lyhytNimi": "Utländsk högskoleexamen (Bachelor)",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  }
+]

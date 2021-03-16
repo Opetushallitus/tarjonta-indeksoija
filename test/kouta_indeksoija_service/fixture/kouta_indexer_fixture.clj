@@ -281,6 +281,10 @@
   (test)
   (teardown))
 
+(defn mock-pohjakoulutusvaatimusKoodiUrit
+  [hakutieto]
+  ["pohjakoulutusvaatimuskonfo_am"])
+
 (defmacro with-mocked-indexing
   [& body]
   ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
@@ -358,7 +362,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-alakoodit
 
                  kouta-indeksoija-service.rest.eperuste/get-doc
-                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste]
+                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
+
+                 kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimusKoodiUrit
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimusKoodiUrit]
      (do ~@body)))
 
 (defn index-oppilaitokset
