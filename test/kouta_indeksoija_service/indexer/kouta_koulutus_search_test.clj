@@ -93,8 +93,7 @@
     (testing "hakutapa-koodi-urit should parse properly"
       (is (contains-same-elements-in-any-order?
            ["hakutapa_02#1", "hakutapa_03#1"]
-           (hakutapa-koodi-urit hakutieto)
-           )))
+           (hakutapa-koodi-urit hakutieto))))
 
     (testing "pohjakoulutusvaatimus-koodi-urit should map properly to matching konfo koodis"
       (with-redefs
@@ -102,5 +101,4 @@
          kouta-indeksoija-service.rest.koodisto/get-alakoodit-with-cache #(json "test/resources/koodisto/alakoodit/" %)]
         (is (contains-same-elements-in-any-order?
            ["pohjakoulutusvaatimuskonfo_002" "pohjakoulutusvaatimuskonfo_003" "pohjakoulutusvaatimuskonfo_005" "pohjakoulutusvaatimuskonfo_006" "pohjakoulutusvaatimuskonfo_007"]
-           (pohjakoulutusvaatimus-koodi-urit hakutieto)
-           ))))))
+           (pohjakoulutusvaatimus-koodi-urit hakutieto)))))))
