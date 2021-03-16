@@ -185,8 +185,8 @@
         }
       }
     ],
+    "ammatillinenPerustutkintoErityisopetuksena": false,
     "opetus": {
-      "ammatillinenPerustutkintoErityisopetuksena": false,
       "maksunMaara": 200.5,
       "opetuskieli": [
         {
@@ -197,7 +197,7 @@
           }
         }
       ],
-      "koulutuksenAlkamiskausiUUSI": {
+      "koulutuksenAlkamiskausi": {
         "alkamiskausityyppi": "alkamiskausi ja -vuosi",
         "henkilokohtaisenSuunnitelmanLisatiedot": {
           "fi": "Jotakin lisätietoa",
