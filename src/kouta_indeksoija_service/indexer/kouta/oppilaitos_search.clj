@@ -42,20 +42,20 @@
                    :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
                    :tarjoajaOids       (:tarjoajat koulutus)
                    :oppilaitos         oppilaitos
-                   :koulutusalaUrit    (search-tool/koulutusalaKoodiUrit koulutus)
-                   :tutkintonimikeUrit (search-tool/tutkintonimikeKoodiUrit koulutus)
+                   :koulutusalaUrit    (search-tool/koulutusala-koodi-urit koulutus)
+                   :tutkintonimikeUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                    :nimet              (vector (:nimi koulutus))
                    :koulutusOid        (:oid koulutus)
                    :kuva               (:teemakuva koulutus)
                    :onkoTuleva         true
                    :nimi               (:nimi koulutus)
-                   :metadata           (cond-> {:tutkintonimikkeetKoodiUrit      (search-tool/tutkintonimikeKoodiUrit koulutus)
-                                                :opintojenLaajuusKoodiUri        (search-tool/opintojenLaajuusKoodiUri koulutus)
-                                                :opintojenLaajuusyksikkoKoodiUri (search-tool/opintojenLaajuusyksikkoKoodiUri koulutus)
-                                                :opintojenLaajuusNumero          (search-tool/opintojenLaajuusNumero koulutus)
-                                                :koulutustyypitKoodiUrit         (search-tool/koulutustyyppiKoodiUrit koulutus)
+                   :metadata           (cond-> {:tutkintonimikkeetKoodiUrit      (search-tool/tutkintonimike-koodi-urit koulutus)
+                                                :opintojenLaajuusKoodiUri        (search-tool/opintojen-laajuus-koodi-uri koulutus)
+                                                :opintojenLaajuusyksikkoKoodiUri (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus)
+                                                :opintojenLaajuusNumero          (search-tool/opintojen-laajuus-numero koulutus)
+                                                :koulutustyypitKoodiUrit         (search-tool/koulutustyyppi-koodi-urit koulutus)
                                                 :koulutustyyppi                  (:koulutustyyppi koulutus)}
-                                         (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnonOsat koulutus)))))
+                                         (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
@@ -66,8 +66,8 @@
                      :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
                      :tarjoajaOids       (:tarjoajat toteutus)
                      :oppilaitos         oppilaitos
-                     :koulutusalaUrit    (search-tool/koulutusalaKoodiUrit koulutus)
-                     :tutkintonimikeUrit (search-tool/tutkintonimikeKoodiUrit koulutus)
+                     :koulutusalaUrit    (search-tool/koulutusala-koodi-urit koulutus)
+                     :tutkintonimikeUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                      :opetustapaUrit     (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
                      :nimet              (vector (:nimi koulutus) (:nimi toteutus))
                      :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))

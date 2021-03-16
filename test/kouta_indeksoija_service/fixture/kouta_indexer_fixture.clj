@@ -281,7 +281,7 @@
   (test)
   (teardown))
 
-(defn mock-pohjakoulutusvaatimusKoodiUrit
+(defn mock-pohjakoulutusvaatimus-koodi-urit
   [hakutieto]
   ["pohjakoulutusvaatimuskonfo_am"])
 
@@ -364,8 +364,8 @@
                  kouta-indeksoija-service.rest.eperuste/get-doc
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
 
-                 kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimusKoodiUrit
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimusKoodiUrit]
+                 kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit]
      (do ~@body)))
 
 (defn index-oppilaitokset

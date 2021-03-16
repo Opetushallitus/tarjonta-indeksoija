@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [json]]
             [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
-            [kouta-indeksoija-service.indexer.tools.search :refer [hakutapaKoodiUrit pohjakoulutusvaatimusKoodiUrit valintatapaKoodiUrit]]))
+            [kouta-indeksoija-service.indexer.tools.search :refer [hakutapa-koodi-urit pohjakoulutusvaatimus-koodi-urit valintatapa-koodi-urit]]))
 
 (defn- mock-koodisto-koulutustyyppi
   [koodi-uri alakoodi-uri]
@@ -85,22 +85,22 @@
                                          {:valintatapaKoodiUrit ["valintatapajono_cv#1", "valintatapajono_tv#1"]}]}
                           {:hakutapaKoodiUri "hakutapa_03#1"}
                           ]}]
-    (testing "valintatapaKoodiUrit should parse properly"
+    (testing "valintatapa-koodi-urit should parse properly"
       (is (contains-same-elements-in-any-order?
            ["valintatapajono_av#1", "valintatapajono_tv#1", "valintatapajono_cv#1"]
-           (valintatapaKoodiUrit hakutieto))))
+           (valintatapa-koodi-urit hakutieto))))
 
-    (testing "hakutapaKoodiUrit should parse properly"
+    (testing "hakutapa-koodi-urit should parse properly"
       (is (contains-same-elements-in-any-order?
            ["hakutapa_02#1", "hakutapa_03#1"]
-           (hakutapaKoodiUrit hakutieto)
+           (hakutapa-koodi-urit hakutieto)
            )))
 
-    (testing "pohjakoulutusvaatimusKoodiUrit should map properly to matching konfo koodis"
+    (testing "pohjakoulutusvaatimus-koodi-urit should map properly to matching konfo koodis"
       (with-redefs
         [kouta-indeksoija-service.rest.koodisto/get-koodit-with-cache #(json "test/resources/koodisto/" %)
          kouta-indeksoija-service.rest.koodisto/get-alakoodit-with-cache #(json "test/resources/koodisto/alakoodit/" %)]
         (is (contains-same-elements-in-any-order?
            ["pohjakoulutusvaatimuskonfo_002" "pohjakoulutusvaatimuskonfo_003" "pohjakoulutusvaatimuskonfo_005" "pohjakoulutusvaatimuskonfo_006" "pohjakoulutusvaatimuskonfo_007"]
-           (pohjakoulutusvaatimusKoodiUrit hakutieto)
+           (pohjakoulutusvaatimus-koodi-urit hakutieto)
            ))))))
