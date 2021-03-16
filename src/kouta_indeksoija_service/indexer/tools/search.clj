@@ -1,7 +1,8 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [maakunta koulutusalat-taso1 koulutusalat-taso2 koulutustyypit]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [pohjakoulutusvaatimuskonfo]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
@@ -108,7 +109,7 @@
                                     (->distinct-vec))]
     (->distinct-vec (mapcat get-koulutusalatasot-by-koulutus-koodi-uri koulutusKoodiUrit))))
 
-(defn koulutusalaKoodiUrit
+(defn koulutusala-koodi-urit
   [koulutus]
   (if (any-ammatillinen? koulutus)
     (cond
@@ -129,14 +130,14 @@
       (get-eperuste-by-id eperuste-id)
       (get-eperuste-by-koulutuskoodi (:koulutusKoodiUri koulutus)))))
 
-(defn tutkintonimikeKoodiUrit
+(defn tutkintonimike-koodi-urit
   [koulutus]
   (if (ammatillinen? koulutus)
     (when-let [eperuste (get-eperuste koulutus)]
       (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
     (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])))
 
-(defn koulutustyyppiKoodiUrit
+(defn koulutustyyppi-koodi-urit
   [koulutus]
   (if (ammatillinen? koulutus)
     (vec (map :koodiUri (koulutustyypit (:koulutusKoodiUri koulutus))))
@@ -157,21 +158,21 @@
              (filter #(= osaamisalaKoodiUri (some-> % :koodiUri remove-uri-version)))
              (first))))
 
-(defn opintojenLaajuusKoodiUri
+(defn opintojen-laajuus-koodi-uri
   [koulutus]
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuus :koodiUri]))
     (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
     :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
-(defn opintojenLaajuusNumero
+(defn opintojen-laajuus-numero
   [koulutus]
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-eperuste) :opintojenLaajuusNumero)
     (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
     :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo)))
 
-(defn opintojenLaajuusyksikkoKoodiUri
+(defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
@@ -179,7 +180,7 @@
     (korkeakoulutus? koulutus) "opintojenlaajuusyksikko_2#1" ;opintopistettä
     :default nil))
 
-(defn tutkinnonOsat
+(defn tutkinnon-osat
   [koulutus]
   (when (amm-tutkinnon-osa? koulutus)
     (-> (for [tutkinnon-osa (get-in koulutus [:metadata :tutkinnonOsat])
@@ -193,7 +194,7 @@
            :opintojenLaajuusyksikko (get-in eperuste [:opintojenLaajuusyksikko :koodiUri])
            :tutkinnonOsatKoodiUri (some-> eperuste-tutkinnon-osa :koodiUri)}))))
 
-(defn osaamisalaKoodiUri
+(defn osaamisala-koodi-uri
   [koulutus]
   (some-> (get-eperuste koulutus)
           (get-osaamisala koulutus)
@@ -204,13 +205,13 @@
   (when-let [oppilaitostyyppi (:oppilaitostyyppi organisaatio)]
     (oppilaitostyyppi-uri-to-tyyppi oppilaitostyyppi)))
 
-(defn hakutapaKoodiUrit
+(defn hakutapa-koodi-urit
   [hakutieto]
   (->distinct-vec (->> hakutieto
                        :haut
                        (map :hakutapaKoodiUri))))
 
-(defn valintatapaKoodiUrit
+(defn valintatapa-koodi-urit
   [hakutieto]
   (->distinct-vec
     (flatten
@@ -218,21 +219,48 @@
             :haut
             (map #(->> % :hakukohteet (map :valintatapaKoodiUrit)))))))
 
-(defn pohjakoulutusvaatimusKoodiUrit
-  [hakutieto]
-  (->distinct-vec
-   (flatten
-    (->> hakutieto
-         :haut
-         (map #(->> % :hakukohteet (map :pohjakoulutusvaatimusKoodiUrit)))))))
+(defn- has-alakoodi
+  [koodi alakoodit]
+  (some #(= (:koodiUri %) (:koodi (extract-versio koodi)))
+        alakoodit))
 
-(defn- getKoulutustyypitWithoutKoodiUris [koulutus excludedKoulutustyyppiKoodiUri]
-  (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppiKoodiUrit koulutus)) (vector (:koulutustyyppi koulutus))))
+(defn- find-konfo-alakoodit
+  [koodiUri]
+  (filter #(->> %
+                (:alakoodit)
+                (has-alakoodi koodiUri))
+          (pohjakoulutusvaatimuskonfo)))
+
+(defn- map-to-konfo-koodit
+  [koutaKoodiUrit]
+  (->> koutaKoodiUrit
+       (map find-konfo-alakoodit)
+       (flatten)
+       (map :koodiUri)
+       (->distinct-vec)))
+
+(defn- get-pohjakoulutusvaatimus-koodi-urit-from-hakutieto
+  [hakutieto]
+  (->> hakutieto
+       :haut
+       (map #(->> % :hakukohteet (map :pohjakoulutusvaatimusKoodiUrit)))
+       (flatten)
+       (->distinct-vec)))
+
+; NOTE: kouta - konfo pohjakoulutuskoodit ovat suhteessa * : * joten jokaista koutakoodia vastaa taulukko konfokoodeja
+(defn pohjakoulutusvaatimus-koodi-urit
+  [hakutieto]
+  (->> hakutieto
+       (get-pohjakoulutusvaatimus-koodi-urit-from-hakutieto)
+       (map-to-konfo-koodit)))
+
+(defn- get-koulutustyypit-without-koodi-uris [koulutus excludedKoulutustyyppiKoodiUri]
+  (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppi-koodi-urit koulutus)) (vector (:koulutustyyppi koulutus))))
 
 (defn deduce-koulutustyypit
   ([koulutus opetus]
    (if (:ammatillinenPerustutkintoErityisopetuksena opetus)
      (concat [koodiUriAmmPerustutkintoErityisopetuksena] (vector (:koulutustyyppi koulutus)))
-     (getKoulutustyypitWithoutKoodiUris koulutus koodiUriAmmPerustutkintoErityisopetuksena)))
+     (get-koulutustyypit-without-koodi-uris koulutus koodiUriAmmPerustutkintoErityisopetuksena)))
   ([koulutus]
-   (getKoulutustyypitWithoutKoodiUris koulutus koodiUriAmmPerustutkintoErityisopetuksena) ))
+   (get-koulutustyypit-without-koodi-uris koulutus koodiUriAmmPerustutkintoErityisopetuksena) ))

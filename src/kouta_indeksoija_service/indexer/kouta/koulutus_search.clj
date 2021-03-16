@@ -32,8 +32,8 @@
     (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus)
                      :tarjoajat          tarjoajat
                      :oppilaitos         oppilaitos
-                     :koulutusalaUrit    (search-tool/koulutusalaKoodiUrit koulutus)
-                     :tutkintonimikeUrit (search-tool/tutkintonimikeKoodiUrit koulutus)
+                     :koulutusalaUrit    (search-tool/koulutusala-koodi-urit koulutus)
+                     :tutkintonimikeUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                      :nimet              (vector (:nimi koulutus))
                      :kuva               (:logo oppilaitos)
                      :oppilaitosOid      (:oid oppilaitos)
@@ -61,14 +61,14 @@
                   :tarjoajat                 (:tarjoajat toteutus)
                   :oppilaitos                oppilaitos
                   :oppilaitosOid             (:oid oppilaitos)
-                  :koulutusalaUrit           (search-tool/koulutusalaKoodiUrit koulutus)
-                  :tutkintonimikeUrit        (search-tool/tutkintonimikeKoodiUrit koulutus)
+                  :koulutusalaUrit           (search-tool/koulutusala-koodi-urit koulutus)
+                  :tutkintonimikeUrit        (search-tool/tutkintonimike-koodi-urit koulutus)
                   :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
                   :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
                   :hakuajat                  (->real-hakuajat hakutieto)
-                  :hakutapaUrit              (search-tool/hakutapaKoodiUrit hakutieto)
-                  :valintatapaUrit           (search-tool/valintatapaKoodiUrit hakutieto)
-                  :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimusKoodiUrit hakutieto)
+                  :hakutapaUrit              (search-tool/hakutapa-koodi-urit hakutieto)
+                  :valintatapaUrit           (search-tool/valintatapa-koodi-urit hakutieto)
+                  :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimus-koodi-urit hakutieto)
                   :kuva                      (:logo oppilaitos)
                   :asiasanat                 (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                   :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
@@ -76,7 +76,7 @@
                   :toteutusNimi              (:nimi toteutus)
                   :onkoTuleva                false
                   :nimi                      (:nimi oppilaitos)
-                  :metadata                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimikeKoodiUrit koulutus)
+                  :metadata                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                                               :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
                                               :onkoMaksullinen            (:onkoMaksullinen opetus)
                                               :maksunMaara                (:maksunMaara opetus)
@@ -118,18 +118,18 @@
                   (select-keys [:oid :nimi :kielivalinta])
                   (assoc :eperuste                (:ePerusteId koulutus))
                   (assoc :koulutus                (:koulutusKoodiUri koulutus))
-                  (assoc :tutkintonimikkeet       (search-tool/tutkintonimikeKoodiUrit koulutus))
+                  (assoc :tutkintonimikkeet       (search-tool/tutkintonimike-koodi-urit koulutus))
                   (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
                   (assoc :teemakuva               (:teemakuva koulutus))
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
-                  (assoc :opintojenLaajuus        (search-tool/opintojenLaajuusKoodiUri koulutus))
-                  (assoc :opintojenLaajuusNumero  (search-tool/opintojenLaajuusNumero koulutus))
-                  (assoc :opintojenLaajuusyksikko (search-tool/opintojenLaajuusyksikkoKoodiUri koulutus))
+                  (assoc :opintojenLaajuus        (search-tool/opintojen-laajuus-koodi-uri koulutus))
+                  (assoc :opintojenLaajuusNumero  (search-tool/opintojen-laajuus-numero koulutus))
+                  (assoc :opintojenLaajuusyksikko (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus)))]
     (cond-> entry
-      (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnonOsat) (common/decorate-koodi-uris)))
-      (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisalaKoodiUri))})))))
+      (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
+      (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))
 
 (defn create-index-entry
   [oid]

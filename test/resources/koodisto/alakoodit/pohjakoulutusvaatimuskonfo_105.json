@@ -1,0 +1,59 @@
+[
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_105",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_105",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "105",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ammattitutkinto",
+        "kuvaus": "Ammatti- tai erikoisammattitutkinto",
+        "lyhytNimi": "Ammatti- tai erikoisammattitutkinto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Further or specialist vocational qualification",
+        "kuvaus": "Further or specialist vocational qualification",
+        "lyhytNimi": "Further or specialist vocational qualification",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "Yrkes- eller specialyrkesexamen",
+        "kuvaus": "Yrkes- eller specialyrkesexamen",
+        "lyhytNimi": "Yrkes- eller specialyrkesexamen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  }
+]

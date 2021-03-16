@@ -1,0 +1,116 @@
+[
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_119",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_119",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "119",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Högre yrkeshögskoleexamen",
+        "kuvaus": "Högre yrkeshögskoleexamen",
+        "lyhytNimi": "Högre yrkeshögskoleexamen",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Ylempi ammattikorkeakoulututkinto",
+        "kuvaus": "Ylempi ammattikorkeaoulututkinto",
+        "lyhytNimi": "Ylempi ammattikorkeaoulututkinto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "UAS Master's degree",
+        "kuvaus": "UAS Master's degree",
+        "lyhytNimi": "UAS Master's degree",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  },
+  {
+    "koodiUri": "pohjakoulutusvaatimuskouta_117",
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codeelement/pohjakoulutusvaatimuskouta_117",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "pohjakoulutusvaatimuskouta",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "117",
+    "paivitysPvm": "2021-01-19",
+    "paivittajaOid": "1.2.246.562.24.26603962037",
+    "voimassaAlkuPvm": "2020-06-24",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Ulkomainen korkeakoulututkinto (Master)",
+        "kuvaus": "Ulkomainen korkeakoulututkinto (Master)",
+        "lyhytNimi": "Ulkomainen korkeakoulututkinto (Master)",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Utländsk högskoleexamen (Master)",
+        "kuvaus": "Utländsk högskoleexamen (Master)",
+        "lyhytNimi": "Utländsk högskoleexamen (Master)",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Foreign Master's degree",
+        "kuvaus": "Foreign Master's degree",
+        "lyhytNimi": "Foreign Master's degree",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      }
+    ]
+  }
+]

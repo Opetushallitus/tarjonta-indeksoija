@@ -27,6 +27,9 @@
   (when koodisto
     (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodit koodisto))))
 
+(def get-koodit-with-cache
+  (memo/ttl get-koodit {} :ttl/threshold 86400000)) ;24 tunnin cache
+
 (defn get-koodi
   [koodisto koodi-uri]
   (when koodi-uri

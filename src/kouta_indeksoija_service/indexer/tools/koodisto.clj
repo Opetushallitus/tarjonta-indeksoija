@@ -32,3 +32,8 @@
 (defn koulutustyypit
   [koulutusKoodiUri]
   (list-alakoodi-nimet-with-cache koulutusKoodiUri "koulutustyyppi"))
+
+(defn pohjakoulutusvaatimuskonfo
+  []
+  (map #(assoc % :alakoodit (list-alakoodit-with-cache (:koodiUri %) "pohjakoulutusvaatimuskouta"))
+       (get-koodit-with-cache "pohjakoulutusvaatimuskonfo")))
