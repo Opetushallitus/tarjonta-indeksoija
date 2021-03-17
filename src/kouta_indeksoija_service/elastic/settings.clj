@@ -117,10 +117,9 @@
   {:dynamic_templates [{:nested {:match "hits"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
-                       {:hakuOnKaynnissa {:match "hakuOnKaynnissa"
-                                          :match_mapping_type "object"
-                                          :mapping {:type "date_range"
-                                                    :format "yyyy-MM-dd'T'HH:mm"}}}
+                       {:hakuajat {:match "hakuajat"
+                                   :match_mapping_type "object"
+                                   :mapping { :type "nested" }}}
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
