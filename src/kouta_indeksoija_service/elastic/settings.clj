@@ -114,12 +114,13 @@
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-search-mappings
-  {:dynamic_templates [{:nested {:match "hits"
+  {:properties {:hits {:type "nested",
+                       :properties {:hakuajat {:type "nested"
+                                               :properties {:alkaa   {:type "date" }
+                                                            :paattyy {:type "date" }}}}}}
+   :dynamic_templates [{:nested {:match "hits"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
-                       {:hakuajat {:match "hakuajat"
-                                   :match_mapping_type "object"
-                                   :mapping { :type "nested" }}}
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
