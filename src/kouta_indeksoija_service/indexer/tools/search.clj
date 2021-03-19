@@ -257,10 +257,10 @@
 (defn- get-koulutustyypit-without-koodi-uris [koulutus excludedKoulutustyyppiKoodiUri]
   (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppi-koodi-urit koulutus)) (vector (:koulutustyyppi koulutus))))
 
-(defn deduce-koulutustyypit-uusi
+(defn deduce-koulutustyypit
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
    (if ammatillinen-perustutkinto-erityisopetuksena?
      (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
      (get-koulutustyypit-without-koodi-uris koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
   ([koulutus]
-   (deduce-koulutustyypit-uusi koulutus false)))
+   (deduce-koulutustyypit koulutus false)))
