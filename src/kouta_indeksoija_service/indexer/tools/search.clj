@@ -263,4 +263,12 @@
      (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
      (get-koulutustyypit-without-koodi-uris koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
   ([koulutus]
-   (get-koulutustyypit-without-koodi-uris koulutus koodiUriAmmPerustutkintoErityisopetuksena) ))
+   (get-koulutustyypit-without-koodi-uris koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
+
+(defn deduce-koulutustyypit-uusi
+  ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
+   (if ammatillinen-perustutkinto-erityisopetuksena?
+     (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
+     (get-koulutustyypit-without-koodi-uris koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
+  ([koulutus]
+   (deduce-koulutustyypit-uusi koulutus false)))
