@@ -37,7 +37,7 @@
 
 (defn koulutus-hit
   [oppilaitos koulutus]
-  (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus)
+  (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit-uusi koulutus)
                   ;:opetuskieliUrit   (:kieletUris oppilaitos)
                    :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
                    :tarjoajaOids       (:tarjoajat koulutus)
@@ -59,9 +59,9 @@
 
 (defn toteutus-hit
   [oppilaitos koulutus toteutus]
-  (let [opetus (get-in toteutus [:metadata :opetus])]
-
-    (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus opetus)
+  (let [toteutus-metadata (:metadata toteutus)
+        opetus (get-in toteutus [:metadata :opetus])]
+    (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit-uusi koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
                      :opetuskieliUrit    (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                      :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
                      :tarjoajaOids       (:tarjoajat toteutus)
