@@ -15,16 +15,16 @@
   (testing "If not ammatillinen perustutkinto erityisopetuksena, filter out erityisopetus koulutustyyppi from koodisto response"
     (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "amm"}
-            toteutus {:ammatillinenPerustutkintoErityisopetuksena false}
-            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus)]
+            ammatillinen-perustutkinto-erityisopetuksena? false
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus ammatillinen-perustutkinto-erityisopetuksena?)]
         (is (= ["koulutustyyppi_1" "amm"] result))))))
 
 (deftest add-only-erityisopetus-koulutustyyppi-koodi
   (testing "If ammatillinen perustutkinto erityisopetuksena, add only erityisopetus koulutustyyppi koodi"
     (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "amm"}
-            toteutus {:ammatillinenPerustutkintoErityisopetuksena true}
-            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus)]
+            ammatillinen-perustutkinto-erityisopetuksena? true
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus ammatillinen-perustutkinto-erityisopetuksena?)]
         (is (= ["koulutustyyppi_4" "amm"] result))))))
 
 (deftest hakuajat-test

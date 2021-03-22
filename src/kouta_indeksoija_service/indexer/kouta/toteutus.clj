@@ -17,7 +17,7 @@
            (if (true? (:kaytetaanHaunHakulomaketta ht-hakukohde))
              (conj (select-keys ht-haku hakulomakeKeys) (common/create-hakulomake-linkki ht-haku hakuOid))
              (conj (select-keys ht-hakukohde hakulomakeKeys) (common/create-hakulomake-linkki ht-hakukohde hakuOid)))
-           (if (true? (:kaytetaanHaunAlkamiskauttaUUSI ht-hakukohde))
+           (if (true? (:kaytetaanHaunAlkamiskautta ht-hakukohde))
              (select-keys ht-haku alkamisaikaKey)
              (select-keys ht-hakukohde alkamisaikaKey))
            (if (true? (:kaytetaanHaunAikataulua ht-hakukohde))
