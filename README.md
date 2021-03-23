@@ -161,7 +161,7 @@ täältä: [Katkoton indeksointi](README_INDEKSOINTI.md)
 
 ### 4.3. Lokit
 
-Indeksoijan lokit löytyvät AWS:n cloudwatchista. Ohjeita näihin ylläpidolta.
+Indeksoijan lokit löytyvät AWS:n cloudwatchista log groupista <testiympäristön nimi>-app-kouta-indeksoija (esim. hahtuva-app-kouta-indeksoija). Lisäohjeita näihin ylläpidolta.
 
 ### 4.4. Continuous integration
 
