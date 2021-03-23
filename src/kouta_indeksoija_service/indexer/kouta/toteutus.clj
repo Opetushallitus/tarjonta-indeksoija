@@ -56,7 +56,7 @@
     (assoc toteutus :hakutiedot (determine-correct-hakutiedot ht-toteutus))
     toteutus))
 
-(defn- assoc-oppilaitokset
+(defn- assoc-tarjoajien-oppilaitokset
   [toteutus]
   (assoc toteutus
     :oppilaitokset
@@ -71,11 +71,12 @@
 
 (defn create-index-entry
   [oid]
-  (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
+  (let [toteutus (kouta-backend/get-toteutus oid)
         hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
-    (indexable/->index-entry oid (-> toteutus
+    (indexable/->index-entry oid (-> toteutus 
+                                     (common/complete-entry)
                                      (common/assoc-organisaatiot)
-                                     (assoc-oppilaitokset)
+                                     (assoc-tarjoajien-oppilaitokset)
                                      (assoc-hakutiedot hakutiedot)))))
 
 (defn do-index
