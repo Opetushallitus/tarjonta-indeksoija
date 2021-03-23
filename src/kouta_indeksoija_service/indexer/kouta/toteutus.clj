@@ -3,6 +3,9 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [clojure.string :refer [blank?]]))
 
 (def index-name "toteutus-kouta")
@@ -53,12 +56,26 @@
     (assoc toteutus :hakutiedot (determine-correct-hakutiedot ht-toteutus))
     toteutus))
 
+(defn- assoc-oppilaitokset
+  [toteutus]
+  (assoc toteutus
+    :oppilaitokset
+    (->> (:tarjoajat toteutus)
+         (map :oid)
+         (map cache/get-hierarkia)
+         (map organisaatio-tool/find-oppilaitos-from-hierarkia)
+         (remove nil?)
+         (filter organisaatio-tool/indexable?)
+         (map :oid)
+         (->distinct-vec))))
+
 (defn create-index-entry
   [oid]
   (let [toteutus (common/complete-entry (kouta-backend/get-toteutus oid))
         hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
     (indexable/->index-entry oid (-> toteutus
                                      (common/assoc-organisaatiot)
+                                     (assoc-oppilaitokset)
                                      (assoc-hakutiedot hakutiedot)))))
 
 (defn do-index
