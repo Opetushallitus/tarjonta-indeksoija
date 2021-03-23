@@ -65,6 +65,7 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
  :notifier-targets ""}
 ```
 
+Testiympäristöä voi vaihtaa laittamalla yllä olevasta configista untuva sanojen paikalle toisen testiympäristön nimen.
 Cas-salasanan saa kaivettua untuvan ympäristökohtaisesta reposta opintopolku.yml tiedostosta kohdasta `kouta_indeksoija_cas_password`
 
 Jos et tiedä mitä tämä tarkoittaa, kysy neuvoa kehitystiimiltä tai OPH:n ylläpidolta. 
