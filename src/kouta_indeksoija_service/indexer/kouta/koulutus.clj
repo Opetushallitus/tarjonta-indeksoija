@@ -80,9 +80,10 @@
 
 (defn create-index-entry
   [oid]
-  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
+  (let [koulutus (kouta-backend/get-koulutus oid)
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
     (indexable/->index-entry oid (-> koulutus
+                                     (common/complete-entry)
                                      (common/assoc-organisaatiot)
                                      (enrich-metadata)
                                      (assoc :toteutukset (map common/toteutus->list-item toteutukset))))))
