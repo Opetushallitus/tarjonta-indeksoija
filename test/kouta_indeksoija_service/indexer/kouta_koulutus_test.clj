@@ -118,7 +118,7 @@
   (fixture/with-mocked-indexing
     (testing "Should index koulutusala for osaamisala"
       (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
-        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-osaamisala" :koulutusKoodiUri "koulutus_222333#1" :metadata fixture/amk-osaamisala-koulutus-metadata)
+        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-osaamisala" :koulutuksetKoodiUri "koulutus_222333#1" :metadata fixture/amk-osaamisala-koulutus-metadata)
         (check-all-nil)
         (i/index-koulutukset [koulutus-oid])
         (let [koulutus (get-doc koulutus/index-name koulutus-oid)

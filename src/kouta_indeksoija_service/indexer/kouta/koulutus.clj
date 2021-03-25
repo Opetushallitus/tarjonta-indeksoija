@@ -11,10 +11,17 @@
 
 (def index-name "koulutus-kouta")
 
+(defn- get-non-korkeakoulu-koodi-uri
+  [koulutus]
+  (-> koulutus
+      (:koulutukset)
+      (first) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
+      (:koodiUri)))
+
 ;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
 (defn- enrich-ammatillinen-metadata
   [koulutus]
-  (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+  (let [koulutusKoodi (get-non-korkeakoulu-koodi-uri koulutus)
         eperusteId (:ePerusteId koulutus)
         eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi))]
     (-> koulutus
@@ -55,7 +62,7 @@
 
 (defn- enrich-osaamisala-metadata
   [koulutus]
-  (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+  (let [koulutusKoodi (get-non-korkeakoulu-koodi-uri koulutus)
         eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
         osaamisala (get-osaamisala eperuste koulutus)]
     (-> koulutus
