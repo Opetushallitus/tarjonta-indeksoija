@@ -20,17 +20,9 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
-(defn- has-value
-  [tarjoajat organisaatio-oid]
-  (some #(= organisaatio-oid %) tarjoajat))
-
 (defn- assoc-koulutusohjelmia
   [organisaatio koulutukset]
-  (->> (filter #(has-value (:tarjoajat %) (:oid organisaatio)) koulutukset)
-       (search/get-tarjoaja-entries (cache/get-hierarkia (:oid organisaatio)))
-       (filter :johtaaTutkintoon)
-       (count)
-       (assoc organisaatio :koulutusohjelmia)))
+  (assoc organisaatio :koulutusohjelmia (count (filter :johtaaTutkintoon koulutukset))))
 
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]
@@ -41,7 +33,7 @@
 
 (defn- oppilaitoksen-osa-entry
   [organisaatio oppilaitoksen-osa]
-  ; TODO assoc-koulutusohjelmia ei voi toimia oppilaitosten osien kanssa - ne eivät ole tarjoajia
+  ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
   ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
   (cond-> (organisaatio-entry organisaatio)
           (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
