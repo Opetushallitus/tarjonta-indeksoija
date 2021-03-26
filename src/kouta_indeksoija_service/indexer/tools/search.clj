@@ -109,15 +109,21 @@
                                     (->distinct-vec))]
     (->distinct-vec (mapcat get-koulutusalatasot-by-koulutus-koodi-uri koulutusKoodiUrit))))
 
+(defn- get-non-korkeakoulu-koodi-uri
+  [koulutus]
+  (-> koulutus
+      (:koulutukset)
+      (first))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
+
 (defn koulutusala-koodi-urit
   [koulutus]
   (if (any-ammatillinen? koulutus)
     (cond
       (amm-tutkinnon-osa? koulutus) (get-koulutusalatasot-for-amm-tutkinnon-osat koulutus)
-      :default (get-koulutusalatasot-by-koulutus-koodi-uri (:koulutusKoodiUri koulutus))))
+      :default (get-koulutusalatasot-by-koulutus-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus))))
 
   (if (any-ammatillinen? koulutus)
-    (let [koulutusKoodiUri (:koulutusKoodiUri koulutus)]
+    (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)]
       (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
                    (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
@@ -128,7 +134,7 @@
   (let [eperuste-id (:ePerusteId koulutus)]
     (if eperuste-id
       (get-eperuste-by-id eperuste-id)
-      (get-eperuste-by-koulutuskoodi (:koulutusKoodiUri koulutus)))))
+      (get-eperuste-by-koulutuskoodi (get-non-korkeakoulu-koodi-uri koulutus)))))
 
 (defn tutkintonimike-koodi-urit
   [koulutus]
@@ -140,7 +146,7 @@
 (defn koulutustyyppi-koodi-urit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (koulutustyypit (:koulutusKoodiUri koulutus))))
+    (vec (map :koodiUri (koulutustyypit (get-non-korkeakoulu-koodi-uri koulutus))))
     []))
 
 (defn- get-tutkinnon-osa-laajuudet

@@ -11,17 +11,24 @@
 
 (def index-name "koulutus-kouta")
 
+(defn- get-non-korkeakoulu-koodi-uri
+  [koulutus]
+  (-> koulutus
+      (:koulutukset)
+      (first) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
+      (:koodiUri)))
+
 ;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
 (defn- enrich-ammatillinen-metadata
   [koulutus]
-  (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+  (let [koulutusKoodi (get-non-korkeakoulu-koodi-uri koulutus)
         eperusteId (:ePerusteId koulutus)
         eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi))]
     (-> koulutus
         (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
         (assoc-in [:metadata :opintojenLaajuus]        (:opintojenLaajuus eperuste))
         (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
-        (assoc-in [:metadata :koulutusala]            (koulutusalat-taso1 koulutusKoodi)))))
+        (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi)))))
 
 (defn- get-enriched-tutkinnon-osat
   [tutkinnon-osat]
@@ -55,7 +62,7 @@
 
 (defn- enrich-osaamisala-metadata
   [koulutus]
-  (let [koulutusKoodi (get-in koulutus [:koulutus :koodiUri])
+  (let [koulutusKoodi (get-non-korkeakoulu-koodi-uri koulutus)
         eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))
         osaamisala (get-osaamisala eperuste koulutus)]
     (-> koulutus
@@ -80,9 +87,10 @@
 
 (defn create-index-entry
   [oid]
-  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))
+  (let [koulutus (kouta-backend/get-koulutus oid)
         toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
     (indexable/->index-entry oid (-> koulutus
+                                     (common/complete-entry)
                                      (common/assoc-organisaatiot)
                                      (enrich-metadata)
                                      (assoc :toteutukset (map common/toteutus->list-item toteutukset))))))

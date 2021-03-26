@@ -191,13 +191,15 @@
   ],
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
   "ePerusteId": 1234,
-  "koulutus": {
-    "koodiUri": "koulutus_371101#1",
-    "nimi": {
-      "fi": "koulutus_371101#1 nimi fi",
-      "sv": "koulutus_371101#1 nimi sv"
+  "koulutukset": [
+    {
+      "koodiUri": "koulutus_371101#1",
+      "nimi": {
+        "fi": "koulutus_371101#1 nimi fi",
+        "sv": "koulutus_371101#1 nimi sv"
+      }
     }
-  },
+  ],
   "timestamp": 1549024996125,
   "julkinen": true,
   "esikatselu": false,

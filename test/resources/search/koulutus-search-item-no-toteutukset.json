@@ -1,83 +1,121 @@
 {
-  "oid" : "1.2.246.562.13.00000000000000000099",
-  "nimi" : {
-    "fi" : "Autoalan perustutkinto 0 fi",
-    "sv" : "Autoalan perustutkinto 0 sv"
+  "oid": "1.2.246.562.13.00000000000000000099",
+  "nimi": {
+    "fi": "Autoalan perustutkinto 0 fi",
+    "sv": "Autoalan perustutkinto 0 sv"
   },
-  "kielivalinta" : [ "fi", "sv" ],
-  "tutkintonimikkeet" : [ {
-    "koodiUri" : "tutkintonimikkeet_01",
-    "nimi" : {
-      "fi" : "tutkintonimikkeet_01 nimi fi",
-      "sv" : "tutkintonimikkeet_01 nimi sv"
+  "kielivalinta": [
+    "fi",
+    "sv"
+  ],
+  "tutkintonimikkeet": [
+    {
+      "koodiUri": "tutkintonimikkeet_01",
+      "nimi": {
+        "fi": "tutkintonimikkeet_01 nimi fi",
+        "sv": "tutkintonimikkeet_01 nimi sv"
+      }
+    },
+    {
+      "koodiUri": "tutkintonimikkeet_02",
+      "nimi": {
+        "fi": "tutkintonimikkeet_02 nimi fi",
+        "sv": "tutkintonimikkeet_02 nimi sv"
+      }
     }
-  }, {
-    "koodiUri" : "tutkintonimikkeet_02",
-    "nimi" : {
-      "fi" : "tutkintonimikkeet_02 nimi fi",
-      "sv" : "tutkintonimikkeet_02 nimi sv"
-    }
-  } ],
-  "kuvaus" : { "fi" :  "Kiva kuvaus fi", "sv" :  "Kiva kuvaus sv"},
-  "eperuste" : 1234,
+  ],
+  "kuvaus": {
+    "fi": "Kiva kuvaus fi",
+    "sv": "Kiva kuvaus sv"
+  },
+  "eperuste": 1234,
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
-  "opintojenLaajuusNumero" : 150,
-  "opintojenLaajuus" : {
-    "koodiUri" : "opintojenlaajuus_150",
-    "nimi" : {
-      "fi" : "opintojenlaajuus_150 nimi fi",
-      "sv" : "opintojenlaajuus_150 nimi sv"
+  "opintojenLaajuusNumero": 150,
+  "opintojenLaajuus": {
+    "koodiUri": "opintojenlaajuus_150",
+    "nimi": {
+      "fi": "opintojenlaajuus_150 nimi fi",
+      "sv": "opintojenlaajuus_150 nimi sv"
     }
   },
-  "opintojenLaajuusyksikko" : {
-    "koodiUri" : "opintojenlaajuusyksikko_6",
-    "nimi" : {
-      "fi" : "opintojenlaajuusyksikko_6 nimi fi",
-      "sv" : "opintojenlaajuusyksikko_6 nimi sv"
+  "opintojenLaajuusyksikko": {
+    "koodiUri": "opintojenlaajuusyksikko_6",
+    "nimi": {
+      "fi": "opintojenlaajuusyksikko_6 nimi fi",
+      "sv": "opintojenlaajuusyksikko_6 nimi sv"
     }
   },
-  "koulutustyyppi" : "amm",
-  "koulutus" : {
-    "koodiUri" : "koulutus_351301#1",
-    "nimi" : {
-      "fi" : "koulutus_351301#1 nimi fi",
-      "sv" : "koulutus_351301#1 nimi sv"
+  "koulutustyyppi": "amm",
+  "koulutukset": [
+    {
+      "koodiUri": "koulutus_351301#1",
+      "nimi": {
+        "fi": "koulutus_351301#1 nimi fi",
+        "sv": "koulutus_351301#1 nimi sv"
+      }
     }
-  },
-  "hits" : [ {
-    "koulutustyypit" : ["amm", "koulutustyyppi_01", "koulutustyyppi_02"],
-    "opetuskielet" : [ ],
-    "opetustavat" : [],
-    "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-    "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "hakuajat": [],
-    "hakutavat": [],
-    "valintatavat": [],
-    "pohjakoulutusvaatimukset": [],
-    "koulutusalat" : [ "kansallinenkoulutusluokitus2016koulutusalataso1_01", "kansallinenkoulutusluokitus2016koulutusalataso1_02",
-                       "kansallinenkoulutusluokitus2016koulutusalataso2_01", "kansallinenkoulutusluokitus2016koulutusalataso2_02" ],
-    "terms" : {
-      "fi" : [ "Oppilaitos fi 1.2.246.562.10.77777777799", "Autoalan perustutkinto 0 fi", "Toimipiste fi 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
-      "sv" : [ "Oppilaitos sv 1.2.246.562.10.77777777799" ,"Autoalan perustutkinto 0 sv", "Toimipiste sv 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
-      "en" : [ ]
-    },
-    "onkoTuleva" : true,
-    "oppilaitosOid" : "1.2.246.562.10.77777777799",
-    "nimi" : {
-      "fi" : "Oppilaitos fi 1.2.246.562.10.77777777799",
-      "sv" : "Oppilaitos sv 1.2.246.562.10.77777777799"
-    },
-    "metadata" : {
-      "oppilaitosTila" : "julkaistu",
-      "kunnat" : [ {
-        "koodiUri" : "kunta_091",
-        "nimi" : {
-          "fi" : "kunta_091 nimi fi",
-          "sv" : "kunta_091 nimi sv"
-        }
-      } ],
-      "koulutustyyppi" : "yo"
+  ],
+  "hits": [
+    {
+      "koulutustyypit": [
+        "amm",
+        "koulutustyyppi_01",
+        "koulutustyyppi_02"
+      ],
+      "opetuskielet": [],
+      "opetustavat": [],
+      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "hakuajat": [],
+      "hakutavat": [],
+      "valintatavat": [],
+      "pohjakoulutusvaatimukset": [],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "terms": {
+        "fi": [
+          "Oppilaitos fi 1.2.246.562.10.77777777799",
+          "Autoalan perustutkinto 0 fi",
+          "Toimipiste fi 1.2.246.562.10.777777777992",
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "Oppilaitos sv 1.2.246.562.10.77777777799",
+          "Autoalan perustutkinto 0 sv",
+          "Toimipiste sv 1.2.246.562.10.777777777992",
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ],
+        "en": []
+      },
+      "onkoTuleva": true,
+      "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "nimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "metadata": {
+        "oppilaitosTila": "julkaistu",
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ],
+        "koulutustyyppi": "yo"
+      }
     }
-  } ],
-  "timestamp" : 1571294237902
+  ],
+  "timestamp": 1571294237902
 }

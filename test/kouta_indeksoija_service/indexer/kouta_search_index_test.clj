@@ -42,14 +42,14 @@
     (fixture/add-koulutus-mock koulutus-oid1
                                :tila "julkaistu"
                                :nimi "Autoalan perustutkinto 0"
-                               :koulutusKoodiUri "koulutus_351301#1"
+                               :koulutuksetKoodiUri "koulutus_351301#1"
                                :tarjoajat (str oppilaitos-oid2 "2")
                                :metadata (read-json-as-string "test/resources/search/" "koulutus-metadata"))
 
     (fixture/add-koulutus-mock koulutus-oid2
                                :tila "julkaistu"
                                :nimi "Hevosalan perustutkinto 0"
-                               :koulutusKoodiUri "koulutus_361104#1"
+                               :koulutuksetKoodiUri "koulutus_361104#1"
                                :tarjoajat oppilaitos-oid2
                                :metadata (read-json-as-string "test/resources/search/" "koulutus-metadata"))
 
@@ -67,7 +67,7 @@
                                :koulutustyyppi "amm-tutkinnon-osa"
                                :johtaaTutkintoon "false"
                                :ePerusteId nil
-                               :koulutusKoodiUri nil
+                               :koulutuksetKoodiUri nil
                                :tarjoajat oppilaitos-oid2
                                :metadata (.ammTutkinnonOsaKoulutusMetadata KoutaFixtureTool))
 
