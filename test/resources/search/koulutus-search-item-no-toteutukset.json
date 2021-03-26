@@ -46,13 +46,15 @@
     }
   },
   "koulutustyyppi": "amm",
-  "koulutus": {
-    "koodiUri": "koulutus_351301#1",
-    "nimi": {
-      "fi": "koulutus_351301#1 nimi fi",
-      "sv": "koulutus_351301#1 nimi sv"
+  "koulutukset": [
+    {
+      "koodiUri": "koulutus_351301#1",
+      "nimi": {
+        "fi": "koulutus_351301#1 nimi fi",
+        "sv": "koulutus_351301#1 nimi sv"
+      }
     }
-  },
+  ],
   "hits": [
     {
       "koulutustyypit": [

@@ -81,13 +81,15 @@
     "fi",
     "sv"
   ],
-  "koulutus": {
-    "koodiUri": "koulutus_371101#1",
-    "nimi": {
-      "fi": "koulutus_371101#1 nimi fi",
-      "sv": "koulutus_371101#1 nimi sv"
+  "koulutukset": [
+    {
+      "koodiUri": "koulutus_371101#1",
+      "nimi": {
+        "fi": "koulutus_371101#1 nimi fi",
+        "sv": "koulutus_371101#1 nimi sv"
+      }
     }
-  },
+  ],
   "tutkintonimikkeet": null,
   "opintojenLaajuusNumero": 30,
   "opintojenLaajuus": {
