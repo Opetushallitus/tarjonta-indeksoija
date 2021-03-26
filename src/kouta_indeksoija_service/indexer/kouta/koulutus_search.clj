@@ -118,7 +118,7 @@
   (let [entry (-> koulutus
                   (select-keys [:oid :nimi :kielivalinta])
                   (assoc :eperuste                (:ePerusteId koulutus))
-                  (assoc :koulutus                (:koulutusKoodiUri koulutus))
+                  (assoc :koulutukset             (:koulutuksetKoodiUri koulutus))
                   (assoc :tutkintonimikkeet       (search-tool/tutkintonimike-koodi-urit koulutus))
                   (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
                   (assoc :teemakuva               (:teemakuva koulutus))
