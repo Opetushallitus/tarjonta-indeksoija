@@ -112,7 +112,7 @@
           "sv" : "opetusaikakk_1#1 nimi sv"
         }
       } ],
-      "onkoMaksullinen" : true,
+      "maksullisuustyyppi" : "maksullinen",
       "kunnat" : [ {
         "koodiUri" : "kunta_091",
         "nimi" : {
@@ -156,7 +156,7 @@
           "sv" : "opetusaikakk_1#1 nimi sv"
         }
       } ],
-      "onkoMaksullinen" : true,
+      "maksullisuustyyppi" : "maksullinen",
       "kunnat" : [ {
         "koodiUri" : "kunta_091",
         "nimi" : {

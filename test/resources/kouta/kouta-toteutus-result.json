@@ -279,7 +279,7 @@
         "fi": "Kielikuvaus fi",
         "sv": "Kielikuvaus sv"
       },
-      "onkoMaksullinen": true,
+      "maksullisuustyyppi": "maksullinen",
       "opetusaikaKuvaus": {
         "fi": "Opetusaikakuvaus fi",
         "sv": "Opetusaikakuvaus sv"
