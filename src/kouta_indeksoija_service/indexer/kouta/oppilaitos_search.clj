@@ -79,7 +79,7 @@
                      :onkoTuleva         false
                      :metadata           {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
                                           :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                          :onkoMaksullinen     (:onkoMaksullinen opetus)
+                                          :maksullisuustyyppi  (:maksullisuustyyppi opetus)
                                           :maksunMaara         (:maksunMaara opetus)
                                           :koulutustyyppi      (:koulutustyyppi koulutus)})))
 

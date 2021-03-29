@@ -79,7 +79,7 @@
                               :nimi                      (:nimi oppilaitos)
                               :metadata                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                                                           :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
-                                                          :onkoMaksullinen            (:onkoMaksullinen opetus)
+                                                          :maksullisuustyyppi         (:maksullisuustyyppi opetus)
                                                           :maksunMaara                (:maksunMaara opetus)
                                                           :koulutustyyppi             (search-tool/koulutustyyppi-for-organisaatio oppilaitos)
                                                           :oppilaitosTila             (:tila oppilaitos)})))))

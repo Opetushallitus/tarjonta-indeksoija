@@ -168,7 +168,7 @@
             }
           }
         ],
-        "onkoMaksullinen": true,
+        "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
         "kunnat": [
           {
@@ -283,7 +283,7 @@
             }
           }
         ],
-        "onkoMaksullinen": true,
+        "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
         "kunnat": [
           {
