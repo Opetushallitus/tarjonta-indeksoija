@@ -30,16 +30,20 @@
   [x]
   (postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
 
+(defn- get-tarjoaja
+  [oid]
+  (assoc (tarjoaja/get-tarjoaja oid) :oid oid))
+
 (defn assoc-organisaatio
   [entry]
   (if-let [oid (:organisaatioOid entry)]
-    (assoc (dissoc entry :organisaatioOid) :organisaatio (tarjoaja/get-tarjoaja oid))
+    (assoc (dissoc entry :organisaatioOid) :organisaatio (get-tarjoaja oid))
     entry))
 
 (defn assoc-jarjestyspaikka
   [entry]
   (if-let [oid (:jarjestyspaikkaOid entry)]
-    (assoc (dissoc entry :jarjestyspaikkaOid) :jarjestyspaikka (tarjoaja/get-tarjoaja oid))
+    (assoc (dissoc entry :jarjestyspaikkaOid) :jarjestyspaikka (get-tarjoaja oid))
     entry))
 
 (defn assoc-muokkaaja
@@ -53,7 +57,7 @@
 (defn assoc-tarjoajat
   [entry]
   (if-let [oids (:tarjoajat entry)]
-    (assoc entry :tarjoajat (map #(tarjoaja/get-tarjoaja %1) oids))
+    (assoc entry :tarjoajat (map #(get-tarjoaja %1) oids))
     entry))
 
 (defn assoc-organisaatiot
