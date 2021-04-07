@@ -22,10 +22,11 @@
 (defn- tutkintonimikket-for-toteutus
   [toteutus]
   ;TODO -> eperusteet
-  (when (ammatillinen? toteutus)
+  (if (ammatillinen? toteutus)
     (->> (get-in toteutus [:metadata :osaamisalat :koodiUri])
          (mapcat tutkintonimikkeet-for-osaamisala)
-         (->distinct-vec))))
+         (->distinct-vec))
+    []))
 
 (defn oppilaitos-hit
   [oppilaitos]
