@@ -71,33 +71,35 @@
         ],
         "teemakuva": "https://testi.fi/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
         "metadata": {
-          "yhteystiedot": {
-            "osoite": {
-              "osoite": {
-                "fi": "Kivatie 1",
-                "sv": "kivavägen 1"
+          "yhteystiedot": [
+            {
+              "nimi": {
+                "fi": "nimi",
+                "sv": "nimi sv"
               },
-              "postinumero": {
-                "koodiUri": "posti_04230#2",
-                "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
+              "postiosoite": {
+                "osoite": {
+                  "fi": "Kivatie 1",
+                  "sv": "kivavägen 1"
+                },
+                "postinumero": {
+                  "koodiUri": "posti_04230#2",
+                  "nimi": {
+                    "fi": "posti_04230#2 nimi fi",
+                    "sv": "posti_04230#2 nimi sv"
+                  }
                 }
+              },
+              "puhelinnumero": {
+                "fi": "123",
+                "sv": "123"
+              },
+              "sahkoposti": {
+                "fi": "aku.ankka@ankkalinnankoulu.fi",
+                "sv": "aku.ankka@ankkalinnankoulu.fi"
               }
-            },
-            "wwwSivu": {
-              "fi": "https://www.tiedekunta.fi",
-              "sv": "https://www.tiedekunta.sv"
-            },
-            "puhelinnumero": {
-              "fi": "123",
-              "sv": "123"
-            },
-            "sahkoposti": {
-              "fi": "aku.ankka@ankkalinnankoulu.fi",
-              "sv": "aku.ankka@ankkalinnankoulu.fi"
             }
-          },
+          ],
           "opiskelijoita": 100,
           "kampus": {
             "fi": "Kampus fi",
@@ -106,6 +108,16 @@
           "esittely": {
             "fi": "Esittely",
             "sv": "Esittely sv"
+          },
+          "wwwSivu": {
+            "nimi": {
+              "fi": "Linkki suomeksi",
+              "sv": "Linkki ruotsiksi"
+            },
+            "url": {
+              "fi": "http://www.oppilaitos.fi",
+              "sv": "http://www.oppilaitos.sv"
+            }
           }
         }
       }
@@ -198,8 +210,54 @@
       "tiedekuntia": 2,
       "opiskelijoita": 100,
       "korkeakouluja": 1,
-      "yhteystiedot": {
-        "osoite": {
+      "yhteystiedot": [
+        {
+          "nimi": {
+            "fi": "nimi",
+            "sv": "nimi sv"
+          },
+          "postiosoite": {
+            "osoite": {
+              "fi": "Kivatie 1",
+              "sv": "kivavägen 1"
+            },
+            "postinumero": {
+              "koodiUri": "posti_04230#2",
+              "nimi": {
+                "fi": "posti_04230#2 nimi fi",
+                "sv": "posti_04230#2 nimi sv"
+              }
+            }
+          },
+          "kayntiosoite": {
+            "osoite": {
+              "fi": "Kivatie 1",
+              "sv": "kivavägen 1"
+            },
+            "postinumero": {
+              "koodiUri": "posti_04230#2",
+              "nimi": {
+                "fi": "posti_04230#2 nimi fi",
+                "sv": "posti_04230#2 nimi sv"
+              }
+            }
+          },
+          "puhelinnumero": {
+            "fi": "123",
+            "sv": "123"
+          },
+          "sahkoposti": {
+            "fi": "aku.ankka@ankkalinnankoulu.fi",
+            "sv": "aku.ankka@ankkalinnankoulu.fi"
+          }
+        }
+      ],
+      "hakijapalveluidenYhteystiedot": {
+        "nimi": {
+          "fi": "nimi",
+          "sv": "nimi sv"
+        },
+        "postiosoite": {
           "osoite": {
             "fi": "Kivatie 1",
             "sv": "kivavägen 1"
@@ -211,10 +269,6 @@
               "sv": "posti_04230#2 nimi sv"
             }
           }
-        },
-        "wwwSivu": {
-          "fi": "http://www.oppilaitos.fi",
-          "sv": "http://www.oppilaitos.sv"
         },
         "puhelinnumero": {
           "fi": "123",
@@ -239,7 +293,17 @@
             "sv": "Tietoa opiskelusta sv"
           }
         }
-      ]
+      ],
+      "wwwSivu": {
+        "nimi": {
+          "fi": "Linkki suomeksi",
+          "sv": "Linkki ruotsiksi"
+        },
+        "url": {
+          "fi": "http://www.oppilaitos.fi",
+          "sv": "http://www.oppilaitos.sv"
+        }
+      }
     }
   },
   "nimi": {
