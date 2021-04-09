@@ -76,7 +76,12 @@
   (-> koulutus
       (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache "opintojenlaajuusyksikko_2#1"))))
 
-(defn- enrich-metadata
+(defn- enrich-common-metadata
+  [koulutus]
+  (-> koulutus
+      (assoc-in [:metadata :tutkintonimike] [])))
+
+(defn- enrich-koulutustyyppi-based-metadata
   [koulutus]
   (cond
     (ammatillinen? koulutus) (enrich-ammatillinen-metadata koulutus)
@@ -84,6 +89,12 @@
     (amm-osaamisala? koulutus) (enrich-osaamisala-metadata koulutus)
     (korkeakoulutus? koulutus) (enrich-korkeakoulutus-metadata koulutus)
     :default koulutus))
+
+(defn- enrich-metadata
+  [koulutus]
+  (-> koulutus
+      (enrich-common-metadata)
+      (enrich-koulutustyyppi-based-metadata)))
 
 (defn create-index-entry
   [oid]

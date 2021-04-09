@@ -90,7 +90,7 @@
       }
     }
   ],
-  "tutkintonimikkeet": null,
+  "tutkintonimikkeet": [],
   "opintojenLaajuusNumero": 30,
   "opintojenLaajuus": {
     "koodiUri": "opintojenlaajuus_30",

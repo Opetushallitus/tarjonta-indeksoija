@@ -120,7 +120,7 @@
           "sv" : "kunta_091 nimi sv"
         }
       } ],
-      "tutkintonimikkeet" : null,
+      "tutkintonimikkeet" : [],
       "koulutustyyppi" : "amm"
     }
   }, {
@@ -164,7 +164,7 @@
           "sv" : "kunta_091 nimi sv"
         }
       } ],
-      "tutkintonimikkeet" : null,
+      "tutkintonimikkeet" : [],
       "koulutustyyppi" : "amm"
     }
   }, {
@@ -191,7 +191,7 @@
     "kuva" : "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : true,
     "metadata" : {
-      "tutkintonimikkeet" : null,
+      "tutkintonimikkeet" : [],
       "opintojenLaajuus" : {
         "koodiUri" : "opintojenlaajuus_30",
         "nimi" : {
@@ -241,7 +241,7 @@
     "kuva" : "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
     "onkoTuleva" : true,
     "metadata" : {
-      "tutkintonimikkeet" : null,
+      "tutkintonimikkeet" : [],
       "opintojenLaajuus" : null,
       "opintojenLaajuusyksikko" : null,
       "opintojenLaajuusNumero" : null,
