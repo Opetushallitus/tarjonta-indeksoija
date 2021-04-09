@@ -20,9 +20,13 @@
         (keyword))
     key))
 
-(defn- decorate-koodi-value   ;Etsitään koodiUria kaavalla KIRJAIMIANUMEROITA_NONWHITESPACEMERKKEJÄ#NUMERO
-  [value]                     ;Numeroita voi olla 1-3 kpl
-  (if (and (string? value) (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (string/trim value)))
+(defn koodi-uri? ;Etsitään koodiUria kaavalla KIRJAIMIANUMEROITA_NONWHITESPACEMERKKEJÄ#NUMERO
+  [value]         ;Numeroita voi olla 1-3 kpl
+  (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (string/trim value)))
+
+(defn- decorate-koodi-value
+  [value]
+  (if (and (string? value) (koodi-uri? value))
       (get-koodi-nimi-with-cache value)
       value))
 

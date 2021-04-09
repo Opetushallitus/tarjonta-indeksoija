@@ -141,9 +141,7 @@
   (if (ammatillinen? koulutus)
     (when-let [eperuste (get-eperuste koulutus)]
       (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
-    (or
-      (get-in koulutus [:metadata :tutkintonimikeKoodiUrit])
-      [])))
+    (get-in koulutus [:metadata :tutkintonimikeKoodiUrit] [])))
 
 (defn koulutustyyppi-koodi-urit
   [koulutus]
