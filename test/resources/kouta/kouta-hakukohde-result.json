@@ -350,7 +350,11 @@
         "sv": "aloituspaikkojen kuvaus sv"
       }
     },
-    "kaytetaanHaunAlkamiskautta": false
+    "kaytetaanHaunAlkamiskautta": false,
+    "kynnysehto": {
+      "fi": "Kynnysehto fi",
+      "sv": "Kynnysehto sv"
+    }
   },
   "organisaatio": {
     "paikkakunta": {
