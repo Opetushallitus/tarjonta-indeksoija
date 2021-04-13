@@ -303,6 +303,39 @@
       "fi": "yleiskuvaus fi",
       "sv": "yleiskuvaus sv"
     },
+    "valintaperusteenValintakokeidenLisatilaisuudet": [
+      {
+        "tilaisuudet": [
+          {
+            "osoite": {
+              "osoite": {
+                "fi": "Kivatie 1",
+                "sv": "kivavägen 1"
+              },
+              "postinumero": {
+                "koodiUri": "posti_04230#2",
+                "nimi": {
+                  "fi": "posti_04230#2 nimi fi",
+                  "sv": "posti_04230#2 nimi sv"
+                }
+              }
+            },
+            "aika": {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            },
+            "jarjestamispaikka": {
+              "fi": "Lisä järjestämispaikka fi",
+              "sv": "Lisä järjestämispaikka sv"
+            },
+            "lisatietoja": {
+              "fi": "lisätieto fi",
+              "sv": "lisätieto sv"
+            }
+          }
+        ]
+      }
+    ],
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
