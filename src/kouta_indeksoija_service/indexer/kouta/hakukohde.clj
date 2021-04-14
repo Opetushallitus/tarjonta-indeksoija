@@ -107,7 +107,10 @@
         haku           (kouta-backend/get-haku (:hakuOid hakukohde))
         toteutus       (kouta-backend/get-toteutus (:toteutusOid hakukohde))
         koulutus       (kouta-backend/get-koulutus (:koulutusOid toteutus))
-        valintaperuste (kouta-backend/get-valintaperuste (:valintaperusteId hakukohde))]
+        valintaperusteId (:valintaperusteId hakukohde)
+        valintaperuste (when-not
+                         (clojure.string/blank? valintaperusteId)
+                         (kouta-backend/get-valintaperuste valintaperusteId))]
     (indexable/->index-entry oid
                              (-> hakukohde
                                  (assoc-yps haku koulutus)
