@@ -2,8 +2,6 @@
   "kaytetaanHaunAikataulua": false,
   "tila": "arkistoitu",
   "liitteidenToimitusaika": "!!time3",
-  "aloituspaikat": 100,
-  "ensikertalaisenAloituspaikat": 0,
   "hakulomaketyyppi": "ei sähköistä",
   "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
   "esikatselu": false,
@@ -96,7 +94,7 @@
             "sv": "tietoa valintakokeesta sv"
           },
           "liittyyEnnakkovalmistautumista": true,
-          "vahimmaispisteet":182.1,
+          "vahimmaispisteet": 182.1,
           "ohjeetEnnakkovalmistautumiseen": {
             "fi": "Ennakko-ohjeet fi",
             "sv": "Ennakko-ohjeet sv"
@@ -134,7 +132,7 @@
               "paattyy": "!!endTime1"
             },
             "lisatietoja": {
-              "fi": "lisätietieto fi",
+              "fi": "lisätieto fi",
               "sv": "lisätieto sv"
             },
             "jarjestamispaikka": {
@@ -305,13 +303,58 @@
       "fi": "yleiskuvaus fi",
       "sv": "yleiskuvaus sv"
     },
+    "valintaperusteenValintakokeidenLisatilaisuudet": [
+      {
+        "tilaisuudet": [
+          {
+            "osoite": {
+              "osoite": {
+                "fi": "Kivatie 1",
+                "sv": "kivavägen 1"
+              },
+              "postinumero": {
+                "koodiUri": "posti_04230#2",
+                "nimi": {
+                  "fi": "posti_04230#2 nimi fi",
+                  "sv": "posti_04230#2 nimi sv"
+                }
+              }
+            },
+            "aika": {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            },
+            "jarjestamispaikka": {
+              "fi": "Lisä järjestämispaikka fi",
+              "sv": "Lisä järjestämispaikka sv"
+            },
+            "lisatietoja": {
+              "fi": "lisätieto fi",
+              "sv": "lisätieto sv"
+            }
+          }
+        ]
+      }
+    ],
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
       "koulutuksenAlkamispaivamaara": "!!startTime1",
       "koulutuksenPaattymispaivamaara": "!!endTime1"
     },
-    "kaytetaanHaunAlkamiskautta": false
+    "aloituspaikat": {
+      "lukumaara": 100,
+      "ensikertalaisille": 50,
+      "kuvaus": {
+        "fi": "aloituspaikkojen kuvaus fi",
+        "sv": "aloituspaikkojen kuvaus sv"
+      }
+    },
+    "kaytetaanHaunAlkamiskautta": false,
+    "kynnysehto": {
+      "fi": "Kynnysehto fi",
+      "sv": "Kynnysehto sv"
+    }
   },
   "organisaatio": {
     "paikkakunta": {
@@ -378,7 +421,7 @@
             "paattyy": "!!endTime1"
           },
           "lisatietoja": {
-            "fi": "lisätietieto fi",
+            "fi": "lisätieto fi",
             "sv": "lisätieto sv"
           },
           "jarjestamispaikka": {
