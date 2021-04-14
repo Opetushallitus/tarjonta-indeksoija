@@ -86,8 +86,6 @@
             "fi": "Pohjakoulutusvaatimuksen tarkenne fi",
             "sv": "Pohjakoulutusvaatimuksen tarkenne sv"
           },
-          "aloituspaikat": 100,
-          "ensikertalaisenAloituspaikat": 0,
           "hakulomaketyyppi": "ei sähköistä",
           "koulutuksenAlkamiskausi": {
             "alkamiskausityyppi": "tarkka alkamisajankohta",
@@ -116,6 +114,14 @@
             "sv": "https://koulu.test/hakemusinfo sv"
           },
           "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
+          "aloituspaikat": {
+            "lukumaara": 100,
+            "ensikertalaisille": 50,
+            "kuvaus": {
+              "fi": "aloituspaikkojen kuvaus fi",
+              "sv": "aloituspaikkojen kuvaus sv"
+            }
+          },
           "nimi": {
             "fi": "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
             "sv": "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
