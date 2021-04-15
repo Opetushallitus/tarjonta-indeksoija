@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.valintaperuste
-  (:require [clojure.string :as s]
-            [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+  (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
