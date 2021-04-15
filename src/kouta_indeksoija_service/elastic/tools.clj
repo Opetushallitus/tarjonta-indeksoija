@@ -99,6 +99,10 @@
             (remove nil? [bulk-action bulk-doc])))
         (flatten))))
 
+(defn- get-error-message
+  [errors error]
+  (str "Bulk action '" (:action error) "' to index '" (:_index error) "' failed with status '" (:status error) "' and error '" (or (:error error) (:result error)) "' for (o)ids " (vec (map :_id (get errors error)))))
+
 (defn log-and-get-bulk-errors
   [response]
   (let [simplify (fn [x] (let [map-entry (first x)]
@@ -109,7 +113,10 @@
                             (filter #(> (:status %) 299)))
         errors (group-by #(select-keys % [:action :status :error :result :_index]) not-ok-results)]
     (doseq [error (keys errors)]
-      (log/error (str "Bulk action '" (:action error) "' to index '" (:_index error) "' failed with status '" (:status error) "' and error '" (or (:error error) (:result error)) "' for (o)ids " (vec (map :_id (get errors error))))))
+      (let [error-message (get-error-message errors error)]
+        (if (= (:action error) "delete")
+          (log/warn error-message)
+          (log/error error-message))))
     not-ok-results))
 
 (defn- execute-bulk-actions
