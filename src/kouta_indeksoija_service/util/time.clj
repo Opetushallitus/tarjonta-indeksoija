@@ -25,6 +25,10 @@
   ([long formatter]
    (date-time->date-time-string (long->date-time long) formatter)))
 
+(defn long->indexed-date-time
+  [long]
+  (long->date-time-string long formatter-with-seconds))
+
 ;purkkaratkaisu, clj-time formatoi time zonen väärin (UTC eikä GMT, https://stackoverflow.com/questions/25658897/is-utc-a-valid-timezone-name-for-rfc-1123-specification)
 (defn long->rfc1123
   [long]

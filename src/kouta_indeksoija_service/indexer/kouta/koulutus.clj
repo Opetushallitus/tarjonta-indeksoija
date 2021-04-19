@@ -2,7 +2,7 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.util.time :refer [formatter-with-seconds long->date-time-string]]
+            [kouta-indeksoija-service.util.time :refer [long->indexed-date-time]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -82,11 +82,11 @@
   (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))]
     (cond-> (assoc-in koulutus [:metadata :tutkintonimike] [])
             (some? eperuste) (#(-> %
-                                   (assoc-in [:metadata :eperuste :id] (:id eperuste))
-                                   (assoc-in [:metadata :eperuste :diaarinumero] (:diaarinumero eperuste))
+                                   (assoc-in [:metadata :eperuste :id]                (:id eperuste))
+                                   (assoc-in [:metadata :eperuste :diaarinumero]      (:diaarinumero eperuste))
                                    (assoc-in [:metadata :eperuste :voimassaoloLoppuu] (some-> eperuste
                                                                                               :voimassaoloLoppuu
-                                                                                              (long->date-time-string formatter-with-seconds))))))))
+                                                                                              (long->indexed-date-time))))))))
 
 (defn- enrich-koulutustyyppi-based-metadata
   [koulutus]
