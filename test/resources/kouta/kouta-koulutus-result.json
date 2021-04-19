@@ -283,6 +283,11 @@
         "fi": "opintojenlaajuusyksikko_6 nimi fi",
         "sv": "opintojenlaajuusyksikko_6 nimi sv"
       }
+    },
+    "eperuste": {
+      "id": 1234,
+      "diaarinumero": "1111-OPH-2021",
+      "voimassaoloLoppuu": "2018-01-01T00:00:00"
     }
   },
   "koulutustyyppi": "amm",

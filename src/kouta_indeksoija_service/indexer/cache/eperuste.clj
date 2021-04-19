@@ -57,12 +57,12 @@
           opintojenLaajuusyksikko         (when opintojenLaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenLaajuusyksikkoKoodiUri))
           tutkinnonOsat                   (get-tutkinnon-osat eperuste)
           osaamisalat                     (get-osaamisalat eperuste)]
-      (cond-> (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])
+      (cond-> (select-keys eperuste [:id :diaarinumero :voimassaoloLoppuu :tutkintonimikkeet :koulutukset])
               (not (nil? opintojenLaajuus))                (merge opintojenLaajuus)
               (not (nil? opintojenLaajuusyksikko))         (assoc :opintojenLaajuusyksikko opintojenLaajuusyksikko)
               (not (nil? tutkinnonOsat))                   (assoc :tutkinnonOsat tutkinnonOsat)
               (not (nil? osaamisalat))                     (assoc :osaamisalat osaamisalat)))
-    (select-keys eperuste [:id :tutkintonimikkeet :koulutukset])))
+    (select-keys eperuste [:id :diaarinumero :voimassaoloLoppuu :tutkintonimikkeet :koulutukset])))
 
 (defn cache-eperuste
   [koodi]

@@ -1,5 +1,7 @@
 {
   "id" : 6942140,
+  "diaarinumero": "OPH-901-2020",
+  "voimassaoloLoppuu": null,
   "tutkintonimikkeet" : [ {
     "osaamisalaUri" : "osaamisala_1775",
     "tutkinnonOsaArvo" : null,

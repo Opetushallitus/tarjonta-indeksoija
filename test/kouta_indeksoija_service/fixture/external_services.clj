@@ -42,6 +42,8 @@
 (defn mock-get-eperuste
   [id]
   {:id id
+   :diaarinumero "1111-OPH-2021"
+   :voimassaoloLoppuu 1514757600000
    :koulutukset[ {:nimi {:fi (str "koulutus " id " nimi fi")
                          :sv (str "koulutus " id " nimi sv")} ,
                   :koulutuskoodiUri "koulutus_354345"}]

@@ -48,14 +48,14 @@
     :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 
-(defonce amk-tutkinnon-osa-koulutus-metadata
+(defonce amm-tutkinnon-osa-koulutus-metadata
   (generate-string
    {:tyyppi "amm-tutkinnon-osa"
     :tutkinnonOsat [{:koulutusKoodiUri "koulutus_123123#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}
                     {:koulutusKoodiUri "koulutus_123125#1" :tutkinnonosaId 1235 :tutkinnonosaViite 5677}
                     {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}]}))
 
-(defonce amk-osaamisala-koulutus-metadata
+(defonce amm-osaamisala-koulutus-metadata
   (generate-string
    {:tyyppi "amm-osaamisala"
     :osaamisalaKoodiUri "osaamisala_1111#1"}))
