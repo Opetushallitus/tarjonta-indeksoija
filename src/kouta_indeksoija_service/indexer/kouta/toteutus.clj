@@ -32,11 +32,14 @@
   (for [ht-hakukohde (:hakukohteet ht-haku)]
     (-> (select-keys ht-hakukohde [:hakukohdeOid
                                    :nimi
+                                   :tila
+                                   :esikatselu
                                    :valintaperusteId
                                    :pohjakoulutusvaatimusKoodiUrit
                                    :pohjakoulutusvaatimusTarkenne
                                    :aloituspaikat
-                                   :jarjestyspaikkaOid])
+                                   :jarjestyspaikkaOid
+                                   :organisaatioOid])
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
         (common/decorate-koodi-uris)
         (common/assoc-jarjestyspaikka))))

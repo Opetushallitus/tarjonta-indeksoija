@@ -3,6 +3,8 @@
             [clj-time.coerce :as coerce]
             [clj-time.core :as time]))
 
+(defonce formatter-with-seconds (format/with-zone (format/formatter "yyyy-MM-dd HH:mm:ss") (time/default-time-zone)))
+
 (defonce formatter-with-time (format/with-zone (format/formatter "yyyy-MM-dd HH:mm") (time/default-time-zone)))
 
 (defonce formatter-rfc1123 (format/formatter "EEE, dd MMM yyyy HH:mm:ss"))

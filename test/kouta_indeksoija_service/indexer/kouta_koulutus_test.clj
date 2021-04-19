@@ -88,7 +88,7 @@
   (fixture/with-mocked-indexing
     (testing "Indexer should index distinct koulutusalat for every tutkinnon osa"
       (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
-        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amk-tutkinnon-osa-koulutus-metadata)
+        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amm-tutkinnon-osa-koulutus-metadata)
         (check-all-nil)
         (i/index-koulutukset [koulutus-oid])
         (let [koulutus (get-doc koulutus/index-name koulutus-oid)
@@ -97,11 +97,34 @@
           (is (-> koulutusalat first :nimi :fi) "Tekniikan alat")
           (is (-> koulutusalat last :nimi :fi) "Palvelualat"))))))
 
+(deftest eperuste-data-enrichment
+  (fixture/with-mocked-indexing
+   (testing "Indexer should enrich eperuste data to metadata"
+     (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+     (check-all-nil)
+     (i/index-koulutukset [koulutus-oid])
+     (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
+       (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
+       (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1111-OPH-2021"))
+       (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) "2018-01-01 00:00:00"))))))
+
+(deftest eperuste-data-enrichment-with-no-loppuu-date
+  (fixture/with-mocked-indexing
+   (testing "Indexer should enrich eperuste data to metadata"
+     (with-redefs [kouta-indeksoija-service.indexer.cache.eperuste/get-eperuste-by-id (fn [id] {:id id :diaarinumero "1234-OPH" :voimassaoloLoppuu nil})]
+       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+       (check-all-nil)
+       (i/index-koulutukset [koulutus-oid])
+       (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
+         (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
+         (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1234-OPH"))
+         (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) nil)))))))
+
 (deftest tutkinnon-osa-enrichment
   (fixture/with-mocked-indexing
     (testing "Indexer should enrich tutkinnon osat from eperusteet"
       (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
-        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amk-tutkinnon-osa-koulutus-metadata)
+        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-tutkinnon-osa" :metadata fixture/amm-tutkinnon-osa-koulutus-metadata)
         (check-all-nil)
         (i/index-koulutukset [koulutus-oid])
         (let [koulutus (get-doc koulutus/index-name koulutus-oid)
@@ -113,12 +136,11 @@
           (is (= (get-in tutkinnon-osa [:opintojenLaajuus :nimi :fi]) "opintojenlaajuus_50 nimi fi"))
           (is (= (get-in tutkinnon-osa [:opintojenLaajuusyksikko :nimi :fi]) "opintojenlaajuusyksikko_6 nimi fi")))))))
 
-
 (deftest index-osaamisala-koulutus
   (fixture/with-mocked-indexing
     (testing "Should index koulutusala for osaamisala"
       (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
-        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-osaamisala" :koulutuksetKoodiUri "koulutus_222333#1" :metadata fixture/amk-osaamisala-koulutus-metadata)
+        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amm-osaamisala" :koulutuksetKoodiUri "koulutus_222333#1" :metadata fixture/amm-osaamisala-koulutus-metadata)
         (check-all-nil)
         (i/index-koulutukset [koulutus-oid])
         (let [koulutus (get-doc koulutus/index-name koulutus-oid)
