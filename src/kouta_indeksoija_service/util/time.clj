@@ -3,7 +3,7 @@
             [clj-time.coerce :as coerce]
             [clj-time.core :as time]))
 
-(defonce formatter-with-seconds (format/with-zone (format/formatter "yyyy-MM-dd HH:mm:ss") (time/default-time-zone)))
+(defonce formatter-with-seconds (format/with-zone (format/formatter "yyyy-MM-dd'T'HH:mm:ss") (time/time-zone-for-id "EET")))
 
 (defonce formatter-with-time (format/with-zone (format/formatter "yyyy-MM-dd HH:mm") (time/default-time-zone)))
 

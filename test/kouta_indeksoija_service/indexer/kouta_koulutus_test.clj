@@ -106,7 +106,7 @@
      (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
        (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
        (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1111-OPH-2021"))
-       (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) "2018-01-01 00:00:00"))))))
+       (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) "2018-01-01T00:00:00"))))))
 
 (deftest eperuste-data-enrichment-with-no-loppuu-date
   (fixture/with-mocked-indexing
