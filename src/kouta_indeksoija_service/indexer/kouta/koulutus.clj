@@ -103,6 +103,12 @@
       (enrich-common-metadata)
       (enrich-koulutustyyppi-based-metadata)))
 
+(defn- assoc-sorakuvaus
+  [koulutus]
+  (if-let [sorakuvaus-id (:sorakuvausId koulutus)]
+    (assoc koulutus :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus sorakuvaus-id)))
+    koulutus))
+
 (defn create-index-entry
   [oid]
   (let [koulutus (kouta-backend/get-koulutus oid)
@@ -111,6 +117,7 @@
                                      (common/complete-entry)
                                      (common/assoc-organisaatiot)
                                      (enrich-metadata)
+                                     (assoc-sorakuvaus)
                                      (assoc :toteutukset (map common/toteutus->list-item toteutukset))))))
 
 (defn do-index
