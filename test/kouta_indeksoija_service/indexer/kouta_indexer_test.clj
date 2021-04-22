@@ -84,7 +84,7 @@
    (testing "Indexer should index sorakuvaus to sorakuvaus index and koulutus related to sorakuvaus to koulutus index"
      (check-all-nil)
      (i/index-sorakuvaukset [sorakuvaus-id])
-     (is (= koulutus-oid (:id (get-doc koulutus/index-name koulutus-oid))))
+     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
      (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
                    (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
 
@@ -212,12 +212,12 @@
      (check-all-nil)
      (i/index-oids {:sorakuvaukset [sorakuvaus-id]})
      (is (nil? (:oid (get-doc haku/index-name haku-oid))))
-     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+     (is (nil? (:oid (get-doc hakukohde/index-name hakukohde-oid))))
      (is (nil? (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (nil? (:oid (get-doc koulutus/index-name koulutus-oid))))
-     (is (nil? (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (nil? (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
-     (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
+     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+     (is (nil? (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-all-koulutukset-test
   (fixture/with-mocked-indexing
