@@ -81,11 +81,10 @@
 
 (deftest index-sorakuvaus-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index sorakuvaus to sorakuvaus index and valintaperuste related to sorakuvaus to valintaperuste index"
+   (testing "Indexer should index sorakuvaus to sorakuvaus index and koulutus related to sorakuvaus to koulutus index"
      (check-all-nil)
      (i/index-sorakuvaukset [sorakuvaus-id])
-     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
-     (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id))))
+     (is (= koulutus-oid (:id (get-doc koulutus/index-name koulutus-oid))))
      (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
                    (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
 
