@@ -112,8 +112,8 @@
 (defn index-sorakuvaukset
   [oids]
   (let [entries          (sorakuvaus/do-index oids)
-        valintaperusteet (mapcat kouta-backend/list-valintaperusteet-by-sorakuvaus (get-oids :id entries))]
-    (index-valintaperusteet (get-oids :id valintaperusteet))
+        koulutus-oids (mapcat kouta-backend/list-koulutus-oids-by-sorakuvaus (get-oids :id entries))]
+    (index-koulutukset koulutus-oids)
     entries))
 
 (defn index-sorakuvaus
@@ -170,14 +170,14 @@
               (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
               (count (:oppilaitokset oids)) "oppilaitosta.")
     (let [ret (cond-> {}
-                      (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids)))
-                      (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids)))
-                      (contains? oids :haut) (assoc :haut (index-haut (:haut oids)))
-                      (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids)))
-                      (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids)))
-                      (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids)))
-                      (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids)))
-                      (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids))))]
+                (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids)))
+                (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids)))
+                (contains? oids :haut) (assoc :haut (index-haut (:haut oids)))
+                (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids)))
+                (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids)))
+                (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids)))
+                (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids)))
+                (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids))))]
       (log/info (str "Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))
       ret)))
 

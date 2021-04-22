@@ -225,10 +225,10 @@
   (locking KoutaFixture
     (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid))))
 
-(defn mock-list-valintaperusteet-by-sorakuvaus
+(defn mock-list-koulutus-oids-by-sorakuvaus
   [sorakuvausId]
   (locking KoutaFixture
-    (->keywordized-json (.listValintaperusteetBySorakuvaus KoutaFixture sorakuvausId))))
+    (->keywordized-json (.listKoulutusOidsBySorakuvaus KoutaFixture sorakuvausId))))
 
 (defn mock-get-oppilaitoksen-osat-by-oppilaitos
   [oppilaitosOid]
@@ -337,8 +337,8 @@
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
 
-                 kouta-indeksoija-service.rest.kouta/list-valintaperusteet-by-sorakuvaus
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-valintaperusteet-by-sorakuvaus
+                 kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutus-oids-by-sorakuvaus
 
                  kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osat
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osat-by-oppilaitos
