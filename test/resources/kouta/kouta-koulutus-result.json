@@ -1,6 +1,61 @@
 {
   "tila": "julkaistu",
   "johtaaTutkintoon": true,
+  "sorakuvausId": "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
+  "sorakuvaus": {
+    "tila": "arkistoitu",
+    "modified": "2019-02-05T09:49:23",
+    "nimi": {
+      "fi": "Sorakuvaus 0 fi",
+      "sv": "Sorakuvaus 0 sv"
+    },
+    "muokkaaja": {
+      "oid": "1.2.246.562.24.62301161440",
+      "nimi": "Kalle Ankka"
+    },
+    "id": "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
+    "kielivalinta": [
+      "fi",
+      "sv"
+    ],
+    "organisaatio": {
+      "paikkakunta": {
+        "koodiUri": "kunta_091",
+        "nimi": {
+          "fi": "kunta_091 nimi fi",
+          "sv": "kunta_091 nimi sv"
+        }
+      },
+      "nimi": {
+        "fi": "Kiva ammattikorkeakoulu",
+        "sv": "Kiva ammattikorkeakoulu sv"
+      },
+      "oid": "1.2.246.562.10.54545454545"
+    },
+    "metadata": {
+      "kuvaus": {
+        "fi": "kuvaus fi",
+        "sv": "kuvaus sv"
+      },
+      "koulutusala": {
+        "koodiUri": "kansallinenkoulutusluokitus2016koulutusalataso2_054#1",
+        "nimi": {
+          "fi": "kansallinenkoulutusluokitus2016koulutusalataso2_054#1 nimi fi",
+          "sv": "kansallinenkoulutusluokitus2016koulutusalataso2_054#1 nimi sv"
+        }
+      },
+      "koulutus": [
+        {
+          "koodiUri": "koulutus_371101#1",
+          "nimi": {
+            "fi": "koulutus_371101#1 nimi fi",
+            "sv": "koulutus_371101#1 nimi sv"
+          }
+        }
+      ]
+    },
+    "koulutustyyppi": "amm"
+  },
   "tarjoajat": [
     {
       "paikkakunta": {
