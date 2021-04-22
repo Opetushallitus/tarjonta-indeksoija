@@ -110,8 +110,8 @@
   (index-valintaperusteet [oid]))
 
 (defn index-sorakuvaukset
-  [oids]
-  (let [entries          (sorakuvaus/do-index oids)
+  [ids]
+  (let [entries          (sorakuvaus/do-index ids)
         koulutus-oids (mapcat kouta-backend/list-koulutus-oids-by-sorakuvaus (get-oids :id entries))]
     (index-koulutukset koulutus-oids)
     entries))
