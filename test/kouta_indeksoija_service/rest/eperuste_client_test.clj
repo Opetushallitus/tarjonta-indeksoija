@@ -5,7 +5,7 @@
 
 (defn mock-get-one [url opts]
   {:status 200
-   :body {:data [{:id 0 :oid "0"}],
+   :body {:data [{:id 0 :oid "0" :koulutustyyppi "koulutustyyppi_1"}],
           :sivuja 1,
           :kokonaismäärä 1,
           :sivukoko 100,
@@ -23,7 +23,7 @@
   (let [sivu (:sivu (:query-params opts))
         x (* 2 sivu)]
     {:status 200
-     :body {:data (map (fn [i] {:id i}) (range x (+ x 2))),
+     :body {:data (map (fn [i] {:id i :koulutustyyppi (if (odd? i) "koulutustyyppi_1" "koulutustyyppi_3")}) (range x (+ x 2))),
             :sivuja 5,
             :kokonaismäärä 10,
             :sivukoko 2
@@ -41,7 +41,7 @@
 
     (testing "get many pages"
       (with-redefs [client/get mock-get-many]
-        (let [expected ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]]
+        (let [expected ["1" "3" "5" "7" "9"]]
           (is (= expected (find-all))))))
 
     (testing "set no muokattu param when fetching all"
