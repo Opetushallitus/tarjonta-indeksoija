@@ -32,6 +32,7 @@
   (for [ht-hakukohde (:hakukohteet ht-haku)]
     (-> (select-keys ht-hakukohde [:hakukohdeOid
                                    :nimi
+                                   :modified
                                    :tila
                                    :esikatselu
                                    :valintaperusteId
