@@ -32,6 +32,7 @@
   (for [ht-hakukohde (:hakukohteet ht-haku)]
     (-> (select-keys ht-hakukohde [:hakukohdeOid
                                    :nimi
+                                   :modified
                                    :tila
                                    :esikatselu
                                    :valintaperusteId
@@ -42,7 +43,8 @@
                                    :organisaatioOid])
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
         (common/decorate-koodi-uris)
-        (common/assoc-jarjestyspaikka))))
+        (common/assoc-jarjestyspaikka)
+        (common/assoc-organisaatio))))
 
 (defn- determine-correct-hakutiedot
   [ht-toteutus]

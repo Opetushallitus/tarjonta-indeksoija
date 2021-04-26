@@ -133,7 +133,20 @@
             }
           ],
           "hakukohdeOid": "1.2.246.562.20.00000000000000000001",
-          "organisaatioOid": "1.2.246.562.10.54545454545",
+          "organisaatio": {
+            "paikkakunta": {
+              "koodiUri": "kunta_091",
+              "nimi": {
+                "fi": "kunta_091 nimi fi",
+                "sv": "kunta_091 nimi sv"
+              }
+            },
+            "nimi": {
+              "fi": "Kiva ammattikorkeakoulu",
+              "sv": "Kiva ammattikorkeakoulu sv"
+            },
+            "oid": "1.2.246.562.10.54545454545"
+          },
           "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
           "jarjestyspaikka": {
             "paikkakunta": {
@@ -150,6 +163,7 @@
             "oid": "1.2.246.562.10.67476956288"
           },
           "tila": "arkistoitu",
+          "modified": "2019-02-05T09:49:23",
           "esikatselu": false
         }
       ]
