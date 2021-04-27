@@ -24,14 +24,11 @@
       koulutus-oid4   "1.2.246.562.13.00000000000000000096"
       toteutus-oid1   "1.2.246.562.17.00000000000000000099"
       toteutus-oid2   "1.2.246.562.17.00000000000000000098"
-      toteutus-oid3   "1.2.246.562.17.00000000000000000097"
-      toteutus-oid4   "1.2.246.562.17.00000000000000000096"
       haku-oid1       "1.2.246.562.29.00000000000000000001"
       hakukohde-oid1  "1.2.246.562.20.00000000000000000001"
       hakukohde-oid2  "1.2.246.562.20.00000000000000000002"
       valintaperuste-id1 "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
-      sorakuvaus-id1 "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"
-      ]
+      sorakuvaus-id1 "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"]
 
   (defn- test-data-fixture
     [tests]
@@ -39,6 +36,7 @@
     (fixture/add-oppilaitos-mock oppilaitos-oid1 :tila "julkaistu")
     (fixture/add-oppilaitos-mock oppilaitos-oid2 :tila "julkaistu")
 
+    ;;TODO korjaa sorakuvaus
     (fixture/add-koulutus-mock koulutus-oid1
                                :tila "julkaistu"
                                :nimi "Autoalan perustutkinto 0"
