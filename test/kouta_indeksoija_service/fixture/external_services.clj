@@ -1,4 +1,5 @@
-(ns kouta-indeksoija-service.fixture.external-services)
+(ns kouta-indeksoija-service.fixture.external-services 
+  (:require [clojure.string :as string]))
 
 (def Koulutustoimija "1.2.246.562.10.11111111111")
 (def Oppilaitos1 "1.2.246.562.10.54545454545")
@@ -27,7 +28,7 @@
   ([koodi-uri]
    (locking koodi-uri
      (if koodi-uri
-       (mock-koodisto (subs koodi-uri 0 (clojure.string/index-of koodi-uri "_")) koodi-uri)))))
+       (mock-koodisto (subs koodi-uri 0 (string/index-of koodi-uri "_")) koodi-uri)))))
 
 (defn mock-alakoodit
   [koodi-uri alakoodi-uri]

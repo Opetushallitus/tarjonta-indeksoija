@@ -91,9 +91,9 @@
   [valintaperuste-id]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.valintaperuste.hakukohteet-list valintaperuste-id)))
 
-(defn list-valintaperusteet-by-sorakuvaus
+(defn list-koulutus-oids-by-sorakuvaus
   [sorakuvaus-id]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.valintaperusteet-list sorakuvaus-id)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.koulutukset-list sorakuvaus-id)))
 
 (defn get-oppilaitoksen-osat
   [oppilaitos-oid]
