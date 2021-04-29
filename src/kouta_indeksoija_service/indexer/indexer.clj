@@ -111,9 +111,9 @@
 
 (defn index-sorakuvaukset
   [ids]
-  (let [entries          (sorakuvaus/do-index ids)
+  (let [entries       (sorakuvaus/do-index ids)
         koulutus-oids (mapcat kouta-backend/list-koulutus-oids-by-sorakuvaus (get-oids :id entries))]
-    (index-koulutukset koulutus-oids)
+    (koulutus/do-index koulutus-oids)
     entries))
 
 (defn index-sorakuvaus

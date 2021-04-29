@@ -70,20 +70,20 @@
                 :elasticsearch-health (expected-queue-health "green" true "red" false)} (body->json response))))))
 
   (testing "deep healthcheck returns 500 queue throws exception"
-    (with-redefs [kouta-indeksoija-service.queue.sqs/get-queue-attributes (fn [p & a] (throw (Exception. "moi")))
-                  kouta-indeksoija-service.elastic.admin/get-elastic-status (partial mock-cluster-health "yellow" "yellow")]
+    (with-redefs [kouta-indeksoija-service.queue.sqs/get-queue-attributes (fn [p & a] (throw (Exception. "Tämä on tarkoituksellinen testin poikkeus")))
+                  kouta-indeksoija-service.elastic.admin/get-elastic-status (partial mock-cluster-health "yellow" "yellow")
+                  clojure.tools.logging/log* (fn [logger level throwable message])]
       (let [response (app (mock/request :get "/kouta-indeksoija/api/healthcheck/deep"))]
         (is (= 500 (:status response)))
-        (is (= {:sqs-health {:error "moi"},
+        (is (= {:sqs-health {:error "Tämä on tarkoituksellinen testin poikkeus"},
                 :elasticsearch-health (expected-queue-health "yellow" true "yellow" true)} (body->json response))))))
 
   (testing "deep healthcheck returns 500 elasticsearch throws exception"
     (with-redefs [kouta-indeksoija-service.queue.sqs/get-queue-attributes (partial mock-queue-attributes 5)
-                  kouta-indeksoija-service.elastic.admin/get-elastic-status (fn [] (throw (Exception. "moi")))]
+                  kouta-indeksoija-service.elastic.admin/get-elastic-status (fn [] (throw (Exception. "Tämän on tarkoituksellinen testin poikkeus")))
+                  clojure.tools.logging/log* (fn [logger level throwable message])]
       (let [response (app (mock/request :get "/kouta-indeksoija/api/healthcheck/deep"))]
         (is (= 500 (:status response)))
         (is (= {:sqs-health (expected-sqs-health 5 true),
-                :elasticsearch-health {:error "moi"}} (body->json response))))))
-
-  )
+                :elasticsearch-health {:error "Tämän on tarkoituksellinen testin poikkeus"}} (body->json response)))))))
 

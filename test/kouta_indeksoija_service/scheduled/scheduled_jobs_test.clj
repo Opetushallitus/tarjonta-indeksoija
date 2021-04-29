@@ -127,4 +127,5 @@
           (is (= "NORMAL" (job-state jobs/notification-dlq-job-name)))
           (is (= "NORMAL" (job-state jobs/notification-job-name)))
           (is (= "NORMAL" (job-state jobs/queueing-job-name)))
-          (is (= "NORMAL" (job-state jobs/lokalisaatio-indexing-job-name))))))))
+          (is (= "NORMAL" (job-state jobs/lokalisaatio-indexing-job-name)))
+          (jobs/reset-jobs))))))
