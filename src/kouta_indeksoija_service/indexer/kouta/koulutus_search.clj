@@ -42,10 +42,6 @@
                      :metadata           {:oppilaitosTila (:tila oppilaitos)
                                           :koulutustyyppi (search-tool/koulutustyyppi-for-organisaatio oppilaitos)})))
 
-(defn get-toteutuksen-hakutieto
-  [hakutiedot t]
-  (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot)))
-
 (defn jarjestaja-hits
   [hierarkia koulutus toteutukset hakutiedot]
     (let [oppilaitos (get-oppilaitos hierarkia)]
@@ -54,7 +50,7 @@
                                                  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
                                                  (assoc t :tarjoajat))))
                                (filter #(seq (:tarjoajat %))))
-                 :let [hakutieto (get-toteutuksen-hakutieto hakutiedot toteutus)]
+                 :let [hakutieto (search-tool/get-toteutuksen-hakutieto hakutiedot toteutus)]
                  :let [toteutus-metadata (:metadata toteutus)]
                  :let [opetus (get-in toteutus [:metadata :opetus])]]
              (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))

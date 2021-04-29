@@ -314,3 +314,7 @@
      (get-koulutustyypit-from-koulutus-koodi koulutus)))
   ([koulutus]
    (deduce-koulutustyypit koulutus false)))
+
+(defn get-toteutuksen-hakutieto
+  [hakutiedot t]
+  (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot)))

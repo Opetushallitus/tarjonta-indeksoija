@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
+            [kouta-indeksoija-service.indexer.tools.hakuaika :refer [->real-hakuajat]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -39,7 +40,7 @@
 (defn koulutus-hit
   [oppilaitos koulutus]
   (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus)
-                  ;:opetuskieliUrit   (:kieletUris oppilaitos)
+                   :opetuskieliUrit    (:kieletUris oppilaitos)
                    :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
                    :tarjoajaOids       (:tarjoajat koulutus)
                    :oppilaitos         oppilaitos
@@ -59,30 +60,35 @@
                                          (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-hit
-  [oppilaitos koulutus toteutus]
-  (let [toteutus-metadata (:metadata toteutus)
+  [oppilaitos koulutus hakutiedot toteutus]
+  (let [hakutieto (search-tool/get-toteutuksen-hakutieto hakutiedot toteutus)
+        toteutus-metadata (:metadata toteutus)
         opetus (get-in toteutus [:metadata :opetus])]
-    (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
-                     :opetuskieliUrit    (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-                     :tarjoajat          (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
-                     :tarjoajaOids       (:tarjoajat toteutus)
-                     :oppilaitos         oppilaitos
-                     :koulutusalaUrit    (search-tool/koulutusala-koodi-urit koulutus)
-                     :tutkintonimikeUrit (search-tool/tutkintonimike-koodi-urit koulutus)
-                     :opetustapaUrit     (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
-                     :nimet              (vector (:nimi koulutus) (:nimi toteutus))
-                     :asiasanat          (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
-                     :ammattinimikkeet   (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
-                     :koulutusOid        (:oid koulutus)
-                     :toteutusOid        (:oid toteutus)
-                     :nimi               (:nimi toteutus)
-                     :kuva               (:teemakuva toteutus)
-                     :onkoTuleva         false
-                     :metadata           {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
-                                          :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                          :maksullisuustyyppi  (:maksullisuustyyppi opetus)
-                                          :maksunMaara         (:maksunMaara opetus)
-                                          :koulutustyyppi      (:koulutustyyppi koulutus)})))
+    (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+                     :opetuskieliUrit           (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+                     :tarjoajat                 (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
+                     :tarjoajaOids              (:tarjoajat toteutus)
+                     :oppilaitos                oppilaitos
+                     :koulutusalaUrit           (search-tool/koulutusala-koodi-urit koulutus)
+                     :tutkintonimikeUrit        (search-tool/tutkintonimike-koodi-urit koulutus)
+                     :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
+                     :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
+                     :asiasanat                 (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
+                     :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
+                     :koulutusOid               (:oid koulutus)
+                     :toteutusOid               (:oid toteutus)
+                     :nimi                      (:nimi toteutus)
+                     :hakuajat                  (->real-hakuajat hakutieto)
+                     :hakutapaUrit              (search-tool/hakutapa-koodi-urit hakutieto)
+                     :valintatapaUrit           (search-tool/valintatapa-koodi-urit hakutieto)
+                     :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimus-koodi-urit hakutieto)
+                     :kuva                      (:teemakuva toteutus)
+                     :onkoTuleva                false
+                     :metadata                  {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
+                                                 :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                                 :maksullisuustyyppi  (:maksullisuustyyppi opetus)
+                                                 :maksunMaara         (:maksunMaara opetus)
+                                                 :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn- get-kouta-oppilaitos
   [oid]
@@ -115,7 +121,8 @@
 (defn- create-koulutus-hits
   [oppilaitos hierarkia koulutus]
   (if-let [toteutukset (seq (get-tarjoaja-entries hierarkia (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true)))]
-    (vec (map #(toteutus-hit oppilaitos koulutus %) toteutukset))
+    (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus))]
+      (vec (map #(toteutus-hit oppilaitos koulutus hakutiedot %) toteutukset)))
     (vector (koulutus-hit oppilaitos koulutus))))
 
 (defn- create-oppilaitos-entry-with-hits

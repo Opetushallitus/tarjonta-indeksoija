@@ -17,7 +17,7 @@
       "sv" : [ "Autoalan perustutkinto 0 sv", "Oppilaitos sv 1.2.246.562.10.77777777799", "Toimipiste sv 1.2.246.562.10.777777777992", "tutkintonimikkeet_01 nimi sv", "tutkintonimikkeet_02 nimi sv" ],
       "en" : [ ]
     },
-    "opetuskielet" : [ ],
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2" ],
     "opetustavat" : [],
     "tarjoajat" : [ "1.2.246.562.10.777777777992" ],
     "koulutusOid" : "1.2.246.562.13.00000000000000000099",
@@ -81,10 +81,10 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "hakuajat": [],
-    "hakutavat": [],
-    "valintatavat": [],
-    "pohjakoulutusvaatimukset": [],
+    "hakuajat": [ { "alkaa": "2021-04-30T09:49", "paattyy": "2021-04-30T09:58" } ],
+    "hakutavat": [ "hakutapa_03" ],
+    "valintatavat": ["valintatapajono_av", "valintatapajono_tv"],
+    "pohjakoulutusvaatimukset": [ "pohjakoulutusvaatimuskonfo_am" ],
     "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
       "fi" : [ "Hevosalan perustutkinto 0 fi", "Hevostoteutus 1 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "Toimipiste fi 1.2.246.562.10.777777777993", "robotiikka", "robottiautomatiikka", "musiikkioppilaitokset", "hevoset", "psykologia", "automaatioinsinööri", "koneinsinööri", "muusikko", "psykologi", "hevonen", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
@@ -92,7 +92,7 @@
       "en" : [ "horses", "horse" ]
     },
     "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_3" ],
-    "opetustavat" : ["opetuspaikkakk_1"],
+    "opetustavat" : [ "opetuspaikkakk_1" ],
     "tarjoajat" : [ "1.2.246.562.10.777777777991", "1.2.246.562.10.777777777993" ],
     "koulutusOid" : "1.2.246.562.13.00000000000000000098",
     "toteutusOid" : "1.2.246.562.17.00000000000000000099",
@@ -125,10 +125,10 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "hakuajat": [],
-    "hakutavat": [],
-    "valintatavat": [],
-    "pohjakoulutusvaatimukset": [],
+    "hakuajat": [ {"alkaa": "2021-04-30T09:49", "paattyy": "2021-04-30T09:58"} ],
+    "hakutavat": [ "hakutapa_03" ],
+    "valintatavat": ["valintatapajono_av", "valintatapajono_tv"],
+    "pohjakoulutusvaatimukset": [ "pohjakoulutusvaatimuskonfo_am" ],
     "koulutustyypit" : [ "amm", "koulutustyyppi_01", "koulutustyyppi_02" ],
     "terms" : {
       "fi" : [ "Hevosalan perustutkinto 0 fi", "Hevostoteutus 2 fi", "Oppilaitos fi 1.2.246.562.10.77777777799", "Toimipiste fi 1.2.246.562.10.777777777991", "robotiikka", "robottiautomatiikka", "insinööri", "koneinsinööri", "tutkintonimikkeet_01 nimi fi", "tutkintonimikkeet_02 nimi fi" ],
@@ -179,7 +179,7 @@
       "sv" : [ "Hevosalan osaamisala sv", "Oppilaitos sv 1.2.246.562.10.77777777799" ],
       "en" : [ ]
     },
-    "opetuskielet" : [ ],
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2" ],
     "opetustavat" : [],
     "tarjoajat" : [ "1.2.246.562.10.77777777799" ],
     "koulutusOid" : "1.2.246.562.13.00000000000000000097",
@@ -229,7 +229,7 @@
       "sv" : [ "Hevosalan tutkinnon osat sv", "Oppilaitos sv 1.2.246.562.10.77777777799" ],
       "en" : [ ]
     },
-    "opetuskielet" : [ ],
+    "opetuskielet" : [ "oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2" ],
     "opetustavat" : [],
     "tarjoajat" : [ "1.2.246.562.10.77777777799" ],
     "koulutusOid" : "1.2.246.562.13.00000000000000000096",
