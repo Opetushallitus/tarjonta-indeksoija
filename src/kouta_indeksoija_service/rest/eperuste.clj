@@ -4,6 +4,7 @@
             [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
+            [clojure.string :as s]
             [kouta-indeksoija-service.util.time :as time]))
 
 (defn- get-perusteet-page [page-nr last-modified]
@@ -11,14 +12,24 @@
                        (not (nil? last-modified)) (assoc :muokattu last-modified))]
     (get->json-body (resolve-url :eperusteet-service.perusteet) params)))
 
+(defn- indexable-eperuste?
+  [eperuste]
+  (let [indexable-koulutustyypit ["koulutustyyppi_1" "koulutustyyppi_2" "koulutustyyppi_11" "koulutustyyppi_12"]
+        koulutustyyppi (:koulutustyyppi eperuste)]
+    (some #(= % koulutustyyppi) indexable-koulutustyypit)))
+
+(defn- filter-eperusteet-page
+  [page]
+  (assoc page :data (filterv indexable-eperuste? (:data page))))
+
 (defn- find
   ([last-modified]
-    (loop [page-nr 0 result []]
-      (let [data (or (get-perusteet-page page-nr last-modified) {:data [] :sivuja -1})
-            total-result (vec (conj result (map #(-> % :id str) (:data data))))]
-          (if (<= (:sivuja data) (+ 1 page-nr))
-            (flatten total-result)
-            (recur (+ 1 page-nr) total-result)))))
+   (loop [page-nr 0 result []]
+     (let [data (filter-eperusteet-page (or (get-perusteet-page page-nr last-modified) {:data [] :sivuja -1}))
+           total-result (vec (conj result (map #(-> % :id str) (:data data))))]
+       (if (<= (:sivuja data) (+ 1 page-nr))
+         (flatten total-result)
+         (recur (+ 1 page-nr) total-result)))))
   ([] (find nil)))
 
 (defn get-doc
