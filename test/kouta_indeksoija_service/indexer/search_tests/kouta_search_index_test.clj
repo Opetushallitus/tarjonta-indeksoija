@@ -25,8 +25,10 @@
       toteutus-oid1   "1.2.246.562.17.00000000000000000099"
       toteutus-oid2   "1.2.246.562.17.00000000000000000098"
       haku-oid1       "1.2.246.562.29.00000000000000000001"
+      haku-oid2       "1.2.246.562.29.00000000000000000002"
       hakukohde-oid1  "1.2.246.562.20.00000000000000000001"
       hakukohde-oid2  "1.2.246.562.20.00000000000000000002"
+      hakukohde-oid3  "1.2.246.562.20.00000000000000000003"
       valintaperuste-id1 "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
       sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"]
 
@@ -91,6 +93,13 @@
                            :muokkaaja "1.2.246.562.24.62301161440"
                            :modified "2019-02-05T09:49:23")
 
+    (fixture/add-haku-mock haku-oid2
+                           :tila "julkaistu"
+                           :nimi "Yhteishaku"
+                           :hakutapaKoodiUri "hakutapa_01#1"
+                           :muokkaaja "1.2.246.562.24.62301161440"
+                           :modified "2019-02-05T09:49:23")
+
     (fixture/add-hakukohde-mock hakukohde-oid1
                                 toteutus-oid1
                                 haku-oid1
@@ -103,6 +112,15 @@
     (fixture/add-hakukohde-mock hakukohde-oid2
                                 toteutus-oid2
                                 haku-oid1
+                                :tila "julkaistu"
+                                :valintaperuste valintaperuste-id1
+                                :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
+                                :muokkaaja "1.2.246.562.24.62301161440"
+                                :modified "2019-02-05T09:49:23")
+
+    (fixture/add-hakukohde-mock hakukohde-oid3
+                                toteutus-oid2
+                                haku-oid2
                                 :tila "julkaistu"
                                 :valintaperuste valintaperuste-id1
                                 :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"

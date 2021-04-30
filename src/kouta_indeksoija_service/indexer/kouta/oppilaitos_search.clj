@@ -79,6 +79,7 @@
                      :toteutusOid               (:oid toteutus)
                      :nimi                      (:nimi toteutus)
                      :hakuajat                  (->real-hakuajat hakutieto)
+                     :yhteishakuOidit           (search-tool/yhteishaut hakutieto)
                      :hakutapaUrit              (search-tool/hakutapa-koodi-urit hakutieto)
                      :valintatapaUrit           (search-tool/valintatapa-koodi-urit hakutieto)
                      :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimus-koodi-urit hakutieto)
