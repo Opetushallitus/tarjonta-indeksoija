@@ -47,6 +47,10 @@
   [entries]
   (set (remove nil? (mapcat tutkinnonosa-ids-on-koulutus entries))))
 
+;;Tässä ja toteutuksen indeksoinnissa pitäisi indeksoida myös hakukohteet sillä
+;;hakukohteen indeksoinnissa luetaan koulutuksen ja toteutuksen tietoja ja jos nuo muuttuu
+;;kouta-backendissä, ei muutos valu tällä hetkellä indeksoidulle hakukohteelle.
+;;Tästä tiketti KTO-1226
 (defn index-koulutukset
   [oids]
   (let [entries (koulutus/do-index oids)]
