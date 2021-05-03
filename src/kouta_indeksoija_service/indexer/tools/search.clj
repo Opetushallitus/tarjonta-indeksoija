@@ -8,7 +8,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]))
 
-(defonce koodi-uri-amm-perustutkinto-erityisopetuksena "koulutustyyppi_4")
+(defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
 
 (defn- clean-uris
   [uris]
@@ -263,13 +263,13 @@
 (defn- get-koulutustyypit-from-koulutus-koodi
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)]
-    (concat (filter #(not= % koodi-uri-amm-perustutkinto-erityisopetuksena) koulutustyyppikoodit)
+    (concat (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
             (vector (:koulutustyyppi koulutus)))))
 
 (defn deduce-koulutustyypit
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
    (if ammatillinen-perustutkinto-erityisopetuksena?
-     (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
+     (concat [amm-perustutkinto-erityisopetuksena-koulutustyyppi] (vector (:koulutustyyppi koulutus)))
      (get-koulutustyypit-from-koulutus-koodi koulutus)))
   ([koulutus]
    (deduce-koulutustyypit koulutus false)))
