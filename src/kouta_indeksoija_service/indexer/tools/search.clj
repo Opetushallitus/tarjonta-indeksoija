@@ -260,13 +260,29 @@
        (get-pohjakoulutusvaatimus-koodi-urit-from-hakutieto)
        (map-to-konfo-koodit)))
 
+(defn- tutkintotyyppi->koulutustyyppi
+  [tutkintotyyppit]
+  (case tutkintotyyppit
+    ["tutkintotyyppi_12"] ["ylempi-amk"]
+    []))
+
+(defn- get-korkeakoulutus-koulutustyyppi
+  [koulutus]
+  (let [tutkintotyyppi-koodi-urit (->> (:koulutuksetKoodiUri koulutus)
+                                       (map #(koodisto/tutkintotyypit %))
+                                       (map :koodiUri))]
+    (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit)))
+
+
 (defn- get-koulutustyypit-from-koulutus-koodi
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
         koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
         internal-koulutystyyppi (vector (:koulutustyyppi koulutus))
         result (concat koulutustyypit-without-erityisopetus internal-koulutystyyppi)]
-    result))
+    (if (korkeakoulutus? koulutus)
+      (concat result (get-korkeakoulutus-koulutustyyppi koulutus))
+      result)))
 
 (defn deduce-koulutustyypit
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
