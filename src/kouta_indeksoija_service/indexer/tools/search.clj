@@ -260,7 +260,8 @@
        (get-pohjakoulutusvaatimus-koodi-urit-from-hakutieto)
        (map-to-konfo-koodit)))
 
-(defn- get-koulutustyypit-without-koodi-uris [koulutus excludedKoulutustyyppiKoodiUri]
+(defn- get-koulutustyypit-from-koulutus-koodi
+  [koulutus excludedKoulutustyyppiKoodiUri]
   (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppi-koodi-urit koulutus))
           (vector (:koulutustyyppi koulutus))))
 
@@ -268,6 +269,6 @@
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
    (if ammatillinen-perustutkinto-erityisopetuksena?
      (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
-     (get-koulutustyypit-without-koodi-uris koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
+     (get-koulutustyypit-from-koulutus-koodi koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
   ([koulutus]
    (deduce-koulutustyypit koulutus false)))
