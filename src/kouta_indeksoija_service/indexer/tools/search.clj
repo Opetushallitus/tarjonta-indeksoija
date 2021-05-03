@@ -262,9 +262,11 @@
 
 (defn- get-koulutustyypit-from-koulutus-koodi
   [koulutus]
-  (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)]
-    (concat (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
-            (vector (:koulutustyyppi koulutus)))))
+  (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
+        koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
+        internal-koulutystyyppi (vector (:koulutustyyppi koulutus))]
+    (concat koulutustyypit-without-erityisopetus
+            internal-koulutystyyppi)))
 
 (defn deduce-koulutustyypit
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
