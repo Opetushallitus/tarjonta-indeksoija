@@ -261,14 +261,15 @@
        (map-to-konfo-koodit)))
 
 (defn- get-koulutustyypit-from-koulutus-koodi
-  [koulutus excludedKoulutustyyppiKoodiUri]
-  (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppi-koodi-urit koulutus))
-          (vector (:koulutustyyppi koulutus))))
+  [koulutus]
+  (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)]
+    (concat (filter #(not= % koodi-uri-amm-perustutkinto-erityisopetuksena) koulutustyyppikoodit)
+            (vector (:koulutustyyppi koulutus)))))
 
 (defn deduce-koulutustyypit
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
    (if ammatillinen-perustutkinto-erityisopetuksena?
      (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
-     (get-koulutustyypit-from-koulutus-koodi koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
+     (get-koulutustyypit-from-koulutus-koodi koulutus)))
   ([koulutus]
    (deduce-koulutustyypit koulutus false)))
