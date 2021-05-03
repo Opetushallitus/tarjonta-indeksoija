@@ -89,9 +89,8 @@
   [search-index oid key expected]
   (count (filter-hits-by-key search-index oid key expected)))
 
-(defn common-indexer-fixture
-  [tests]
-  (admin/initialize-indices)
+(defn- add-mock-kouta-data
+  []
   (fixture/add-koulutus-mock koulutus-oid
                              :tila "julkaistu"
                              :nimi "Autoalan perustutkinto 0"
@@ -172,7 +171,11 @@
                                       oppilaitos-oid
                                       :tila "julkaistu"
                                       :muokkaaja "1.2.246.562.24.62301161440"
-                                      :modified "2019-02-05T09:49:23")
+                                      :modified "2019-02-05T09:49:23"))
 
+(defn common-indexer-fixture
+  [tests]
+  (admin/initialize-indices)
+  (add-mock-kouta-data)
   (tests)
   (fixture/teardown))
