@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.kouta-search-index-test
+(ns kouta-indeksoija-service.indexer.search-tests.kouta-search-index-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [no-timestamp json read-json-as-string]]
             [kouta-indeksoija-service.indexer.indexer :as i]
