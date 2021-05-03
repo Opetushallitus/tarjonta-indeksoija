@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [maakunta koulutusalat-taso1 koulutusalat-taso2 koulutustyypit]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [pohjakoulutusvaatimuskonfo]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -64,7 +64,7 @@
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) tutkintonimikeUrit))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (maakunta %)) kunnat)))
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
 
         terms (fn [lng-keyword] (distinct (remove nil? (concat (map lng-keyword nimet) ;HUOM! Älä tee tästä defniä, koska se ei enää ole thread safe!
                                                                (vector (-> oppilaitos :nimi lng-keyword))
@@ -99,8 +99,8 @@
 
 (defn- get-koulutusalatasot-by-koulutus-koodi-uri
   [koulutusKoodiUri]
-  (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
-               (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
+  (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
+               (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
 
 (defn- get-koulutusalatasot-for-amm-tutkinnon-osat
   [koulutus]
@@ -124,8 +124,8 @@
 
   (if (any-ammatillinen? koulutus)
     (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)]
-      (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
-                   (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
+      (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
+                   (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
 ;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
@@ -146,7 +146,7 @@
 (defn koulutustyyppi-koodi-urit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (koulutustyypit (get-non-korkeakoulu-koodi-uri koulutus))))
+    (vec (map :koodiUri (koodisto/koulutustyypit (get-non-korkeakoulu-koodi-uri koulutus))))
     []))
 
 (defn- get-tutkinnon-osa-laajuudet
