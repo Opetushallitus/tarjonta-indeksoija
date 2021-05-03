@@ -31,3 +31,16 @@
                     :hits
                     (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
                     :koulutustyypit) ["amk" "ylempi-amk"])))))))
+
+(deftest adds-alempi-amk-koulutustyyppi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add alempi-amk koulutustyyppi when tutkintotyyppi is ammattikorkeakoulu"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit ylempi-amk-mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri fysioterapeutti-koulutus-koodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)]
+         (is (= (-> koulutus
+                    :hits
+                    (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
+                    :koulutustyypit) ["amk" "alempi-amk"])))))))
