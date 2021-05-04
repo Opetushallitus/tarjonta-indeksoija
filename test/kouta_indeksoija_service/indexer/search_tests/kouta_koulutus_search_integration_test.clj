@@ -8,22 +8,22 @@
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
-(def agrologi-koulutus-koodi "koulutus_761101#1")
-(def fysioterapeutti-koulutus-koodi "koulutus_671112#1")
+(def agrologi-koulutuskoodi "koulutus_761101#1")
+(def fysioterapeutti-koulutuskoodi "koulutus_671112#1")
 
-(defn- ylempi-amk-mock-tutkintotyyppi
+(defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
-  (case koulutus-koodi-uri
-    agrologi-koulutus-koodi {:koodiUri "tutkintotyyppi_12"
-                             :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}
-    fysioterapeutti-koulutus-koodi {:koodiUri "tutkintotyyppi_06"
-                                    :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}))
+  (cond
+    (= koulutus-koodi-uri agrologi-koulutuskoodi) {:koodiUri "tutkintotyyppi_12"
+                                                    :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}
+    (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) {:koodiUri "tutkintotyyppi_06"
+                                                           :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}))
 
 (deftest adds-ylempi-amk-koulutustyyppi
   (fixture/with-mocked-indexing
    (testing "Indexer should add ylempi-amk koulutustyyppi when tutkintotyyppi is ylempi ammattikorkeakoulu"
-     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit ylempi-amk-mock-tutkintotyyppi]
-       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri agrologi-koulutus-koodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri agrologi-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)]
@@ -35,8 +35,8 @@
 (deftest adds-alempi-amk-koulutustyyppi
   (fixture/with-mocked-indexing
    (testing "Indexer should add alempi-amk koulutustyyppi when tutkintotyyppi is ammattikorkeakoulu"
-     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit ylempi-amk-mock-tutkintotyyppi]
-       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri fysioterapeutti-koulutus-koodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri fysioterapeutti-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)]
