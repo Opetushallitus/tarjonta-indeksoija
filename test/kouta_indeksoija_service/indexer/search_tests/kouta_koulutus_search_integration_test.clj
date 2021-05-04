@@ -10,14 +10,18 @@
 
 (def agrologi-koulutuskoodi "koulutus_761101#1")
 (def fysioterapeutti-koulutuskoodi "koulutus_671112#1")
+(def elainlaaketietieen-kandi-koulutuskoodi "koulutus_672301#1")
 
 (defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
   (cond
     (= koulutus-koodi-uri agrologi-koulutuskoodi) {:koodiUri "tutkintotyyppi_12"
-                                                    :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}
+                                                   :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}
     (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) {:koodiUri "tutkintotyyppi_06"
-                                                           :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}))
+                                                          :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}
+    (= koulutus-koodi-uri elainlaaketietieen-kandi-koulutuskoodi) {:koodiUri "tutkintotyyppi_13"
+                                                                   :nimi {:fi "Alempi korkeakoulututkinto" :sv "Lägre högskoleexamen"}}
+    ))
 
 (defn- get-koulutustyypit
   [koulutus]
@@ -47,3 +51,14 @@
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["amk" "alempi-amk"])))))))
+
+(deftest adds-kandi-koulutustyyppi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add kandi koulutustyyppi when tutkintotyyppi is alempi korkeakoulututkinto"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri elainlaaketietieen-kandi-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["yo" "kandi"])))))))
