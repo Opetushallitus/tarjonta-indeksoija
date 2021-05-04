@@ -264,8 +264,8 @@
 (defn- tutkintotyyppi->koulutustyyppi
   [tutkintotyyppit]
   (case tutkintotyyppit
-    ["tutkintotyyppi_12"] ["ylempi-amk"]
-    ["tutkintotyyppi_06"] ["alempi-amk"]
+    ["tutkintotyyppi_12"] ["amk-ylempi"]
+    ["tutkintotyyppi_06"] ["amk-alempi"]
     ["tutkintotyyppi_13"] ["kandi"]
     ["tutkintotyyppi_14"] ["maisteri"]
     ["tutkintotyyppi_16"] ["tohtori"]
@@ -291,7 +291,7 @@
 ;   Esim. amm, amk, yo, lk, muu, amm-tutkinnon-osa
 ;
 ;3. Korkeakoulutuksille tallennetaan kovakoodattu string, joka päätellään koulutusKoodiUrin avulla
-;   tutkintotyyppi koodistosta. Esim tutkintotyyppi_13 = kandi tai tutkintotyyppi_12 = ylempi-amk.
+;   tutkintotyyppi koodistosta. Esim tutkintotyyppi_13 = kandi tai tutkintotyyppi_12 = amk-ylempi.
 ;   Tämän lisäksi tallennetaan koodi koulutustyyppi_3 = Korkeakoulutus
 ;
 ;4. Jos ammatilliselle toteutukselle on valittu amm-perustutkinto-erityisopetuksena kenttä, tallennetaan

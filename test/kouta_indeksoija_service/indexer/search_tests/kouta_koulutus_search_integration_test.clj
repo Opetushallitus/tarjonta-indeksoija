@@ -36,27 +36,27 @@
       (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
       :koulutustyypit))
 
-(deftest adds-ylempi-amk-koulutustyyppi
+(deftest adds-amk-ylempi-koulutustyyppi
   (fixture/with-mocked-indexing
-   (testing "Indexer should add ylempi-amk koulutustyyppi when tutkintotyyppi is ylempi ammattikorkeakoulu"
+   (testing "Indexer should add amk-ylempi koulutustyyppi when tutkintotyyppi is ylempi ammattikorkeakoulu"
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri agrologi-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["amk" "ylempi-amk" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["amk" "amk-ylempi" "koulutustyyppi_3"])))))))
 
-(deftest adds-alempi-amk-koulutustyyppi
+(deftest adds-amk-alempi-koulutustyyppi
   (fixture/with-mocked-indexing
-   (testing "Indexer should add alempi-amk koulutustyyppi when tutkintotyyppi is ammattikorkeakoulu"
+   (testing "Indexer should add amk-alempi koulutustyyppi when tutkintotyyppi is ammattikorkeakoulu"
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri fysioterapeutti-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["amk" "alempi-amk" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["amk" "amk-alempi" "koulutustyyppi_3"])))))))
 
 (deftest adds-kandi-koulutustyyppi
   (fixture/with-mocked-indexing
