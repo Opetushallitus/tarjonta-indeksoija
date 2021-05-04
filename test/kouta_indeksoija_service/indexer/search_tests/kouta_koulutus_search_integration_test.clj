@@ -19,6 +19,13 @@
     (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) {:koodiUri "tutkintotyyppi_06"
                                                            :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}))
 
+(defn- get-koulutustyypit
+  [koulutus]
+  (-> koulutus
+      :hits
+      (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
+      :koulutustyypit))
+
 (deftest adds-ylempi-amk-koulutustyyppi
   (fixture/with-mocked-indexing
    (testing "Indexer should add ylempi-amk koulutustyyppi when tutkintotyyppi is ylempi ammattikorkeakoulu"
@@ -26,11 +33,9 @@
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri agrologi-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
-       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)]
-         (is (= (-> koulutus
-                    :hits
-                    (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
-                    :koulutustyypit) ["amk" "ylempi-amk"])))))))
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["amk" "ylempi-amk"])))))))
 
 (deftest adds-alempi-amk-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -39,8 +44,6 @@
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri fysioterapeutti-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
-       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)]
-         (is (= (-> koulutus
-                    :hits
-                    (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
-                    :koulutustyypit) ["amk" "alempi-amk"])))))))
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["amk" "alempi-amk"])))))))
