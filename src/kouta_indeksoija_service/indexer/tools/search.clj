@@ -266,6 +266,7 @@
     ["tutkintotyyppi_12"] ["ylempi-amk"]
     ["tutkintotyyppi_06"] ["alempi-amk"]
     ["tutkintotyyppi_13"] ["kandi"]
+    ["tutkintotyyppi_14"] ["maisteri"]
     []))
 
 (defn- get-korkeakoulutus-koulutustyyppi
