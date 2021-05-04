@@ -265,6 +265,7 @@
   (case tutkintotyyppit
     ["tutkintotyyppi_12"] ["ylempi-amk"]
     ["tutkintotyyppi_06"] ["alempi-amk"]
+    ["tutkintotyyppi_13"] ["kandi"]
     []))
 
 (defn- get-korkeakoulutus-koulutustyyppi
