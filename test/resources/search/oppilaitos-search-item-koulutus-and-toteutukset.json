@@ -81,7 +81,7 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "hakuajat": [ { "alkaa": "2021-04-30T09:49", "paattyy": "2021-04-30T09:58" } ],
+    "hakuajat": [ {"alkaa": "!!startTime1", "paattyy": "!!endTime1"} ],
     "hakutavat": [ "hakutapa_03" ],
     "valintatavat": ["valintatapajono_av", "valintatapajono_tv"],
     "pohjakoulutusvaatimukset": [ "pohjakoulutusvaatimuskonfo_am" ],
@@ -125,7 +125,7 @@
     }
   }, {
     "sijainti" : [ "kunta_091", "maakunta_01" ],
-    "hakuajat": [ {"alkaa": "2021-04-30T09:49", "paattyy": "2021-04-30T09:58"} ],
+    "hakuajat": [ {"alkaa": "!!startTime1", "paattyy": "!!endTime1"} ],
     "hakutavat": [ "hakutapa_03" ],
     "valintatavat": ["valintatapajono_av", "valintatapajono_tv"],
     "pohjakoulutusvaatimukset": [ "pohjakoulutusvaatimuskonfo_am" ],
