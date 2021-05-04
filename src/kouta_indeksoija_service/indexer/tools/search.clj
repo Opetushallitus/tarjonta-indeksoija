@@ -278,7 +278,24 @@
                                        (map :koodiUri))]
     (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit)))
 
-
+;Konfo-ui:n koulutushaun koulutustyyppi filtteriä varten täytyy tallentaa erinäisiä hakusanoja
+;koulutus-search indeksin jarjestajan metadatan koulutustyyppi kenttään.
+;Tämä koostuu näistä paloista:
+; 1. Ammatillisille haetaan koulutusKoodiUrilla koodistopalvelusta vastaava koulutustyyppiKoodiUri
+;    esim. koulutustyyppi_1 =	Ammatillinen perustutkinto tai koulutustyyppi_12 = Erikoisammattitutkinto.
+;    Korkeakoulutuksille ei täältä haeta, koska kyseinen koodisto ei erittele korkeakoulutuksia vaan sisältää vain
+;    koodin koulutustyyppi_3 = Korkeakoulutus
+;
+;2. Kaikille tallennetaan koutan sisäinen koulutustyyppi arvo, joka on kouta-ui:lla koulutukselle valittu.
+;   Esim. amm, amk, yo, lk, muu, amm-tutkinnon-osa
+;
+;3. Korkeakoulutuksille tallennetaan kovakoodattu string, joka päätellään koulutusKoodiUrin avulla
+;   tutkintotyyppi koodistosta. Esim tutkintotyyppi_13 = kandi tai tutkintotyyppi_12 = ylempi-amk
+;
+;4. Jos ammatilliselle toteutukselle on valittu amm-perustutkinto-erityisopetuksena kenttä, tallennetaan
+;   kovakoodattu arvo koulutustyyppi_4 = Ammatillinen perustutkinto erityisopetuksena
+;
+;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_1"] tai ["yo" "maisteri"]
 (defn- get-koulutustyypit-from-koulutus-koodi
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
