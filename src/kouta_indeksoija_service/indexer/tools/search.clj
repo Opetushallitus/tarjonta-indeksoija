@@ -275,7 +275,7 @@
 (defn- get-korkeakoulutus-koulutustyyppi
   [koulutus]
   (let [tutkintotyyppi-koodi-urit (->> (:koulutuksetKoodiUri koulutus)
-                                       (map #(koodisto/tutkintotyypit %))
+                                       (mapcat #(koodisto/tutkintotyypit %))
                                        (map :koodiUri))]
     (concat (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit) [korkeakoulutus-koulutustyyppikoodi])))
 

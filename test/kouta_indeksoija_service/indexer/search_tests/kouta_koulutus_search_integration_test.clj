@@ -18,16 +18,16 @@
 (defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
   (cond
-    (= koulutus-koodi-uri agrologi-koulutuskoodi) {:koodiUri "tutkintotyyppi_12"
-                                                   :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}
-    (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) {:koodiUri "tutkintotyyppi_06"
-                                                          :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}
-    (= koulutus-koodi-uri elainlaaketietieen-kandi-koulutuskoodi) {:koodiUri "tutkintotyyppi_13"
-                                                                   :nimi {:fi "Alempi korkeakoulututkinto" :sv "Lägre högskoleexamen"}}
-    (= koulutus-koodi-uri arkkitehti-koulutuskoodi) {:koodiUri "tutkintotyyppi_14"
-                                                     :nimi {:fi "Ylempi korkeakoulututkinto" :sv "Högre högskoleexamen"}}
-    (= koulutus-koodi-uri farmasian-tohtori-koulutuskoodi) {:koodiUri "tutkintotyyppi_16"
-                                                            :nimi {:fi "Tohtorin tutkinto" :sv "Doktorsexamen"}}))
+    (= koulutus-koodi-uri agrologi-koulutuskoodi) [{:koodiUri "tutkintotyyppi_12"
+                                                   :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}]
+    (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) [{:koodiUri "tutkintotyyppi_06"
+                                                          :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}]
+    (= koulutus-koodi-uri elainlaaketietieen-kandi-koulutuskoodi) [{:koodiUri "tutkintotyyppi_13"
+                                                                   :nimi {:fi "Alempi korkeakoulututkinto" :sv "Lägre högskoleexamen"}}]
+    (= koulutus-koodi-uri arkkitehti-koulutuskoodi) [{:koodiUri "tutkintotyyppi_14"
+                                                     :nimi {:fi "Ylempi korkeakoulututkinto" :sv "Högre högskoleexamen"}}]
+    (= koulutus-koodi-uri farmasian-tohtori-koulutuskoodi) [{:koodiUri "tutkintotyyppi_16"
+                                                            :nimi {:fi "Tohtorin tutkinto" :sv "Doktorsexamen"}}]))
 
 (defn- get-koulutustyypit
   [koulutus]
