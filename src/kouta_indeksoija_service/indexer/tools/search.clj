@@ -9,6 +9,7 @@
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]))
 
 (defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
+(defonce ^:private korkeakoulutus-koulutustyyppikoodi "koulutustyyppi_3")
 
 (defn- clean-uris
   [uris]
@@ -276,7 +277,7 @@
   (let [tutkintotyyppi-koodi-urit (->> (:koulutuksetKoodiUri koulutus)
                                        (map #(koodisto/tutkintotyypit %))
                                        (map :koodiUri))]
-    (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit)))
+    (concat (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit) [korkeakoulutus-koulutustyyppikoodi])))
 
 ;Konfo-ui:n koulutushaun koulutustyyppi filtteriä varten täytyy tallentaa erinäisiä hakusanoja
 ;koulutus-search indeksin jarjestajan metadatan koulutustyyppi kenttään.
@@ -290,12 +291,13 @@
 ;   Esim. amm, amk, yo, lk, muu, amm-tutkinnon-osa
 ;
 ;3. Korkeakoulutuksille tallennetaan kovakoodattu string, joka päätellään koulutusKoodiUrin avulla
-;   tutkintotyyppi koodistosta. Esim tutkintotyyppi_13 = kandi tai tutkintotyyppi_12 = ylempi-amk
+;   tutkintotyyppi koodistosta. Esim tutkintotyyppi_13 = kandi tai tutkintotyyppi_12 = ylempi-amk.
+;   Tämän lisäksi tallennetaan koodi koulutustyyppi_3 = Korkeakoulutus
 ;
 ;4. Jos ammatilliselle toteutukselle on valittu amm-perustutkinto-erityisopetuksena kenttä, tallennetaan
 ;   kovakoodattu arvo koulutustyyppi_4 = Ammatillinen perustutkinto erityisopetuksena
 ;
-;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_1"] tai ["yo" "maisteri"]
+;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_1"] tai ["yo" "maisteri" "koulutustyyppi_3"]
 (defn- get-koulutustyypit-from-koulutus-koodi
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
