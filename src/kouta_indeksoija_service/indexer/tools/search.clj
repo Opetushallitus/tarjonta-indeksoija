@@ -268,6 +268,7 @@
     ["tutkintotyyppi_13"] ["kandi"]
     ["tutkintotyyppi_14"] ["maisteri"]
     ["tutkintotyyppi_16"] ["tohtori"]
+    ["tutkintotyyppi_13" "tutkintotyyppi_14"] ["kandi-ja-maisteri"]
     []))
 
 (defn- get-korkeakoulutus-koulutustyyppi
