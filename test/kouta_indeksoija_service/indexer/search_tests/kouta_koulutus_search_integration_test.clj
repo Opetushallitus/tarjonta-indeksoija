@@ -12,6 +12,7 @@
 (def fysioterapeutti-koulutuskoodi "koulutus_671112#1")
 (def elainlaaketietieen-kandi-koulutuskoodi "koulutus_672301#1")
 (def arkkitehti-koulutuskoodi "koulutus_754101#1")
+(def farmasian-tohtori-koulutuskoodi "koulutus_875401#1")
 
 (defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
@@ -24,6 +25,8 @@
                                                                    :nimi {:fi "Alempi korkeakoulututkinto" :sv "Lägre högskoleexamen"}}
     (= koulutus-koodi-uri arkkitehti-koulutuskoodi) {:koodiUri "tutkintotyyppi_14"
                                                      :nimi {:fi "Ylempi korkeakoulututkinto" :sv "Högre högskoleexamen"}}
+    (= koulutus-koodi-uri farmasian-tohtori-koulutuskoodi) {:koodiUri "tutkintotyyppi_16"
+                                                            :nimi {:fi "Tohtorin tutkinto" :sv "Doktorsexamen"}}
     ))
 
 (defn- get-koulutustyypit
@@ -76,3 +79,14 @@
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "maisteri"])))))))
+
+(deftest adds-tohtori-koulutustyyppi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add tohtori koulutustyyppi when tutkintotyyppi is tohtorin tutkinto"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri farmasian-tohtori-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["yo" "tohtori"])))))))
