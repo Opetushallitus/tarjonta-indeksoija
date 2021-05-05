@@ -19,6 +19,11 @@
                                  (common/complete-entry)
                                  (common/toteutus->list-item))))
 
+(defn- assoc-sora-data
+  [hakukohde sora-tiedot]
+  (let [pick-relevant-data #(select-keys % [:tila])]
+    (assoc hakukohde :sora (pick-relevant-data sora-tiedot))))
+
 (defn- luonnos?
   [haku-tai-hakukohde]
   (= "tallennettu" (:tila haku-tai-hakukohde)))
@@ -107,6 +112,7 @@
         haku           (kouta-backend/get-haku (:hakuOid hakukohde))
         toteutus       (kouta-backend/get-toteutus (:toteutusOid hakukohde))
         koulutus       (kouta-backend/get-koulutus (:koulutusOid toteutus))
+        sora-kuvaus    (kouta-backend/get-sorakuvaus (:sorakuvausId koulutus))
         valintaperusteId (:valintaperusteId hakukohde)
         valintaperuste (when-not
                          (clojure.string/blank? valintaperusteId)
@@ -115,6 +121,7 @@
                              (-> hakukohde
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
+                                 (assoc-sora-data sora-kuvaus)
                                  (assoc-toteutus toteutus)
                                  (assoc-valintaperuste valintaperuste)
                                  (assoc-hakulomake-linkki haku)))))
