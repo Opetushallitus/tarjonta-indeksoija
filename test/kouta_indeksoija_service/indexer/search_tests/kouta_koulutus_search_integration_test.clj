@@ -45,7 +45,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["amk" "amk-ylempi" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["amk" "amk-ylempi" "korkeakoulutus"])))))))
 
 (deftest adds-amk-alempi-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -56,7 +56,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["amk" "amk-alempi" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["amk" "amk-alempi" "korkeakoulutus"])))))))
 
 (deftest adds-kandi-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -67,7 +67,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "kandi" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["yo" "kandi" "korkeakoulutus"])))))))
 
 (deftest adds-maisteri-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -78,7 +78,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "maisteri" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["yo" "maisteri" "korkeakoulutus"])))))))
 
 (deftest adds-tohtori-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -89,7 +89,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "tohtori" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["yo" "tohtori" "korkeakoulutus"])))))))
 
 (deftest adds-kandi-ja-maisteri-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -100,4 +100,4 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "kandi-ja-maisteri" "koulutustyyppi_3"])))))))
+         (is (= koulutustyypit ["yo" "kandi-ja-maisteri" "korkeakoulutus"])))))))
