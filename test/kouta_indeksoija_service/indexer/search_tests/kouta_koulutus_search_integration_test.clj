@@ -11,24 +11,36 @@
 (def agrologi-koulutuskoodi "koulutus_761101#1")
 (def fysioterapeutti-koulutuskoodi "koulutus_671112#1")
 (def elainlaaketietieen-kandi-koulutuskoodi "koulutus_672301#1")
+(def liikuntakasvatuksen-kandi-koulutuskoodi "koulutus_682251#1")
 (def arkkitehti-koulutuskoodi "koulutus_754101#1")
+(def fil-maist-kemia-koulutuskoodi "koulutus_742401#1")
 (def farmasian-tohtori-koulutuskoodi "koulutus_875401#1")
+(def fil-tohtori-englannin-kieli-koulutuskoodi "koulutus_826103#1")
 (def kandi-ja-maisteri-koulutuskoodi (str "koulutus_754101#1" "," "koulutus_672301#1" ))
 (def kandi-maisteri-tohtori-koulutuskoodi (str "koulutus_754101#1" "," "koulutus_672301#1" "," "koulutus_875401#1"))
+
+(def ylempi-amk-tutkintotyyppi {:koodiUri "tutkintotyyppi_12"
+                                :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}})
+(def amk-tutkintotyyppi {:koodiUri "tutkintotyyppi_06"
+                         :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}})
+(def kandi-tutkintotyyppi {:koodiUri "tutkintotyyppi_13"
+                           :nimi {:fi "Alempi korkeakoulututkinto" :sv "Lägre högskoleexamen"}})
+(def maisteri-tutkintotyyppi {:koodiUri "tutkintotyyppi_14"
+                              :nimi {:fi "Ylempi korkeakoulututkinto" :sv "Högre högskoleexamen"}})
+(def tohtori-tutkintotyyppi {:koodiUri "tutkintotyyppi_16"
+                             :nimi {:fi "Tohtorin tutkinto" :sv "Doktorsexamen"}})
 
 (defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
   (cond
-    (= koulutus-koodi-uri agrologi-koulutuskoodi) [{:koodiUri "tutkintotyyppi_12"
-                                                   :nimi {:fi "Ylempi ammattikorkeakoulututkinto" :sv "Högre yrkeshögskoleexaman"}}]
-    (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) [{:koodiUri "tutkintotyyppi_06"
-                                                          :nimi {:fi "Ammattikorkeakoulutus" :sv "Yrkeshögskoleutbildning"}}]
-    (= koulutus-koodi-uri elainlaaketietieen-kandi-koulutuskoodi) [{:koodiUri "tutkintotyyppi_13"
-                                                                   :nimi {:fi "Alempi korkeakoulututkinto" :sv "Lägre högskoleexamen"}}]
-    (= koulutus-koodi-uri arkkitehti-koulutuskoodi) [{:koodiUri "tutkintotyyppi_14"
-                                                     :nimi {:fi "Ylempi korkeakoulututkinto" :sv "Högre högskoleexamen"}}]
-    (= koulutus-koodi-uri farmasian-tohtori-koulutuskoodi) [{:koodiUri "tutkintotyyppi_16"
-                                                            :nimi {:fi "Tohtorin tutkinto" :sv "Doktorsexamen"}}]))
+    (= koulutus-koodi-uri agrologi-koulutuskoodi) [ylempi-amk-tutkintotyyppi]
+    (= koulutus-koodi-uri fysioterapeutti-koulutuskoodi) [amk-tutkintotyyppi]
+    (= koulutus-koodi-uri elainlaaketietieen-kandi-koulutuskoodi) [kandi-tutkintotyyppi]
+    (= koulutus-koodi-uri liikuntakasvatuksen-kandi-koulutuskoodi) [kandi-tutkintotyyppi]
+    (= koulutus-koodi-uri arkkitehti-koulutuskoodi) [maisteri-tutkintotyyppi]
+    (= koulutus-koodi-uri fil-maist-kemia-koulutuskoodi) [maisteri-tutkintotyyppi]
+    (= koulutus-koodi-uri farmasian-tohtori-koulutuskoodi) [tohtori-tutkintotyyppi]
+    (= koulutus-koodi-uri fil-tohtori-englannin-kieli-koulutuskoodi) [tohtori-tutkintotyyppi]))
 
 (defn- get-koulutustyypit
   [koulutus]
@@ -113,3 +125,14 @@
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "kandi-ja-maisteri" "korkeakoulutus"])))))))
+
+(deftest adds-kandi-if-multiple-kandi-koulutuskoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add kandi koulutustyyppi even if koulutus has many kandi koulutuskoodis"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri (str elainlaaketietieen-kandi-koulutuskoodi "," liikuntakasvatuksen-kandi-koulutuskoodi) :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["yo" "kandi" "korkeakoulutus"])))))))
