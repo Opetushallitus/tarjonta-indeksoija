@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [maakunta koulutusalat-taso1 koulutusalat-taso2 koulutustyypit]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [pohjakoulutusvaatimuskonfo]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -8,7 +8,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]))
 
-(defonce koodi-uri-amm-perustutkinto-erityisopetuksena "koulutustyyppi_4")
+(defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
 
 (defn- clean-uris
   [uris]
@@ -64,7 +64,7 @@
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) tutkintonimikeUrit))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (maakunta %)) kunnat)))
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
 
         terms (fn [lng-keyword] (distinct (remove nil? (concat (map lng-keyword nimet) ;HUOM! Älä tee tästä defniä, koska se ei enää ole thread safe!
                                                                (vector (-> oppilaitos :nimi lng-keyword))
@@ -99,8 +99,8 @@
 
 (defn- get-koulutusalatasot-by-koulutus-koodi-uri
   [koulutusKoodiUri]
-  (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
-               (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
+  (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
+               (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
 
 (defn- get-koulutusalatasot-for-amm-tutkinnon-osat
   [koulutus]
@@ -124,8 +124,8 @@
 
   (if (any-ammatillinen? koulutus)
     (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)]
-      (vec (concat (map :koodiUri (koulutusalat-taso1 koulutusKoodiUri))
-                   (map :koodiUri (koulutusalat-taso2 koulutusKoodiUri)))))
+      (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
+                   (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
 ;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
@@ -146,7 +146,7 @@
 (defn koulutustyyppi-koodi-urit
   [koulutus]
   (if (ammatillinen? koulutus)
-    (vec (map :koodiUri (koulutustyypit (get-non-korkeakoulu-koodi-uri koulutus))))
+    (vec (map :koodiUri (koodisto/koulutustyypit (get-non-korkeakoulu-koodi-uri koulutus))))
     []))
 
 (defn- get-tutkinnon-osa-laajuudet
@@ -260,14 +260,57 @@
        (get-pohjakoulutusvaatimus-koodi-urit-from-hakutieto)
        (map-to-konfo-koodit)))
 
-(defn- get-koulutustyypit-without-koodi-uris [koulutus excludedKoulutustyyppiKoodiUri]
-  (concat (filter #(not= % excludedKoulutustyyppiKoodiUri) (koulutustyyppi-koodi-urit koulutus))
-          (vector (:koulutustyyppi koulutus))))
+(defn- tutkintotyyppi->koulutustyyppi
+  [tutkintotyyppit]
+  (cond
+    (= tutkintotyyppit ["tutkintotyyppi_06"]) ["amk-alempi"]
+    (= tutkintotyyppit ["tutkintotyyppi_12"]) ["amk-ylempi"]
+    (= tutkintotyyppit ["tutkintotyyppi_13"]) ["kandi"]
+    (= tutkintotyyppit ["tutkintotyyppi_14"]) ["maisteri"]
+    (= tutkintotyyppit ["tutkintotyyppi_16"]) ["tohtori"]
+    (clojure.set/subset? (set ["tutkintotyyppi_13" "tutkintotyyppi_14"]) (set tutkintotyyppit)) ["kandi-ja-maisteri"]
+    :else []))
+
+(defn- get-korkeakoulutus-koulutustyyppi
+  [koulutus]
+  (let [tutkintotyyppi-koodi-urit (->> (:koulutuksetKoodiUri koulutus)
+                                       (mapcat #(koodisto/tutkintotyypit %))
+                                       (map :koodiUri))]
+    (concat (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit) ["korkeakoulutus"])))
+
+;Konfo-ui:n koulutushaun koulutustyyppi filtteriä varten täytyy tallentaa erinäisiä hakusanoja
+;koulutus-search indeksin jarjestajan metadatan koulutustyyppi kenttään.
+;Tämä koostuu näistä paloista:
+; 1. Ammatillisille haetaan koulutusKoodiUrilla koodistopalvelusta vastaava koulutustyyppiKoodiUri
+;    esim. koulutustyyppi_1 =	Ammatillinen perustutkinto tai koulutustyyppi_12 = Erikoisammattitutkinto.
+;    Korkeakoulutuksille ei täältä haeta, koska kyseinen koodisto ei erittele korkeakoulutuksia vaan sisältää vain
+;    koodin koulutustyyppi_3 = Korkeakoulutus
+;
+;2. Kaikille tallennetaan koutan sisäinen koulutustyyppi arvo, joka on kouta-ui:lla koulutukselle valittu.
+;   Esim. amm, amk, yo, lk, muu, amm-tutkinnon-osa
+;
+;3. Korkeakoulutuksille tallennetaan kovakoodattu string, joka päätellään koulutusKoodiUrin avulla
+;   tutkintotyyppi koodistosta. Esim tutkintotyyppi_13 = kandi tai tutkintotyyppi_12 = amk-ylempi.
+;   Tämän lisäksi tallennetaan string korkeakoulutus
+;
+;4. Jos ammatilliselle toteutukselle on valittu amm-perustutkinto-erityisopetuksena kenttä, tallennetaan
+;   kovakoodattu arvo koulutustyyppi_4 = Ammatillinen perustutkinto erityisopetuksena
+;
+;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_1"] tai ["yo" "maisteri" "korkeakoulutus"]
+(defn- get-koulutustyypit-from-koulutus-koodi
+  [koulutus]
+  (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
+        koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
+        internal-koulutystyyppi (vector (:koulutustyyppi koulutus))
+        result (concat koulutustyypit-without-erityisopetus internal-koulutystyyppi)]
+    (if (korkeakoulutus? koulutus)
+      (concat result (get-korkeakoulutus-koulutustyyppi koulutus))
+      result)))
 
 (defn deduce-koulutustyypit
   ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
    (if ammatillinen-perustutkinto-erityisopetuksena?
-     (concat [koodi-uri-amm-perustutkinto-erityisopetuksena] (vector (:koulutustyyppi koulutus)))
-     (get-koulutustyypit-without-koodi-uris koulutus koodi-uri-amm-perustutkinto-erityisopetuksena)))
+     (concat [amm-perustutkinto-erityisopetuksena-koulutustyyppi] (vector (:koulutustyyppi koulutus)))
+     (get-koulutustyypit-from-koulutus-koodi koulutus)))
   ([koulutus]
    (deduce-koulutustyypit koulutus false)))

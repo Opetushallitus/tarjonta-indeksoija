@@ -1,8 +1,8 @@
-(ns kouta-indeksoija-service.indexer.kouta-search-index-test
+(ns kouta-indeksoija-service.indexer.search-tests.kouta-search-index-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [no-timestamp json read-json-as-string]]
             [kouta-indeksoija-service.indexer.indexer :as i]
-            [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus]
+            [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
@@ -155,45 +155,45 @@
 
   (deftest index-koulutus-search-items-test-1
     (fixture/with-mocked-indexing
-      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2]
-        (testing "Create correct search item when koulutus has no toteutukset"
-          (is (nil? (get-doc koulutus/index-name koulutus-oid1)))
-          (i/index-koulutus koulutus-oid1)
-          (i/index-oppilaitos oppilaitos-oid2)
-          (compare-json (no-timestamp (json json-path "koulutus-search-item-no-toteutukset"))
-                        (no-timestamp (get-doc koulutus/index-name koulutus-oid1)))))))
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2]
+       (testing "Create correct search item when koulutus has no toteutukset"
+         (is (nil? (get-doc koulutus-search/index-name koulutus-oid1)))
+         (i/index-koulutus koulutus-oid1)
+         (i/index-oppilaitos oppilaitos-oid2)
+         (compare-json (no-timestamp (json json-path "koulutus-search-item-no-toteutukset"))
+                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid1)))))))
 
   (deftest index-koulutus-search-items-test-2
     (fixture/with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2]
        (testing "Create correct search item when koulutus has toteutukset"
-         (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
+         (is (nil? (get-doc koulutus-search/index-name koulutus-oid2)))
          (i/index-koulutus koulutus-oid2)
          (i/index-oppilaitos oppilaitos-oid2)
          (compare-json (no-timestamp (json json-path "koulutus-search-item-toteutukset"))
-                       (no-timestamp (get-doc koulutus/index-name koulutus-oid2)))))))
+                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid2)))))))
 
   (deftest index-koulutus-search-items-test-3
     (fixture/with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2]
        (testing "Create correct search item when amm-osaamisala"
-         (is (nil? (get-doc koulutus/index-name koulutus-oid3)))
+         (is (nil? (get-doc koulutus-search/index-name koulutus-oid3)))
          (i/index-koulutus koulutus-oid3)
          (i/index-oppilaitos oppilaitos-oid2)
          ;(debug-pretty (get-doc koulutus/index-name koulutus-oid3))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-osaamisala"))
-                       (no-timestamp (get-doc koulutus/index-name koulutus-oid3)))))))
+                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid3)))))))
 
   (deftest index-koulutus-search-items-test-4
     (fixture/with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock-for-toimipiste2
                    kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
        (testing "Create correct search item when amm-tutkinnon-osa"
-         (is (nil? (get-doc koulutus/index-name koulutus-oid4)))
+         (is (nil? (get-doc koulutus-search/index-name koulutus-oid4)))
          (i/index-koulutus koulutus-oid4)
          (i/index-oppilaitos oppilaitos-oid2)
          ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
          (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
-                       (no-timestamp (get-doc koulutus/index-name koulutus-oid4))))))))
+                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4))))))))
 
 

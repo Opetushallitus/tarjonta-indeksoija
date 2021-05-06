@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.kouta-koulutus-search-test
+(ns kouta-indeksoija-service.indexer.search-tests.kouta-koulutus-search-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [json]]
