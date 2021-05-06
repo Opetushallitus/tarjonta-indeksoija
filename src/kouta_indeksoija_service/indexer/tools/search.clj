@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus?]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? julkaistu?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [pohjakoulutusvaatimuskonfo]]
@@ -314,3 +314,22 @@
      (get-koulutustyypit-from-koulutus-koodi koulutus)))
   ([koulutus]
    (deduce-koulutustyypit koulutus false)))
+
+(defn- get-toteutuksen-hakutieto
+  [hakutiedot t]
+  (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot)))
+
+(defn- filter-hakutiedon-haut-julkaistu-and-not-empty-hakukohteet
+  [hakutiedon-haut]
+  (->> hakutiedon-haut
+       (map (fn [haku] (assoc haku
+                              :hakukohteet
+                              (filter julkaistu? (:hakukohteet haku)))))
+       (filter #(seq (:hakukohteet %)))))
+
+(defn get-toteutuksen-julkaistut-hakutiedot
+  [hakutiedot t]
+  (let [toteutuksen-hakutiedot (get-toteutuksen-hakutieto hakutiedot t)]
+    (assoc toteutuksen-hakutiedot
+           :haut
+           (filter-hakutiedon-haut-julkaistu-and-not-empty-hakukohteet (:haut toteutuksen-hakutiedot)))))

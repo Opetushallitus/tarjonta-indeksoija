@@ -80,8 +80,9 @@
   [oids]
   (let [entries           (haku/do-index oids)
         hakukohde-entries (hakukohde/do-index (get-oids :oid (mapcat :hakukohteet entries)))
-        toteutus-entries  (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
-        _                 (koulutus-search/do-index (get-oids :koulutusOid toteutus-entries))]
+        toteutus-entries  (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))]
+    (koulutus-search/do-index (get-oids :koulutusOid toteutus-entries))
+    (oppilaitos-search/do-index (get-oids :oid (map :jarjestyspaikka hakukohde-entries)))
     entries))
 
 (defn index-haku
@@ -92,10 +93,10 @@
   [oids]
   (let [hakukohde-entries (hakukohde/do-index oids)
         haku-oids         (get-oids :hakuOid hakukohde-entries)
-        koulutukset       (mapcat kouta-backend/list-koulutukset-by-haku haku-oids)]
+        toteutus-entries  (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))]
     (haku/do-index haku-oids)
-    (toteutus/do-index (get-oids :toteutusOid hakukohde-entries))
-    (koulutus-search/do-index (get-oids :oid koulutukset))
+    (koulutus-search/do-index (get-oids :koulutusOid toteutus-entries))
+    (oppilaitos-search/do-index (get-oids :oid (map :jarjestyspaikka hakukohde-entries)))
     hakukohde-entries))
 
 (defn index-hakukohde
