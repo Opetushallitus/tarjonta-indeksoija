@@ -106,10 +106,9 @@
     (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
           hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))
           hits (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
-                 (do
-                   (if (tuleva-jarjestaja? hierarkia toteutukset)
-                    {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
-                    {:hits (jarjestaja-hits hierarkia koulutus toteutukset hakutiedot)})))]
+                 (if (tuleva-jarjestaja? hierarkia toteutukset)
+                   {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
+                   {:hits (jarjestaja-hits hierarkia koulutus toteutukset hakutiedot)}))]
       (->> hits
            (apply merge-with concat)
            (merge koulutus)))
