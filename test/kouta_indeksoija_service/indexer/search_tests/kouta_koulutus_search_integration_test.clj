@@ -14,6 +14,7 @@
 (def arkkitehti-koulutuskoodi "koulutus_754101#1")
 (def farmasian-tohtori-koulutuskoodi "koulutus_875401#1")
 (def kandi-ja-maisteri-koulutuskoodi (str "koulutus_754101#1" "," "koulutus_672301#1" ))
+(def kandi-maisteri-tohtori-koulutuskoodi (str "koulutus_754101#1" "," "koulutus_672301#1" "," "koulutus_875401#1"))
 
 (defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
@@ -96,6 +97,17 @@
    (testing "Indexer should add kandi-ja-maisteri koulutustyyppi when tutkintotyyppi is alempi korkeakoulututkinto + ylempi korkeakoulututkinto"
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri kandi-ja-maisteri-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["yo" "kandi-ja-maisteri" "korkeakoulutus"])))))))
+
+(deftest adds-kandi-ja-maisteri-if-tukintotyypit-contains-those
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add kandi-ja-maisteri koulutustyyppi if list of tutkintotyypit contains kandi + maisteri"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri kandi-maisteri-tohtori-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)

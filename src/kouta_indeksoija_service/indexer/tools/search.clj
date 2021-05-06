@@ -268,7 +268,7 @@
     (= tutkintotyyppit ["tutkintotyyppi_13"]) ["kandi"]
     (= tutkintotyyppit ["tutkintotyyppi_14"]) ["maisteri"]
     (= tutkintotyyppit ["tutkintotyyppi_16"]) ["tohtori"]
-    (= (set tutkintotyyppit) (set ["tutkintotyyppi_13" "tutkintotyyppi_14"])) ["kandi-ja-maisteri"]
+    (clojure.set/subset? (set ["tutkintotyyppi_13" "tutkintotyyppi_14"]) (set tutkintotyyppit)) ["kandi-ja-maisteri"]
     :else []))
 
 (defn- get-korkeakoulutus-koulutustyyppi
