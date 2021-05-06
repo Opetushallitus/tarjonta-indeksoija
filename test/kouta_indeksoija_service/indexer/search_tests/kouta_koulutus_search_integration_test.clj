@@ -136,3 +136,25 @@
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "kandi" "korkeakoulutus"])))))))
+
+(deftest adds-maisteri-if-multiple-maisteri-koulutuskoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add maisteri koulutustyyppi even if koulutus has many maisteri koulutuskoodis"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri (str arkkitehti-koulutuskoodi "," fil-maist-kemia-koulutuskoodi) :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["yo" "maisteri" "korkeakoulutus"])))))))
+
+(deftest adds-tohtori-if-multiple-tohtori-koulutuskoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should add tohtori koulutustyyppi even if koulutus has many tohtori koulutuskoodis"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
+       (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri (str farmasian-tohtori-koulutuskoodi "," fil-tohtori-englannin-kieli-koulutuskoodi) :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+       (check-all-nil)
+       (koulutus-search/do-index [koulutus-oid])
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutustyypit (get-koulutustyypit koulutus)]
+         (is (= koulutustyypit ["yo" "tohtori" "korkeakoulutus"])))))))
