@@ -262,14 +262,14 @@
 
 (defn- tutkintotyyppi->koulutustyyppi
   [tutkintotyyppit]
-  (case tutkintotyyppit
-    ["tutkintotyyppi_12"] ["amk-ylempi"]
-    ["tutkintotyyppi_06"] ["amk-alempi"]
-    ["tutkintotyyppi_13"] ["kandi"]
-    ["tutkintotyyppi_14"] ["maisteri"]
-    ["tutkintotyyppi_16"] ["tohtori"]
-    ["tutkintotyyppi_13" "tutkintotyyppi_14"] ["kandi-ja-maisteri"]
-    []))
+  (cond
+    (= tutkintotyyppit ["tutkintotyyppi_06"]) ["amk-alempi"]
+    (= tutkintotyyppit ["tutkintotyyppi_12"]) ["amk-ylempi"]
+    (= tutkintotyyppit ["tutkintotyyppi_13"]) ["kandi"]
+    (= tutkintotyyppit ["tutkintotyyppi_14"]) ["maisteri"]
+    (= tutkintotyyppit ["tutkintotyyppi_16"]) ["tohtori"]
+    (= (set tutkintotyyppit) (set ["tutkintotyyppi_13" "tutkintotyyppi_14"])) ["kandi-ja-maisteri"]
+    :else []))
 
 (defn- get-korkeakoulutus-koulutustyyppi
   [koulutus]

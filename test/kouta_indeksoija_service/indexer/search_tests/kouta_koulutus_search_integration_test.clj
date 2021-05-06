@@ -13,7 +13,7 @@
 (def elainlaaketietieen-kandi-koulutuskoodi "koulutus_672301#1")
 (def arkkitehti-koulutuskoodi "koulutus_754101#1")
 (def farmasian-tohtori-koulutuskoodi "koulutus_875401#1")
-(def kandi-ja-maisteri-koulutuskoodi (str "koulutus_672301#1" "," "koulutus_754101#1"))
+(def kandi-ja-maisteri-koulutuskoodi (str "koulutus_754101#1" "," "koulutus_672301#1" ))
 
 (defn- mock-tutkintotyyppi
   [koulutus-koodi-uri]
