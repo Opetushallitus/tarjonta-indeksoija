@@ -50,7 +50,7 @@
                                                  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
                                                  (assoc t :tarjoajat))))
                                (filter #(seq (:tarjoajat %))))
-                 :let [hakutieto (search-tool/get-toteutuksen-hakutieto hakutiedot toteutus)]
+                 :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
                  :let [toteutus-metadata (:metadata toteutus)]
                  :let [opetus (get-in toteutus [:metadata :opetus])]]
              (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
