@@ -265,9 +265,9 @@
   (cond
     (= tutkintotyyppit ["tutkintotyyppi_06"]) ["amk-alempi"]
     (= tutkintotyyppit ["tutkintotyyppi_12"]) ["amk-ylempi"]
-    (= tutkintotyyppit ["tutkintotyyppi_13"]) ["kandi"]
-    (= tutkintotyyppit ["tutkintotyyppi_14"]) ["maisteri"]
-    (= tutkintotyyppit ["tutkintotyyppi_16"]) ["tohtori"]
+    (= (set tutkintotyyppit) (set ["tutkintotyyppi_13"])) ["kandi"]
+    (= (set tutkintotyyppit) (set ["tutkintotyyppi_14"])) ["maisteri"]
+    (= (set tutkintotyyppit) (set ["tutkintotyyppi_16"])) ["tohtori"]
     (clojure.set/subset? (set ["tutkintotyyppi_13" "tutkintotyyppi_14"]) (set tutkintotyyppit)) ["kandi-ja-maisteri"]
     :else []))
 
