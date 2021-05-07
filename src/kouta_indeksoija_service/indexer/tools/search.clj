@@ -24,6 +24,7 @@
              nimet
              hakuajat
              hakutapaUrit
+             yhteishakuOidit
              valintatapaUrit
              pohjakoulutusvaatimusUrit
              asiasanat
@@ -47,6 +48,7 @@
            nimet []
            hakuajat []
            hakutapaUrit []
+           yhteishakuOidit []
            valintatapaUrit []
            pohjakoulutusvaatimusUrit []
            asiasanat []
@@ -79,6 +81,7 @@
              :sijainti (clean-uris (concat kunnat maakunnat))
              :hakuajat hakuajat
              :hakutavat (clean-uris hakutapaUrit)
+             :yhteishaut yhteishakuOidit
              :valintatavat (clean-uris valintatapaUrit)
              :pohjakoulutusvaatimukset (clean-uris pohjakoulutusvaatimusUrit)
              :koulutusalat (clean-uris koulutusalaUrit)
@@ -216,6 +219,15 @@
   (->distinct-vec (->> hakutieto
                        :haut
                        (map :hakutapaKoodiUri))))
+
+(defonce koodi-uri-yhteishaku "hakutapa_01")
+
+(defn yhteishaut
+  [hakutieto]
+  (->distinct-vec (->> hakutieto
+                       :haut
+                       (filter #(= koodi-uri-yhteishaku (remove-uri-version (:hakutapaKoodiUri %))))
+                       (map :hakuOid))))
 
 (defn valintatapa-koodi-urit
   [hakutieto]
