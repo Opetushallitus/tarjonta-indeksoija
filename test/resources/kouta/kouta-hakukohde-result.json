@@ -451,5 +451,6 @@
   },
   "sora": {
     "tila": "arkistoitu"
-  }
+  },
+  "koulutustyypit": ["koulutustyyppi_01", "koulutustyyppi_02"]
 }
