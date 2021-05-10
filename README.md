@@ -107,9 +107,9 @@ Jos tulee tarve poistaa data, komennolla `docker volume --help` saa apua volumei
 ---
 #### Localstack SQS-jonot
 Indeksoija vaatii lokaalin SQS-palvelun porttiin 4567. Sen voi käynnistää docker-konttiin ajamalla skriptin 
-`tools\start_localstack` ja pysäyttää skriptillä `tools\stop_localstack`. 
+`tools/start_localstack` ja pysäyttää skriptillä `tools/stop_localstack`. 
 
-`tools\send_local` skriptiä voi käyttää viestien lähetykseen lokaaleihin jonoihin, jos jostain syystä
+`tools/send_local` skriptiä voi käyttää viestien lähetykseen lokaaleihin jonoihin, jos jostain syystä
 sellainen tarve tulee.
 
 ---
