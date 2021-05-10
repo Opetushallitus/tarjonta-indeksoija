@@ -159,6 +159,12 @@ Asennus hoituu samoilla työkaluilla kuin muidenkin OPH:n palvelujen.
 Asennuksen yhteydessä tapahtuvaan mahdolliseen uudelleenindeksointiin löytyy ohjeet 
 täältä: [Katkoton indeksointi](README_INDEKSOINTI.md)
 
+Jos tekemäsi muutos koodiin muuttaa indeksoijan tallentaman, palvelusta ulos välitettävän datan muotoa, päivitä 
+project.clj tiedostoon kouta-indeksoijan versionumeroa semanttisen versioinnin mukaisesti. 
+Eli jos teet taaksepäinyhteensopivan muutoksen, esimerkiksi lisäät indeksiin uuden kentän, nosta minor versiota 
+(6.2.0 -> 6.3.0). Jos taas teet muutoksen joka ei ole taaksepäinyhteensopiva, esimerkiksi poistat indeksistä kentän, 
+nosta major versiota (6.2.0 -> 7.0.0).
+
 ### 4.3. Lokit
 
 Indeksoijan lokit löytyvät AWS:n cloudwatchista log groupista <testiympäristön nimi>-app-kouta-indeksoija (esim. hahtuva-app-kouta-indeksoija). Lisäohjeita näihin ylläpidolta.
