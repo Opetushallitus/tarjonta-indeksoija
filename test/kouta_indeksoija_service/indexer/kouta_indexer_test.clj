@@ -302,7 +302,7 @@
      (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
 
 (deftest index-haku-test
-  (fixture/add-koulutus-mock koulutus-oid2 :tarjoajat oppilaitos-oid2)
+  (fixture/add-koulutus-mock koulutus-oid2 :sorakuvausId sorakuvaus-id :tarjoajat oppilaitos-oid2)
   (fixture/add-toteutus-mock toteutus-oid2 koulutus-oid2 :tarjoajat oppilaitos-oid2)
   (fixture/add-hakukohde-mock hakukohde-oid toteutus-oid haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid mocks/Oppilaitos1)
   (fixture/add-hakukohde-mock hakukohde-oid2 toteutus-oid2 haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid oppilaitos-oid2)
