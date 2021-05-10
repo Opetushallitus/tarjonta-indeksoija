@@ -3,7 +3,7 @@
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
 (defproject kouta-indeksoija-service "7.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "Kouta-indeksoija"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
                               :password :env/artifactory_password
