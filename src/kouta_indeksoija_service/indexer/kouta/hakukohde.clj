@@ -2,9 +2,11 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :as general]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]))
 
 (def index-name "hakukohde-kouta")
+(defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -106,6 +108,22 @@
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
     (conj hakukohde (common/create-hakulomake-linkki link-holder (:oid haku)))))
 
+(defn- conj-er-koulutus [toteutus koulutustyypit]
+  (if (and
+       (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
+       (not (.contains koulutustyypit erityisopetus-koulutustyyppi)))
+    (conj koulutustyypit erityisopetus-koulutustyyppi)
+    koulutustyypit))
+
+(defn- assoc-koulutustyypit
+  [hakukohde toteutus koulutus]
+  (->> koulutus
+       :koulutuksetKoodiUri
+       (mapcat koodisto/koulutustyypit)
+       (map :koodiUri)
+       (conj-er-koulutus toteutus)
+       (assoc hakukohde :koulutustyypit)))
+
 (defn create-index-entry
   [oid]
   (let [hakukohde      (kouta-backend/get-hakukohde oid)
@@ -122,6 +140,7 @@
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)
+                                 (assoc-koulutustyypit toteutus koulutus)
                                  (assoc-toteutus toteutus)
                                  (assoc-valintaperuste valintaperuste)
                                  (assoc-hakulomake-linkki haku)))))
