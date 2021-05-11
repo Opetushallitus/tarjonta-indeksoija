@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]))
 
 (def index-name "hakukohde-kouta")
-(defonce koulutustyyppi-4 "koulutustyyppi_4")
+(defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -111,8 +111,8 @@
 (defn- conj-er-koulutus [toteutus koulutustyypit]
   (if (and
        (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-       (not (.contains koulutustyypit koulutustyyppi-4)))
-    (conj koulutustyypit koulutustyyppi-4)
+       (not (.contains koulutustyypit erityisopetus-koulutustyyppi)))
+    (conj koulutustyypit erityisopetus-koulutustyyppi)
     koulutustyypit))
 
 (defn- assoc-koulutustyypit

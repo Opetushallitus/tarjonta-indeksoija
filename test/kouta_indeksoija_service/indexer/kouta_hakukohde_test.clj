@@ -140,11 +140,3 @@
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
-(deftest index-hakukohde-koulutustyypit-test
-  (fixture/with-mocked-indexing
-   (testing "Indexer should index hakukohde with koulutustyypit"
-     (let [expected-koulutustyypit ["koulutustyyppi_01" "koulutustyyppi_02"]]
-       (check-all-nil)
-       (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu")
-       (i/index-hakukohteet [hakukohde-oid])
-       (is (= expected-koulutustyypit (:koulutustyypit (get-doc hakukohde/index-name hakukohde-oid))))))))
