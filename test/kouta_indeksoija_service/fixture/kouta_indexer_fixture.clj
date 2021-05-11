@@ -60,6 +60,13 @@
    {:tyyppi "amm-osaamisala"
     :osaamisalaKoodiUri "osaamisala_1111#1"}))
 
+(defonce lukio-koulutus-metadata
+         (generate-string
+          {:tyyppi               "lk"
+           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
+           :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
+           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (merge default-koulutus-map {:organisaatio Oppilaitos1} params)]

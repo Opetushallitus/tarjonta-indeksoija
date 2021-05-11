@@ -148,6 +148,26 @@
           (is (= (count koulutusalat) 1))
           (is (-> koulutusalat first :nimi :fi) "Maa- ja metsätalousalat"))))))
 
+(deftest index-lukio-koulutus
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index lukio specific metadata"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
+       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "lk" :metadata fixture/lukio-koulutus-metadata)
+       (check-all-nil)
+       (i/index-koulutukset [koulutus-oid])
+       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+             tutkintonimike (get-in koulutus [:metadata :tutkintonimike :nimi :fi])
+             opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
+             opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+             koulutusala (-> koulutus
+                              (get-in [:metadata :koulutusala])
+                              (first)
+                              (get-in [:nimi :fi]))]
+         (is (= tutkintonimike "tutkintonimikkeet_00001#1 nimi fi"))
+         (is (= opintojen-laajuus "opintojenlaajuus_40#1 nimi fi"))
+         (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1 nimi fi"))
+         (is (= koulutusala "kansallinenkoulutusluokitus2016koulutusalataso1_001#1 nimi fi")))))))
+
 (deftest korkeakoulutus-opintojenlaajuusyksikko
   (fixture/with-mocked-indexing
     (testing "Indexer should set fixed opintojenLaajuusyksikko value for amk"
