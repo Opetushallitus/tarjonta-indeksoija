@@ -45,6 +45,7 @@
    {:tyyppi               "amk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
     :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 

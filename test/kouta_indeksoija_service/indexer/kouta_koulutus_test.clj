@@ -168,11 +168,15 @@
          (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1 nimi fi"))
          (is (= koulutusala "kansallinenkoulutusluokitus2016koulutusalataso1_001#1 nimi fi")))))))
 
-(deftest korkeakoulutus-opintojenlaajuusyksikko
+(deftest index-amk-koulutus
   (fixture/with-mocked-indexing
-    (testing "Indexer should set fixed opintojenLaajuusyksikko value for amk"
+    (testing "Indexer should index korkeakoulu specific metadata"
       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid])
-      (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
-        (is (= (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri]) "opintojenlaajuusyksikko_2#1"))))))
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+            tutkintonimikkeet (get-in koulutus [:metadata :tutkintonimike])]
+        (is (= (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri]) "opintojenlaajuusyksikko_2#1"))
+        (is (= (count tutkintonimikkeet) 2))
+        (is (-> tutkintonimikkeet first :nimi :fi) "tutkintonimikekk_033#1 nimi fi")
+        (is (-> tutkintonimikkeet last :nimi :fi) "tutkintonimikekk_031#1 nimi fi")))))
