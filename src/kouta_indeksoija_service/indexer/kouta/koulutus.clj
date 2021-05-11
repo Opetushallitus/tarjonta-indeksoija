@@ -90,10 +90,15 @@
       (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))
       (assoc-in [:metadata :tutkintonimike] (get-koodi-nimi-with-cache ylioppilas-tutkintonimikekoodi))))
 
+(defn- does-not-have-tutkintonimike?
+  [koulutus]
+  (nil? (get-in koulutus [:metadata :tutkintonimike])))
+
 (defn- enrich-common-metadata
   [koulutus]
   (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))]
-    (cond-> (assoc-in koulutus [:metadata :tutkintonimike] [])
+    (cond-> koulutus
+            (does-not-have-tutkintonimike? koulutus) (assoc-in [:metadata :tutkintonimike] [])
             (some? eperuste) (#(-> %
                                    (assoc-in [:metadata :eperuste :id]                (:id eperuste))
                                    (assoc-in [:metadata :eperuste :diaarinumero]      (:diaarinumero eperuste))
