@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
@@ -72,15 +72,33 @@
         (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala))
         (assoc-in [:metadata :koulutusala] (koulutusalat-taso1 koulutusKoodi)))))
 
+(defonce ^:private opintopiste-laajuusyksikkokoodi "opintojenlaajuusyksikko_2#1")
+(defonce ^:private ylioppilas-tutkintonimikekoodi "tutkintonimikkeet_00001#1")
+
+(defn- get-opintopiste-laajuusyksikko
+  []
+  (get-koodi-nimi-with-cache opintopiste-laajuusyksikkokoodi))
+
 (defn- enrich-korkeakoulutus-metadata
   [koulutus]
   (-> koulutus
-      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache "opintojenlaajuusyksikko_2#1"))))
+      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))))
+
+(defn- enrich-lukio-metadata
+  [koulutus]
+  (-> koulutus
+      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))
+      (assoc-in [:metadata :tutkintonimike] (get-koodi-nimi-with-cache ylioppilas-tutkintonimikekoodi))))
+
+(defn- does-not-have-tutkintonimike?
+  [koulutus]
+  (nil? (get-in koulutus [:metadata :tutkintonimike])))
 
 (defn- enrich-common-metadata
   [koulutus]
   (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))]
-    (cond-> (assoc-in koulutus [:metadata :tutkintonimike] [])
+    (cond-> koulutus
+            (does-not-have-tutkintonimike? koulutus) (assoc-in [:metadata :tutkintonimike] [])
             (some? eperuste) (#(-> %
                                    (assoc-in [:metadata :eperuste :id]                (:id eperuste))
                                    (assoc-in [:metadata :eperuste :diaarinumero]      (:diaarinumero eperuste))
@@ -95,6 +113,7 @@
     (amm-tutkinnon-osa? koulutus) (enrich-tutkinnon-osa-metadata koulutus)
     (amm-osaamisala? koulutus)    (enrich-osaamisala-metadata koulutus)
     (korkeakoulutus? koulutus)    (enrich-korkeakoulutus-metadata koulutus)
+    (lukio? koulutus)             (enrich-lukio-metadata koulutus)
     :default koulutus))
 
 (defn- enrich-metadata

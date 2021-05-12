@@ -46,13 +46,15 @@
     }
   },
   "koulutustyyppi": "amm",
-  "koulutukset": [{
-    "koodiUri": "koulutus_361104#1",
-    "nimi": {
-      "fi": "koulutus_361104#1 nimi fi",
-      "sv": "koulutus_361104#1 nimi sv"
+  "koulutukset": [
+    {
+      "koodiUri": "koulutus_361104#1",
+      "nimi": {
+        "fi": "koulutus_361104#1 nimi fi",
+        "sv": "koulutus_361104#1 nimi sv"
+      }
     }
-  }],
+  ],
   "hits": [
     {
       "koulutustyypit": [
@@ -208,9 +210,12 @@
         }
       ],
       "hakutavat": [
-        "hakutapa_01", "hakutapa_03"
+        "hakutapa_01",
+        "hakutapa_03"
       ],
-      "yhteishaut": [ "1.2.246.562.29.00000000000000000002" ],
+      "yhteishaut": [
+        "1.2.246.562.29.00000000000000000002"
+      ],
       "valintatavat": [
         "valintatapajono_av",
         "valintatapajono_tv"

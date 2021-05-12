@@ -45,6 +45,7 @@
    {:tyyppi               "amk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
     :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 
@@ -59,6 +60,13 @@
   (generate-string
    {:tyyppi "amm-osaamisala"
     :osaamisalaKoodiUri "osaamisala_1111#1"}))
+
+(defonce lukio-koulutus-metadata
+         (generate-string
+          {:tyyppi               "lk"
+           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
+           :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
+           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defn add-koulutus-mock
   [oid & {:as params}]

@@ -24,6 +24,10 @@
   (or (= "yo" (:koulutustyyppi koulutus))
       (= "amk" (:koulutustyyppi koulutus))))
 
+(defn lukio?
+  [koulutus]
+  (= "lk" (:koulutustyyppi koulutus)))
+
 (defn any-ammatillinen?
   [koulutus]
   (or (ammatillinen? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus)))
