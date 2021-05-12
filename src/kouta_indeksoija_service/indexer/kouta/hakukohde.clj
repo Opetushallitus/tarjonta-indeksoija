@@ -23,8 +23,11 @@
 
 (defn- assoc-sora-data
   [hakukohde sora-tiedot]
-  (let [pick-relevant-data #(select-keys % [:tila])]
-    (assoc hakukohde :sora (pick-relevant-data sora-tiedot))))
+    (assoc
+      hakukohde
+      :sora
+      (when sora-tiedot
+        (select-keys sora-tiedot [:tila]))))
 
 (defn- luonnos?
   [haku-tai-hakukohde]
