@@ -58,7 +58,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["amk" "amk-ylempi" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["amk" "amk-ylempi"])))))))
 
 (deftest adds-amk-alempi-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -69,7 +69,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["amk" "amk-alempi" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["amk" "amk-alempi"])))))))
 
 (deftest adds-kandi-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -80,7 +80,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "kandi" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "kandi"])))))))
 
 (deftest adds-maisteri-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -91,7 +91,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "maisteri" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "maisteri"])))))))
 
 (deftest adds-tohtori-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -102,7 +102,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "tohtori" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "tohtori"])))))))
 
 (deftest adds-kandi-ja-maisteri-koulutustyyppi
   (fixture/with-mocked-indexing
@@ -113,7 +113,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "kandi-ja-maisteri" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "kandi-ja-maisteri"])))))))
 
 (deftest adds-kandi-ja-maisteri-if-tukintotyypit-contains-those
   (fixture/with-mocked-indexing
@@ -124,7 +124,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "kandi-ja-maisteri" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "kandi-ja-maisteri"])))))))
 
 (deftest adds-kandi-if-multiple-kandi-koulutuskoodi
   (fixture/with-mocked-indexing
@@ -135,7 +135,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "kandi" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "kandi"])))))))
 
 (deftest adds-maisteri-if-multiple-maisteri-koulutuskoodi
   (fixture/with-mocked-indexing
@@ -146,7 +146,7 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "maisteri" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "maisteri"])))))))
 
 (deftest adds-tohtori-if-multiple-tohtori-koulutuskoodi
   (fixture/with-mocked-indexing
@@ -157,4 +157,4 @@
        (koulutus-search/do-index [koulutus-oid])
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
-         (is (= koulutustyypit ["yo" "tohtori" "korkeakoulutus"])))))))
+         (is (= koulutustyypit ["yo" "tohtori"])))))))
