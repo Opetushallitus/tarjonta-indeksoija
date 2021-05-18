@@ -52,9 +52,20 @@
 (def get-all-organisaatiot-with-cache
   (memoize/memo get-all-organisaatiot))
 
-(defn get-hierarkia-v4
+(defn get-hierarkia-for-oid-from-cache
+  ;; With parents
   [oid]
   (some-> (get-all-organisaatiot-with-cache) (o/find-hierarkia oid)))
+
+(defn get-hierarkia-v4
+  [oid]
+  (let [url (resolve-url :organisaatio-service.v4.hierarkia.hae-by-oid oid)]
+    (log/info "Fetching organisaatiohierarkia from organisaatio service " url)
+    (get->json-body url)))
+
+(defn get-hierarkia-for-oid-without-parents
+  [oid]
+  (first (:organisaatiot (get-hierarkia-v4 oid))))
 
 (defn find-last-changes
   [last-modified]
