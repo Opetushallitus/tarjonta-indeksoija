@@ -22,32 +22,6 @@
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
-(deftest index-toteutus-test
-  (fixture/with-mocked-indexing
-   (testing "Indexer should index toteutus to toteutus index and update related indexes"
-     (check-all-nil)
-     (i/index-toteutukset [toteutus-oid])
-     (compare-json (no-timestamp (json "kouta-toteutus-result"))
-                   (no-timestamp (get-doc toteutus/index-name toteutus-oid)))
-     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid)))))))
-
-(deftest index-arkistoitu-toteutus-test
-  (fixture/with-mocked-indexing
-   (testing "Indexer should index delete toteutus from search indexes when it's arkistoitu"
-     (check-all-nil)
-     (fixture/update-toteutus-mock toteutus-oid :tila "julkaistu")
-     (i/index-toteutukset [toteutus-oid])
-     (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-     (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
-     (fixture/update-toteutus-mock toteutus-oid :tila "arkistoitu")
-     (i/index-toteutukset [toteutus-oid])
-     (is (= "arkistoitu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-     (is (= 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-     (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid))))))
-
 (deftest index-haku-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index haku to haku index and update related indexes"
