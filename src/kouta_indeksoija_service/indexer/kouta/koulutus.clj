@@ -88,7 +88,7 @@
   [koulutus]
   (-> koulutus
       (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))
-      (assoc-in [:metadata :tutkintonimike] (get-koodi-nimi-with-cache ylioppilas-tutkintonimikekoodi))))
+      (assoc-in [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache ylioppilas-tutkintonimikekoodi)))))
 
 (defn- does-not-have-tutkintonimike?
   [koulutus]

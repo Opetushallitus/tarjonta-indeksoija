@@ -156,7 +156,10 @@
        (check-all-nil)
        (i/index-koulutukset [koulutus-oid])
        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-             tutkintonimike (get-in koulutus [:metadata :tutkintonimike :nimi :fi])
+             tutkintonimike (-> koulutus
+                                (get-in [:metadata :tutkintonimike])
+                                (first)
+                                (get-in [:nimi :fi]))
              opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
              opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
              koulutusala (-> koulutus
