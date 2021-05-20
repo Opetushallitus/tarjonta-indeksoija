@@ -25,6 +25,39 @@
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
        (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid)))))))
 
+(defonce lukio-toteutus-metadata
+         (cheshire.core/generate-string
+          {:tyyppi               "lk"
+           :painotukset [{:koodiUri "lukiopainotukset_1#1" :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}]
+           :erityisetKoulutustehtavat [{:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1" :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]}))
+
+(deftest index-lukio-toteutus-test
+    (fixture/with-mocked-indexing
+     (testing "Indexer should index lukio toteutus to toteutus index"
+         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata lukio-toteutus-metadata)
+         (check-all-nil)
+         (i/index-toteutukset [toteutus-oid])
+         (is (= (:metadata (no-timestamp (get-doc toteutus/index-name toteutus-oid)))
+                {:tyyppi "lk",
+                 :kuvaus {},
+                 :asiasanat [],
+                 :ammattinimikkeet [],
+                 :yhteyshenkilot [],
+                 :painotukset
+                 [{:koodi
+                   {:koodiUri "lukiopainotukset_1#1",
+                    :nimi
+                    {:fi "lukiopainotukset_1#1 nimi fi",
+                     :sv "lukiopainotukset_1#1 nimi sv"}},
+                   :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}],
+                 :erityisetKoulutustehtavat
+                 [{:koodi
+                   {:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1",
+                    :nimi
+                    {:fi "lukiolinjaterityinenkoulutustehtava_1#1 nimi fi",
+                     :sv "lukiolinjaterityinenkoulutustehtava_1#1 nimi sv"}},
+                   :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]})))))
+
 (deftest index-arkistoitu-toteutus-test
    (fixture/with-mocked-indexing
     (testing "Indexer should index delete toteutus from search indexes when it's arkistoitu"
