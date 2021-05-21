@@ -22,9 +22,21 @@
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
+(defn mock-organisaatio-hierarkia
+  [oid & {:as params}]
+  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json")))
+
+(defn mock-organisaatio-hierarkia-v4
+  [oid]
+  (println (str "OID: " oid))
+  (condp = oid
+    "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+    {:organisaatiot [{:oid oid :status "AKTIIVINEN"}]}))
+
 (deftest index-haku-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index haku to haku index and update related indexes"
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should index haku to haku index and update related indexes"
      (check-all-nil)
      (i/index-haut [haku-oid])
      (compare-json (no-timestamp (json "kouta-haku-result"))
@@ -32,18 +44,19 @@
      (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
-     (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
+     (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))))))
 
 (deftest index-haku-hakulomakelinkki-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should create hakulomakeLinkki from haku oid"
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should create hakulomakeLinkki from haku oid"
      (check-all-nil)
      (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
      (i/index-haut [haku-oid])
      (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
                    {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
-                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
+                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")})))))
 
 (deftest index-valintaperuste-test
   (fixture/with-mocked-indexing
@@ -61,15 +74,6 @@
      (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
      (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
                    (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
-
-(defn mock-organisaatio-hierarkia
-  [oid & {:as params}]
-  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json")))
-
-(defn mock-organisaatio-hierarkia-v4
-  [oid & {:as params}]
-  (condp = oid
-    "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))))
 
 (defn- add-toteutus-for-oppilaitos []
   (fixture/add-koulutus-mock "1.2.246.562.13.00000000000000000002"
