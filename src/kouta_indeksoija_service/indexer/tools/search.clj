@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? julkaistu?]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [pohjakoulutusvaatimuskonfo]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
@@ -186,8 +185,9 @@
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
-    (korkeakoulutus? koulutus) "opintojenlaajuusyksikko_2#1" ;opintopistettä
-    :default nil))
+    (korkeakoulutus? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
+    (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
+    :else nil))
 
 (defn tutkinnon-osat
   [koulutus]
@@ -220,22 +220,20 @@
                        :haut
                        (map :hakutapaKoodiUri))))
 
-(defonce koodi-uri-yhteishaku "hakutapa_01")
-
 (defn yhteishaut
   [hakutieto]
   (->distinct-vec (->> hakutieto
                        :haut
-                       (filter #(= koodi-uri-yhteishaku (remove-uri-version (:hakutapaKoodiUri %))))
+                       (filter #(= koodisto/koodiuri-yhteishaku-hakutapa (remove-uri-version (:hakutapaKoodiUri %))))
                        (map :hakuOid))))
 
 (defn valintatapa-koodi-urit
   [hakutieto]
   (->distinct-vec
-    (flatten
-       (->> hakutieto
-            :haut
-            (map #(->> % :hakukohteet (map :valintatapaKoodiUrit)))))))
+   (flatten
+    (->> hakutieto
+         :haut
+         (map #(->> % :hakukohteet (map :valintatapaKoodiUrit)))))))
 
 (defn- has-alakoodi
   [koodi alakoodit]
@@ -247,7 +245,7 @@
   (filter #(->> %
                 (:alakoodit)
                 (has-alakoodi koodiUri))
-          (pohjakoulutusvaatimuskonfo)))
+          (koodisto/pohjakoulutusvaatimuskonfo)))
 
 (defn- map-to-konfo-koodit
   [koutaKoodiUrit]

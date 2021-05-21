@@ -1,11 +1,9 @@
 (ns kouta-indeksoija-service.indexer.koodisto.koodisto
   (:require [kouta-indeksoija-service.rest.koodisto :as koodisto-service]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "koodisto")
-
-(defonce koodiUriKoulutusalataso1 "kansallinenkoulutusluokitus2016koulutusalataso1")
-(defonce koodiUriKoulutusalataso2 "kansallinenkoulutusluokitus2016koulutusalataso2")
 
 (defn ->koodi-entry
   [koodi]
@@ -23,7 +21,7 @@
 (defn create-koodi-entry
   [koodisto koodi]
   (cond-> (->koodi-entry koodi)
-    (= koodiUriKoulutusalataso1 koodisto) (assoc-alakoodi-entries koodiUriKoulutusalataso2)))
+    (= koodisto/koodiuri-koulutusalataso1 koodisto) (assoc-alakoodi-entries koodisto/koodiuri-koulutusalataso2)))
 
 (defn create-index-entry
   [koodisto]
