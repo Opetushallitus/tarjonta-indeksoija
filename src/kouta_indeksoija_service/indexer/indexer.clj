@@ -136,11 +136,14 @@
 
 (defn index-oppilaitokset
   [oids]
-  (let [get-organisaation-koulutukset (fn [oid] (map :oid (some-> oid
+  (let [get-organisaation-koulutukset (fn [oid] (let [result (map :oid (some-> oid
                                                                   (hierarkia/get-hierarkia)
                                                                   (organisaatio-tool/find-oppilaitos-from-hierarkia)
                                                                   (:oid)
-                                                                  (kouta-backend/get-koulutukset-by-tarjoaja))))]
+                                                                  (kouta-backend/get-koulutukset-by-tarjoaja)))]
+                                                  (println (str "ORG: " oid " | KOULUTUKSET: " (pr-str result)))
+                                                  result))]
+    (println (str "get-organisaation-koulutukset: " get-organisaation-koulutukset))
     (let [entries (oppilaitos/do-index oids)]
       (oppilaitos-search/do-index oids)
       (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids))

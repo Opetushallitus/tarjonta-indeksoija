@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
+            [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
@@ -298,6 +299,18 @@
   [hakutieto]
   ["pohjakoulutusvaatimuskonfo_am"])
 
+(defn children
+  [oids]
+  (map #(hash-map :oid % :status "AKTIIVINEN") oids))
+
+(defn mock-organisaatio-hierarkia-v4
+  [oid]
+  (println (str "OID: " oid))
+  (condp = oid
+    "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+    "1.2.246.562.10.77777777799" {:organisaatiot [{:oid oid :status "AKTIIVINEN" :chidren (children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]}
+    {:organisaatiot [{:oid oid :status "AKTIIVINEN"}]}))
+
 (defmacro with-mocked-indexing
   [& body]
   ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
@@ -378,7 +391,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
 
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit]
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
+
+                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
+                 mock-organisaatio-hierarkia-v4]
      (do ~@body)))
 
 (defn index-oppilaitokset

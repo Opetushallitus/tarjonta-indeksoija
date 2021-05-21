@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos-search
   (:require [clojure.string :as string]
+            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
@@ -90,6 +91,7 @@
 
 (defn- get-kouta-oppilaitos
   [oid]
+  (println (str "get-kouta-oppilaitos OID: " oid))
   (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
     (when (julkaistu? oppilaitos)
       {:kielivalinta (:kielivalinta oppilaitos)
@@ -98,6 +100,7 @@
 
 (defn- create-base-entry
   [oppilaitos koulutukset]
+  (println (str "create-base-entry OPPILAITOS: " oppilaitos))
   (-> oppilaitos
       (select-keys [:oid :nimi])
       (merge (get-kouta-oppilaitos (:oid oppilaitos)))
@@ -137,10 +140,11 @@
 (defn create-index-entry
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
-    (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (if (organisaatio-tool/indexable? oppilaitos)
+    (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
+      (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)]
+        (if (organisaatio-tool/indexable? oppilaitos)
         (indexable/->index-entry (:oid oppilaitos) (create-oppilaitos-entry-with-hits oppilaitos hierarkia))
-        (indexable/->delete-entry (:oid oppilaitos))))))
+        (indexable/->delete-entry (:oid oppilaitos)))))))
 
 (defn do-index
   [oids]
