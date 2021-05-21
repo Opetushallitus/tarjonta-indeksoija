@@ -29,6 +29,7 @@
   [hierarkia koulutus]
   (let [oppilaitos (get-oppilaitos hierarkia)
         tarjoajat  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))]
+    (println (str "TARJOAJAT: " tarjoajat))
     (search-tool/hit :koulutustyypit     (search-tool/deduce-koulutustyypit koulutus)
                      :tarjoajat          tarjoajat
                      :oppilaitos         oppilaitos
@@ -53,7 +54,9 @@
                  :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
                  :let [toteutus-metadata (:metadata toteutus)]
                  :let [opetus (get-in toteutus [:metadata :opetus])]]
-             (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+             (do
+               (println (str "TARJOAJAT2: " (:tarjoajat toteutus)))
+               (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
                               :opetuskieliUrit           (:opetuskieliKoodiUrit opetus)
                               :tarjoajat                 (:tarjoajat toteutus)
                               :oppilaitos                oppilaitos
@@ -79,7 +82,7 @@
                                                           :maksullisuustyyppi         (:maksullisuustyyppi opetus)
                                                           :maksunMaara                (:maksunMaara opetus)
                                                           :koulutustyyppi             (search-tool/koulutustyyppi-for-organisaatio oppilaitos)
-                                                          :oppilaitosTila             (:tila oppilaitos)})))))
+                                                          :oppilaitosTila             (:tila oppilaitos)}))))))
 
 (defn tuleva-jarjestaja?
   [hierarkia toteutukset]
@@ -141,6 +144,7 @@
 
 (defn do-index
   [oids]
+  (println (str "KOULUTUKSET: " (pr-str oids)))
   (indexable/do-index index-name oids create-index-entry))
 
 (defn get-from-index

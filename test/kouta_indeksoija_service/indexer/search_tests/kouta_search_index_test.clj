@@ -173,11 +173,11 @@
 
   (deftest index-oppilaitos-search-items-test-2
     (fixture/with-mocked-indexing
-     (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
        (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
          (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
          (i/index-oppilaitos oppilaitos-oid2)
+         (println (str "KOULUTUS-FROM-INDEX: " (get-doc koulutus-search/index-name "1.2.246.562.13.00000000000000000099")))
          (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
                        (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2)))))))
 
