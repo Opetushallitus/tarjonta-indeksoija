@@ -140,10 +140,10 @@
 
 (defn tutkintonimike-koodi-urit
   [koulutus]
-  (if (ammatillinen? koulutus)
-    (when-let [eperuste (get-eperuste koulutus)]
-      (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
-    (get-in koulutus [:metadata :tutkintonimikeKoodiUrit] [])))
+  (cond (ammatillinen? koulutus) (when-let [eperuste (get-eperuste koulutus)]
+                                   (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
+        (lukio? koulutus) (vector koodisto/koodiuri-ylioppilas-tutkintonimike)
+        :else (get-in koulutus [:metadata :tutkintonimikeKoodiUrit] [])))
 
 (defn koulutustyyppi-koodi-urit
   [koulutus]
