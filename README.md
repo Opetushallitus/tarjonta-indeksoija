@@ -29,13 +29,16 @@ Indeksoijan käyttämät tietolähteet:
 ### 3.1. Esivaatimukset
 
 Asenna haluamallasi tavalla koneellesi
-1. [Clojure](https://clojure.org/guides/getting_started)
+1. [Leiningen](https://leiningen.org/) (Valitse asennus haluammallasi package managerilla)
 2. [Docker](https://www.docker.com/get-started) (Elasticsearchia ja localstackia varten)
 3. [AWS cli](https://aws.amazon.com/cli/) (SQS-jonoja varten)
-4. [Leiningen](https://leiningen.org/) (Valitse asennus haluammallasi package managerilla)
+4. [IntelliJ IDEA](https://www.jetbrains.com/idea/) + [Cursive plugin](https://cursive-ide.com/) tai haluamasi kehitystökalu
 
 Lisäksi tarvitset Java SDK:n (Unix pohjaisissa käyttöjärjestelmissä auttaa esim. [SDKMAN!](https://sdkman.io/)). 
 Katso [.travis.yml](.travis.yml) mitä versioita sovellus käyttää. Kirjoitushetkellä käytössä openJDK11.
+
+Jos käytät IDEA:aa ja koodissa näkyy paljon virheitä, right clickaa project.clj-tiedostoa ja 
+valitse 'Add as Leiningen Project' 
 
 Indeksoijan saa konfiguroitua luomalla tiedoston `dev_resources/config.edn` (laitettu .gitignoreen) ja asettamalla sinne
 tarvittavat arvot. Tiedostosta `dev_resources/config.edn.template` näkee mitä arvoja sovellus tarvitsee toimiakseen.
