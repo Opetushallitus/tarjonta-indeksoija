@@ -2,14 +2,15 @@
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture check-all-nil no-timestamp json koulutus-oid toteutus-oid count-hits-by-key]]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture check-all-nil no-timestamp json koulutus-oid toteutus-oid hakukohde-oid count-hits-by-key]]
             [kouta-indeksoija-service.test-tools :refer [compare-json]]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
-            [kouta-indeksoija-service.fixture.external-services :as mocks]))
+            [kouta-indeksoija-service.fixture.external-services :as mocks]
+            [cheshire.core :refer [generate-string]]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -34,29 +35,38 @@
 (deftest index-lukio-toteutus-test
     (fixture/with-mocked-indexing
      (testing "Indexer should index lukio toteutus to toteutus index"
+         (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
          (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata lukio-toteutus-metadata)
+         (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu" :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}}))
          (check-all-nil)
          (i/index-toteutukset [toteutus-oid])
-         (is (= (:metadata (no-timestamp (get-doc toteutus/index-name toteutus-oid)))
-                {:tyyppi "lk",
-                 :kuvaus {},
-                 :asiasanat [],
-                 :ammattinimikkeet [],
-                 :yhteyshenkilot [],
-                 :painotukset
-                 [{:koodi
-                   {:koodiUri "lukiopainotukset_1#1",
-                    :nimi
-                    {:fi "lukiopainotukset_1#1 nimi fi",
-                     :sv "lukiopainotukset_1#1 nimi sv"}},
-                   :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}],
-                 :erityisetKoulutustehtavat
-                 [{:koodi
-                   {:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1",
-                    :nimi
-                    {:fi "lukiolinjaterityinenkoulutustehtava_1#1 nimi fi",
-                     :sv "lukiolinjaterityinenkoulutustehtava_1#1 nimi sv"}},
-                   :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]})))))
+         (let [toteutus (no-timestamp (get-doc toteutus/index-name toteutus-oid))
+               metadata (:metadata toteutus)
+               lukioHakukohde (-> :hakutiedot toteutus
+                                  (first)
+                                  :hakukohteet
+                                  (first))]
+           (is (= (:hakukohteenLinja lukioHakukohde) {:alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}))
+           (is (= metadata
+                  {:tyyppi "lk",
+                   :kuvaus {},
+                   :asiasanat [],
+                   :ammattinimikkeet [],
+                   :yhteyshenkilot [],
+                   :painotukset
+                   [{:koodi
+                     {:koodiUri "lukiopainotukset_1#1",
+                      :nimi
+                      {:fi "lukiopainotukset_1#1 nimi fi",
+                       :sv "lukiopainotukset_1#1 nimi sv"}},
+                     :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}],
+                   :erityisetKoulutustehtavat
+                   [{:koodi
+                     {:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1",
+                      :nimi
+                      {:fi "lukiolinjaterityinenkoulutustehtava_1#1 nimi fi",
+                       :sv "lukiolinjaterityinenkoulutustehtava_1#1 nimi sv"}},
+                     :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]}))))))
 
 (deftest index-arkistoitu-toteutus-test
    (fixture/with-mocked-indexing

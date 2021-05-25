@@ -40,6 +40,13 @@
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
     :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
+(defonce lk-koulutus-metadata
+         (generate-string
+          {:tyyppi               "lk"
+           :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                                  "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+           :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+
 (defonce amk-koulutus-metadata
   (generate-string
    {:tyyppi               "amk"
