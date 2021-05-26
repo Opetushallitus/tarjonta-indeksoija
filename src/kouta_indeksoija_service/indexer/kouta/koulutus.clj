@@ -7,7 +7,7 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
 (def index-name "koulutus-kouta")
@@ -72,12 +72,11 @@
         (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala))
         (assoc-in [:metadata :koulutusala] (koulutusalat-taso1 koulutusKoodi)))))
 
-(defonce ^:private opintopiste-laajuusyksikkokoodi "opintojenlaajuusyksikko_2#1")
-(defonce ^:private ylioppilas-tutkintonimikekoodi "tutkintonimikkeet_00001#1")
+
 
 (defn- get-opintopiste-laajuusyksikko
   []
-  (get-koodi-nimi-with-cache opintopiste-laajuusyksikkokoodi))
+  (get-koodi-nimi-with-cache koodiuri-opintopiste-laajuusyksikko))
 
 (defn- enrich-korkeakoulutus-metadata
   [koulutus]
@@ -88,7 +87,7 @@
   [koulutus]
   (-> koulutus
       (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))
-      (assoc-in [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache ylioppilas-tutkintonimikekoodi)))))
+      (assoc-in [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache koodiuri-ylioppilas-tutkintonimike)))))
 
 (defn- does-not-have-tutkintonimike?
   [koulutus]
