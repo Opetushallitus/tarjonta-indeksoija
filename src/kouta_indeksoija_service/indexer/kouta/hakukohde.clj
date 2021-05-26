@@ -127,6 +127,11 @@
        (conj-er-koulutus toteutus)
        (assoc hakukohde :koulutustyypit)))
 
+(defn- assoc-onko-harkinnanvarainen-koulutus
+       [hakukohde {:keys [koulutuksetKoodiUri] :as koulutus}]
+       (let [ei-harkinnanvaraisuutta-alakoodi (koodisto/ei-harkinnanvaraisuutta (first koulutuksetKoodiUri))]
+            (assoc hakukohde :onkoHarkinnanvarainenKoulutus (nil? ei-harkinnanvaraisuutta-alakoodi))))
+
 (defn create-index-entry
   [oid]
   (let [hakukohde      (kouta-backend/get-hakukohde oid)
@@ -143,6 +148,7 @@
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)
+                                 (assoc-onko-harkinnanvarainen-koulutus koulutus)
                                  (assoc-koulutustyypit toteutus koulutus)
                                  (assoc-toteutus toteutus)
                                  (assoc-valintaperuste valintaperuste)
