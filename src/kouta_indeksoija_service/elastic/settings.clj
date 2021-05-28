@@ -53,6 +53,7 @@
                                                     "swedish_stemmer_for_long_words"]}
                          :english {:tokenizer "standard"
                                    :filter ["english_possessive_stemmer"
+                                            "ngram_compound_words_and_conjugations"
                                             "lowercase"
                                             "english_stop"
                                             "english_keywords"
@@ -167,6 +168,12 @@
                              :mapping {:type "text"
                                        :analyzer "swedish"
                                        :search_analyzer "swedish_keyword"
+                                       :norms { :enabled false}
+                                       :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:en {:match "en"
+                             :match_mapping_type "string"
+                             :mapping {:type "text"
+                                       :analyzer "english"
                                        :norms { :enabled false}
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:tila {:match "tila"
