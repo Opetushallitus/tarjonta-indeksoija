@@ -131,7 +131,7 @@
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
 ;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
-(defn- get-eperuste
+(defn- get-ammatillinen-eperuste
   [koulutus]
   (let [eperuste-id (:ePerusteId koulutus)]
     (if eperuste-id
@@ -140,7 +140,7 @@
 
 (defn tutkintonimike-koodi-urit
   [koulutus]
-  (cond (ammatillinen? koulutus) (when-let [eperuste (get-eperuste koulutus)]
+  (cond (ammatillinen? koulutus) (when-let [eperuste (get-ammatillinen-eperuste koulutus)]
                                    (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
         (lukio? koulutus) (vector koodisto/koodiuri-ylioppilas-tutkintonimike)
         :else (get-in koulutus [:metadata :tutkintonimikeKoodiUrit] [])))
@@ -169,22 +169,22 @@
 (defn opintojen-laajuus-koodi-uri
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuus :koodiUri]))
-    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
+    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuus :koodiUri]))
+    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
     :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
 (defn opintojen-laajuus-numero
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) :opintojenLaajuusNumero)
-    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
+    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
+    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
     :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo)))
 
 (defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
-    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
+    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
+    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (korkeakoulutus? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     :else nil))
@@ -205,7 +205,7 @@
 
 (defn osaamisala-koodi-uri
   [koulutus]
-  (some-> (get-eperuste koulutus)
+  (some-> (get-ammatillinen-eperuste koulutus)
           (get-osaamisala koulutus)
           (:koodiUri)))
 
