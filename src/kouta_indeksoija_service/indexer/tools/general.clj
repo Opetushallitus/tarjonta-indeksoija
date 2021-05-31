@@ -32,6 +32,12 @@
   [koulutus]
   (or (ammatillinen? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus)))
 
+(defn get-non-korkeakoulu-koodi-uri
+  [koulutus]
+  (-> koulutus
+      (:koulutuksetKoodiUri)
+      (first))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
+
 (defn asiasana->lng-value-map
   [asiasanat]
   (map (fn [a] {(keyword (:kieli a)) (:arvo a)}) asiasanat))

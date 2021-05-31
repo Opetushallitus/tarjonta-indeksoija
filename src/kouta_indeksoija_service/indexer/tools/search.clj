@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu?]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -110,12 +110,6 @@
                                     (map #(some-> % :koulutusKoodiUri remove-uri-version))
                                     (->distinct-vec))]
     (->distinct-vec (mapcat get-koulutusalatasot-by-koulutus-koodi-uri koulutusKoodiUrit))))
-
-(defn- get-non-korkeakoulu-koodi-uri
-  [koulutus]
-  (-> koulutus
-      (:koulutuksetKoodiUri)
-      (first))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
 
 (defn koulutusala-koodi-urit
   [koulutus]
