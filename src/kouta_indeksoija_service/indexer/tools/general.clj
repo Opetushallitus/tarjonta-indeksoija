@@ -34,9 +34,10 @@
 
 (defn get-non-korkeakoulu-koodi-uri
   [koulutus]
-  (-> koulutus
-      (:koulutuksetKoodiUri)
-      (first))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
+  (when (any-ammatillinen? koulutus)
+    (-> koulutus
+        (:koulutuksetKoodiUri)
+        (first)))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
 
 (defn asiasana->lng-value-map
   [asiasanat]
