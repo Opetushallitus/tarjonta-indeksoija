@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]))
 
@@ -128,8 +128,8 @@
        (assoc hakukohde :koulutustyypit)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
-       [hakukohde {:keys [koulutuksetKoodiUri] :as koulutus}]
-       (let [ei-harkinnanvaraisuutta-alakoodi (koodisto/ei-harkinnanvaraisuutta (first koulutuksetKoodiUri))]
+       [hakukohde koulutus]
+       (let [ei-harkinnanvaraisuutta-alakoodi (koodisto/ei-harkinnanvaraisuutta (get-non-korkeakoulu-koodi-uri koulutus))]
             (assoc hakukohde :onkoHarkinnanvarainenKoulutus (nil? ei-harkinnanvaraisuutta-alakoodi))))
 
 (defn create-index-entry
