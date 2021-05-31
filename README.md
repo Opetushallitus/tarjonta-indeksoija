@@ -168,6 +168,22 @@ Eli jos teet taaksepäinyhteensopivan muutoksen, esimerkiksi lisäät indeksiin 
 (6.2.0 -> 6.3.0). Jos taas teet muutoksen joka ei ole taaksepäinyhteensopiva, esimerkiksi poistat indeksistä kentän, 
 nosta major versiota (6.2.0 -> 7.0.0).
 
+### 4.3. Manuaalinen deployn triggeröinti
+
+Automatiikka hoitaa normaalisti deployn jokaisen master commitin kohdalla (e.g. PR merge). Mikäli tulee tarve sadaa deploy aikaan kehityshaaraan tehdyistä muutoksista niin täytyy muuttaa `./.travis.yml` -tiedostoa. Tällainen tilanne voisi olla esim. jos tekee indeksoijaan muutoksia nostaen versiota ja vastaavat muutokset + riippuvuuden päivitys konfo-backendiin ja haluaa molemmista PR:t yhtäaikaa. Konfo-backendin build ei menisi läpi ennen kuin sillä on riippuvuuden määrittämä versio asennettavissa.
+
+Tässä tilanteessa voi tehdä vaikka branchista uuden deploy-haaran, jossa laittaa seuraavan muutoksen sisään ym. travis tiedostoon:
+
+```
+...
+  - provider: script
+    script: lein deploy
+    skip_cleanup: true
+    on:
+      branch: <branchin-nimi>
+...
+```
+
 ### 4.3. Lokit
 
 Indeksoijan lokit löytyvät AWS:n cloudwatchista log groupista <testiympäristön nimi>-app-kouta-indeksoija (esim. hahtuva-app-kouta-indeksoija). Lisäohjeita näihin ylläpidolta.
