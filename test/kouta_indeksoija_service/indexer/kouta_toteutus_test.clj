@@ -10,7 +10,10 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
-            [cheshire.core :refer [generate-string]]))
+            [cheshire.core :refer [generate-string]])
+  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
+
+(defonce KoutaFixtureTool KoutaFixtureTool$/MODULE$)
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -36,37 +39,12 @@
     (fixture/with-mocked-indexing
      (testing "Indexer should index lukio toteutus to toteutus index"
          (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata lukio-toteutus-metadata)
+         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMedatada KoutaFixtureTool))
          (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu" :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}}))
          (check-all-nil)
          (i/index-toteutukset [toteutus-oid])
-         (let [toteutus (no-timestamp (get-doc toteutus/index-name toteutus-oid))
-               metadata (:metadata toteutus)
-               lukioHakukohde (-> :hakutiedot toteutus
-                                  (first)
-                                  :hakukohteet
-                                  (first))]
-           (is (= (:hakukohteenLinja lukioHakukohde) {:alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}))
-           (is (= metadata
-                  {:tyyppi "lk",
-                   :kuvaus {},
-                   :asiasanat [],
-                   :ammattinimikkeet [],
-                   :yhteyshenkilot [],
-                   :painotukset
-                   [{:koodi
-                     {:koodiUri "lukiopainotukset_1#1",
-                      :nimi
-                      {:fi "lukiopainotukset_1#1 nimi fi",
-                       :sv "lukiopainotukset_1#1 nimi sv"}},
-                     :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}],
-                   :erityisetKoulutustehtavat
-                   [{:koodi
-                     {:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1",
-                      :nimi
-                      {:fi "lukiolinjaterityinenkoulutustehtava_1#1 nimi fi",
-                       :sv "lukiolinjaterityinenkoulutustehtava_1#1 nimi sv"}},
-                     :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]}))))))
+         (compare-json (no-timestamp (json "kouta-toteutus-lukio-result"))
+                       (no-timestamp (get-doc toteutus/index-name toteutus-oid))))))
 
 (deftest index-arkistoitu-toteutus-test
    (fixture/with-mocked-indexing
