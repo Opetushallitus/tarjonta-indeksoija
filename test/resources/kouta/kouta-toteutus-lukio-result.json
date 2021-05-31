@@ -385,8 +385,8 @@
           },
           "hakuajat": [
             {
-              "alkaa": "2021-05-29T09:49",
-              "paattyy": "2021-05-29T09:58"
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
             }
           ],
           "hakukohteenLinja": {
