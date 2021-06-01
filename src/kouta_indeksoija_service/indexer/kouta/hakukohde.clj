@@ -128,9 +128,11 @@
        (assoc hakukohde :koulutustyypit)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
-       [hakukohde koulutus]
-       (let [ei-harkinnanvaraisuutta-alakoodi (koodisto/ei-harkinnanvaraisuutta (get-non-korkeakoulu-koodi-uri koulutus))]
-            (assoc hakukohde :onkoHarkinnanvarainenKoulutus (nil? ei-harkinnanvaraisuutta-alakoodi))))
+  [hakukohde koulutus]
+  (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)]
+    (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
+                                                      (some? non-korkeakoulu-koodi-uri)
+                                                      (nil? (koodisto/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
 
 (defn create-index-entry
   [oid]
