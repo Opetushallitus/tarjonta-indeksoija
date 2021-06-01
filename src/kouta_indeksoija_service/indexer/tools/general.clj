@@ -34,7 +34,7 @@
 
 (defn get-non-korkeakoulu-koodi-uri
   [koulutus]
-  (when (any-ammatillinen? koulutus)
+  (when (not (korkeakoulutus? koulutus))
     (-> koulutus
         (:koulutuksetKoodiUri)
         (first)))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
