@@ -71,7 +71,7 @@
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
      (i/index-hakukohteet [hakukohde-oid])
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (nil? (:onkoHarkinnanvarainenKoulutus hakukohde)))))))
+       (is (false? (:onkoHarkinnanvarainenKoulutus hakukohde)))))))
 
 (deftest index-hakukohde-hakulomakelinkki-test
   (fixture/with-mocked-indexing
