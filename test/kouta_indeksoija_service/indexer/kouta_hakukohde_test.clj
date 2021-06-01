@@ -64,6 +64,15 @@
        (is (true? (:voimassa yhden-paikan-saanto)))
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy yhden-paikan-saanto)))))))
 
+(deftest harkinnanvaraisuus-for-korkeakoulu
+  (fixture/with-mocked-indexing
+   (testing "Korkeakoulutus should never be harkinnanvarainen"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
+     (i/index-hakukohteet [hakukohde-oid])
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (nil? (:onkoHarkinnanvarainenKoulutus hakukohde)))))))
+
 (deftest index-hakukohde-hakulomakelinkki-test
   (fixture/with-mocked-indexing
    (testing "Indexer should create hakulomakeLinkki from haku oid"
