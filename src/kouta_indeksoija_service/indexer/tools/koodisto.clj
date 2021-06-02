@@ -47,6 +47,10 @@
   [koulutusKoodiUri]
   (list-alakoodi-nimet-with-cache koulutusKoodiUri "tutkintotyyppi"))
 
+(defn ei-harkinnanvaraisuutta
+  [koulutusKoodiUri]
+  (get-alakoodi-nimi-with-cache koulutusKoodiUri "hakulomakkeenasetukset_eiharkinnanvaraisuutta"))
+
 (defn pohjakoulutusvaatimuskonfo
   []
   (map #(assoc % :alakoodit (list-alakoodit-with-cache (:koodiUri %) "pohjakoulutusvaatimuskouta"))

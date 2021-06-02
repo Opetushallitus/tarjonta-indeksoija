@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :as general]
+            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]))
 
@@ -31,7 +31,7 @@
 
 (defn- luonnos?
   [haku-tai-hakukohde]
-  (= "tallennettu" (:tila haku-tai-hakukohde)))
+  (= Tallennettu (:tila haku-tai-hakukohde)))
 
 (defn- johtaa-tutkintoon?
   [koulutus]
@@ -89,7 +89,7 @@
          (luonnos? hakukohde)
          (->ei-yps "Hakukohde on luonnos tilassa")
 
-         (not (general/korkeakoulutus? koulutus))
+         (not (korkeakoulutus? koulutus))
          (->ei-yps "Ei korkeakoulutus koulutusta")
 
          (not (johtaa-tutkintoon? koulutus))
@@ -127,6 +127,13 @@
        (conj-er-koulutus toteutus)
        (assoc hakukohde :koulutustyypit)))
 
+(defn- assoc-onko-harkinnanvarainen-koulutus
+  [hakukohde koulutus]
+  (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)]
+    (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
+                                                      (some? non-korkeakoulu-koodi-uri)
+                                                      (nil? (koodisto/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
+
 (defn create-index-entry
   [oid]
   (let [hakukohde      (kouta-backend/get-hakukohde oid)
@@ -143,6 +150,7 @@
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)
+                                 (assoc-onko-harkinnanvarainen-koulutus koulutus)
                                  (assoc-koulutustyypit toteutus koulutus)
                                  (assoc-toteutus toteutus)
                                  (assoc-valintaperuste valintaperuste)

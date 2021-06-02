@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu?]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -111,12 +111,6 @@
                                     (->distinct-vec))]
     (->distinct-vec (mapcat get-koulutusalatasot-by-koulutus-koodi-uri koulutusKoodiUrit))))
 
-(defn- get-non-korkeakoulu-koodi-uri
-  [koulutus]
-  (-> koulutus
-      (:koulutuksetKoodiUri)
-      (first))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
-
 (defn koulutusala-koodi-urit
   [koulutus]
   (if (any-ammatillinen? koulutus)
@@ -131,7 +125,7 @@
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
 ;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
-(defn- get-eperuste
+(defn- get-ammatillinen-eperuste
   [koulutus]
   (let [eperuste-id (:ePerusteId koulutus)]
     (if eperuste-id
@@ -140,7 +134,7 @@
 
 (defn tutkintonimike-koodi-urit
   [koulutus]
-  (cond (ammatillinen? koulutus) (when-let [eperuste (get-eperuste koulutus)]
+  (cond (ammatillinen? koulutus) (when-let [eperuste (get-ammatillinen-eperuste koulutus)]
                                    (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
         (lukio? koulutus) (vector koodisto/koodiuri-ylioppilas-tutkintonimike)
         :else (get-in koulutus [:metadata :tutkintonimikeKoodiUrit] [])))
@@ -169,22 +163,22 @@
 (defn opintojen-laajuus-koodi-uri
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuus :koodiUri]))
-    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
+    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuus :koodiUri]))
+    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
     :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
 (defn opintojen-laajuus-numero
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) :opintojenLaajuusNumero)
-    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
+    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
+    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
     :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo)))
 
 (defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
-    (amm-osaamisala? koulutus) (-> koulutus (get-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
+    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
+    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (korkeakoulutus? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     :else nil))
@@ -205,7 +199,7 @@
 
 (defn osaamisala-koodi-uri
   [koulutus]
-  (some-> (get-eperuste koulutus)
+  (some-> (get-ammatillinen-eperuste koulutus)
           (get-osaamisala koulutus)
           (:koodiUri)))
 

@@ -452,5 +452,6 @@
   "sora": {
     "tila": "arkistoitu"
   },
+  "onkoHarkinnanvarainenKoulutus": false,
   "koulutustyypit": ["koulutustyyppi_01", "koulutustyyppi_02"]
 }
