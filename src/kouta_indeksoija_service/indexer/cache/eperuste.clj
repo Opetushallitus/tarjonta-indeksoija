@@ -49,8 +49,8 @@
 (defn- get-osaamisalat
   [eperuste]
   (let [osat (some-> eperuste :suoritustavat (first) :rakenne :osat)
-       osat (map #(set-default-muodostumissaanto % nil) osat)]
-    (vec (for [osaamisala (get-osaamisalat-recursive osat)
+        osat-with-muodostumissaanto (map #(set-default-muodostumissaanto % nil) osat)]
+    (vec (for [osaamisala (get-osaamisalat-recursive osat-with-muodostumissaanto)
                :let [muodostumissaanto (:muodostumisSaanto osaamisala)]]
            (merge
             {:nimi (get-in osaamisala [:osaamisala :nimi])
