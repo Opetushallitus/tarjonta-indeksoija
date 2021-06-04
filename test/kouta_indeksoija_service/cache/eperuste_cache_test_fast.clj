@@ -36,7 +36,7 @@
                                           :maksimi 50}}
             :nimi {:fi "Pakollinen tutkinnon osa"}})))
 
-  (testing "keeps the original muodostumissaanto for 'Pakollinen tutkinnon osa' that has it already defined"
+  (testing "recursively sets muodostumisSaanto from 'Ammatilliset tutkinnon osat' for Talonrakennuksen and Maarakennuksen osaamisalat"
     (is (= (cache.eperuste/set-default-muodostumissaanto {:osat [{:osat []
                                                                   :muodostumisSaanto {:laajuus {:minimi 25
                                                                                                 :maksimi 25}}
