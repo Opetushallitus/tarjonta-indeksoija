@@ -15,11 +15,11 @@
   (let [hakulomakeKeys  [:hakulomaketyyppi :hakulomakeAtaruId :hakulomakeKuvaus :hakulomakeLinkki]
         alkamisaikaKey  [:koulutuksenAlkamiskausi]
         aikatauluKeys   [:hakuajat]
-        hakuOid         (:hakuOid ht-haku)]
+        hakukohdeOid         (:hakukohdeOid ht-hakukohde)]
     (merge {}
            (if (true? (:kaytetaanHaunHakulomaketta ht-hakukohde))
-             (conj (select-keys ht-haku hakulomakeKeys) (common/create-hakulomake-linkki ht-haku hakuOid))
-             (conj (select-keys ht-hakukohde hakulomakeKeys) (common/create-hakulomake-linkki ht-hakukohde hakuOid)))
+             (conj (select-keys ht-haku hakulomakeKeys) (common/create-hakulomake-linkki-for-hakukohde ht-haku hakukohdeOid))
+             (conj (select-keys ht-hakukohde hakulomakeKeys) (common/create-hakulomake-linkki-for-hakukohde ht-hakukohde hakukohdeOid)))
            (if (true? (:kaytetaanHaunAlkamiskautta ht-hakukohde))
              (select-keys ht-haku alkamisaikaKey)
              (select-keys ht-hakukohde alkamisaikaKey))
