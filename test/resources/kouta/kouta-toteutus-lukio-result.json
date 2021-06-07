@@ -101,6 +101,23 @@
         }
       }
     ],
+    "diplomit": [{
+      "koodi": {
+        "koodiUri": "moduulikoodistolops2021_kald3#1",
+        "nimi": {
+          "fi": "moduulikoodistolops2021_kald3#1 nimi fi",
+          "sv": "moduulikoodistolops2021_kald3#1 nimi sv"
+        }
+      },
+      "linkki": {
+        "fi": "http://linkki.fi",
+        "sv": "http://link.se"
+      },
+      "linkinAltTeksti": {
+        "fi": "Suomeksi",
+        "sv": "På svenska"
+      }
+    }],
     "kuvaus": {},
     "kielivalikoima": {
       "A1JaA2Kielet": [
