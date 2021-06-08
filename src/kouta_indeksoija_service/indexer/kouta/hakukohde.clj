@@ -109,7 +109,7 @@
 (defn- assoc-hakulomake-linkki
   [hakukohde haku]
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
-    (conj hakukohde (common/create-hakulomake-linkki link-holder (:oid haku)))))
+    (conj hakukohde (common/create-hakulomake-linkki-for-hakukohde link-holder (:oid hakukohde)))))
 
 (defn- conj-er-koulutus [toteutus koulutustyypit]
   (if (and

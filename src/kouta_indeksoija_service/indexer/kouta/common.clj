@@ -89,20 +89,38 @@
       (select-keys [:oid :organisaatio :nimi :tila :tarjoajat :muokkaaja :modified :organisaatiot])
       (assoc-organisaatiot)))
 
-(defn- create-ataru-link
+(defn- create-ataru-link-for-haku
   [haku-oid lang]
-  (resolve-url :ataru-hakija.ataru.hakulomake haku-oid lang))
+  (resolve-url :ataru-hakija.ataru.hakulomake-for-haku haku-oid lang))
 
-(defn- create-ataru-links
+(defn- create-ataru-links-for-haku
   [haku-oid]
-  (if haku-oid {:fi (create-ataru-link haku-oid "fi")
-                :sv (create-ataru-link haku-oid "sv")
-                :en (create-ataru-link haku-oid "en")}))
+  (if haku-oid {:fi (create-ataru-link-for-haku haku-oid "fi")
+                :sv (create-ataru-link-for-haku haku-oid "sv")
+                :en (create-ataru-link-for-haku haku-oid "en")}))
 
-(defn create-hakulomake-linkki
+(defn create-hakulomake-linkki-for-haku
   [hakulomaketiedot haku-oid]
   (when-let [linkki (case (:hakulomaketyyppi hakulomaketiedot)
-                      "ataru" (create-ataru-links haku-oid)
+                      "ataru" (create-ataru-links-for-haku haku-oid)
+                      "muu"   (:hakulomakeLinkki hakulomaketiedot)
+                      nil)]
+    {:hakulomakeLinkki linkki}))
+
+(defn- create-ataru-link-for-hakukohde
+  [hakukohde-oid lang]
+  (resolve-url :ataru-hakija.ataru.hakulomake-for-hakukohde hakukohde-oid lang))
+
+(defn- create-ataru-links-for-hakukohde
+  [hakukohde-oid]
+  (when hakukohde-oid {:fi (create-ataru-link-for-hakukohde hakukohde-oid "fi")
+                       :sv (create-ataru-link-for-hakukohde hakukohde-oid "sv")
+                       :en (create-ataru-link-for-hakukohde hakukohde-oid "en")}))
+
+(defn create-hakulomake-linkki-for-hakukohde
+  [hakulomaketiedot hakukohde-oid]
+  (when-let [linkki (case (:hakulomaketyyppi hakulomaketiedot)
+                      "ataru" (create-ataru-links-for-hakukohde hakukohde-oid)
                       "muu"   (:hakulomakeLinkki hakulomaketiedot)
                       nil)]
     {:hakulomakeLinkki linkki}))

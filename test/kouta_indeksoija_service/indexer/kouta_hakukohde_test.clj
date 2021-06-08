@@ -80,9 +80,9 @@
      (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru")
      (i/index-hakukohteet [hakukohde-oid])
      (compare-json (:hakulomakeLinkki (get-doc hakukohde/index-name hakukohde-oid))
-                   {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
-                    :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
-                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
+                   {:fi (str "http://localhost/hakemus/hakukohde/" hakukohde-oid "?lang=fi")
+                    :sv (str "http://localhost/hakemus/hakukohde/" hakukohde-oid "?lang=sv")
+                    :en (str "http://localhost/hakemus/hakukohde/" hakukohde-oid "?lang=en")}))))
 
 (deftest index-hakukohde-haun-hakulomakelinkki-test
   (fixture/with-mocked-indexing
