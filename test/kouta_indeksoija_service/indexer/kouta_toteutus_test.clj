@@ -29,12 +29,6 @@
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
        (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid)))))))
 
-(defonce lukio-toteutus-metadata
-         (cheshire.core/generate-string
-          {:tyyppi               "lk"
-           :painotukset [{:koodiUri "lukiopainotukset_1#1" :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}]
-           :erityisetKoulutustehtavat [{:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1" :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]}))
-
 (deftest index-lukio-toteutus-test
     (fixture/with-mocked-indexing
      (testing "Indexer should index lukio toteutus to toteutus index"

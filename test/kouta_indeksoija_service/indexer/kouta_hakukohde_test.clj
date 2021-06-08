@@ -12,7 +12,10 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
-            [cheshire.core :refer [generate-string]]))
+            [cheshire.core :refer [generate-string]])
+  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
+
+(defonce KoutaFixtureTool KoutaFixtureTool$/MODULE$)
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -30,18 +33,12 @@
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
 
-(defonce lukio-toteutus-metadata
-         (cheshire.core/generate-string
-          {:tyyppi               "lk"
-           :painotukset [{:koodiUri "lukiopainotukset_1#1" :kuvaus {:fi "painotus kuvaus", :sv "painotus kuvaus sv"}}]
-           :erityisetKoulutustehtavat [{:koodiUri "lukiolinjaterityinenkoulutustehtava_1#1" :kuvaus {:fi "tehtava kuvaus", :sv "tehtava kuvaus sv"}}]}))
-
 (deftest index-lukio-hakukohde-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata lukio-toteutus-metadata)
+     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMedatada KoutaFixtureTool))
      (fixture/update-hakukohde-mock hakukohde-oid
                                     :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
                                                                 :kaytetaanHaunAlkamiskautta false
