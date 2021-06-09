@@ -38,6 +38,10 @@ Oppijan puolella taas näkyy kaikki kuten ennenkin, mutta uudet muutokset eivät
    * [POST /kouta-indeksoija/api/indexer/koodistot](http://localhost:3000/kouta-indeksoija/swagger/index.html#!/indexer/post_kouta_indeksoija_api_indexer_koodistot)
    * [POST /kouta-indeksoija/api/queuer/eperusteet](http://localhost:3000/kouta-indeksoija/swagger/index.html#!/queuer/post_kouta_indeksoija_api_queuer_eperusteet)
 
+   Eperusteiden ja oppilaitosten indeksointi menee sqs-jonojen kautta. Voit tarkastalle viestien määrää "fast"-jonosta kentästä ApproximateNumberOfMessages 
+   
+   * [GET /kouta-indeksoija/api/admin/queue/status](http://localhost:3000/kouta-indeksoija/swagger/index.html#!/admin/get_kouta_indeksoija_api_admin_queue_status)
+
 5. Kun indeksointi on valmis, sykronoi oppijan ja virkailijan puolen aliakset
 
    Voit tehdä tämän joko kutsumalla rajapintaa [POST /kouta-indeksoija/api/rebuild/indices/aliases/sync](http://localhost:3000/kouta-indeksoija/swagger/index.html#!/rebuild/post_kouta_indeksoija_api_rebuild_indices_aliases_sync) 
