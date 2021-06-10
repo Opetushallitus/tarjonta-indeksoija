@@ -41,11 +41,16 @@
                                                                (common/complete-entry)
                                                                (dissoc :oppilaitosOid :oid)))))
 
+(defn- add-data-from-organisaatio-palvelu
+  [organisaatio]
+  (let [org-from-organisaatio-palvelu  (organisaatio-client/get-by-oid-cached (:oid organisaatio))]
+    (assoc organisaatio :status (:status org-from-organisaatio-palvelu))))
+
 (defn- oppilaitos-entry-with-osat
   [organisaatio]
   (let [oppilaitos-oid (:oid organisaatio)
         oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
-        oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
+        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid))
         koulutukset (kouta-backend/get-koulutukset-by-tarjoaja (:oid organisaatio))
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
     (-> (oppilaitos-entry organisaatio oppilaitos koulutukset)
