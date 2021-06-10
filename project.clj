@@ -88,7 +88,8 @@
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
                     :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
-                                 (utils/global-docker-elastic-fixture)]}
+                                 (utils/global-docker-elastic-fixture)]
+                    :plugins [[lein-test-report "0.2.0"]]}
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
@@ -101,7 +102,8 @@
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
                                   "-Daws.secretKey=randomKeyForLocalstack"]
                        :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
-                                    (utils/global-docker-elastic-fixture)]}
+                                    (utils/global-docker-elastic-fixture)]
+                       :plugins [[lein-test-report "0.2.0"]]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
