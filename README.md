@@ -94,9 +94,8 @@ Ennen indeksoijan ajamista lokaalisti täytyy pyörimässä olla
 ---
 #### Elasticsearch-kontti
 
-Elasticsearchia kannattaa pyörittää docker-kontissa siten että data tallennetaan levylle vaikka kontin 
-sammuttaisi, koska Elasticsearch on "I/O sensitive and the Docker storage driver is not ideal for fast I/O".
-Tämä onnnistuu ajamalla ensin (ainoastataan ensimmäisellä kerralla):
+Elasticsearchia voi pyörittää docker-kontissa siten että data tallennetaan levylle vaikka kontin 
+sammuttaisi. Tämä onnnistuu ajamalla ensin (ainoastataan ensimmäisellä kerralla):
 
 ```shell
 docker volume create kouta-elastic-data
@@ -106,6 +105,12 @@ Jonka jälkeen kontin saa käyntiin komennolla:
 docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -v kouta-elastic-data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:6.8.13
 ```
 Jos tulee tarve poistaa data, komennolla `docker volume --help` saa apua volumeiden hallinnointiin.
+
+Ilman volumea ajaminen onnistuu komennolla:
+```shell
+docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 docker.elastic.co/elasticsearch/elasticsearch:6.8.13
+```
+Tässä tapauksessa tiedot häviävät kun kontin sammuttaa.
 
 ---
 #### Localstack SQS-jonot
@@ -168,11 +173,17 @@ Eli jos teet taaksepäinyhteensopivan muutoksen, esimerkiksi lisäät indeksiin 
 (6.2.0 -> 6.3.0). Jos taas teet muutoksen joka ei ole taaksepäinyhteensopiva, esimerkiksi poistat indeksistä kentän, 
 nosta major versiota (6.2.0 -> 7.0.0).
 
-### 4.3. Manuaalinen deployn triggeröinti
+### 4.3. Buildaus kehityshaarasta
 
-Automatiikka hoitaa normaalisti deployn jokaisen master commitin kohdalla (e.g. PR merge). Mikäli tulee tarve sadaa deploy aikaan kehityshaaraan tehdyistä muutoksista niin täytyy muuttaa `./.travis.yml` -tiedostoa. Tällainen tilanne voisi olla esim. jos tekee indeksoijaan muutoksia nostaen versiota ja vastaavat muutokset + riippuvuuden päivitys konfo-backendiin ja haluaa molemmista PR:t yhtäaikaa. Konfo-backendin build ei menisi läpi ennen kuin sillä on riippuvuuden määrittämä versio asennettavissa.
+Travis tekee buildin jokaisesta pushista ja siirtää luodut paketit opetushallituksen [artifactoryyn](https://artifactory.opintopolku.fi/artifactory/#browse/search/maven).
+Paketti luodaan aina master-haarasta. Mikäli tulee tarve sadaa paketointi kehityshaarasta, täytyy muuttaa
+`./.travis.yml` -tiedostoa. Tällainen tilanne voi olla esimerkiksi jos tekee muutoksia kouta-indeksoijan tietomalliin
+eikä vielä halua mergetä muutoksia masteriin, mutta tarvitsisi uutta tietomallia kuitenkin esimerkiksi 
+kouta-internalin, kouta-externalin tai konfo-backendin kehityshaaroissa.
 
-Tässä tilanteessa voi tehdä vaikka branchista uuden deploy-haaran, jossa laittaa seuraavan muutoksen sisään ym. travis tiedostoon:
+Tarvittava muutos `travis.yml` tiedostoon on tällainen:
+
+(myös tiedoston git historiasta voi katsoa mallia)
 
 ```
 ...
@@ -183,6 +194,9 @@ Tässä tilanteessa voi tehdä vaikka branchista uuden deploy-haaran, jossa lait
       branch: <branchin-nimi>
 ...
 ```
+
+Mikäli haluaa uuden version paketin vain lokaalia kehitystä varten, saa sen luotua komennolla `lein install`, joka luo paketin
+lokaaliin Maven repoon.
 
 ### 4.3. Lokit
 
