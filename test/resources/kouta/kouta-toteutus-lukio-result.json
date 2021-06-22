@@ -101,23 +101,45 @@
         }
       }
     ],
-    "diplomit": [{
-      "koodi": {
-        "koodiUri": "moduulikoodistolops2021_kald3#1",
-        "nimi": {
-          "fi": "moduulikoodistolops2021_kald3#1 nimi fi",
-          "sv": "moduulikoodistolops2021_kald3#1 nimi sv"
+    "diplomit": [
+      {
+        "koodi": {
+          "koodiUri": "moduulikoodistolops2021_kald3#1",
+          "nimi": {
+            "fi": "moduulikoodistolops2021_kald3#1 nimi fi",
+            "sv": "moduulikoodistolops2021_kald3#1 nimi sv"
+          }
+        },
+        "sisallot": [
+          {
+            "fi": "Sisalto 1 fi",
+            "sv": "Sisalto 1 sv"
+          },
+          {
+            "fi": "Sisalto 2 fi",
+            "sv": "Sisalto 2 sv"
+          }
+        ],
+        "tavoitteet": [
+          {
+            "fi": "Tavoite 1 fi",
+            "sv": "Tavoite 1 sv"
+          },
+          {
+            "fi": "Tavoite 2 fi",
+            "sv": "Tavoite 2 sv"
+          }
+        ],
+        "linkki": {
+          "fi": "http://linkki.fi",
+          "sv": "http://link.se"
+        },
+        "linkinAltTeksti": {
+          "fi": "Suomeksi",
+          "sv": "På svenska"
         }
-      },
-      "linkki": {
-        "fi": "http://linkki.fi",
-        "sv": "http://link.se"
-      },
-      "linkinAltTeksti": {
-        "fi": "Suomeksi",
-        "sv": "På svenska"
       }
-    }],
+    ],
     "kuvaus": {},
     "kielivalikoima": {
       "A1JaA2Kielet": [

@@ -45,21 +45,24 @@
   {:id id
    :diaarinumero "1111-OPH-2021"
    :voimassaoloLoppuu 1514757600000
-   :koulutukset[ {:nimi {:fi (str "koulutus " id " nimi fi")
-                         :sv (str "koulutus " id " nimi sv")} ,
+   :koulutukset [{:nimi {:fi (str "koulutus " id " nimi fi")
+                         :sv (str "koulutus " id " nimi sv")}
                   :koulutuskoodiUri "koulutus_354345"}]
    :tutkintonimikkeet [{:tutkintonimikeUri "tutkintonimikkeet_01" :nimi {:fi "tutkintonimikkeet_01 nimi fi" :sv "tutkintonimikkeet_01 nimi sv"}}
-                       {:tutkintonimikeUri "tutkintonimikkeet_02" :nimi {:fi "tutkintonimikkeet_02 nimi fi" :sv "tutkintonimikkeet_02 nimi sv"}}],
+                       {:tutkintonimikeUri "tutkintonimikkeet_02" :nimi {:fi "tutkintonimikkeet_02 nimi fi" :sv "tutkintonimikkeet_02 nimi sv"}}]
    :suoritustavat [{:laajuusYksikko "OSAAMISPISTE"
-                    :rakenne {:muodostumisSaanto {:laajuus {:minimi 150 :maksimi 150}},
+                    :rakenne {:muodostumisSaanto {:laajuus {:minimi 150 :maksimi 150}}
                               :osat [{:tunniste "osaamisala tunniste 1"
-                                      :osaamisala {:nimi {:fi "Osaamisala 01 fi" :sv "Osaamisala 01 sv"},
-                                                   :osaamisalakoodiArvo "01",
-                                                   :osaamisalakoodiUri "osaamisala_01"},
-                                      :muodostumisSaanto {:laajuus {:minimi 30 :maksimi 30}}}]},
+                                      :osaamisala {:nimi {:fi "Osaamisala 01 fi" :sv "Osaamisala 01 sv"}
+                                                   :osaamisalakoodiArvo "01"
+                                                   :osaamisalakoodiUri "osaamisala_01"}
+                                      :muodostumisSaanto {:laajuus {:minimi 30 :maksimi 30}}}]}
                     :tutkinnonOsaViitteet [{:id 122, :laajuus 50, :jarjestys 1, :_tutkinnonOsa 1234}]}]
-   :tutkinnonOsat [{:id 1234 :koodi {:nimi {:fi "tutkinnon osa 123 fi" :sv "tutkinnon osa 123 sv"},
-                                     :uri "tutkinnonosat_12345"}}]})
+   :tutkinnonOsat [{:id 1234 :koodi {:nimi {:fi "tutkinnon osa 123 fi" :sv "tutkinnon osa 123 sv"}
+                                     :uri "tutkinnonosat_12345"}}]
+   :lops2019 {:oppiaineet [{:id 6835372 :moduulit [{:koodi {:uri "moduulikoodistolops2021_kald3"}
+                                                    :tavoitteet {:tavoitteet [{:fi "Tavoite 1 fi" :sv "Tavoite 1 sv"} {:fi "Tavoite 2 fi" :sv "Tavoite 2 sv"}]}
+                                                    :sisallot [{:sisallot [{:fi "Sisalto 1 fi" :sv "Sisalto 1 sv"} {:fi "Sisalto 2 fi" :sv "Sisalto 2 sv"}]}]}]}]}})
 
 (defn- oppilaitos1-hierarkia?
   [oid]
