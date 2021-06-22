@@ -17,7 +17,7 @@
       (i/index-koodistot ["maakunta"])
       (let [result (koodisto/get-from-index "maakunta")]
         (is (= "maakunta" (:koodisto result)))
-        (is (= 21 (count (distinct (remove nil? (map :koodiUri (:koodit result)))))))
+        (is (= 20 (count (distinct (remove nil? (map :koodiUri (:koodit result)))))))
         (doseq [nimi (map :nimi (:koodit result))]
           (is (contains? nimi :fi))
           (is (contains? nimi :sv)))))))

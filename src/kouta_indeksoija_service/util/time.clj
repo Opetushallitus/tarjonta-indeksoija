@@ -9,6 +9,11 @@
 
 (defonce formatter-rfc1123 (format/formatter "EEE, dd MMM yyyy HH:mm:ss"))
 
+(defn date-is-before-now? [date-str]
+  (let [now (time/now)
+        comp (format/parse date-str)]
+    (time/before? comp now)))
+
 (defn long->date-time
   [long]
   (coerce/from-long long))
