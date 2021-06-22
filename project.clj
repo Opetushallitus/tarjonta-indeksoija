@@ -63,7 +63,9 @@
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   [ring/ring-mock "0.3.0"]
                                   [org.clojure/tools.namespace "0.2.11"]
-                                  [criterium "0.4.4"]]
+                                  [criterium "0.4.4"]
+                                  [pjstadig/humane-test-output "0.11.0"]
+                                  ]
                    :plugins [[lein-ring "0.12.5"]
                              [jonase/eastwood "0.3.5"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
@@ -73,7 +75,10 @@
                    :env {:dev "true"}
                    :ring {:reload-paths ["src"]}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
-                              "-Daws.secretKey=randomKeyForLocalstack"]}
+                              "-Daws.secretKey=randomKeyForLocalstack"]
+                   :injections [(require 'pjstadig.humane-test-output)
+                                (pjstadig.humane-test-output/activate!)]
+                   }
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
                                                        [fi.oph.kouta/kouta-backend "6.7.0-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "6.7.0-SNAPSHOT" :classifier "tests"]
