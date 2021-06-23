@@ -3,7 +3,6 @@
             [amazonica.core :as amazonica]
             [amazonica.aws.sqs :as sqs]
             [cheshire.core :as json]
-            [cheshire.core :as json]
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.queue.state :as state]
             [kouta-indeksoija-service.queue.localstack :as localstack]
