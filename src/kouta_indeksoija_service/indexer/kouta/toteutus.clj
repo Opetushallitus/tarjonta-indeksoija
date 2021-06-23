@@ -65,35 +65,35 @@
 
 (defn- assoc-tarjoajien-oppilaitokset
   [toteutus]
-  (assoc toteutus
-    :oppilaitokset
-    (->> (:tarjoajat toteutus)
-         (map :oid)
-         (map cache/get-hierarkia)
-         (map organisaatio-tool/find-oppilaitos-from-hierarkia)
-         (remove nil?)
-         (filter organisaatio-tool/indexable?)
-         (map :oid)
-         (->distinct-vec))))
+  (assoc toteutus :oppilaitokset
+         (->> (:tarjoajat toteutus)
+              (map :oid)
+              (map cache/get-hierarkia)
+              (map organisaatio-tool/find-oppilaitos-from-hierarkia)
+              (remove nil?)
+              (filter organisaatio-tool/indexable?)
+              (map :oid)
+              (->distinct-vec))))
+
 
 ;Palauttaa toteutuksen johon on rikastettu lukiodiplomeiden sisällöt ja tavoitteet eperusteista
-(defn- enrich-lukiodiplomit [toteutus eperuste]
+(defn- enrich-lukiodiplomit
+  [toteutus eperuste]
   (let [lukiodiplomi-sisallot-tavoitteet (get-in eperuste [:diplomiSisallotTavoitteet])
         toteutus-diplomit (get-in toteutus [:metadata :diplomit])]
-    (println lukiodiplomi-sisallot-tavoitteet)
-    (println toteutus-diplomit)
-    (assoc-in toteutus [:metadata :diplomit] (vec (map
-                                                   (fn [diplomi]
-                                                     (let [koodi-uri (remove-uri-version (get-in diplomi [:koodi :koodiUri]))]
-                                                       (merge diplomi (get-in lukiodiplomi-sisallot-tavoitteet [koodi-uri]))))
-                                                   toteutus-diplomit)))))
+    (assoc-in toteutus [:metadata :diplomit]
+              (vec (map (fn [diplomi]
+                          (let [koodi-uri (remove-uri-version (get-in diplomi [:koodi :koodiUri]))]
+                            (merge diplomi (get-in lukiodiplomi-sisallot-tavoitteet [koodi-uri]))))
+                        toteutus-diplomit)))))
 
-(defn- enrich-lukio-metadata [toteutus]
-  (let [eperuste (get-eperuste-by-id lukio-eperuste-id) enriched (enrich-lukiodiplomit toteutus eperuste)]
-    ;(println enriched)
-    enriched))
+(defn- enrich-lukio-metadata
+  [toteutus]
+  (let [eperuste (get-eperuste-by-id lukio-eperuste-id)]
+    (enrich-lukiodiplomit toteutus eperuste)))
 
-(defn- enrich-metadata [toteutus] 
+(defn- enrich-metadata
+  [toteutus]
   (cond
     (lukiototeutus? toteutus) (enrich-lukio-metadata toteutus)
     :else toteutus))

@@ -62,7 +62,8 @@
              :tunniste (:tunniste osaamisala)}
             (get-opintojen-laajuus (get-in muodostumissaanto [:laajuus :minimi])))))))
 
-(defn- get-diplomi-sisallot-tavoitteet [eperuste]
+(defn- get-diplomi-sisallot-tavoitteet
+  [eperuste]
   (let [oppiaineet (get-in eperuste [:lops2019 :oppiaineet])]
     (as-> oppiaineet o
       (filter (fn [oppiaine] (= (:id oppiaine) lukiodiplomit-oppiaine-id)) o)
@@ -76,12 +77,12 @@
   [eperuste]
   (let [common-props (select-keys eperuste [:id :diaarinumero :voimassaoloLoppuu :tutkintonimikkeet :koulutukset])]
     (if-let [suoritustapa (some-> eperuste :suoritustavat (first))]
-      (let [opintojen-laajuus                (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
+      (let [opintojen-laajuus                 (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
             opintojen-laajuusyksikko-koodiuri (eperuste-laajuusyksikko->opintojen-laajuusyksikko (:laajuusYksikko suoritustapa))
-            opintojen-laajuusyksikko         (when opintojen-laajuusyksikko-koodiuri (get-koodi-nimi-with-cache opintojen-laajuusyksikko-koodiuri))
-            tutkonnon-osat                   (get-tutkinnon-osat eperuste)
-            osaamisalat                     (get-osaamisalat eperuste)
-            diplomi-sisallot-tavoitteet (get-diplomi-sisallot-tavoitteet eperuste)]
+            opintojen-laajuusyksikko          (when opintojen-laajuusyksikko-koodiuri (get-koodi-nimi-with-cache opintojen-laajuusyksikko-koodiuri))
+            tutkonnon-osat                    (get-tutkinnon-osat eperuste)
+            osaamisalat                       (get-osaamisalat eperuste)
+            diplomi-sisallot-tavoitteet       (get-diplomi-sisallot-tavoitteet eperuste)]
         (cond-> common-props
           (not (nil? opintojen-laajuus))                (merge opintojen-laajuus)
           (not (nil? opintojen-laajuusyksikko))         (assoc :opintojenLaajuusyksikko opintojen-laajuusyksikko)
