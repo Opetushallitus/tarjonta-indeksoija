@@ -13,6 +13,8 @@
 
 (defonce lukiodiplomit-oppiaine-id 6835372)
 
+(defonce language-keys [:fi :sv :en])
+
 (defn- get-opintojen-laajuus
   [opintojenLaajuusNumero]
   (when opintojenLaajuusNumero
@@ -62,6 +64,10 @@
              :tunniste (:tunniste osaamisala)}
             (get-opintojen-laajuus (get-in muodostumissaanto [:laajuus :minimi])))))))
 
+(defn- select-language-keys
+  [target]
+  (select-keys target language-keys))
+
 (defn- get-diplomi-sisallot-tavoitteet
   [eperuste]
   (let [oppiaineet (get-in eperuste [:lops2019 :oppiaineet])]
@@ -69,8 +75,8 @@
       (filter (fn [oppiaine] (= (:id oppiaine) lukiodiplomit-oppiaine-id)) o)
       (first o)
       (get o :moduulit)
-      (map (fn [moduuli] [(get-in moduuli [:koodi :uri]) {:sisallot (get-in moduuli [:sisallot 0 :sisallot])
-                                                          :tavoitteet (get-in moduuli [:tavoitteet :tavoitteet])}]) o)
+      (map (fn [moduuli] [(get-in moduuli [:koodi :uri]) {:sisallot (map select-language-keys (get-in moduuli [:sisallot 0 :sisallot]))
+                                                          :tavoitteet (map select-language-keys (get-in moduuli [:tavoitteet :tavoitteet]))}]) o)
       (cond (empty? o) nil :else (into {} o)))))
 
 (defn- strip
