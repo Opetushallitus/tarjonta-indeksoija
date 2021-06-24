@@ -76,6 +76,7 @@
       (first o)
       (get o :moduulit)
       (map (fn [moduuli] [(get-in moduuli [:koodi :uri]) {:sisallot (map select-language-keys (get-in moduuli [:sisallot 0 :sisallot]))
+                                                          :tavoitteetKohde (select-language-keys (get-in moduuli [:tavoitteet :kohde]))
                                                           :tavoitteet (map select-language-keys (get-in moduuli [:tavoitteet :tavoitteet]))}]) o)
       (cond (empty? o) nil :else (into {} o)))))
 

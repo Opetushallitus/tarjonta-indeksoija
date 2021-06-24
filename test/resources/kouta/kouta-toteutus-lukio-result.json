@@ -120,6 +120,11 @@
             "sv": "Sisalto 2 sv"
           }
         ],
+        "tavoitteetKohde": {
+          "fi": "Tavoitteet kohde fi",
+          "sv": "Tavoitteet kohde sv",
+          "en": "Tavoitteet kohde en"
+        },
         "tavoitteet": [
           {
             "fi": "Tavoite 1 fi",
