@@ -38,7 +38,7 @@
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMedatada KoutaFixtureTool))
+     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
      (fixture/update-hakukohde-mock hakukohde-oid
                                     :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
                                                                 :kaytetaanHaunAlkamiskautta false

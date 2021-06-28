@@ -35,7 +35,7 @@
      (testing "Indexer should index lukio toteutus to toteutus index"
        (with-redefs [kouta-indeksoija-service.rest.eperuste/get-doc mocks/mock-get-eperuste]
          (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMedatada KoutaFixtureTool))
+         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
          (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu" :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}}))
          (check-all-nil)
          (i/index-toteutukset [toteutus-oid])
