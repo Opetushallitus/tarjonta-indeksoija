@@ -1,14 +1,16 @@
 (ns kouta-indeksoija-service.indexer.kouta.toteutus
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [lukio-eperuste-id get-eperuste-by-id]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [clojure.string :refer [blank?]]))
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
 
 (def index-name "toteutus-kouta")
+
+(defn lukiototeutus? [toteutus] (= "lk" (get-in toteutus [:metadata :tyyppi])))
 
 (defn- determine-correct-aikataulu-and-hakulomake
   [ht-haku ht-hakukohde]
@@ -63,24 +65,47 @@
 
 (defn- assoc-tarjoajien-oppilaitokset
   [toteutus]
-  (assoc toteutus
-    :oppilaitokset
-    (->> (:tarjoajat toteutus)
-         (map :oid)
-         (map cache/get-hierarkia)
-         (map organisaatio-tool/find-oppilaitos-from-hierarkia)
-         (remove nil?)
-         (filter organisaatio-tool/indexable?)
-         (map :oid)
-         (->distinct-vec))))
+  (assoc toteutus :oppilaitokset
+         (->> (:tarjoajat toteutus)
+              (map :oid)
+              (map cache/get-hierarkia)
+              (map organisaatio-tool/find-oppilaitos-from-hierarkia)
+              (remove nil?)
+              (filter organisaatio-tool/indexable?)
+              (map :oid)
+              (->distinct-vec))))
+
+
+;Palauttaa toteutuksen johon on rikastettu lukiodiplomeiden sisällöt ja tavoitteet eperusteista
+(defn- enrich-lukiodiplomit
+  [toteutus eperuste]
+  (let [lukiodiplomi-sisallot-tavoitteet (get-in eperuste [:diplomiSisallotTavoitteet])
+        toteutus-diplomit (get-in toteutus [:metadata :diplomit])]
+    (assoc-in toteutus [:metadata :diplomit]
+              (vec (map (fn [diplomi]
+                          (let [koodi-uri (remove-uri-version (get-in diplomi [:koodi :koodiUri]))]
+                            (merge diplomi (get-in lukiodiplomi-sisallot-tavoitteet [koodi-uri]))))
+                        toteutus-diplomit)))))
+
+(defn- enrich-lukio-metadata
+  [toteutus]
+  (let [eperuste (get-eperuste-by-id lukio-eperuste-id)]
+    (enrich-lukiodiplomit toteutus eperuste)))
+
+(defn- enrich-metadata
+  [toteutus]
+  (cond
+    (lukiototeutus? toteutus) (enrich-lukio-metadata toteutus)
+    :else toteutus))
 
 (defn create-index-entry
   [oid]
   (let [toteutus (kouta-backend/get-toteutus oid)
         hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
-    (indexable/->index-entry oid (-> toteutus 
+    (indexable/->index-entry oid (-> toteutus
                                      (common/complete-entry)
                                      (common/assoc-organisaatiot)
+                                     (enrich-metadata)
                                      (assoc-tarjoajien-oppilaitokset)
                                      (assoc-hakutiedot hakutiedot)))))
 

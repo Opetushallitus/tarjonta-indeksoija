@@ -9,6 +9,12 @@
 
 (defonce EPERUSTE_CACHE (atom (cache/ttl-cache-factory {} :ttl eperuste_cache_time_millis)))
 
+(defonce lukio-eperuste-id 6828810)
+
+(defonce lukiodiplomit-oppiaine-id 6835372)
+
+(defonce language-keys [:fi :sv :en])
+
 (defn- get-opintojen-laajuus
   [opintojenLaajuusNumero]
   (when opintojenLaajuusNumero
@@ -58,20 +64,39 @@
              :tunniste (:tunniste osaamisala)}
             (get-opintojen-laajuus (get-in muodostumissaanto [:laajuus :minimi])))))))
 
+(defn- select-language-keys
+  [target]
+  (select-keys target language-keys))
+
+(defn- get-diplomi-sisallot-tavoitteet
+  [eperuste]
+  (let [oppiaineet (get-in eperuste [:lops2019 :oppiaineet])]
+    (as-> oppiaineet o
+      (filter (fn [oppiaine] (= (:id oppiaine) lukiodiplomit-oppiaine-id)) o)
+      (first o)
+      (get o :moduulit)
+      (map (fn [moduuli] [(get-in moduuli [:koodi :uri]) {:sisallot (map select-language-keys (get-in moduuli [:sisallot 0 :sisallot]))
+                                                          :tavoitteetKohde (select-language-keys (get-in moduuli [:tavoitteet :kohde]))
+                                                          :tavoitteet (map select-language-keys (get-in moduuli [:tavoitteet :tavoitteet]))}]) o)
+      (cond (empty? o) nil :else (into {} o)))))
+
 (defn- strip
   [eperuste]
-  (if-let [suoritustapa (some-> eperuste :suoritustavat (first))]
-    (let [opintojenLaajuus                (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
-          opintojenLaajuusyksikkoKoodiUri (eperuste-laajuusyksikko->opintojen-laajuusyksikko (:laajuusYksikko suoritustapa))
-          opintojenLaajuusyksikko         (when opintojenLaajuusyksikkoKoodiUri (get-koodi-nimi-with-cache opintojenLaajuusyksikkoKoodiUri))
-          tutkinnonOsat                   (get-tutkinnon-osat eperuste)
-          osaamisalat                     (get-osaamisalat eperuste)]
-      (cond-> (select-keys eperuste [:id :diaarinumero :voimassaoloLoppuu :tutkintonimikkeet :koulutukset])
-              (not (nil? opintojenLaajuus))                (merge opintojenLaajuus)
-              (not (nil? opintojenLaajuusyksikko))         (assoc :opintojenLaajuusyksikko opintojenLaajuusyksikko)
-              (not (nil? tutkinnonOsat))                   (assoc :tutkinnonOsat tutkinnonOsat)
-              (not (nil? osaamisalat))                     (assoc :osaamisalat osaamisalat)))
-    (select-keys eperuste [:id :diaarinumero :voimassaoloLoppuu :tutkintonimikkeet :koulutukset])))
+  (let [common-props (select-keys eperuste [:id :diaarinumero :voimassaoloLoppuu :tutkintonimikkeet :koulutukset])]
+    (if-let [suoritustapa (some-> eperuste :suoritustavat (first))]
+      (let [opintojen-laajuus                 (get-opintojen-laajuus (get-in suoritustapa [:rakenne :muodostumisSaanto :laajuus :minimi]))
+            opintojen-laajuusyksikko-koodiuri (eperuste-laajuusyksikko->opintojen-laajuusyksikko (:laajuusYksikko suoritustapa))
+            opintojen-laajuusyksikko          (when opintojen-laajuusyksikko-koodiuri (get-koodi-nimi-with-cache opintojen-laajuusyksikko-koodiuri))
+            tutkonnon-osat                    (get-tutkinnon-osat eperuste)
+            osaamisalat                       (get-osaamisalat eperuste)
+            diplomi-sisallot-tavoitteet       (get-diplomi-sisallot-tavoitteet eperuste)]
+        (cond-> common-props
+          (not (nil? opintojen-laajuus))                (merge opintojen-laajuus)
+          (not (nil? opintojen-laajuusyksikko))         (assoc :opintojenLaajuusyksikko opintojen-laajuusyksikko)
+          (not (nil? tutkonnon-osat))                   (assoc :tutkinnonOsat tutkonnon-osat)
+          (not (nil? osaamisalat))                      (assoc :osaamisalat osaamisalat)
+          (not (nil? diplomi-sisallot-tavoitteet))      (assoc :diplomiSisallotTavoitteet diplomi-sisallot-tavoitteet)))
+      common-props)))
 
 (defn cache-eperuste
   [koodi]
