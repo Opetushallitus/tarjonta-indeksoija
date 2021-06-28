@@ -59,7 +59,6 @@
 
 (defn compare-json
   [expected actual]
-  (let [difference (diff (order-primitive-arrays-for-comparison expected)
-                         (order-primitive-arrays-for-comparison actual))]
-    (is (= nil (first difference)))
-    (is (= nil (second difference)))))
+  (let [ordered-expected (order-primitive-arrays-for-comparison expected)
+        ordered-actual (order-primitive-arrays-for-comparison actual)]
+    (is (= ordered-expected ordered-actual))))

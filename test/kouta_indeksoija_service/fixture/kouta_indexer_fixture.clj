@@ -4,7 +4,6 @@
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
             [clojure.test :refer :all]
-            [kouta-indeksoija-service.elastic.admin :as admin]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
   (:import (fi.oph.kouta.external KoutaFixtureTool$)
