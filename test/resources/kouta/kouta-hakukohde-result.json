@@ -58,13 +58,6 @@
       "fi",
       "sv"
     ],
-    "kohdejoukonTarkenne": {
-      "koodiUri": "haunkohdejoukontarkenne_1#1",
-      "nimi": {
-        "fi": "haunkohdejoukontarkenne_1#1 nimi fi",
-        "sv": "haunkohdejoukontarkenne_1#1 nimi sv"
-      }
-    },
     "julkinen": false,
     "organisaatio": {
       "paikkakunta": {
