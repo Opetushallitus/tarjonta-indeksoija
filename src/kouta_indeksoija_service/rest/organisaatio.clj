@@ -50,19 +50,28 @@
   (memoize/memo-clear! get-all-organisaatiot))
 
 (def get-all-organisaatiot-with-cache
-  (memoize/memo get-all-organisaatiot))
+  (memoize/ttl get-all-organisaatiot :ttl/threshold (* 1000 60 10))) ; 10min time to live
+
+(defn get-hierarkia-for-oid-from-cache
+  ;; With parents
+  [oid]
+  (some-> (get-all-organisaatiot-with-cache) (o/find-hierarkia oid)))
 
 (defn get-hierarkia-v4
   [oid]
-  (some-> (get-all-organisaatiot-with-cache) (o/find-hierarkia oid)))
+  (let [url (resolve-url :organisaatio-service.v4.hierarkia.hae-by-oid oid)]
+    (log/info "Fetching organisaatiohierarkia from organisaatio service " url)
+    (get->json-body url)))
+
+(defn get-hierarkia-for-oid-without-parents
+  [oid]
+  (first (:organisaatiot (get-hierarkia-v4 oid))))
 
 (defn find-last-changes
   [last-modified]
   (let [date-string (long->date-time-string last-modified)]
-    (let [res (->> (get->json-body (resolve-url :organisaatio-service.v2.muutetut.oid) {:lastModifiedSince date-string})
-                   (:oids)
-                   (remove clojure.string/blank?)
-                   (vec))]
+    (let [res (->> (get->json-body (resolve-url :organisaatio-service.v4.muutetut) {:lastModifiedSince date-string})
+                   (map :oid))]
       (when (seq res)
         (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu"))
       res)))

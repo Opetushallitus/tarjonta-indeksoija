@@ -362,7 +362,7 @@
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
 
-                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
+                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio-hierarkia
 
                  kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache
@@ -402,7 +402,7 @@
   ([oids organisaatio-hierarkia-mock]
    (with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock]
+                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock]
        (indexer/index-all-kouta)))
    (refresh-indices)))
 

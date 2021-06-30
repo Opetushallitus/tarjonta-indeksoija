@@ -73,7 +73,7 @@
   [oid]
   (or (= Oppilaitos2 oid) (= Toimipiste1OfOppilaitos2 oid)))
 
-(defn- get-oids
+(defn get-oids
   [oid]
   (if (oppilaitos1-hierarkia? oid)
     [Koulutustoimija Oppilaitos1 [Toimipiste1OfOppilaitos1 Toimipiste2OfOppilaitos1]]
