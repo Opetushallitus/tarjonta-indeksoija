@@ -183,3 +183,17 @@
         (is (= (count tutkintonimikkeet) 2))
         (is (-> tutkintonimikkeet first :nimi :fi) "tutkintonimikekk_033#1 nimi fi")
         (is (-> tutkintonimikkeet last :nimi :fi) "tutkintonimikekk_031#1 nimi fi")))))
+
+(deftest index-tuva-koulutus
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index tuva specific metadata"
+      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "tuva" :metadata fixture/tuva-koulutus-metadata)
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid])
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+            opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
+            linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
+            kuvaus (get-in koulutus [:metadata :kuvaus :fi])]
+        (is (= opintojen-laajuus "opintojenlaajuus_v53#1 nimi fi"))
+        (is (= linkki-eperusteisiin "http://testilinkki.fi"))
+        (is (= kuvaus "kuvausteksti"))))))
