@@ -148,12 +148,21 @@
     ],
     "kuvaus": {},
     "kielivalikoima": {
-      "A1JaA2Kielet": [
+      "A1Kielet": [
         {
           "koodiUri": "kieli_EN#1",
           "nimi": {
             "fi": "kieli_EN#1 nimi fi",
             "sv": "kieli_EN#1 nimi sv"
+          }
+        }
+      ],
+      "A2Kielet": [
+        {
+          "koodiUri": "kieli_DE#1",
+          "nimi": {
+            "fi": "kieli_DE#1 nimi fi",
+            "sv": "kieli_DE#1 nimi sv"
           }
         }
       ],

@@ -446,5 +446,6 @@
     "tila": "arkistoitu"
   },
   "onkoHarkinnanvarainenKoulutus": false,
-  "koulutustyypit": ["koulutustyyppi_01", "koulutustyyppi_02"]
+  "koulutustyypit": ["koulutustyyppi_01", "koulutustyyppi_02"],
+  "externalId": "3344556677"
 }
