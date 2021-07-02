@@ -29,6 +29,7 @@
   "valintaperuste": {
     "koulutustyyppi": "amm",
     "tila": "arkistoitu",
+    "externalId": "4455667788",
     "modified": "2019-02-05T09:49:23",
     "hakutapa": {
       "koodiUri": "hakutapa_01#1",
