@@ -159,12 +159,18 @@
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
     :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
+(defn number-or-nil
+  [koodiarvo]
+  (if (every? #(Character/isDigit %) koodiarvo)
+    koodiarvo
+    nil))
+
 (defn opintojen-laajuus-numero
   [koulutus]
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
-    :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo)))
+    :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo number-or-nil)))
 
 (defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]

@@ -187,7 +187,7 @@
 (deftest index-tuva-koulutus
   (fixture/with-mocked-indexing
     (testing "Indexer should index tuva specific metadata"
-      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "tuva" :metadata fixture/tuva-koulutus-metadata)
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "tuva" :metadata fixture/tuva-koulutus-metadata)
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid])
       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
@@ -196,4 +196,12 @@
             kuvaus (get-in koulutus [:metadata :kuvaus :fi])]
         (is (= opintojen-laajuus "opintojenlaajuus_v53#1 nimi fi"))
         (is (= linkki-eperusteisiin "http://testilinkki.fi"))
-        (is (= kuvaus "kuvausteksti"))))))
+        (is (= kuvaus "kuvausteksti"))))
+
+    (testing "Indexer should index nil for opintojenLaajuusNumero in case of tuva"
+      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+           opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
+        (println "koulutus:")
+        (println koulutus)
+        (is (= opintojenLaajuusNumero nil))))
+    ))
