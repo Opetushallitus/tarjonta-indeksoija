@@ -43,7 +43,7 @@
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
-  (let [org-from-organisaatio-palvelu  (organisaatio-client/get-by-oid-cached (:oid organisaatio))]
+  (let [org-from-organisaatio-palvelu (organisaatio-client/get-by-oid-cached (:oid organisaatio))]
     (assoc organisaatio :status (:status org-from-organisaatio-palvelu))))
 
 (defn- oppilaitos-entry-with-osat

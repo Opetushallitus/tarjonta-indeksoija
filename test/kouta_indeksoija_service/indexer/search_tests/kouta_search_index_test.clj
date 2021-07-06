@@ -163,8 +163,7 @@
 
   (deftest index-oppilaitos-search-items-test-1
     (fixture/with-mocked-indexing
-      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi
-                    kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
          (testing "Create correct search item when oppilaitos has no koulutukset"
         (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid1)))
         (i/index-oppilaitos oppilaitos-oid1)
@@ -177,7 +176,6 @@
        (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
          (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
          (i/index-oppilaitos oppilaitos-oid2)
-         (println (str "KOULUTUS-FROM-INDEX: " (get-doc koulutus-search/index-name "1.2.246.562.13.00000000000000000099")))
          (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
                        (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2)))))))
 
@@ -187,8 +185,7 @@
 
   (deftest index-koulutus-search-items-test-1
     (fixture/with-mocked-indexing
-     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2]
        (testing "Create correct search item when koulutus has no toteutukset"
          (is (nil? (get-doc koulutus-search/index-name koulutus-oid1)))
          (i/index-koulutus koulutus-oid1)
@@ -198,8 +195,7 @@
 
   (deftest index-koulutus-search-items-test-2
     (fixture/with-mocked-indexing
-     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2]
        (testing "Create correct search item when koulutus has toteutukset"
          (is (nil? (get-doc koulutus-search/index-name koulutus-oid2)))
          (i/index-koulutus koulutus-oid2)
@@ -209,8 +205,7 @@
 
   (deftest index-koulutus-search-items-test-3
     (fixture/with-mocked-indexing
-     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2]
        (testing "Create correct search item when amm-osaamisala"
          (is (nil? (get-doc koulutus-search/index-name koulutus-oid3)))
          (i/index-koulutus koulutus-oid3)
@@ -222,8 +217,7 @@
   (deftest index-koulutus-search-items-test-4
     (fixture/with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock-for-toimipiste2
-                   kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+                   kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
        (testing "Create correct search item when amm-tutkinnon-osa"
          (is (nil? (get-doc koulutus-search/index-name koulutus-oid4)))
          (i/index-koulutus koulutus-oid4)

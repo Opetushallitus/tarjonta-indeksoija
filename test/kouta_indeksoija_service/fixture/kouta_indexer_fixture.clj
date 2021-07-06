@@ -85,8 +85,13 @@
 
 (defn mock-get-koulutus
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getKoulutus KoutaFixture oid))))
+  ;(println "mock-get-koulutus for oid " oid)
+  (let [foo (locking KoutaFixture
+              (->keywordized-json (.getKoulutus KoutaFixture oid)))]
+    (println oid " mock-get-koulutus " foo)
+    foo
+    )
+  )
 
 (defn mock-get-koulutukset-by-tarjoaja
   [oid]
@@ -299,17 +304,45 @@
   [hakutieto]
   ["pohjakoulutusvaatimuskonfo_am"])
 
-(defn children
+(defn toimipiste-children
   [oids]
-  (map #(hash-map :oid % :status "AKTIIVINEN") oids))
+    (map #(-> {}
+              (assoc :oid %)
+              (assoc :status "AKTIIVINEN")
+              (assoc :kotipaikkaUri "kunta_091")
+              (assoc :children [])
+              (assoc :nimi {:fi (str "Toimipiste fi " %)
+                            :sv (str "Toimipiste sv " %)})) oids))
+
+(defn mocked-hierarkia-default-entity [oid]
+  (println "mocked hierarkia base entity for oid " oid)
+  {:organisaatiot [{:oid oid
+                    :alkuPvm	"694216800000"
+                    :kotipaikkaUri "kunta_091"
+                    :parentOid (str oid "parent")
+                    :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
+                    :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
+                    :oppilaitosKoodi	"12345"
+                    :oppilaitostyyppi "oppilaitostyyppi_42#1"
+                    :nimi {:fi (str "Oppilaitos fi " oid)
+                           :sv (str "Oppilaitos sv " oid)}
+                    :status "AKTIIVINEN"
+                    :aliOrganisaatioMaara 3
+                    :organisaatiotyypit ["organisaatiotyyppi_03"]
+                    :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])
+                    }]})
+
+;(defn get-mocked-hierarkia-v4 [oid child-oids]
+;  (let [base (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))]
+;    (-> base
+;        (assoc :oid oid)
+;        (assoc :children (toimipiste-children child-oids)))))
 
 (defn mock-organisaatio-hierarkia-v4
   [oid]
-  (println (str "OID: " oid))
   (condp = oid
     "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
-    "1.2.246.562.10.77777777799" {:organisaatiot [{:oid oid :status "AKTIIVINEN" :chidren (children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]}
-    {:organisaatiot [{:oid oid :status "AKTIIVINEN"}]}))
+    (mocked-hierarkia-default-entity oid)))
 
 (defmacro with-mocked-indexing
   [& body]

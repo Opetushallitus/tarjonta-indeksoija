@@ -28,10 +28,7 @@
 
 (defn mock-organisaatio-hierarkia-v4
   [oid]
-  (println (str "OID: " oid))
-  (condp = oid
-    "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
-    {:organisaatiot [{:oid oid :status "AKTIIVINEN"}]}))
+  (kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-organisaatio-hierarkia-v4 oid))
 
 (deftest index-haku-test-1
   (fixture/with-mocked-indexing
@@ -87,7 +84,7 @@
 (deftest index-oppilaitos-test
   (fixture/with-mocked-indexing
    (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
-                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
      (testing "Indexer should index oppilaitos and it's osat to oppilaitos index"
        (check-all-nil)
        (add-toteutus-for-oppilaitos)
@@ -98,7 +95,7 @@
 (deftest index-oppilaitos-test-2
  (fixture/with-mocked-indexing
   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
-                kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+                kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
     (testing "Indexer should index oppilaitos and it's osat to oppilaitos index when given oppilaitoksen osa oid"
       (check-all-nil)
       (add-toteutus-for-oppilaitos)
@@ -123,8 +120,7 @@
 (deftest index-oppilaitos-test-4
   (fixture/with-mocked-indexing
    (testing "Indexer should index also koulutus when indexing oppilaitos"
-     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
        (check-all-nil)
        (i/index-oppilaitokset [mocks/Oppilaitos1])
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
@@ -153,7 +149,8 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should delete passivoitu oppilaitos from indexes"
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+                   kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
+                     kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
        (check-all-nil)
        (i/index-oppilaitokset [oppilaitos-oid]))
      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]

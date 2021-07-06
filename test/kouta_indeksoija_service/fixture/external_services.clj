@@ -13,12 +13,12 @@
   [oid]
   (locking oid
     (condp = oid
-      Oppilaitos1 {:nimi {:fi "Kiva ammattikorkeakoulu" :sv "Kiva ammattikorkeakoulu sv"} :oid oid :kotipaikkaUri "kunta_091"}
-      Toimipiste1OfOppilaitos1 {:nimi {:fi "Kiva ammattikorkeakoulu, Helsingin toimipiste" :sv "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"} :oid oid :kotipaikkaUri "kunta_091"}
-      Toimipiste2OfOppilaitos1 {:nimi {:fi "Kiva ammattikorkeakoulu, Kuopion toimipiste" :sv "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"} :oid oid :kotipaikkaUri "kunta_297"}
-      Oppilaitos2 {:nimi {:fi "Toinen kiva ammattikorkeakoulu"} :oid oid :kotipaikkaUri "kunta_532"}
-      Jarjestyspaikka {:nimi {:fi "Jokin järjestyspaikka" :sv "Jokin järjestyspaikka sv"} :oid oid :kotipaikkaUri "kunta_297"}
-      {:nimi {:fi (str "Nimi " oid " fi") :en (str "Nimi " oid " en")} :oid oid :kotipaikkaUri "kunta_091"})))
+      Oppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu" :sv "Kiva ammattikorkeakoulu sv"} :oid oid :kotipaikkaUri "kunta_091" :status "AKTIIVINEN"}
+      Toimipiste1OfOppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu, Helsingin toimipiste" :sv "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"} :oid oid :kotipaikkaUri "kunta_091" :status "AKTIIVINEN"}
+      Toimipiste2OfOppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu, Kuopion toimipiste" :sv "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"} :oid oid :kotipaikkaUri "kunta_297" :status "AKTIIVINEN"}
+      Oppilaitos2 { :nimi { :fi "Toinen kiva ammattikorkeakoulu"} :oid oid :kotipaikkaUri "kunta_532" :status "AKTIIVINEN"}
+      Jarjestyspaikka { :nimi { :fi "Jokin järjestyspaikka" :sv "Jokin järjestyspaikka sv"} :oid oid :kotipaikkaUri "kunta_297" :status "AKTIIVINEN"}
+      { :nimi { :fi (str "Nimi " oid " fi") :en (str "Nimi " oid " en")} :oid oid :kotipaikkaUri "kunta_091" :status "AKTIIVINEN"} )))
 
 (defn mock-koodisto
   ([koodisto koodi-uri]
