@@ -50,7 +50,7 @@
   (memoize/memo-clear! get-all-organisaatiot))
 
 (def get-all-organisaatiot-with-cache
-  (memoize/memo get-all-organisaatiot))
+  (memoize/ttl get-all-organisaatiot :ttl/threshold (* 1000 60 60))) ; 1 hour time to live
 
 (defn get-hierarkia-for-oid-from-cache
   ;; With parents
