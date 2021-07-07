@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu? get-non-korkeakoulu-koodi-uri]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? julkaistu? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -179,6 +179,7 @@
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (korkeakoulutus? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
+    (tuva? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
     :else nil))
 
 (defn tutkinnon-osat
