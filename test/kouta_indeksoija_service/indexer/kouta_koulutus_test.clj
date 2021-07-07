@@ -194,14 +194,12 @@
             opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
             linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
             kuvaus (get-in koulutus [:metadata :kuvaus :fi])]
-        (is (= opintojen-laajuus "opintojenlaajuus_v53#1 nimi fi"))
+        (is (= opintojen-laajuus "opintojenlaajuus_38#1 nimi fi"))
         (is (= linkki-eperusteisiin "http://testilinkki.fi"))
         (is (= kuvaus "kuvausteksti"))))
 
-    (testing "Indexer should index nil for opintojenLaajuusNumero in case of tuva"
+    (testing "Indexer should index 38 for opintojenLaajuusNumero in case of tuva"
       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-        (println "koulutus:")
-        (println koulutus)
-        (is (= opintojenLaajuusNumero nil))))
+        (is (= opintojenLaajuusNumero "38"))))
     ))

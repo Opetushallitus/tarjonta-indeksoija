@@ -76,7 +76,7 @@
 (defonce tuva-koulutus-metadata
   (generate-string
    {:tyyppi               "tuva"
-    :opintojenLaajuusKoodiUri "opintojenlaajuus_v53#1"
+    :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
     :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv" }
     :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}}))
 
