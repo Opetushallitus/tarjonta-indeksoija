@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.search-test
+(ns kouta-indeksoija-service.indexer.search-test-fast
   (:require [clojure.test :refer [deftest testing is]]
             [kouta-indeksoija-service.indexer.tools.search :as search]))
 
@@ -10,6 +10,3 @@
   (testing "sets opintojenlaajuus koodiarvo as nil when it has a letter in it"
     (is (= nil
            (search/number-or-nil "v53")))))
-
-(require '[clojure.test :refer [run-tests]])
-(run-tests)
