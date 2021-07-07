@@ -1,4 +1,4 @@
-(ns kouta-indeksoija-service.indexer.search-test-fast
+(ns kouta-indeksoija-service.indexer.search-tests.search-test-fast
   (:require [clojure.test :refer [deftest testing is]]
             [kouta-indeksoija-service.indexer.tools.search :as search]))
 
