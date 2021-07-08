@@ -85,13 +85,8 @@
 
 (defn mock-get-koulutus
   [oid]
-  ;(println "mock-get-koulutus for oid " oid)
-  (let [foo (locking KoutaFixture
-              (->keywordized-json (.getKoulutus KoutaFixture oid)))]
-    (println oid " mock-get-koulutus " foo)
-    foo
-    )
-  )
+  (locking KoutaFixture
+    (->keywordized-json (.getKoulutus KoutaFixture oid))))
 
 (defn mock-get-koulutukset-by-tarjoaja
   [oid]
@@ -331,12 +326,6 @@
                     :organisaatiotyypit ["organisaatiotyyppi_03"]
                     :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])
                     }]})
-
-;(defn get-mocked-hierarkia-v4 [oid child-oids]
-;  (let [base (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))]
-;    (-> base
-;        (assoc :oid oid)
-;        (assoc :children (toimipiste-children child-oids)))))
 
 (defn mock-organisaatio-hierarkia-v4
   [oid]
