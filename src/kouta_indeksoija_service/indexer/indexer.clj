@@ -141,7 +141,6 @@
                                                                   (organisaatio-tool/find-oppilaitos-from-hierarkia)
                                                                   (:oid)
                                                                   (kouta-backend/get-koulutukset-by-tarjoaja)))]
-                                                  (println (str "ORG: " oid " | KOULUTUKSET: " (pr-str result)))
                                                   result))]
     (let [entries (oppilaitos/do-index oids)]
       (oppilaitos-search/do-index oids)

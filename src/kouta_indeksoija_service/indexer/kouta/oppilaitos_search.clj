@@ -91,7 +91,6 @@
 
 (defn- get-kouta-oppilaitos
   [oid]
-  (println (str "get-kouta-oppilaitos OID: " oid))
   (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
     (when (julkaistu? oppilaitos)
       {:kielivalinta (:kielivalinta oppilaitos)
@@ -100,7 +99,6 @@
 
 (defn- create-base-entry
   [oppilaitos koulutukset]
-  (println (str "create-base-entry OPPILAITOS: " oppilaitos))
   (-> oppilaitos
       (select-keys [:oid :nimi])
       (merge (get-kouta-oppilaitos (:oid oppilaitos)))
