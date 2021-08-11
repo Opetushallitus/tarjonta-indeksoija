@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos
   (:require [clojure.set :refer [rename-keys]]
+            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
@@ -40,14 +41,18 @@
                                                                (common/complete-entry)
                                                                (dissoc :oppilaitosOid :oid)))))
 
+(defn- add-data-from-organisaatio-palvelu
+  [organisaatio]
+  (let [org-from-organisaatio-palvelu (organisaatio-client/get-by-oid-cached (:oid organisaatio))]
+    (assoc organisaatio :status (:status org-from-organisaatio-palvelu))))
+
 (defn- oppilaitos-entry-with-osat
   [organisaatio]
   (let [oppilaitos-oid (:oid organisaatio)
         oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
-        oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid)
+        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid))
         koulutukset (kouta-backend/get-koulutukset-by-tarjoaja (:oid organisaatio))
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
-
     (-> (oppilaitos-entry organisaatio oppilaitos koulutukset)
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
@@ -56,10 +61,11 @@
 (defn create-index-entry
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
-    (when-let [oppilaitos (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia)]
-      (if (organisaatio-tool/indexable? oppilaitos)
-        (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos))
-        (indexable/->delete-entry (:oid oppilaitos))))))
+    (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
+      (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)]
+        (if (organisaatio-tool/indexable? oppilaitos)
+          (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos))
+          (indexable/->delete-entry (:oid oppilaitos)))))))
 
 (defn do-index
   [oids]

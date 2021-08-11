@@ -22,9 +22,18 @@
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
-(deftest index-haku-test
+(defn mock-organisaatio-hierarkia
+  [oid & {:as params}]
+  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json")))
+
+(defn mock-organisaatio-hierarkia-v4
+  [oid]
+  (kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-organisaatio-hierarkia-v4 oid))
+
+(deftest index-haku-test-1
   (fixture/with-mocked-indexing
-   (testing "Indexer should index haku to haku index and update related indexes"
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should index haku to haku index and update related indexes"
      (check-all-nil)
      (i/index-haut [haku-oid])
      (compare-json (no-timestamp (json "kouta-haku-result"))
@@ -32,18 +41,19 @@
      (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
-     (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))))))
+     (is (nil? (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))))))
 
 (deftest index-haku-hakulomakelinkki-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should create hakulomakeLinkki from haku oid"
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should create hakulomakeLinkki from haku oid"
      (check-all-nil)
      (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
      (i/index-haut [haku-oid])
      (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
                    {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
-                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
+                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")})))))
 
 (deftest index-valintaperuste-test
   (fixture/with-mocked-indexing
@@ -62,10 +72,6 @@
      (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
                    (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
 
-(defn mock-organisaatio-hierarkia
-  [oid & {:as params}]
-  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json")))
-
 (defn- add-toteutus-for-oppilaitos []
   (fixture/add-koulutus-mock "1.2.246.562.13.00000000000000000002"
                              :tila "julkaistu"
@@ -77,7 +83,8 @@
 
 (deftest index-oppilaitos-test
   (fixture/with-mocked-indexing
-   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia]
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
      (testing "Indexer should index oppilaitos and it's osat to oppilaitos index"
        (check-all-nil)
        (add-toteutus-for-oppilaitos)
@@ -87,7 +94,8 @@
 
 (deftest index-oppilaitos-test-2
  (fixture/with-mocked-indexing
-  (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia]
+  (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
+                kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
     (testing "Indexer should index oppilaitos and it's osat to oppilaitos index when given oppilaitoksen osa oid"
       (check-all-nil)
       (add-toteutus-for-oppilaitos)
@@ -98,9 +106,12 @@
 (deftest index-oppilaitos-test-3
   (fixture/with-mocked-indexing
     (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]
-                  (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+                  (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json"))
                              [:organisaatiot 0 :children 0 :organisaatiotyypit]
-                             (constantly ["organisaatiotyyppi_02", "organisaatiotyyppi_06"])))]
+                             (constantly ["organisaatiotyyppi_02", "organisaatiotyyppi_06"])))
+                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+                                                                                         [:organisaatiot 0 :children 0 :organisaatiotyypit]
+                                                                                         (constantly ["organisaatiotyyppi_02", "organisaatiotyyppi_06"]))]
      (testing "Indexer should not index oppilaitos when invalid organisaatiotyyppi"
        (check-all-nil)
        (i/index-oppilaitos oppilaitos-oid)
@@ -109,10 +120,11 @@
 (deftest index-oppilaitos-test-4
   (fixture/with-mocked-indexing
    (testing "Indexer should index also koulutus when indexing oppilaitos"
-     (check-all-nil)
-     (i/index-oppilaitokset [mocks/Oppilaitos1])
-     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid)))))))
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
+       (check-all-nil)
+       (i/index-oppilaitokset [mocks/Oppilaitos1])
+       (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))))))
 
 (deftest index-organisaatio-no-oppilaitokset-test
   (fixture/with-mocked-indexing
@@ -136,12 +148,18 @@
 (deftest index-passiivinen-oppilaitos-test
   (fixture/with-mocked-indexing
    (testing "Indexer should delete passivoitu oppilaitos from indexes"
-     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia]
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
+                   kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
+                     kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
        (check-all-nil)
        (i/index-oppilaitokset [oppilaitos-oid]))
      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]
-                   (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+                   (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json"))
                               [:organisaatiot 0 :children 0 :status]
+                              (constantly "PASSIIVINEN")))
+                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 (fn [oid]
+                   (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+                              [:organisaatiot 0 :status]
                               (constantly "PASSIIVINEN")))]
        (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
        (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
@@ -152,24 +170,26 @@
 (deftest index-all-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index all"
-     (let [eperuste-id 12321]
-       (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
-       (check-all-nil)
-       (is (nil? (eperuste/get-from-index eperuste-id)))
-       (i/index-all-kouta)
-       (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-       (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
-       (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-       (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
-       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-       (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
-       (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id))))
-       (is (= eperuste-id (:id (eperuste/get-from-index eperuste-id))))
-       (fixture/update-koulutus-mock koulutus-oid :ePerusteId nil)))))
+     (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+       (let [eperuste-id 12321]
+         (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
+         (check-all-nil)
+         (is (nil? (eperuste/get-from-index eperuste-id)))
+         (i/index-all-kouta)
+         (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+         (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+         (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+         (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+         (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+         (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
+         (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id))))
+         (is (= eperuste-id (:id (eperuste/get-from-index eperuste-id))))
+         (fixture/update-koulutus-mock koulutus-oid :ePerusteId nil))))))
 
 (deftest index-changes-oids-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index changed oids"
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should index changed oids"
      (check-all-nil)
      (i/index-oids {:hakukohteet [hakukohde-oid]})
      (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
@@ -178,7 +198,7 @@
      (is (nil? (:oid (get-doc koulutus/index-name koulutus-oid))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
-     (is (nil? (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
+     (is (nil? (:id (get-doc valintaperuste/index-name valintaperuste-id))))))))
 
 (deftest index-changes-oids-test-2
   (fixture/with-mocked-indexing
@@ -195,29 +215,31 @@
 
 (deftest index-all-koulutukset-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index all koulutukset"
-     (check-all-nil)
-     (i/index-all-koulutukset)
-     (is (nil? (get-doc haku/index-name haku-oid)))
-     (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
-     (is (nil? (get-doc toteutus/index-name toteutus-oid)))
-     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should index all koulutukset"
+       (check-all-nil)
+       (i/index-all-koulutukset)
+       (is (nil? (get-doc haku/index-name haku-oid)))
+       (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
+       (is (nil? (get-doc toteutus/index-name toteutus-oid)))
+       (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+       (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-all-toteutukset-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index all toteutukset"
-     (check-all-nil)
-     (i/index-all-toteutukset)
-     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-     (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
-     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should index all toteutukset"
+       (check-all-nil)
+       (i/index-all-toteutukset)
+       (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+       (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
+       (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+       (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+       (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (defonce koulutus-oid2   "1.2.246.562.13.00000000000000000099")
 (defonce toteutus-oid2   "1.2.246.562.17.00000000000000000099")
@@ -228,16 +250,17 @@
   (fixture/add-hakukohde-mock hakukohde-oid toteutus-oid haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid mocks/Oppilaitos1)
 
   (fixture/with-mocked-indexing
-   (testing "Indexer should index all hakukohteet"
-     (check-all-nil)
-     (i/index-all-hakukohteet)
-     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
-     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (nil? (get-doc koulutus/index-name koulutus-oid)))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
+   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+     (testing "Indexer should index all hakukohteet"
+       (check-all-nil)
+       (i/index-all-hakukohteet)
+       (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+       (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+       (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+       (is (nil? (get-doc koulutus/index-name koulutus-oid)))
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+       (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-hakukohde-test
   (fixture/add-koulutus-mock koulutus-oid2 :tarjoajat oppilaitos-oid2)
@@ -275,25 +298,26 @@
      (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
      (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
 
-(deftest index-haku-test
+(deftest index-haku-test-2
   (fixture/add-koulutus-mock koulutus-oid2 :sorakuvausId sorakuvaus-id :tarjoajat oppilaitos-oid2)
   (fixture/add-toteutus-mock toteutus-oid2 koulutus-oid2 :tarjoajat oppilaitos-oid2)
   (fixture/add-hakukohde-mock hakukohde-oid toteutus-oid haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid mocks/Oppilaitos1)
   (fixture/add-hakukohde-mock hakukohde-oid2 toteutus-oid2 haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid oppilaitos-oid2)
 
-  (fixture/with-mocked-indexing
-   (testing "Indexer should index all haku related koulutukset and oppilaitokset"
-     (check-all-nil)
-     (i/index-haku haku-oid)
-     (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
-     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
-     (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (= toteutus-oid2 (:oid (get-doc toteutus/index-name toteutus-oid2))))
-     (is (nil? (get-doc koulutus/index-name koulutus-oid)))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (= oppilaitos-oid2 (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid2))))
-     (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
+  (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
+    (fixture/with-mocked-indexing
+    (testing "Indexer should index all haku related koulutukset and oppilaitokset"
+      (check-all-nil)
+       (i/index-haku haku-oid)
+       (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
+       (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+       (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
+       (is (= toteutus-oid2 (:oid (get-doc toteutus/index-name toteutus-oid2))))
+       (is (nil? (get-doc koulutus/index-name koulutus-oid)))
+       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+       (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+       (is (= oppilaitos-oid2 (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid2))))
+       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-all-valintaperusteet-test
   (fixture/with-mocked-indexing

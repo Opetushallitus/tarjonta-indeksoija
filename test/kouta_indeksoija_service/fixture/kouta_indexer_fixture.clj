@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
+            [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.walk :refer [keywordize-keys stringify-keys]])
@@ -298,6 +299,40 @@
   [hakutieto]
   ["pohjakoulutusvaatimuskonfo_am"])
 
+(defn toimipiste-children
+  [oids]
+    (map #(-> {}
+              (assoc :oid %)
+              (assoc :status "AKTIIVINEN")
+              (assoc :kotipaikkaUri "kunta_091")
+              (assoc :children [])
+              (assoc :nimi {:fi (str "Toimipiste fi " %)
+                            :sv (str "Toimipiste sv " %)})) oids))
+
+(defn mocked-hierarkia-default-entity [oid]
+  (println "mocked hierarkia base entity for oid " oid)
+  {:organisaatiot [{:oid oid
+                    :alkuPvm	"694216800000"
+                    :kotipaikkaUri "kunta_091"
+                    :parentOid (str oid "parent")
+                    :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
+                    :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
+                    :oppilaitosKoodi	"12345"
+                    :oppilaitostyyppi "oppilaitostyyppi_42#1"
+                    :nimi {:fi (str "Oppilaitos fi " oid)
+                           :sv (str "Oppilaitos sv " oid)}
+                    :status "AKTIIVINEN"
+                    :aliOrganisaatioMaara 3
+                    :organisaatiotyypit ["organisaatiotyyppi_03"]
+                    :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])
+                    }]})
+
+(defn mock-organisaatio-hierarkia-v4
+  [oid]
+  (condp = oid
+    "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+    (mocked-hierarkia-default-entity oid)))
+
 (defmacro with-mocked-indexing
   [& body]
   ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
@@ -362,7 +397,7 @@
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
 
-                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
+                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio-hierarkia
 
                  kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache
@@ -378,7 +413,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
 
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit]
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
+
+                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
+                 mock-organisaatio-hierarkia-v4]
      (do ~@body)))
 
 (defn index-oppilaitokset
@@ -402,7 +440,7 @@
   ([oids organisaatio-hierarkia-mock]
    (with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 organisaatio-hierarkia-mock]
+                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock]
        (indexer/index-all-kouta)))
    (refresh-indices)))
 

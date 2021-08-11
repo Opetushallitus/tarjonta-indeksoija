@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.cache.hierarkia
-  (:require [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot-with-cache clear-get-all-organisaatiot-cache get-hierarkia-v4]]
+  (:require [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot-with-cache clear-get-all-organisaatiot-cache get-hierarkia-for-oid-from-cache]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [clojure.core.cache :as cache]))
 
@@ -14,7 +14,7 @@
 
 (defn cache-hierarkia
   [oid]
-  (when-let [hierarkia (get-hierarkia-v4 oid)]
+  (when-let [hierarkia (get-hierarkia-for-oid-from-cache oid)]
     (let [this (o/find-from-hierarkia hierarkia oid)]
       (cond
         (o/koulutustoimija? this) (do-cache hierarkia (vector oid))
