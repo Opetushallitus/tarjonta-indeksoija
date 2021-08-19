@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "9.0.0-SNAPSHOT"
+(defproject kouta-indeksoija-service "9.0.1-SNAPSHOT"
   :description "Kouta-indeksoija"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -45,7 +45,7 @@
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
                  [oph/clj-log "0.3.1-SNAPSHOT"]
-                 [org.clojure/tools.logging "0.4.0"]
+                 [org.clojure/tools.logging "1.1.0"]
                  [org.apache.logging.log4j/log4j-slf4j-impl "2.13.2"]
                  [org.apache.logging.log4j/log4j-api "2.13.2"]
                  [org.apache.logging.log4j/log4j-core "2.13.2"]
