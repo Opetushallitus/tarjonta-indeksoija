@@ -33,7 +33,7 @@
       (let [index (find-hakukohde-index)
             res (http/get (elastic-url index "_mappings") {:as :json :content-type :json})]
         (is (= settings/kouta-mappings
-               (get-in res [:body (keyword index) :mappings :_doc])))))
+               (get-in res [:body (keyword index) :mappings])))))
 
     (testing "should get elastic-status"
       (is (= [:cluster_health :indices-info] (keys (admin/get-elastic-status)))))

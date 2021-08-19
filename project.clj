@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
   "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "8.2.0-SNAPSHOT"
+(defproject kouta-indeksoija-service "9.0.0-SNAPSHOT"
   :description "Kouta-indeksoija"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -16,7 +16,7 @@
                                :snapshots true}]]
   :managed-dependencies [[org.flatland/ordered "1.5.7"]]
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [metosin/compojure-api "1.1.10" :exclusions [cheshire
+                 [metosin/compojure-api "1.1.13" :exclusions [cheshire
                                                               com.fasterxml.jackson.core/jackson-core
                                                               com.fasterxml.jackson.dataformat/jackson-dataformat-smile
                                                               com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
@@ -26,8 +26,8 @@
                                                               org.clojure/core.cache
                                                               org.clojure/core.memoize]]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
-                 [cheshire "5.8.0"]
-                 [clj-http "2.3.0"]
+                 [cheshire "5.10.0"]
+                 [clj-http "3.12.1"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
@@ -40,11 +40,11 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch
-                 [oph/clj-elasticsearch "0.3.2-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.3.3-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
-                 [oph/clj-log "0.2.2-SNAPSHOT"]
+                 [oph/clj-log "0.3.1-SNAPSHOT"]
                  [org.clojure/tools.logging "0.4.0"]
                  [org.apache.logging.log4j/log4j-slf4j-impl "2.13.2"]
                  [org.apache.logging.log4j/log4j-api "2.13.2"]
@@ -54,8 +54,8 @@
                  ;;SQS Handling
                  [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
                                                   com.amazonaws/amazon-kinesis-client]]
-                 [com.amazonaws/aws-java-sdk-core "1.11.479"]
-                 [com.amazonaws/aws-java-sdk-sqs "1.11.479"]]
+                 [com.amazonaws/aws-java-sdk-core "1.11.916" :exclusions [com.fasterxml.jackson.core/jackson-annotations]]
+                 [com.amazonaws/aws-java-sdk-sqs "1.11.916"]]
   :ring {:handler kouta-indeksoija-service.api/app
          :init kouta-indeksoija-service.api/init
          :destroy kouta-indeksoija-service.api/stop
@@ -83,7 +83,7 @@
                                                        [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT"]
                                                        [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT" :classifier "tests"]
                                                        [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
@@ -96,7 +96,7 @@
                                       [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT"]
                                       [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT" :classifier "tests"]
                                       [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
