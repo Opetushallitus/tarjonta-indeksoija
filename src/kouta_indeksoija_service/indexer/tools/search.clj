@@ -243,7 +243,7 @@
   (let [tutkintotyyppi-koodi-urit (->> (:koulutuksetKoodiUri koulutus)
                                        (mapcat #(koodisto/tutkintotyypit %))
                                        (map :koodiUri))]
-    (tutkintotyyppi->koulutustyyppi tutkintotyyppi-koodi-urit)))
+    (tutkintotyyppi->koulutustyyppi (distinct tutkintotyyppi-koodi-urit))))
 
 ;Konfo-ui:n koulutushaun koulutustyyppi filtteriä varten täytyy tallentaa erinäisiä hakusanoja
 ;koulutus-search indeksin jarjestajan metadatan koulutustyyppi kenttään.
