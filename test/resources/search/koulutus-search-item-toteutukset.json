@@ -134,7 +134,8 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "ammatillinenPerustutkintoErityisopetuksena": false
       },
       "hakutiedot": [
         {
@@ -252,7 +253,8 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "ammatillinenPerustutkintoErityisopetuksena": false
       },
       "hakutiedot": [
         {
