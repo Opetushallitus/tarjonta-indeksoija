@@ -74,7 +74,7 @@
                                                           :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
                                                           :maksullisuustyyppi         (:maksullisuustyyppi opetus)
                                                           :maksunMaara                (:maksunMaara opetus)
-                                                          :koulutustyyppi             (search-tool/koulutustyyppi-for-organisaatio oppilaitos)
+                                                          :koulutustyyppi             (:tyyppi toteutus-metadata)
                                                           :oppilaitosTila             (:tila oppilaitos)
                                                           :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
                                                           :tuvaErityisopetuksena      (:tuvaErityisopetuksena toteutus-metadata)})))))
