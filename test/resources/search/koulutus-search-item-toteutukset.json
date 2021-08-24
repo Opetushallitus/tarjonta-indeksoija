@@ -135,7 +135,8 @@
             }
           }
         ],
-        "ammatillinenPerustutkintoErityisopetuksena": false
+        "ammatillinenPerustutkintoErityisopetuksena": false,
+        "tuvaErityisopetuksena": null
       },
       "hakutiedot": [
         {
@@ -254,7 +255,8 @@
             }
           }
         ],
-        "ammatillinenPerustutkintoErityisopetuksena": false
+        "ammatillinenPerustutkintoErityisopetuksena": false,
+        "tuvaErityisopetuksena": null
       },
       "hakutiedot": [
         {

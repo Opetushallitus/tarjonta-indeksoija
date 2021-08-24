@@ -76,7 +76,8 @@
                                                           :maksunMaara                (:maksunMaara opetus)
                                                           :koulutustyyppi             (search-tool/koulutustyyppi-for-organisaatio oppilaitos)
                                                           :oppilaitosTila             (:tila oppilaitos)
-                                                          :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)})))))
+                                                          :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
+                                                          :tuvaErityisopetuksena      (:tuvaErityisopetuksena toteutus-metadata)})))))
 
 (defn tuleva-jarjestaja?
   [hierarkia toteutukset]
