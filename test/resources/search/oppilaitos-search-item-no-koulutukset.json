@@ -30,6 +30,16 @@
       "sv" : [ "Oppilaitos sv 1.2.246.562.10.10101010199" ],
       "en" : [ ]
     },
+    "koulutusnimi" : {
+      "fi" : [ "Oppilaitos fi 1.2.246.562.10.10101010199" ],
+      "sv" : [ "Oppilaitos sv 1.2.246.562.10.10101010199" ],
+      "en" : [ ]
+    },
+    "tutkintonimike" : {
+      "fi" : [ ],
+      "sv" : [ ],
+      "en" : [ ]
+    },
     "metadata" : {
       "kunnat" : [ {
         "koodiUri" : "kunta_091",

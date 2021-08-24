@@ -93,6 +93,30 @@
         ],
         "en": []
       },
+      "koulutusnimi": {
+        "fi": [
+          "Oppilaitos fi 1.2.246.562.10.77777777799",
+          "Autoalan perustutkinto 0 fi",
+          "Toimipiste fi 1.2.246.562.10.777777777992"
+        ],
+        "sv": [
+          "Oppilaitos sv 1.2.246.562.10.77777777799",
+          "Autoalan perustutkinto 0 sv",
+          "Toimipiste sv 1.2.246.562.10.777777777992"
+        ],
+        "en": []
+      },
+      "tutkintonimike": {
+        "fi": [
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ],
+        "en": []
+      },
       "onkoTuleva": true,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "nimi": {
