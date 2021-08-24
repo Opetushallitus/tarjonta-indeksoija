@@ -59,12 +59,19 @@
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
         maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
 
+        ;TODO: poistetaan terms myöhemmin
         terms (fn [lng-keyword] (distinct (remove nil? (concat (map lng-keyword nimet) ;HUOM! Älä tee tästä defniä, koska se ei enää ole thread safe!
                                                                (vector (-> oppilaitos :nimi lng-keyword))
                                                                (map #(-> % :nimi lng-keyword) tarjoajat)
                                                                (map lng-keyword asiasanat)
                                                                (map lng-keyword ammattinimikkeet)
-                                                               (map lng-keyword tutkintonimikkeet)))))]
+                                                               (map lng-keyword tutkintonimikkeet)))))
+        koulutusnimi (fn [lng-keyword] (distinct (remove nil? (concat (map lng-keyword nimet) ;HUOM! Älä tee tästä defniä, koska se ei enää ole thread safe!
+                                                                      (vector (-> oppilaitos :nimi lng-keyword))
+                                                                      (map #(-> % :nimi lng-keyword) tarjoajat)))))
+        tutkintonimike (fn [lng-keyword] (distinct (remove nil? (concat (map lng-keyword asiasanat) ;HUOM! Älä tee tästä defniä, koska se ei enää ole thread safe!
+                                                                        (map lng-keyword ammattinimikkeet)
+                                                                        (map lng-keyword tutkintonimikkeet)))))]
 
     (cond-> {;:koulutustyypit (clean-uris (concat (vector koulutustyyppi) koulutustyyppiUrit))
              :koulutustyypit (clean-uris koulutustyypit)
@@ -80,6 +87,12 @@
              :terms {:fi (terms :fi)
                      :sv (terms :sv)
                      :en (terms :en)}
+             :koulutusnimi {:fi (koulutusnimi :fi)
+                            :sv (koulutusnimi :sv)
+                            :en (koulutusnimi :en)}
+             :tutkintonimike {:fi (tutkintonimike :fi)
+                              :sv (tutkintonimike :sv)
+                              :en (tutkintonimike :en)}
              :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))}
 
       (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
