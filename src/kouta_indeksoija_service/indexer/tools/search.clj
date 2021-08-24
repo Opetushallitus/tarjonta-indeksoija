@@ -60,6 +60,7 @@
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
         maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
 
+        ;TODO: poistetaan terms myöhemmin
         terms (fn [lng-keyword] (distinct (remove nil? (concat (map lng-keyword nimet) ;HUOM! Älä tee tästä defniä, koska se ei enää ole thread safe!
                                                                (vector (-> oppilaitos :nimi lng-keyword))
                                                                (map #(-> % :nimi lng-keyword) tarjoajat)
