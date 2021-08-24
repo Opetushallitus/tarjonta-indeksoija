@@ -8,7 +8,8 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -95,6 +96,73 @@
        (map :oid)
        (->distinct-vec)))
 
+(defn- get-organisaationimet-from-toteutukset
+  [hierarkia toteutukset]
+  (for [toteutus (->> toteutukset
+                      (map (fn [t] (->> (:tarjoajat t)
+                                        (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
+                                        (assoc t :tarjoajat))))
+                      (filter #(seq (:tarjoajat %))))]
+    (map #(:nimi %) (:tarjoajat toteutus))))
+
+(defn- jarjestaja-search-terms
+  [hierarkia koulutus toteutukset]
+  (let [koulutusnimi (:nimi koulutus)
+        toteutusnimi (for [toteutus toteutukset] (:nimi toteutus))
+        koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
+        toteutus-organisaationimi (flatten (get-organisaationimet-from-toteutukset hierarkia toteutukset))
+        asiasanat (flatten (for [toteutus toteutukset] (get-in toteutus [:metadata :asiasanat])))
+        tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))
+        ammattinimikkeet (flatten (for [toteutus toteutukset] (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))]
+    {:koulutusnimi              {:fi [(:fi koulutusnimi)]
+                                 :sv [(:sv koulutusnimi)]
+                                 :en [(:en koulutusnimi)]}
+     :toteutusnimi              {:fi [(map #(:fi %) toteutusnimi)]
+                                 :sv [(map #(:sv %) toteutusnimi)]
+                                 :en [(map #(:en %) toteutusnimi)]}
+     :koulutus_organisaationimi {:fi [(:fi koulutus-organisaationimi)]
+                                 :sv [(:sv koulutus-organisaationimi)]
+                                 :en [(:en koulutus-organisaationimi)]}
+     :toteutus_organisaationimi {:fi [(map #(:fi %) toteutus-organisaationimi)]
+                                 :sv [(map #(:sv %) toteutus-organisaationimi)]
+                                 :en [(map #(:en %) toteutus-organisaationimi)]}
+     :asiasanat                 {:fi [(map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))]
+                                 :sv [(map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))]
+                                 :en [(map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))]}
+     :tutkintonimikkeet         {:fi [(map #(:fi %) tutkintonimikkeet)]
+                                 :sv [(map #(:sv %) tutkintonimikkeet)]
+                                 :en [(map #(:en %) tutkintonimikkeet)]}
+     :ammattinimikkeet          {:fi [(map #(:fi %) ammattinimikkeet)]
+                                 :sv [(map #(:sv %) ammattinimikkeet)]
+                                 :en [(map #(:en %) ammattinimikkeet)]}}))
+
+(defn- tuleva-jarjestaja-search-terms
+  [hierarkia koulutus]
+  (let [koulutusnimi (:nimi koulutus)
+        koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
+        tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))]
+    {:koulutusnimi              {:fi [(:fi koulutusnimi)]
+                                 :sv [(:sv koulutusnimi)]
+                                 :en [(:en koulutusnimi)]}
+     :toteutusnimi              {:fi []
+                                 :sv []
+                                 :en []}
+     :koulutus_organisaationimi {:fi [(:fi koulutus-organisaationimi)]
+                                 :sv [(:sv koulutus-organisaationimi)]
+                                 :en [(:en koulutus-organisaationimi)]}
+     :toteutus_organisaationimi {:fi []
+                                 :sv []
+                                 :en []}
+     :asiasanat                 {:fi []
+                                 :sv []
+                                 :en []}
+     :tutkintonimikkeet         {:fi [(map #(:fi %) tutkintonimikkeet)]
+                                 :sv [(map #(:sv %) tutkintonimikkeet)]
+                                 :en [(map #(:en %) tutkintonimikkeet)]}
+     :ammattinimikkeet          {:fi []
+                                 :sv []
+                                 :en []}}))
+
 (defn assoc-jarjestaja-hits
   [koulutus]
   (if (seq (:tarjoajat koulutus))
@@ -108,6 +176,20 @@
            (apply merge-with concat)
            (merge koulutus)))
     (assoc koulutus :hits [(tuleva-jarjestaja-hit {} koulutus)])))
+
+(defn assoc-jarjestaja-search-terms
+  [koulutus]
+  (if (seq (:tarjoajat koulutus))
+    (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
+          search-terms (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
+                         (if (tuleva-jarjestaja? hierarkia toteutukset)
+                           {:search_terms [(tuleva-jarjestaja-search-terms hierarkia koulutus)]}
+                           {:search_terms [(jarjestaja-search-terms hierarkia koulutus toteutukset)]}))]
+      (->> search-terms
+           (apply merge-with concat)
+           (merge koulutus)))
+    (assoc koulutus :search_terms [(tuleva-jarjestaja-search-terms {} koulutus)])))
+
 
 (defn- create-entry
   [koulutus]
@@ -123,7 +205,9 @@
                   (assoc :opintojenLaajuusNumero  (search-tool/opintojen-laajuus-numero koulutus))
                   (assoc :opintojenLaajuusyksikko (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus))
                   (common/decorate-koodi-uris)
-                  (assoc :hits (:hits koulutus)))]
+                  (assoc :hits (:hits koulutus))
+                  (assoc :search_terms (:search_terms koulutus))
+                  )]
     (cond-> entry
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))
@@ -134,6 +218,7 @@
     (if (julkaistu? koulutus)
       (indexable/->index-entry oid (-> koulutus
                                        (assoc-jarjestaja-hits)
+                                       (assoc-jarjestaja-search-terms)
                                        (create-entry)))
       (indexable/->delete-entry oid))))
 
