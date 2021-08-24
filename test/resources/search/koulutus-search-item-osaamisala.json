@@ -18,6 +18,39 @@
     "sv": "kuvaus sv"
   },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "search_terms": [
+    {
+      "koulutusnimi": {
+        "fi": "Hevosalan osaamisala fi",
+        "sv": "Hevosalan osaamisala sv"
+      },
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "toteutus_organisaationimi": {
+        "fi": [
+          "Oppilaitos fi 1.2.246.562.10.77777777799"
+        ],
+        "sv": [
+          "Oppilaitos sv 1.2.246.562.10.77777777799"
+        ]
+      },
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "koulutustyypit": [
+        "amm-osaamisala"
+      ]
+    }
+  ],
   "hits": [
     {
       "sijainti": [
