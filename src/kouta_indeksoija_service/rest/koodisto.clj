@@ -27,7 +27,7 @@
     (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodit koodisto))))
 
 (def get-koodit-with-cache
-  (memo/ttl get-koodit {} :ttl/threshold 86400000)) ;24 tunnin cache
+  (memo/ttl get-koodit {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
 
 (defn get-koodi
   [koodisto koodi-uri]
@@ -38,7 +38,7 @@
         (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi koodisto (:koodi with-versio)))))))
 
 (def get-koodi-with-cache
-  (memo/ttl get-koodi {} :ttl/threshold 86400000)) ;24 tunnin cache
+  (memo/ttl get-koodi {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
 
 (defn get-koodi-nimi-with-cache
   ([koodisto koodi-uri]
@@ -57,7 +57,7 @@
         (get-koodi-with-url (resolve-url :koodisto-service.alakoodit (:koodi with-versio)))))))
 
 (def get-alakoodit-with-cache
-  (memo/ttl get-alakoodit {} :ttl/threshold 86400000)) ;24 tunnin cache
+  (memo/ttl get-alakoodit {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
 
 (defn list-alakoodit-with-cache
   [koodi-uri alakoodi-uri]
