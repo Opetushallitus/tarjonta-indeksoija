@@ -33,9 +33,7 @@
   [koodisto koodi-uri]
   (when koodi-uri
     (let [with-versio (extract-versio koodi-uri)]
-      (if (contains? with-versio :versio)
-        (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi-versio koodisto (:koodi with-versio) (:versio with-versio)))
-        (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi koodisto (:koodi with-versio)))))))
+      (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi koodisto (:koodi with-versio))))))
 
 (def get-koodi-with-cache
   (memo/ttl get-koodi {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
