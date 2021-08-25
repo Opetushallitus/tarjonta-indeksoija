@@ -15,8 +15,11 @@
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
-            [clj-test-utils.elasticsearch-mock-utils :refer :all]
+            [kouta-indeksoija-service.indexer.cache.hierarkia]
+            [kouta-indeksoija-service.rest.organisaatio]
+            [kouta-indeksoija-service.rest.kouta]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :as mock]))
 
 (use-fixtures :each fixture/indices-fixture)

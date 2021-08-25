@@ -52,6 +52,10 @@
   [oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
 
+(defn get-oppilaitoksen-osa
+  [oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitoksen-osa.oid oid) {}))
+
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]
    (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.toteutukset koulutus-oid)
@@ -98,3 +102,4 @@
 (defn get-oppilaitoksen-osat
   [oppilaitos-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.osat oppilaitos-oid)))
+

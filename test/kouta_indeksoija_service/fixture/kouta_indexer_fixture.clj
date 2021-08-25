@@ -186,8 +186,8 @@
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
-  (let [oppilaitosen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
-    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitosen-osa))))
+  (let [oppilaitoksen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
+    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitoksen-osa))))
 
 (defn update-oppilaitoksen-osa-mock
   [oid & {:as params}]
@@ -301,13 +301,13 @@
 
 (defn toimipiste-children
   [oids]
-    (map #(-> {}
-              (assoc :oid %)
-              (assoc :status "AKTIIVINEN")
-              (assoc :kotipaikkaUri "kunta_091")
-              (assoc :children [])
-              (assoc :nimi {:fi (str "Toimipiste fi " %)
-                            :sv (str "Toimipiste sv " %)})) oids))
+  (map #(-> {}
+            (assoc :oid %)
+            (assoc :status "AKTIIVINEN")
+            (assoc :kotipaikkaUri "kunta_091")
+            (assoc :children [])
+            (assoc :nimi {:fi (str "Toimipiste fi " %)
+                          :sv (str "Toimipiste sv " %)})) oids))
 
 (defn mocked-hierarkia-default-entity [oid]
   (println "mocked hierarkia base entity for oid " oid)
@@ -324,8 +324,7 @@
                     :status "AKTIIVINEN"
                     :aliOrganisaatioMaara 3
                     :organisaatiotyypit ["organisaatiotyyppi_03"]
-                    :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])
-                    }]})
+                    :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]})
 
 (defn mock-organisaatio-hierarkia-v4
   [oid]
@@ -363,6 +362,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
+
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osa
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osa
 
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus

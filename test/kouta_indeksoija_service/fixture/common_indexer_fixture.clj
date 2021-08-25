@@ -27,6 +27,7 @@
 (def sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd")
 (def oppilaitos-oid "1.2.246.562.10.10101010101")
 (def oppilaitoksen-osa-oid "1.2.246.562.10.10101010102")
+(def default-jarjestyspaikka-oid "1.2.246.562.10.67476956288")
 
 (defn no-timestamp
   [json]
@@ -137,7 +138,8 @@
                               :valintaperuste valintaperuste-id
                               :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
                               :muokkaaja "1.2.246.562.24.62301161440"
-                              :modified "2019-02-05T09:49:23")
+                              :modified "2019-02-05T09:49:23"
+                              :jarjestyspaikkaOid default-jarjestyspaikka-oid)
 
   (fixture/add-hakukohde-mock "1.2.246.562.20.00000000000000000002"
                               "1.2.246.562.17.00000000000000000003"
@@ -148,7 +150,9 @@
                               :muokkaaja "1.2.246.562.24.62301161440"
                               :hakuaikaAlkaa "2018-10-10T12:00"
                               :hakuaikaPaattyy "2030-11-10T12:00"
-                              :modified "2019-02-05T09:49:23")
+                              :modified "2019-02-05T09:49:23"
+                              :jarjestyspaikkaOid default-jarjestyspaikka-oid)
+
 
   (fixture/add-sorakuvaus-mock sorakuvaus-id
                                :tila "arkistoitu"
@@ -167,8 +171,14 @@
                                :muokkaaja "1.2.246.562.24.62301161440"
                                :modified "2019-02-05T09:49:23")
 
-  (fixture/add-oppilaitoksen-osa-mock "1.2.246.562.10.10101010102"
+  (fixture/add-oppilaitoksen-osa-mock oppilaitoksen-osa-oid
                                       oppilaitos-oid
+                                      :tila "julkaistu"
+                                      :muokkaaja "1.2.246.562.24.62301161440"
+                                      :modified "2019-02-05T09:49:23")
+
+  (fixture/add-oppilaitoksen-osa-mock default-jarjestyspaikka-oid
+                                      mocks/Oppilaitos1
                                       :tila "julkaistu"
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49:23"))

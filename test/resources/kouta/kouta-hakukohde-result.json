@@ -448,5 +448,6 @@
   },
   "onkoHarkinnanvarainenKoulutus": false,
   "koulutustyypit": ["koulutustyyppi_01", "koulutustyyppi_02"],
-  "externalId": "3344556677"
+  "externalId": "3344556677",
+  "jarjestaaUrheilijanAmmKoulutusta": false
 }
