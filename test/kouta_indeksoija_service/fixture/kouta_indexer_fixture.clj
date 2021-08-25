@@ -397,6 +397,9 @@
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
 
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
+                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio
+
                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio-hierarkia
 
