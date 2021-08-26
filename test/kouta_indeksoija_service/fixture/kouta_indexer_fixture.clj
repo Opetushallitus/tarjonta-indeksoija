@@ -74,6 +74,13 @@
     :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
     :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
+(defonce tuva-koulutus-metadata
+  (generate-string
+   {:tyyppi               "tuva"
+    :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
+    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv" }
+    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}}))
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (merge default-koulutus-map {:organisaatio Oppilaitos1} params)]

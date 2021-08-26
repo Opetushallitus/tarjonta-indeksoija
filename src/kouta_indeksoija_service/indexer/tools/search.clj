@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? julkaistu? get-non-korkeakoulu-koodi-uri]]
+  (:require [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? julkaistu? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -159,12 +159,18 @@
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
     :default                   (get-in koulutus [:metadata :opintojenLaajuusKoodiUri])))
 
+(defn number-or-nil
+  [koodiarvo]
+  (if (every? #(Character/isDigit %) koodiarvo)
+    koodiarvo
+    nil))
+
 (defn opintojen-laajuus-numero
   [koulutus]
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
-    :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo)))
+    :default                   (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo number-or-nil)))
 
 (defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]
@@ -173,6 +179,7 @@
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (korkeakoulutus? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
+    (tuva? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
     :else nil))
 
 (defn tutkinnon-osat
