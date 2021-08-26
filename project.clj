@@ -25,6 +25,7 @@
                                                               joda-time
                                                               org.clojure/core.cache
                                                               org.clojure/core.memoize]]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.12.4"]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [cheshire "5.10.0"]
                  [clj-http "3.12.1"]
@@ -54,7 +55,7 @@
                  ;;SQS Handling
                  [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
                                                   com.amazonaws/amazon-kinesis-client]]
-                 [com.amazonaws/aws-java-sdk-core "1.11.916" :exclusions [com.fasterxml.jackson.core/jackson-annotations]]
+                 [com.amazonaws/aws-java-sdk-core "1.11.916"]
                  [com.amazonaws/aws-java-sdk-sqs "1.11.916"]]
   :ring {:handler kouta-indeksoija-service.api/app
          :init kouta-indeksoija-service.api/init
