@@ -3,6 +3,7 @@
 (def index-settings
   {:index.mapping.total_fields.limit 2000
    :index.max_ngram_diff "35"
+   :number_of_shards "1"
    :analysis {:filter {:ngram_compound_words_and_conjugations {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
                                                                :min_gram "3"
                                                                :max_gram "30"
