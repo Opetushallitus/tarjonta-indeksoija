@@ -23,6 +23,7 @@
 (def toteutus-oid "1.2.246.562.17.00000000000000000001")
 (def haku-oid "1.2.246.562.29.00000000000000000001")
 (def hakukohde-oid "1.2.246.562.20.00000000000000000001")
+(def hakukohde-oid2 "1.2.246.562.20.00000000000000000002")
 (def valintaperuste-id "a5e88367-555b-4d9e-aa43-0904e5ea0a13")
 (def sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd")
 (def oppilaitos-oid "1.2.246.562.10.10101010101")
@@ -141,7 +142,7 @@
                               :modified "2019-02-05T09:49:23"
                               :jarjestyspaikkaOid default-jarjestyspaikka-oid)
 
-  (fixture/add-hakukohde-mock "1.2.246.562.20.00000000000000000002"
+  (fixture/add-hakukohde-mock hakukohde-oid2
                               "1.2.246.562.17.00000000000000000003"
                               haku-oid
                               :tila "julkaistu"

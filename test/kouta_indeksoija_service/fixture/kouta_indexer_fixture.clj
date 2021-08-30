@@ -94,6 +94,12 @@
     (locking KoutaFixture
       (->keywordized-json (.getKoulutuksetByTarjoajat KoutaFixture oids)))))
 
+(defn mock-get-hakukohde-oids-by-jarjestyspaikka
+  [oid]
+  (let [oids (str oid "," oid "1," oid "2," oid "3")]
+    (locking KoutaFixture
+      (->keywordized-json (.getHakukohdeOidsByJarjestyspaikat KoutaFixture oids)))))
+
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
   (let [toteutus (merge default-toteutus-map {:organisaatio Oppilaitos1} params {:koulutusOid koulutusOid})]
@@ -386,6 +392,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
+
+                 kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikka
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikka
 
                  kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutus-oids-by-sorakuvaus

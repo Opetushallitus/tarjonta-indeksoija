@@ -129,6 +129,14 @@
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))))))
 
+(deftest index-oppilaitoksen-osa
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index hakukohde when indexing oppilaitoksen osa that is set as järjestyspaikka on that hakukohde"
+      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
+        (check-all-nil)
+        (i/index-oppilaitokset [default-jarjestyspaikka-oid])
+        (is (= "1.2.246.562.20.00000000000000000002" (:oid (get-doc hakukohde/index-name "1.2.246.562.20.00000000000000000002"))))))))
+
 (deftest index-organisaatio-no-oppilaitokset-test
   (fixture/with-mocked-indexing
    (with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja (fn [oid] (throw (Exception. (str "I was called with [" oid "]"))))
@@ -246,7 +254,6 @@
 
 (defonce koulutus-oid2   "1.2.246.562.13.00000000000000000099")
 (defonce toteutus-oid2   "1.2.246.562.17.00000000000000000099")
-(defonce hakukohde-oid2  "1.2.246.562.20.00000000000000000002")
 (defonce oppilaitos-oid2 "1.2.246.562.10.77777777799")
 
 (deftest index-all-hakukohteet-test

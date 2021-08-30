@@ -4,7 +4,8 @@
            [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
            [clj-log.error-log :refer [with-error-logging]]
            [ring.util.codec :refer [url-encode]]
-           [clojure.tools.logging :as log]))
+           [clojure.tools.logging :as log]
+           [clojure.string]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
 
@@ -39,6 +40,9 @@
 (defn get-hakukohde
   [oid]
   (get-doc "hakukohde" oid))
+
+(defn get-hakukohde-oids-by-jarjestyspaikka [oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.jarjestyspaikka.hakukohde-oids oid)))
 
 (defn get-valintaperuste
   [id]
