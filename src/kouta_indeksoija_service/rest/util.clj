@@ -37,7 +37,8 @@
     (case status
       200 body
       404 (do (log/warn  "Got " status " from " method-name ": " url " with body " body) nil)
-          (do (log/error "Got " status " from " method-name ": " url " with response " response) nil))))
+      nil (do (log/error  "Got " status " from " method-name ": " url " with error: " (if (instance? Exception response) (.getMessage response) response)) nil)
+      (do (log/error "Got " status " from " method-name ": " url " with response " response) nil))))
 
 (defn ->json-body-with-error-handling
   [url method opts]
@@ -51,7 +52,7 @@
   ([url query-params]
    (->json-body-with-error-handling url :get {:query-params query-params}))
   ([url]
-    (get->json-body url {})))
+   (get->json-body url {})))
 
 (defn post->json-body
   ([url body content-type]

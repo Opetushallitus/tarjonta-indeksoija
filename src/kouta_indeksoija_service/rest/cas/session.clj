@@ -10,9 +10,9 @@
 
 (defn init-session
   [service-url jsession?]
-    (let [path (.getPath (java.net.URI. service-url))]
-      (log/info "Init cas session to service " path " @ url " service-url)
-      (map->CasSession {:service {:url service-url :path path} :session-id (atom nil) :jsession? jsession?})))
+  (let [path (.getPath (java.net.URI. service-url))]
+    (log/info "Init cas session to service " path " @ url " service-url)
+    (map->CasSession {:service {:url service-url :path path} :session-id (atom nil) :jsession? jsession?})))
 
 (defn- empty?
   [cas-session]
@@ -48,7 +48,9 @@
   ([cas-client method url opts]
    (let [method-name (upper-case (str method))]
      (log/debug method-name " => " url)
-     (let [response (cas-authenticated-request cas-client method url (assoc opts :as :json :throw-exceptions false))]
-       (handle-error url method-name response))))
+     (try
+       (let [response (cas-authenticated-request cas-client method url (assoc opts :as :json :throw-exceptions false))]
+         (handle-error url method-name response))
+       (catch Exception e (handle-error url method-name e) (throw e)))))
   ([cas-client method url]
    (cas-authenticated-request-as-json cas-client method url {})))
