@@ -5,7 +5,7 @@
             [clojure.core.cache :as cache]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version eperuste-laajuusyksikko->opintojen-laajuusyksikko]]))
 
-(defonce eperuste_cache_time_millis (* 1000 60 20))
+(defonce eperuste_cache_time_millis (* 1000 60 30))
 
 (defonce EPERUSTE_CACHE (atom (cache/ttl-cache-factory {} :ttl eperuste_cache_time_millis)))
 

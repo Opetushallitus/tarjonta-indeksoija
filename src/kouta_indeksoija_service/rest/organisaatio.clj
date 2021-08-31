@@ -50,7 +50,7 @@
   (memoize/memo-clear! get-all-organisaatiot))
 
 (def get-all-organisaatiot-with-cache
-  (memoize/ttl get-all-organisaatiot :ttl/threshold (* 1000 60 60))) ; 1 hour time to live
+  (memoize/ttl get-all-organisaatiot :ttl/threshold (* 1000 60 30))) ;;30 minuutin cache
 
 (defn get-hierarkia-for-oid-from-cache
   ;; With parents
@@ -89,4 +89,4 @@
   (get->json-body (resolve-url :organisaatio-service.v4.oid oid)))
 
 (def get-by-oid-cached
-  (memoize/ttl get-by-oid {} :ttl/threshold 86400000))
+  (memoize/ttl get-by-oid {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
