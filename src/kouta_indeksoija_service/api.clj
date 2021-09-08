@@ -60,7 +60,7 @@
   (if notify (notifier/notify {keyword result}))
   (ok {:result result}))
 
-(def service-api
+(def app
   (api
    {:swagger {:ui "/kouta-indeksoija/swagger"
               :spec "/kouta-indeksoija/swagger.json"
@@ -437,8 +437,3 @@
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
     (route/resources "/kouta-indeksoija/"))))
-
-(def app
-  (-> service-api
-      ;TODO REMOVE CORS SUPPORT WHEN ui APIs are moved to another project
-      (wrap-cors :access-control-allow-origin [#"http://localhost:3005"] :access-control-allow-methods [:get])))

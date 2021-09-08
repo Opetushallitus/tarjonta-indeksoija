@@ -4,7 +4,8 @@
            [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
            [clj-log.error-log :refer [with-error-logging]]
            [ring.util.codec :refer [url-encode]]
-           [clojure.tools.logging :as log]))
+           [clojure.tools.logging :as log]
+           [clojure.string]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
 
@@ -40,6 +41,9 @@
   [oid]
   (get-doc "hakukohde" oid))
 
+(defn get-hakukohde-oids-by-jarjestyspaikka [oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.jarjestyspaikka.hakukohde-oids oid)))
+
 (defn get-valintaperuste
   [id]
   (get-doc "valintaperuste" id))
@@ -51,6 +55,10 @@
 (defn get-oppilaitos
   [oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
+
+(defn get-oppilaitoksen-osa
+  [oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitoksen-osa.oid oid) {}))
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]
@@ -98,3 +106,4 @@
 (defn get-oppilaitoksen-osat
   [oppilaitos-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.osat oppilaitos-oid)))
+

@@ -28,18 +28,18 @@
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]
   (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio) koulutukset)
-          (seq oppilaitos) (assoc :oppilaitos (-> oppilaitos
-                                                  (common/complete-entry)
-                                                  (dissoc :oid)))))
+    (seq oppilaitos) (assoc :oppilaitos (-> oppilaitos
+                                            (common/complete-entry)
+                                            (dissoc :oid)))))
 
 (defn- oppilaitoksen-osa-entry
   [organisaatio oppilaitoksen-osa]
   ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
   ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
   (cond-> (organisaatio-entry organisaatio)
-          (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
-                                                               (common/complete-entry)
-                                                               (dissoc :oppilaitosOid :oid)))))
+    (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
+                                                         (common/complete-entry)
+                                                         (dissoc :oppilaitosOid :oid)))))
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
@@ -56,7 +56,8 @@
     (-> (oppilaitos-entry organisaatio oppilaitos koulutukset)
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
-                          (vec))))))
+                          (vec)))
+        (assoc :jarjestaaUrheilijanAmmKoulutusta (boolean (some (fn [osa] (get-in osa [:metadata :jarjestaaUrheilijanAmmKoulutusta])) oppilaitoksen-osat))))))
 
 (defn create-index-entry
   [oid]

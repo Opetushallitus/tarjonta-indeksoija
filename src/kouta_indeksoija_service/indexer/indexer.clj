@@ -137,15 +137,15 @@
 (defn index-oppilaitokset
   [oids]
   (let [get-organisaation-koulutukset (fn [oid] (let [result (map :oid (some-> oid
-                                                                  (hierarkia/get-hierarkia)
-                                                                  (organisaatio-tool/find-oppilaitos-from-hierarkia)
-                                                                  (:oid)
-                                                                  (kouta-backend/get-koulutukset-by-tarjoaja)))]
-                                                  result))]
-    (let [entries (oppilaitos/do-index oids)]
-      (oppilaitos-search/do-index oids)
-      (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids))
-      entries)))
+                                                                               (hierarkia/get-hierarkia)
+                                                                               (organisaatio-tool/find-oppilaitos-from-hierarkia)
+                                                                               (:oid)
+                                                                               (kouta-backend/get-koulutukset-by-tarjoaja)))] result))
+        entries (oppilaitos/do-index oids)]
+    (oppilaitos-search/do-index oids)
+    (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids))
+    (hakukohde/do-index (mapcat kouta-backend/get-hakukohde-oids-by-jarjestyspaikka oids))
+    entries))
 
 (defn index-oppilaitos
   [oid]

@@ -124,7 +124,7 @@ sellainen tarve tulee.
 
 Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `lein run`
 
-Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:3000/kouta-indeksoija/swagger/index.html`
+Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:8100/kouta-indeksoija/swagger/index.html`
 
 ### 3.4. Kehitystyökalut
 
