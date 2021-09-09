@@ -105,6 +105,15 @@
                       (filter #(seq (:tarjoajat %))))]
     (map #(:nimi %) (:tarjoajat toteutus))))
 
+(defn- remove-nils-from-search-terms
+  [search-terms]
+  (clojure.walk/postwalk
+    (fn [x]
+      (if (map? x)
+        (not-empty (into {} (remove (comp nil? second)) x))
+        x))
+    search-terms))
+
 (defn- jarjestaja-search-terms
   [hierarkia koulutus toteutukset]
   (let [koulutusnimi (:nimi koulutus)
@@ -114,15 +123,15 @@
         asiasanat (flatten (for [toteutus toteutukset] (get-in toteutus [:metadata :asiasanat])))
         tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))
         ammattinimikkeet (flatten (for [toteutus toteutukset] (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))]
-    {:koulutusnimi              {:fi [(:fi koulutusnimi)]
-                                 :sv [(:sv koulutusnimi)]
-                                 :en [(:en koulutusnimi)]}
+    (remove-nils-from-search-terms {:koulutusnimi              {:fi (:fi koulutusnimi)
+                                 :sv (:sv koulutusnimi)
+                                 :en (:en koulutusnimi)}
      :toteutusnimi              {:fi [(map #(:fi %) toteutusnimi)]
                                  :sv [(map #(:sv %) toteutusnimi)]
                                  :en [(map #(:en %) toteutusnimi)]}
-     :koulutus_organisaationimi {:fi [(:fi koulutus-organisaationimi)]
-                                 :sv [(:sv koulutus-organisaationimi)]
-                                 :en [(:en koulutus-organisaationimi)]}
+     :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
+                                 :sv (:sv koulutus-organisaationimi)
+                                 :en (:en koulutus-organisaationimi)}
      :toteutus_organisaationimi {:fi [(map #(:fi %) toteutus-organisaationimi)]
                                  :sv [(map #(:sv %) toteutus-organisaationimi)]
                                  :en [(map #(:en %) toteutus-organisaationimi)]}
@@ -134,34 +143,23 @@
                                  :en [(map #(:en %) tutkintonimikkeet)]}
      :ammattinimikkeet          {:fi [(map #(:fi %) ammattinimikkeet)]
                                  :sv [(map #(:sv %) ammattinimikkeet)]
-                                 :en [(map #(:en %) ammattinimikkeet)]}}))
+                                 :en [(map #(:en %) ammattinimikkeet)]}})))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
   (let [koulutusnimi (:nimi koulutus)
         koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
         tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))]
-    {:koulutusnimi              {:fi [(:fi koulutusnimi)]
-                                 :sv [(:sv koulutusnimi)]
-                                 :en [(:en koulutusnimi)]}
-     :toteutusnimi              {:fi []
-                                 :sv []
-                                 :en []}
-     :koulutus_organisaationimi {:fi [(:fi koulutus-organisaationimi)]
-                                 :sv [(:sv koulutus-organisaationimi)]
-                                 :en [(:en koulutus-organisaationimi)]}
-     :toteutus_organisaationimi {:fi []
-                                 :sv []
-                                 :en []}
-     :asiasanat                 {:fi []
-                                 :sv []
-                                 :en []}
-     :tutkintonimikkeet         {:fi [(map #(:fi %) tutkintonimikkeet)]
-                                 :sv [(map #(:sv %) tutkintonimikkeet)]
-                                 :en [(map #(:en %) tutkintonimikkeet)]}
-     :ammattinimikkeet          {:fi []
-                                 :sv []
-                                 :en []}}))
+    (remove-nils-from-search-terms
+      {:koulutusnimi              {:fi (:fi koulutusnimi)
+                                   :sv (:sv koulutusnimi)
+                                   :en (:en koulutusnimi)}
+       :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
+                                   :sv (:sv koulutus-organisaationimi)
+                                   :en (:en koulutus-organisaationimi)}
+       :tutkintonimikkeet         {:fi (not-empty (map #(:fi %) tutkintonimikkeet))
+                                   :sv (not-empty (map #(:sv %) tutkintonimikkeet))
+                                   :en (not-empty (map #(:en %) tutkintonimikkeet))}})))
 
 (defn assoc-jarjestaja-hits
   [koulutus]
