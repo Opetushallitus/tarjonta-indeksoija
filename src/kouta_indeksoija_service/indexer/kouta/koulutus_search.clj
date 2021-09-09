@@ -9,7 +9,8 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]))
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [clojure.walk :as walk]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -107,12 +108,16 @@
 
 (defn- remove-nils-from-search-terms
   [search-terms]
-  (clojure.walk/postwalk
+  (walk/postwalk
     (fn [x]
       (if (map? x)
         (not-empty (into {} (remove (comp nil? second)) x))
         x))
     search-terms))
+
+(defn- get-lang-values
+  [lang values]
+  (remove nil? (map #(lang %) values)))
 
 (defn- jarjestaja-search-terms
   [hierarkia koulutus toteutukset]
@@ -123,27 +128,28 @@
         asiasanat (flatten (for [toteutus toteutukset] (get-in toteutus [:metadata :asiasanat])))
         tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))
         ammattinimikkeet (flatten (for [toteutus toteutukset] (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))]
-    (remove-nils-from-search-terms {:koulutusnimi              {:fi (:fi koulutusnimi)
-                                 :sv (:sv koulutusnimi)
-                                 :en (:en koulutusnimi)}
-     :toteutusnimi              {:fi [(map #(:fi %) toteutusnimi)]
-                                 :sv [(map #(:sv %) toteutusnimi)]
-                                 :en [(map #(:en %) toteutusnimi)]}
-     :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
-                                 :sv (:sv koulutus-organisaationimi)
-                                 :en (:en koulutus-organisaationimi)}
-     :toteutus_organisaationimi {:fi [(map #(:fi %) toteutus-organisaationimi)]
-                                 :sv [(map #(:sv %) toteutus-organisaationimi)]
-                                 :en [(map #(:en %) toteutus-organisaationimi)]}
-     :asiasanat                 {:fi [(map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))]
-                                 :sv [(map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))]
-                                 :en [(map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))]}
-     :tutkintonimikkeet         {:fi [(map #(:fi %) tutkintonimikkeet)]
-                                 :sv [(map #(:sv %) tutkintonimikkeet)]
-                                 :en [(map #(:en %) tutkintonimikkeet)]}
-     :ammattinimikkeet          {:fi [(map #(:fi %) ammattinimikkeet)]
-                                 :sv [(map #(:sv %) ammattinimikkeet)]
-                                 :en [(map #(:en %) ammattinimikkeet)]}})))
+    (remove-nils-from-search-terms
+      {:koulutusnimi              {:fi (:fi koulutusnimi)
+                                   :sv (:sv koulutusnimi)
+                                   :en (:en koulutusnimi)}
+       :toteutusnimi              {:fi (not-empty (get-lang-values :fi toteutusnimi))
+                                   :sv (not-empty (get-lang-values :sv toteutusnimi))
+                                   :en (not-empty (get-lang-values :en toteutusnimi))}
+       :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
+                                   :sv (:sv koulutus-organisaationimi)
+                                   :en (:en koulutus-organisaationimi)}
+       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
+                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
+                                   :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
+       :asiasanat                 {:fi (not-empty (remove nil? (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
+                                   :sv (not-empty (remove nil? (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
+                                   :en (not-empty (remove nil? (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
+       :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
+                                   :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
+                                   :en (not-empty (get-lang-values :en tutkintonimikkeet))}
+       :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
+                                   :sv (not-empty (get-lang-values :sv ammattinimikkeet))
+                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}})))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
@@ -157,9 +163,9 @@
        :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
                                    :sv (:sv koulutus-organisaationimi)
                                    :en (:en koulutus-organisaationimi)}
-       :tutkintonimikkeet         {:fi (not-empty (map #(:fi %) tutkintonimikkeet))
-                                   :sv (not-empty (map #(:sv %) tutkintonimikkeet))
-                                   :en (not-empty (map #(:en %) tutkintonimikkeet))}})))
+       :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
+                                   :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
+                                   :en (not-empty (get-lang-values :en tutkintonimikkeet))}})))
 
 (defn assoc-jarjestaja-hits
   [koulutus]
@@ -207,7 +213,7 @@
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus))
                   (assoc :search_terms (:search_terms koulutus))
-                  (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid))]
+                  (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid :ePerusteId))]
     (cond-> entry
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))

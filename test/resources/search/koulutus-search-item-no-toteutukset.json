@@ -55,6 +55,28 @@
       }
     }
   ],
+  "search_terms": [
+    {
+      "koulutusnimi": {
+        "fi": "Autoalan perustutkinto 0 fi",
+        "sv": "Autoalan perustutkinto 0 sv"
+      },
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "tutkintonimikkeet": {
+        "fi": [
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+        "tutkintonimikkeet_01 nimi sv",
+        "tutkintonimikkeet_02 nimi sv"
+        ]
+      }
+    }
+  ],
   "hits": [
     {
       "koulutustyypit": [
