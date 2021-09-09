@@ -40,6 +40,53 @@
       }
     }
   ],
+  "search_terms": [
+    {
+      "koulutusnimi": {
+        "fi": [
+          "Hevosalan tutkinnon osat fi"
+        ],
+        "sv": [
+          "Hevosalan tutkinnon osat sv"
+        ],
+        "en": []
+      },
+      "toteutusnimi": {
+        "fi": [],
+        "sv": [],
+        "en": []
+      },
+      "koulutus_organisaationimi": {
+        "fi": [
+          "Oppilaitos fi 1.2.246.562.10.77777777799"
+        ],
+        "sv": [
+          "Oppilaitos sv 1.2.246.562.10.77777777799"
+        ],
+        "en": []
+      },
+      "toteutus_organisaationimi": {
+        "fi": [],
+        "sv": [],
+        "en": []
+      },
+      "asiasanat": {
+        "fi": [],
+        "sv": [],
+        "en": []
+      },
+      "tutkintonimikkeet": {
+        "fi": [],
+        "sv": [],
+        "en": []
+      },
+      "ammattinimikkeet": {
+        "fi": [],
+        "sv": [],
+        "en": []
+      }
+    }
+  ],
   "hits": [
     {
       "sijainti": [
