@@ -194,7 +194,9 @@
 (defn- create-entry
   [koulutus]
   (let [entry (-> koulutus
-                  (select-keys [:oid :nimi :kielivalinta])
+                  (assoc :oid (:oid koulutus))
+                  (assoc :nimi (:nimi koulutus))
+                  (assoc :kielivalinta (:kielivalinta koulutus))
                   (assoc :eperuste                (:ePerusteId koulutus))
                   (assoc :koulutukset             (:koulutuksetKoodiUri koulutus))
                   (assoc :tutkintonimikkeet       (search-tool/tutkintonimike-koodi-urit koulutus))
@@ -207,7 +209,7 @@
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus))
                   (assoc :search_terms (:search_terms koulutus))
-                  )]
+                  (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid))]
     (cond-> entry
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))
