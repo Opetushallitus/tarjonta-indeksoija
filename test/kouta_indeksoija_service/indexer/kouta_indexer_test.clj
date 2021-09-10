@@ -15,8 +15,11 @@
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
-            [clj-test-utils.elasticsearch-mock-utils :refer :all]
+            [kouta-indeksoija-service.indexer.cache.hierarkia]
+            [kouta-indeksoija-service.rest.organisaatio]
+            [kouta-indeksoija-service.rest.kouta]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :as mock]))
 
 (use-fixtures :each fixture/indices-fixture)
@@ -125,6 +128,14 @@
        (i/index-oppilaitokset [mocks/Oppilaitos1])
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))))))
+
+(deftest index-oppilaitoksen-osa
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index hakukohde when indexing oppilaitoksen osa that is set as järjestyspaikka on that hakukohde"
+      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
+        (check-all-nil)
+        (i/index-oppilaitokset [default-jarjestyspaikka-oid])
+        (is (= "1.2.246.562.20.00000000000000000002" (:oid (get-doc hakukohde/index-name "1.2.246.562.20.00000000000000000002"))))))))
 
 (deftest index-organisaatio-no-oppilaitokset-test
   (fixture/with-mocked-indexing
@@ -243,7 +254,6 @@
 
 (defonce koulutus-oid2   "1.2.246.562.13.00000000000000000099")
 (defonce toteutus-oid2   "1.2.246.562.17.00000000000000000099")
-(defonce hakukohde-oid2  "1.2.246.562.20.00000000000000000002")
 (defonce oppilaitos-oid2 "1.2.246.562.10.77777777799")
 
 (deftest index-all-hakukohteet-test

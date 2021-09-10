@@ -124,7 +124,7 @@
         ],
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
-        "koulutustyyppi": "yo",
+        "koulutustyyppi": "amm",
         "oppilaitosTila": "julkaistu",
         "kunnat": [
           {
@@ -134,7 +134,9 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "ammatillinenPerustutkintoErityisopetuksena": false,
+        "tuvaErityisopetuksena": null
       },
       "hakutiedot": [
         {
@@ -242,7 +244,7 @@
         ],
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
-        "koulutustyyppi": "yo",
+        "koulutustyyppi": "amm",
         "oppilaitosTila": "julkaistu",
         "kunnat": [
           {
@@ -252,7 +254,9 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "ammatillinenPerustutkintoErityisopetuksena": false,
+        "tuvaErityisopetuksena": null
       },
       "hakutiedot": [
         {

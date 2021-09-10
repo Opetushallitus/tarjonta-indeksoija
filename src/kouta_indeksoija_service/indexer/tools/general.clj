@@ -28,6 +28,10 @@
   [koulutus]
   (= "lk" (:koulutustyyppi koulutus)))
 
+(defn tuva?
+  [koulutus]
+  (= "tuva" (:koulutustyyppi koulutus)))
+
 (defn any-ammatillinen?
   [koulutus]
   (or (ammatillinen? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus)))

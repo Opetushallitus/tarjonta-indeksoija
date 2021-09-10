@@ -6,8 +6,8 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koodiuri-viikko-laajuusyksikko]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
 (def index-name "koulutus-kouta")
@@ -89,6 +89,11 @@
       (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))
       (assoc-in [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache koodiuri-ylioppilas-tutkintonimike)))))
 
+(defn enrich-tuva-metadata
+  [koulutus]
+  (-> koulutus
+      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache koodiuri-viikko-laajuusyksikko))))
+
 (defn- does-not-have-tutkintonimike?
   [koulutus]
   (nil? (get-in koulutus [:metadata :tutkintonimike])))
@@ -113,6 +118,7 @@
     (amm-osaamisala? koulutus)    (enrich-osaamisala-metadata koulutus)
     (korkeakoulutus? koulutus)    (enrich-korkeakoulutus-metadata koulutus)
     (lukio? koulutus)             (enrich-lukio-metadata koulutus)
+    (tuva? koulutus)              (enrich-tuva-metadata koulutus)
     :default koulutus))
 
 (defn- enrich-metadata

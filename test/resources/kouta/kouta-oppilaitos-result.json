@@ -119,7 +119,8 @@
               "fi": "http://www.oppilaitos.fi",
               "sv": "http://www.oppilaitos.sv"
             }
-          }
+          },
+          "jarjestaaUrheilijanAmmKoulutusta": false
         }
       }
     },
@@ -351,5 +352,6 @@
       "fi": "kunta_091 nimi fi",
       "sv": "kunta_091 nimi sv"
     }
-  }
+  },
+  "jarjestaaUrheilijanAmmKoulutusta": false
 }

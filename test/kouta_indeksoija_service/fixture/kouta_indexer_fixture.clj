@@ -74,6 +74,13 @@
     :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
     :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
 
+(defonce tuva-koulutus-metadata
+  (generate-string
+   {:tyyppi               "tuva"
+    :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
+    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv" }
+    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}}))
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (merge default-koulutus-map {:organisaatio Oppilaitos1} params)]
@@ -93,6 +100,12 @@
   (let [oids (str oid "," oid "1," oid "2," oid "3")]
     (locking KoutaFixture
       (->keywordized-json (.getKoulutuksetByTarjoajat KoutaFixture oids)))))
+
+(defn mock-get-hakukohde-oids-by-jarjestyspaikka
+  [oid]
+  (let [oids (str oid "," oid "1," oid "2," oid "3")]
+    (locking KoutaFixture
+      (->keywordized-json (.getHakukohdeOidsByJarjestyspaikat KoutaFixture oids)))))
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
@@ -186,8 +199,8 @@
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
-  (let [oppilaitosen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
-    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitosen-osa))))
+  (let [oppilaitoksen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
+    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitoksen-osa))))
 
 (defn update-oppilaitoksen-osa-mock
   [oid & {:as params}]
@@ -301,13 +314,13 @@
 
 (defn toimipiste-children
   [oids]
-    (map #(-> {}
-              (assoc :oid %)
-              (assoc :status "AKTIIVINEN")
-              (assoc :kotipaikkaUri "kunta_091")
-              (assoc :children [])
-              (assoc :nimi {:fi (str "Toimipiste fi " %)
-                            :sv (str "Toimipiste sv " %)})) oids))
+  (map #(-> {}
+            (assoc :oid %)
+            (assoc :status "AKTIIVINEN")
+            (assoc :kotipaikkaUri "kunta_091")
+            (assoc :children [])
+            (assoc :nimi {:fi (str "Toimipiste fi " %)
+                          :sv (str "Toimipiste sv " %)})) oids))
 
 (defn mocked-hierarkia-default-entity [oid]
   (println "mocked hierarkia base entity for oid " oid)
@@ -324,8 +337,7 @@
                     :status "AKTIIVINEN"
                     :aliOrganisaatioMaara 3
                     :organisaatiotyypit ["organisaatiotyyppi_03"]
-                    :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])
-                    }]})
+                    :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]})
 
 (defn mock-organisaatio-hierarkia-v4
   [oid]
@@ -364,6 +376,9 @@
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
 
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osa
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osa
+
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
 
@@ -384,6 +399,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
+
+                 kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikka
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikka
 
                  kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutus-oids-by-sorakuvaus

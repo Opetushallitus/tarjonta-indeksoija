@@ -1,6 +1,6 @@
 (require 'cemerick.pomegranate.aether)
 (cemerick.pomegranate.aether/register-wagon-factory!
-  "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
+ "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
 (defproject kouta-indeksoija-service "9.0.1-SNAPSHOT"
   :description "Kouta-indeksoija"
@@ -28,7 +28,7 @@
                  [com.fasterxml.jackson.core/jackson-annotations "2.12.4"]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [cheshire "5.10.0"]
-                 [clj-http "3.12.1"]
+                 [clj-http "2.3.0"]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
@@ -65,8 +65,7 @@
                                   [ring/ring-mock "0.3.0"]
                                   [org.clojure/tools.namespace "0.2.11"]
                                   [criterium "0.4.4"]
-                                  [pjstadig/humane-test-output "0.11.0"]
-                                  ]
+                                  [pjstadig/humane-test-output "0.11.0"]]
                    :plugins [[lein-ring "0.12.5"]
                              [jonase/eastwood "0.3.5"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
@@ -74,15 +73,15 @@
                              [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]]
                    :resource-paths ["dev_resources"]
                    :env {:dev "true"}
-                   :ring {:reload-paths ["src"]}
+                   :ring {:reload-paths ["src"]
+                          :port 8100}
                    :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                               "-Daws.secretKey=randomKeyForLocalstack"]
                    :injections [(require 'pjstadig.humane-test-output)
-                                (pjstadig.humane-test-output/activate!)]
-                   }
+                                (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT" :classifier "tests"]
                                                        [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
@@ -94,8 +93,8 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "6.12.0-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT" :classifier "tests"]
                                       [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
