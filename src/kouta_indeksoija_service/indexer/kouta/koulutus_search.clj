@@ -117,7 +117,7 @@
 
 (defn- get-lang-values
   [lang values]
-  (remove nil? (map #(lang %) values)))
+  (distinct (remove nil? (map #(lang %) values))))
 
 (defn- jarjestaja-search-terms
   [hierarkia koulutus toteutukset]
@@ -141,9 +141,9 @@
        :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                    :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
                                    :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
-       :asiasanat                 {:fi (not-empty (remove nil? (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
-                                   :sv (not-empty (remove nil? (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
-                                   :en (not-empty (remove nil? (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
+       :asiasanat                 {:fi (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
+                                   :sv (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
+                                   :en (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
        :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
                                    :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
                                    :en (not-empty (get-lang-values :en tutkintonimikkeet))}

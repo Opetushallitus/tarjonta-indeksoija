@@ -51,11 +51,9 @@
       "toteutus_organisaationimi": {
         "fi": [
           "Toimipiste fi 1.2.246.562.10.777777777991",
-          "Toimipiste fi 1.2.246.562.10.777777777991",
           "Toimipiste fi 1.2.246.562.10.777777777993"
         ],
         "sv": [
-          "Toimipiste sv 1.2.246.562.10.777777777991",
           "Toimipiste sv 1.2.246.562.10.777777777991",
           "Toimipiste sv 1.2.246.562.10.777777777993"
         ]
@@ -66,8 +64,6 @@
           "musiikkioppilaitokset",
           "psykologia",
           "robotiikka",
-          "robotiikka",
-          "robottiautomatiikka",
           "robottiautomatiikka"
         ],
         "sv": [
@@ -92,7 +88,6 @@
           "automaatioinsinööri",
           "hevonen",
           "insinööri",
-          "koneinsinööri",
           "koneinsinööri",
           "muusikko",
           "psykologi"
