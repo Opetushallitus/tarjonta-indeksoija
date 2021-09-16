@@ -80,10 +80,10 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT" :classifier "tests"]
-                                                       [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
-                                                       [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
+                                                       [fi.oph.kouta/kouta-backend "6.15.0-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "6.15.0-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-common "2.4.0-SNAPSHOT" :classifier "tests"]
+                                                       [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
                                "-Daws.secretKey=randomKeyForLocalstack"]
@@ -93,10 +93,10 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT" :classifier "tests"]
-                                      [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
-                                      [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
+                                      [fi.oph.kouta/kouta-backend "6.15.0-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "6.15.0-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-common "2.4.0-SNAPSHOT" :classifier "tests"]
+                                      [oph/clj-test-utils "0.2.8-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
