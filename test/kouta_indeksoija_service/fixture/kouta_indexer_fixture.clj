@@ -440,7 +440,10 @@
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
 
                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
-                 mock-organisaatio-hierarkia-v4]
+                 mock-organisaatio-hierarkia-v4
+
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
+                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
      (do ~@body)))
 
 (defn index-oppilaitokset
