@@ -5,6 +5,8 @@
 
 (defonce koodiuri-opintopiste-laajuusyksikko "opintojenlaajuusyksikko_2#1")
 
+(defonce koodiuri-osaamispiste-laajuusyksikko "opintojenlaajuusyksikko_6#1")
+
 (defonce koodiuri-viikko-laajuusyksikko "opintojenlaajuusyksikko_8#1")
 
 (defonce koodiuri-ylioppilas-tutkintonimike "tutkintonimikkeet_00001#1")
