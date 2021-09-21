@@ -8,6 +8,7 @@
 
 (def index-name "hakukohde-kouta")
 (defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce tuva-eritysopetus-koulutustyyppi "koulutustyyppi_41")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -112,21 +113,24 @@
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
     (conj hakukohde (common/create-hakulomake-linkki-for-hakukohde link-holder (:oid hakukohde)))))
 
-(defn- conj-er-koulutus [toteutus koulutustyypit]
-  (if (and
-       (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-       (not (.contains koulutustyypit erityisopetus-koulutustyyppi)))
-    (conj koulutustyypit erityisopetus-koulutustyyppi)
-    koulutustyypit))
+(defn- conj-er-koulutus [toteutus koulutustyyppi]
+  (cond
+    (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
+    erityisopetus-koulutustyyppi
+    (true? (get-in toteutus [:metadata :tuvaErityisopetuksena]))
+    tuva-eritysopetus-koulutustyyppi
+    :else koulutustyyppi))
 
 (defn- assoc-koulutustyypit
   [hakukohde toteutus koulutus]
-  (->> koulutus
-       :koulutuksetKoodiUri
-       (mapcat koodisto/koulutustyypit)
-       (map :koodiUri)
-       (conj-er-koulutus toteutus)
-       (assoc hakukohde :koulutustyypit)))
+  (let [koodiurit (->> koulutus
+                    :koulutuksetKoodiUri
+                    (mapcat koodisto/koulutustyypit)
+                    (map :koodiUri))
+        has-only-one (= 1 (count koodiurit))
+        koulutustyyppikoodi (when has-only-one
+                              (conj-er-koulutus toteutus (first koodiurit)))]
+       (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
