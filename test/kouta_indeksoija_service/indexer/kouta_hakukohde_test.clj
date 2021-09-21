@@ -47,6 +47,15 @@
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= (get-in hakukohde [:metadata :hakukohteenLinja]) {:alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}))))))
 
+(deftest index-hakukohde-with-koulutustyyppikoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with koulutustyyppikoodi"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri "koulutustyyppiabc")
+     (i/index-hakukohteet [hakukohde-oid])
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (= (:koulutustyyppikoodi hakukohde) "koulutustyyppiabc_01"))))))
+
 (deftest index-hakukohde-without-alkamiskausi
   (fixture/with-mocked-indexing
    (testing "Koulutuksen alkamiskausi is not mandatory for haku and hakukohde. Previously yps calculation would fail if both were missing"
