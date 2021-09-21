@@ -447,7 +447,7 @@
     "tila": "arkistoitu"
   },
   "onkoHarkinnanvarainenKoulutus": false,
-  "koulutustyypit": ["koulutustyyppi_01", "koulutustyyppi_02"],
+  "koulutustyyppikoodi": null,
   "externalId": "3344556677",
   "jarjestaaUrheilijanAmmKoulutusta": false
 }
