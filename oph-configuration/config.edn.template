@@ -1,4 +1,4 @@
-{:elastic-url "{{kouta_indeksoija_elastic_url}}"
+{:elastic-url "{{kouta_indeksoija_elastic7_url}}"
  :cas {:username "{{kouta_indeksoija_cas_username}}"
        :password "{{kouta_indeksoija_cas_password}}"}
  :hosts {:kouta-backend "https://{{host_virkailija}}"
