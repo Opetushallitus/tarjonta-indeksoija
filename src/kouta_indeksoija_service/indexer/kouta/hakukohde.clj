@@ -113,23 +113,28 @@
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
     (conj hakukohde (common/create-hakulomake-linkki-for-hakukohde link-holder (:oid hakukohde)))))
 
-(defn- conj-er-koulutus [toteutus koulutustyyppi]
+(defn- use-er-koulutus [toteutus]
   (cond
     (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-    erityisopetus-koulutustyyppi
+      erityisopetus-koulutustyyppi
     (true? (get-in toteutus [:metadata :tuvaErityisopetuksena]))
-    tuva-eritysopetus-koulutustyyppi
-    :else koulutustyyppi))
+      tuva-eritysopetus-koulutustyyppi))
+
+(defn- get-koulutustyyppikoodi-from-koodisto
+  [koulutus]
+  (let [koodiurit (->> koulutus
+                      :koulutuksetKoodiUri
+                      (mapcat koodisto/koulutustyypit)
+                      (map :koodiUri))]
+    (when (= 1 (count koodiurit))
+      (first koodiurit))))
 
 (defn- assoc-koulutustyypit
   [hakukohde toteutus koulutus]
-  (let [koodiurit (->> koulutus
-                    :koulutuksetKoodiUri
-                    (mapcat koodisto/koulutustyypit)
-                    (map :koodiUri))
-        has-only-one (= 1 (count koodiurit))
-        koulutustyyppikoodi (when has-only-one
-                              (conj-er-koulutus toteutus (first koodiurit)))]
+  (let [erkkakoodi (use-er-koulutus toteutus)
+        koulutustyyppikoodi (if (not (nil? erkkakoodi))
+                                erkkakoodi
+                              (get-koulutustyyppikoodi-from-koodisto koulutus))]
        (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
