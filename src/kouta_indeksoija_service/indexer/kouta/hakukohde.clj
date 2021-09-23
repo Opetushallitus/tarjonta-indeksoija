@@ -7,7 +7,7 @@
             [clojure.string]))
 
 (def index-name "hakukohde-kouta")
-(defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
 (defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 
 (defn- assoc-valintaperuste
@@ -116,7 +116,7 @@
 (defn- use-er-koulutus [toteutus]
   (cond
     (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-    erityisopetus-koulutustyyppi
+    amm-perustutkinto-erityisopetus-koulutustyyppi
     (true? (get-in toteutus [:metadata :tuvaErityisopetuksena]))
     tuva-erityisopetus-koulutustyyppi))
 
@@ -125,7 +125,9 @@
   (let [koodiurit (->> koulutus
                       :koulutuksetKoodiUri
                       (mapcat koodisto/koulutustyypit)
-                      (map :koodiUri))]
+                      (map :koodiUri)
+                      (distinct)
+                      (filter #(not (.contains [amm-perustutkinto-erityisopetus-koulutustyyppi tuva-erityisopetus-koulutustyyppi] %))))]
     (when (= 1 (count koodiurit))
       (first koodiurit))))
 
