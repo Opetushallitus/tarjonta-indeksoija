@@ -32,8 +32,8 @@
 
 (defn mock-alakoodit
   [koodi-uri alakoodi-uri]
-  (if (= "koulutustyyppiabc" koodi-uri)
-    (vector {:koodiUri (str koodi-uri "_01") :nimi {:fi (str koodi-uri "_01" " nimi fi") :sv (str koodi-uri "_01" " nimi sv")}})
+  (if (= "koulutus_222336#1" koodi-uri)
+    (vector {:koodiUri "koulutustyyppiabc_01" :nimi {:fi (str koodi-uri "_01" " nimi fi") :sv (str koodi-uri "_01" " nimi sv")}})
     (vector
      {:koodiUri (str alakoodi-uri "_01") :nimi {:fi (str alakoodi-uri "_01" " nimi fi") :sv (str alakoodi-uri "_01" " nimi sv")}}
      {:koodiUri (str alakoodi-uri "_02") :nimi {:fi (str alakoodi-uri "_02" " nimi fi") :sv (str alakoodi-uri "_02" " nimi sv")}})))
