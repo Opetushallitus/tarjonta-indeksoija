@@ -8,7 +8,7 @@
 
 (def index-name "hakukohde-kouta")
 (defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
-(defonce tuva-eritysopetus-koulutustyyppi "koulutustyyppi_41")
+(defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -116,9 +116,9 @@
 (defn- use-er-koulutus [toteutus]
   (cond
     (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-      erityisopetus-koulutustyyppi
+    erityisopetus-koulutustyyppi
     (true? (get-in toteutus [:metadata :tuvaErityisopetuksena]))
-      tuva-eritysopetus-koulutustyyppi))
+    tuva-erityisopetus-koulutustyyppi))
 
 (defn- get-koulutustyyppikoodi-from-koodisto
   [koulutus]
