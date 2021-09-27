@@ -7,7 +7,8 @@
             [clojure.string]))
 
 (def index-name "hakukohde-kouta")
-(defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -112,21 +113,31 @@
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
     (conj hakukohde (common/create-hakulomake-linkki-for-hakukohde link-holder (:oid hakukohde)))))
 
-(defn- conj-er-koulutus [toteutus koulutustyypit]
-  (if (and
-       (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-       (not (.contains koulutustyypit erityisopetus-koulutustyyppi)))
-    (conj koulutustyypit erityisopetus-koulutustyyppi)
-    koulutustyypit))
+(defn- use-er-koulutus [toteutus]
+  (cond
+    (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
+    amm-perustutkinto-erityisopetus-koulutustyyppi
+    (true? (get-in toteutus [:metadata :tuvaErityisopetuksena]))
+    tuva-erityisopetus-koulutustyyppi))
+
+(defn- get-koulutustyyppikoodi-from-koodisto
+  [koulutus]
+  (let [koodiurit (->> koulutus
+                      :koulutuksetKoodiUri
+                      (mapcat koodisto/koulutustyypit)
+                      (map :koodiUri)
+                      (distinct)
+                      (filter #(not (.contains [amm-perustutkinto-erityisopetus-koulutustyyppi tuva-erityisopetus-koulutustyyppi] %))))]
+    (when (= 1 (count koodiurit))
+      (first koodiurit))))
 
 (defn- assoc-koulutustyypit
   [hakukohde toteutus koulutus]
-  (->> koulutus
-       :koulutuksetKoodiUri
-       (mapcat koodisto/koulutustyypit)
-       (map :koodiUri)
-       (conj-er-koulutus toteutus)
-       (assoc hakukohde :koulutustyypit)))
+  (let [erkkakoodi (use-er-koulutus toteutus)
+        koulutustyyppikoodi (if (not (nil? erkkakoodi))
+                                erkkakoodi
+                              (get-koulutustyyppikoodi-from-koodisto koulutus))]
+       (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
