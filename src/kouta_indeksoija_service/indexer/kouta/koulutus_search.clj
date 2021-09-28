@@ -1,6 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus-search
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
@@ -106,6 +107,15 @@
                       (filter #(seq (:tarjoajat %))))]
     (map #(:nimi %) (:tarjoajat toteutus))))
 
+(defn- get-tarjoajat-from-toteutukset
+  [hierarkia toteutukset]
+  (for [toteutus (->> toteutukset
+                      (map (fn [t] (->> (:tarjoajat t)
+                                        (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
+                                        (assoc t :tarjoajat))))
+                      (filter #(seq (:tarjoajat %))))]
+    (:tarjoajat toteutus)))
+
 (defn- remove-nils-from-search-terms
   [search-terms]
   (walk/postwalk
@@ -121,13 +131,26 @@
 
 (defn- jarjestaja-search-terms
   [hierarkia koulutus toteutukset]
-  (let [koulutusnimi (:nimi koulutus)
+  (let [tarjoajat (get-tarjoajat-from-toteutukset hierarkia toteutukset)
+        koulutusnimi (:nimi koulutus)
         toteutusnimi (for [toteutus toteutukset] (:nimi toteutus))
         koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
-        toteutus-organisaationimi (flatten (get-organisaationimet-from-toteutukset hierarkia toteutukset))
+        toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat))))
         asiasanat (flatten (for [toteutus toteutukset] (get-in toteutus [:metadata :asiasanat])))
         tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))
-        ammattinimikkeet (flatten (for [toteutus toteutukset] (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))]
+        ammattinimikkeet (flatten (for [toteutus toteutukset] (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))))
+        kunnat (remove nil? (distinct (map :kotipaikkaUri (flatten tarjoajat))))
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
+        ;;todo: :koulutusala [],
+        ;;todo: :yhteishaku [],
+        ;;todo: :pohjakoulutusvaatimus [],
+        ;;todo: :hakutapa [],
+        ;;todo: :opetustapa [],
+        ;;todo: :opetuskieli [],
+        ;;todo: :hakukaynnissa false,
+        ;;todo: :valintatapa [],
+        ;;todo: :koulutustyyppi []
+        ]
     (remove-nils-from-search-terms
       {:koulutusnimi              {:fi (:fi koulutusnimi)
                                    :sv (:sv koulutusnimi)
@@ -149,7 +172,9 @@
                                    :en (not-empty (get-lang-values :en tutkintonimikkeet))}
        :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
                                    :sv (not-empty (get-lang-values :sv ammattinimikkeet))
-                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}})))
+                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}
+       :sijainti                  (search-tool/clean-uris (concat kunnat maakunnat))
+       })))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
