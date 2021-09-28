@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.koodisto
-  (:require [kouta-indeksoija-service.rest.koodisto :refer :all]))
+  (:require [kouta-indeksoija-service.rest.koodisto :refer :all]
+            [kouta-indeksoija-service.util.time :refer [date-is-before-now?]]))
 
 (defonce koodiuri-yhteishaku-hakutapa "hakutapa_01")
 
@@ -59,3 +60,8 @@
   []
   (map #(assoc % :alakoodit (list-alakoodit-with-cache (:koodiUri %) "pohjakoulutusvaatimuskouta"))
        (get-koodit-with-cache "pohjakoulutusvaatimuskonfo")))
+
+(defn filter-expired [koodit]
+  (filter (fn [koodi]
+            (not (if-let [loppu (:voimassaLoppuPvm koodi)]
+                   (date-is-before-now? loppu)))) koodit))
