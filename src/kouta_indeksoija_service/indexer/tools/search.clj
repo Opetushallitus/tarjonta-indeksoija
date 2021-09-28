@@ -10,7 +10,7 @@
 
 (defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
 
-(defn- clean-uris
+(defn clean-uris
   [uris]
   (vec (map remove-uri-version uris)))
 
