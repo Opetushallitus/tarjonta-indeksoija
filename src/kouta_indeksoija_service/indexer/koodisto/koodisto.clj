@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.indexer.koodisto.koodisto
   (:require [kouta-indeksoija-service.rest.koodisto :as koodisto-service]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.util.time :refer [date-is-before-now?]]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "koodisto")
 
@@ -24,14 +23,9 @@
   (cond-> (->koodi-entry koodi)
     (= koodisto/koodiuri-koulutusalataso1 koodisto) (assoc-alakoodi-entries koodisto/koodiuri-koulutusalataso2)))
 
-(defn filter-expired [koodit]
-  (filter (fn [koodi]
-            (not (if-let [loppu (:voimassaLoppuPvm koodi)]
-                   (date-is-before-now? loppu)))) koodit))
-
 (defn create-index-entry
   [koodisto]
-  (let [koodit (filter-expired (koodisto-service/get-koodit koodisto))]
+  (let [koodit (koodisto/filter-expired (koodisto-service/get-koodit koodisto))]
     (indexable/->index-entry koodisto {:id koodisto
                                        :koodisto koodisto
                                        :koodit (vec (map (partial create-koodi-entry koodisto) koodit))})))
