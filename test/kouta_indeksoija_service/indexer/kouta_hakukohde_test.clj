@@ -74,6 +74,15 @@
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= (:koulutustyyppikoodi hakukohde) "koulutustyyppi_41"))))))
 
+(deftest index-hakukohde-with-passive-koulutustyyppikoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with nil koulutustyyppikoodi when it is passive"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri "koulutus_222337#1")
+     (i/index-hakukohteet [hakukohde-oid])
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (nil? (:koulutustyyppikoodi hakukohde)))))))
+
 (deftest index-hakukohde-without-alkamiskausi
   (fixture/with-mocked-indexing
    (testing "Koulutuksen alkamiskausi is not mandatory for haku and hakukohde. Previously yps calculation would fail if both were missing"

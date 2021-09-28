@@ -122,13 +122,16 @@
 
 (defn- get-koulutustyyppikoodi-from-koodisto
   [koulutus]
-  (let [koodiurit (->> koulutus
+  (let [code-state-not-passive #(not (= "PASSIIVINEN" (:tila %)))
+        koodiurit (->> koulutus
                       :koulutuksetKoodiUri
                       (mapcat koodisto/koulutustyypit)
+                      (filter code-state-not-passive)
+                      (koodisto/filter-expired)
                       (map :koodiUri)
                       (distinct)
                       (filter #(not (.contains [amm-perustutkinto-erityisopetus-koulutustyyppi tuva-erityisopetus-koulutustyyppi] %))))]
-    (when (= 1 (count koodiurit))
+    (when (= 1 (count koodiurit))  ; ei tehdä päättelyä useamman koulutustyypin välillä, vaan jätetään arvoksi nil
       (first koodiurit))))
 
 (defn- assoc-koulutustyypit
