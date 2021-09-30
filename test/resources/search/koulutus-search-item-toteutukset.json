@@ -35,14 +35,8 @@
         "sv": "Hevosalan perustutkinto 0 sv"
       },
       "toteutusnimi": {
-        "fi": [
-          "Hevostoteutus 1 fi",
-          "Hevostoteutus 2 fi"
-        ],
-        "sv": [
-          "Hevostoteutus 1 sv",
-          "Hevostoteutus 2 sv"
-        ]
+        "fi": "Hevostoteutus 1 fi",
+        "sv": "Hevostoteutus 1 sv"
       },
       "koulutus_organisaationimi": {
         "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
@@ -87,7 +81,6 @@
         "fi": [
           "automaatioinsinööri",
           "hevonen",
-          "insinööri",
           "koneinsinööri",
           "muusikko",
           "psykologi"
@@ -102,6 +95,143 @@
       "sijainti": [
         "kunta_091",
         "maakunta_01"
+      ],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "hakutiedot": [
+        {
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakutapa": "hakutapa_03",
+          "pohjakoulutusvaatimukset": [
+            "pohjakoulutusvaatimuskonfo_am"
+          ],
+          "valintatavat": [
+            "valintatapajono_av",
+            "valintatapajono_tv"
+          ]
+        }
+      ],
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1",
+        "oppilaitoksenopetuskieli_3"
+      ],
+      "opetustavat": [
+        "opetuspaikkakk_1"
+      ],
+      "koulutustyypit": [
+        "koulutustyyppi_01",
+        "koulutustyyppi_02",
+        "amm"
+      ]
+    },
+    {
+      "koulutusnimi": {
+        "fi": "Hevosalan perustutkinto 0 fi",
+        "sv": "Hevosalan perustutkinto 0 sv"
+      },
+      "toteutusnimi": {
+        "fi": "Hevostoteutus 2 fi",
+        "sv": "Hevostoteutus 2 sv"
+      },
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "toteutus_organisaationimi": {
+        "fi": [
+          "Toimipiste fi 1.2.246.562.10.777777777991"
+        ],
+        "sv": [
+          "Toimipiste sv 1.2.246.562.10.777777777991"
+        ]
+      },
+      "asiasanat": {
+        "fi": [
+          "robotiikka",
+          "robottiautomatiikka"
+        ]
+      },
+      "tutkintonimikkeet": {
+        "fi": [
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ]
+      },
+      "ammattinimikkeet": {
+        "fi": [
+          "insinööri",
+          "koneinsinööri"
+        ]
+      },
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "hakutiedot": [
+        {
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakutapa": "hakutapa_01",
+          "yhteishakuOid": "1.2.246.562.29.00000000000000000002",
+          "pohjakoulutusvaatimukset": [
+            "pohjakoulutusvaatimuskonfo_am"
+          ],
+          "valintatavat": [
+            "valintatapajono_av",
+            "valintatapajono_tv"
+          ]
+        },
+        {
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakutapa": "hakutapa_03",
+          "pohjakoulutusvaatimukset": [
+            "pohjakoulutusvaatimuskonfo_am"
+          ],
+          "valintatavat": [
+            "valintatapajono_av",
+            "valintatapajono_tv"
+          ]
+        }
+      ],
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1"
+      ],
+      "opetustavat": [
+        "opetuspaikkakk_1",
+        "opetuspaikkakk_2"
+      ],
+      "koulutustyypit": [
+        "koulutustyyppi_01",
+        "koulutustyyppi_02",
+        "amm"
       ]
     }
   ],
