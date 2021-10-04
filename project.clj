@@ -28,7 +28,7 @@
                  [com.fasterxml.jackson.core/jackson-annotations "2.12.4"]
                  [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
                  [cheshire "5.10.0"]
-                 [clj-http "2.3.0"]
+                 [clj-http "2.3.0" :exclusions [org.apache.httpcomponents/httpclient]]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
                  [org.clojure/java.jdbc "0.7.0-alpha1"]
