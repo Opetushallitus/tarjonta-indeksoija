@@ -2,10 +2,11 @@
 
 (def index-settings
   {:index.mapping.total_fields.limit 2000
+   :index.max_ngram_diff "35"
+   :number_of_shards "1"
    :analysis {:filter {:ngram_compound_words_and_conjugations {:type "ngram" ;automaa utomaat tomaati omaatio maatioi aatioin atioins tioinsi ioinsin oinsinö insinöö nsinöör
                                                                :min_gram "3"
                                                                :max_gram "30"
-                                                               :max_ngram_diff "35"
                                                                :token_chars ["letter", "digit"]}
                        :finnish_stop {:type "stop"
                                       :stopwords "_finnish_"}
@@ -69,26 +70,26 @@
   {:dynamic_templates [{:all {:match "*",
                              :match_mapping_type "string",
                              :mapping {:type "keyword",
-                                       :norms {:enabled false}}}}]})
+                                       :norms false}}}]})
 
 (def eperuste-mappings
   {:dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:sv {:match "kieli_sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:en {:match "kieli_en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
 
 (def koodisto-mappings
@@ -99,19 +100,19 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-search-mappings
@@ -132,26 +133,26 @@
                              :mapping {:type "text"
                                        :analyzer "finnish"
                                        :search_analyzer "finnish_keyword"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
                                        :search_analyzer "swedish_keyword"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
                        {:tila {:match "tila"
                                :match_mapping_type "string"
                                :mapping {:type "text"
                                          :analyzer "finnish"
-                                         :norms { :enabled false}
+                                         :norms false
                                          :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-mappings
@@ -159,31 +160,31 @@
                                     :match_mapping_type "string"
                                     :mapping {:type "text"
                                               :analyzer "finnish"
-                                              :norms { :enabled false}
+                                              :norms false
                                               :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"
                                        :search_analyzer "finnish_keyword"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
                                        :search_analyzer "swedish_keyword"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
-                                       :norms { :enabled false}
+                                       :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:tila {:match "tila"
                                :match_mapping_type "string"
                                :mapping {:type "text"
                                          :analyzer "finnish"
-                                         :norms { :enabled false}
+                                         :norms false
                                          :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
