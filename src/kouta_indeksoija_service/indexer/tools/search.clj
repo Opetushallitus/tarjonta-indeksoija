@@ -324,29 +324,29 @@
   [lang values]
   (distinct (remove nil? (map #(lang %) values))))
 
-
 (defn search-terms
   [& {:keys [koulutus
              toteutus
              tarjoajat
              hakutiedot
-             toteutusnimi
              koulutus-organisaationimi
-             toteutus-organisaationimi]
+             toteutus-organisaationimi
+             opetuskieliUrit
+             koulutustyypit]
       :or {koulutus []
            toteutus []
            tarjoajat                 []
            hakutiedot                []
-           toteutusnimi              {}
            koulutus-organisaationimi {}
-           toteutus-organisaationimi {}}}]
+           toteutus-organisaationimi {}
+           opetuskieliUrit []
+           koulutustyypit []}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
         asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
-        opetus (get-in toteutus [:metadata :opetus])]
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
     (remove-nils-from-search-terms
     {:koulutusnimi              {:fi (:fi (:nimi koulutus))
                                  :sv (:sv (:nimi koulutus))
@@ -370,13 +370,12 @@
                                  :sv (not-empty (get-lang-values :sv ammattinimikkeet))
                                  :en (not-empty (get-lang-values :en ammattinimikkeet))}
      :sijainti                  (clean-uris (concat kunnat maakunnat))
-     :koulutusalat              (clean-uris (koulutusala-koodi-urit koulutus))
+     :koulutusalat              (not-empty(clean-uris (koulutusala-koodi-urit koulutus)))
      :hakutiedot                (not-empty (map #(-> %
                                           (update :hakutapa remove-uri-version)
                                           (update :valintatavat clean-uris)
                                           (update :pohjakoulutusvaatimukset clean-uris))
                                      hakutiedot))
      :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
-     :opetuskielet              (not-empty (clean-uris (:opetuskieliKoodiUrit opetus)))
-     :koulutustyypit            (clean-uris (deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena (:metadata toteutus))))
-     })))
+     :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
+     :koulutustyypit            (clean-uris koulutustyypit)})))
