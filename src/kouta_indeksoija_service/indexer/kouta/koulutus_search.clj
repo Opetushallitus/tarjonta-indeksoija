@@ -11,8 +11,7 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [clojure.walk :as walk]))
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -99,98 +98,30 @@
        (map :oid)
        (->distinct-vec)))
 
-(defn- remove-nils-from-search-terms
-  [search-terms]
-  (walk/postwalk
-    (fn [x]
-      (if (map? x)
-        (not-empty (into {} (remove (comp nil? second)) x))
-        x))
-    search-terms))
-
-(defn- get-lang-values
-  [lang values]
-  (distinct (remove nil? (map #(lang %) values))))
-
 (defn- jarjestaja-search-terms
   [hierarkia koulutus toteutukset hakutiedot]
   (for [toteutus (->> toteutukset
                       (map (fn [t] (->> (:tarjoajat t)
                                         (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
                                         (assoc t :tarjoajat))))
-                      (filter #(seq (:tarjoajat %))))]
-    (let [tarjoajat (:tarjoajat toteutus)
-          opetus (get-in toteutus [:metadata :opetus])
-          hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
-          koulutusnimi (:nimi koulutus)
-          toteutusnimi (:nimi toteutus)
-          koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
-          toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat))))
-          asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
-          tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))
-          ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
-          kunnat (remove nil? (distinct (map :kotipaikkaUri (flatten tarjoajat))))
-          maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
-
-      (remove-nils-from-search-terms
-        {:koulutusnimi              {:fi (:fi koulutusnimi)
-                                     :sv (:sv koulutusnimi)
-                                     :en (:en koulutusnimi)}
-         :toteutusnimi              {:fi (:fi toteutusnimi)
-                                     :sv (:sv toteutusnimi)
-                                     :en (:en toteutusnimi)}
-         :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
-                                     :sv (:sv koulutus-organisaationimi)
-                                     :en (:en koulutus-organisaationimi)}
-         :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
-                                     :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
-                                     :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
-         :asiasanat                 {:fi (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
-                                     :sv (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
-                                     :en (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
-         :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
-                                     :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
-                                     :en (not-empty (get-lang-values :en tutkintonimikkeet))}
-         :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
-                                     :sv (not-empty (get-lang-values :sv ammattinimikkeet))
-                                     :en (not-empty (get-lang-values :en ammattinimikkeet))}
-         :sijainti                  (search-tool/clean-uris (concat kunnat maakunnat))
-         :koulutusalat              (search-tool/clean-uris (search-tool/koulutusala-koodi-urit koulutus))
-         :hakutiedot                (map #(-> %
-                                              (update :hakutapa remove-uri-version)
-                                              (update :valintatavat search-tool/clean-uris)
-                                              (update :pohjakoulutusvaatimukset search-tool/clean-uris))
-                                         (get-search-hakutiedot hakutieto))
-         :opetustavat               (search-tool/clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) []))
-         :opetuskielet              (search-tool/clean-uris (:opetuskieliKoodiUrit opetus))
-         :koulutustyypit            (search-tool/clean-uris (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena (:metadata toteutus))))
-         }))))
+                      (filter #(seq (:tarjoajat %))))
+        :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]]
+    (search-tool/search-terms
+      :koulutus koulutus
+      :toteutus toteutus
+      :tarjoajat (:tarjoajat toteutus)
+      :hakutiedot (get-search-hakutiedot hakutieto)
+      :koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
+      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus))))))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
-  (let [tarjoajat  (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))
-        koulutusnimi (:nimi koulutus)
-        koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
-        toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat))))
-        tutkintonimikkeet (map #(-> % get-koodi-nimi-with-cache :nimi) (search-tool/tutkintonimike-koodi-urit koulutus))
-        kunnat (remove nil? (distinct (map :kotipaikkaUri (flatten tarjoajat))))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
-
-    (remove-nils-from-search-terms
-      {:koulutusnimi              {:fi (:fi koulutusnimi)
-                                   :sv (:sv koulutusnimi)
-                                   :en (:en koulutusnimi)}
-       :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
-                                   :sv (:sv koulutus-organisaationimi)
-                                   :en (:en koulutus-organisaationimi)}
-       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
-                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
-                                   :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
-       :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
-                                   :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
-                                   :en (not-empty (get-lang-values :en tutkintonimikkeet))}
-       :sijainti                  (search-tool/clean-uris (concat kunnat maakunnat))
-       :koulutusalat              (search-tool/clean-uris (search-tool/koulutusala-koodi-urit koulutus))})))
+  (let [tarjoajat (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))]
+    (search-tool/search-terms
+      :koulutus koulutus
+      :tarjoajat tarjoajat
+      :koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
+      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat)))))))
 
 (defn assoc-jarjestaja-hits
   [koulutus]

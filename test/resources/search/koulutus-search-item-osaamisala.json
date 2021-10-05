@@ -45,6 +45,9 @@
         "kansallinenkoulutusluokitus2016koulutusalataso1_02",
         "kansallinenkoulutusluokitus2016koulutusalataso2_01",
         "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "koulutustyypit": [
+        "amm-osaamisala"
       ]
     }
   ],
