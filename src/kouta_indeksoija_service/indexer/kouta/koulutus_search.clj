@@ -105,14 +105,19 @@
                                         (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
                                         (assoc t :tarjoajat))))
                       (filter #(seq (:tarjoajat %))))
-        :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]]
+        :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
+        :let [opetus (get-in toteutus [:metadata :opetus])]
+        :let [toteutus-metadata (:metadata toteutus)]]
     (search-tool/search-terms
       :koulutus koulutus
       :toteutus toteutus
       :tarjoajat (:tarjoajat toteutus)
       :hakutiedot (get-search-hakutiedot hakutieto)
       :koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
-      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus))))))))
+      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
+      :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
+      :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+      )))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
@@ -121,7 +126,8 @@
       :koulutus koulutus
       :tarjoajat tarjoajat
       :koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
-      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat)))))))
+      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat))))
+      :koulutustyypit (search-tool/deduce-koulutustyypit koulutus))))
 
 (defn assoc-jarjestaja-hits
   [koulutus]
