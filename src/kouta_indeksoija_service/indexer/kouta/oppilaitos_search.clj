@@ -89,6 +89,35 @@
                                                  :maksunMaara         (:maksunMaara opetus)
                                                  :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
+(defn oppilaitos-search-terms
+  [oppilaitos]
+  (search-tool/search-terms :tarjoajat (vector oppilaitos)
+                            :koulutus-organisaationimi (:nimi oppilaitos)
+                            :opetuskieliUrit (:kieletUris oppilaitos)
+                            :koulutustyypit (vector (search-tool/koulutustyyppi-for-organisaatio oppilaitos))))
+
+(defn koulutus-search-terms
+  [oppilaitos koulutus]
+  (search-tool/search-terms :koulutus koulutus
+                            :tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
+                            :koulutus-organisaationimi (:nimi oppilaitos)
+                            :opetuskieliUrit (:kieletUris oppilaitos)
+                            :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)))
+
+(defn toteutus-search-terms
+  [oppilaitos koulutus hakutiedot toteutus]
+  (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
+        toteutus-metadata (:metadata toteutus)
+        tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))]
+    (search-tool/search-terms :koulutus koulutus
+                              :toteutus toteutus
+                              :tarjoajat tarjoajat
+                              :hakutiedot (get-search-hakutiedot hakutieto)
+                              :koulutus-organisaationimi (:nimi oppilaitos)
+                              :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
+                              :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
+                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)))))
+
 (defn- get-kouta-oppilaitos
   [oid]
   (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
@@ -124,15 +153,26 @@
       (vec (map #(toteutus-hit oppilaitos koulutus hakutiedot %) toteutukset)))
     (vector (koulutus-hit oppilaitos koulutus))))
 
+(defn- create-koulutus-search-terms
+  [oppilaitos hierarkia koulutus]
+  (if-let [toteutukset (seq (get-tarjoaja-entries hierarkia (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true)))]
+    (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus))]
+      (vec (map #(toteutus-search-terms oppilaitos koulutus hakutiedot %) toteutukset)))
+    (vector (koulutus-search-terms oppilaitos koulutus))))
+
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos hierarkia]
   (let [koulutus-hits (partial create-koulutus-hits oppilaitos hierarkia)
+        koulutus-search-terms (partial create-koulutus-search-terms oppilaitos hierarkia)
         koulutukset (get-tarjoaja-entries hierarkia (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
     (-> oppilaitos
         (create-base-entry koulutukset)
         (assoc :hits (if (seq koulutukset)
                        (vec (mapcat #(koulutus-hits %) koulutukset))
                        (vector (oppilaitos-hit oppilaitos))))
+        (assoc :search_terms (if (seq koulutukset)
+                               (vec (mapcat #(koulutus-search-terms %) koulutukset))
+                               (vector (oppilaitos-search-terms oppilaitos))))
         (assoc-paikkakunnat))))
 
 (defn create-index-entry
