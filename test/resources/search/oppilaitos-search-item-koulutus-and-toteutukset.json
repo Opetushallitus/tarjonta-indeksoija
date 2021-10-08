@@ -33,6 +33,30 @@
         ],
         "en": []
       },
+      "koulutusnimi": {
+        "fi": [
+          "Autoalan perustutkinto 0 fi",
+          "Oppilaitos fi 1.2.246.562.10.77777777799",
+          "Toimipiste fi 1.2.246.562.10.777777777992"
+        ],
+        "sv": [
+          "Autoalan perustutkinto 0 sv",
+          "Oppilaitos sv 1.2.246.562.10.77777777799",
+          "Toimipiste sv 1.2.246.562.10.777777777992"
+        ],
+        "en": []
+      },
+      "tutkintonimike": {
+        "fi": [
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ],
+        "en": []
+      },
       "opetuskielet": [
         "oppilaitoksenopetuskieli_1",
         "oppilaitoksenopetuskieli_2"
@@ -161,6 +185,49 @@
           "horse"
         ]
       },
+      "koulutusnimi": {
+        "fi": [
+          "Hevosalan perustutkinto 0 fi",
+          "Hevostoteutus 1 fi",
+          "Oppilaitos fi 1.2.246.562.10.77777777799",
+          "Toimipiste fi 1.2.246.562.10.777777777991",
+          "Toimipiste fi 1.2.246.562.10.777777777993"
+        ],
+        "sv": [
+          "Hevosalan perustutkinto 0 sv",
+          "Hevostoteutus 1 sv",
+          "Oppilaitos sv 1.2.246.562.10.77777777799",
+          "Toimipiste sv 1.2.246.562.10.777777777991",
+          "Toimipiste sv 1.2.246.562.10.777777777993"
+        ],
+        "en": []
+      },
+      "tutkintonimike": {
+        "fi": [
+          "robotiikka",
+          "robottiautomatiikka",
+          "musiikkioppilaitokset",
+          "hevoset",
+          "psykologia",
+          "automaatioinsinööri",
+          "koneinsinööri",
+          "muusikko",
+          "psykologi",
+          "hevonen",
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "hepparna",
+          "heppa",
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ],
+        "en": [
+          "horses",
+          "horse"
+        ]
+      },
       "opetuskielet": [
         "oppilaitoksenopetuskieli_1",
         "oppilaitoksenopetuskieli_3"
@@ -258,6 +325,36 @@
           "Hevostoteutus 2 sv",
           "Oppilaitos sv 1.2.246.562.10.77777777799",
           "Toimipiste sv 1.2.246.562.10.777777777991",
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ],
+        "en": []
+      },
+      "koulutusnimi": {
+        "fi": [
+          "Hevosalan perustutkinto 0 fi",
+          "Hevostoteutus 2 fi",
+          "Oppilaitos fi 1.2.246.562.10.77777777799",
+          "Toimipiste fi 1.2.246.562.10.777777777991"
+        ],
+        "sv": [
+          "Hevosalan perustutkinto 0 sv",
+          "Hevostoteutus 2 sv",
+          "Oppilaitos sv 1.2.246.562.10.77777777799",
+          "Toimipiste sv 1.2.246.562.10.777777777991"
+        ],
+        "en": []
+      },
+      "tutkintonimike": {
+        "fi": [
+          "robotiikka",
+          "robottiautomatiikka",
+          "insinööri",
+          "koneinsinööri",
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
           "tutkintonimikkeet_01 nimi sv",
           "tutkintonimikkeet_02 nimi sv"
         ],
@@ -367,6 +464,22 @@
         ],
         "en": []
       },
+      "koulutusnimi": {
+        "fi": [
+          "Hevosalan osaamisala fi",
+          "Oppilaitos fi 1.2.246.562.10.77777777799"
+        ],
+        "sv": [
+          "Hevosalan osaamisala sv",
+          "Oppilaitos sv 1.2.246.562.10.77777777799"
+        ],
+        "en": []
+      },
+      "tutkintonimike": {
+        "fi": [],
+        "sv": [],
+        "en": []
+      },
       "opetuskielet": [
         "oppilaitoksenopetuskieli_1",
         "oppilaitoksenopetuskieli_2"
@@ -436,6 +549,22 @@
           "Hevosalan tutkinnon osat sv",
           "Oppilaitos sv 1.2.246.562.10.77777777799"
         ],
+        "en": []
+      },
+      "koulutusnimi": {
+        "fi": [
+          "Hevosalan tutkinnon osat fi",
+          "Oppilaitos fi 1.2.246.562.10.77777777799"
+        ],
+        "sv": [
+          "Hevosalan tutkinnon osat sv",
+          "Oppilaitos sv 1.2.246.562.10.77777777799"
+        ],
+        "en": []
+      },
+      "tutkintonimike": {
+        "fi": [],
+        "sv": [],
         "en": []
       },
       "opetuskielet": [
