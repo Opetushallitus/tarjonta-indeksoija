@@ -92,31 +92,52 @@
 (defn oppilaitos-search-terms
   [oppilaitos]
   (search-tool/search-terms :tarjoajat (vector oppilaitos)
-                            :koulutus-organisaationimi (:nimi oppilaitos)
+                            :oppilaitos oppilaitos
                             :opetuskieliUrit (:kieletUris oppilaitos)
-                            :koulutustyypit (vector (search-tool/koulutustyyppi-for-organisaatio oppilaitos))))
+                            :koulutustyypit (vector (search-tool/koulutustyyppi-for-organisaatio oppilaitos))
+                            :kuva (:logo oppilaitos)
+                            :nimi (:nimi oppilaitos)))
 
 (defn koulutus-search-terms
   [oppilaitos koulutus]
   (search-tool/search-terms :koulutus koulutus
                             :tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
-                            :koulutus-organisaationimi (:nimi oppilaitos)
+                            :oppilaitos oppilaitos
                             :opetuskieliUrit (:kieletUris oppilaitos)
-                            :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)))
+                            :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)
+                            :kuva (:teemakuva koulutus)
+                            :nimi (:nimi koulutus)
+                            :onkoTuleva true
+                            :metadata (cond-> {:tutkintonimikkeetKoodiUrit      (search-tool/tutkintonimike-koodi-urit koulutus)
+                                               :opintojenLaajuusKoodiUri        (search-tool/opintojen-laajuus-koodi-uri koulutus)
+                                               :opintojenLaajuusyksikkoKoodiUri (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus)
+                                               :opintojenLaajuusNumero          (search-tool/opintojen-laajuus-numero koulutus)
+                                               :koulutustyypitKoodiUrit         (search-tool/koulutustyyppi-koodi-urit koulutus)
+                                               :koulutustyyppi                  (:koulutustyyppi koulutus)}
+                                              (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-search-terms
   [oppilaitos koulutus hakutiedot toteutus]
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
-        tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))]
+        tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
+        opetus (get-in toteutus [:metadata :opetus])]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
+                              :oppilaitos oppilaitos
                               :hakutiedot (get-search-hakutiedot hakutieto)
-                              :koulutus-organisaationimi (:nimi oppilaitos)
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)))))
+                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+                              :kuva (:teemakuva toteutus)
+                              :nimi (:nimi toteutus)
+                              :onkoTuleva false
+                              :metadata {:tutkintonimikkeet   (tutkintonimikket-for-toteutus toteutus)
+                                         :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                         :maksullisuustyyppi  (:maksullisuustyyppi opetus)
+                                         :maksunMaara         (:maksunMaara opetus)
+                                         :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn- get-kouta-oppilaitos
   [oid]

@@ -77,7 +77,23 @@
       "sijainti": [
         "kunta_091",
         "maakunta_01"
-      ]
+      ],
+      "nimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.10101010199",
+        "sv": "Oppilaitos sv 1.2.246.562.10.10101010199"
+      },
+      "oppilaitosOid": "1.2.246.562.10.10101010199",
+      "metadata": {
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ]
+      }
     }
   ],
   "timestamp": 1570702371459
