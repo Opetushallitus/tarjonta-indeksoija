@@ -81,7 +81,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde with tuva-er-koulutustyyppikoodi"
      (check-all-nil)
-     (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:tyyppi "tuva" :tuvaErityisopetuksena true}))
+     (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:tyyppi "tuva" :jarjestetaanErityisopetuksena true}))
      (i/index-hakukohteet [hakukohde-oid])
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= (:koulutustyyppikoodi hakukohde) "koulutustyyppi_41"))))))

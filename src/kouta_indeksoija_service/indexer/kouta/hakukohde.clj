@@ -117,7 +117,7 @@
   (cond
     (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
     amm-perustutkinto-erityisopetus-koulutustyyppi
-    (true? (get-in toteutus [:metadata :tuvaErityisopetuksena]))
+    (true? (get-in toteutus [:metadata :jarjestetaanErityisopetuksena]))
     tuva-erityisopetus-koulutustyyppi))
 
 (defn- get-koulutustyyppikoodi-from-koodisto
