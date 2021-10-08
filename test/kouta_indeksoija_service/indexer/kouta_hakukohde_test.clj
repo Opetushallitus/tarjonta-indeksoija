@@ -54,7 +54,7 @@
      (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri "koulutus_222336#1")
      (i/index-hakukohteet [hakukohde-oid])
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (= (:koulutustyyppikoodi hakukohde) "koulutustyyppiabc_01"))))))
+       (is (= "koulutustyyppiabc_01" (:koulutustyyppikoodi hakukohde)))))))
 
 (deftest index-hakukohde-with-ammatillinen-er-koulutustyyppikoodi
   (fixture/with-mocked-indexing
@@ -63,7 +63,7 @@
      (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:ammatillinenPerustutkintoErityisopetuksena true}))
      (i/index-hakukohteet [hakukohde-oid])
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (= (:koulutustyyppikoodi hakukohde) "koulutustyyppi_4"))))))
+       (is (= "koulutustyyppi_4" (:koulutustyyppikoodi hakukohde)))))))
 
 (deftest index-hakukohde-with-tuva-er-koulutustyyppikoodi
   (fixture/with-mocked-indexing
@@ -72,7 +72,7 @@
      (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:tyyppi "tuva" :jarjestetaanErityisopetuksena true}))
      (i/index-hakukohteet [hakukohde-oid])
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (= (:koulutustyyppikoodi hakukohde) "koulutustyyppi_41"))))))
+       (is (= "koulutustyyppi_41" (:koulutustyyppikoodi hakukohde)))))))
 
 (deftest index-hakukohde-with-passive-koulutustyyppikoodi
   (fixture/with-mocked-indexing
