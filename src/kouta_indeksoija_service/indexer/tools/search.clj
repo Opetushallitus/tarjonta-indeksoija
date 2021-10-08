@@ -327,20 +327,28 @@
 (defn search-terms
   [& {:keys [koulutus
              toteutus
+             oppilaitos
              tarjoajat
              hakutiedot
-             koulutus-organisaationimi
              toteutus-organisaationimi
              opetuskieliUrit
-             koulutustyypit]
-      :or {koulutus []
-           toteutus []
-           tarjoajat                 []
-           hakutiedot                []
-           koulutus-organisaationimi {}
-           toteutus-organisaationimi {}
-           opetuskieliUrit []
-           koulutustyypit []}}]
+             koulutustyypit
+             kuva
+             onkoTuleva
+             nimi
+             metadata]
+      :or   {koulutus                  []
+             toteutus                  []
+             oppilaitos                []
+             tarjoajat                 []
+             hakutiedot                []
+             toteutus-organisaationimi {}
+             opetuskieliUrit           []
+             koulutustyypit            []
+             kuva                      nil
+             onkoTuleva                nil
+             nimi                      {}
+             metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
@@ -348,34 +356,41 @@
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
         maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
     (remove-nils-from-search-terms
-    {:koulutusnimi              {:fi (:fi (:nimi koulutus))
-                                 :sv (:sv (:nimi koulutus))
-                                 :en (:en (:nimi koulutus))}
-     :toteutusnimi              {:fi (:fi (:nimi toteutus))
-                                 :sv (:sv (:nimi toteutus))
-                                 :en (:en (:nimi toteutus))}
-     :koulutus_organisaationimi {:fi (:fi koulutus-organisaationimi)
-                                 :sv (:sv koulutus-organisaationimi)
-                                 :en (:en koulutus-organisaationimi)}
-     :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
-                                 :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
-                                 :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
-     :asiasanat                 {:fi (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
-                                 :sv (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
-                                 :en (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
-     :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
-                                 :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
-                                 :en (not-empty (get-lang-values :en tutkintonimikkeet))}
-     :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
-                                 :sv (not-empty (get-lang-values :sv ammattinimikkeet))
-                                 :en (not-empty (get-lang-values :en ammattinimikkeet))}
-     :sijainti                  (clean-uris (concat kunnat maakunnat))
-     :koulutusalat              (not-empty(clean-uris (koulutusala-koodi-urit koulutus)))
-     :hakutiedot                (not-empty (map #(-> %
-                                          (update :hakutapa remove-uri-version)
-                                          (update :valintatavat clean-uris)
-                                          (update :pohjakoulutusvaatimukset clean-uris))
-                                     hakutiedot))
-     :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
-     :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
-     :koulutustyypit            (clean-uris koulutustyypit)})))
+      {:koulutusOid               (:oid koulutus)
+       :koulutusnimi              {:fi (:fi (:nimi koulutus))
+                                   :sv (:sv (:nimi koulutus))
+                                   :en (:en (:nimi koulutus))}
+       :koulutus_organisaationimi {:fi (:fi (:nimi oppilaitos))
+                                   :sv (:sv (:nimi oppilaitos))
+                                   :en (:en (:nimi oppilaitos))}
+       :toteutusOid               (:oid toteutus)
+       :toteutusnimi              {:fi (:fi (:nimi toteutus))
+                                   :sv (:sv (:nimi toteutus))
+                                   :en (:en (:nimi toteutus))}
+       :oppilaitosOid             (:oid oppilaitos)
+       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
+                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
+                                   :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
+       :asiasanat                 {:fi (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
+                                   :sv (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
+                                   :en (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
+       :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
+                                   :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
+                                   :en (not-empty (get-lang-values :en tutkintonimikkeet))}
+       :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
+                                   :sv (not-empty (get-lang-values :sv ammattinimikkeet))
+                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}
+       :sijainti                  (clean-uris (concat kunnat maakunnat))
+       :koulutusalat              (not-empty (clean-uris (koulutusala-koodi-urit koulutus)))
+       :hakutiedot                (not-empty (map #(-> %
+                                                       (update :hakutapa remove-uri-version)
+                                                       (update :valintatavat clean-uris)
+                                                       (update :pohjakoulutusvaatimukset clean-uris))
+                                                  hakutiedot))
+       :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
+       :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
+       :koulutustyypit            (clean-uris koulutustyypit)
+       :onkoTuleva                onkoTuleva
+       :kuva                      kuva
+       :nimi                      (not-empty nimi)
+       :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))})))

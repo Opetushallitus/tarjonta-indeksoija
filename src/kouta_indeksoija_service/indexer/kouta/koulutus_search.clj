@@ -1,7 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus-search
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
-            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
@@ -100,34 +99,51 @@
 
 (defn- jarjestaja-search-terms
   [hierarkia koulutus toteutukset hakutiedot]
-  (for [toteutus (->> toteutukset
-                      (map (fn [t] (->> (:tarjoajat t)
-                                        (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
-                                        (assoc t :tarjoajat))))
-                      (filter #(seq (:tarjoajat %))))
-        :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
-        :let [opetus (get-in toteutus [:metadata :opetus])]
-        :let [toteutus-metadata (:metadata toteutus)]]
-    (search-tool/search-terms
-      :koulutus koulutus
-      :toteutus toteutus
-      :tarjoajat (:tarjoajat toteutus)
-      :hakutiedot (get-search-hakutiedot hakutieto)
-      :koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
-      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
-      :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-      :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
-      )))
+  (let [oppilaitos (get-oppilaitos hierarkia)]
+    (for [toteutus (->> toteutukset
+                        (map (fn [t] (->> (:tarjoajat t)
+                                          (organisaatio-tool/filter-indexable-for-hierarkia hierarkia)
+                                          (assoc t :tarjoajat))))
+                        (filter #(seq (:tarjoajat %))))
+          :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
+          :let [opetus (get-in toteutus [:metadata :opetus])]
+          :let [toteutus-metadata (:metadata toteutus)]]
+      (search-tool/search-terms
+        :koulutus koulutus
+        :toteutus toteutus
+        :oppilaitos oppilaitos
+        :tarjoajat (:tarjoajat toteutus)
+        :hakutiedot (get-search-hakutiedot hakutieto)
+        :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
+        :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
+        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+        :kuva (:logo oppilaitos)
+        :nimi (:nimi oppilaitos)
+        :onkoTuleva false
+        :metadata {:tutkintonimikkeetKoodiUrit                 (search-tool/tutkintonimike-koodi-urit koulutus)
+                   :opetusajatKoodiUrit                        (:opetusaikaKoodiUrit opetus)
+                   :maksullisuustyyppi                         (:maksullisuustyyppi opetus)
+                   :maksunMaara                                (:maksunMaara opetus)
+                   :koulutustyyppi                             (:tyyppi toteutus-metadata)
+                   :oppilaitosTila                             (:tila oppilaitos)
+                   :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
+                   :tuvaErityisopetuksena                      (:tuvaErityisopetuksena toteutus-metadata)}))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
-  (let [tarjoajat (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))]
+  (let [tarjoajat (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (:tarjoajat koulutus))
+        oppilaitos (get-oppilaitos hierarkia)]
     (search-tool/search-terms
       :koulutus koulutus
       :tarjoajat tarjoajat
-      :koulutus-organisaationimi (:nimi (get-oppilaitos hierarkia))
+      :oppilaitos oppilaitos
       :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat))))
-      :koulutustyypit (search-tool/deduce-koulutustyypit koulutus))))
+      :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)
+      :kuva (:logo oppilaitos)
+      :nimi (:nimi oppilaitos)
+      :onkoTuleva true
+      :metadata {:oppilaitosTila (:tila oppilaitos)
+                 :koulutustyyppi (search-tool/koulutustyyppi-for-organisaatio oppilaitos)})))
 
 (defn assoc-jarjestaja-hits
   [koulutus]

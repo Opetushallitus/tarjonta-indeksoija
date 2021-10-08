@@ -57,6 +57,7 @@
   ],
   "search_terms": [
     {
+      "koulutusOid": "1.2.246.562.13.00000000000000000099",
       "koulutusnimi": {
         "fi": "Autoalan perustutkinto 0 fi",
         "sv": "Autoalan perustutkinto 0 sv"
@@ -97,7 +98,27 @@
         "amm",
         "koulutustyyppi_01",
         "koulutustyyppi_02"
-      ]
+      ],
+      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+      "onkoTuleva": true,
+      "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "nimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "metadata": {
+        "oppilaitosTila": "julkaistu",
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ],
+        "koulutustyyppi": "yo"
+      }
     }
   ],
   "hits": [

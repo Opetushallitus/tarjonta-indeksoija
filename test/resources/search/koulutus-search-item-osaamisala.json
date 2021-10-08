@@ -20,6 +20,11 @@
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
   "search_terms": [
     {
+      "koulutusOid": "1.2.246.562.13.00000000000000000097",
+      "nimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
       "koulutusnimi": {
         "fi": "Hevosalan osaamisala fi",
         "sv": "Hevosalan osaamisala sv"
@@ -48,7 +53,23 @@
       ],
       "koulutustyypit": [
         "amm-osaamisala"
-      ]
+      ],
+      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+      "onkoTuleva": true,
+      "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "metadata": {
+        "koulutustyyppi": "yo",
+        "oppilaitosTila": "julkaistu",
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ]
+      }
     }
   ],
   "hits": [
