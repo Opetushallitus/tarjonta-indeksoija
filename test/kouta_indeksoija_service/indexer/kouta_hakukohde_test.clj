@@ -45,7 +45,7 @@
                                                                 :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}))
      (i/index-hakukohteet [hakukohde-oid])
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (= (get-in hakukohde [:metadata :hakukohteenLinja]) {:alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}, :painotetutArvosanat []}))))))
+       (is (= (get-in hakukohde [:metadata :hakukohteenLinja]) {:alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}))))))
 
 (deftest index-hakukohde-without-alkamiskausi
   (fixture/with-mocked-indexing
