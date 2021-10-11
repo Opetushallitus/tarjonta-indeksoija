@@ -369,6 +369,14 @@
     "1.2.246.562.10.00101010102" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
     "1.2.246.562.10.00101010103" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
     "1.2.246.562.10.00101010104" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.000002" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.000005" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.0000011" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.0000012" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.0000013" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.0000014" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.0000015" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.0000016" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
     (mocked-hierarkia-default-entity oid)))
 
 (defmacro with-mocked-indexing
