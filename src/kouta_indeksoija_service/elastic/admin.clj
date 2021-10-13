@@ -186,7 +186,7 @@
   [index-name]
   (if-let [[index settings mappings] (first (filter #(= index-name (first %)) indices-settings-and-mappings))]
     (create-new-index-with-virkailija-alias index settings mappings)
-    (throw (Exception. (str "Unknown index name" index-name "Valid index names are" (vec (map first indices-settings-and-mappings)))))))
+    (throw (IllegalArgumentException. (str "Unknown index name \"" index-name "\". Valid index names are " (vec (map first indices-settings-and-mappings)))))))
 
 (defn move-oppija-alias-to-virkailija-index
   [index]
