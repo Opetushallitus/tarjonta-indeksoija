@@ -105,8 +105,9 @@
          :summary "Luo uudelleen kaikki indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-all-indices-for-reindexing)))
 
-       (POST "/indices/one" [index-name]
+       (POST "/indices/one" []
          :summary "Luo uudelleen yhden indeksin katkotonta uudelleenindeksointia varten."
+         :body [index-name String]
          (ok (admin/initialize-new-index-for-reindexing index-name)))
 
        (POST "/indices/kouta" []
