@@ -183,10 +183,10 @@
   (initialize-new-indices-for-reindexing lokalisointi-indices-settings-and-mappings))
 
 (defn initialize-new-index-for-reindexing
-  [index]
-  (if-let [[i settings mappings] (first (filter #(= index (first %)) indices-settings-and-mappings))]
+  [index-name]
+  (if-let [[index settings mappings] (first (filter #(= index-name (first %)) indices-settings-and-mappings))]
     (create-new-index-with-virkailija-alias index settings mappings)
-    (throw (Exception. (str "Unknown index name" index "Valid index names are" (vec (map first indices-settings-and-mappings)))))))
+    (throw (Exception. (str "Unknown index name" index-name "Valid index names are" (vec (map first indices-settings-and-mappings)))))))
 
 (defn move-oppija-alias-to-virkailija-index
   [index]

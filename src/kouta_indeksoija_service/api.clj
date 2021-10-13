@@ -105,6 +105,10 @@
          :summary "Luo uudelleen kaikki indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-all-indices-for-reindexing)))
 
+       (POST "/indices/one" [index-name]
+         :summary "Luo uudelleen yhden indeksin katkotonta uudelleenindeksointia varten."
+         (ok (admin/initialize-new-index-for-reindexing index-name)))
+
        (POST "/indices/kouta" []
          :summary "Luo uudelleen kaikki kouta-datan (ja oppilaitosten!) indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-kouta-indices-for-reindexing)))
