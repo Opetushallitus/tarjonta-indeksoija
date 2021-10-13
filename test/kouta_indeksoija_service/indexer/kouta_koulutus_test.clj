@@ -203,4 +203,4 @@
     (testing "Indexer should index 38 for opintojenLaajuusNumero in case of tuva"
       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
             opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-        (is (= opintojenLaajuusNumero "38"))))))
+        (is (= opintojenLaajuusNumero 38))))))
