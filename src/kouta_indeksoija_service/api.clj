@@ -105,6 +105,12 @@
          :summary "Luo uudelleen kaikki indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-all-indices-for-reindexing)))
 
+       (POST "/indices/one" []
+         :summary "Luo uudelleen yhden indeksin katkotonta uudelleenindeksointia varten."
+         :body [index-name String]
+         (try (ok (admin/initialize-new-index-for-reindexing index-name))
+              (catch IllegalArgumentException e (bad-request (ex-message e)))))
+
        (POST "/indices/kouta" []
          :summary "Luo uudelleen kaikki kouta-datan (ja oppilaitosten!) indeksit katkotonta uudelleenindeksointia varten."
          (ok (admin/initialize-kouta-indices-for-reindexing)))
