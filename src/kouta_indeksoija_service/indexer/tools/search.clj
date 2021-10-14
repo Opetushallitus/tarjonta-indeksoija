@@ -364,7 +364,7 @@
                                    :sv (:sv (:nimi oppilaitos))
                                    :en (:en (:nimi oppilaitos))}
        :toteutusOid               (:oid toteutus)
-       :toteutusnimi              {:fi (:fi (:nimi toteutus))
+       :toteutusNimi              {:fi (:fi (:nimi toteutus))
                                    :sv (:sv (:nimi toteutus))
                                    :en (:en (:nimi toteutus))}
        :oppilaitosOid             (:oid oppilaitos)
