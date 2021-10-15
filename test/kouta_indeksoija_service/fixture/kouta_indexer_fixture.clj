@@ -358,8 +358,46 @@
                                                     "1.2.246.562.10.001010101012"
                                                     "1.2.246.562.10.001010101021"
                                                     "1.2.246.562.10.001010101022"
-                                                    "1.2.246.562.10.001010101023"])
-                    }]})
+                                                    "1.2.246.562.10.001010101023"])}]})
+
+(defn mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity-with-kunta [oid kunta]
+  (println "mocked hierarkia konfo backend entity with kunta for oid " oid)
+  {:organisaatiot [{:oid oid
+                    :alkuPvm	"694216800000"
+                    :kotipaikkaUri kunta
+                    :parentOid (str oid "parent")
+                    :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
+                    :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
+                    :oppilaitosKoodi	"12345"
+                    :oppilaitostyyppi "oppilaitostyyppi_42#1"
+                    :nimi {:fi (str "Punkaharjun yliopisto")
+                           :sv (str "Punkaharjun yliopisto sv")}
+                    :status "AKTIIVINEN"
+                    :aliOrganisaatioMaara 5
+                    :organisaatiotyypit ["organisaatiotyyppi_03"]
+                    :children (toimipiste-children ["1.2.246.562.10.000003"
+                                                    "1.2.246.562.10.000004"])}]})
+
+(defn mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity [oid name]
+  (println "mocked named hierarkia konfo backend entity with name for oid " oid)
+  {:organisaatiot [{:oid oid
+                    :alkuPvm	"694216800000"
+                    :kotipaikkaUri "kunta_618"
+                    :parentOid (str oid "parent")
+                    :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
+                    :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
+                    :oppilaitosKoodi	"12345"
+                    :oppilaitostyyppi "oppilaitostyyppi_42#1"
+                    :nimi {:fi name
+                           :sv name}
+                    :status "AKTIIVINEN"
+                    :aliOrganisaatioMaara 5
+                    :organisaatiotyypit ["organisaatiotyyppi_03"]
+                    :children (toimipiste-children ["1.2.246.562.10.001010101011"
+                                                    "1.2.246.562.10.001010101012"
+                                                    "1.2.246.562.10.001010101021"
+                                                    "1.2.246.562.10.001010101022"
+                                                    "1.2.246.562.10.001010101023"])}]})
 
 (defn mock-organisaatio-hierarkia-v4
   [oid]
@@ -369,14 +407,14 @@
     "1.2.246.562.10.00101010102" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
     "1.2.246.562.10.00101010103" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
     "1.2.246.562.10.00101010104" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.000002" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.000005" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.0000011" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.0000012" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.0000013" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.0000014" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.0000015" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
-    "1.2.246.562.10.0000016" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity oid)
+    "1.2.246.562.10.000002" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity-with-kunta oid "kunta_618")
+    "1.2.246.562.10.000005" (mocked-hierarkia-konfo-backend-oppilaitos-search-test-entity-with-kunta oid "kunta_091")
+    "1.2.246.562.10.0000011" (mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity oid "Aakkosissa ensimmäinen")
+    "1.2.246.562.10.0000012" (mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity oid "Aakkosissa toinen")
+    "1.2.246.562.10.0000013" (mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity oid "Aakkosissa vasta kolmas")
+    "1.2.246.562.10.0000014" (mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity oid "Aakkosissa vasta neljäs")
+    "1.2.246.562.10.0000015" (mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity oid "Aakkosissa viidentenä")
+    "1.2.246.562.10.0000016" (mocked-hierarkia-konfo-backend-named-oppilaitos-search-test-entity oid "Aakkosissa viimein kuudentena")
     (mocked-hierarkia-default-entity oid)))
 
 (defmacro with-mocked-indexing
