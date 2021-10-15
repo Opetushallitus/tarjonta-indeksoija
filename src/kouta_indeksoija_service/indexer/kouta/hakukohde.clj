@@ -4,6 +4,7 @@
             [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [clojure.string]))
 
 (def index-name "hakukohde-kouta")
@@ -135,9 +136,14 @@
                                                      (some? non-korkeakoulu-koodi-uri)
                                                      (nil? (koodisto/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
 
-
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde toimipiste]
   (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (boolean (get-in toimipiste [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))
+
+(defn- assoc-nimi-from-hakukohde-koodi [hakukohde]
+  (let [hakukohde-koodi-uri (:hakukohdeKoodiUri hakukohde)
+        hakukohde-koodi-nimi (when-not (clojure.string/blank? hakukohde-koodi-uri)
+                               (get-koodi-nimi-with-cache hakukohde-koodi-uri))]
+    (if (nil? hakukohde-koodi-nimi) hakukohde (assoc hakukohde :nimi (:nimi hakukohde-koodi-nimi)))))
 
 (defn create-index-entry
   [oid]
@@ -154,6 +160,7 @@
                                 (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
     (indexable/->index-entry oid
                              (-> hakukohde
+                                 (assoc-nimi-from-hakukohde-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)
