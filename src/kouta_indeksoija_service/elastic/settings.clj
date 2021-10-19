@@ -136,7 +136,10 @@
                                                                       :valintatavat {:type "keyword"}
                                                                       :hakuajat {:type "nested"
                                                                                  :properties {:alkaa   {:type "date" }
-                                                                                              :paattyy {:type "date" }}}}}}}}
+                                                                                              :paattyy {:type "date" }}}}}
+                               :metadata {:properties {:opintojenLaajuusNumero {:type "float"}
+                                                       :tutkinnonOsat {:type "nested"
+                                                                       :properties {:opintojenLaajuusNumero {:type "float"}}}}}}}}
    :dynamic_templates [{:nested {:match "hits"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
