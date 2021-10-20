@@ -41,7 +41,7 @@
                  [fi.vm.sade.java-utils/java-properties "0.1.0-SNAPSHOT"]
                  [cprop "0.1.10"]
                  ;Elasticsearch
-                 [oph/clj-elasticsearch "0.3.3-SNAPSHOT"]
+                 [oph/clj-elasticsearch "0.4.0-SNAPSHOT"]
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
@@ -80,9 +80,9 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT" :classifier "tests"]
-                                                       [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-backend "6.18.1-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "6.18.1-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-common "2.6.0-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -93,9 +93,9 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "6.14.1-SNAPSHOT" :classifier "tests"]
-                                      [fi.oph.kouta/kouta-common "2.3.0-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "6.18.1-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "6.18.1-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-common "2.6.0-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.3.0-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"

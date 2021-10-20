@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.koodisto
-  (:require [kouta-indeksoija-service.rest.koodisto :refer :all]))
+  (:require [kouta-indeksoija-service.rest.koodisto :refer :all]
+            [clojure.string]))
 
 (defonce koodiuri-yhteishaku-hakutapa "hakutapa_01")
 
@@ -59,3 +60,9 @@
   []
   (map #(assoc % :alakoodit (list-alakoodit-with-cache (:koodiUri %) "pohjakoulutusvaatimuskouta"))
        (get-koodit-with-cache "pohjakoulutusvaatimuskonfo")))
+
+(defn assoc-hakukohde-nimi-from-koodi [hakukohde]
+  (let [hakukohde-koodi-uri (:hakukohdeKoodiUri hakukohde)
+        hakukohde-koodi-nimi (when-not (clojure.string/blank? hakukohde-koodi-uri)
+                               (get-koodi-nimi-with-cache hakukohde-koodi-uri))]
+    (if (nil? hakukohde-koodi-nimi) hakukohde (assoc hakukohde :nimi (:nimi hakukohde-koodi-nimi)))))
