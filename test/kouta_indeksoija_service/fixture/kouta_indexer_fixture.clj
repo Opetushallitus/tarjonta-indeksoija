@@ -339,10 +339,45 @@
                     :organisaatiotyypit ["organisaatiotyyppi_03"]
                     :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]})
 
+(defn mocked-hierarkia-konfo-backend-test-entity [oid kunta nimi-fi nimi-sv]
+  (println "mocked hierarkia konfo backend entity for oid " oid " kunta " kunta " nimi " nimi-fi " nimi sv " nimi-sv)
+  {:organisaatiot [{:oid oid
+                    :alkuPvm	"694216800000"
+                    :kotipaikkaUri kunta
+                    :parentOid (str oid "parent")
+                    :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
+                    :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
+                    :oppilaitosKoodi	"12345"
+                    :oppilaitostyyppi "oppilaitostyyppi_42#1"
+                    :nimi {:fi nimi-fi
+                           :sv nimi-sv}
+                    :status "AKTIIVINEN"
+                    :aliOrganisaatioMaara 5
+                    :organisaatiotyypit ["organisaatiotyyppi_03"]
+                    :children (toimipiste-children ["1.2.246.562.10.001010101011"
+                                                    "1.2.246.562.10.001010101012"
+                                                    "1.2.246.562.10.001010101021"
+                                                    "1.2.246.562.10.001010101022"
+                                                    "1.2.246.562.10.001010101023"
+                                                    "1.2.246.562.10.000003"
+                                                    "1.2.246.562.10.000004"])}]})
+
 (defn mock-organisaatio-hierarkia-v4
   [oid]
   (condp = oid
     "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+    "1.2.246.562.10.00101010101" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.00101010102" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.00101010103" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.00101010104" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.000002" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Punkaharjun yliopisto" "Punkaharjun yliopisto sv")
+    "1.2.246.562.10.000005" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_091" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.0000011" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa ensimmäinen" "Aakkosissa ensimmäinen")
+    "1.2.246.562.10.0000012" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa toinen" "Aakkosissa toinen")
+    "1.2.246.562.10.0000013" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa vasta kolmas" "Aakkosissa vasta kolmas")
+    "1.2.246.562.10.0000014" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa vasta neljäs" "Aakkosissa vasta neljäs")
+    "1.2.246.562.10.0000015" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa viidentenä" "Aakkosissa viidentenä")
+    "1.2.246.562.10.0000016" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa viimein kuudentena" "Aakkosissa viimein kuudentena")
     (mocked-hierarkia-default-entity oid)))
 
 (defmacro with-mocked-indexing
@@ -440,7 +475,10 @@
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
 
                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
-                 mock-organisaatio-hierarkia-v4]
+                 mock-organisaatio-hierarkia-v4
+
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
+                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
      (do ~@body)))
 
 (defn index-oppilaitokset
