@@ -149,7 +149,6 @@
                                                      (some? non-korkeakoulu-koodi-uri)
                                                      (nil? (koodisto/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
 
-
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde toimipiste]
   (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (boolean (get-in toimipiste [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))
 
@@ -168,6 +167,7 @@
                                 (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
     (indexable/->index-entry oid
                              (-> hakukohde
+                                 (koodisto/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)

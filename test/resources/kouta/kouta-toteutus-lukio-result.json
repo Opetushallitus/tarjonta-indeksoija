@@ -445,6 +445,7 @@
             }
           ],
           "hakukohteenLinja": {
+            "painotetutArvosanat": [],
             "alinHyvaksyttyKeskiarvo": 6.5,
             "lisatietoa": {
               "fi": "fi-str",

@@ -83,6 +83,18 @@
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (nil? (:koulutustyyppikoodi hakukohde)))))))
 
+(deftest index-hakukohde-with-hakukohdekoodiuri-test
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index hakukohde with hakukohdekoodiuri"
+      (check-all-nil)
+      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+      (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
+      (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi (generate-string {}))
+      (i/index-hakukohteet [hakukohde-oid])
+      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+        (is (= (:nimi hakukohde) {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
+                                  :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi sv"}))))))
+
 (deftest index-hakukohde-without-alkamiskausi
   (fixture/with-mocked-indexing
    (testing "Koulutuksen alkamiskausi is not mandatory for haku and hakukohde. Previously yps calculation would fail if both were missing"
