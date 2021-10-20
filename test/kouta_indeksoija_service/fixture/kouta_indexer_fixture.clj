@@ -433,6 +433,9 @@
                  kouta-indeksoija-service.rest.eperuste/get-doc
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
 
+                 kouta-indeksoija-service.rest.eperuste/get-doc-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
+
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
 
