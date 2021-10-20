@@ -11,8 +11,9 @@
 
 (defn create-index-entry
   [eperuste-id]
-  (let [osaamisalakuvaukset (eperuste-service/get-osaamisalakuvaukset eperuste-id)]
-    (map ->to-index-entry osaamisalakuvaukset)))
+  (let [eperuste (eperuste-service/get-doc-with-cache eperuste-id)
+        osaamialakuvaukset (eperuste-service/get-osaamisalakuvaukset eperuste-id (:tila eperuste))]
+    (map ->to-index-entry osaamialakuvaukset)))
 
 (defn do-index
   [oids]

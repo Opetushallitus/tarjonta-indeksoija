@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
             [clojure.string :as s]
+            [clojure.core.memoize :as memo]
             [kouta-indeksoija-service.util.time :as time]))
 
 (defn- get-perusteet-page [page-nr last-modified]
@@ -37,20 +38,29 @@
   (get->json-body
     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
+(defn get-doc-with-cache
+  [eperuste-id]
+  (memo/ttl get-doc eperuste-id :ttl/threshold (* 1000 30))) ;; 30sec cache
+
 (defn get-tutkinnonosa
   [tutkinnonosa-id]
   (get->json-body
     (resolve-url :eperusteet-service.internal.api.tutkinnonosa tutkinnonosa-id)))
 
-(defn get-osaamisalakuvaukset
+(defn get-osaamisalakuvaukset-response
   [eperuste-id]
-  (when-let [res (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id))]
+  (get->json-body (resolve-url :eperusteet-service.peruste.osaamisalakuvaukset eperuste-id)))
+
+(defn get-osaamisalakuvaukset
+  [eperuste-id eperuste-tila]
+  (when-let [res (get-osaamisalakuvaukset-response eperuste-id)]
     (let [suoritustavat (keys res)
           osaamisalat (fn [suoritustapa] (apply concat (-> res suoritustapa vals)))
           assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa
                                                                        :type "osaamisalakuvaus"
                                                                        :oid (:id osaamisala)
-                                                                       :eperuste-oid eperuste-id))]
+                                                                       :eperuste-oid eperuste-id
+                                                                       :tila eperuste-tila))]
       (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat))))))
 
 (defn find-all

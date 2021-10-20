@@ -1,0 +1,107 @@
+
+{
+  "reformi" : {
+    "osaamisala_1700" : [ {
+      "id" : 6660708,
+      "luotu" : 1560839101695,
+      "muokattu" : 1592209447569,
+      "muokkaaja" : "1.2.246.562.24.64089235191",
+      "nimi" : {
+        "_id" : "6660720",
+        "_tunniste" : "49387b13-ca76-4ac8-a536-d6cf2b19f83e",
+        "fi" : "Nuoriso- ja yhteisöohjauksen osaamisala",
+        "sv" : "Kompetensområdet för handledning av ungdomar och gemenskaper"
+      },
+      "tila" : "luonnos",
+      "teksti" : {
+        "_id" : "7281247",
+        "_tunniste" : "71976849-a927-4edd-83d1-3420563918f6",
+        "fi" : "<p>Nuoriso- ja yhteisöohjaaja suunnittelee, järjestää ja ohjaa eri-ikäisten ihmisten toimintaa. Työ on eri ikäisten ohjaus-, opastus- ja tukityötä, jonka painopiste on osallisuuden lisääminen, kansalaistoiminta ja monikulttuurinen työ. Alalla painottuvat harrastus- ja toimintamahdollisuuksien ohella nuorten elinolojen kehittäminen sekä yhteiskunnallisten osallistumismahdollisuuksien turvaaminen ja laajentaminen.</p>",
+        "sv" : "<p>Ledare för ungdomar och gemenskaper planerar och leder verksamhet för människor i olika åldrar. Arbetet omfattar handledning, vägledning och stöd, där tyngdpunkten ligger på att öka delaktigheten, medborgarverksamheten och det mångkulturella arbetet. Vid sidan av hobby- och verksamhetsmöjligheter betonas utvecklingen av de ungas levnadsförhållanden samt tryggandet och utvidgandet av deras möjligheter att delta i samhället.</p>"
+      },
+      "osaamisala" : {
+        "id" : 7281228,
+        "nimi" : {
+          "fi" : "Nuoriso- ja yhteisöohjauksen osaamisala",
+          "sv" : "Kompetensområdet för handledning av ungdomar och gemenskaper"
+        },
+        "arvo" : "1700",
+        "uri" : "osaamisala_1700",
+        "koodisto" : "osaamisala",
+        "versio" : null,
+        "temporary" : false
+      },
+      "koodit" : [ ],
+      "liite" : false,
+      "osanTyyppi" : "tekstikappale"
+    } ],
+    "osaamisala_1701" : [ {
+      "id" : 6660709,
+      "luotu" : 1560839102054,
+      "muokattu" : 1592209488118,
+      "muokkaaja" : "1.2.246.562.24.64089235191",
+      "nimi" : {
+        "_id" : "6660721",
+        "_tunniste" : "1a80ae3b-7c88-4a0b-a970-2eb4a0f778c7",
+        "fi" : "Kommunikaation ja viittomakielisen ohjauksen osaamisala",
+        "sv" : "Kompetensområdet för handledning i kommunikation och teckenspråk"
+      },
+      "tila" : "luonnos",
+      "teksti" : {
+        "_id" : "7281248",
+        "_tunniste" : "4f778099-69c4-48e9-8a78-334ba8d885b7",
+        "fi" : "<p>Kommunikaation ja viittomakielen ohjaaja toimii viittomakielisten, kuulo- ja näkövammaisten, kielihäiriöisten sekä puhevammaisten ohjaus-, kasvatus- ja avustamistehtävissä</p>",
+        "sv" : "<p>Handledare i kommunikation och teckenspråk arbetar med handledning, pedagogisk verksamhet och assisterande uppgifter bland teckenspråkiga, personer med hörsel- och synnedsättning, språkstörningar samt talnedsättning.</p>"
+      },
+      "osaamisala" : {
+        "id" : 7281229,
+        "nimi" : {
+          "fi" : "Kommunikaation ja viittomakielisen ohjauksen osaamisala",
+          "sv" : "Kompetensområdet för handledning i kommunikation och teckenspråk"
+        },
+        "arvo" : "1701",
+        "uri" : "osaamisala_1701",
+        "koodisto" : "osaamisala",
+        "versio" : null,
+        "temporary" : false
+      },
+      "koodit" : [ ],
+      "liite" : false,
+      "osanTyyppi" : "tekstikappale"
+    } ],
+    "osaamisala_1702" : [ {
+      "id" : 6660707,
+      "luotu" : 1560839101543,
+      "muokattu" : 1592209405029,
+      "muokkaaja" : "1.2.246.562.24.64089235191",
+      "nimi" : {
+        "_id" : "6660689",
+        "_tunniste" : "66dd91af-ef9e-4fb7-91c8-bcdbee79a53a",
+        "fi" : "Varhaiskasvatuksen ja perhetoiminnan osaamisala",
+        "sv" : "Kompetensområdet för småbarnspedagogik och familjeverksamhet"
+      },
+      "tila" : "luonnos",
+      "teksti" : {
+        "_id" : "7281246",
+        "_tunniste" : "84940804-2ac9-4f38-a73a-abc67cc7a456",
+        "fi" : "<p>Lastenohjaaja työskentelee varhaiskasvatuksen tehtävissä huolehtimalla lapsen kokonaisvaltaisesta hyvinvoinnista. Hän voi työskennellä myös erilaisten perheiden ja kouluikäisten lasten kanssa. Lastenohjaajan työ on kasvatusta, hoitoa ja huolenpitoa.</p>",
+        "sv" : "<p>Barnledare arbetar med uppgifter inom småbarnspedagogiken och har hand om barnets helhetsmässiga välbefinnande. De kan även arbeta med olika slag av familjer och med barn i skolåldern. Barnledare arbetar med pedagogisk verksamhet, vård och omsorg.</p>"
+      },
+      "osaamisala" : {
+        "id" : 7281227,
+        "nimi" : {
+          "fi" : "Varhaiskasvatuksen ja perhetoiminnan osaamisala",
+          "sv" : "Kompetensområdet för småbarnspedagogik och familjeverksamhet"
+        },
+        "arvo" : "1702",
+        "uri" : "osaamisala_1702",
+        "koodisto" : "osaamisala",
+        "versio" : null,
+        "temporary" : false
+      },
+      "koodit" : [ ],
+      "liite" : false,
+      "osanTyyppi" : "tekstikappale"
+    } ]
+  }
+}
