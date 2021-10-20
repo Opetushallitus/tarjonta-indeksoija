@@ -15,3 +15,7 @@
 (defn get-eperuste-doc
   [id]
   (tools/parse (str "test/resources/eperusteet/" id ".json")))
+
+(defn get-osaamisalakuvaukset-doc
+  [id]
+  (tools/parse (str "test/resources/osaamisalakuvaukset/" id ".json")))

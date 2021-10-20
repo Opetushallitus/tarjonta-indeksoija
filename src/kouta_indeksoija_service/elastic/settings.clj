@@ -73,7 +73,10 @@
                                        :norms false}}}]})
 
 (def eperuste-mappings
-  {:dynamic_templates [{:fi {:match "kieli_fi"
+  {:properties {:suoritustavat {:type "nested"
+                                :properties {:tutkinnonOsaViitteet {:type "nested"
+                                                                    :properties {:laajuus {:type "float"}}}}}}
+   :dynamic_templates [{:fi {:match "kieli_fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish"

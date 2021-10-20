@@ -1,11 +1,12 @@
 (ns kouta-indeksoija-service.rest.kouta
- (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-           [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
-           [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
-           [clj-log.error-log :refer [with-error-logging]]
-           [ring.util.codec :refer [url-encode]]
-           [clojure.tools.logging :as log]
-           [clojure.string]))
+  (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+            [kouta-indeksoija-service.util.time :refer [long->rfc1123]]
+            [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
+            [clj-log.error-log :refer [with-error-logging]]
+            [ring.util.codec :refer [url-encode]]
+            [clojure.tools.logging :as log]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
+            [clojure.string]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
 
@@ -73,7 +74,16 @@
 
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.hakutiedot koulutus-oid)))
+  (let [response (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.hakutiedot koulutus-oid))]
+    (if response
+     (map (fn [hakutieto]
+            (assoc hakutieto :haut
+                   (map (fn [haku] 
+                          (assoc haku :hakukohteet
+                                 (map koodisto/assoc-hakukohde-nimi-from-koodi (:hakukohteet haku)))) 
+                        (:haut hakutieto))))
+            response)
+      response)))
 
 (defn list-hakukohteet-by-toteutus
   [toteutus-oid]
