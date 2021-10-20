@@ -38,9 +38,8 @@
   (get->json-body
     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
-(defn get-doc-with-cache
-  [eperuste-id]
-  (memo/ttl get-doc eperuste-id :ttl/threshold (* 1000 30))) ;; 30sec cache
+(def get-doc-with-cache
+  (memo/ttl get-doc {} :ttl/threshold (* 1000 30))) ;; 30sec cache
 
 (defn get-tutkinnonosa
   [tutkinnonosa-id]
