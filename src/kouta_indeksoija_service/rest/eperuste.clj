@@ -39,7 +39,7 @@
     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
 (def get-doc-with-cache
-  (memo/ttl get-doc {} :ttl/threshold (* 1000 30))) ;; 30sec cache
+  (memo/ttl get-doc {} :ttl/threshold (* 1000 60 5))) ;;5min cache
 
 (defn get-tutkinnonosa
   [tutkinnonosa-id]
