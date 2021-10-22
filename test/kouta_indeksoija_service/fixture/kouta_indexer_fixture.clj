@@ -313,6 +313,10 @@
   [hakutieto]
   ["pohjakoulutusvaatimuskonfo_am"])
 
+(defn mock-koulutustyyppi-koodisto
+  [koodisto]
+  {:koodit [{:koodiUri "koulutustyyppiabc_01"}]})
+
 (defn toimipiste-children
   [oids]
   (map #(-> {}
@@ -479,7 +483,10 @@
                  mock-organisaatio-hierarkia-v4
 
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
-                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
+                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio
+                 
+                 kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
+                 mock-koulutustyyppi-koodisto]
      (do ~@body)))
 
 (defn index-oppilaitokset
