@@ -9,6 +9,9 @@
 
 (def index-name "hakukohde-kouta")
 (defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce tuva-koulutustyyppi "koulutustyyppi_40")
+(defonce telma-koulutustyyppi "koulutustyyppi_5")
+(defonce vapaa-sivistava-koulutustyyppi "koulutustyyppi_10")
 (defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 
 (defn- assoc-valintaperuste
@@ -114,12 +117,21 @@
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
     (conj hakukohde (common/create-hakulomake-linkki-for-hakukohde link-holder (:oid hakukohde)))))
 
-(defn- use-er-koulutus [toteutus]
-  (cond
-    (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-    amm-perustutkinto-erityisopetus-koulutustyyppi
-    (true? (get-in toteutus [:metadata :jarjestetaanErityisopetuksena]))
-    tuva-erityisopetus-koulutustyyppi))
+(defn- use-special-koulutus [toteutus koulutus]
+  (let [koulutuksentyyppi (get-in koulutus [:metadata :tyyppi])]
+    (cond
+      (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
+      amm-perustutkinto-erityisopetus-koulutustyyppi
+      (true? (get-in toteutus [:metadata :jarjestetaanErityisopetuksena]))
+      tuva-erityisopetus-koulutustyyppi
+      (= koulutuksentyyppi "tuva")
+      tuva-koulutustyyppi
+      (= koulutuksentyyppi "telma")
+      telma-koulutustyyppi
+      (= koulutuksentyyppi "vapaa-sivistystyo-muu")
+      vapaa-sivistava-koulutustyyppi
+      (= koulutuksentyyppi "vapaa-sivistystyo-opistovuosi")
+      vapaa-sivistava-koulutustyyppi)))
 
 (defn- filter-expired-koodis
   [koodit]
@@ -144,9 +156,9 @@
 
 (defn- assoc-koulutustyypit
   [hakukohde toteutus koulutus]
-  (let [erkkakoodi (use-er-koulutus toteutus)
-        koulutustyyppikoodi (if (not (nil? erkkakoodi))
-                                erkkakoodi
+  (let [specialkoodi (use-special-koulutus toteutus koulutus)
+        koulutustyyppikoodi (if (not (nil? specialkoodi))
+                                specialkoodi
                               (get-koulutustyyppikoodi-from-koodisto koulutus))]
        (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
