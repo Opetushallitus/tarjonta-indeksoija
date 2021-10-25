@@ -54,7 +54,8 @@
 
 (defn ei-harkinnanvaraisuutta
   [koulutusKoodiUri]
-  (get-alakoodi-nimi-with-cache koulutusKoodiUri "hakulomakkeenasetukset_eiharkinnanvaraisuutta"))
+  (let [asetukset (list-alakoodi-nimet-with-cache koulutusKoodiUri "hakulomakkeenasetukset")]
+    (some #(= "hakulomakkeenasetukset_eiharkinnanvaraisuutta" (get % :koodiUri)) asetukset)))
 
 (defn pohjakoulutusvaatimuskonfo
   []
