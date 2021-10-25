@@ -187,7 +187,7 @@
                                 (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
     (indexable/->index-entry oid
                              (-> hakukohde
-                                 (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                 (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)

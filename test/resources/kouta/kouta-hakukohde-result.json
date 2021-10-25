@@ -446,7 +446,7 @@
   "sora": {
     "tila": "arkistoitu"
   },
-  "onkoHarkinnanvarainenKoulutus": false,
+  "onkoHarkinnanvarainenKoulutus": true,
   "koulutustyyppikoodi": null,
   "externalId": "3344556677",
   "jarjestaaUrheilijanAmmKoulutusta": false
