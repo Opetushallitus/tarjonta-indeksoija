@@ -4,7 +4,6 @@
             [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri julkaistu? set-hakukohde-tila-by-related-haku]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
-            [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [clojure.string]))
 
 (def index-name "hakukohde-kouta")
@@ -188,7 +187,7 @@
     (indexable/->index-entry oid
                              (-> hakukohde
                                  (set-hakukohde-tila-by-related-haku haku)
-                                 (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                 (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)
