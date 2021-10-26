@@ -138,6 +138,7 @@
                               :tila "arkistoitu"
                               :valintaperuste valintaperuste-id
                               :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
+                              :esitysnimi "Esitysnimi"
                               :muokkaaja "1.2.246.562.24.62301161440"
                               :modified "2019-02-05T09:49:23"
                               :jarjestyspaikkaOid default-jarjestyspaikka-oid)

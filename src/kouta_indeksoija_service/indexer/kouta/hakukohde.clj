@@ -152,7 +152,7 @@
         jarjestava-toimipiste (when-not (clojure.string/blank? jarjestyspaikkaOid)
                                 (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
     (indexable/->index-entry oid
-                             (-> hakukohde
+                             (-> (assoc hakukohde :nimi (:esitysnimi hakukohde))
                                  (koodisto/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
