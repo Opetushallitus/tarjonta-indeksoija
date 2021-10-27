@@ -6,6 +6,7 @@
             [ring.util.codec :refer [url-encode]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
+            [kouta-indeksoija-service.indexer.tools.general :as general]
             [clojure.string]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
@@ -78,9 +79,13 @@
     (if response
      (map (fn [hakutieto]
             (assoc hakutieto :haut
-                   (map (fn [haku] 
+                   (map (fn [haku]
                           (assoc haku :hakukohteet
-                                 (map koodisto/assoc-hakukohde-nimi-from-koodi (:hakukohteet haku)))) 
+                                 (map (fn [hakukohde]
+                                        (-> hakukohde
+                                            (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                            (general/set-hakukohde-tila-by-related-haku haku)))
+                                      (:hakukohteet haku))))
                         (:haut hakutieto))))
             response)
       response)))

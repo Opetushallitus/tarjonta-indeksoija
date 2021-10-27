@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri julkaistu? set-hakukohde-tila-by-related-haku]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [clojure.string]))
@@ -153,6 +153,7 @@
                                 (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
     (indexable/->index-entry oid
                              (-> hakukohde
+                                 (set-hakukohde-tila-by-related-haku haku)
                                  (koodisto/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
