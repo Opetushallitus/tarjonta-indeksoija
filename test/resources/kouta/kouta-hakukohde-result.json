@@ -203,8 +203,12 @@
   },
   "muuPohjakoulutusvaatimus": {},
   "nimi": {
-    "fi": "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
-    "sv": "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+    "fi": "Esitysnimi fi",
+    "sv": "Esitysnimi sv"
+  },
+  "esitysnimi": {
+    "fi": "Esitysnimi fi",
+    "sv": "Esitysnimi sv"
   },
   "hakulomakeKuvaus": {
     "fi": "Hakulomake tulostetaan ja toimitetaan postitse fi",
