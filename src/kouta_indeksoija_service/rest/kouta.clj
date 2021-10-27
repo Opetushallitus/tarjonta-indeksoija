@@ -78,9 +78,14 @@
     (if response
      (map (fn [hakutieto]
             (assoc hakutieto :haut
-                   (map (fn [haku] 
-                          (assoc haku :hakukohteet
-                                 (map koodisto/assoc-hakukohde-nimi-from-koodi (:hakukohteet haku)))) 
+                   (map (fn [haku]
+                          (update-in haku [:hakukohteet]
+                                     (fn [hakukohteet]
+                                       (for [hakukohde hakukohteet]
+                                         (let [hakukohde-from-index (get-hakukohde (:hakukohdeOid hakukohde))]
+                                           (-> hakukohde
+                                               koodisto/assoc-hakukohde-nimi-from-koodi
+                                               (assoc :nimi (:esitysnimi hakukohde-from-index))))))))
                         (:haut hakutieto))))
             response)
       response)))
