@@ -7,7 +7,7 @@
   (:import (com.amazonaws.services.sqs.model QueueDoesNotExistException)))
 
 (def long-poll-wait-time    20)
-(def max-number-of-messages 10)
+(def max-number-of-messages 1)
 
 (defn- with-endpoint
   [f]
