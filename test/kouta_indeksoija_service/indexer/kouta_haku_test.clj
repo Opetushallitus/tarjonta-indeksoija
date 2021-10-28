@@ -21,10 +21,10 @@
      (i/index-haut [haku-oid])
      (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid))) ]
        (is (= 2 (alength hakukohteet)))
-       (is (= {:fi "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
-               :sv "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"} (:nimi (aget hakukohteet 0))))
-       (is (= {:fi "Koulutuksen 0 toteutuksen 2 hakukohde 0 fi",
-               :sv "Koulutuksen 0 toteutuksen 2 hakukohde 0 sv"} (:nimi (aget hakukohteet 1))))
+       (is (= {:fi "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi fi",
+               :sv "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi sv"} (:nimi (aget hakukohteet 0))))
+       (is (= {:fi "Koulutuksen 0 toteutuksen 2 hakukohteen 2 esitysnimi fi",
+               :sv "Koulutuksen 0 toteutuksen 2 hakukohteen 2 esitysnimi sv"} (:nimi (aget hakukohteet 1))))
        ))))
 
 (deftest index-hakukohteet-with-hakukohdekoodiuri-to-haku-test
