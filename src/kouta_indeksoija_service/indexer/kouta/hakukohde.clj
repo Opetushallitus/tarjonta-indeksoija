@@ -3,11 +3,16 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
+            [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [clojure.string]))
 
 (def index-name "hakukohde-kouta")
-(defonce erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
+(defonce tuva-koulutustyyppi "koulutustyyppi_40")
+(defonce telma-koulutustyyppi "koulutustyyppi_5")
+(defonce vapaa-sivistava-koulutustyyppi "koulutustyyppi_10")
+(defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -112,28 +117,57 @@
   (let [link-holder (if (true? (:kaytetaanHaunHakulomaketta hakukohde)) haku hakukohde)]
     (conj hakukohde (common/create-hakulomake-linkki-for-hakukohde link-holder (:oid hakukohde)))))
 
-(defn- conj-er-koulutus [toteutus koulutustyypit]
-  (if (and
-       (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
-       (not (.contains koulutustyypit erityisopetus-koulutustyyppi)))
-    (conj koulutustyypit erityisopetus-koulutustyyppi)
-    koulutustyypit))
+(defn- use-special-koulutus [toteutus koulutus]
+  (let [koulutuksentyyppi (get-in koulutus [:metadata :tyyppi])]
+    (cond
+      (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena]))
+      amm-perustutkinto-erityisopetus-koulutustyyppi
+      (true? (get-in toteutus [:metadata :jarjestetaanErityisopetuksena]))
+      tuva-erityisopetus-koulutustyyppi
+      (= koulutuksentyyppi "tuva")
+      tuva-koulutustyyppi
+      (= koulutuksentyyppi "telma")
+      telma-koulutustyyppi
+      (= koulutuksentyyppi "vapaa-sivistystyo-muu")
+      vapaa-sivistava-koulutustyyppi
+      (= koulutuksentyyppi "vapaa-sivistystyo-opistovuosi")
+      vapaa-sivistava-koulutustyyppi)))
+
+(defn- filter-expired-koodis
+  [koodit]
+  (let [aktiivisetkoulutustyypit (->> (koodisto/get-from-index "koulutustyyppi")
+                                     :koodit
+                                     (map #(:koodiUri %)))]
+    (filter #(some (partial = %) aktiivisetkoulutustyypit) koodit)))
+
+(defn- get-koulutustyyppikoodi-from-koodisto
+  [koulutus]
+  (let [code-state-not-passive #(not (= "PASSIIVINEN" (:tila %)))
+        koodiurit (->> koulutus
+                      :koulutuksetKoodiUri
+                      (mapcat koodisto-tools/koulutustyypit)
+                      (filter code-state-not-passive)
+                      (map :koodiUri)
+                      (filter-expired-koodis)
+                      (distinct)
+                      (filter #(not (.contains [amm-perustutkinto-erityisopetus-koulutustyyppi tuva-erityisopetus-koulutustyyppi] %))))]
+    (when (= 1 (count koodiurit))  ; ei tehdä päättelyä useamman koulutustyypin välillä, vaan jätetään arvoksi nil
+      (first koodiurit))))
 
 (defn- assoc-koulutustyypit
   [hakukohde toteutus koulutus]
-  (->> koulutus
-       :koulutuksetKoodiUri
-       (mapcat koodisto/koulutustyypit)
-       (map :koodiUri)
-       (conj-er-koulutus toteutus)
-       (assoc hakukohde :koulutustyypit)))
+  (let [specialkoodi (use-special-koulutus toteutus koulutus)
+        koulutustyyppikoodi (if (not (nil? specialkoodi))
+                                specialkoodi
+                              (get-koulutustyyppikoodi-from-koodisto koulutus))]
+       (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
   (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)]
     (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
                                                      (some? non-korkeakoulu-koodi-uri)
-                                                     (nil? (koodisto/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
+                                                     (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde toimipiste]
   (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (boolean (get-in toimipiste [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))
@@ -153,7 +187,7 @@
                                 (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
     (indexable/->index-entry oid
                              (-> hakukohde
-                                 (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                 (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
                                  (assoc-sora-data sora-kuvaus)

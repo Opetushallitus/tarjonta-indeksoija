@@ -32,9 +32,14 @@
 
 (defn mock-alakoodit
   [koodi-uri alakoodi-uri]
-  (vector
-   {:koodiUri (str alakoodi-uri "_01") :nimi {:fi (str alakoodi-uri "_01" " nimi fi") :sv (str alakoodi-uri "_01" " nimi sv")}}
-   {:koodiUri (str alakoodi-uri "_02") :nimi {:fi (str alakoodi-uri "_02" " nimi fi") :sv (str alakoodi-uri "_02" " nimi sv")}}))
+  (cond
+    (= "koulutus_222336#1" koodi-uri)
+    (vector {:koodiUri "koulutustyyppiabc_01" :nimi {:fi (str koodi-uri "_01" " nimi fi") :sv (str koodi-uri "_01" " nimi sv")}})
+    (= "koulutus_222337#1" koodi-uri)
+    (vector {:koodiUri "koulutustyyppiabc_01" :nimi {:fi (str koodi-uri "_01" " nimi fi") :sv (str koodi-uri "_01" " nimi sv")} :tila "PASSIIVINEN"})
+    :else (vector
+            {:koodiUri (str alakoodi-uri "_01") :nimi {:fi (str alakoodi-uri "_01" " nimi fi") :sv (str alakoodi-uri "_01" " nimi sv")}}
+            {:koodiUri (str alakoodi-uri "_02") :nimi {:fi (str alakoodi-uri "_02" " nimi fi") :sv (str alakoodi-uri "_02" " nimi sv")}})))
 
 (defn mock-get-henkilo-nimi-with-cache
   [oid]
