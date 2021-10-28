@@ -82,10 +82,10 @@
                           (update-in haku [:hakukohteet]
                                      (fn [hakukohteet]
                                        (for [hakukohde hakukohteet]
-                                         (let [hakukohde-from-index (get-hakukohde (:hakukohdeOid hakukohde))]
+                                         (let [hakukohde-from-kouta-backend (get-hakukohde (:hakukohdeOid hakukohde))]
                                            (-> hakukohde
                                                koodisto/assoc-hakukohde-nimi-from-koodi
-                                               (assoc :nimi (:esitysnimi hakukohde-from-index))))))))
+                                               (assoc :nimi (:esitysnimi hakukohde-from-kouta-backend))))))))
                         (:haut hakutieto))))
             response)
       response)))
