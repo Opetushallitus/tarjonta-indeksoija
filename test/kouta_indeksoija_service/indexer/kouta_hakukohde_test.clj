@@ -214,3 +214,9 @@
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
+(deftest index-hakukohde-test-hakukohde-julkaistu-while-haku-not-julkaistu
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde to hakukohde index non-published when related haku not published"
+     (check-all-nil)
+     (i/index-hakukohteet [ei-julkaistun-haun-julkaistu-hakukohde-oid])
+     (is (= "tallennettu" (:tila (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))))))
