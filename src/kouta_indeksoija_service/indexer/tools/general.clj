@@ -54,5 +54,6 @@
 (defn set-hakukohde-tila-by-related-haku
   [hakukohde haku]
   (if (and (julkaistu? hakukohde) (not (julkaistu? haku)))
-  (assoc hakukohde :tila (:tila haku))
-  hakukohde))
+    (assoc hakukohde :tila (:tila haku))
+      hakukohde
+  ))
