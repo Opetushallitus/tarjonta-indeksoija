@@ -6,6 +6,7 @@
    [clj-time.format :as format]
    [clj-time.local :as local]
    [clj-time.core :as time]
+   [clojure.walk :refer [postwalk]]
    [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
    [kouta-indeksoija-service.fixture.external-services :as mocks]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
@@ -32,9 +33,24 @@
 (def oppilaitoksen-osa-oid "1.2.246.562.10.10101010102")
 (def default-jarjestyspaikka-oid "1.2.246.562.10.67476956288")
 
+(defn no-formatoitu-date
+  [json]
+  (postwalk (fn [m]
+              (if (map? m)
+                (loop [ks (keys m)
+                       mm m]
+                  (if-let [k (and (first ks) (name (first ks)))]
+                    (if (string/starts-with? k "formatoitu")
+                      (recur (rest ks)
+                             (dissoc mm (first ks)))
+                      (recur (rest ks)
+                             mm))
+                    mm))
+                m)) json))
+
 (defn no-timestamp
   [json]
-  (dissoc json :timestamp))
+  (dissoc (no-formatoitu-date json) :timestamp))
 
 (defonce formatter (format/formatters :date-hour-minute))
 

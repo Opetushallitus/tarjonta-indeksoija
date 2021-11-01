@@ -148,7 +148,8 @@
                                      (common/assoc-organisaatiot)
                                      (enrich-metadata)
                                      (assoc-sorakuvaus)
-                                     (assoc :toteutukset (map common/toteutus->list-item toteutukset))))))
+                                     (assoc :toteutukset (map common/toteutus->list-item toteutukset))
+                                     (common/localize-dates)))))
 
 (defn do-index
   [oids execution-id]
