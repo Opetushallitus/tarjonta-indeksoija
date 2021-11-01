@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? get-non-korkeakoulu-koodi-uri]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -296,12 +296,18 @@
   [hakutiedot t]
   (first (filter (fn [x] (= (:toteutusOid x) (:oid t))) hakutiedot)))
 
+(defn- get-haun-julkaistut-hakukohteet
+  [haku]
+  (let [hakukohteet (map #(set-hakukohde-tila-by-related-haku % haku) (:hakukohteet haku))]
+    filter julkaistu? hakukohteet)
+)
+
 (defn- filter-hakutiedon-haut-julkaistu-and-not-empty-hakukohteet
   [hakutiedon-haut]
   (->> hakutiedon-haut
        (map (fn [haku] (assoc haku
                               :hakukohteet
-                              (filter julkaistu? (:hakukohteet haku)))))
+                              (get-haun-julkaistut-hakukohteet haku))))
        (filter #(seq (:hakukohteet %)))))
 
 (defn get-toteutuksen-julkaistut-hakutiedot
