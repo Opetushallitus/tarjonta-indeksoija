@@ -185,7 +185,8 @@
                   (assoc :opintojenLaajuusyksikko (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus))
-                  (assoc :search_terms (:search_terms koulutus)))]
+                  (assoc :search_terms (:search_terms koulutus))
+                  (common/localize-dates))]
     (cond-> entry
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))

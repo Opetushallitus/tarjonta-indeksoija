@@ -107,7 +107,8 @@
                                      (common/assoc-organisaatiot)
                                      (enrich-metadata)
                                      (assoc-tarjoajien-oppilaitokset)
-                                     (assoc-hakutiedot hakutiedot)))))
+                                     (assoc-hakutiedot hakutiedot)
+                                     (common/localize-dates)))))
 
 (defn do-index
   [oids execution-id]
