@@ -84,8 +84,8 @@
                                        (for [hakukohde hakukohteet]
                                          (let [hakukohde-from-kouta-backend (get-hakukohde (:hakukohdeOid hakukohde))]
                                            (-> hakukohde
-                                               koodisto/assoc-hakukohde-nimi-from-koodi
-                                               (assoc :nimi (:esitysnimi hakukohde-from-kouta-backend))))))))
+                                               (assoc :nimi (:esitysnimi hakukohde-from-kouta-backend))
+                                               koodisto/assoc-hakukohde-nimi-from-koodi))))))
                         (:haut hakutieto))))
             response)
       response)))
