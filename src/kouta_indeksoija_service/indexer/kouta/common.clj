@@ -137,7 +137,7 @@
                                            t))
                                   t)))]
     (postwalk #(-> %
-                   (format-date-kws [:toimitusaika :modified :paattyy :alkaa])) form)))
+                   (format-date-kws [:liitteidenToimitusaika :toimitusaika :modified :paattyy :alkaa])) form)))
 
 (defn complete-entry
   [entry]
