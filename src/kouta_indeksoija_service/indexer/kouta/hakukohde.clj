@@ -164,10 +164,13 @@
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
-  (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)]
+  (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)
+        hakokohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])]
     (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
                                                      (some? non-korkeakoulu-koodi-uri)
-                                                     (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))))))
+                                                     (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))
+                                                     (or (nil? hakokohde-nimi-koodi-uri)
+                                                         (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri)))))))
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde toimipiste]
   (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (boolean (get-in toimipiste [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))
