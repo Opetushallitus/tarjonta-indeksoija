@@ -132,7 +132,7 @@
                                 (if-let [date (first d)]
                                   (if-let [aika (date t)]
                                     (recur (rest d)
-                                           (assoc t (keyword (str "formatoitu_" (name date))) (format-date aika)))
+                                           (assoc t (keyword (str "formatoitu" (string/capitalize (name date)))) (format-date aika)))
                                     (recur (rest d)
                                            t))
                                   t)))]
