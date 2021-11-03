@@ -31,10 +31,15 @@
   (boolean (or (and (string? v) (koodi-uri? v))
                (and (coll? v) (some #(and (string? %) (koodi-uri? %)) v)))))
 
+(defn- safe-get-koodi-for-value [value]
+  (if (koodi-uri? value)
+    (get-koodi-nimi-with-cache value)
+    value))
+
 (defn- process-koodi-values [input]
-  (cond (vector? input) (mapv get-koodi-nimi-with-cache input)
-        (seq? input) (doall (map get-koodi-nimi-with-cache input))
-        :else (get-koodi-nimi-with-cache input)))
+  (cond (vector? input) (mapv safe-get-koodi-for-value input)
+        (seq? input) (doall (map safe-get-koodi-for-value input))
+        :else (safe-get-koodi-for-value input)))
 
 (defn- process-map-entry-for-koodis [map-entry]
   (let [[k v]               map-entry
