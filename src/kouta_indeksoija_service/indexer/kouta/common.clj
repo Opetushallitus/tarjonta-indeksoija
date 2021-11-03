@@ -7,7 +7,8 @@
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [clojure.tools.logging :as log]))
 
 (defn- strip-koodi-uri-key
   [key]
@@ -24,15 +25,35 @@
   [value]         ;Numeroita voi olla 1-3 kpl
   (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (string/trim value)))
 
-(defn- decorate-koodi-value
-  [value]
-  (if (and (string? value) (koodi-uri? value))
-      (get-koodi-nimi-with-cache value)
-      value))
+(def excluded-fields {:externalId true})
+
+(defn- processable-as-koodi-uri? [v]
+  (boolean (or (and (string? v) (koodi-uri? v))
+               (and (coll? v) (some #(and (string? %) (koodi-uri? %)) v)))))
+
+(defn- process-koodi-values [input]
+  (cond (vector? input) (mapv get-koodi-nimi-with-cache input)
+        (seq? input) (doall (map get-koodi-nimi-with-cache input))
+        :else (get-koodi-nimi-with-cache input)))
+
+(defn- process-map-entry-for-koodis [map-entry]
+  (let [[k v]               map-entry
+        allowed-key?        (not (get excluded-fields (keyword k)))
+        interesting-values? (processable-as-koodi-uri? v)]
+    (when (and interesting-values? (not allowed-key?))
+      (log/warn (str "Skip processing for map entry because of disallowed key" map-entry)))
+    (if (and allowed-key? interesting-values?)
+      [k (process-koodi-values v)]
+      map-entry)))
+
+(defn- enrich-koodi-values [value]
+  (if (map-entry? value)
+    (process-map-entry-for-koodis value)
+    value))
 
 (defn decorate-koodi-uris
   [x]
-  (postwalk #(-> % strip-koodi-uri-key decorate-koodi-value) x))
+  (postwalk #(-> % strip-koodi-uri-key enrich-koodi-values) x))
 
 (defn- get-tarjoaja
   [oid]
