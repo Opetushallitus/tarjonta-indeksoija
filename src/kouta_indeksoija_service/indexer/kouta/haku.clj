@@ -13,7 +13,7 @@
                          (for [hakukohde (kouta-backend/list-hakukohteet-by-haku oid)]
                            (let [hakukohde-from-kouta-backend (kouta-backend/get-hakukohde (:oid hakukohde))]
                              (-> hakukohde
-                                 (assoc :nimi (:esitysnimi hakukohde-from-kouta-backend))
+                                 (assoc :nimi (:esitysnimi (:_enrichedData hakukohde-from-kouta-backend)))
                                  (koodisto/assoc-hakukohde-nimi-from-koodi)))))
         toteutus-list (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
         assoc-toteutus (fn [h] (assoc h :toteutus (common/assoc-organisaatiot (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))]

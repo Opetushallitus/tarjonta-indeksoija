@@ -84,7 +84,7 @@
                                        (for [hakukohde hakukohteet]
                                          (let [hakukohde-from-kouta-backend (get-hakukohde (:hakukohdeOid hakukohde))]
                                            (-> hakukohde
-                                               (assoc :nimi (:esitysnimi hakukohde-from-kouta-backend))
+                                               (assoc :nimi (:esitysnimi (:_enrichedData hakukohde-from-kouta-backend)))
                                                koodisto/assoc-hakukohde-nimi-from-koodi))))))
                         (:haut hakutieto))))
             response)
