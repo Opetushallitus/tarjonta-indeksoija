@@ -6,6 +6,7 @@
             [ring.util.codec :refer [url-encode]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
+            [kouta-indeksoija-service.indexer.tools.general :as general]
             [clojure.string]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
@@ -84,6 +85,7 @@
                                        (for [hakukohde hakukohteet]
                                          (let [hakukohde-from-kouta-backend (get-hakukohde (:hakukohdeOid hakukohde))]
                                            (-> hakukohde
+                                               (general/set-hakukohde-tila-by-related-haku haku)
                                                (assoc :nimi (:esitysnimi (:_enrichedData hakukohde-from-kouta-backend)))
                                                koodisto/assoc-hakukohde-nimi-from-koodi))))))
                         (:haut hakutieto))))

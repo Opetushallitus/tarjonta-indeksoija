@@ -2,7 +2,8 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.tools.general :as general]))
 
 (def index-name "haku-kouta")
 
@@ -13,6 +14,7 @@
                          (for [hakukohde (kouta-backend/list-hakukohteet-by-haku oid)]
                            (let [hakukohde-from-kouta-backend (kouta-backend/get-hakukohde (:oid hakukohde))]
                              (-> hakukohde
+                                 (general/set-hakukohde-tila-by-related-haku haku)
                                  (assoc :nimi (:esitysnimi (:_enrichedData hakukohde-from-kouta-backend)))
                                  (koodisto/assoc-hakukohde-nimi-from-koodi)))))
         toteutus-list (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))

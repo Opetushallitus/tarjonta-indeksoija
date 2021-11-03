@@ -50,3 +50,10 @@
 (defn asiasana->lng-value-map
   [asiasanat]
   (map (fn [a] {(keyword (:kieli a)) (:arvo a)}) asiasanat))
+
+(defn set-hakukohde-tila-by-related-haku
+  [hakukohde haku]
+  (if (and (julkaistu? hakukohde) (not (nil? haku)) (not (nil? (:tila haku))) (not (julkaistu? haku)))
+    (assoc hakukohde :tila (:tila haku))
+      hakukohde
+  ))
