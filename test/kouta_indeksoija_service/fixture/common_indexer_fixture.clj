@@ -25,6 +25,8 @@
 (def haku-oid "1.2.246.562.29.00000000000000000001")
 (def hakukohde-oid "1.2.246.562.20.00000000000000000001")
 (def hakukohde-oid2 "1.2.246.562.20.00000000000000000002")
+(def ei-julkaistu-haku-oid "1.2.246.562.29.00000000000000000099")
+(def ei-julkaistun-haun-julkaistu-hakukohde-oid "1.2.246.562.20.00000000000000000099")
 (def valintaperuste-id "a5e88367-555b-4d9e-aa43-0904e5ea0a13")
 (def sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd")
 (def oppilaitos-oid "1.2.246.562.10.10101010101")
@@ -170,6 +172,21 @@
                               :modified "2019-02-05T09:49:23"
                               :jarjestyspaikkaOid default-jarjestyspaikka-oid)
 
+  (fixture/add-haku-mock ei-julkaistu-haku-oid
+                         :tila "tallennettu"
+                         :nimi "Ei julkaistu haku"
+                         :muokkaaja "1.2.246.562.24.62301161440"
+                         :modified "2021-10-27T14:44:44")
+
+  (fixture/add-hakukohde-mock ei-julkaistun-haun-julkaistu-hakukohde-oid
+                              "1.2.246.562.17.00000000000000000003"
+                              ei-julkaistu-haku-oid
+                              :tila "julkaistu"
+                              :valintaperuste valintaperuste-id
+                              :nimi "Ei julkaistun haun julkaistu hakukohde"
+                              :muokkaaja "1.2.246.562.24.62301161440"
+                              :modified "2021-10-27T14:44:44"
+                              :jarjestyspaikkaOid default-jarjestyspaikka-oid)
 
   (fixture/add-sorakuvaus-mock sorakuvaus-id
                                :tila "arkistoitu"

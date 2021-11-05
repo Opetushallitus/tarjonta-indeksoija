@@ -41,3 +41,12 @@
        (is (= {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2 nimi fi",
                :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2 nimi sv"} (:nimi (aget hakukohteet 1))))
        ))))
+
+(deftest index-julkaistut-hakukohteet-of-ei-julkaistu-haku-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde in same state as related haku, in case hakukohde was published and haku not"
+     (check-all-nil)
+     (i/index-haut [ei-julkaistu-haku-oid])
+     (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name ei-julkaistu-haku-oid))) ]
+       (is (= 1 (alength hakukohteet)))
+       (is (= "tallennettu" (:tila (aget hakukohteet 0))))))))
