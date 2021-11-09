@@ -18,7 +18,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohteet with original name to haku-index, if hakukohdeKoodiUri not available"
      (check-all-nil)
-     (i/index-haut [haku-oid])
+     (i/index-haut [haku-oid] (. System (currentTimeMillis)))
      (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid))) ]
        (is (= 2 (alength hakukohteet)))
        (is (= {:fi "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
@@ -33,7 +33,7 @@
      (check-all-nil)
      (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi "")
      (fixture/update-hakukohde-mock hakukohde-oid2 :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2" :nimi "")
-     (i/index-haut [haku-oid])
+     (i/index-haut [haku-oid] (. System (currentTimeMillis)))
      (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid))) ]
        (is (= 2 (alength hakukohteet)))
        (is (= {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
@@ -46,7 +46,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde in same state as related haku, in case hakukohde was published and haku not"
      (check-all-nil)
-     (i/index-haut [ei-julkaistu-haku-oid])
+     (i/index-haut [ei-julkaistu-haku-oid] (. System (currentTimeMillis)))
      (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name ei-julkaistu-haku-oid))) ]
        (is (= 1 (alength hakukohteet)))
        (is (= "tallennettu" (:tila (aget hakukohteet 0))))))))

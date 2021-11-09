@@ -38,7 +38,7 @@
    (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
      (testing "Indexer should index haku to haku index and update related indexes"
      (check-all-nil)
-     (i/index-haut [haku-oid])
+     (i/index-haut [haku-oid] (. System (currentTimeMillis)))
      (compare-json (no-timestamp (json "kouta-haku-result"))
                    (no-timestamp (get-doc haku/index-name haku-oid)))
      (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
@@ -52,7 +52,7 @@
      (testing "Indexer should create hakulomakeLinkki from haku oid"
      (check-all-nil)
      (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
-     (i/index-haut [haku-oid])
+     (i/index-haut [haku-oid] (. System (currentTimeMillis)))
      (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
                    {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
@@ -62,7 +62,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index valintaperuste to valintaperuste index"
      (check-all-nil)
-     (i/index-valintaperusteet [valintaperuste-id])
+     (i/index-valintaperusteet [valintaperuste-id] (. System (currentTimeMillis)))
      (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
                    (no-timestamp (get-doc valintaperuste/index-name valintaperuste-id))))))
 
@@ -70,7 +70,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index sorakuvaus to sorakuvaus index and koulutus related to sorakuvaus to koulutus index"
      (check-all-nil)
-     (i/index-sorakuvaukset [sorakuvaus-id])
+     (i/index-sorakuvaukset [sorakuvaus-id] (. System (currentTimeMillis)))
      (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
      (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
                    (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
@@ -91,7 +91,7 @@
      (testing "Indexer should index oppilaitos and it's osat to oppilaitos index"
        (check-all-nil)
        (add-toteutus-for-oppilaitos)
-       (i/index-oppilaitokset [oppilaitos-oid])
+       (i/index-oppilaitokset [oppilaitos-oid] (. System (currentTimeMillis)))
        (compare-json (no-timestamp (json "kouta-oppilaitos-result"))
                      (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid)))))))
 
@@ -125,7 +125,7 @@
    (testing "Indexer should index also koulutus when indexing oppilaitos"
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
        (check-all-nil)
-       (i/index-oppilaitokset [mocks/Oppilaitos1])
+       (i/index-oppilaitokset [mocks/Oppilaitos1] (. System (currentTimeMillis)))
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))))))
 
@@ -134,7 +134,7 @@
     (testing "Indexer should index hakukohde when indexing oppilaitoksen osa that is set as järjestyspaikka on that hakukohde"
       (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
         (check-all-nil)
-        (i/index-oppilaitokset [default-jarjestyspaikka-oid])
+        (i/index-oppilaitokset [default-jarjestyspaikka-oid] (. System (currentTimeMillis)))
         (is (= "1.2.246.562.20.00000000000000000002" (:oid (get-doc hakukohde/index-name "1.2.246.562.20.00000000000000000002"))))))))
 
 (deftest index-organisaatio-no-oppilaitokset-test
@@ -163,7 +163,7 @@
                    kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
                      kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
        (check-all-nil)
-       (i/index-oppilaitokset [oppilaitos-oid]))
+       (i/index-oppilaitokset [oppilaitos-oid] (. System (currentTimeMillis))))
      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]
                    (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json"))
                               [:organisaatiot 0 :children 0 :status]
@@ -174,7 +174,7 @@
                               (constantly "PASSIIVINEN")))]
        (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
        (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
-       (i/index-oppilaitokset [oppilaitos-oid])
+       (i/index-oppilaitokset [oppilaitos-oid] (. System (currentTimeMillis)))
        (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
        (is (= nil (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))))))
 
