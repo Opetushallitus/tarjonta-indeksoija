@@ -202,7 +202,7 @@
    (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
      (testing "Indexer should index changed oids"
      (check-all-nil)
-     (i/index-oids {:hakukohteet [hakukohde-oid]})
+     (i/index-oids {:hakukohteet [hakukohde-oid]} (. System (currentTimeMillis)))
      (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
      (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
      (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
@@ -215,7 +215,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index changed oids 2"
      (check-all-nil)
-     (i/index-oids {:sorakuvaukset [sorakuvaus-id]})
+     (i/index-oids {:sorakuvaukset [sorakuvaus-id]} (. System (currentTimeMillis)))
      (is (nil? (:oid (get-doc haku/index-name haku-oid))))
      (is (nil? (:oid (get-doc hakukohde/index-name hakukohde-oid))))
      (is (nil? (:oid (get-doc toteutus/index-name toteutus-oid))))

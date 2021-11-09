@@ -62,9 +62,10 @@
 
 (defn handle-messages
   [messages]
-  (doseq [step [#(state/set-states! ::state/started %)
-                #(notifier/notify (indexer/index-oids (combine-messages %)))
-                #(state/set-states! ::state/indexed %)]]
+  (doseq [step (let [start (. System (currentTimeMillis))]
+                 [#(state/set-states! ::state/started % start)
+                  #(notifier/notify (indexer/index-oids (combine-messages %) start))
+                  #(state/set-states! ::state/indexed % start)])]
     (step messages)))
 
 (defn index-from-sqs

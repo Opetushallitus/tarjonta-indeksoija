@@ -296,6 +296,7 @@
 
 (defn init
   []
+  (intern 'clj-log.access-log 'service "kouta-indeksoija")
   (admin/initialize-indices))
 
 (defn teardown
@@ -490,7 +491,7 @@
 (defn index-oids-with-related-indices
   [oids]
   (with-mocked-indexing
-    (indexer/index-oids oids))
+    (indexer/index-oids oids (. System (currentTimeMillis))))
   (refresh-indices))
 
 (defn index-oids-without-related-indices

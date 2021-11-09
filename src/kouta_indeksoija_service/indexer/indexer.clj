@@ -174,7 +174,7 @@
     (index-lokalisoinnit [lng] start)))
 
 (defn index-oids
-  [oids]
+  [oids & execution-id]
   (let [start (. System (currentTimeMillis))]
     (log/info "Indeksoidaan: "
               (count (:koulutukset oids)) "koulutusta, "
@@ -184,27 +184,27 @@
               (count (:valintaperusteet oids)) "valintaperustetta, "
               (count (:sorakuvaukset oids)) "sora-kuvausta, "
               (count (:eperusteet oids)) "eperustetta osaamisaloineen sekä"
-              (count (:oppilaitokset oids)) "oppilaitosta. ID:" [start])
+              (count (:oppilaitokset oids)) "oppilaitosta. ID:" (vec (flatten execution-id)))
     (let [ret (cond-> {}
-                (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids) start))
-                (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids) start))
-                (contains? oids :haut) (assoc :haut (index-haut (:haut oids) start))
-                (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids)))
-                (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids)))
-                (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids)))
-                (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids)))
-                (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids))))]
-      (log/info (str "Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms. ID:" [start]))
+                      (contains? oids :koulutukset) (assoc :koulutukset (index-koulutukset (:koulutukset oids) execution-id))
+                      (contains? oids :toteutukset) (assoc :toteutukset (index-toteutukset (:toteutukset oids) execution-id))
+                      (contains? oids :haut) (assoc :haut (index-haut (:haut oids) execution-id))
+                      (contains? oids :hakukohteet) (assoc :hakukohteet (index-hakukohteet (:hakukohteet oids) execution-id))
+                      (contains? oids :sorakuvaukset) (assoc :sorakuvaukset (index-sorakuvaukset (:sorakuvaukset oids) execution-id))
+                      (contains? oids :valintaperusteet) (assoc :valintaperusteet (index-valintaperusteet (:valintaperusteet oids) execution-id))
+                      (contains? oids :eperusteet) (assoc :eperusteet (index-eperusteet (:eperusteet oids) execution-id))
+                      (contains? oids :oppilaitokset) (assoc :oppilaitokset (index-oppilaitokset (:oppilaitokset oids) execution-id)))]
+      (log/info (str "Indeksointi valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms. ID:" [execution-id]))
       ret)))
 
 (defn index-since-kouta
   [since]
-  (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet"))
   (let [start (. System (currentTimeMillis))
         date (long->rfc1123 since)
         oids (kouta-backend/get-last-modified date)]
-    (index-oids oids)
-    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms"))))
+    (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet, ID: " [start]))
+    (index-oids oids start)
+    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms, ID: " [start]))))
 
 (defn index-all-kouta
   []
@@ -271,5 +271,5 @@
 (defn index-all-lokalisoinnit
   []
   (let [start (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä, ID:" (vec start))
+    (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä, ID:" [start])
   (index-lokalisoinnit ["fi" "sv" "en"] start)))

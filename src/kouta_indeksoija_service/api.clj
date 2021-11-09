@@ -17,6 +17,7 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
             [kouta-indeksoija-service.lokalisointi.service :as lokalisointi-service]
+            [clj-log.access-log :refer [with-access-logging]]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
@@ -37,6 +38,7 @@
 (defn init []
   (mount/start)
   (log/info "Running init")
+  (intern 'clj-log.access-log 'service "kouta-indeksoija")
   (init-elastic-client)
   (if (and (admin/initialize-cluster-settings)
            (admin/check-elastic-status)
@@ -69,376 +71,376 @@
     :exceptions {:handlers {:compojure.api.exception/default error-handler*}}}
    (context "/kouta-indeksoija/api" []
 
-     (GET "/healthcheck" []
+     (GET "/healthcheck" [:as request]
        :summary "Healthcheck API."
-       (ok "OK"))
+       (with-access-logging request (ok "OK")))
 
-     (GET "/healthcheck/deep" []
+     (GET "/healthcheck/deep" [:as request]
        :summary "Palauttaa 500, jos sqs-jonot tai elasticsearch ei ole terveitä"
-       (let [[sqs-healthy? sqs-body] (sqs/healthcheck)
+       (with-access-logging request (let [[sqs-healthy? sqs-body] (sqs/healthcheck)
              [els-healthy? els-body] (admin/healthcheck)
              body {:sqs-health sqs-body :elasticsearch-health els-body}]
          (if (and sqs-healthy? els-healthy?)
            (ok body)
-           (internal-server-error body))))
+           (internal-server-error body)))))
 
      (context "/rebuild" []
        :tags ["rebuild"]
 
-       (GET "/indices/list" []
+       (GET "/indices/list" [:as request]
          :summary "Listaa kaikki indeksit ja niihin liitetyt aliakset"
-         (ok (admin/list-indices-and-aliases)))
+         (with-access-logging request (ok (admin/list-indices-and-aliases))))
 
-       (GET "/indices/list/virkailija" []
+       (GET "/indices/list/virkailija" [:as request]
          :summary "Listaa kaikki virkailija-puolen käyttämät indeksit"
-         (ok (admin/list-virkailija-indices)))
+         (with-access-logging request (ok (admin/list-virkailija-indices))))
 
-       (GET "/indices/list/oppija" []
+       (GET "/indices/list/oppija" [:as request]
          :summary "Listaa kaikki oppija-puolen käyttämät indeksit"
-         (ok (admin/list-oppija-indices)))
+         (with-access-logging request (ok (admin/list-oppija-indices))))
 
-       (GET "/indices/list/unused" []
+       (GET "/indices/list/unused" [:as request]
          :summary "Listaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
-         (ok (admin/list-unused-indices)))
+         (with-access-logging request (ok (admin/list-unused-indices))))
 
-       (POST "/indices/all" []
+       (POST "/indices/all" [:as request]
          :summary "Luo uudelleen kaikki indeksit katkotonta uudelleenindeksointia varten."
-         (ok (admin/initialize-all-indices-for-reindexing)))
+         (with-access-logging request (ok (admin/initialize-all-indices-for-reindexing))))
 
-       (POST "/indices/one" []
+       (POST "/indices/one" [:as request]
          :summary "Luo uudelleen yhden indeksin katkotonta uudelleenindeksointia varten."
          :body [index-name String]
-         (try (ok (admin/initialize-new-index-for-reindexing index-name))
-              (catch IllegalArgumentException e (bad-request (ex-message e)))))
+         (with-access-logging request (try (ok (admin/initialize-new-index-for-reindexing index-name))
+              (catch IllegalArgumentException e (bad-request (ex-message e))))))
 
-       (POST "/indices/kouta" []
+       (POST "/indices/kouta" [:as request]
          :summary "Luo uudelleen kaikki kouta-datan (ja oppilaitosten!) indeksit katkotonta uudelleenindeksointia varten."
-         (ok (admin/initialize-kouta-indices-for-reindexing)))
+         (with-access-logging request (ok (admin/initialize-kouta-indices-for-reindexing))))
 
-       (POST "/indices/eperuste" []
+       (POST "/indices/eperuste" [:as request]
          :summary "Luo uudelleen kaikki eperuste-datan indeksit katkotonta uudelleenindeksointia varten."
-         (ok (admin/initialize-eperuste-indices-for-reindexing)))
+         (with-access-logging request (ok (admin/initialize-eperuste-indices-for-reindexing))))
 
-       (POST "/indices/koodisto" []
+       (POST "/indices/koodisto" [:as request]
          :summary "Luo uudelleen kaikki koodisto-datan indeksit katkotonta uudelleenindeksointia varten."
-         (ok (admin/initialize-koodisto-indices-for-reindexing)))
+         (with-access-logging request (ok (admin/initialize-koodisto-indices-for-reindexing))))
 
-       (POST "/indices/lokalisointi" []
+       (POST "/indices/lokalisointi" [:as request]
          :summary "Luo uudelleen kaikki lokalisointi-datan indeksit katkotonta uudelleenindeksointia varten."
-         (ok (admin/initialize-lokalisointi-indices-for-reindexing)))
+         (with-access-logging request (ok (admin/initialize-lokalisointi-indices-for-reindexing))))
 
-       (DELETE "/indices/unused" []
+       (DELETE "/indices/unused" [:as request]
          :summary "Poistaa kaikki indeksit, joita ei enää käytetä (niissä ei ole aliaksia)"
-         (ok (admin/delete-unused-indices)))
+         (with-access-logging request (ok (admin/delete-unused-indices))))
 
-       (DELETE "/indices" []
+       (DELETE "/indices" [:as request]
          :summary "Poistaa listatut indeksit."
          :body [indices Indices]
-         (ok (admin/delete-indices indices)))
+         (with-access-logging request (ok (admin/delete-indices indices))))
 
-       (POST "/indices/aliases/sync" []
+       (POST "/indices/aliases/sync" [:as request]
          :summary "Synkkaa oppijan aliakset osoittamaan samoihin indekseihin kuin virkailijan aliakset"
-         (ok (admin/sync-all-aliases))))
+         (with-access-logging request (ok (admin/sync-all-aliases)))))
 
      (context "/kouta" []
        :tags ["kouta"]
 
-       (POST "/all" []
+       (POST "/all" [:as request]
          :query-params [{since :- Long 0}]
          :summary "Indeksoi uudet ja muuttuneet koulutukset, toteutukset, hakukohteet, haut ja valintaperusteet kouta-backendistä. Default kaikki."
-         (ok {:result (if (= 0 since)
+         (with-access-logging request (ok {:result (if (= 0 since)
                         (indexer/index-all-kouta)
-                        (indexer/index-since-kouta since))}))
+                        (indexer/index-since-kouta since))})))
 
-       (POST "/koulutus" []
+       (POST "/koulutus" [:as request]
          :summary "Indeksoi koulutuksen tiedot kouta-backendistä."
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-notifications :koulutukset notify (indexer/index-koulutus oid)))
+         (with-access-logging request (with-notifications :koulutukset notify (indexer/index-koulutus oid))))
 
-       (POST "/koulutukset" []
+       (POST "/koulutukset" [:as request]
          :summary "Indeksoi kaikki koulutukset kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :koulutukset notify (indexer/index-all-koulutukset)))
+         (with-access-logging request (with-notifications :koulutukset notify (indexer/index-all-koulutukset))))
 
-       (POST "/toteutus" []
+       (POST "/toteutus" [:as request]
          :summary "Indeksoi toteutuksen tiedot kouta-backendistä."
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-notifications :toteutukset notify (indexer/index-toteutus oid)))
+         (with-access-logging request (with-notifications :toteutukset notify (indexer/index-toteutus oid))))
 
-       (POST "/toteutukset" []
+       (POST "/toteutukset" [:as request]
          :summary "Indeksoi kaikki toteutukset kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :toteutukset notify (indexer/index-all-toteutukset)))
+         (with-access-logging request (with-notifications :toteutukset notify (indexer/index-all-toteutukset))))
 
-       (POST "/hakukohde" []
+       (POST "/hakukohde" [:as request]
          :summary "Indeksoi hakukohteen tiedot kouta-backendistä."
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-notifications :hakukohteet notify (indexer/index-hakukohde oid)))
+         (with-access-logging request (with-notifications :hakukohteet notify (indexer/index-hakukohde oid))))
 
-       (POST "/hakukohteet" []
+       (POST "/hakukohteet" [:as request]
          :summary "Indeksoi kaikki hakukohteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :hakukohteet notify (indexer/index-all-hakukohteet)))
+         (with-access-logging request (with-notifications :hakukohteet notify (indexer/index-all-hakukohteet))))
 
-       (POST "/haku" []
+       (POST "/haku" [:as request]
          :summary "Indeksoi haun tiedot kouta-backendistä."
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-notifications :haku notify (indexer/index-haku oid)))
+         (with-access-logging request (with-notifications :haku notify (indexer/index-haku oid))))
 
-       (POST "/haut" []
+       (POST "/haut" [:as request]
          :summary "Indeksoi kaikki haut kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :haku notify (indexer/index-all-haut)))
+         (with-access-logging request (with-notifications :haku notify (indexer/index-all-haut))))
 
-       (POST "/valintaperuste" []
+       (POST "/valintaperuste" [:as request]
          :summary "Indeksoi valintaperusteen tiedot kouta-backendistä."
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-notifications :valintaperusteet notify (indexer/index-valintaperuste oid)))
+         (with-access-logging request (with-notifications :valintaperusteet notify (indexer/index-valintaperuste oid))))
 
-       (POST "/valintaperusteet" []
+       (POST "/valintaperusteet" [:as request]
          :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :valintaperusteet notify (indexer/index-all-valintaperusteet)))
+         (with-access-logging request (with-notifications :valintaperusteet notify (indexer/index-all-valintaperusteet))))
 
-       (POST "/sorakuvaus" []
+       (POST "/sorakuvaus" [:as request]
          :summary "Indeksoi sorakuvausten tiedot kouta-backendistä."
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-notifications :sorakuvaukset notify (indexer/index-sorakuvaus oid)))
+         (with-access-logging request (with-notifications :sorakuvaukset notify (indexer/index-sorakuvaus oid))))
 
-       (POST "/sorakuvaukset" []
+       (POST "/sorakuvaukset" [:as request]
          :summary "Indeksoi kaikki sorakuvaukset kouta-backendistä."
          :query-params [{notify :- Boolean false}]
-         (with-notifications :sorakuvaukset notify (indexer/index-all-sorakuvaukset))))
+         (with-access-logging request (with-notifications :sorakuvaukset notify (indexer/index-all-sorakuvaukset)))))
 
      (context "/indexed" []
        :tags ["indexed"]
 
-       (GET "/koulutus" []
+       (GET "/koulutus" [:as request]
          :summary "Hakee yhden koulutuksen oidin perusteella. (HUOM! Täällä on koulutuksia, jotka eivät näy oppijan koulutushaussa)"
          :query-params [oid :- String]
-         (ok {:result (koulutus/get-from-index oid)}))
+         (with-access-logging request (ok {:result (koulutus/get-from-index oid)})))
 
-       (GET "/toteutus" []
+       (GET "/toteutus" [:as request]
          :summary "Hakee yhden toteutukset oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (toteutus/get-from-index oid)}))
+         (with-access-logging request (ok {:result (toteutus/get-from-index oid)})))
 
-       (GET "/hakukohde" []
+       (GET "/hakukohde" [:as request]
          :summary "Hakee yhden hakukohteen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (hakukohde/get-from-index oid)}))
+         (with-access-logging request (ok {:result (hakukohde/get-from-index oid)})))
 
-       (GET "/haku" []
+       (GET "/haku" [:as request]
          :summary "Hakee yhden haun oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (haku/get-from-index oid)}))
+         (with-access-logging request (ok {:result (haku/get-from-index oid)})))
 
-       (GET "/valintaperuste" []
+       (GET "/valintaperuste" [:as request]
          :summary "Hakee yhden valintaperusteen id:n perusteella."
          :query-params [id :- String]
-         (ok {:result (valintaperuste/get-from-index id)}))
+         (with-access-logging request (ok {:result (valintaperuste/get-from-index id)})))
 
-       (GET "/koulutus-haku" []
+       (GET "/koulutus-haku" [:as request]
          :summary "Hakee yhden koulutuksen tiedot koulutusten hakuindeksistä (oppijan koulutushaku) oidin perusteella. Vain julkaistuja koulutuksia."
          :query-params [oid :- String]
-         (ok {:result (koulutus-search/get-from-index oid)}))
+         (with-access-logging request (ok {:result (koulutus-search/get-from-index oid)})))
 
-       (GET "/oppilaitos" []
+       (GET "/oppilaitos" [:as request]
          :summary "Hakee yhden oppilaitoksen oidin perusteella."
          :query-params [oid :- String]
-         (ok {:result (oppilaitos/get-from-index oid)}))
+         (with-access-logging request (ok {:result (oppilaitos/get-from-index oid)})))
 
-       (GET "/oppilaitos-haku" []
+       (GET "/oppilaitos-haku" [:as request]
          :summary "Hakee yhden oppilaitoksen tiedot oppilaitosten hakuindeksistä (oppijan oppilaitoshaku) oidin perusteella. Vain julkaistuja oppilaitoksia."
          :query-params [oid :- String]
-         (ok {:result (oppilaitos-search/get-from-index oid)}))
+         (with-access-logging request (ok {:result (oppilaitos-search/get-from-index oid)})))
 
-       (GET "/sorakuvaus" []
+       (GET "/sorakuvaus" [:as request]
          :summary "Hakee yhden sorakuvauksen oidin perusteella."
          :query-params [id :- String]
-         (ok {:result (sorakuvaus/get-from-index id)}))
+         (with-access-logging request (ok {:result (sorakuvaus/get-from-index id)})))
 
-       (GET "/eperuste" []
+       (GET "/eperuste" [:as request]
          :summary "Hakee yhden ePerusteen oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (eperuste/get-from-index oid)}))
+         (with-access-logging request (ok {:result (eperuste/get-from-index oid)})))
 
-       (GET "/osaamisalakuvaus" []
+       (GET "/osaamisalakuvaus" [:as request]
          :summary "Hakee yhden osaamisalakuvaus oidin (idn) perusteella."
          :query-params [oid :- String]
-         (ok {:result (osaamisalakuvaus/get-from-index oid)}))
+         (with-access-logging request (ok {:result (osaamisalakuvaus/get-from-index oid)})))
 
-       (GET "/lokalisointi" []
+       (GET "/lokalisointi" [:as request]
          :summary "Hakee lokalisoinnit annetulla kielellä."
          :query-params [lng :- String]
-         (ok {:result (lokalisointi/get-from-index lng)})))
+         (with-access-logging request (ok {:result (lokalisointi/get-from-index lng)}))))
 
      (context "/admin" []
        :tags ["admin"]
 
-       (GET "/index/status" []
+       (GET "/index/status" [:as request]
          :summary "Hakee klusterin ja indeksien tiedot."
-         (ok {:result (admin/get-elastic-status)}))
+         (with-access-logging request (ok {:result (admin/get-elastic-status)})))
 
-       (GET "/aliases/all" []
+       (GET "/aliases/all" [:as request]
          :summary "Listaa kaikki indeksit ja niihin liitetyt aliakset."
-         (ok (admin/list-indices-and-aliases)))
+         (with-access-logging request (ok (admin/list-indices-and-aliases))))
 
-       (GET "/alias" []
+       (GET "/alias" [:as request]
          :summary "Listaa aliakseen liitetyt indeksit"
          :query-params [alias :- String]
-         (ok (admin/list-indices-with-alias alias)))
+         (with-access-logging request (ok (admin/list-indices-with-alias alias))))
 
-       (POST "/aliases/sync" []
+       (POST "/aliases/sync" [:as request]
          :summary "Synkkaa kaikki virkailijan ja oppijan aliakset osoittamaan samoihin indekseihin"
-         (ok (admin/sync-all-aliases)))
+         (with-access-logging request (ok (admin/sync-all-aliases))))
 
-       (GET "/queue/status" []
+       (GET "/queue/status" [:as request]
          :summary "Palauttaa tiedon kaikkien sqs-jonojen tilasta"
-         (ok (sqs/status)))
+         (with-access-logging request (ok (sqs/status))))
 
-       (GET "/index/query" []
+       (GET "/index/query" [:as request]
          :summary "Tekee haun haluttuun indeksiin"
          :query-params [index :- String
                         query :- String]
-         (ok (admin/search index query)))
+         (with-access-logging request (ok (admin/search index query))))
 
-       (POST "/index/delete" []
+       (POST "/index/delete" [:as request]
          :summary "Poistaa halutun indeksin. HUOM! ÄLÄ KÄYTÄ, ELLET OLE VARMA, MITÄ TEET!"
          :query-params [index :- String]
-         (ok (admin/delete-index index)))
+         (with-access-logging request (ok (admin/delete-index index))))
 
-       (POST "/lokalisointi/key-value-pairs" []
+       (POST "/lokalisointi/key-value-pairs" [:as request]
          :summary "Konvertoi jsonin avain-arvo-pareiksi käännösten tekemistä varten"
          :body [body (describe schema/Any "JSON-muotoiset käännökset (translation.json)")]
-         (ok (lokalisointi-service/->translation-keys body)))
+         (with-access-logging request (ok (lokalisointi-service/->translation-keys body))))
 
-       (POST "/lokalisointi/json" []
+       (POST "/lokalisointi/json" [:as request]
          :summary "Konvertoi avain-arvo-parit jsoniksi"
          :body [body (describe schema/Any "Avain-arvo-muotoiset käännökset")]
-         (ok (lokalisointi-service/->json body)))
+         (with-access-logging request (ok (lokalisointi-service/->json body))))
 
-       (POST "/lokalisointi/json/konfo/save" []
+       (POST "/lokalisointi/json/konfo/save" [:as request]
          :summary "Tallentaa konfo-ui:n käännöstiedoston (translation.json) lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
          :body [body (describe schema/Any "JSON-muotoiset käännökset")]
-         (ok (lokalisointi-service/save-translation-json-to-localisation-service "konfo" lng body)))
+         (with-access-logging request (ok (lokalisointi-service/save-translation-json-to-localisation-service "konfo" lng body))))
 
-       (POST "/lokalisointi/json/kouta/save" []
+       (POST "/lokalisointi/json/kouta/save" [:as request]
          :summary "Tallentaa kouta-ui:n käännöstiedoston json-muodossa lokalisointi-palveluun. Ei ylikirjoita olemassaolevia käännösavaimia."
          :query-params [lng :- String]
          :body [body (describe schema/Any "JSON-muotoiset käännökset")]
-         (ok (lokalisointi-service/save-translation-json-to-localisation-service "kouta" lng body))))
+         (with-access-logging request (ok (lokalisointi-service/save-translation-json-to-localisation-service "kouta" lng body)))))
 
      (context "/jobs" []
        :tags ["jobs"]
 
-       (GET "/list" []
+       (GET "/list" [:as request]
          :summary "Listaa tiedot järjestelmän ajastetuista prosesseista"
-         (ok (jobs/get-jobs-info)))
+         (with-access-logging request (ok (jobs/get-jobs-info))))
 
-       (POST "/pause-dlq" []
+       (POST "/pause-dlq" [:as request]
          :summary "Keskeyttää dlq-jonoa siivoavan prosessin"
-         (ok (jobs/pause-dlq-job)))
+         (with-access-logging request (ok (jobs/pause-dlq-job))))
 
-       (POST "/resume-dlq" []
+       (POST "/resume-dlq" [:as request]
          :summary "Käynnistää dlq-jonoa siivoavan prosessin"
-         (ok (jobs/resume-dlq-job)))
+         (with-access-logging request (ok (jobs/resume-dlq-job))))
 
-       (POST "/pause-sqs" []
+       (POST "/pause-sqs" [:as request]
          :summary "Keskeyttää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity oppijan puolelle ja esikatseluun!"
-         (ok (jobs/pause-sqs-job)))
+         (with-access-logging request (ok (jobs/pause-sqs-job))))
 
-       (POST "/resume-sqs" []
+       (POST "/resume-sqs" [:as request]
          :summary "Käynnistää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi"
-         (ok (jobs/resume-sqs-job)))
+         (with-access-logging request (ok (jobs/resume-sqs-job))))
 
-       (POST "/pause-notification-dlq" []
+       (POST "/pause-notification-dlq" [:as request]
          :summary "Keskeyttää notifikaatioiden dlq-jonoa siivoavan prosessin"
-         (ok (jobs/pause-notification-dlq-job)))
+         (with-access-logging request (ok (jobs/pause-notification-dlq-job))))
 
-       (POST "/resume-notification-dlq" []
+       (POST "/resume-notification-dlq" [:as request]
          :summary "Käynnistää notifikaatioiden dlq-jonoa siivoavan prosessin"
-         (ok (jobs/resume-notification-dlq-job)))
+         (with-access-logging request (ok (jobs/resume-notification-dlq-job))))
 
-       (POST "/pause-notification-sqs" []
+       (POST "/pause-notification-sqs" [:as request]
          :summary "Keskeyttää prosessin, joka lukee notifikaatioita sqs-jonosta ja lähettää ne ulkoisille integraatioille. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity ulkoisille integraatiolle."
-         (ok (jobs/pause-notification-job)))
+         (with-access-logging request (ok (jobs/pause-notification-job))))
 
-       (POST "/resume-notification-sqs" []
+       (POST "/resume-notification-sqs" [:as request]
          :summary "Käynnistää prosessin, joka lukee notifikaatioita sqs-jonosta ja lähettää ne ulkoisille integraatioille."
-         (ok (jobs/resume-notification-job)))
+         (with-access-logging request (ok (jobs/resume-notification-job))))
 
-       (POST "/pause-queueing" []
+       (POST "/pause-queueing" [:as request]
          :summary "Keskeyttää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
-         (ok (jobs/pause-queueing-job)))
+         (with-access-logging request (ok (jobs/pause-queueing-job))))
 
-       (POST "/resume-queueing" []
+       (POST "/resume-queueing" [:as request]
          :summary "Käynnistää prosessin, joka siirtää mm. ePerusteiden ja organisaatioden muutokset sqs-jonoon odottamaan indeksointia"
-         (ok (jobs/resume-queueing-job)))
+         (with-access-logging request (ok (jobs/resume-queueing-job))))
 
-       (POST "/pause-lokalisointi-indexing" []
+       (POST "/pause-lokalisointi-indexing" [:as request]
          :summary "Keskeyttää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
-         (ok (jobs/pause-lokalisaatio-indexing-job)))
+         (with-access-logging request (ok (jobs/pause-lokalisaatio-indexing-job))))
 
-       (POST "/resume-lokalisointi-indexing" []
+       (POST "/resume-lokalisointi-indexing" [:as request]
          :summary "Käynnistää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
-         (ok (jobs/resume-lokalisaatio-indexing-job))))
+         (with-access-logging request (ok (jobs/resume-lokalisaatio-indexing-job)))))
 
      (context "/indexer" []
        :tags ["indexer"]
 
-       (POST "/eperuste" []
+       (POST "/eperuste" [:as request]
          :summary "Indeksoi ePerusteen ja sen osaamisalat (oid==id)"
          :query-params [oid :- String]
-         (ok {:result (indexer/index-eperuste oid)}))
+         (with-access-logging request (ok {:result (indexer/index-eperuste oid)})))
 
-       (POST "/organisaatio" []
+       (POST "/organisaatio" [:as request]
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (ok {:result (do (queuer/clear-organisaatio-cache [oid])
-                          (indexer/index-oppilaitos oid))}))
+         (with-access-logging request (ok {:result (do (queuer/clear-organisaatio-cache [oid])
+                          (indexer/index-oppilaitos oid))})))
 
-       (POST "/koodistot" []
+       (POST "/koodistot" [:as request]
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
          :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi,opetuspaikkakk,hakutapa,valintatapajono,pohjakoulutusvaatimuskonfo"}]
-         (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))}))
+         (with-access-logging request (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))})))
 
-       (POST "/lokalisointi" []
+       (POST "/lokalisointi" [:as request]
          :summary "Indeksoi oppijan puolen lokalisoinnit lokalisaatiopalvelusta annetulla kielellä (fi/sv/en)"
          :query-params [lng :- String]
-         (ok (indexer/index-lokalisointi lng)))
+         (with-access-logging request (ok (indexer/index-lokalisointi lng))))
 
-       (POST "/lokalisointi/kaikki" []
+       (POST "/lokalisointi/kaikki" [:as request]
          :summary "Indeksoi kaikki oppijan puolen lokalisoinnit lokalisaatiopalvelusta"
-         (ok (indexer/index-all-lokalisoinnit))))
+         (with-access-logging request (ok (indexer/index-all-lokalisoinnit)))))
 
      (context "/queuer" []
        :tags ["queuer"]
 
-       (POST "/eperusteet" []
+       (POST "/eperusteet" [:as request]
          :summary "Lisää kaikki ePerusteet ja niiden osaamisalat indeksoinnin jonoon"
-         (ok {:result (queuer/queue-all-eperusteet)}))
+         (with-access-logging request (ok {:result (queuer/queue-all-eperusteet)})))
 
-       (POST "/oppilaitokset" []
+       (POST "/oppilaitokset" [:as request]
          :summary "Lisää kaikki aktiiviset oppilaitokset organisaatiopalvelusta  indeksoinnin jonoon"
-         (ok {:result (queuer/queue-all-oppilaitokset-from-organisaatiopalvelu)}))
+         (with-access-logging request (ok {:result (queuer/queue-all-oppilaitokset-from-organisaatiopalvelu)})))
 
-       (POST "/eperuste" []
+       (POST "/eperuste" [:as request]
          :summary "Lisää ePeruste ja sen osaamisalat (oid==id)  indeksoinnin jonoon"
          :query-params [oid :- String]
-         (ok {:result (queuer/queue-eperuste oid)}))
+         (with-access-logging request (ok {:result (queuer/queue-eperuste oid)})))
 
-       (POST "/oppilaitos" []
+       (POST "/oppilaitos" [:as request]
          :summary "Lisää oppilaitos/organisaatio indeksoinnin jonoon"
          :query-params [oid :- String]
-         (ok {:result (queuer/queue-oppilaitos oid)}))))
+         (with-access-logging request (ok {:result (queuer/queue-oppilaitos oid)})))))
 
    (undocumented
     ;; Static resources path. (resources/public, /public path is implicit for route/resources.)
