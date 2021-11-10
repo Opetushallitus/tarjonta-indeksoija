@@ -62,8 +62,8 @@
 
 (defn index-koulutus
   [oid]
-  (let [start (. System (currentTimeMillis))]
-    (index-koulutukset [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-koulutukset [oid] execution-id)))
 
 (defn index-toteutukset
   [oids & execution-id]
@@ -75,8 +75,8 @@
 
 (defn index-toteutus
   [oid]
-  (let [start (. System (currentTimeMillis))]
-    (index-toteutukset [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-toteutukset [oid] execution-id)))
 
 (defn index-haut
   [oids & execution-id]
@@ -89,8 +89,8 @@
 
 (defn index-haku
   [oid]
-  (let [start (. System (currentTimeMillis))]
-    (index-haut [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-haut [oid] execution-id)))
 
 (defn index-hakukohteet
   [oids & execution-id]
@@ -104,8 +104,8 @@
 
 (defn index-hakukohde
   [oid]
-  (let [start (. System (currentTimeMillis))]
-   (index-hakukohteet [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+   (index-hakukohteet [oid] execution-id)))
 
 (defn index-valintaperusteet
   [oids & execution-id]
@@ -116,8 +116,8 @@
 
 (defn index-valintaperuste
   [oid]
-  (let [start (. System (currentTimeMillis))]
-    (index-valintaperusteet [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-valintaperusteet [oid] execution-id)))
 
 (defn index-sorakuvaukset
   [ids & execution-id]
@@ -128,8 +128,8 @@
 
 (defn index-sorakuvaus
   [oid]
-  (let [start (. System (currentTimeMillis))]
-   (index-sorakuvaukset [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+   (index-sorakuvaukset [oid] execution-id)))
 
 (defn index-eperusteet
   [oids & execution-id]
@@ -138,8 +138,8 @@
 
 (defn index-eperuste
   [oid]
-  (let [start (. System (currentTimeMillis))]
-   (index-eperusteet [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+   (index-eperusteet [oid] execution-id)))
 
 (defn index-oppilaitokset
   [oids & execution-id]
@@ -156,22 +156,22 @@
 
 (defn index-oppilaitos
   [oid]
-  (let [start (. System (currentTimeMillis))]
-   (index-oppilaitokset [oid] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+   (index-oppilaitokset [oid] execution-id)))
 
 (defn index-koodistot
   [koodistot]
-  (let [start (. System (currentTimeMillis))]
-    (koodisto/do-index koodistot start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (koodisto/do-index koodistot execution-id)))
 
 (defn index-lokalisoinnit
-  [lngs & id]
-  (lokalisointi/do-index lngs id))
+  [lngs & execution-id]
+  (lokalisointi/do-index lngs execution-id))
 
 (defn index-lokalisointi
   [lng]
-  (let [start (. System (currentTimeMillis))]
-    (index-lokalisoinnit [lng] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-lokalisoinnit [lng] execution-id)))
 
 (defn index-oids
   [oids & execution-id]
@@ -199,77 +199,77 @@
 
 (defn index-since-kouta
   [since]
-  (let [start (. System (currentTimeMillis))
+  (let [start-and-execution-id (. System (currentTimeMillis))
         date (long->rfc1123 since)
         oids (kouta-backend/get-last-modified date)]
-    (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet, ID: " [start]))
-    (index-oids oids start)
-    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms, ID: " [start]))))
+    (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet, ID: " [start-and-execution-id]))
+    (index-oids oids start-and-execution-id)
+    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start-and-execution-id) " ms, ID: " [start-and-execution-id]))))
 
 (defn index-all-kouta
   []
-  (let [start (. System (currentTimeMillis))
+  (let [start-and-execution-id (. System (currentTimeMillis))
         oids (kouta-backend/all-kouta-oids)]
-    (log/info (str "Indeksoidaan kouta-backendistä kaikki, ID:" [start]))
-    (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start)]
-      (eperuste/do-index (eperuste-ids-on-koulutukset koulutus-entries) start)
-      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset koulutus-entries) start))
-    (koulutus-search/do-index (:koulutukset oids) start)
-    (toteutus/do-index (:toteutukset oids) start)
-    (haku/do-index (:haut oids) start)
-    (hakukohde/do-index (:hakukohteet oids) start)
-    (valintaperuste/do-index (:valintaperusteet oids) start)
-    (oppilaitos/do-index (:oppilaitokset oids) start)
-    (sorakuvaus/do-index (:sorakuvaukset oids) start)
-    (oppilaitos-search/do-index (:oppilaitokset oids) start)
-    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start) " ms, ID: " [start]))))
+    (log/info (str "Indeksoidaan kouta-backendistä kaikki, ID:" [start-and-execution-id]))
+    (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)]
+      (eperuste/do-index (eperuste-ids-on-koulutukset koulutus-entries) start-and-execution-id)
+      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset koulutus-entries) start-and-execution-id))
+    (koulutus-search/do-index (:koulutukset oids) start-and-execution-id)
+    (toteutus/do-index (:toteutukset oids) start-and-execution-id)
+    (haku/do-index (:haut oids) start-and-execution-id)
+    (hakukohde/do-index (:hakukohteet oids) start-and-execution-id)
+    (valintaperuste/do-index (:valintaperusteet oids) start-and-execution-id)
+    (oppilaitos/do-index (:oppilaitokset oids) start-and-execution-id)
+    (sorakuvaus/do-index (:sorakuvaukset oids) start-and-execution-id)
+    (oppilaitos-search/do-index (:oppilaitokset oids) start-and-execution-id)
+    (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start-and-execution-id) " ms, ID: " [start-and-execution-id]))))
 
 (defn index-all-koulutukset
   []
-  (let [start (. System (currentTimeMillis))]
-        (index-koulutukset (:koulutukset (kouta-backend/all-kouta-oids)) start)))
+  (let [execution-id (. System (currentTimeMillis))]
+        (index-koulutukset (:koulutukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-toteutukset
   []
-  (let [start (. System (currentTimeMillis))]
-        (index-toteutukset (:toteutukset (kouta-backend/all-kouta-oids)) start)))
+  (let [execution-id (. System (currentTimeMillis))]
+        (index-toteutukset (:toteutukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-haut
   []
-  (let [start (. System (currentTimeMillis))]
-    (index-haut (:haut (kouta-backend/all-kouta-oids)) start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-haut (:haut (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-hakukohteet
   []
-  (let [start (. System (currentTimeMillis))]
-    (index-hakukohteet (:hakukohteet (kouta-backend/all-kouta-oids)) start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-hakukohteet (:hakukohteet (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-valintaperusteet
   []
-  (let [start (. System (currentTimeMillis))]
-    (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids)) start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-sorakuvaukset
   []
-  (let [start (. System (currentTimeMillis))]
-    (index-sorakuvaukset (:sorakuvaukset (kouta-backend/all-kouta-oids)) start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (index-sorakuvaukset (:sorakuvaukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-eperusteet
   []
   (let [eperusteet (eperusteet-client/find-all)
-        start (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan " (count eperusteet) " eperustetta, ID:" (vec start))
-    (index-eperusteet eperusteet start)))
+        execution-id (. System (currentTimeMillis))]
+    (log/info "Indeksoidaan " (count eperusteet) " eperustetta, ID:" (vec execution-id))
+    (index-eperusteet eperusteet execution-id)))
 
 (defn index-all-oppilaitokset
   []
   (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)
-        start (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan " (count oppilaitokset) " oppilaitosta, ID:" (vec start))
-    (index-oppilaitokset oppilaitokset start)))
+        execution-id (. System (currentTimeMillis))]
+    (log/info "Indeksoidaan " (count oppilaitokset) " oppilaitosta, ID:" (vec execution-id))
+    (index-oppilaitokset oppilaitokset execution-id)))
 
 (defn index-all-lokalisoinnit
   []
-  (let [start (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä, ID:" [start])
-  (index-lokalisoinnit ["fi" "sv" "en"] start)))
+  (let [execution-id (. System (currentTimeMillis))]
+    (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä, ID:" [execution-id])
+  (index-lokalisoinnit ["fi" "sv" "en"] execution-id)))
