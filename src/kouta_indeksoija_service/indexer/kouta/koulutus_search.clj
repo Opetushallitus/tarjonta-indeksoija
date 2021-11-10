@@ -146,18 +146,26 @@
                  :koulutustyyppi (search-tool/koulutustyyppi-for-organisaatio oppilaitos)})))
 
 (defn assoc-jarjestaja-hits
-  [koulutus]
+  [koulutus toteutukset hakutiedot]
   (if (seq (:tarjoajat koulutus))
-    (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
-          hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))
-          hits (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
+    (let [hits (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
                  (if (tuleva-jarjestaja? hierarkia toteutukset)
                    {:hits [(tuleva-jarjestaja-hit hierarkia koulutus)]}
                    {:hits (jarjestaja-hits hierarkia koulutus toteutukset hakutiedot)}))]
       (->> hits
            (apply merge-with concat)
-           (merge koulutus)))
-    (assoc koulutus :hits [(tuleva-jarjestaja-hit {} koulutus)])))
+           (merge koulutus)))))
+
+(defn assoc-jarjestaja-search-terms
+  [koulutus toteutukset hakutiedot]
+  (if (seq (:tarjoajat koulutus))
+    (let [search-terms (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
+                         (if (tuleva-jarjestaja? hierarkia toteutukset)
+                           {:search_terms [(tuleva-jarjestaja-search-terms hierarkia koulutus)]}
+                           {:search_terms (jarjestaja-search-terms hierarkia koulutus toteutukset hakutiedot)}))]
+      (->> search-terms
+           (apply merge-with concat)
+           (merge koulutus)))))
 
 (defn assoc-jarjestaja-search-terms
   [koulutus]
@@ -201,10 +209,16 @@
   [oid]
   (let [koulutus (kouta-backend/get-koulutus oid)]
     (if (julkaistu? koulutus)
-      (indexable/->index-entry oid (-> koulutus
-                                       (assoc-jarjestaja-hits)
-                                       (assoc-jarjestaja-search-terms)
-                                       (create-entry)))
+      (if (seq (:tarjoajat koulutus))
+        (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
+              hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))]
+          (indexable/->index-entry oid (-> koulutus
+                                           (assoc-jarjestaja-hits toteutukset hakutiedot)
+                                           (assoc-jarjestaja-search-terms)
+                                           (create-entry))))
+        (do
+          (assoc koulutus :hits [(tuleva-jarjestaja-hit {} koulutus)])
+          (assoc koulutus :search_terms [(tuleva-jarjestaja-search-terms {} koulutus)])))
       (indexable/->delete-entry oid))))
 
 (defn do-index

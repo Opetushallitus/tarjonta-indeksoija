@@ -13,6 +13,7 @@
 (defonce telma-koulutustyyppi "koulutustyyppi_5")
 (defonce vapaa-sivistava-koulutustyyppi "koulutustyyppi_10")
 (defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
+(defonce lukio-koulutustyyppi "koulutustyyppi_2")
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -151,8 +152,12 @@
                       (filter-expired-koodis)
                       (distinct)
                       (filter #(not (.contains [amm-perustutkinto-erityisopetus-koulutustyyppi tuva-erityisopetus-koulutustyyppi] %))))]
-    (when (= 1 (count koodiurit))  ; ei tehdä päättelyä useamman koulutustyypin välillä, vaan jätetään arvoksi nil
-      (first koodiurit))))
+    (cond
+      (= 1 (count koodiurit)) ; ei tehdä päättelyä useamman koulutustyypin välillä, vaan jätetään arvoksi nil paitsi jos lukiokoulutus löytyy
+      (first koodiurit)
+
+      (seq (filter #(= lukio-koulutustyyppi %) koodiurit))
+      lukio-koulutustyyppi)))
 
 (defn- assoc-koulutustyypit
   [hakukohde toteutus koulutus]
