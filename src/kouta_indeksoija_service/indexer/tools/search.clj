@@ -260,7 +260,7 @@
 ;koulutus-search indeksin jarjestajan metadatan koulutustyyppi kenttään.
 ;Tämä koostuu näistä paloista:
 ; 1. Ammatillisille haetaan koulutusKoodiUrilla koodistopalvelusta vastaava koulutustyyppiKoodiUri
-;    esim. koulutustyyppi_1 =	Ammatillinen perustutkinto tai koulutustyyppi_12 = Erikoisammattitutkinto.
+;    esim. koulutustyyppi_26 =	Ammatillinen perustutkinto tai koulutustyyppi_12 = Erikoisammattitutkinto.
 ;    Korkeakoulutuksille ei täältä haeta, koska kyseinen koodisto ei erittele korkeakoulutuksia vaan sisältää vain
 ;    koodin koulutustyyppi_3 = Korkeakoulutus
 ;
@@ -273,7 +273,7 @@
 ;4. Jos ammatilliselle toteutukselle on valittu amm-perustutkinto-erityisopetuksena kenttä, tallennetaan
 ;   kovakoodattu arvo koulutustyyppi_4 = Ammatillinen perustutkinto erityisopetuksena
 ;
-;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_1"] tai ["yo" "maisteri"]
+;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_26"] tai ["yo" "maisteri"]
 (defn- get-koulutustyypit-from-koulutus-koodi
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
