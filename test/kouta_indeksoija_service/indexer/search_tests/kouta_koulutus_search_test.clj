@@ -7,7 +7,7 @@
 (defn- mock-koodisto-koulutustyyppi
   [koodi-uri alakoodi-uri]
   (vector
-   { :koodiUri "koulutustyyppi_1" :nimi {:fi "joku nimi" :sv "joku nimi sv"}}
+   { :koodiUri "koulutustyyppi_26" :nimi {:fi "joku nimi" :sv "joku nimi sv"}}
    { :koodiUri "koulutustyyppi_4" :nimi {:fi "joku nimi2" :sv "joku nimi sv2"}}))
 
 (deftest filter-erityisopetus-koulutustyyppi
@@ -16,7 +16,7 @@
       (let [koulutus {:koulutustyyppi "amm"}
             ammatillinen-perustutkinto-erityisopetuksena? false
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus ammatillinen-perustutkinto-erityisopetuksena?)]
-        (is (= ["koulutustyyppi_1" "amm"] result))))))
+        (is (= ["koulutustyyppi_26" "amm"] result))))))
 
 (deftest add-only-erityisopetus-koulutustyyppi-koodi
   (testing "If ammatillinen perustutkinto erityisopetuksena, add only erityisopetus koulutustyyppi koodi"

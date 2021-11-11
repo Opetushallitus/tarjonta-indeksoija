@@ -5,7 +5,7 @@
 
 (defn mock-get-one [url opts]
   {:status 200
-   :body {:data [{:id 0 :oid "0" :koulutustyyppi "koulutustyyppi_1"}],
+   :body {:data [{:id 0 :oid "0" :koulutustyyppi "koulutustyyppi_26"}],
           :sivuja 1,
           :kokonaismäärä 1,
           :sivukoko 100,
@@ -23,7 +23,7 @@
   (let [sivu (:sivu (:query-params opts))
         x (* 2 sivu)]
     {:status 200
-     :body {:data (map (fn [i] {:id i :koulutustyyppi (if (odd? i) "koulutustyyppi_1" "koulutustyyppi_3")}) (range x (+ x 2))),
+     :body {:data (map (fn [i] {:id i :koulutustyyppi (if (odd? i) "koulutustyyppi_26" "koulutustyyppi_3")}) (range x (+ x 2))),
             :sivuja 5,
             :kokonaismäärä 10,
             :sivukoko 2
