@@ -52,7 +52,7 @@
 ;;kouta-backendissä, ei muutos valu tällä hetkellä indeksoidulle hakukohteelle.
 ;;Tästä tiketti KTO-1226
 (defn index-koulutukset
-  [oids & execution-id]
+  [oids execution-id]
   (let [entries (koulutus/do-index oids execution-id)]
     (koulutus-search/do-index oids execution-id)
     (eperuste/do-index (eperuste-ids-on-koulutukset entries) execution-id)
@@ -66,7 +66,7 @@
     (index-koulutukset [oid] execution-id)))
 
 (defn index-toteutukset
-  [oids & execution-id]
+  [oids execution-id]
   (let [entries (toteutus/do-index oids execution-id)
         haut    (mapcat kouta-backend/list-haut-by-toteutus oids)]
     (index-koulutukset (get-oids :koulutusOid entries) execution-id)
@@ -79,7 +79,7 @@
     (index-toteutukset [oid] execution-id)))
 
 (defn index-haut
-  [oids & execution-id]
+  [oids execution-id]
   (let [entries           (haku/do-index oids execution-id)
         hakukohde-entries (hakukohde/do-index (get-oids :oid (mapcat :hakukohteet entries)) execution-id)
         toteutus-entries  (toteutus/do-index (get-oids :toteutusOid hakukohde-entries) execution-id)]
@@ -93,7 +93,7 @@
     (index-haut [oid] execution-id)))
 
 (defn index-hakukohteet
-  [oids & execution-id]
+  [oids execution-id]
   (let [hakukohde-entries (hakukohde/do-index oids execution-id)
         haku-oids         (get-oids :hakuOid hakukohde-entries)
         toteutus-entries  (toteutus/do-index (get-oids :toteutusOid hakukohde-entries) execution-id)]
@@ -108,7 +108,7 @@
    (index-hakukohteet [oid] execution-id)))
 
 (defn index-valintaperusteet
-  [oids & execution-id]
+  [oids execution-id]
   (let [entries     (valintaperuste/do-index oids execution-id)
         hakukohteet (mapcat kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries))]
     (hakukohde/do-index (get-oids :oid hakukohteet) execution-id)
@@ -120,7 +120,7 @@
     (index-valintaperusteet [oid] execution-id)))
 
 (defn index-sorakuvaukset
-  [ids & execution-id]
+  [ids execution-id]
   (let [entries       (sorakuvaus/do-index ids execution-id)
         koulutus-oids (mapcat kouta-backend/list-koulutus-oids-by-sorakuvaus (get-oids :id entries))]
     (koulutus/do-index koulutus-oids execution-id)
@@ -132,7 +132,7 @@
    (index-sorakuvaukset [oid] execution-id)))
 
 (defn index-eperusteet
-  [oids & execution-id]
+  [oids execution-id]
   (osaamisalakuvaus/do-index oids execution-id)
   (eperuste/do-index oids execution-id))
 
@@ -142,7 +142,7 @@
    (index-eperusteet [oid] execution-id)))
 
 (defn index-oppilaitokset
-  [oids & execution-id]
+  [oids execution-id]
   (let [get-organisaation-koulutukset (fn [oid] (let [result (map :oid (some-> oid
                                                                                (hierarkia/get-hierarkia)
                                                                                (organisaatio-tool/find-oppilaitos-from-hierarkia)
@@ -165,7 +165,7 @@
     (koodisto/do-index koodistot execution-id)))
 
 (defn index-lokalisoinnit
-  [lngs & execution-id]
+  [lngs execution-id]
   (lokalisointi/do-index lngs execution-id))
 
 (defn index-lokalisointi
@@ -174,7 +174,7 @@
     (index-lokalisoinnit [lng] execution-id)))
 
 (defn index-oids
-  [oids & execution-id]
+  [oids execution-id]
   (let [start (. System (currentTimeMillis))]
     (log/info "Indeksoidaan: "
               (count (:koulutukset oids)) "koulutusta, "

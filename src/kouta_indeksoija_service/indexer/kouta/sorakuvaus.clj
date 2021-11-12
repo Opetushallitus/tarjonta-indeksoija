@@ -13,7 +13,7 @@
        (indexable/->index-entry id)))
 
 (defn do-index
-  [ids & execution-id]
+  [ids execution-id]
   (indexable/do-index index-name ids create-index-entry execution-id))
 
 (defn get-from-index

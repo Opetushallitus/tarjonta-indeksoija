@@ -69,7 +69,7 @@
           (indexable/->delete-entry (:oid oppilaitos)))))))
 
 (defn do-index
-  [oids & execution-id]
+  [oids execution-id]
   (indexable/do-index index-name oids create-index-entry execution-id))
 
 (defn get-from-index

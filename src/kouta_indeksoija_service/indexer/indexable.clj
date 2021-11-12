@@ -17,18 +17,18 @@
     (tools/bulk index-name actions)))
 
 (defn- eat-and-log-errors
-  [oid f & execution-id]
+  [oid f execution-id]
   (try (f oid)
      (catch Exception e
        (log/error e "Indeksoinnissa " oid " tapahtui virhe, ID: " (vec (flatten execution-id)))
        nil)))
 
 (defn- create-actions
-  [oids f & execution-id]
+  [oids f execution-id]
   (flatten (doall (pmap #(eat-and-log-errors % f execution-id) oids))))
 
 (defn do-index
-  [index-name oids f & execution-id]
+  [index-name oids f execution-id]
   (when-not (empty? oids)
     (let [index-alias (tools/->virkailija-alias index-name)]
       (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-alias ", (o)ids: " (vec oids) ", ID: " (vec (flatten execution-id))))

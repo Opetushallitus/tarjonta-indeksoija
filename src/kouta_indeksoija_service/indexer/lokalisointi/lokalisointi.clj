@@ -13,7 +13,7 @@
     (indexable/->index-entry lng {:lng lng :tyyppi "lokalisointi" :translation lokalisointi})))
 
 (defn do-index
-  [lngs & execution-id]
+  [lngs execution-id]
   (indexable/do-index index-name lngs create-index-entry execution-id))
 
 (defn get-from-index

@@ -37,7 +37,7 @@
                                        :koodit (vec (map (partial create-koodi-entry koodisto) koodit))})))
 
 (defn do-index
-  [koodistot & execution-id]
+  [koodistot execution-id]
   (indexable/do-index index-name koodistot create-index-entry execution-id))
 
 (defn get-from-index
