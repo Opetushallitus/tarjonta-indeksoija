@@ -196,6 +196,7 @@
     (indexable/->index-entry oid
                              (-> hakukohde
                                  (set-hakukohde-tila-by-related-haku haku)
+                                 (assoc :nimi (:esitysnimi (:_enrichedData hakukohde)))
                                  (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
@@ -208,8 +209,8 @@
                                  (assoc-hakulomake-linkki haku)))))
 
 (defn do-index
-  [oids]
-  (indexable/do-index index-name oids create-index-entry))
+  [oids execution-id]
+  (indexable/do-index index-name oids create-index-entry execution-id))
 
 (defn get-from-index
   [oid]

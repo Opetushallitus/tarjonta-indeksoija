@@ -11,8 +11,8 @@
       (indexable/->index-entry id (assoc tutkinnonosa :oid id :tyyppi "tutkinnonosa")))))
 
 (defn do-index
-  [ids]
-  (indexable/do-index index-name ids create-index-entry))
+  [ids execution-id]
+  (indexable/do-index index-name ids create-index-entry execution-id))
 
 (defn get-from-index
   [id]
