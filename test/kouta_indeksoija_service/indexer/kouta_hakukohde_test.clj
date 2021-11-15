@@ -24,7 +24,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
      (check-all-nil)
-     (i/index-hakukohteet [hakukohde-oid])
+     (i/index-hakukohde hakukohde-oid)
      (compare-json (no-timestamp (json "kouta-hakukohde-result"))
                    (no-timestamp (get-doc hakukohde/index-name hakukohde-oid)))
      (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
@@ -43,7 +43,7 @@
                                     :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
                                                                 :kaytetaanHaunAlkamiskautta false
                                                                 :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}))
-     (i/index-hakukohteet [hakukohde-oid])
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= (get-in hakukohde [:metadata :hakukohteenLinja]) {:painotetutArvosanat [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}))))))
 
@@ -54,7 +54,7 @@
       (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
       (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
       (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi (generate-string {}))
-      (i/index-hakukohteet [hakukohde-oid])
+      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (= (:nimi hakukohde) {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
                                   :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi sv"}))))))
@@ -66,7 +66,7 @@
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi nil)
      (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1" :metadata (generate-string {:koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}))
-     (i/index-hakukohteet [hakukohde-oid])
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)
            yhden-paikan-saanto (:yhdenPaikanSaanto hakukohde)]
        (is (= hakukohde-oid (:oid hakukohde)))
@@ -78,7 +78,7 @@
    (testing "Korkeakoulutus should never be harkinnanvarainen"
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
-     (i/index-hakukohteet [hakukohde-oid])
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (false? (:onkoHarkinnanvarainenKoulutus hakukohde)))))))
 
@@ -87,7 +87,7 @@
    (testing "Indexer should create hakulomakeLinkki from haku oid"
      (check-all-nil)
      (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru")
-     (i/index-hakukohteet [hakukohde-oid])
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (compare-json (:hakulomakeLinkki (get-doc hakukohde/index-name hakukohde-oid))
                    {:fi (str "http://localhost/hakemus/hakukohde/" hakukohde-oid "?lang=fi")
                     :sv (str "http://localhost/hakemus/hakukohde/" hakukohde-oid "?lang=sv")
@@ -99,7 +99,7 @@
      (check-all-nil)
      (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
      (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru" :kaytetaanHaunHakulomaketta "true")
-     (i/index-hakukohteet [hakukohde-oid])
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
                    {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
@@ -110,7 +110,7 @@
     (testing "Indexer should index hakukohde without yps if haku luonnos"
        (check-all-nil)
        (fixture/update-haku-mock haku-oid :tila "tallennettu")
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Haku on luonnos tilassa" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -119,7 +119,7 @@
     (testing "Indexer should index hakukohde without yps if hakukohde luonnos"
        (check-all-nil)
        (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu")
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Hakukohde on luonnos tilassa" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -130,7 +130,7 @@
        (fixture/update-haku-mock haku-oid :tila "julkaistu")
        (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu")
        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amm")
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Ei korkeakoulutus koulutusta" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -141,7 +141,7 @@
        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
        (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
        (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_1#1")
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Haun kohdejoukon tarkenne on haunkohdejoukontarkenne_1#1" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= false (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -152,7 +152,7 @@
        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :johtaaTutkintoon "true" :metadata fixture/yo-koulutus-metadata)
        (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
        (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1")
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -163,7 +163,7 @@
        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
        (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "false" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi "2020")
        (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri nil)
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -174,7 +174,7 @@
        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "amk" :johtaaTutkintoon "true" :metadata fixture/amk-koulutus-metadata)
        (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true")
        (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri nil)
-       (i/index-hakukohteet [hakukohde-oid])
+       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
        (is (= "Hakukohde on yhden paikan säännön piirissä" (:syy (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid)))))
        (is (= true (:voimassa (:yhdenPaikanSaanto (get-doc hakukohde/index-name hakukohde-oid))))))))
 
@@ -182,5 +182,5 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde to hakukohde index non-published when related haku not published"
      (check-all-nil)
-     (i/index-hakukohteet [ei-julkaistun-haun-julkaistu-hakukohde-oid])
+     (i/index-hakukohteet [ei-julkaistun-haun-julkaistu-hakukohde-oid] (. System (currentTimeMillis)))
      (is (= "tallennettu" (:tila (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))))))

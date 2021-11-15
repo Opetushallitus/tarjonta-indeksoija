@@ -5,6 +5,8 @@
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :refer [->keywordized-json]]))
 
+(intern 'clj-log.access-log 'service "kouta-indeksoija")
+
 (defn mock-queue-attributes
   [nr p & a]
   {:ApproximateNumberOfMessages (str nr) :QueueArn (str "koutaQueue" p)})

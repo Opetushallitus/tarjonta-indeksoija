@@ -186,7 +186,7 @@
 
       (testing-with-queues-fixture "start listening on queue, receive messages and index them"
         (let [handled (atom [])]
-          (with-redefs [indexer/index-oids (fn [oids] (swap! handled conj oids))]
+          (with-redefs [indexer/index-oids (fn [oids] (swap! handled conj oids)) (. System (currentTimeMillis))]
             (let [f (index-from-queue!)]
               (is future? f)
               (doseq [msg expected-messages] (sqs/send-message (queue :priority) msg))

@@ -23,7 +23,7 @@
    (fixture/with-mocked-indexing
     (testing "Indexer should index toteutus to toteutus index and update related indexes"
        (check-all-nil)
-       (i/index-toteutukset [toteutus-oid])
+       (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
        (compare-json (no-timestamp (json "kouta-toteutus-result"))
                      (no-timestamp (get-doc toteutus/index-name toteutus-oid)))
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
@@ -38,7 +38,7 @@
          (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
          (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu" :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}}))
          (check-all-nil)
-         (i/index-toteutukset [toteutus-oid])
+         (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
          (compare-json (no-timestamp (json "kouta-toteutus-lukio-result"))
                        (no-timestamp (get-doc toteutus/index-name toteutus-oid)))))))
 
@@ -47,12 +47,12 @@
     (testing "Indexer should index delete toteutus from search indexes when it's arkistoitu"
        (check-all-nil)
        (fixture/update-toteutus-mock toteutus-oid :tila "julkaistu")
-       (i/index-toteutukset [toteutus-oid])
+       (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
        (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
        (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
        (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
        (fixture/update-toteutus-mock toteutus-oid :tila "arkistoitu")
-       (i/index-toteutukset [toteutus-oid])
+       (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
        (is (= "arkistoitu" (:tila (get-doc toteutus/index-name toteutus-oid))))
        (is (= 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
        (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid))))))
