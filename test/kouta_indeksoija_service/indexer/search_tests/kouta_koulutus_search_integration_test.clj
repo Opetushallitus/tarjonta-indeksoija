@@ -55,7 +55,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri agrologi-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["amk" "amk-ylempi"])))))))
@@ -66,7 +66,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri fysioterapeutti-koulutuskoodi :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["amk" "amk-alempi"])))))))
@@ -77,7 +77,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri elainlaaketietieen-kandi-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "kandi"])))))))
@@ -88,7 +88,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri arkkitehti-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "maisteri"])))))))
@@ -99,7 +99,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri farmasian-tohtori-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "tohtori"])))))))
@@ -110,7 +110,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri kandi-ja-maisteri-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "kandi-ja-maisteri"])))))))
@@ -121,7 +121,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri kandi-maisteri-tohtori-koulutuskoodi :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "kandi-ja-maisteri"])))))))
@@ -132,7 +132,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri (str elainlaaketietieen-kandi-koulutuskoodi "," liikuntakasvatuksen-kandi-koulutuskoodi) :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "kandi"])))))))
@@ -143,7 +143,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri (str arkkitehti-koulutuskoodi "," fil-maist-kemia-koulutuskoodi) :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "maisteri"])))))))
@@ -154,7 +154,7 @@
      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/tutkintotyypit mock-tutkintotyyppi]
        (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri (str farmasian-tohtori-koulutuskoodi "," fil-tohtori-englannin-kieli-koulutuskoodi) :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
        (check-all-nil)
-       (koulutus-search/do-index [koulutus-oid])
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "tohtori"])))))))
