@@ -59,6 +59,42 @@
         (is (= (:nimi hakukohde) {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
                                   :sv "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi sv"}))))))
 
+(deftest index-hakukohde-with-koulutustyyppikoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with koulutustyyppikoodi"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri "koulutus_222336#1")
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (= "koulutustyyppiabc_01" (:koulutustyyppikoodi hakukohde)))))))
+
+(deftest index-hakukohde-with-ammatillinen-er-koulutustyyppikoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with er-koulutustyyppikoodi"
+     (check-all-nil)
+     (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:ammatillinenPerustutkintoErityisopetuksena true}))
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (= "koulutustyyppi_4" (:koulutustyyppikoodi hakukohde)))))))
+
+(deftest index-hakukohde-with-tuva-er-koulutustyyppikoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with tuva-er-koulutustyyppikoodi"
+     (check-all-nil)
+     (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:tyyppi "tuva" :jarjestetaanErityisopetuksena true}))
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (= "koulutustyyppi_41" (:koulutustyyppikoodi hakukohde)))))))
+
+(deftest index-hakukohde-with-passive-koulutustyyppikoodi
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index hakukohde with nil koulutustyyppikoodi when it is passive"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid :koulutuksetKoodiUri "koulutus_222337#1")
+     (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+     (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+       (is (nil? (:koulutustyyppikoodi hakukohde)))))))
+
 (deftest index-hakukohde-without-alkamiskausi
   (fixture/with-mocked-indexing
    (testing "Koulutuksen alkamiskausi is not mandatory for haku and hakukohde. Previously yps calculation would fail if both were missing"
