@@ -492,7 +492,7 @@
 (defn index-oppilaitokset
   [oids]
   (with-mocked-indexing
-    (indexer/index-oppilaitokset oids))
+    (indexer/index-oppilaitokset oids (. System (currentTimeMillis))))
   (refresh-indices))
 
 (defn index-oids-with-related-indices
