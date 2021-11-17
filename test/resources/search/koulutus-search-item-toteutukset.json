@@ -28,6 +28,296 @@
       "sv": "opintojenlaajuus_150 nimi sv"
     }
   },
+  "search_terms": [
+    {
+      "koulutusnimi": {
+        "fi": "Hevosalan perustutkinto 0 fi",
+        "sv": "Hevosalan perustutkinto 0 sv"
+      },
+      "toteutusNimi": {
+        "fi": "Hevostoteutus 1 fi",
+        "sv": "Hevostoteutus 1 sv"
+      },
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "toteutus_organisaationimi": {
+        "fi": [
+          "Toimipiste fi 1.2.246.562.10.777777777991",
+          "Toimipiste fi 1.2.246.562.10.777777777993"
+        ],
+        "sv": [
+          "Toimipiste sv 1.2.246.562.10.777777777991",
+          "Toimipiste sv 1.2.246.562.10.777777777993"
+        ]
+      },
+      "asiasanat": {
+        "fi": [
+          "hevoset",
+          "musiikkioppilaitokset",
+          "psykologia",
+          "robotiikka",
+          "robottiautomatiikka"
+        ],
+        "sv": [
+          "hepparna"
+        ],
+        "en": [
+          "horses"
+        ]
+      },
+      "tutkintonimikkeet": {
+        "fi": [
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ]
+      },
+      "ammattinimikkeet": {
+        "fi": [
+          "automaatioinsinööri",
+          "hevonen",
+          "koneinsinööri",
+          "muusikko",
+          "psykologi"
+        ],
+        "sv": [
+          "heppa"
+        ],
+        "en": [
+          "horse"
+        ]
+      },
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "hakutiedot": [
+        {
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakutapa": "hakutapa_03",
+          "pohjakoulutusvaatimukset": [
+            "pohjakoulutusvaatimuskonfo_am"
+          ],
+          "valintatavat": [
+            "valintatapajono_av",
+            "valintatapajono_tv"
+          ]
+        }
+      ],
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1",
+        "oppilaitoksenopetuskieli_3"
+      ],
+      "opetustavat": [
+        "opetuspaikkakk_1"
+      ],
+      "koulutustyypit": [
+        "koulutustyyppi_01",
+        "koulutustyyppi_02",
+        "amm"
+      ],
+      "koulutusOid": "1.2.246.562.13.00000000000000000098",
+      "toteutusOid": "1.2.246.562.17.00000000000000000099",
+      "nimi":
+    {"fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+    "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"},
+    "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+    "onkoTuleva": false,
+    "oppilaitosOid": "1.2.246.562.10.77777777799",
+    "metadata":
+    {
+      "maksullisuustyyppi": "maksullinen",
+    "maksunMaara": 200.5,
+    "opetusajat":
+    [{"koodiUri": "opetusaikakk_1#1",
+      "nimi":
+      {"fi": "opetusaikakk_1#1 nimi fi",
+      "sv": "opetusaikakk_1#1 nimi sv"}}],
+    "kunnat":
+    [{"koodiUri": "kunta_091",
+      "nimi":
+      {"fi": "kunta_091 nimi fi", "sv": "kunta_091 nimi sv"}}],
+    "tutkintonimikkeet":
+    [{"koodiUri": "tutkintonimikkeet_01",
+      "nimi":
+      {"fi": "tutkintonimikkeet_01 nimi fi",
+      "sv": "tutkintonimikkeet_01 nimi sv"}},
+      {"koodiUri": "tutkintonimikkeet_02",
+      "nimi":
+      {"fi": "tutkintonimikkeet_02 nimi fi",
+      "sv": "tutkintonimikkeet_02 nimi sv"}}],
+    "ammatillinenPerustutkintoErityisopetuksena": false,
+    "oppilaitosTila": "julkaistu",
+    "koulutustyyppi": "amm"}
+    },
+    {
+      "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "koulutusnimi": {
+        "fi": "Hevosalan perustutkinto 0 fi",
+        "sv": "Hevosalan perustutkinto 0 sv"
+      },
+      "toteutusNimi": {
+        "fi": "Hevostoteutus 2 fi",
+        "sv": "Hevostoteutus 2 sv"
+      },
+      "koulutus_organisaationimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "toteutus_organisaationimi": {
+        "fi": [
+          "Toimipiste fi 1.2.246.562.10.777777777991"
+        ],
+        "sv": [
+          "Toimipiste sv 1.2.246.562.10.777777777991"
+        ]
+      },
+      "asiasanat": {
+        "fi": [
+          "robotiikka",
+          "robottiautomatiikka"
+        ]
+      },
+      "tutkintonimikkeet": {
+        "fi": [
+          "tutkintonimikkeet_01 nimi fi",
+          "tutkintonimikkeet_02 nimi fi"
+        ],
+        "sv": [
+          "tutkintonimikkeet_01 nimi sv",
+          "tutkintonimikkeet_02 nimi sv"
+        ]
+      },
+      "ammattinimikkeet": {
+        "fi": [
+          "insinööri",
+          "koneinsinööri"
+        ]
+      },
+      "sijainti": [
+        "kunta_091",
+        "maakunta_01"
+      ],
+      "koulutusalat": [
+        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
+        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
+      ],
+      "hakutiedot": [
+        {
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakutapa": "hakutapa_01",
+          "yhteishakuOid": "1.2.246.562.29.00000000000000000002",
+          "pohjakoulutusvaatimukset": [
+            "pohjakoulutusvaatimuskonfo_am"
+          ],
+          "valintatavat": [
+            "valintatapajono_av",
+            "valintatapajono_tv"
+          ]
+        },
+        {
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakutapa": "hakutapa_03",
+          "pohjakoulutusvaatimukset": [
+            "pohjakoulutusvaatimuskonfo_am"
+          ],
+          "valintatavat": [
+            "valintatapajono_av",
+            "valintatapajono_tv"
+          ]
+        }
+      ],
+      "opetuskielet": [
+        "oppilaitoksenopetuskieli_1"
+      ],
+      "opetustavat": [
+        "opetuspaikkakk_1",
+        "opetuspaikkakk_2"
+      ],
+      "koulutustyypit": [
+        "koulutustyyppi_01",
+        "koulutustyyppi_02",
+        "amm"
+      ],
+      "koulutusOid": "1.2.246.562.13.00000000000000000098",
+      "toteutusOid": "1.2.246.562.17.00000000000000000098",
+      "nimi": {
+        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+      },
+      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+      "onkoTuleva": false,
+      "metadata": {
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5,
+        "opetusajat": [
+          {
+            "koodiUri": "opetusaikakk_1#1",
+            "nimi": {
+              "fi": "opetusaikakk_1#1 nimi fi",
+              "sv": "opetusaikakk_1#1 nimi sv"
+            }
+          }
+        ],
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ],
+        "tutkintonimikkeet": [
+          {
+            "koodiUri": "tutkintonimikkeet_01",
+            "nimi": {
+              "fi": "tutkintonimikkeet_01 nimi fi",
+              "sv": "tutkintonimikkeet_01 nimi sv"
+            }
+          },
+          {
+            "koodiUri": "tutkintonimikkeet_02",
+            "nimi": {
+              "fi": "tutkintonimikkeet_02 nimi fi",
+              "sv": "tutkintonimikkeet_02 nimi sv"
+            }
+          }
+        ],
+        "ammatillinenPerustutkintoErityisopetuksena": false,
+        "oppilaitosTila": "julkaistu",
+        "koulutustyyppi": "amm"
+      }
+    }
+  ],
   "hits": [
     {
       "sijainti": [

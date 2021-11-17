@@ -17,7 +17,7 @@
   (testing "do index eperuste"
     (with-redefs [kouta-indeksoija-service.rest.eperuste/get-doc-with-cache mock/get-eperuste-doc
                   kouta-indeksoija-service.rest.eperuste/get-osaamisalakuvaukset-response (fn [x] [])]
-      (i/index-eperusteet ["3397334"])
+      (i/index-eperusteet ["3397334"] (. System (currentTimeMillis)))
       (let [indexed-eperuste (eperuste/get-from-index "3397334")]
         (is (= "koulutustyyppi_12" (get indexed-eperuste :koulutustyyppi)))))))
 
@@ -25,6 +25,6 @@
   (testing "do index osaamisalakuvaus"
     (with-redefs [kouta-indeksoija-service.rest.eperuste/get-doc-with-cache mock/get-eperuste-doc
                   kouta-indeksoija-service.rest.eperuste/get-osaamisalakuvaukset-response mock/get-osaamisalakuvaukset-doc]
-      (i/index-eperusteet ["3397334"])
+      (i/index-eperusteet ["3397334"] (. System (currentTimeMillis)))
       (let [indexed-osaamisalakuvaus (osaamisalakuvaus/get-from-index "6660708")]
         (is (= "valmis" (:tila indexed-osaamisalakuvaus)))))))

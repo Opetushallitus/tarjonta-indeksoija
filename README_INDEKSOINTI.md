@@ -44,8 +44,7 @@ Oppijan puolella taas näkyy kaikki kuten ennenkin, mutta uudet muutokset eivät
 
 5. Kun indeksointi on valmis, sykronoi oppijan ja virkailijan puolen aliakset
 
-   Voit tehdä tämän joko kutsumalla rajapintaa [POST /kouta-indeksoija/api/rebuild/indices/aliases/sync](http://localhost:8100/kouta-indeksoija/swagger/index.html#!/rebuild/post_kouta_indeksoija_api_rebuild_indices_aliases_sync) 
-   tai *asentamalla konfo-backendin uudelleen*! Konfo-backend sykronoi aliakset automaattisesti deployn yhteydessä, jos ne eivät ole synkassa.
+   Voit tehdä tämän kutsumalla rajapintaa [POST /kouta-indeksoija/api/rebuild/indices/aliases/sync](http://localhost:8100/kouta-indeksoija/swagger/index.html#!/rebuild/post_kouta_indeksoija_api_rebuild_indices_aliases_sync) 
 
 6. Voit nyt nähdä listauksista, että oppijan ja virkailijan puoli käyttävät samoja indeksejä.
 

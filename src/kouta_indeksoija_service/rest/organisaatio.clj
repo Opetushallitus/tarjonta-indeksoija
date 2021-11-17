@@ -5,7 +5,8 @@
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.util.time :refer :all]
             [clojure.core.memoize :as memoize]
-            [kouta-indeksoija-service.indexer.tools.organisaatio :as o]))
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
+            [clojure.string :as s]))
 
 (defn get-doc
   ([oid include-image]
@@ -71,6 +72,7 @@
   [last-modified]
   (let [date-string (long->date-time-string last-modified)]
     (let [res (->> (get->json-body (resolve-url :organisaatio-service.v4.muutetut) {:lastModifiedSince date-string})
+                   (filter #(not (s/starts-with? (:oid %) "1.2.246.562.28")))
                    (map :oid))]
       (when (seq res)
         (log/info "Found " (count res) " changes since " date-string " from organisaatiopalvelu"))

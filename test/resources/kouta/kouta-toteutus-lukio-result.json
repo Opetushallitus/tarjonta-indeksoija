@@ -445,11 +445,13 @@
             }
           ],
           "hakukohteenLinja": {
+            "painotetutArvosanat": [],
             "alinHyvaksyttyKeskiarvo": 6.5,
             "lisatietoa": {
               "fi": "fi-str",
               "sv": "sv-str"
-            }
+            },
+            "painotetutArvosanat": []
           },
           "hakukohdeOid": "1.2.246.562.20.00000000000000000001",
           "organisaatio": {
