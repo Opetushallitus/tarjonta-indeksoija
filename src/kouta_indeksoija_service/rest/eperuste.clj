@@ -15,7 +15,7 @@
 
 (defn- indexable-eperuste?
   [eperuste]
-  (let [indexable-koulutustyypit ["koulutustyyppi_1" "koulutustyyppi_2" "koulutustyyppi_11" "koulutustyyppi_12"]
+  (let [indexable-koulutustyypit ["koulutustyyppi_1" "koulutustyyppi_2" "koulutustyyppi_11" "koulutustyyppi_12" "koulutustyyppi_26"]
         koulutustyyppi (:koulutustyyppi eperuste)]
     (some #(= % koulutustyyppi) indexable-koulutustyypit)))
 
