@@ -55,7 +55,7 @@
                  :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
                  :let [toteutus-metadata (:metadata toteutus)]
                  :let [opetus (get-in toteutus [:metadata :opetus])]]
-             (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+             (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
                               :opetuskieliUrit           (:opetuskieliKoodiUrit opetus)
                               :tarjoajat                 (:tarjoajat toteutus)
                               :oppilaitos                oppilaitos
