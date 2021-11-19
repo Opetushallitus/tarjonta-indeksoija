@@ -127,7 +127,7 @@
                    :koulutustyyppi                             (:tyyppi toteutus-metadata)
                    :oppilaitosTila                             (:tila oppilaitos)
                    :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
-                   :tuvaErityisopetuksena                      (:tuvaErityisopetuksena toteutus-metadata)}))))
+                   :jarjestetaanErityisopetuksena              (:jarjestetaanErityisopetuksena toteutus-metadata)}))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
