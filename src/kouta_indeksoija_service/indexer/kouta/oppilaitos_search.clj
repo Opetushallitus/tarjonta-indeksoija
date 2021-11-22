@@ -65,7 +65,7 @@
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
         opetus (get-in toteutus [:metadata :opetus])]
-    (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+    (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
                      :opetuskieliUrit           (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                      :tarjoajat                 (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
                      :tarjoajaOids              (:tarjoajat toteutus)
@@ -129,7 +129,7 @@
                               :hakutiedot (get-search-hakutiedot hakutieto)
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
                               :kuva (:teemakuva toteutus)
                               :nimi (:nimi toteutus)
                               :onkoTuleva false
