@@ -206,7 +206,8 @@
                                  (assoc-toteutus toteutus)
                                  (assoc-valintaperuste valintaperuste)
                                  (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestava-toimipiste)
-                                 (assoc-hakulomake-linkki haku)))))
+                                 (assoc-hakulomake-linkki haku)
+                                 (dissoc :_enrichedData)))))
 
 (defn do-index
   [oids execution-id]
