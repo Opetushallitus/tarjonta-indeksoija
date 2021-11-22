@@ -196,6 +196,7 @@
     (indexable/->index-entry oid
                              (-> hakukohde
                                  (set-hakukohde-tila-by-related-haku haku)
+                                 (assoc :nimi (:esitysnimi (:_enrichedData hakukohde)))
                                  (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
