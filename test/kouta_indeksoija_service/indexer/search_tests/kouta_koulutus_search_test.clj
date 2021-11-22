@@ -14,17 +14,33 @@
   (testing "If not ammatillinen perustutkinto erityisopetuksena, filter out erityisopetus koulutustyyppi from koodisto response"
     (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "amm"}
-            ammatillinen-perustutkinto-erityisopetuksena? false
-            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus ammatillinen-perustutkinto-erityisopetuksena?)]
+            toteutus-metadata {:ammatillinenPerustutkintoErityisopetuksena false}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
         (is (= ["koulutustyyppi_26" "amm"] result))))))
 
 (deftest add-only-erityisopetus-koulutustyyppi-koodi
   (testing "If ammatillinen perustutkinto erityisopetuksena, add only erityisopetus koulutustyyppi koodi"
     (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "amm"}
-            ammatillinen-perustutkinto-erityisopetuksena? true
-            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus ammatillinen-perustutkinto-erityisopetuksena?)]
+            toteutus-metadata {:ammatillinenPerustutkintoErityisopetuksena true}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
         (is (= ["koulutustyyppi_4" "amm"] result))))))
+
+(deftest add-only-erityisopetus-koulutustyyppi-koodi
+  (testing "If tuva without erityisopetus, add tuva-normal koulutustyyppi"
+    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
+      (let [koulutus {:koulutustyyppi "tuva"}
+            toteutus-metadata {:jarjestetaanErityisopetuksena false}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
+        (is (= ["tuva-normal" "tuva"] result))))))
+
+(deftest add-only-erityisopetus-koulutustyyppi-koodi
+  (testing "If tuva erityisopetuksena, add 'tuva-erityisopetus' koulutustyyppi"
+    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
+      (let [koulutus {:koulutustyyppi "tuva"}
+            toteutus-metadata {:jarjestetaanErityisopetuksena true}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
+        (is (= ["tuva-erityisopetus" "tuva"] result))))))
 
 (deftest hakutieto-tools-test
   (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
