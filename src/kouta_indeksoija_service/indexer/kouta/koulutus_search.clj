@@ -116,7 +116,7 @@
         :hakutiedot (get-search-hakutiedot hakutieto)
         :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
         :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
         :kuva (:logo oppilaitos)
         :nimi (:nimi oppilaitos)
         :onkoTuleva false
