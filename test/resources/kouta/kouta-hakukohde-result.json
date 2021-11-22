@@ -203,8 +203,14 @@
   },
   "muuPohjakoulutusvaatimus": {},
   "nimi": {
-    "fi": "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
-    "sv": "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+    "fi": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi fi",
+    "sv": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi sv"
+  },
+  "_enrichedData": {
+    "esitysnimi": {
+      "fi": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi fi",
+      "sv": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi sv"
+    }
   },
   "hakulomakeKuvaus": {
     "fi": "Hakulomake tulostetaan ja toimitetaan postitse fi",

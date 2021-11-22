@@ -140,6 +140,7 @@
                               :tila "arkistoitu"
                               :valintaperuste valintaperuste-id
                               :nimi "Koulutuksen 0 toteutuksen 0 hakukohde 0"
+                              :esitysnimi "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi"
                               :muokkaaja "1.2.246.562.24.62301161440"
                               :modified "2019-02-05T09:49:23"
                               :jarjestyspaikkaOid default-jarjestyspaikka-oid)
@@ -150,6 +151,7 @@
                               :tila "julkaistu"
                               :valintaperuste valintaperuste-id
                               :nimi "Koulutuksen 0 toteutuksen 2 hakukohde 0"
+                              :esitysnimi "Koulutuksen 0 toteutuksen 2 hakukohteen 2 esitysnimi"
                               :muokkaaja "1.2.246.562.24.62301161440"
                               :hakuaikaAlkaa "2018-10-10T12:00"
                               :hakuaikaPaattyy "2030-11-10T12:00"
