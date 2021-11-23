@@ -123,8 +123,8 @@
    [oppilaitos-index index-settings kouta-mappings]
    [valintaperuste-index index-settings kouta-mappings]
    [sorakuvaus-index index-settings kouta-mappings]
-   [koulutus-search-index index-settings kouta-search-mappings]
-   [oppilaitos-search-index index-settings kouta-search-mappings]])
+   [koulutus-search-index index-settings-search kouta-search-mappings]
+   [oppilaitos-search-index index-settings-search kouta-search-mappings]])
 
 (defonce eperuste-indices-settings-and-mappings
   [[eperuste-index index-settings-eperuste eperuste-mappings]
