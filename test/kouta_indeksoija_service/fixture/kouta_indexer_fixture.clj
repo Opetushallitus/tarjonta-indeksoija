@@ -16,6 +16,12 @@
   [string]
   (keywordize-keys (parse-string string)))
 
+(defn json->clj-map
+  [string]
+  (let [clj-map (->keywordized-json string)]
+    (reduce-kv (fn [m k v]
+                 (assoc m k (if (string? v) v (generate-string v)))) {} clj-map)))
+
 (defn ->java-map
   [clj-map]
   (java.util.HashMap. (stringify-keys clj-map)))
@@ -24,35 +30,56 @@
   [java-map]
   (keywordize-keys (merge {} java-map)))
 
-(defonce default-koulutus-map (->clj-map (.DefaultKoulutus KoutaFixture)))
-(defonce default-toteutus-map (->clj-map (.DefaultToteutus KoutaFixture)))
-(defonce default-haku-map (->clj-map (.DefaultHaku KoutaFixture)))
-(defonce default-hakukohde-map (->clj-map (.DefaultHakukohde KoutaFixture)))
-(defonce default-valintaperuste-map (->clj-map (.DefaultValintaperuste KoutaFixture)))
-(defonce default-sorakuvaus-map (->clj-map (.DefaultSorakuvaus KoutaFixture)))
-(defonce default-oppilaitos-map (->clj-map (.DefaultOppilaitos KoutaFixture)))
-(defonce default-oppilaitoksen-osa-map (->clj-map (.DefaultOppilaitoksenOsa KoutaFixture)))
+(defn java-map->pretty-json [java-map]
+  (let [clj-map (->clj-map java-map)
+        complete-clj-map  (reduce-kv (fn [m k v]
+                                       (assoc m k (if (string? v)
+                                                    (try
+                                                      (->keywordized-json v)
+                                                      (catch Exception _ v))
+                                                    v))) {} clj-map)]
+    (generate-string complete-clj-map {:pretty true})))
+
+; Ota nämä pois kommentista ja aja testit, jos haluat päivittää default-entiteetti jsonit kouta-backendistä
+(comment
+  (spit "test/resources/kouta/default-koulutus.json" (java-map->pretty-json (.DefaultKoulutus KoutaFixture)))
+  (spit "test/resources/kouta/default-toteutus.json" (java-map->pretty-json (.DefaultToteutus KoutaFixture)))
+  (spit "test/resources/kouta/default-haku.json" (java-map->pretty-json (.DefaultHaku KoutaFixture)))
+  (spit "test/resources/kouta/default-hakukohde.json" (java-map->pretty-json (.DefaultHakukohde KoutaFixture)))
+  (spit "test/resources/kouta/default-valintaperuste.json" (java-map->pretty-json (.DefaultValintaperuste KoutaFixture)))
+  (spit "test/resources/kouta/default-sorakuvaus.json" (java-map->pretty-json (.DefaultSorakuvaus KoutaFixture)))
+  (spit "test/resources/kouta/default-oppilaitos.json" (java-map->pretty-json (.DefaultOppilaitos KoutaFixture)))
+  (spit "test/resources/kouta/default-oppilaitoksen-osa.json" (java-map->pretty-json (.DefaultOppilaitoksenOsa KoutaFixture))))
+
+(defonce default-koulutus-map (json->clj-map (slurp "test/resources/kouta/default-koulutus.json")))
+(defonce default-toteutus-map (json->clj-map (slurp "test/resources/kouta/default-toteutus.json")))
+(defonce default-haku-map (json->clj-map (slurp "test/resources/kouta/default-haku.json")))
+(defonce default-hakukohde-map (json->clj-map (slurp "test/resources/kouta/default-hakukohde.json")))
+(defonce default-valintaperuste-map (json->clj-map (slurp "test/resources/kouta/default-valintaperuste.json")))
+(defonce default-sorakuvaus-map (json->clj-map (slurp "test/resources/kouta/default-sorakuvaus.json")))
+(defonce default-oppilaitos-map (json->clj-map (slurp "test/resources/kouta/default-oppilaitos.json")))
+(defonce default-oppilaitoksen-osa-map (json->clj-map (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
 
 (defonce yo-koulutus-metadata
   (generate-string
-   {:tyyppi               "yo"
+   {:tyyppi "yo"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defonce lk-koulutus-metadata
   (generate-string
-   {:tyyppi               "lk"
+   {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]}))
 
 (defonce amk-koulutus-metadata
   (generate-string
-   {:tyyppi               "amk"
+   {:tyyppi "amk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
     :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
-    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 
 (defonce amm-tutkinnon-osa-koulutus-metadata
@@ -69,16 +96,16 @@
 
 (defonce lukio-koulutus-metadata
   (generate-string
-   {:tyyppi               "lk"
+   {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
     :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
-    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defonce tuva-koulutus-metadata
   (generate-string
-   {:tyyppi               "tuva"
+   {:tyyppi "tuva"
     :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
-    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv" }
+    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
     :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}}))
 
 (defn add-koulutus-mock
@@ -336,12 +363,12 @@
 (defn mocked-hierarkia-default-entity [oid]
   (println "mocked hierarkia base entity for oid " oid)
   {:organisaatiot [{:oid oid
-                    :alkuPvm	"694216800000"
+                    :alkuPvm "694216800000"
                     :kotipaikkaUri "kunta_091"
                     :parentOid (str oid "parent")
                     :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
                     :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
-                    :oppilaitosKoodi	"12345"
+                    :oppilaitosKoodi "12345"
                     :oppilaitostyyppi "oppilaitostyyppi_42#1"
                     :nimi {:fi (str "Oppilaitos fi " oid)
                            :sv (str "Oppilaitos sv " oid)}
@@ -353,12 +380,12 @@
 (defn mocked-hierarkia-konfo-backend-test-entity [oid kunta nimi-fi nimi-sv]
   (println "mocked hierarkia konfo backend entity for oid " oid " kunta " kunta " nimi " nimi-fi " nimi sv " nimi-sv)
   {:organisaatiot [{:oid oid
-                    :alkuPvm	"694216800000"
+                    :alkuPvm "694216800000"
                     :kotipaikkaUri kunta
                     :parentOid (str oid "parent")
                     :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
                     :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
-                    :oppilaitosKoodi	"12345"
+                    :oppilaitosKoodi "12345"
                     :oppilaitostyyppi "oppilaitostyyppi_42#1"
                     :nimi {:fi nimi-fi
                            :sv nimi-sv}
@@ -490,7 +517,7 @@
 
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
-                 
+
                  kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
                  mock-koulutustyyppi-koodisto]
      (do ~@body)))
