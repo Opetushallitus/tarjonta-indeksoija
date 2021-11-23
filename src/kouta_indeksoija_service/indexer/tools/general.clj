@@ -2,10 +2,15 @@
 
 (defonce Julkaistu "julkaistu")
 (defonce Tallennettu "tallennettu")
+(defonce Poistettu "poistettu")
 
 (defn julkaistu?
   [entry]
   (and (not (nil? entry)) (= (:tila entry) Julkaistu)))
+
+(defn not-poistettu?
+  [entry]
+  (and (not (nil? entry)) (not= (:tila entry) Poistettu)))
 
 (defn ammatillinen?
   [koulutus]

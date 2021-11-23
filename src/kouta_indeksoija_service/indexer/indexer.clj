@@ -19,7 +19,8 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [clojure.tools.logging :as log]
-            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]))
+            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
+            [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
 
 (defn- get-oids
   [key coll]
@@ -53,10 +54,11 @@
 ;;Tästä tiketti KTO-1226
 (defn index-koulutukset
   [oids]
-  (let [entries (koulutus/do-index oids)]
+  (let [entries (koulutus/do-index oids)
+        not-poistetut (filter not-poistettu? entries)]
     (koulutus-search/do-index oids)
-    (eperuste/do-index (eperuste-ids-on-koulutukset entries))
-    (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset entries))
+    (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut))
+    (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut))
     (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)))
     entries))
 
@@ -67,7 +69,7 @@
 (defn index-toteutukset
   [oids]
   (let [entries (toteutus/do-index oids)
-        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)]
+        haut    (mapcat kouta-backend/list-haut-by-toteutus (get-oids :oid entries))]
     (index-koulutukset (get-oids :koulutusOid entries))
     (haku/do-index (get-oids :oid haut))
     entries))
@@ -201,9 +203,10 @@
   (log/info (str "Indeksoidaan kouta-backendistä kaikki"))
   (let [start (. System (currentTimeMillis))
         oids (kouta-backend/all-kouta-oids)]
-    (let [koulutus-entries (koulutus/do-index (:koulutukset oids))]
-      (eperuste/do-index (eperuste-ids-on-koulutukset koulutus-entries))
-      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset koulutus-entries)))
+    (let [koulutus-entries (koulutus/do-index (:koulutukset oids))
+          not-poistetut-koulutus-entries (filter not-poistettu? koulutus-entries)]
+      (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut-koulutus-entries))
+      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut-koulutus-entries)))
     (koulutus-search/do-index (:koulutukset oids))
     (toteutus/do-index (:toteutukset oids))
     (haku/do-index (:haut oids))

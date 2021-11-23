@@ -71,15 +71,15 @@
   [index id & query-params]
   (apply get-by-id index id query-params))
 
-(defrecord BulkAction [action id doc])
+(defrecord BulkAction [action id doc forwarded-data])
 
 (defn ->index-action
-  [id doc]
-  (map->BulkAction {:action "index" :id id :doc doc}))
+  [id doc forwarded-data]
+  (map->BulkAction {:action "index" :id id :doc doc :forwarded-data forwarded-data}))
 
 (defn ->delete-action
-  [id]
-  (map->BulkAction {:action "delete" :id id :doc nil}))
+  [id forwarded-data]
+    (map->BulkAction {:action "delete" :id id :doc nil :forwarded-data forwarded-data}))
 
 (defn- bulk-action
   [index action]

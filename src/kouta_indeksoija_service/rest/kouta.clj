@@ -25,7 +25,7 @@
 (defn- get-doc
   [type oid]
   (let [url-keyword (keyword (str "kouta-backend." type (if (or (= "valintaperuste" type) (= "sorakuvaus" type)) ".id" ".oid")))]
-    (cas-authenticated-get-as-json (resolve-url url-keyword oid))))
+    (cas-authenticated-get-as-json (resolve-url url-keyword oid {:query-params {:myosPoistetut "true"}}))))
 
 (defn get-koulutus
   [oid]
@@ -44,7 +44,8 @@
   (get-doc "hakukohde" oid))
 
 (defn get-hakukohde-oids-by-jarjestyspaikka [oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.jarjestyspaikka.hakukohde-oids oid)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.jarjestyspaikka.hakukohde-oids oid
+                                              {:query-params {:vainOlemassaolevat "false"}})))
 
 (defn get-valintaperuste
   [id]
@@ -96,11 +97,13 @@
 
 (defn list-haut-by-toteutus
   [toteutus-oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.toteutus.haut-list toteutus-oid)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.toteutus.haut-list toteutus-oid
+                                              {:query-params {:vainOlemassaolevat "false"}})))
 
 (defn list-hakukohteet-by-haku
   [haku-oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.hakukohteet-list haku-oid)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.hakukohteet-list haku-oid
+                                              {:query-params {:vainOlemassaolevat "false"}})))
 
 (defn list-toteutukset-by-haku
   [haku-oid]
@@ -112,11 +115,13 @@
 
 (defn list-hakukohteet-by-valintaperuste
   [valintaperuste-id]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.valintaperuste.hakukohteet-list valintaperuste-id)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.valintaperuste.hakukohteet-list valintaperuste-id
+                                              {:query-params {:vainOlemassaolevat "false"}})))
 
 (defn list-koulutus-oids-by-sorakuvaus
   [sorakuvaus-id]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.koulutukset-list sorakuvaus-id)))
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.koulutukset-list sorakuvaus-id
+                                              {:query-params {:vainOlemassaolevat "false"}})))
 
 (defn get-oppilaitoksen-osat
   [oppilaitos-oid]
