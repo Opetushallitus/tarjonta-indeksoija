@@ -1,0 +1,20 @@
+{
+  "tila" : "julkaistu",
+  "sorakuvausId" : "6fc2a220-5272-4577-985a-7c37c7a6b2f0",
+  "modified" : "2021-11-23T11:49:01",
+  "nimi" : "nimi",
+  "muokkaaja" : "1.2.246.562.24.10000000000",
+  "externalId" : 5566778899,
+  "kielivalinta" : "fi,sv",
+  "julkinen" : false,
+  "organisaatio" : "1.2.246.562.10.00000000001",
+  "metadata" : {
+    "kuvaus" : {
+      "fi" : "kuvaus fi",
+      "sv" : "kuvaus sv"
+    },
+    "koulutusalaKoodiUri" : "kansallinenkoulutusluokitus2016koulutusalataso2_054#1",
+    "koulutusKoodiUrit" : [ "koulutus_371101#1" ]
+  },
+  "koulutustyyppi" : "amm"
+}

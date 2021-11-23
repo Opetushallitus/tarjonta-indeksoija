@@ -1,0 +1,157 @@
+{
+  "kaytetaanHaunAikataulua" : false,
+  "tila" : "julkaistu",
+  "liitteidenToimitusaika" : "2021-11-26T09:58",
+  "hakulomakeKuvaus" : "Hakulomake tulostetaan ja toimitetaan postitse",
+  "pohjakoulutusvaatimusKoodiUrit" : "pohjakoulutusvaatimuskouta_104#1, pohjakoulutusvaatimuskouta_109#1",
+  "pohjakoulutusvaatimusTarkenne" : "Pohjakoulutusvaatimuksen tarkenne",
+  "kaytetaanHaunHakulomaketta" : false,
+  "hakulomaketyyppi" : "ei sähköistä",
+  "esitysnimi" : "esitysnimi",
+  "hakulomakeLinkki" : "https://koulu.test/hakemusinfo",
+  "jarjestyspaikkaOid" : "1.2.246.562.10.67476956288",
+  "valintaperuste" : "5dda9e0a-eee5-4c35-b067-27055c652ccd",
+  "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
+  "esikatselu" : false,
+  "modified" : "2021-11-23T11:49:01",
+  "toinenAsteOnkoKaksoistutkinto" : false,
+  "nimi" : "nimi",
+  "muokkaaja" : "1.2.246.562.24.10000000000",
+  "externalId" : 3344556677,
+  "liitteetOnkoSamaToimitusaika" : true,
+  "liitteetOnkoSamaToimitusosoite" : false,
+  "liitteet" : [ {
+    "id" : "de7e733b-36a2-4d3f-ac71-32ccae96dc32",
+    "tyyppiKoodiUri" : "liitetyypitamm_2#1",
+    "nimi" : {
+      "fi" : "liite 1 Fi",
+      "sv" : "liite 1 Sv"
+    },
+    "kuvaus" : {
+      "fi" : "kuvaus Fi",
+      "sv" : "kuvaus Sv"
+    },
+    "toimitusaika" : "2021-11-24T09:58",
+    "toimitustapa" : "hakijapalvelu"
+  }, {
+    "id" : "59b5a1c9-316b-4007-a14e-cc2b617bab46",
+    "tyyppiKoodiUri" : "liitetyypitamm_1#1",
+    "nimi" : {
+      "fi" : "liite 2 Fi",
+      "sv" : "liite 2 Sv"
+    },
+    "kuvaus" : {
+      "fi" : "kuvaus Fi",
+      "sv" : "kuvaus Sv"
+    },
+    "toimitustapa" : "osoite",
+    "toimitusosoite" : {
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "sahkoposti" : "foo@bar.fi"
+    }
+  } ],
+  "hakuaikaAlkaa" : "2021-11-24T09:49",
+  "kielivalinta" : "fi,sv",
+  "hakuaikaPaattyy" : "2021-11-24T09:58",
+  "organisaatio" : "1.2.246.562.10.67476956288",
+  "metadata" : {
+    "valintakokeidenYleiskuvaus" : {
+      "fi" : "yleiskuvaus fi",
+      "sv" : "yleiskuvaus sv"
+    },
+    "valintaperusteenValintakokeidenLisatilaisuudet" : [ {
+      "tilaisuudet" : [ {
+        "osoite" : {
+          "osoite" : {
+            "fi" : "Kivatie 1",
+            "sv" : "kivavägen 1"
+          },
+          "postinumeroKoodiUri" : "posti_04230#2"
+        },
+        "aika" : {
+          "alkaa" : "2021-11-24T09:49",
+          "paattyy" : "2021-11-24T09:58"
+        },
+        "jarjestamispaikka" : {
+          "fi" : "Lisä järjestämispaikka fi",
+          "sv" : "Lisä järjestämispaikka sv"
+        },
+        "lisatietoja" : {
+          "fi" : "lisätieto fi",
+          "sv" : "lisätieto sv"
+        }
+      } ]
+    } ],
+    "kynnysehto" : {
+      "fi" : "Kynnysehto fi",
+      "sv" : "Kynnysehto sv"
+    },
+    "koulutuksenAlkamiskausi" : {
+      "alkamiskausityyppi" : "tarkka alkamisajankohta",
+      "henkilokohtaisenSuunnitelmanLisatiedot" : { },
+      "koulutuksenAlkamispaivamaara" : "2021-11-24T09:49",
+      "koulutuksenPaattymispaivamaara" : "2021-11-24T09:58"
+    },
+    "kaytetaanHaunAlkamiskautta" : false,
+    "aloituspaikat" : {
+      "lukumaara" : 100,
+      "ensikertalaisille" : 50,
+      "kuvaus" : {
+        "fi" : "aloituspaikkojen kuvaus fi",
+        "sv" : "aloituspaikkojen kuvaus sv"
+      }
+    }
+  },
+  "valintakokeet" : [ {
+    "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "tyyppiKoodiUri" : "valintakokeentyyppi_1#1",
+    "nimi" : {
+      "fi" : "valintakokeen nimi fi",
+      "sv" : "valintakokeen nimi sv"
+    },
+    "metadata" : {
+      "tietoja" : {
+        "fi" : "tietoa valintakokeesta fi",
+        "sv" : "tietoa valintakokeesta sv"
+      },
+      "vahimmaispisteet" : 182.1,
+      "liittyyEnnakkovalmistautumista" : true,
+      "ohjeetEnnakkovalmistautumiseen" : {
+        "fi" : "Ennakko-ohjeet fi",
+        "sv" : "Ennakko-ohjeet sv"
+      },
+      "erityisjarjestelytMahdollisia" : true,
+      "ohjeetErityisjarjestelyihin" : {
+        "fi" : "Erityisvalmistelut fi",
+        "sv" : "Erityisvalmistelut sv"
+      }
+    },
+    "tilaisuudet" : [ {
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "aika" : {
+        "alkaa" : "2021-11-24T09:49",
+        "paattyy" : "2021-11-24T09:58"
+      },
+      "jarjestamispaikka" : {
+        "fi" : "Järjestämispaikka fi",
+        "sv" : "Järjestämispaikka sv"
+      },
+      "lisatietoja" : {
+        "fi" : "lisätieto fi",
+        "sv" : "lisätieto sv"
+      }
+    } ]
+  } ]
+}

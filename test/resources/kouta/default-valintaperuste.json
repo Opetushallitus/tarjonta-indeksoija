@@ -1,0 +1,340 @@
+{
+  "tila" : "julkaistu",
+  "kohdejoukkoKoodiUri" : "haunkohdejoukko_11#1",
+  "esikatselu" : false,
+  "modified" : "2021-11-23T11:49:01",
+  "nimi" : "nimi",
+  "muokkaaja" : "1.2.246.562.24.10000000000",
+  "hakutapaKoodiUri" : "hakutapa_01#1",
+  "externalId" : 4455667788,
+  "kielivalinta" : "fi,sv",
+  "julkinen" : false,
+  "organisaatio" : "1.2.246.562.10.67476956288",
+  "metadata" : {
+    "tyyppi" : "amm",
+    "valintatavat" : [ {
+      "nimi" : {
+        "fi" : "Valintatapa1 fi",
+        "sv" : "Valintatapa1 sv"
+      },
+      "valintatapaKoodiUri" : "valintatapajono_av#1",
+      "kuvaus" : {
+        "fi" : "kuvaus fi",
+        "sv" : "kuvaus sv"
+      },
+      "sisalto" : [ {
+        "tyyppi" : "teksti",
+        "data" : {
+          "fi" : "Sisaltoteksti fi",
+          "sv" : "Sisaltoteksti sv"
+        }
+      }, {
+        "tyyppi" : "taulukko",
+        "data" : {
+          "nimi" : {
+            "fi" : "Taulukko 1",
+            "sv" : "Taulukko 1 sv"
+          },
+          "rows" : [ {
+            "index" : 0,
+            "isHeader" : true,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Otsikko",
+                "sv" : "Otsikko sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Otsikko 2",
+                "sv" : "Otsikko 2 sv"
+              }
+            } ]
+          }, {
+            "index" : 1,
+            "isHeader" : false,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Tekstiä",
+                "sv" : "Tekstiä sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Tekstiä 2",
+                "sv" : "Tekstiä 2 sv"
+              }
+            } ]
+          } ]
+        }
+      }, {
+        "tyyppi" : "taulukko",
+        "data" : {
+          "nimi" : {
+            "fi" : "Taulukko 2",
+            "sv" : "Taulukko 2 sv"
+          },
+          "rows" : [ {
+            "index" : 0,
+            "isHeader" : true,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Otsikko",
+                "sv" : "Otsikko sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Otsikko 2",
+                "sv" : "Otsikko 2 sv"
+              }
+            } ]
+          }, {
+            "index" : 1,
+            "isHeader" : false,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Tekstiä",
+                "sv" : "Tekstiä sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Tekstiä 2",
+                "sv" : "Tekstiä 2 sv"
+              }
+            } ]
+          } ]
+        }
+      } ],
+      "kaytaMuuntotaulukkoa" : false,
+      "kynnysehto" : {
+        "fi" : "kynnysehto fi",
+        "sv" : "kynnysehto sv"
+      },
+      "enimmaispisteet" : 201.15,
+      "vahimmaispisteet" : 182.1
+    }, {
+      "nimi" : {
+        "fi" : "Valintatapa2 fi",
+        "sv" : "Valintatapa2 sv"
+      },
+      "valintatapaKoodiUri" : "valintatapajono_tv#1",
+      "kuvaus" : {
+        "fi" : "kuvaus 2 fi",
+        "sv" : "kuvaus 2 sv"
+      },
+      "sisalto" : [ {
+        "tyyppi" : "teksti",
+        "data" : {
+          "fi" : "Sisaltoteksti fi",
+          "sv" : "Sisaltoteksti sv"
+        }
+      }, {
+        "tyyppi" : "taulukko",
+        "data" : {
+          "nimi" : {
+            "fi" : "Taulukko 2",
+            "sv" : "Taulukko 2 sv"
+          },
+          "rows" : [ {
+            "index" : 0,
+            "isHeader" : true,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Otsikko",
+                "sv" : "Otsikko sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Otsikko 2",
+                "sv" : "Otsikko 2 sv"
+              }
+            } ]
+          }, {
+            "index" : 1,
+            "isHeader" : false,
+            "columns" : [ {
+              "index" : 0,
+              "text" : {
+                "fi" : "Tekstiä",
+                "sv" : "Tekstiä sv"
+              }
+            }, {
+              "index" : 1,
+              "text" : {
+                "fi" : "Tekstiä 2",
+                "sv" : "Tekstiä 2 sv"
+              }
+            } ]
+          } ]
+        }
+      } ],
+      "kaytaMuuntotaulukkoa" : true,
+      "kynnysehto" : {
+        "fi" : "kynnysehto fi",
+        "sv" : "kynnysehto sv"
+      },
+      "enimmaispisteet" : 18.1,
+      "vahimmaispisteet" : 10.1
+    } ],
+    "kuvaus" : {
+      "fi" : "kuvaus",
+      "sv" : "kuvaus sv"
+    },
+    "hakukelpoisuus" : {
+      "fi" : "hakukelpoisuus",
+      "sv" : "hakukelpoisuus sv"
+    },
+    "lisatiedot" : {
+      "fi" : "lisatiedot",
+      "sv" : "lisatiedot sv"
+    },
+    "sisalto" : [ {
+      "tyyppi" : "teksti",
+      "data" : {
+        "fi" : "Sisaltoteksti fi",
+        "sv" : "Sisaltoteksti sv"
+      }
+    }, {
+      "tyyppi" : "taulukko",
+      "data" : {
+        "nimi" : {
+          "fi" : "Taulukko 1",
+          "sv" : "Taulukko 1 sv"
+        },
+        "rows" : [ {
+          "index" : 0,
+          "isHeader" : true,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Otsikko",
+              "sv" : "Otsikko sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Otsikko 2",
+              "sv" : "Otsikko 2 sv"
+            }
+          } ]
+        }, {
+          "index" : 1,
+          "isHeader" : false,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Tekstiä",
+              "sv" : "Tekstiä sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Tekstiä 2",
+              "sv" : "Tekstiä 2 sv"
+            }
+          } ]
+        } ]
+      }
+    }, {
+      "tyyppi" : "taulukko",
+      "data" : {
+        "nimi" : {
+          "fi" : "Taulukko 2",
+          "sv" : "Taulukko 2 sv"
+        },
+        "rows" : [ {
+          "index" : 0,
+          "isHeader" : true,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Otsikko",
+              "sv" : "Otsikko sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Otsikko 2",
+              "sv" : "Otsikko 2 sv"
+            }
+          } ]
+        }, {
+          "index" : 1,
+          "isHeader" : false,
+          "columns" : [ {
+            "index" : 0,
+            "text" : {
+              "fi" : "Tekstiä",
+              "sv" : "Tekstiä sv"
+            }
+          }, {
+            "index" : 1,
+            "text" : {
+              "fi" : "Tekstiä 2",
+              "sv" : "Tekstiä 2 sv"
+            }
+          } ]
+        } ]
+      }
+    } ],
+    "valintakokeidenYleiskuvaus" : {
+      "fi" : "yleiskuvaus fi",
+      "sv" : "yleiskuvaus sv"
+    }
+  },
+  "valintakokeet" : [ {
+    "id" : "f50c7536-1c50-4fa8-b13c-514877be71a0",
+    "tyyppiKoodiUri" : "valintakokeentyyppi_1#1",
+    "nimi" : {
+      "fi" : "valintakokeen nimi fi",
+      "sv" : "valintakokeen nimi sv"
+    },
+    "metadata" : {
+      "tietoja" : {
+        "fi" : "tietoa valintakokeesta fi",
+        "sv" : "tietoa valintakokeesta sv"
+      },
+      "vahimmaispisteet" : 182.1,
+      "liittyyEnnakkovalmistautumista" : true,
+      "ohjeetEnnakkovalmistautumiseen" : {
+        "fi" : "Ennakko-ohjeet fi",
+        "sv" : "Ennakko-ohjeet sv"
+      },
+      "erityisjarjestelytMahdollisia" : true,
+      "ohjeetErityisjarjestelyihin" : {
+        "fi" : "Erityisvalmistelut fi",
+        "sv" : "Erityisvalmistelut sv"
+      }
+    },
+    "tilaisuudet" : [ {
+      "osoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "aika" : {
+        "alkaa" : "2021-11-24T09:49",
+        "paattyy" : "2021-11-24T09:58"
+      },
+      "jarjestamispaikka" : {
+        "fi" : "Järjestämispaikka fi",
+        "sv" : "Järjestämispaikka sv"
+      },
+      "lisatietoja" : {
+        "fi" : "lisätieto fi",
+        "sv" : "lisätieto sv"
+      }
+    } ]
+  } ],
+  "koulutustyyppi" : "amm"
+}

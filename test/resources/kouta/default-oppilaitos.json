@@ -1,0 +1,88 @@
+{
+  "tila" : "julkaistu",
+  "teemakuva" : "https://testi.fi/oppilaitos-teemakuva/oid/kuva.jpg",
+  "logo" : "https://testi.fi/oppilaitos-logo/oid/logo.png",
+  "esikatselu" : false,
+  "modified" : "2021-11-23T11:49:01",
+  "muokkaaja" : "1.2.246.562.24.10000000000",
+  "kielivalinta" : "fi,sv",
+  "organisaatio" : "1.2.246.562.10.67476956288",
+  "metadata" : {
+    "esittely" : {
+      "fi" : "Esittely",
+      "sv" : "Esittely sv"
+    },
+    "akatemioita" : 1,
+    "kampuksia" : 2,
+    "toimipisteita" : 2,
+    "tiedekuntia" : 2,
+    "opiskelijoita" : 100,
+    "korkeakouluja" : 1,
+    "yhteystiedot" : [ {
+      "nimi" : {
+        "fi" : "nimi",
+        "sv" : "nimi sv"
+      },
+      "postiosoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "kayntiosoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "puhelinnumero" : {
+        "fi" : "123",
+        "sv" : "123"
+      },
+      "sahkoposti" : {
+        "fi" : "aku.ankka@ankkalinnankoulu.fi",
+        "sv" : "aku.ankka@ankkalinnankoulu.fi"
+      }
+    } ],
+    "hakijapalveluidenYhteystiedot" : {
+      "nimi" : {
+        "fi" : "nimi",
+        "sv" : "nimi sv"
+      },
+      "postiosoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "puhelinnumero" : {
+        "fi" : "123",
+        "sv" : "123"
+      },
+      "sahkoposti" : {
+        "fi" : "aku.ankka@ankkalinnankoulu.fi",
+        "sv" : "aku.ankka@ankkalinnankoulu.fi"
+      }
+    },
+    "tietoaOpiskelusta" : [ {
+      "otsikkoKoodiUri" : "organisaationkuvaustiedot_03#1",
+      "teksti" : {
+        "fi" : "Tietoa opiskelusta ",
+        "sv" : "Tietoa opiskelusta sv"
+      }
+    } ],
+    "wwwSivu" : {
+      "nimi" : {
+        "fi" : "Linkki suomeksi",
+        "sv" : "Linkki ruotsiksi"
+      },
+      "url" : {
+        "fi" : "http://www.oppilaitos.fi",
+        "sv" : "http://www.oppilaitos.sv"
+      }
+    }
+  }
+}
