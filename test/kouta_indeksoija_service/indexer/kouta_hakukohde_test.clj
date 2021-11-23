@@ -220,3 +220,41 @@
      (check-all-nil)
      (i/index-hakukohteet [ei-julkaistun-haun-julkaistu-hakukohde-oid] (. System (currentTimeMillis)))
      (is (= "tallennettu" (:tila (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))))))
+
+(deftest delete-non-existing-hakukohde
+  (fixture/with-mocked-indexing
+   (testing "Indexer should delete non-existing hakukohde from hakukohde-index"
+     (check-all-nil)
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu")
+     (fixture/update-hakukohde-mock hakukohde-oid2 :tila "tallennettu")
+     (i/index-hakukohteet [hakukohde-oid hakukohde-oid2])
+     (is (= "julkaistu" (:tila (get-doc hakukohde/index-name hakukohde-oid))))
+     (is (= "tallennettu" (:tila (get-doc hakukohde/index-name hakukohde-oid2))))
+     (fixture/update-hakukohde-mock hakukohde-oid2 :tila "poistettu")
+     (i/index-hakukohteet [hakukohde-oid hakukohde-oid2])
+     (is (= "julkaistu" (:tila (get-doc hakukohde/index-name hakukohde-oid))))
+     (is (nil? (get-doc hakukohde/index-name hakukohde-oid2))))))
+
+(deftest delete-non-existing-hakukohde-from-search-index
+  (fixture/with-mocked-indexing
+   (testing "Indexer should delete non-existing hakukohde from search index"
+   (check-all-nil)
+   (fixture/update-hakukohde-mock ei-julkaistun-haun-julkaistu-hakukohde-oid :tila "tallennettu")
+   (fixture/update-hakukohde-mock hakukohde-oid2 :tila "arkistoitu")
+   (fixture/update-toteutus-mock toteutus-oid2 :tila "poistettu")
+   (i/index-hakukohteet [ei-julkaistun-haun-julkaistu-hakukohde-oid])
+   (is (= "tallennettu" (:tila (get-doc haku/index-name ei-julkaistu-haku-oid))))
+   (is (= "tallennettu" (:tila (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid))))
+   (is (= toteutus-oid3 (:oid (get-doc toteutus/index-name toteutus-oid3))))
+   (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+   (is (= true (hit-key-not-empty oppilaitos-search/index-name mocks/Oppilaitos1 :hakutiedot)))
+   (fixture/update-hakukohde-mock ei-julkaistun-haun-julkaistu-hakukohde-oid :tila "poistettu")
+   (fixture/update-haku-mock ei-julkaistu-haku-oid :tila "poistettu")
+   (fixture/update-toteutus-mock toteutus-oid3 :tila "poistettu")
+   (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu")
+   (i/index-haut [ei-julkaistu-haku-oid])
+   (is (nil? (get-doc haku/index-name ei-julkaistu-haku-oid)))
+   (is (nil? (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))
+   (is (nil? (get-doc toteutus/index-name toteutus-oid3)))
+   (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
+   (is (= false (hit-key-not-empty oppilaitos-search/index-name mocks/Oppilaitos1 :hakutiedot))))))
