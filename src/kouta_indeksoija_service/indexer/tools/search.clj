@@ -360,7 +360,9 @@
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
         asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
+        lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset (:metadata toteutus)))))
+        lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat (:metadata toteutus)))))]
     (remove-nils-from-search-terms
       {:koulutusOid               (:oid koulutus)
        :koulutusnimi              {:fi (:fi (:nimi koulutus))
@@ -399,4 +401,5 @@
        :onkoTuleva                onkoTuleva
        :kuva                      kuva
        :nimi                      (not-empty nimi)
-       :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))})))
+       :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
+       :lukiolinjat               (clean-uris (into lukiopainotukset lukiolinjat_er))})))
