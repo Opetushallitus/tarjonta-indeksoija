@@ -8,9 +8,9 @@
 
 (defn create-index-entry
   [id]
-  (let [valintaperuste (kouta-backend/get-valintaperuste id)]
+  (let [valintaperuste (common/complete-entry (kouta-backend/get-valintaperuste id))]
     (if (not-poistettu? valintaperuste)
-      (indexable/->index-entry id (common/complete-entry valintaperuste) valintaperuste)
+      (indexable/->index-entry id valintaperuste valintaperuste)
       (indexable/->delete-entry id valintaperuste))))
 
 (defn do-index
