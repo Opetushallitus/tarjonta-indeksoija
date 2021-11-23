@@ -4,12 +4,16 @@
             [clojure.tools.logging :as log]))
 
 (defn ->index-entry
-  [id doc]
-  (when doc (tools/->index-action id doc)))
+  ([id doc forwarded-data]
+   (when doc (tools/->index-action id doc forwarded-data)))
+  ([id doc]
+  (->index-entry id doc nil)))
 
 (defn ->delete-entry
-  [id]
-  (tools/->delete-action id))
+  ([id forwarded-data]
+   (tools/->delete-action id forwarded-data))
+  ([id]
+    (->delete-entry id nil)))
 
 (defn- bulk
   [index-name actions]
@@ -34,9 +38,9 @@
       (log/info (str "ID: " execution-id " Indeksoidaan " (count oids) " indeksiin " index-alias ", (o)ids: " (vec oids)))
       (let [start (. System (currentTimeMillis))
             actions (remove nil? (create-actions oids f execution-id))]
-        (bulk index-alias actions)
+        (bulk index-alias (map (fn [action] (dissoc action :forwarded-data)) actions))
         (log/info (str "ID: " execution-id " Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms."))
-        (vec (remove nil? (map :doc actions)))))))
+        (vec (remove nil? (map :forwarded-data actions)))))))
 
 (defn get
   [index-name oid & query-params]
