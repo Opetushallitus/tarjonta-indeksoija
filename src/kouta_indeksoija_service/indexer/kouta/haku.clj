@@ -9,16 +9,23 @@
 
 (defn create-index-entry
   [oid]
-  (let [haku           (common/complete-entry (kouta-backend/get-haku oid))
-        hakukohde-list (common/complete-entries (map #(-> %
-                                                          (general/set-hakukohde-tila-by-related-haku haku)
-                                                         (koodisto/assoc-hakukohde-nimi-from-koodi) )
-                                                     (kouta-backend/list-hakukohteet-by-haku oid)))
-        toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
-        assoc-toteutus (fn [h] (assoc h :toteutus (common/assoc-organisaatiot (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))]
-    (indexable/->index-entry oid (-> haku
-                                     (assoc :hakukohteet (vec (map assoc-toteutus hakukohde-list)))
-                                     (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))))))
+  (let [hakukohde-list-raw (kouta-backend/list-hakukohteet-by-haku oid)
+        haku (assoc (common/complete-entry (kouta-backend/get-haku oid)) :hakukohteet hakukohde-list-raw)]
+    (if (general/not-poistettu? haku)
+      (let [toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
+            assoc-toteutus (fn [h] (assoc h :toteutus
+                                            (common/assoc-organisaatiot
+                                             (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
+            hakukohde-list (vec (map (fn [hk] (-> hk
+                                                  (general/set-hakukohde-tila-by-related-haku haku)
+                                                  (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                                  (common/complete-entry)
+                                                  (assoc-toteutus)))
+                                     (filter general/not-poistettu? hakukohde-list-raw)))]
+            (indexable/->index-entry oid (-> haku
+                                       (assoc :hakukohteet hakukohde-list)
+                                        (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))) haku))
+      (indexable/->delete-entry oid haku))))
 
 (defn do-index
   [oids execution-id]
