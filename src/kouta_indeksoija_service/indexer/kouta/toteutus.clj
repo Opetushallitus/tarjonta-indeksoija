@@ -103,16 +103,18 @@
   [oid]
   (let [toteutus (kouta-backend/get-toteutus oid)]
     (if (not-poistettu? toteutus)
-      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
-        (indexable/->index-entry oid (-> toteutus
-                                         (common/complete-entry)
-                                         (common/assoc-organisaatiot)
-                                         (assoc :nimi (get-esitysnimi toteutus))
-                                         (dissoc :_enrichedData)
-                                         (enrich-metadata)
-                                         (assoc-tarjoajien-oppilaitokset)
-                                         (assoc-hakutiedot hakutiedot)
-                                         (common/localize-dates)) toteutus))
+      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))
+            toteutus-enriched (-> toteutus
+                                  (common/complete-entry)
+                                  (common/assoc-organisaatiot)
+                                  (assoc :nimi (get-esitysnimi toteutus))
+                                  (dissoc :_enrichedData)
+                                  (enrich-metadata)
+                                  (assoc-tarjoajien-oppilaitokset)
+                                  (assoc-hakutiedot hakutiedot)
+                                  (common/localize-dates))]
+
+        (indexable/->index-entry oid toteutus-enriched toteutus-enriched))
       (indexable/->delete-entry oid toteutus))))
 
 (defn do-index
