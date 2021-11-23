@@ -31,7 +31,7 @@
   [index-name oids f execution-id]
   (when-not (empty? oids)
     (let [index-alias (tools/->virkailija-alias index-name)]
-      (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-alias ", (o)ids: " (vec oids) ", ID: " execution-id))
+      (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-alias ", ID: " execution-id ", (o)ids: " (vec oids)))
       (let [start (. System (currentTimeMillis))
             actions (remove nil? (create-actions oids f execution-id))]
         (bulk index-alias actions)

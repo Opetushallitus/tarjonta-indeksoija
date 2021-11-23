@@ -202,7 +202,7 @@
   (let [start-and-execution-id (. System (currentTimeMillis))
         date (long->rfc1123 since)
         oids (kouta-backend/get-last-modified date)]
-    (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet, ID: " [start-and-execution-id]))
+    (log/info (str "Indeksoidaan kouta-backendistä " (long->rfc1123 since) " jälkeen muuttuneet, ID: " start-and-execution-id ", (o)ids: " oids))
     (index-oids oids start-and-execution-id)
     (log/info (str "Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start-and-execution-id) " ms, ID: " start-and-execution-id))))
 
@@ -210,7 +210,7 @@
   []
   (let [start-and-execution-id (. System (currentTimeMillis))
         oids (kouta-backend/all-kouta-oids)]
-    (log/info (str "Indeksoidaan kouta-backendistä kaikki, ID:" [start-and-execution-id]))
+    (log/info (str "Indeksoidaan kouta-backendistä kaikki, ID:" start-and-execution-id))
     (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)]
       (eperuste/do-index (eperuste-ids-on-koulutukset koulutus-entries) start-and-execution-id)
       (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset koulutus-entries) start-and-execution-id))
@@ -258,18 +258,18 @@
   []
   (let [eperusteet (eperusteet-client/find-all)
         execution-id (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan " (count eperusteet) " eperustetta, ID:" execution-id)
+    (log/info "Indeksoidaan " (count eperusteet) " eperustetta, ID:" execution-id ", (o)ids: " eperusteet)
     (index-eperusteet eperusteet execution-id)))
 
 (defn index-all-oppilaitokset
   []
   (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)
         execution-id (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan " (count oppilaitokset) " oppilaitosta, ID:" execution-id)
+    (log/info "Indeksoidaan " (count oppilaitokset) " oppilaitosta, ID:" execution-id ", (o)ids: " oppilaitokset)
     (index-oppilaitokset oppilaitokset execution-id)))
 
 (defn index-all-lokalisoinnit
   []
   (let [execution-id (. System (currentTimeMillis))]
-    (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä, ID:" [execution-id])
+    (log/info "Indeksoidaan lokalisoinnit kaikilla kielillä, ID:" execution-id)
   (index-lokalisoinnit ["fi" "sv" "en"] execution-id)))
