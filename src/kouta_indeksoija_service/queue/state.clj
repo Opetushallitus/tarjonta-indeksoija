@@ -4,7 +4,7 @@
 (defn set-state!
   [state, message execution-id]
   ;; TODO Mark in db: timestamp, status = <status>
-  (log/info (str "Setting SQS Queue message state: " state " " message " ID: " (vec (flatten execution-id)))))
+  (log/info (str "ID: " execution-id " Setting SQS Queue message state: " state " " message ".")))
 
 
 (defn set-states!

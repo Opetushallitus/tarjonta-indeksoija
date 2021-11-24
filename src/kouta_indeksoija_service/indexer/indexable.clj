@@ -20,7 +20,7 @@
   [oid f execution-id]
   (try (f oid)
      (catch Exception e
-       (log/error e "Indeksoinnissa " oid " tapahtui virhe, ID: " (vec (flatten execution-id)))
+       (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe.")
        nil)))
 
 (defn- create-actions
@@ -31,11 +31,11 @@
   [index-name oids f execution-id]
   (when-not (empty? oids)
     (let [index-alias (tools/->virkailija-alias index-name)]
-      (log/info (str "Indeksoidaan " (count oids) " indeksiin " index-alias ", (o)ids: " (vec oids) ", ID: " (vec (flatten execution-id))))
+      (log/info (str "ID: " execution-id " Indeksoidaan " (count oids) " indeksiin " index-alias ", (o)ids: " (vec oids)))
       (let [start (. System (currentTimeMillis))
             actions (remove nil? (create-actions oids f execution-id))]
         (bulk index-alias actions)
-        (log/info (str "Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms. ID: " (vec (flatten execution-id))))
+        (log/info (str "ID: " execution-id " Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms."))
         (vec (remove nil? (map :doc actions)))))))
 
 (defn get
