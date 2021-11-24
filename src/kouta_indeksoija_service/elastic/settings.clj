@@ -61,6 +61,8 @@
                                             "english_stemmer"]}}
               :normalizer {:case_insensitive {:filter "lowercase"}}}})
 
+(def index-settings-search (merge index-settings {:index.max_inner_result_window 500}))
+
 (def index-settings-eperuste (merge index-settings {:index.mapping.total_fields.limit 4000}))
 
 (def index-settings-lokalisointi
