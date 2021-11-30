@@ -72,6 +72,8 @@
                               :toteutusNimi              (:nimi toteutus)
                               :onkoTuleva                false
                               :nimi                      (:nimi oppilaitos)
+                              :lukiopainotukset          (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
+                              :lukiolinjaterityinenkoulutustehtava (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
                               :metadata                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                                                           :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
                                                           :maksullisuustyyppi         (:maksullisuustyyppi opetus)

@@ -54,6 +54,8 @@
       "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
       "opetustavat": [],
       "onkoTuleva": true,
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [
           {
@@ -186,6 +188,8 @@
         "opetuspaikkakk_1"
       ],
       "onkoTuleva": false,
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opetusajat": [
@@ -287,6 +291,8 @@
         "opetuspaikkakk_2"
       ],
       "onkoTuleva": false,
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opetusajat": [
@@ -388,6 +394,8 @@
       "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
       "opetustavat": [],
       "onkoTuleva": true,
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opintojenLaajuus": {
@@ -459,6 +467,8 @@
       "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
       "opetustavat": [],
       "onkoTuleva": true,
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opintojenLaajuus": null,
@@ -560,6 +570,8 @@
       "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": true,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [
           {
@@ -732,6 +744,8 @@
       "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opetusajat": [
@@ -866,6 +880,8 @@
       "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opetusajat": [
@@ -925,6 +941,8 @@
       "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": true,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opintojenLaajuus": {
@@ -989,6 +1007,8 @@
       "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": true,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
+      "lukiopainotukset": [],
+      "lukiolinjaterityinenkoulutustehtava": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "koulutustyypit": [],
