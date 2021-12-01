@@ -119,12 +119,17 @@
           (catch Exception e
             (log/error (str "Unable to parse" s) e)))))))
 
+(defn- replace-eet-eest-with-utc-offset [parse-date-time]
+  (-> parse-date-time
+      (replace #"EET" "UTC+2")
+      (replace #"EEST" "UTC+3")))
+
 (defn localize-dates [form]
   (let [format-date         (fn [date]
                               (if-let [parsed (parse-date-time date)]
                                 {:fi (f/unparse finnish-format parsed)
                                  :sv (f/unparse swedish-format parsed)
-                                 :en (f/unparse english-format parsed)}
+                                 :en (replace-eet-eest-with-utc-offset (f/unparse english-format parsed))}
                                 {}))
         format-date-kws     (fn [tree dates]
                               (loop [d dates
