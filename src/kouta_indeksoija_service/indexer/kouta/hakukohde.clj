@@ -189,7 +189,7 @@
   [oid]
     (let [hakukohde (-> (kouta-backend/get-hakukohde oid)
                         (assoc-nimi-as-esitysnimi)
-                        (koodisto/assoc-hakukohde-nimi-from-koodi)
+                        (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                         (common/complete-entry))]
     (if (not-poistettu? hakukohde)
       (let [haku              (kouta-backend/get-haku (:hakuOid hakukohde))
