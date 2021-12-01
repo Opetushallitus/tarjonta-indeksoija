@@ -18,7 +18,8 @@
         assoc-toteutus (fn [h] (assoc h :toteutus (common/assoc-organisaatiot (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))]
     (indexable/->index-entry oid (-> haku
                                      (assoc :hakukohteet (vec (map assoc-toteutus hakukohde-list)))
-                                     (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))))))
+                                     (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
+                                     (common/localize-dates)))))
 
 (defn do-index
   [oids execution-id]
