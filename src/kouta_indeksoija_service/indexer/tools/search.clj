@@ -37,6 +37,7 @@
              kuva
              lukiopainotukset
              lukiolinjaterityinenkoulutustehtava
+             amm-osaamisalat
              metadata]
       :or {koulutustyypit []
            opetuskieliUrit []
@@ -59,6 +60,7 @@
            kuva nil
            lukiopainotukset []
            lukiolinjaterityinenkoulutustehtava []
+           amm-osaamisalat []
            metadata {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) tutkintonimikeUrit))
@@ -89,7 +91,8 @@
                      :en (terms :en)}
              :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
              :lukiopainotukset (clean-uris lukiopainotukset)
-             :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjaterityinenkoulutustehtava)}
+             :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjaterityinenkoulutustehtava)
+             :ammosaamisalat (clean-uris amm-osaamisalat)}
 
       (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
       (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
@@ -348,6 +351,9 @@
              kuva
              onkoTuleva
              nimi
+             lukiopainotukset
+             lukiolinjat_er
+             amm-osaamisalat
              metadata]
       :or   {koulutus                  []
              toteutus                  []
@@ -360,15 +366,16 @@
              kuva                      nil
              onkoTuleva                nil
              nimi                      {}
+             lukiopainotukset          []
+             lukiolinjat_er            []
+             amm-osaamisalat           []
              metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
         asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
-        lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset (:metadata toteutus)))))
-        lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat (:metadata toteutus)))))]
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
     (remove-nils-from-search-terms
       {:koulutusOid               (:oid koulutus)
        :koulutusnimi              {:fi (:fi (:nimi koulutus))
@@ -409,4 +416,5 @@
        :nimi                      (not-empty nimi)
        :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
        :lukiopainotukset          (clean-uris lukiopainotukset)
-       :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)})))
+       :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
+       :ammosaamisalat            (clean-uris amm-osaamisalat)})))
