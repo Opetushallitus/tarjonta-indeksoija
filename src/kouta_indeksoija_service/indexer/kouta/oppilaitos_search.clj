@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? asiasana->lng-value-map]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
@@ -73,12 +73,12 @@
                      :koulutusalaUrit           (search-tool/koulutusala-koodi-urit koulutus)
                      :tutkintonimikeUrit        (search-tool/tutkintonimike-koodi-urit koulutus)
                      :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
-                     :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
+                     :nimet                     (vector (:nimi koulutus) (get-esitysnimi toteutus))
                      :asiasanat                 (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                      :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                      :koulutusOid               (:oid koulutus)
                      :toteutusOid               (:oid toteutus)
-                     :nimi                      (:nimi toteutus)
+                     :nimi                      (get-esitysnimi toteutus)
                      :hakutiedot                (get-search-hakutiedot hakutieto)
                      :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimus-koodi-urit hakutieto)
                      :kuva                      (:teemakuva toteutus)
@@ -131,7 +131,7 @@
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                               :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
                               :kuva (:teemakuva toteutus)
-                              :nimi (:nimi toteutus)
+                              :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
                               :metadata {:tutkintonimikkeet   (tutkintonimikket-for-toteutus toteutus)
                                          :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)

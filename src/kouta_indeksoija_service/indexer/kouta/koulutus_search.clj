@@ -9,7 +9,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]))
 
 (def index-name "koulutus-kouta-search")
@@ -63,13 +63,13 @@
                               :koulutusalaUrit           (search-tool/koulutusala-koodi-urit koulutus)
                               :tutkintonimikeUrit        (search-tool/tutkintonimike-koodi-urit koulutus)
                               :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
-                              :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
+                              :nimet                     (vector (:nimi koulutus) (get-esitysnimi toteutus))
                               :hakutiedot                (get-search-hakutiedot hakutieto)
                               :kuva                      (:logo oppilaitos)
                               :asiasanat                 (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                               :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                               :toteutusOid               (:oid toteutus)
-                              :toteutusNimi              (:nimi toteutus)
+                              :toteutusNimi              (get-esitysnimi toteutus)
                               :onkoTuleva                false
                               :nimi                      (:nimi oppilaitos)
                               :metadata                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
