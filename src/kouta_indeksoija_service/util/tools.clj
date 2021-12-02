@@ -17,6 +17,6 @@
   [coll]
   (vec (distinct (remove nil? coll))))
 
-(defn get-esitysnimi 
-  [entity] 
+(defn get-esitysnimi
+  [entity]
   (get-in entity [:_enrichedData :esitysnimi] (:nimi entity)))

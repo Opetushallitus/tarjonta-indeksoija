@@ -1,10 +1,10 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
   (:refer-clojure :exclude [replace])
-  (:require [kouta-indeksoija-service.rest.kouta :refer [get-koulutus]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+  (:require [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
             [clojure.string :refer [replace]]
             [clojure.walk :refer [postwalk]]
             [clojure.string :as string]
@@ -112,7 +112,8 @@
 (defn toteutus->list-item
   [toteutus]
   (-> toteutus
-      (select-keys [:oid :organisaatio :nimi :tila :tarjoajat :muokkaaja :modified :organisaatiot])
+      (select-keys [:oid :organisaatio :tila :tarjoajat :muokkaaja :modified :organisaatiot])
+      (assoc :nimi (get-esitysnimi toteutus))
       (assoc-organisaatiot)))
 
 (defn- create-ataru-link-for-haku
