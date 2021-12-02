@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
             [clojure.walk :as walk]))
 
@@ -360,7 +360,8 @@
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
         asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
+        toteutusNimi (get-esitysnimi toteutus)]
     (remove-nils-from-search-terms
       {:koulutusOid               (:oid koulutus)
        :koulutusnimi              {:fi (:fi (:nimi koulutus))
@@ -370,9 +371,9 @@
                                    :sv (:sv (:nimi oppilaitos))
                                    :en (:en (:nimi oppilaitos))}
        :toteutusOid               (:oid toteutus)
-       :toteutusNimi              {:fi (:fi (:nimi toteutus))
-                                   :sv (:sv (:nimi toteutus))
-                                   :en (:en (:nimi toteutus))}
+       :toteutusNimi              {:fi (:fi toteutusNimi)
+                                   :sv (:sv toteutusNimi)
+                                   :en (:en toteutusNimi)}
        :oppilaitosOid             (:oid oppilaitos)
        :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                    :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
