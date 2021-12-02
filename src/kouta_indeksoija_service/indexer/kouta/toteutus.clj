@@ -106,6 +106,7 @@
                                      (common/complete-entry)
                                      (common/assoc-organisaatiot)
                                      (assoc :nimi (get-esitysnimi toteutus))
+                                     (dissoc :_enrichedData)
                                      (enrich-metadata)
                                      (assoc-tarjoajien-oppilaitokset)
                                      (assoc-hakutiedot hakutiedot)))))
