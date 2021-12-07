@@ -28,6 +28,9 @@
                                           :keywords "_english_keywords_"}
                        :english_stemmer {:type "stemmer"
                                          :language "english"}
+                       :english_stemmer_for_long_words {:type "condition"
+                                                        :filter ["english_stemmer"]
+                                                        :script {:source "token.getTerm().length() > 5"}}
                        :english_possessive_stemmer {:type "stemmer"
                                                     :language "possessive_english"}},
               :analyzer {:finnish {:type "custom"
@@ -62,19 +65,25 @@
                                            :filter ["lowercase"
                                                     "swedish_stop"
                                                     "swedish_stemmer_for_long_words"]}
-                         :english {:tokenizer "standard"
+                         :english {:type "custom"
+                                   :tokenizer "standard"
                                    :filter ["english_possessive_stemmer"
                                             "ngram_compound_words_and_conjugations"
                                             "lowercase"
                                             "english_stop"
                                             "english_keywords"
                                             "english_stemmer"]}
+                         :english_keyword {:type "custom"
+                                           :tokenizer "standard"
+                                           :filter ["lowercase"
+                                                    "english_stop"
+                                                    "english_possessive_stemmer"
+                                                    "english_stemmer_for_long_words"]}
                          :english_words {:tokenizer "standard"
                                          :filter ["english_possessive_stemmer"
                                                   "lowercase"
                                                   "english_stop"
-                                                  "english_keywords"
-                                                  "english_stemmer"]}}
+                                                  "english_keywords"]}}
               :normalizer {:case_insensitive {:filter "lowercase"}}}})
 
 (def index-settings-search (merge index-settings {:index.max_inner_result_window 500}))
@@ -221,7 +230,7 @@
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "english"
+                                       :analyzer "english_keyword"
                                        :norms false
                                        :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
                        {:tila {:match "tila"
