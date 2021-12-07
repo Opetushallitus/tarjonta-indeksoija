@@ -36,6 +36,14 @@
   [koulutus]
   (= "telma" (:koulutustyyppi koulutus)))
 
+(defn vapaa-sivistystyo-opistovuosi?
+  [koulutus]
+  (= "vapaa-sivistystyo-opistovuosi" (:koulutustyyppi koulutus)))
+
+(defn vapaa-sivistystyo-muu?
+  [koulutus]
+  (= "vapaa-sivistystyo-muu" (:koulutustyyppi koulutus)))
+
 (defn any-ammatillinen?
   [koulutus]
   (or (ammatillinen? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus)))
