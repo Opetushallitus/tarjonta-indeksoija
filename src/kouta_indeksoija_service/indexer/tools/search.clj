@@ -285,12 +285,18 @@
       result)))
 
 (defn deduce-koulutustyypit
-  ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
-   (if ammatillinen-perustutkinto-erityisopetuksena?
-     (concat [amm-perustutkinto-erityisopetuksena-koulutustyyppi] (vector (:koulutustyyppi koulutus)))
-     (get-koulutustyypit-from-koulutus-koodi koulutus)))
+  ([koulutus toteutus-metadata]
+   (let [
+         koulutustyyppi (:koulutustyyppi koulutus)
+         amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
+         tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
+         ]
+   (cond
+     amm-erityisopetuksena? [amm-perustutkinto-erityisopetuksena-koulutustyyppi koulutustyyppi]
+     (tuva? koulutus) [(if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal") koulutustyyppi]
+     :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
-   (deduce-koulutustyypit koulutus false)))
+   (deduce-koulutustyypit koulutus nil)))
 
 (defn- get-toteutuksen-hakutieto
   [hakutiedot t]
