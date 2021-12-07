@@ -208,7 +208,8 @@
                                  (assoc-valintaperuste valintaperuste)
                                  (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestava-toimipiste)
                                  (assoc-hakulomake-linkki haku)
-                                 (dissoc :_enrichedData)))))
+                                 (dissoc :_enrichedData)
+                                 (common/localize-dates)))))
 
 (defn do-index
   [oids execution-id]
