@@ -24,8 +24,12 @@
                                      (filter general/not-poistettu? hakukohde-list-raw)))]
             (indexable/->index-entry oid (-> haku
                                        (assoc :hakukohteet hakukohde-list)
+<<<<<<< HEAD
                                         (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
                                           (common/localize-dates)) haku))
+=======
+                                        (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))) haku))
+>>>>>>> 358406597b4afe8ced912f1ad861b80bf70864cd
       (indexable/->delete-entry oid haku))))
 
 (defn do-index

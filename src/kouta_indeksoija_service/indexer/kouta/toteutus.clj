@@ -6,7 +6,11 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
+<<<<<<< HEAD
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
+=======
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+>>>>>>> 358406597b4afe8ced912f1ad861b80bf70864cd
             [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
 
 (def index-name "toteutus-kouta")
@@ -107,12 +111,18 @@
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)
+<<<<<<< HEAD
                                   (assoc :nimi (get-esitysnimi toteutus))
                                   (dissoc :_enrichedData)
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
                                   (assoc-hakutiedot hakutiedot)
                                   (common/localize-dates))]
+=======
+                                  (enrich-metadata)
+                                  (assoc-tarjoajien-oppilaitokset)
+                                  (assoc-hakutiedot hakutiedot))]
+>>>>>>> 358406597b4afe8ced912f1ad861b80bf70864cd
 
         (indexable/->index-entry oid toteutus-enriched toteutus-enriched))
       (indexable/->delete-entry oid toteutus))))

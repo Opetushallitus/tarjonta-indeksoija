@@ -148,8 +148,12 @@
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)
                                   (assoc-sorakuvaus)
+<<<<<<< HEAD
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
                                   (common/localize-dates))]
+=======
+                                  (assoc :toteutukset (map common/toteutus->list-item toteutukset)))]
+>>>>>>> 358406597b4afe8ced912f1ad861b80bf70864cd
         (indexable/->index-entry oid koulutus-enriched koulutus-enriched))
       (indexable/->delete-entry oid koulutus))))
 
