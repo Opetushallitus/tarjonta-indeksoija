@@ -18,7 +18,7 @@
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
         (is (= ["koulutustyyppi_26" "amm"] result))))))
 
-(deftest add-only-erityisopetus-koulutustyyppi-koodi
+(deftest add-amm-erityisopetus-koulutustyyppi-koodi
   (testing "If ammatillinen perustutkinto erityisopetuksena, add only erityisopetus koulutustyyppi koodi"
     (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "amm"}
@@ -26,21 +26,49 @@
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
         (is (= ["koulutustyyppi_4" "amm"] result))))))
 
-(deftest add-only-erityisopetus-koulutustyyppi-koodi
-  (testing "If tuva without erityisopetus, add tuva-normal koulutustyyppi"
-    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
+(deftest add-tuva-normal-koulutustyyppi
+  (testing "If tuva without erityisopetus, add 'tuva-normal' koulutustyyppi"
       (let [koulutus {:koulutustyyppi "tuva"}
             toteutus-metadata {:jarjestetaanErityisopetuksena false}
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
-        (is (= ["tuva-normal" "tuva"] result))))))
+        (is (= ["tuva-normal" "tuva"] result)))))
 
-(deftest add-only-erityisopetus-koulutustyyppi-koodi
+(deftest add-tuva-erityisopetus-koulutustyyppi
   (testing "If tuva erityisopetuksena, add 'tuva-erityisopetus' koulutustyyppi"
-    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "tuva"}
             toteutus-metadata {:jarjestetaanErityisopetuksena true}
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
-        (is (= ["tuva-erityisopetus" "tuva"] result))))))
+        (is (= ["tuva-erityisopetus" "tuva"] result)))))
+
+(deftest add-vapaa-sivistystyo-koulutustyyppi-when-opistovuosi
+  (testing "If vapaa-sivistystyo-opistovuosi, add 'vapaa-sivistystyo' koulutustyyppi"
+      (let [koulutus {:koulutustyyppi "vapaa-sivistystyo-opistovuosi"}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+        (is (= ["vapaa-sivistystyo-opistovuosi" "vapaa-sivistystyo"] result)))))
+
+(deftest add-vapaa-sivistystyo-koulutustyyppi-when-muu
+  (testing "If vapaa-sivistystyo-muu, add 'vapaa-sivistystyo' koulutustyyppi"
+      (let [koulutus {:koulutustyyppi "vapaa-sivistystyo-muu"}
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+        (is (= ["vapaa-sivistystyo-muu" "vapaa-sivistystyo"] result)))))
+
+(deftest add-amm-muu-koulutustyyppi-when-telma
+  (testing "If telma, add 'amm-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "telma"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["telma" "amm-muu"] result)))))
+
+(deftest add-amm-muu-koulutustyyppi-when-tutkinnon-osa
+  (testing "If amm-tutkinnon-osa, add 'amm-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "amm-tutkinnon-osa"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["amm-tutkinnon-osa" "amm-muu"] result)))))
+
+(deftest add-amm-muu-koulutustyyppi-when-osaamisala
+  (testing "If amm-osaamisala, add 'amm-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "amm-osaamisala"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["amm-osaamisala" "amm-muu"] result)))))
 
 (deftest hakutieto-tools-test
   (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
