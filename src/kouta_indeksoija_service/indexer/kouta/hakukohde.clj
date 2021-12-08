@@ -213,12 +213,8 @@
                                      (assoc-valintaperuste valintaperuste)
                                      (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestava-toimipiste)
                                      (assoc-hakulomake-linkki haku)
-<<<<<<< HEAD
                                      (dissoc :_enrichedData)
                                      (common/localize-dates)) hakukohde))
-=======
-                                     (dissoc :_enrichedData)) hakukohde))
->>>>>>> 358406597b4afe8ced912f1ad861b80bf70864cd
       (indexable/->delete-entry oid hakukohde))))
 
 (defn do-index
