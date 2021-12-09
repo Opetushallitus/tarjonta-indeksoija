@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -278,19 +278,30 @@
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
         koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
-        internal-koulutystyyppi (vector (:koulutustyyppi koulutus))
-        result (concat koulutustyypit-without-erityisopetus internal-koulutystyyppi)]
+        internal-koulutustyyppi (vector (:koulutustyyppi koulutus))
+        result (concat koulutustyypit-without-erityisopetus internal-koulutustyyppi)]
     (if (korkeakoulutus? koulutus)
       (concat result (get-korkeakoulutus-koulutustyyppi koulutus))
       result)))
 
 (defn deduce-koulutustyypit
-  ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
-   (if ammatillinen-perustutkinto-erityisopetuksena?
-     (concat [amm-perustutkinto-erityisopetuksena-koulutustyyppi] (vector (:koulutustyyppi koulutus)))
-     (get-koulutustyypit-from-koulutus-koodi koulutus)))
+  ([koulutus toteutus-metadata]
+   (let [
+         koulutustyyppi (:koulutustyyppi koulutus)
+         amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
+         tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
+         ]
+   (cond
+     amm-erityisopetuksena? [amm-perustutkinto-erityisopetuksena-koulutustyyppi koulutustyyppi]
+     (and (tuva? koulutus) (not= toteutus-metadata nil)) [(if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal") koulutustyyppi]
+     (amm-osaamisala? koulutus) [koulutustyyppi "amm-muu"]
+     (amm-tutkinnon-osa? koulutus) [koulutustyyppi "amm-muu"]
+     (telma? koulutus) [koulutustyyppi "amm-muu"]
+     (vapaa-sivistystyo-opistovuosi? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
+     (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
+     :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
-   (deduce-koulutustyypit koulutus false)))
+   (deduce-koulutustyypit koulutus nil)))
 
 (defn- get-toteutuksen-hakutieto
   [hakutiedot t]
