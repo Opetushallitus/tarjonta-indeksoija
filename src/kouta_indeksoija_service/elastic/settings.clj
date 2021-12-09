@@ -79,11 +79,12 @@
                                                     "english_stop"
                                                     "english_possessive_stemmer"
                                                     "english_stemmer_for_long_words"]}
-                         :english_words {:tokenizer "standard"
+                         :english_words {:type "custom"
+                                         :tokenizer "standard"
                                          :filter ["english_possessive_stemmer"
                                                   "lowercase"
                                                   "english_stop"
-                                                  "english_keywords"]}}
+                                                  "remove_duplicates"]}}
               :normalizer {:case_insensitive {:filter "lowercase"}}}})
 
 (def index-settings-search (merge index-settings {:index.max_inner_result_window 500}))
@@ -196,6 +197,7 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
+                                       :search_analyzer "english_keyword"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
                                                 :words { :type "text" :analyzer "english_words"}}}}}
