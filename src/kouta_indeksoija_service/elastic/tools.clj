@@ -42,11 +42,12 @@
     (subs (name raw-index-name) 0 (- length 27))))
 
 (defn handle-exception
-  [e]
+  ([e] (handle-exception e "-1"))
+  ([e execution-id]
   (if-let [ex-d (ex-data e)]
-    (log/error "Got status " (:status ex-d) " from " (:trace-redirects ex-d) " with body " (:body ex-d))
-    (log/error "Got exception " e))
-  nil)
+    (log/error "ID: " execution-id "Got status " (:status ex-d) " from " (:trace-redirects ex-d) " with body " (:body ex-d))
+    (log/error "ID: " execution-id "Got exception " e))
+  nil))
 
 (defn refresh-index
   [index]
@@ -126,9 +127,10 @@
     (log-and-get-bulk-errors res)))
 
 (defn bulk
-  [index actions]
+  ([index actions] (bulk index actions "-1"))
+  ([index actions execution-id]
   (try
     (execute-bulk-actions index actions)
     (catch Exception e
-      (handle-exception e)
-      (vec (map :id actions)))))
+      (handle-exception e execution-id)
+      (vec (map :id actions))))))

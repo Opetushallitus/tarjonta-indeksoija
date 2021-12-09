@@ -12,9 +12,12 @@
   (tools/->delete-action id))
 
 (defn- bulk
-  [index-name actions]
+  [index-name actions execution-id]
+  (log/info "ID: " execution-id " handling " (count actions) " bulk actions: " actions)
   (when (not-empty actions)
-    (tools/bulk index-name actions)))
+    (map #(log/info %) actions))
+  (when (not-empty actions)
+    (tools/bulk index-name actions execution-id)))
 
 (defn- eat-and-log-errors
   [oid f execution-id]
@@ -34,7 +37,7 @@
       (log/info (str "ID: " execution-id " Indeksoidaan " (count oids) " indeksiin " index-alias ", (o)ids: " (vec oids)))
       (let [start (. System (currentTimeMillis))
             actions (remove nil? (create-actions oids f execution-id))]
-        (bulk index-alias actions)
+        (bulk index-alias actions execution-id)
         (log/info (str "ID: " execution-id " Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms."))
         (vec (remove nil? (map :doc actions)))))))
 
