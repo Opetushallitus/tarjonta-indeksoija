@@ -67,12 +67,11 @@
                                                     "swedish_stemmer_for_long_words"]}
                          :english {:type "custom"
                                    :tokenizer "standard"
-                                   :filter ["english_possessive_stemmer"
-                                            "ngram_compound_words_and_conjugations"
-                                            "lowercase"
+                                   :filter ["lowercase"
                                             "english_stop"
-                                            "english_keywords"
-                                            "english_stemmer"]}
+                                            "english_possessive_stemmer"
+                                            "ngram_compound_words_and_conjugations"
+                                            "remove_duplicates"]}
                          :english_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
