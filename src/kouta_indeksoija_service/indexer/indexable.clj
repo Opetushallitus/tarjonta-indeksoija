@@ -40,7 +40,7 @@
 
 (defn do-index
   [index-name oids f execution-id]
-  (let [chunks (partition 10 10 nil oids)]
+  (let [chunks (partition-all 10 oids)]
     (log/info (str "ID: " execution-id " Indeksoidaan indeksiin " index-name " yhteensä " (count oids) " oidia " (count chunks) " palasessa."))
     (doall (flatten (map #(index-chunk index-name % f execution-id) chunks)))))
 
