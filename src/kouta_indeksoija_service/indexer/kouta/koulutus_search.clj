@@ -154,7 +154,8 @@
                    {:hits (jarjestaja-hits hierarkia koulutus toteutukset hakutiedot)}))]
       (->> hits
            (apply merge-with concat)
-           (merge koulutus)))))
+           (merge koulutus)))
+    (assoc koulutus :hits [(tuleva-jarjestaja-hit {} koulutus)])))
 
 (defn assoc-jarjestaja-search-terms
   [koulutus toteutukset hakutiedot]
@@ -165,7 +166,8 @@
                            {:search_terms (jarjestaja-search-terms hierarkia koulutus toteutukset hakutiedot)}))]
       (->> search-terms
            (apply merge-with concat)
-           (merge koulutus)))))
+           (merge koulutus)))
+    (assoc koulutus :search_terms [(tuleva-jarjestaja-search-terms {} koulutus)])))
 
 (defn- create-entry
   [koulutus]
@@ -195,16 +197,12 @@
   [oid]
   (let [koulutus (kouta-backend/get-koulutus oid)]
     (if (julkaistu? koulutus)
-      (if (seq (:tarjoajat koulutus))
-        (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
-              hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))]
-          (indexable/->index-entry oid (-> koulutus
-                                           (assoc-jarjestaja-hits toteutukset hakutiedot)
-                                           (assoc-jarjestaja-search-terms toteutukset hakutiedot)
-                                           (create-entry))))
-        (do
-          (assoc koulutus :hits [(tuleva-jarjestaja-hit {} koulutus)])
-          (assoc koulutus :search_terms [(tuleva-jarjestaja-search-terms {} koulutus)])))
+      (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
+            hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))]
+        (indexable/->index-entry oid (-> koulutus
+                                         (assoc-jarjestaja-hits toteutukset hakutiedot)
+                                         (assoc-jarjestaja-search-terms toteutukset hakutiedot)
+                                         (create-entry))))
       (indexable/->delete-entry oid))))
 
 (defn do-index
