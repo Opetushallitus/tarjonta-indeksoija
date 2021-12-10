@@ -1,11 +1,11 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
             [clojure.walk :as walk]))
 
@@ -287,19 +287,30 @@
   [koulutus]
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
         koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
-        internal-koulutystyyppi (vector (:koulutustyyppi koulutus))
-        result (concat koulutustyypit-without-erityisopetus internal-koulutystyyppi)]
+        internal-koulutustyyppi (vector (:koulutustyyppi koulutus))
+        result (concat koulutustyypit-without-erityisopetus internal-koulutustyyppi)]
     (if (korkeakoulutus? koulutus)
       (concat result (get-korkeakoulutus-koulutustyyppi koulutus))
       result)))
 
 (defn deduce-koulutustyypit
-  ([koulutus ammatillinen-perustutkinto-erityisopetuksena?]
-   (if ammatillinen-perustutkinto-erityisopetuksena?
-     (concat [amm-perustutkinto-erityisopetuksena-koulutustyyppi] (vector (:koulutustyyppi koulutus)))
-     (get-koulutustyypit-from-koulutus-koodi koulutus)))
+  ([koulutus toteutus-metadata]
+   (let [
+         koulutustyyppi (:koulutustyyppi koulutus)
+         amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
+         tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
+         ]
+   (cond
+     amm-erityisopetuksena? [amm-perustutkinto-erityisopetuksena-koulutustyyppi koulutustyyppi]
+     (and (tuva? koulutus) (not= toteutus-metadata nil)) [(if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal") koulutustyyppi]
+     (amm-osaamisala? koulutus) [koulutustyyppi "amm-muu"]
+     (amm-tutkinnon-osa? koulutus) [koulutustyyppi "amm-muu"]
+     (telma? koulutus) [koulutustyyppi "amm-muu"]
+     (vapaa-sivistystyo-opistovuosi? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
+     (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
+     :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
-   (deduce-koulutustyypit koulutus false)))
+   (deduce-koulutustyypit koulutus nil)))
 
 (defn- get-toteutuksen-hakutieto
   [hakutiedot t]
@@ -375,7 +386,8 @@
         ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
         asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
-        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))]
+        maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
+        toteutusNimi (get-esitysnimi toteutus)]
     (remove-nils-from-search-terms
       {:koulutusOid               (:oid koulutus)
        :koulutusnimi              {:fi (:fi (:nimi koulutus))
@@ -385,9 +397,9 @@
                                    :sv (:sv (:nimi oppilaitos))
                                    :en (:en (:nimi oppilaitos))}
        :toteutusOid               (:oid toteutus)
-       :toteutusNimi              {:fi (:fi (:nimi toteutus))
-                                   :sv (:sv (:nimi toteutus))
-                                   :en (:en (:nimi toteutus))}
+       :toteutusNimi              {:fi (:fi toteutusNimi)
+                                   :sv (:sv toteutusNimi)
+                                   :en (:en toteutusNimi)}
        :oppilaitosOid             (:oid oppilaitos)
        :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                    :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))

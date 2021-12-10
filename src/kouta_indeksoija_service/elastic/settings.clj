@@ -36,6 +36,11 @@
                                             "finnish_stop"
                                             "ngram_compound_words_and_conjugations"
                                             "remove_duplicates"]}
+                         :finnish_words {:type "custom"
+                                         :tokenizer "standard"
+                                         :filter ["lowercase"
+                                                  "finnish_stop"
+                                                  "remove_duplicates"]}
                          :finnish_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
@@ -47,6 +52,11 @@
                                             "swedish_stop"
                                             "ngram_compound_words_and_conjugations"
                                             "remove_duplicates"]}
+                         :swedish_words {:type "custom"
+                                         :tokenizer "standard"
+                                         :filter ["lowercase"
+                                                  "swedish_stop"
+                                                  "remove_duplicates"]}
                          :swedish_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
@@ -58,8 +68,16 @@
                                             "lowercase"
                                             "english_stop"
                                             "english_keywords"
-                                            "english_stemmer"]}}
+                                            "english_stemmer"]}
+                         :english_words {:tokenizer "standard"
+                                         :filter ["english_possessive_stemmer"
+                                                  "lowercase"
+                                                  "english_stop"
+                                                  "english_keywords"
+                                                  "english_stemmer"]}}
               :normalizer {:case_insensitive {:filter "lowercase"}}}})
+
+(def index-settings-search (merge index-settings {:index.max_inner_result_window 500}))
 
 (def index-settings-eperuste (merge index-settings {:index.mapping.total_fields.limit 4000}))
 
@@ -155,20 +173,23 @@
                                        :analyzer "finnish"
                                        :search_analyzer "finnish_keyword"
                                        :norms false
-                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                                       :fields {:keyword { :type "keyword" :ignore_above 256}
+                                                :words { :type "text" :analyzer "finnish_words"}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish"
                                        :search_analyzer "swedish_keyword"
                                        :norms false
-                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                                       :fields {:keyword { :type "keyword" :ignore_above 256}
+                                                :words { :type "text" :analyzer "swedish_words"}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "english"
                                        :norms false
-                                       :fields { :keyword { :type "keyword" :ignore_above 256}}}}}
+                                       :fields {:keyword { :type "keyword" :ignore_above 256}
+                                                :words { :type "text" :analyzer "english_words"}}}}}
                        {:tila {:match "tila"
                                :match_mapping_type "string"
                                :mapping {:type "text"

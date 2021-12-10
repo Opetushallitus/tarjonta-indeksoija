@@ -1,11 +1,14 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
   (:refer-clojure :exclude [replace])
-  (:require [kouta-indeksoija-service.rest.kouta :refer [get-koulutus]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+  (:require [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
             [clojure.string :refer [replace]]
+            [clojure.tools.logging :as log]
+            [clj-time.core :as t]
+            [clj-time.format :as f]
             [clojure.walk :refer [postwalk]]
             [clojure.string :as string]
             [clojure.tools.logging :as log]))
@@ -96,6 +99,51 @@
         tarjoajat (map :oid (:tarjoajat entry))]
     (assoc entry :organisaatiot (vec (distinct (remove nil? (conj tarjoajat organisaatio)))))))
 
+(defn new-formatter [fmt-str]
+  (f/formatter fmt-str (t/time-zone-for-id "Europe/Helsinki")))
+
+(def finnish-format (new-formatter "d.M.yyyy 'klo' HH:mm"))
+(def swedish-format (new-formatter "d.M.yyyy 'kl.' HH:mm"))
+(def english-format (new-formatter "MMM. d, yyyy 'at' hh:mm a z"))
+
+(defn- parse-date-time
+  [s]
+  (let [tz (t/time-zone-for-id "Europe/Helsinki")
+        fmt-with-seconds (f/formatter "yyyy-MM-dd'T'HH:mm:ss" tz)
+        fmt (f/formatter "yyyy-MM-dd'T'HH:mm" tz)]
+    (try
+      (t/to-time-zone (f/parse fmt-with-seconds s) tz)
+      (catch Exception _
+        (try
+          (t/to-time-zone (f/parse fmt s) tz)
+          (catch Exception e
+            (log/error (str "Unable to parse" s) e)))))))
+
+(defn- replace-eet-eest-with-utc-offset [parse-date-time]
+  (-> parse-date-time
+      (replace #"EET" "UTC+2")
+      (replace #"EEST" "UTC+3")))
+
+(defn localize-dates [form]
+  (let [format-date         (fn [date]
+                              (if-let [parsed (parse-date-time date)]
+                                {:fi (f/unparse finnish-format parsed)
+                                 :sv (f/unparse swedish-format parsed)
+                                 :en (replace-eet-eest-with-utc-offset (f/unparse english-format parsed))}
+                                {}))
+        format-date-kws     (fn [tree dates]
+                              (loop [d dates
+                                     t tree]
+                                (if-let [date (first d)]
+                                  (if-let [aika (date t)]
+                                    (recur (rest d)
+                                           (assoc t (keyword (str "formatoitu" (string/capitalize (name date)))) (format-date aika)))
+                                    (recur (rest d)
+                                           t))
+                                  t)))]
+    (postwalk #(-> %
+                   (format-date-kws [:liitteidenToimitusaika :toimitusaika :modified :paattyy :alkaa])) form)))
+
 (defn complete-entry
   [entry]
   (-> entry
@@ -112,7 +160,8 @@
 (defn toteutus->list-item
   [toteutus]
   (-> toteutus
-      (select-keys [:oid :organisaatio :nimi :tila :tarjoajat :muokkaaja :modified :organisaatiot])
+      (select-keys [:oid :organisaatio :tila :tarjoajat :muokkaaja :modified :organisaatiot])
+      (assoc :nimi (get-esitysnimi toteutus))
       (assoc-organisaatiot)))
 
 (defn- create-ataru-link-for-haku

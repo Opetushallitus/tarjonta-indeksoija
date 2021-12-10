@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
             [clojure.string]))
 
 (def index-name "hakukohde-kouta")
@@ -196,7 +197,7 @@
     (indexable/->index-entry oid
                              (-> hakukohde
                                  (set-hakukohde-tila-by-related-haku haku)
-                                 (assoc :nimi (:esitysnimi (:_enrichedData hakukohde)))
+                                 (assoc :nimi (get-esitysnimi hakukohde))
                                  (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
@@ -207,7 +208,8 @@
                                  (assoc-valintaperuste valintaperuste)
                                  (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestava-toimipiste)
                                  (assoc-hakulomake-linkki haku)
-                                 (dissoc :_enrichedData)))))
+                                 (dissoc :_enrichedData)
+                                 (common/localize-dates)))))
 
 (defn do-index
   [oids execution-id]

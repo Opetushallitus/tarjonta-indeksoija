@@ -9,7 +9,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]))
 
 (def index-name "koulutus-kouta-search")
@@ -55,7 +55,7 @@
                  :let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
                  :let [toteutus-metadata (:metadata toteutus)]
                  :let [opetus (get-in toteutus [:metadata :opetus])]]
-             (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+             (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
                               :opetuskieliUrit           (:opetuskieliKoodiUrit opetus)
                               :tarjoajat                 (:tarjoajat toteutus)
                               :oppilaitos                oppilaitos
@@ -63,13 +63,13 @@
                               :koulutusalaUrit           (search-tool/koulutusala-koodi-urit koulutus)
                               :tutkintonimikeUrit        (search-tool/tutkintonimike-koodi-urit koulutus)
                               :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
-                              :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
+                              :nimet                     (vector (:nimi koulutus) (get-esitysnimi toteutus))
                               :hakutiedot                (get-search-hakutiedot hakutieto)
                               :kuva                      (:logo oppilaitos)
                               :asiasanat                 (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                               :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                               :toteutusOid               (:oid toteutus)
-                              :toteutusNimi              (:nimi toteutus)
+                              :toteutusNimi              (get-esitysnimi toteutus)
                               :onkoTuleva                false
                               :nimi                      (:nimi oppilaitos)
                               :lukiopainotukset          (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
@@ -119,7 +119,7 @@
         :hakutiedot (get-search-hakutiedot hakutieto)
         :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
         :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
         :kuva (:logo oppilaitos)
         :nimi (:nimi oppilaitos)
         :onkoTuleva false
@@ -192,7 +192,8 @@
                   (assoc :opintojenLaajuusyksikko (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :hits (:hits koulutus))
-                  (assoc :search_terms (:search_terms koulutus)))]
+                  (assoc :search_terms (:search_terms koulutus))
+                  (common/localize-dates))]
     (cond-> entry
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))

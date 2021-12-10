@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? asiasana->lng-value-map]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
@@ -65,7 +65,7 @@
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
         opetus (get-in toteutus [:metadata :opetus])]
-    (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+    (search-tool/hit :koulutustyypit            (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
                      :opetuskieliUrit           (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                      :tarjoajat                 (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
                      :tarjoajaOids              (:tarjoajat toteutus)
@@ -73,12 +73,12 @@
                      :koulutusalaUrit           (search-tool/koulutusala-koodi-urit koulutus)
                      :tutkintonimikeUrit        (search-tool/tutkintonimike-koodi-urit koulutus)
                      :opetustapaUrit            (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])
-                     :nimet                     (vector (:nimi koulutus) (:nimi toteutus))
+                     :nimet                     (vector (:nimi koulutus) (get-esitysnimi toteutus))
                      :asiasanat                 (asiasana->lng-value-map (get-in toteutus [:metadata :asiasanat]))
                      :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                      :koulutusOid               (:oid koulutus)
                      :toteutusOid               (:oid toteutus)
-                     :nimi                      (:nimi toteutus)
+                     :nimi                      (get-esitysnimi toteutus)
                      :hakutiedot                (get-search-hakutiedot hakutieto)
                      :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimus-koodi-urit hakutieto)
                      :kuva                      (:teemakuva toteutus)
@@ -129,9 +129,9 @@
                               :hakutiedot (get-search-hakutiedot hakutieto)
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata))
+                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
                               :kuva (:teemakuva toteutus)
-                              :nimi (:nimi toteutus)
+                              :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
                               :metadata {:tutkintonimikkeet   (tutkintonimikket-for-toteutus toteutus)
                                          :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)

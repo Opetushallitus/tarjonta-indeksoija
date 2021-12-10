@@ -363,6 +363,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "amm-muu",
         "amm-osaamisala"
       ],
       "terms": {
@@ -437,6 +438,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "amm-muu",
         "amm-tutkinnon-osa"
       ],
       "terms": {
@@ -921,6 +923,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "amm-muu",
         "amm-osaamisala"
       ],
       "koulutus_organisaationimi": {
@@ -988,6 +991,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "amm-muu",
         "amm-tutkinnon-osa"
       ],
       "koulutus_organisaationimi": {
