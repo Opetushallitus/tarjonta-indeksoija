@@ -92,7 +92,7 @@
              :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
              :lukiopainotukset (clean-uris lukiopainotukset)
              :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjaterityinenkoulutustehtava)
-             :ammosaamisalat (clean-uris amm-osaamisalat)}
+             :osaamisala (clean-uris amm-osaamisalat)}
 
       (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
       (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
@@ -429,4 +429,4 @@
        :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
        :lukiopainotukset          (clean-uris lukiopainotukset)
        :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
-       :ammosaamisalat            (clean-uris amm-osaamisalat)})))
+       :osaamisala                (clean-uris amm-osaamisalat)})))
