@@ -27,7 +27,7 @@
   [oids f execution-id]
   (flatten (doall (pmap #(eat-and-log-errors % f execution-id) oids))))
 
-(defn do-index
+(defn- index-chunk
   [index-name oids f execution-id]
   (when-not (empty? oids)
     (let [index-alias (tools/->virkailija-alias index-name)]
@@ -37,6 +37,12 @@
         (bulk index-alias actions)
         (log/info (str "ID: " execution-id " Indeksointi " index-alias " kesti " (- (. System (currentTimeMillis)) start) " ms."))
         (vec (remove nil? (map :doc actions)))))))
+
+(defn do-index
+  [index-name oids f execution-id]
+  (let [chunks (partition-all 10 oids)]
+    (log/info (str "ID: " execution-id " Indeksoidaan indeksiin " index-name " yhteensä " (count oids) " oidia " (count chunks) " palasessa."))
+    (doall (flatten (map #(index-chunk index-name % f execution-id) chunks)))))
 
 (defn get
   [index-name oid & query-params]
