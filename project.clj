@@ -47,10 +47,10 @@
                  ;;Logging
                  [oph/clj-log "0.3.1-SNAPSHOT"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [org.apache.logging.log4j/log4j-slf4j-impl "2.13.2"]
-                 [org.apache.logging.log4j/log4j-api "2.13.2"]
-                 [org.apache.logging.log4j/log4j-core "2.13.2"]
-                 [clj-log4j2 "0.2.0"]
+                 [org.apache.logging.log4j/log4j-slf4j-impl "2.15.0"]
+                 [org.apache.logging.log4j/log4j-api "2.15.0"]
+                 [org.apache.logging.log4j/log4j-core "2.15.0"]
+                 [clj-log4j2 "0.3.0"]
                  [ring-cors "0.1.11"]
                  ;;SQS Handling
                  [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
