@@ -37,7 +37,7 @@
              kuva
              lukiopainotukset
              lukiolinjaterityinenkoulutustehtava
-             amm-osaamisalat
+             osaamisalat
              metadata]
       :or {koulutustyypit []
            opetuskieliUrit []
@@ -60,7 +60,7 @@
            kuva nil
            lukiopainotukset []
            lukiolinjaterityinenkoulutustehtava []
-           amm-osaamisalat []
+           osaamisalat []
            metadata {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) tutkintonimikeUrit))
@@ -92,7 +92,7 @@
              :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
              :lukiopainotukset (clean-uris lukiopainotukset)
              :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjaterityinenkoulutustehtava)
-             :osaamisala (clean-uris amm-osaamisalat)}
+             :osaamisalat (clean-uris osaamisalat)}
 
       (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
       (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
@@ -364,7 +364,7 @@
              nimi
              lukiopainotukset
              lukiolinjat_er
-             amm-osaamisalat
+             osaamisalat
              metadata]
       :or   {koulutus                  []
              toteutus                  []
@@ -379,7 +379,7 @@
              nimi                      {}
              lukiopainotukset          []
              lukiolinjat_er            []
-             amm-osaamisalat           []
+             osaamisalat               []
              metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
@@ -429,4 +429,4 @@
        :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
        :lukiopainotukset          (clean-uris lukiopainotukset)
        :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
-       :osaamisala                (clean-uris amm-osaamisalat)})))
+       :osaamisalat               (clean-uris osaamisalat)})))

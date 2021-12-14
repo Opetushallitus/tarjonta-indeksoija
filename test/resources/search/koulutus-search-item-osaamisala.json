@@ -60,7 +60,7 @@
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisala": [],
+      "osaamisalat": [],
       "metadata": {
         "koulutustyyppi": "yo",
         "oppilaitosTila": "julkaistu",
@@ -115,7 +115,7 @@
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisala": [],
+      "osaamisalat": [],
       "metadata": {
         "koulutustyyppi": "yo",
         "oppilaitosTila": "julkaistu",

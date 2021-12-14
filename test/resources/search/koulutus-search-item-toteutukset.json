@@ -143,7 +143,7 @@
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisala": ["osaamisala_1"],
+      "osaamisalat": ["osaamisala_1"],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
@@ -281,7 +281,7 @@
       "onkoTuleva": false,
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisala": ["osaamisala_0001"],
+      "osaamisalat": ["osaamisala_0001"],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
@@ -395,7 +395,7 @@
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisala": ["osaamisala_1"],
+      "osaamisalat": ["osaamisala_1"],
       "metadata": {
         "tutkintonimikkeet": [
           {
@@ -518,7 +518,7 @@
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisala": ["osaamisala_0001"],
+      "osaamisalat": ["osaamisala_0001"],
       "metadata": {
         "tutkintonimikkeet": [
           {

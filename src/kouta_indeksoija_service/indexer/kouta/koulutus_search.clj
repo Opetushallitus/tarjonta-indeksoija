@@ -74,7 +74,7 @@
                               :nimi                      (:nimi oppilaitos)
                               :lukiopainotukset          (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
                               :lukiolinjaterityinenkoulutustehtava (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
-                              :amm-osaamisalat           (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
+                              :osaamisalat           (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
                               :metadata                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                                                           :opetusajatKoodiUrit        (:opetusaikaKoodiUrit opetus)
                                                           :maksullisuustyyppi         (:maksullisuustyyppi opetus)
@@ -125,7 +125,7 @@
         :onkoTuleva false
         :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
         :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
-        :amm-osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
+        :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
 
         :metadata {:tutkintonimikkeetKoodiUrit                 (search-tool/tutkintonimike-koodi-urit koulutus)
                    :opetusajatKoodiUrit                        (:opetusaikaKoodiUrit opetus)
