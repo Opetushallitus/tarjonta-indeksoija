@@ -68,6 +68,7 @@
                                   [pjstadig/humane-test-output "0.11.0"]]
                    :plugins [[lein-ring "0.12.5"]
                              [jonase/eastwood "0.3.5"]
+                             [lein-zprint "1.2.0"]
                              [lein-kibit "0.1.3" :exclusions [org.clojure/clojure]]
                              [lein-environ "1.1.0"]
                              [lein-cloverage "1.1.1" :exclusions [org.clojure/clojure]]]
@@ -117,4 +118,5 @@
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
   :resource-paths ["resources"]
-  :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"])
+  :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"]
+  :zprint {:width 100 :old? false :style :community :map {:comma? false}})
