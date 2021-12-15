@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koodiuri-viikko-laajuusyksikko koodiuri-osaamispiste-laajuusyksikko]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
@@ -141,15 +141,17 @@
 
 (defn create-index-entry
   [oid]
-  (let [koulutus (kouta-backend/get-koulutus oid)
-        toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))]
-    (indexable/->index-entry oid (-> koulutus
-                                     (common/complete-entry)
-                                     (common/assoc-organisaatiot)
-                                     (enrich-metadata)
-                                     (assoc-sorakuvaus)
-                                     (assoc :toteutukset (map common/toteutus->list-item toteutukset))
-                                     (common/localize-dates)))))
+  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))]
+    (if (not-poistettu? koulutus)
+      (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))
+            koulutus-enriched (-> koulutus
+                                  (common/assoc-organisaatiot)
+                                  (enrich-metadata)
+                                  (assoc-sorakuvaus)
+                                  (assoc :toteutukset (map common/toteutus->list-item toteutukset))
+                                  (common/localize-dates))]
+        (indexable/->index-entry oid koulutus-enriched koulutus-enriched))
+      (indexable/->delete-entry oid koulutus))))
 
 (defn do-index
   [oids execution-id]

@@ -63,6 +63,28 @@
       (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
 
+(deftest delete-non-existing-koulutus
+  (fixture/with-mocked-indexing
+   (testing "Indexer should delete non-existing koulutus from index"
+     (check-all-nil)
+     (fixture/update-koulutus-mock koulutus-oid2 :tila "julkaistu")
+     (i/index-koulutukset [koulutus-oid koulutus-oid2] (. System (currentTimeMillis)))
+     (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
+     (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid2))))
+     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+     (is (= koulutus-oid2 (:oid (get-doc koulutus-search/index-name koulutus-oid2))))
+     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos2 :koulutusOid koulutus-oid2)))
+     (fixture/update-koulutus-mock koulutus-oid2 :tila "tallennettu")
+     (fixture/update-koulutus-mock koulutus-oid2 :tila "poistettu")
+     (i/index-koulutukset [koulutus-oid koulutus-oid2] (. System (currentTimeMillis)))
+     (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
+     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+     (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
+     (is (nil? (get-doc koulutus-search/index-name koulutus-oid2)))
+     (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos2 :koulutusOid koulutus-oid2))))))
+
 (def tutkinnon-osa-koulutusala1
   {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_07"
    :nimi {:fi "Tekniikan alat"

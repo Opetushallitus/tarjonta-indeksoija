@@ -21,7 +21,10 @@
    [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]))
 
 (def koulutus-oid "1.2.246.562.13.00000000000000000001")
+(def koulutus-oid2 "1.2.246.562.13.00000000000000000002")
 (def toteutus-oid "1.2.246.562.17.00000000000000000001")
+(def toteutus-oid2 "1.2.246.562.17.00000000000000000002")
+(def toteutus-oid3 "1.2.246.562.17.00000000000000000003")
 (def haku-oid "1.2.246.562.29.00000000000000000001")
 (def hakukohde-oid "1.2.246.562.20.00000000000000000001")
 (def hakukohde-oid2 "1.2.246.562.20.00000000000000000002")
@@ -90,9 +93,13 @@
   []
   (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
   (is (nil? (get-doc koulutus/index-name koulutus-oid)))
+  (is (nil? (get-doc koulutus/index-name koulutus-oid2)))
   (is (nil? (get-doc toteutus/index-name toteutus-oid)))
   (is (nil? (get-doc haku/index-name haku-oid)))
+  (is (nil? (get-doc haku/index-name ei-julkaistu-haku-oid)))
   (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
+  (is (nil? (get-doc hakukohde/index-name hakukohde-oid2)))
+  (is (nil? (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))
   (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))
   (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid)))
   (is (nil? (get-doc oppilaitos/index-name mocks/Oppilaitos1)))
@@ -109,6 +116,10 @@
   [search-index oid key expected]
   (count (filter-hits-by-key search-index oid key expected)))
 
+(defn hit-key-not-empty
+  [search-index oid key]
+  (not (nil? (seq (some #(get % key) (:hits (get-doc search-index oid)))))))
+
 (defn- add-mock-kouta-data
   []
   (fixture/add-koulutus-mock koulutus-oid
@@ -120,6 +131,15 @@
                              :modified "2019-01-31T09:11:23"
                              :tarjoajat "1.2.246.562.10.54545454545")
 
+  (fixture/add-koulutus-mock koulutus-oid2
+                             :tila "tallennettu"
+                             :nimi "Autoalan perustutkinto 1"
+                             :muokkaaja "1.2.246.562.24.62301161440"
+                             :sorakuvausId sorakuvaus-id
+                             :julkinen "true"
+                             :modified "2021-11-16T08:55:23"
+                             :tarjoajat "1.2.246.562.10.55555555555")
+
   (fixture/add-toteutus-mock toteutus-oid
                              koulutus-oid
                              :tila "arkistoitu"
@@ -128,7 +148,7 @@
                              :modified "2019-02-01T13:16:23"
                              :tarjoajat (str mocks/Toimipiste1OfOppilaitos1 "," mocks/Toimipiste2OfOppilaitos1))
 
-  (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000002"
+  (fixture/add-toteutus-mock toteutus-oid2
                              koulutus-oid
                              :tila "julkaistu"
                              :nimi "Koulutuksen 0 toteutus 1"
@@ -136,7 +156,7 @@
                              :modified "2019-02-01T13:16:23"
                              :tarjoajat mocks/Toimipiste1OfOppilaitos1)
 
-  (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000003"
+  (fixture/add-toteutus-mock toteutus-oid3
                              koulutus-oid
                              :tila "julkaistu"
                              :nimi "Koulutuksen 0 toteutus 2"
@@ -162,7 +182,7 @@
                               :jarjestyspaikkaOid default-jarjestyspaikka-oid)
 
   (fixture/add-hakukohde-mock hakukohde-oid2
-                              "1.2.246.562.17.00000000000000000003"
+                              toteutus-oid3
                               haku-oid
                               :tila "julkaistu"
                               :valintaperuste valintaperuste-id
@@ -181,14 +201,16 @@
                          :modified "2021-10-27T14:44:44")
 
   (fixture/add-hakukohde-mock ei-julkaistun-haun-julkaistu-hakukohde-oid
-                              "1.2.246.562.17.00000000000000000003"
+                              toteutus-oid3
                               ei-julkaistu-haku-oid
                               :tila "julkaistu"
                               :valintaperuste valintaperuste-id
                               :nimi "Ei julkaistun haun julkaistu hakukohde"
                               :muokkaaja "1.2.246.562.24.62301161440"
+                              :hakuaikaAlkaa "2022-10-10T12:00"
+                              :hakuaikaPaattyy "2080-11-10T12:00"
                               :modified "2021-10-27T14:44:44"
-                              :jarjestyspaikkaOid default-jarjestyspaikka-oid)
+                              :jarjestyspaikkaOid "1.2.246.562.10.54545454545")
 
   (fixture/add-sorakuvaus-mock sorakuvaus-id
                                :tila "arkistoitu"
