@@ -180,5 +180,9 @@
       }
     }
   ],
-  "timestamp": 1571294237902
+  "timestamp": 1571294237902,
+  "toteutustenTarjoajat": {
+    "count": 0,
+    "nimi": null
+  }
 }
