@@ -29,7 +29,7 @@ before_script:
   - docker pull localstack/localstack:0.10.2
 
 script:
-  - lein -U ci-test
+  #- lein -U ci-test
   - lein uberjar
 
   - mv target/kouta-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
