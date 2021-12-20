@@ -47,9 +47,9 @@
                  ;;Logging
                  [oph/clj-log "0.3.1-SNAPSHOT"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [org.apache.logging.log4j/log4j-slf4j-impl "2.16.0"]
-                 [org.apache.logging.log4j/log4j-api "2.16.0"]
-                 [org.apache.logging.log4j/log4j-core "2.16.0"]
+                 [org.apache.logging.log4j/log4j-slf4j-impl "2.17.0"]
+                 [org.apache.logging.log4j/log4j-api "2.17.0"]
+                 [org.apache.logging.log4j/log4j-core "2.17.0"]
                  [clj-log4j2 "0.3.0"]
                  [ring-cors "0.1.11"]
                  ;;SQS Handling
