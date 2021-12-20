@@ -60,11 +60,24 @@
 
 (deftest index-valintaperuste-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index valintaperuste to valintaperuste index"
+   (testing "Indexer should index valintaperuste to valintaperuste index and related hakukohde to hakukohde index"
      (check-all-nil)
      (i/index-valintaperusteet [valintaperuste-id] (. System (currentTimeMillis)))
      (compare-json (no-timestamp (json "kouta-valintaperuste-result"))
-                   (no-timestamp (get-doc valintaperuste/index-name valintaperuste-id))))))
+                   (no-timestamp (get-doc valintaperuste/index-name valintaperuste-id)))
+     (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
+     (is (= hakukohde-oid2 (:oid (get-doc hakukohde/index-name hakukohde-oid2))))
+     (is (= ei-julkaistun-haun-julkaistu-hakukohde-oid (:oid (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid))))
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "poistettu")
+     (fixture/update-hakukohde-mock hakukohde-oid2 :tila "poistettu")
+     (fixture/update-hakukohde-mock ei-julkaistun-haun-julkaistu-hakukohde-oid :tila "poistettu")
+     (fixture/update-valintaperuste-mock valintaperuste-id :tila "poistettu")
+     (i/index-valintaperusteet [valintaperuste-id] (. System (currentTimeMillis)))
+     (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))
+     (is (nil? (get-doc hakukohde/index-name hakukohde-oid)))
+     (is (nil? (get-doc hakukohde/index-name hakukohde-oid2)))
+     (is (nil? (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))
+     )))
 
 (deftest index-sorakuvaus-test
   (fixture/with-mocked-indexing
@@ -72,8 +85,16 @@
      (check-all-nil)
      (i/index-sorakuvaukset [sorakuvaus-id] (. System (currentTimeMillis)))
      (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
+     (is (= koulutus-oid2 (:oid (get-doc koulutus/index-name koulutus-oid2))))
      (compare-json (no-timestamp (json "kouta-sorakuvaus-result"))
-                   (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id))))))
+                   (no-timestamp (get-doc sorakuvaus/index-name sorakuvaus-id)))
+     (fixture/update-sorakuvaus-mock sorakuvaus-id :tila "poistettu")
+     (fixture/update-koulutus-mock koulutus-oid :tila "poistettu")
+     (fixture/update-koulutus-mock koulutus-oid2 :tila "poistettu")
+     (i/index-sorakuvaukset [sorakuvaus-id] (. System (currentTimeMillis)))
+     (is (nil? (get-doc sorakuvaus/index-name sorakuvaus-id)))
+     (is (nil? (get-doc koulutus/index-name koulutus-oid)))
+     (is (nil? (get-doc koulutus/index-name koulutus-oid2))))))
 
 (defn- add-toteutus-for-oppilaitos []
   (fixture/add-koulutus-mock "1.2.246.562.13.00000000000000000002"
@@ -252,9 +273,9 @@
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
        (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
-(defonce koulutus-oid2   "1.2.246.562.13.00000000000000000099")
-(defonce toteutus-oid2   "1.2.246.562.17.00000000000000000099")
-(defonce oppilaitos-oid2 "1.2.246.562.10.77777777799")
+(defonce koulutus-oid-extra "1.2.246.562.13.00000000000000000099")
+(defonce toteutus-oid-extra "1.2.246.562.17.00000000000000000099")
+(defonce oppilaitos-oid-extra "1.2.246.562.10.77777777799")
 
 (deftest index-all-hakukohteet-test
   (fixture/add-hakukohde-mock hakukohde-oid toteutus-oid haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid mocks/Oppilaitos1)
@@ -273,10 +294,10 @@
        (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-hakukohde-test
-  (fixture/add-koulutus-mock koulutus-oid2 :tarjoajat oppilaitos-oid2)
-  (fixture/add-toteutus-mock toteutus-oid2 koulutus-oid2 :tarjoajat oppilaitos-oid2)
+  (fixture/add-koulutus-mock koulutus-oid-extra :tarjoajat oppilaitos-oid-extra)
+  (fixture/add-toteutus-mock toteutus-oid-extra koulutus-oid-extra :tarjoajat oppilaitos-oid-extra)
   (fixture/add-hakukohde-mock hakukohde-oid toteutus-oid haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid mocks/Oppilaitos1)
-  (fixture/add-hakukohde-mock hakukohde-oid2 toteutus-oid2 haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid oppilaitos-oid2)
+  (fixture/add-hakukohde-mock hakukohde-oid2 toteutus-oid-extra haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid oppilaitos-oid-extra)
 
   (fixture/with-mocked-indexing
    (testing "Indexer should index only hakukohde related koulutus and oppilaitos"
@@ -285,12 +306,12 @@
      (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
      (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
      (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-     (is (= nil (:oid (get-doc toteutus/index-name toteutus-oid2))))
+     (is (= nil (:oid (get-doc toteutus/index-name toteutus-oid-extra))))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= nil (:oid (get-doc koulutus-search/index-name koulutus-oid2))))
+     (is (= nil (:oid (get-doc koulutus-search/index-name koulutus-oid-extra))))
      (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-     (is (= nil (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid2))))
+     (is (= nil (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid-extra))))
      (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
 
 (deftest index-all-haut-test
@@ -309,10 +330,10 @@
      (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
 
 (deftest index-haku-test-2
-  (fixture/add-koulutus-mock koulutus-oid2 :sorakuvausId sorakuvaus-id :tarjoajat oppilaitos-oid2)
-  (fixture/add-toteutus-mock toteutus-oid2 koulutus-oid2 :tarjoajat oppilaitos-oid2)
+  (fixture/add-koulutus-mock koulutus-oid-extra :sorakuvausId sorakuvaus-id :tarjoajat oppilaitos-oid-extra)
+  (fixture/add-toteutus-mock toteutus-oid-extra koulutus-oid-extra :tarjoajat oppilaitos-oid-extra)
   (fixture/add-hakukohde-mock hakukohde-oid toteutus-oid haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid mocks/Oppilaitos1)
-  (fixture/add-hakukohde-mock hakukohde-oid2 toteutus-oid2 haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid oppilaitos-oid2)
+  (fixture/add-hakukohde-mock hakukohde-oid2 toteutus-oid-extra haku-oid :valintaperuste valintaperuste-id :jarjestyspaikkaOid oppilaitos-oid-extra)
 
   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
     (fixture/with-mocked-indexing
@@ -322,11 +343,11 @@
        (is (= haku-oid (:oid (get-doc haku/index-name haku-oid))))
        (is (= hakukohde-oid (:oid (get-doc hakukohde/index-name hakukohde-oid))))
        (is (= toteutus-oid (:oid (get-doc toteutus/index-name toteutus-oid))))
-       (is (= toteutus-oid2 (:oid (get-doc toteutus/index-name toteutus-oid2))))
+       (is (= toteutus-oid-extra (:oid (get-doc toteutus/index-name toteutus-oid-extra))))
        (is (nil? (get-doc koulutus/index-name koulutus-oid)))
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
        (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
-       (is (= oppilaitos-oid2 (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid2))))
+       (is (= oppilaitos-oid-extra (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid-extra))))
        (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-all-valintaperusteet-test

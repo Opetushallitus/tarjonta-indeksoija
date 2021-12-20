@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri julkaistu? set-hakukohde-tila-by-related-haku]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri julkaistu? set-hakukohde-tila-by-related-haku not-poistettu?]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
@@ -181,35 +181,41 @@
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde toimipiste]
   (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (boolean (get-in toimipiste [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))
 
+(defn- assoc-nimi-as-esitysnimi
+  [hakukohde]
+  (assoc hakukohde :nimi (:esitysnimi (:_enrichedData hakukohde))))
+
 (defn create-index-entry
   [oid]
-  (let [hakukohde      (kouta-backend/get-hakukohde oid)
-        haku           (kouta-backend/get-haku (:hakuOid hakukohde))
-        toteutus       (kouta-backend/get-toteutus (:toteutusOid hakukohde))
-        koulutus       (kouta-backend/get-koulutus (:koulutusOid toteutus))
-        sora-kuvaus    (kouta-backend/get-sorakuvaus (:sorakuvausId koulutus))
-        valintaperusteId (:valintaperusteId hakukohde)
-        valintaperuste (when-not (clojure.string/blank? valintaperusteId)
-                         (kouta-backend/get-valintaperuste valintaperusteId))
-        jarjestyspaikkaOid (:jarjestyspaikkaOid hakukohde)
-        jarjestava-toimipiste (when-not (clojure.string/blank? jarjestyspaikkaOid)
-                                (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
-    (indexable/->index-entry oid
-                             (-> hakukohde
-                                 (set-hakukohde-tila-by-related-haku haku)
-                                 (assoc :nimi (get-esitysnimi hakukohde))
-                                 (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
-                                 (assoc-yps haku koulutus)
-                                 (common/complete-entry)
-                                 (assoc-sora-data sora-kuvaus)
-                                 (assoc-onko-harkinnanvarainen-koulutus koulutus)
-                                 (assoc-koulutustyypit toteutus koulutus)
-                                 (assoc-toteutus toteutus)
-                                 (assoc-valintaperuste valintaperuste)
-                                 (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestava-toimipiste)
-                                 (assoc-hakulomake-linkki haku)
-                                 (dissoc :_enrichedData)
-                                 (common/localize-dates)))))
+    (let [hakukohde (-> (kouta-backend/get-hakukohde oid)
+                        (assoc-nimi-as-esitysnimi)
+                        (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
+                        (common/complete-entry))]
+    (if (not-poistettu? hakukohde)
+      (let [haku              (kouta-backend/get-haku (:hakuOid hakukohde))
+            toteutus          (kouta-backend/get-toteutus (:toteutusOid hakukohde))
+            koulutus          (kouta-backend/get-koulutus (:koulutusOid toteutus))
+            sora-kuvaus       (kouta-backend/get-sorakuvaus (:sorakuvausId koulutus))
+            valintaperusteId  (:valintaperusteId hakukohde)
+            valintaperuste    (when-not (clojure.string/blank? valintaperusteId)
+                                (kouta-backend/get-valintaperuste valintaperusteId))
+            jarjestyspaikkaOid (:jarjestyspaikkaOid hakukohde)
+            jarjestava-toimipiste (when-not (clojure.string/blank? jarjestyspaikkaOid)
+                                    (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
+        (indexable/->index-entry oid
+                                 (-> hakukohde
+                                     (assoc-yps haku koulutus)
+                                     (set-hakukohde-tila-by-related-haku haku)
+                                     (assoc-sora-data sora-kuvaus)
+                                     (assoc-onko-harkinnanvarainen-koulutus koulutus)
+                                     (assoc-koulutustyypit toteutus koulutus)
+                                     (assoc-toteutus toteutus)
+                                     (assoc-valintaperuste valintaperuste)
+                                     (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestava-toimipiste)
+                                     (assoc-hakulomake-linkki haku)
+                                     (dissoc :_enrichedData)
+                                     (common/localize-dates)) hakukohde))
+      (indexable/->delete-entry oid hakukohde))))
 
 (defn do-index
   [oids execution-id]

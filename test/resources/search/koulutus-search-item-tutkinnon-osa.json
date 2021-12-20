@@ -161,5 +161,9 @@
   "opintojenLaajuus": null,
   "timestamp": 1601287328081,
   "eperuste": null,
-  "koulutustyyppi": "amm-tutkinnon-osa"
+  "koulutustyyppi": "amm-tutkinnon-osa",
+  "toteutustenTarjoajat": {
+    "count": 0,
+    "nimi": null
+  }
 }

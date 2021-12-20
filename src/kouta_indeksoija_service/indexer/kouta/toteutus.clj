@@ -6,7 +6,8 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]))
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
 
 (def index-name "toteutus-kouta")
 
@@ -100,17 +101,21 @@
 
 (defn create-index-entry
   [oid]
-  (let [toteutus (kouta-backend/get-toteutus oid)
-        hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))]
-    (indexable/->index-entry oid (-> toteutus
-                                     (common/complete-entry)
-                                     (common/assoc-organisaatiot)
-                                     (assoc :nimi (get-esitysnimi toteutus))
-                                     (dissoc :_enrichedData)
-                                     (enrich-metadata)
-                                     (assoc-tarjoajien-oppilaitokset)
-                                     (assoc-hakutiedot hakutiedot)
-                                     (common/localize-dates)))))
+  (let [toteutus (kouta-backend/get-toteutus oid)]
+    (if (not-poistettu? toteutus)
+      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))
+            toteutus-enriched (-> toteutus
+                                  (common/complete-entry)
+                                  (common/assoc-organisaatiot)
+                                  (assoc :nimi (get-esitysnimi toteutus))
+                                  (dissoc :_enrichedData)
+                                  (enrich-metadata)
+                                  (assoc-tarjoajien-oppilaitokset)
+                                  (assoc-hakutiedot hakutiedot)
+                                  (common/localize-dates))]
+
+        (indexable/->index-entry oid toteutus-enriched toteutus-enriched))
+      (indexable/->delete-entry oid toteutus))))
 
 (defn do-index
   [oids execution-id]

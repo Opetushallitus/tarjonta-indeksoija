@@ -154,5 +154,9 @@
   },
   "timestamp": 1600944714227,
   "eperuste": 1234,
-  "koulutustyyppi": "amm-osaamisala"
+  "koulutustyyppi": "amm-osaamisala",
+  "toteutustenTarjoajat": {
+    "count": 0,
+    "nimi": null
+  }
 }

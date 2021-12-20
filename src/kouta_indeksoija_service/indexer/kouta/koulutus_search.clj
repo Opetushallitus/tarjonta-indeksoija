@@ -193,6 +193,21 @@
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))
 
+(defn- assoc-toteutusten-tarjoajat
+  [koulutus toteutukset]
+  (let [tarjoajat (distinct (mapcat (fn [toteutus]
+                                      (let [tarjoaja-oids (:tarjoajat toteutus)]
+                                        (map (fn [tarjoaja-oid]
+                                               (let [hierarkia (cache/get-hierarkia tarjoaja-oid)]
+                                                 (organisaatio-tool/find-oppilaitos-from-hierarkia
+                                                  hierarkia)))
+                                             tarjoaja-oids)))
+                                    toteutukset))]
+    (assoc koulutus
+           :toteutustenTarjoajat
+           {:count (count tarjoajat)
+            :nimi (when-let [tarjoaja (first tarjoajat)] (get-in tarjoaja [:nimi]))})))
+
 (defn create-index-entry
   [oid]
   (let [koulutus (kouta-backend/get-koulutus oid)]
@@ -202,6 +217,7 @@
         (indexable/->index-entry oid (-> koulutus
                                          (assoc-jarjestaja-hits toteutukset hakutiedot)
                                          (assoc-jarjestaja-search-terms toteutukset hakutiedot)
+                                         (assoc-toteutusten-tarjoajat toteutukset)
                                          (create-entry))))
       (indexable/->delete-entry oid))))
 
