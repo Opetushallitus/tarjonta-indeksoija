@@ -17,7 +17,7 @@
                                                         :script {:source "token.getTerm().length() > 5"}}
                        :finnish_raudikko {:type "raudikko"}
                        :finnish_decompound {:type "dictionary_decompounder"
-                                            :word_list_path "/usr/share/elasticsearch/config/sanat.txt"
+                                            :word_list_path "/etc/elasticsearch/sanat.txt"
                                             :min_word_size 5
                                             :min_subword_size 4
                                             :max_subword_size 100
@@ -52,6 +52,12 @@
                                                   "finnish_stop"
                                                   "remove_duplicates"]}
                          :finnish_lemmatizer {:type "custom"
+                                              :tokenizer "finnish"
+                                              :filter ["lowercase"
+                                                       "finnish_stop"
+                                                       "finnish_raudikko"
+                                                       "remove_duplicates"]}
+                         :finnish_lemmatizer_with_decompound {:type "custom"
                                               :tokenizer "finnish"
                                               :filter ["lowercase"
                                                        "finnish_stop"
@@ -193,11 +199,11 @@
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "finnish"
+                                       :analyzer "finnish_lemmatizer"
                                        :search_analyzer "finnish_keyword"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
-                                                :lemmatizer {:type "text" :analyzer "finnish_lemmatizer"}
+                                                :decompound {:type "text" :analyzer "finnish_lemmatizer_with_decompound"}
                                                 :words { :type "text" :analyzer "finnish_words"}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
