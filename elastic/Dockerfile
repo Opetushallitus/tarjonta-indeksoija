@@ -1,8 +1,11 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.16.2
 
-COPY sanat.txt /usr/share/elasticsearch/config
-RUN chmod 660 /usr/share/elasticsearch/config/sanat.txt
-RUN chown elasticsearch /usr/share/elasticsearch/config/sanat.txt
-RUN ls -l /tmp
+ADD decompound /usr/share/elasticsearch/config/decompound
+RUN chmod -R 755 /usr/share/elasticsearch/config/decompound
+RUN chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/config/decompound
 
-RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/EvidentSolutions/elasticsearch-analysis-raudikko/releases/download/v0.1/elasticsearch-analysis-raudikko-0.1-es7.10.0.zip
+ADD hunspell /usr/share/elasticsearch/config/hunspell
+RUN chmod -R 755 /usr/share/elasticsearch/config/hunspell
+RUN chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/config/hunspell
+
+RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/Opetushallitus/elasticsearch-analysis-raudikko/releases/download/v0.1/elasticsearch-analysis-raudikko-0.1-es7.16.2.zip
