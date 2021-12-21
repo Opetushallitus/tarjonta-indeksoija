@@ -16,8 +16,9 @@
                                                         :filter ["finnish_stemmer"]
                                                         :script {:source "token.getTerm().length() > 5"}}
                        :finnish_raudikko {:type "raudikko"}
-                       :finnish_decompound {:type "dictionary_decompounder"
-                                            :word_list_path "/etc/elasticsearch/sanat.txt"
+                       :finnish_decompound {:type "hyphenation_decompounder"
+                                            :hyphenation_patterns_path "decompound/fi/hyphenation.xml"
+                                            :word_list_path "decompound/fi/words.txt"
                                             :min_word_size 5
                                             :min_subword_size 4
                                             :max_subword_size 100
@@ -29,6 +30,8 @@
                        :swedish_stemmer_for_long_words {:type "condition"
                                                         :filter ["swedish_stemmer"]
                                                         :script {:source "token.getTerm().length() > 5"}}
+                       :swedish_hunspell {:type "hunspell"
+                                          :locale "sv"}
                        :english_stop {:type "stop"
                                       :stopwords "_english_"}
                        :english_keywords {:type "keyword_marker"
@@ -76,6 +79,12 @@
                                          :tokenizer "standard"
                                          :filter ["lowercase"
                                                   "swedish_stop"
+                                                  "remove_duplicates"]}
+                         :swedish_hunspell {:type "custom"
+                                         :tokenizer "standard"
+                                         :filter ["lowercase"
+                                                  "swedish_stop"
+                                                  "swedish_hunspell"
                                                   "remove_duplicates"]}
                          :swedish_keyword {:type "custom"
                                            :tokenizer "standard"
@@ -199,7 +208,7 @@
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "swedish"
+                                       :analyzer "swedish_hunspell"
                                        :search_analyzer "swedish_keyword"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
