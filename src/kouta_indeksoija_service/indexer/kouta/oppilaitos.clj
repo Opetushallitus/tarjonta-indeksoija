@@ -41,17 +41,20 @@
     (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
                                                          (common/complete-entry)
                                                          (dissoc :oppilaitosOid :oid)))))
+
 (defn create-kielistetty-yhteystieto
-  [yhteystieto yhteystieto-name languages]
-  (into {} (for [lang languages
-                 :let [result (yhteystieto-name
-                                (first
-                                  (filter
-                                    (fn [yhteystieto-map]
-                                      (re-find (re-pattern lang) (:kieli yhteystieto-map)))
-                                    yhteystieto)))]
-                 :when (not (nil? result))]
-             [(keyword lang) result])))
+  [yhteystieto-group yhteystieto-keyword languages]
+  (into
+    {}
+    (for [lang languages
+          :let [yhteystieto (yhteystieto-keyword
+                              (first
+                                (filter
+                                  (fn [entry]
+                                    (re-find (re-pattern (str "kieli_" lang)) (:kieli entry)))
+                                  yhteystieto-group)))]
+          :when (not (nil? yhteystieto))]
+      [(keyword lang) yhteystieto])))
 
 (defn create-kielistetty-osoitetieto
   [osoitetieto languages]
@@ -66,20 +69,18 @@
         postiosoitteet (filter (fn [yhteystieto] (= "posti" (get-in yhteystieto [:osoiteTyyppi]))) yhteystiedot)
         kayntiosoitteet (filter (fn [yhteystieto] (= "kaynti" (get-in yhteystieto [:osoiteTyyppi]))) yhteystiedot)]
   [{:nimi (:nimi response)
-   :sahkoposti (create-kielistetty-yhteystieto sahkopostit :email languages)
-   :puhelinnumero (create-kielistetty-yhteystieto puhelinnumerot :numero languages)
-   :postiosoite (create-kielistetty-osoitetieto postiosoitteet languages)
-   :kayntiosoite (create-kielistetty-osoitetieto kayntiosoitteet languages)
-   }]))
+    :sahkoposti (create-kielistetty-yhteystieto sahkopostit :email languages)
+    :puhelinnumero (create-kielistetty-yhteystieto puhelinnumerot :numero languages)
+    :postiosoite (create-kielistetty-osoitetieto postiosoitteet languages)
+    :kayntiosoite (create-kielistetty-osoitetieto kayntiosoitteet languages)}]))
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
   (let [org-from-organisaatio-palvelu (organisaatio-client/get-by-oid-cached (:oid organisaatio))
-       yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)]
+        yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)]
     (-> organisaatio
         (assoc :status (:status org-from-organisaatio-palvelu))
-        (assoc-in [:metadata :yhteystiedot] yhteystiedot))
-    ))
+        (assoc-in [:metadata :yhteystiedot] yhteystiedot))))
 
 (defn- oppilaitos-entry-with-osat
   [organisaatio]
@@ -91,8 +92,7 @@
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
         oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid))
         koulutukset (kouta-backend/get-koulutukset-by-tarjoaja (:oid organisaatio))
-        find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))
-        ]
+        find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
     (-> (oppilaitos-entry organisaatio enriched-oppilaitos koulutukset)
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))

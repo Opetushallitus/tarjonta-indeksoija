@@ -61,6 +61,15 @@
     (let [sahkoposti [{:kieli "kieli_en#1" :email "admissions@aalto.fi"}]]
       (is (= {:en "admissions@aalto.fi"}
              (oppilaitos/create-kielistetty-yhteystieto sahkoposti :email languages)))))
+
+  (testing "returns kielistetty sahkoposti with all languages"
+    (let [sahkoposti [{:kieli "kieli_en#1" :email "admissions@aalto.fi"}
+                      {:kieli "kieli_fi#1" :email "hakijapalvelut@aalto.fi"}
+                      {:kieli "kieli_sv#1" :email "ansokningsservice@aalto.fi"}]]
+      (is (= {:en "admissions@aalto.fi"
+              :fi "hakijapalvelut@aalto.fi"
+              :sv "ansokningsservice@aalto.fi"}
+             (oppilaitos/create-kielistetty-yhteystieto sahkoposti :email languages)))))
   )
 
 (deftest create-kielistetty-osoitetieto
