@@ -226,8 +226,9 @@
                                        :search_analyzer "finnish_lemmatizer"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
-                                                :decompound {:type "text" :analyzer "finnish_lemmatizer_with_decompound"}
-                                                :words { :type "text" :analyzer "finnish_words"}}}}}
+                                                :decompound {:type "text"
+                                                             :analyzer "finnish_lemmatizer_with_decompound"
+                                                             :search_analyzer "finnish_lemmatizer"}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
@@ -235,8 +236,9 @@
                                        :search_analyzer "swedish_hunspell"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
-                                                :decompound {:type "text" :analyzer "swedish_hunspell_with_decompound"}
-                                                :words { :type "text" :analyzer "swedish_words"}}}}}
+                                                :decompound {:type "text"
+                                                             :analyzer "swedish_hunspell_with_decompound"
+                                                             :search_analyzer "swedish_hunspell"}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
