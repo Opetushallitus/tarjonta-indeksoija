@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
  "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "9.2.0-SNAPSHOT"
+(defproject kouta-indeksoija-service "9.3.0-SNAPSHOT"
   :description "Kouta-indeksoija"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username

@@ -35,6 +35,9 @@
              onkoTuleva
              nimi
              kuva
+             lukiopainotukset
+             lukiolinjaterityinenkoulutustehtava
+             osaamisalat
              metadata]
       :or {koulutustyypit []
            opetuskieliUrit []
@@ -55,6 +58,9 @@
            onkoTuleva nil
            nimi {}
            kuva nil
+           lukiopainotukset []
+           lukiolinjaterityinenkoulutustehtava []
+           osaamisalat []
            metadata {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) tutkintonimikeUrit))
@@ -83,7 +89,10 @@
              :terms {:fi (terms :fi)
                      :sv (terms :sv)
                      :en (terms :en)}
-             :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))}
+             :metadata (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
+             :lukiopainotukset (clean-uris lukiopainotukset)
+             :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjaterityinenkoulutustehtava)
+             :osaamisalat (clean-uris osaamisalat)}
 
       (not (nil? koulutusOid))    (assoc :koulutusOid koulutusOid)
       (not (nil? toteutusOid))    (assoc :toteutusOid toteutusOid)
@@ -353,6 +362,9 @@
              kuva
              onkoTuleva
              nimi
+             lukiopainotukset
+             lukiolinjat_er
+             osaamisalat
              metadata]
       :or   {koulutus                  []
              toteutus                  []
@@ -365,6 +377,9 @@
              kuva                      nil
              onkoTuleva                nil
              nimi                      {}
+             lukiopainotukset          []
+             lukiolinjat_er            []
+             osaamisalat               []
              metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
@@ -411,4 +426,7 @@
        :onkoTuleva                onkoTuleva
        :kuva                      kuva
        :nimi                      (not-empty nimi)
-       :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))})))
+       :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
+       :lukiopainotukset          (clean-uris lukiopainotukset)
+       :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
+       :osaamisalat               (clean-uris osaamisalat)})))
