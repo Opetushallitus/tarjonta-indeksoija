@@ -10,6 +10,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
 
 (def index-name "oppilaitos-kouta")
+(def languages ["fi" "en" "sv"])
 
 (defn- organisaatio-entry
   [organisaatio]
@@ -74,7 +75,7 @@
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
   (let [org-from-organisaatio-palvelu (organisaatio-client/get-by-oid-cached (:oid organisaatio))
-       yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu ["fi", "sv", "en"])]
+       yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)]
     (-> organisaatio
         (assoc :status (:status org-from-organisaatio-palvelu))
         (assoc-in [:metadata :yhteystiedot] yhteystiedot))
@@ -85,11 +86,7 @@
   (let [oppilaitos-oid (:oid organisaatio)
         oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
         oppilaitos-from-organisaatiopalvelu (organisaatio-client/get-by-oid-cached oppilaitos-oid)
-        oppilaitos-languages (distinct
-                               (for [yhteystieto (get-in oppilaitos-from-organisaatiopalvelu [:yhteystiedot])
-                                     :let [language (get-in yhteystieto [:kieli])]]
-                                 (let [[_ lang] (re-find #"_(.+)#" language)] lang)))
-        yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu oppilaitos-languages)
+        yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
         oppilaitos-metadata (assoc (get-in oppilaitos [:metadata]) :yhteystiedot yhteystiedot)
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
         oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid))
