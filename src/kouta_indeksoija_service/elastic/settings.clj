@@ -32,6 +32,13 @@
                                                         :script {:source "token.getTerm().length() > 5"}}
                        :swedish_hunspell {:type "hunspell"
                                           :locale "sv"}
+                       :swedish_decompound {:type "hyphenation_decompounder"
+                                            :hyphenation_patterns_path "decompound/sv/hyphenation.xml"
+                                            :word_list_path "decompound/sv/words.txt"
+                                            :min_word_size 5
+                                            :min_subword_size 4
+                                            :max_subword_size 100
+                                            :only_longest_match false}
                        :english_stop {:type "stop"
                                       :stopwords "_english_"}
                        :english_keywords {:type "keyword_marker"
@@ -89,6 +96,13 @@
                                                   "swedish_stop"
                                                   "swedish_hunspell"
                                                   "remove_duplicates"]}
+                         :swedish_hunspell_with_decompound {:type "custom"
+                                                            :tokenizer "standard"
+                                                            :filter ["lowercase"
+                                                                     "swedish_stop"
+                                                                     "swedish_hunspell"
+                                                                     "swedish_decompound"
+                                                                     "remove_duplicates"]}
                          :swedish_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
@@ -209,7 +223,7 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "finnish_lemmatizer"
-                                       :search_analyzer "finnish_keyword"
+                                       :search_analyzer "finnish_lemmatizer"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
                                                 :decompound {:type "text" :analyzer "finnish_lemmatizer_with_decompound"}
@@ -218,9 +232,10 @@
                              :match_mapping_type "string"
                              :mapping {:type "text"
                                        :analyzer "swedish_hunspell"
-                                       :search_analyzer "swedish_keyword"
+                                       :search_analyzer "swedish_hunspell"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
+                                                :decompound {:type "text" :analyzer "swedish_hunspell_with_decompound"}
                                                 :words { :type "text" :analyzer "swedish_words"}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
