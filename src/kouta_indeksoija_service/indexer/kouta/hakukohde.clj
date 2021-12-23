@@ -198,6 +198,7 @@
                              (-> hakukohde
                                  (set-hakukohde-tila-by-related-haku haku)
                                  (assoc :nimi (get-esitysnimi hakukohde))
+                                 (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                  (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                                  (assoc-yps haku koulutus)
                                  (common/complete-entry)
