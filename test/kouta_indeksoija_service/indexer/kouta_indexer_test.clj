@@ -29,6 +29,12 @@
   [oid & {:as params}]
   (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json")))
 
+(defn mock-organisaatio
+  [oid & {:as params}]
+  (println "mock-organisaatio")
+  (println oid)
+  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-v4.json")))
+
 (defn mock-organisaatio-hierarkia-v4
   [oid]
   (kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-organisaatio-hierarkia-v4 oid))
@@ -87,7 +93,7 @@
 (deftest index-oppilaitos-test
   (fixture/with-mocked-indexing
    (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
-                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached mock-organisaatio]
      (testing "Indexer should index oppilaitos and it's osat to oppilaitos index"
        (check-all-nil)
        (add-toteutus-for-oppilaitos)
@@ -98,7 +104,7 @@
 (deftest index-oppilaitos-test-2
  (fixture/with-mocked-indexing
   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
-                kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
+                kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached mock-organisaatio]
     (testing "Indexer should index oppilaitos and it's osat to oppilaitos index when given oppilaitoksen osa oid"
       (check-all-nil)
       (add-toteutus-for-oppilaitos)
