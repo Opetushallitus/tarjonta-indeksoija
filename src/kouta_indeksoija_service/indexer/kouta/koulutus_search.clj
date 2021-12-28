@@ -200,15 +200,20 @@
       (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (-> koulutus (search-tool/tutkinnon-osat) (common/decorate-koodi-uris)))
       (amm-osaamisala? koulutus)    (merge (common/decorate-koodi-uris {:osaamisalaKoodiUri (-> koulutus (search-tool/osaamisala-koodi-uri))})))))
 
-(defn- assoc-toteutusten-tarjoajat [koulutus toteutukset]
-  (let [tarjoaja-oids (distinct (mapcat (fn [t] (:tarjoajat t)) toteutukset))
-        tarjoaja-count (count tarjoaja-oids)]
-    (assoc koulutus :toteutustenTarjoajat {:count tarjoaja-count
-                                           :nimi (when (= tarjoaja-count 1)
-                                                   (let [oid (first tarjoaja-oids)
-                                                         hierarkia (cache/get-hierarkia oid)
-                                                         org (organisaatio-tool/find-from-hierarkia hierarkia oid)]
-                                                     (get-in org [:nimi])))})))
+(defn- assoc-toteutusten-tarjoajat
+  [koulutus toteutukset]
+  (let [tarjoajat (distinct (mapcat (fn [toteutus]
+                                      (let [tarjoaja-oids (:tarjoajat toteutus)]
+                                        (map (fn [tarjoaja-oid]
+                                               (let [hierarkia (cache/get-hierarkia tarjoaja-oid)]
+                                                 (organisaatio-tool/find-oppilaitos-from-hierarkia
+                                                  hierarkia)))
+                                             tarjoaja-oids)))
+                                    toteutukset))]
+    (assoc koulutus
+           :toteutustenTarjoajat
+           {:count (count tarjoajat)
+            :nimi (when-let [tarjoaja (first tarjoajat)] (get-in tarjoaja [:nimi]))})))
 
 (defn create-index-entry
   [oid]
