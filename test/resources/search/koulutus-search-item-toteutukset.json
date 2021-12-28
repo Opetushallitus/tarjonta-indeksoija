@@ -630,5 +630,9 @@
   ],
   "timestamp": 1621942122314,
   "eperuste": 1234,
-  "koulutustyyppi": "amm"
+  "koulutustyyppi": "amm",
+  "toteutustenTarjoajat": {
+    "count": 2,
+    "nimi": null
+  }
 }
