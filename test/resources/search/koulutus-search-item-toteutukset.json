@@ -630,5 +630,12 @@
   ],
   "timestamp": 1621942122314,
   "eperuste": 1234,
-  "koulutustyyppi": "amm"
+  "koulutustyyppi": "amm",
+  "toteutustenTarjoajat": {
+    "count": 1,
+    "nimi": {
+      "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+      "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+    }
+  }
 }
