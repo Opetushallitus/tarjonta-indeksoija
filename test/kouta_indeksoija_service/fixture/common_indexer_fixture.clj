@@ -118,7 +118,7 @@
 
 (defn hit-key-not-empty
   [search-index oid key]
-  (not (nil? (seq (some #(get % key) (:hits (get-doc search-index oid)))))))
+  (some? (seq (some (fn [h] (get h key)) (:hits (get-doc search-index oid))))))
 
 (defn- add-mock-kouta-data
   []
