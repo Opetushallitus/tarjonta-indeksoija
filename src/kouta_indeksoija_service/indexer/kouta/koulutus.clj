@@ -150,8 +150,8 @@
                                   (assoc-sorakuvaus)
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
                                   (common/localize-dates))]
-        (indexable/->index-entry oid koulutus-enriched koulutus-enriched))
-      (indexable/->delete-entry oid koulutus))))
+        (indexable/->index-entry-with-forwarded-data oid koulutus-enriched koulutus-enriched))
+      (indexable/->delete-entry-with-forwarded-data oid koulutus))))
 
 (defn do-index
   [oids execution-id]

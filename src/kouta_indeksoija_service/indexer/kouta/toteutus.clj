@@ -114,8 +114,8 @@
                                   (assoc-hakutiedot hakutiedot)
                                   (common/localize-dates))]
 
-        (indexable/->index-entry oid toteutus-enriched toteutus-enriched))
-      (indexable/->delete-entry oid toteutus))))
+        (indexable/->index-entry-with-forwarded-data oid toteutus-enriched toteutus-enriched))
+      (indexable/->delete-entry-with-forwarded-data oid toteutus))))
 
 (defn do-index
   [oids execution-id]

@@ -10,8 +10,8 @@
   [id]
   (let [sorakuvaus (kouta-backend/get-sorakuvaus id)]
     (if (not-poistettu? sorakuvaus)
-      (indexable/->index-entry id (common/complete-entry sorakuvaus) sorakuvaus)
-      (indexable/->delete-entry id sorakuvaus))))
+      (indexable/->index-entry-with-forwarded-data id (common/complete-entry sorakuvaus) sorakuvaus)
+      (indexable/->delete-entry-with-forwarded-data id sorakuvaus))))
 
 (defn do-index
   [ids execution-id]

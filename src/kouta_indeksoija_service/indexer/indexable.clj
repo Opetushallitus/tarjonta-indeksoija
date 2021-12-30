@@ -3,17 +3,21 @@
   (:require [kouta-indeksoija-service.elastic.tools :as tools]
             [clojure.tools.logging :as log]))
 
+(defn ->index-entry-with-forwarded-data
+  [id doc forwarded-data]
+  (when doc (tools/->index-action id doc forwarded-data)))
+
 (defn ->index-entry
-  ([id doc forwarded-data]
-   (when doc (tools/->index-action id doc forwarded-data)))
-  ([id doc]
-  (->index-entry id doc nil)))
+  [id doc]
+  (when doc (tools/->index-action id doc nil)))
+
+(defn ->delete-entry-with-forwarded-data
+  [id forwarded-data]
+  (tools/->delete-action id forwarded-data))
 
 (defn ->delete-entry
-  ([id forwarded-data]
-   (tools/->delete-action id forwarded-data))
-  ([id]
-    (->delete-entry id nil)))
+  [id]
+  (tools/->delete-action id nil))
 
 (defn- bulk
   [index-name actions]

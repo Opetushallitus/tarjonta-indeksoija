@@ -22,11 +22,11 @@
                                                   (common/complete-entry)
                                                   (assoc-toteutus)))
                                      (filter general/not-poistettu? hakukohde-list-raw)))]
-            (indexable/->index-entry oid (-> haku
+            (indexable/->index-entry-with-forwarded-data oid (-> haku
                                        (assoc :hakukohteet hakukohde-list)
                                         (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
                                           (common/localize-dates)) haku))
-      (indexable/->delete-entry oid haku))))
+      (indexable/->delete-entry-with-forwarded-data oid haku))))
 
 (defn do-index
   [oids execution-id]

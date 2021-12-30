@@ -10,8 +10,8 @@
   [id]
   (let [valintaperuste (common/complete-entry (kouta-backend/get-valintaperuste id))]
     (if (not-poistettu? valintaperuste)
-      (indexable/->index-entry id valintaperuste valintaperuste)
-      (indexable/->delete-entry id valintaperuste))))
+      (indexable/->index-entry-with-forwarded-data id valintaperuste valintaperuste)
+      (indexable/->delete-entry-with-forwarded-data id valintaperuste))))
 
 (defn do-index
   [oids execution-id]

@@ -183,7 +183,7 @@
 
 (defn- assoc-nimi-as-esitysnimi
   [hakukohde]
-  (assoc hakukohde :nimi (:esitysnimi (:_enrichedData hakukohde))))
+  (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
 
 (defn create-index-entry
   [oid]
@@ -202,7 +202,7 @@
             jarjestyspaikkaOid (:jarjestyspaikkaOid hakukohde)
             jarjestava-toimipiste (when-not (clojure.string/blank? jarjestyspaikkaOid)
                                     (kouta-backend/get-oppilaitoksen-osa jarjestyspaikkaOid))]
-        (indexable/->index-entry oid
+        (indexable/->index-entry-with-forwarded-data oid
                                  (-> hakukohde
                                      (assoc-yps haku koulutus)
                                      (set-hakukohde-tila-by-related-haku haku)
@@ -215,7 +215,7 @@
                                      (assoc-hakulomake-linkki haku)
                                      (dissoc :_enrichedData)
                                      (common/localize-dates)) hakukohde))
-      (indexable/->delete-entry oid hakukohde))))
+      (indexable/->delete-entry-with-forwarded-data oid hakukohde))))
 
 (defn do-index
   [oids execution-id]
