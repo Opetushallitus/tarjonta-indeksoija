@@ -132,14 +132,14 @@
   (spit "test/resources/kouta/lk-toteutus-metadata.json" (generate-string (->keywordized-json (.lukioToteutusMetadata KoutaFixture)) {:pretty true}))
 )
 
-(defonce default-koulutus-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json"))))
-(defonce default-toteutus-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-toteutus.json"))))
-(defonce default-haku-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-haku.json"))))
-(defonce default-hakukohde-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-hakukohde.json"))))
-(defonce default-valintaperuste-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-valintaperuste.json"))))
-(defonce default-sorakuvaus-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-sorakuvaus.json"))))
-(defonce default-oppilaitos-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json"))))
-(defonce default-oppilaitoksen-osa-map (fix-default-format (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json"))))
+(defonce default-koulutus-map (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json")))
+(defonce default-toteutus-map (->keywordized-json (slurp "test/resources/kouta/default-toteutus.json")))
+(defonce default-haku-map (->keywordized-json (slurp "test/resources/kouta/default-haku.json")))
+(defonce default-hakukohde-map (->keywordized-json (slurp "test/resources/kouta/default-hakukohde.json")))
+(defonce default-valintaperuste-map (->keywordized-json (slurp "test/resources/kouta/default-valintaperuste.json")))
+(defonce default-sorakuvaus-map (->keywordized-json (slurp "test/resources/kouta/default-sorakuvaus.json")))
+(defonce default-oppilaitos-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json")))
+(defonce default-oppilaitoksen-osa-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
 
 (defonce lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
 
