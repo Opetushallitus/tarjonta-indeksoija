@@ -40,7 +40,7 @@
   (fixture/with-mocked-indexing
     (testing "Indexer should index eperuste with koulutus"
       (let [eperuste-id 12345]
-        (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
+        (fixture/update-koulutus-mock koulutus-oid :ePerusteId eperuste-id)
         (check-all-nil)
         (is (nil? (eperuste/get-from-index eperuste-id)))
         (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
@@ -115,7 +115,7 @@
         (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
         (let [koulutus (get-doc koulutus/index-name koulutus-oid)
               koulutusalat (get-in koulutus [:metadata :koulutusala])]
-          (is (= (count koulutusalat) 2))
+          (is (= 2 (count koulutusalat)))
           (is (-> koulutusalat first :nimi :fi) "Tekniikan alat")
           (is (-> koulutusalat last :nimi :fi) "Palvelualat"))))))
 
@@ -201,8 +201,8 @@
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
             tutkintonimikkeet (get-in koulutus [:metadata :tutkintonimike])]
-        (is (= (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri]) "opintojenlaajuusyksikko_2#1"))
-        (is (= (count tutkintonimikkeet) 2))
+        (is (= "opintojenlaajuusyksikko_2#1" (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])))
+        (is (= 2 (count tutkintonimikkeet)))
         (is (-> tutkintonimikkeet first :nimi :fi) "tutkintonimikekk_033#1 nimi fi")
         (is (-> tutkintonimikkeet last :nimi :fi) "tutkintonimikekk_031#1 nimi fi")))))
 

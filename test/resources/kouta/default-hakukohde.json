@@ -1,7 +1,7 @@
 {
   "kaytetaanHaunAikataulua" : false,
   "tila" : "julkaistu",
-  "liitteidenToimitusaika" : "2021-11-26T09:58",
+  "liitteidenToimitusaika" : "2021-12-25T09:58",
   "hakulomakeKuvaus" : "Hakulomake tulostetaan ja toimitetaan postitse",
   "pohjakoulutusvaatimusKoodiUrit" : "pohjakoulutusvaatimuskouta_104#1, pohjakoulutusvaatimuskouta_109#1",
   "pohjakoulutusvaatimusTarkenne" : "Pohjakoulutusvaatimuksen tarkenne",
@@ -10,10 +10,10 @@
   "esitysnimi" : "esitysnimi",
   "hakulomakeLinkki" : "https://koulu.test/hakemusinfo",
   "jarjestyspaikkaOid" : "1.2.246.562.10.67476956288",
-  "valintaperuste" : "5dda9e0a-eee5-4c35-b067-27055c652ccd",
+  "valintaperuste" : "f7534e60-2154-47fd-8515-e5f39332fe10",
   "hakulomakeAtaruId" : "369221b1-07d0-4b7a-89bc-04b670d8cff2",
   "esikatselu" : false,
-  "modified" : "2021-11-23T11:49:01",
+  "modified" : "2021-12-22T11:05:16",
   "toinenAsteOnkoKaksoistutkinto" : false,
   "nimi" : "nimi",
   "muokkaaja" : "1.2.246.562.24.10000000000",
@@ -31,7 +31,7 @@
       "fi" : "kuvaus Fi",
       "sv" : "kuvaus Sv"
     },
-    "toimitusaika" : "2021-11-24T09:58",
+    "toimitusaika" : "2021-12-23T09:58",
     "toimitustapa" : "hakijapalvelu"
   }, {
     "id" : "59b5a1c9-316b-4007-a14e-cc2b617bab46",
@@ -56,9 +56,9 @@
       "sahkoposti" : "foo@bar.fi"
     }
   } ],
-  "hakuaikaAlkaa" : "2021-11-24T09:49",
+  "hakuaikaAlkaa" : "2021-12-23T09:49",
   "kielivalinta" : "fi,sv",
-  "hakuaikaPaattyy" : "2021-11-24T09:58",
+  "hakuaikaPaattyy" : "2021-12-23T09:58",
   "organisaatio" : "1.2.246.562.10.67476956288",
   "metadata" : {
     "valintakokeidenYleiskuvaus" : {
@@ -75,8 +75,8 @@
           "postinumeroKoodiUri" : "posti_04230#2"
         },
         "aika" : {
-          "alkaa" : "2021-11-24T09:49",
-          "paattyy" : "2021-11-24T09:58"
+          "alkaa" : "2021-12-23T09:49",
+          "paattyy" : "2021-12-23T09:58"
         },
         "jarjestamispaikka" : {
           "fi" : "Lisä järjestämispaikka fi",
@@ -95,8 +95,8 @@
     "koulutuksenAlkamiskausi" : {
       "alkamiskausityyppi" : "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot" : { },
-      "koulutuksenAlkamispaivamaara" : "2021-11-24T09:49",
-      "koulutuksenPaattymispaivamaara" : "2021-11-24T09:58"
+      "koulutuksenAlkamispaivamaara" : "2021-12-23T09:49",
+      "koulutuksenPaattymispaivamaara" : "2021-12-23T09:58"
     },
     "kaytetaanHaunAlkamiskautta" : false,
     "aloituspaikat" : {
@@ -141,8 +141,8 @@
         "postinumeroKoodiUri" : "posti_04230#2"
       },
       "aika" : {
-        "alkaa" : "2021-11-24T09:49",
-        "paattyy" : "2021-11-24T09:58"
+        "alkaa" : "2021-12-23T09:49",
+        "paattyy" : "2021-12-23T09:58"
       },
       "jarjestamispaikka" : {
         "fi" : "Järjestämispaikka fi",

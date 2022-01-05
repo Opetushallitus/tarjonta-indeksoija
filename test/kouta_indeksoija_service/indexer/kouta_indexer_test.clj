@@ -204,7 +204,7 @@
    (testing "Indexer should index all"
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
        (let [eperuste-id 12321]
-         (fixture/update-koulutus-mock koulutus-oid :ePerusteId (str eperuste-id))
+         (fixture/update-koulutus-mock koulutus-oid :ePerusteId eperuste-id)
          (check-all-nil)
          (is (nil? (eperuste/get-from-index eperuste-id)))
          (i/index-all-kouta)

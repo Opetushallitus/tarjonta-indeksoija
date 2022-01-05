@@ -3,6 +3,7 @@
 (defonce Julkaistu "julkaistu")
 (defonce Tallennettu "tallennettu")
 (defonce Poistettu "poistettu")
+(defonce Arkistoitu "arkistoitu")
 
 (defn julkaistu?
   [entry]
@@ -11,6 +12,14 @@
 (defn not-poistettu?
   [entry]
   (and (not (nil? entry)) (not= (:tila entry) Poistettu)))
+
+(defn luonnos?
+  [entry]
+  (and (not (nil? entry)) (= (:tila entry) Tallennettu)))
+
+(defn not-arkistoitu?
+  [entry]
+  (and (not (nil? entry)) (not= (:tila entry) Arkistoitu)))
 
 (defn ammatillinen?
   [koulutus]

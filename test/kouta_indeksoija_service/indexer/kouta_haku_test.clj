@@ -36,8 +36,8 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohteet with hakukohdeKoodiUri to haku-index, if hakukohdeKoodiUri available"
      (check-all-nil)
-     (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi "")
-     (fixture/update-hakukohde-mock hakukohde-oid2 :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2" :nimi "")
+     (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi {})
+     (fixture/update-hakukohde-mock hakukohde-oid2 :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2" :nimi {})
      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
      (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid))) ]
        (is (= 2 (alength hakukohteet)))

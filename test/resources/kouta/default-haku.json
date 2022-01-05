@@ -1,22 +1,22 @@
 {
   "tila" : "julkaistu",
-  "hakukohteenMuokkaamisenTakaraja" : "2021-11-24T09:58",
+  "hakukohteenMuokkaamisenTakaraja" : "2021-12-23T09:58",
   "hakulomakeKuvaus" : "Hakulomake tulostetaan ja toimitetaan postitse",
   "kohdejoukkoKoodiUri" : "haunkohdejoukko_02#2",
   "kohdejoukonTarkenneKoodiUri" : "haunkohdejoukontarkenne_1#11",
   "hakulomaketyyppi" : "ei sähköistä",
   "hakulomakeLinkki" : "https://koulu.test/hakemusinfo",
   "hakulomakeAtaruId" : "dcd38a87-912e-4e91-8840-99c7e242dd53",
-  "modified" : "2021-11-23T11:49:01",
+  "modified" : "2021-12-22T11:05:16",
   "nimi" : "nimi",
   "muokkaaja" : "1.2.246.562.24.10000000000",
   "hakutapaKoodiUri" : "hakutapa_03#1",
   "externalId" : 2233445566,
-  "hakuaikaAlkaa" : "2021-11-24T09:49",
+  "hakuaikaAlkaa" : "2021-12-23T09:49",
   "kielivalinta" : "fi,sv",
-  "hakuaikaPaattyy" : "2021-11-24T09:58",
-  "ajastettuJulkaisu" : "2021-11-26T09:58",
-  "hakukohteenLiittamisenTakaraja" : "2021-11-24T09:49",
+  "hakuaikaPaattyy" : "2021-12-23T09:58",
+  "ajastettuJulkaisu" : "2021-12-25T09:58",
+  "hakukohteenLiittamisenTakaraja" : "2021-12-23T09:49",
   "organisaatio" : "1.2.246.562.10.67476956288",
   "metadata" : {
     "yhteyshenkilot" : [ {
@@ -42,8 +42,8 @@
       }
     } ],
     "tulevaisuudenAikataulu" : [ {
-      "alkaa" : "2021-11-24T09:49",
-      "paattyy" : "2021-11-24T09:58"
+      "alkaa" : "2021-12-23T09:49",
+      "paattyy" : "2021-12-23T09:58"
     } ],
     "koulutuksenAlkamiskausi" : {
       "alkamiskausityyppi" : "alkamiskausi ja -vuosi",
