@@ -57,20 +57,25 @@
       [(keyword lang) yhteystieto])))
 
 (defn create-kielistetty-osoitetieto
-  [osoitetieto languages]
+  [osoitetieto ulkomainen_osoite_en languages]
   (let [katuosoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
         postinumero_uri (create-kielistetty-yhteystieto osoitetieto :postinumeroUri languages)
         postinumero (zipmap
                       (keys postinumero_uri)
                       (map #(clojure.string/replace % #"posti_" "") (vals postinumero_uri)))
         postitoimipaikka (create-kielistetty-yhteystieto osoitetieto :postitoimipaikka languages)
-        capitalized_postitoimipaikka (zipmap (keys postitoimipaikka) (map #(clojure.string/capitalize %) (vals postitoimipaikka)))
+        capitalized_postitoimipaikka (zipmap
+                                       (keys postitoimipaikka)
+                                       (map #(clojure.string/capitalize %) (vals postitoimipaikka)))
         postinro_ja_toimipaikka (merge-with #(str %1 " " %2)
                                             postinumero
-                                            capitalized_postitoimipaikka)]
-    (merge-with #(str %1 ", " %2)
-                katuosoite
-                postinro_ja_toimipaikka)))
+                                            capitalized_postitoimipaikka)
+        kielistetyt_osoitteet (merge-with #(str %1 ", " %2)
+                                          katuosoite
+                                          postinro_ja_toimipaikka)]
+    (if (and (not (:en kielistetyt_osoitteet)) (not (empty? ulkomainen_osoite_en)))
+      (assoc kielistetyt_osoitteet :en (clojure.string/replace (:osoite (first ulkomainen_osoite_en)) #"\n" ", "))
+      kielistetyt_osoitteet)))
 
 (defn parse-yhteystiedot
   [response languages]
@@ -78,12 +83,20 @@
         sahkopostit (filter (fn [yhteystieto] (get-in yhteystieto [:email])) yhteystiedot)
         puhelinnumerot (filter (fn [yhteystieto] (= "puhelin" (get-in yhteystieto [:tyyppi]))) yhteystiedot)
         postiosoitteet (filter (fn [yhteystieto] (= "posti" (get-in yhteystieto [:osoiteTyyppi]))) yhteystiedot)
-        kayntiosoitteet (filter (fn [yhteystieto] (= "kaynti" (get-in yhteystieto [:osoiteTyyppi]))) yhteystiedot)]
-  [{:nimi (:nimi response)
-    :sahkoposti (create-kielistetty-yhteystieto sahkopostit :email languages)
-    :puhelinnumero (create-kielistetty-yhteystieto puhelinnumerot :numero languages)
-    :postiosoite (create-kielistetty-osoitetieto postiosoitteet languages)
-    :kayntiosoite (create-kielistetty-osoitetieto kayntiosoitteet languages)}]))
+        kayntiosoitteet (filter (fn [yhteystieto] (= "kaynti" (get-in yhteystieto [:osoiteTyyppi]))) yhteystiedot)
+        ulkomainen_posti_en (filter (fn [yhteystieto] (and
+                                                        (= "ulkomainen_posti" (get-in yhteystieto [:osoiteTyyppi]))
+                                                        (re-find #"kieli_en" (get-in yhteystieto [:kieli]))))
+                                    yhteystiedot)
+        ulkomainen_kaynti_en (filter (fn [yhteystieto] (and
+                                                        (= "ulkomainen_kaynti" (get-in yhteystieto [:osoiteTyyppi]))
+                                                        (re-find #"kieli_en" (get-in yhteystieto [:kieli]))))
+                                    yhteystiedot)]
+    [{:nimi (:nimi response)
+      :sahkoposti (create-kielistetty-yhteystieto sahkopostit :email languages)
+      :puhelinnumero (create-kielistetty-yhteystieto puhelinnumerot :numero languages)
+      :postiosoite (create-kielistetty-osoitetieto postiosoitteet ulkomainen_posti_en languages)
+      :kayntiosoite (create-kielistetty-osoitetieto kayntiosoitteet ulkomainen_kaynti_en languages)}]))
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
