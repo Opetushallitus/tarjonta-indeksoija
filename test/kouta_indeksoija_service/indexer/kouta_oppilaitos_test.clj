@@ -81,6 +81,22 @@
              (oppilaitos/create-kielistetty-yhteystieto sahkoposti :email languages))))))
 
 (deftest create-kielistetty-osoitetieto
+  (testing "returns kielistetty osoitetieto with (katu)osoite and postinumero that has fields for name and koodiUri"
+    (let [postiosoite [{:osoiteTyyppi "posti"
+                        :kieli "kieli_fi#1"
+                        :postinumeroUri "posti_00076"
+                        :postitoimipaikka "AALTO"
+                        :osoite "PL 11110"}
+                       {:osoiteTyyppi "posti"
+                        :kieli "kieli_sv#1"
+                        :postinumeroUri "posti_00076"
+                        :postitoimipaikka "AALTO"
+                        :osoite "PB 11110"}]]
+      (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
+              :postinumeroKoodiUri "posti_00076"}
+             (oppilaitos/create-kielistetty-osoitetieto postiosoite languages))))))
+
+(deftest create-kielistetty-osoite-str
   (testing "returns kielistetty osoite string with katuosoite, postinumero and postitoimipaikka"
     (let [postiosoite [{:osoiteTyyppi "posti"
                         :kieli "kieli_fi#1"
@@ -93,7 +109,7 @@
                         :postitoimipaikka "AALTO"
                         :osoite "PB 11110"}]]
       (is (= {:fi "PL 11110, 00076 Aalto" :sv "PB 11110, 00076 Aalto"}
-             (oppilaitos/create-kielistetty-osoitetieto postiosoite [] languages)))))
+             (oppilaitos/create-kielistetty-osoite-str postiosoite [] languages)))))
 
   (testing "returns kielistetty osoite string that doesn't have postinumero and -toimipaikka for finnish language"
     (let [postiosoite [{:osoiteTyyppi "posti"
@@ -105,7 +121,7 @@
                         :postitoimipaikka "AALTO"
                         :osoite "PB 11110"}]]
       (is (= {:fi "Nakertajanraitti 1" :sv "PB 11110, 00076 Aalto"}
-             (oppilaitos/create-kielistetty-osoitetieto postiosoite [] languages)))))
+             (oppilaitos/create-kielistetty-osoite-str postiosoite [] languages)))))
 
   (testing "uses ulkomainen_posti as the value for english osoite because it is missing from posti osoiteTyyppi"
     (let [postiosoite [{:osoiteTyyppi "posti"
@@ -117,7 +133,7 @@
                                    :kieli "kieli_en#1"
                                    :osoite "1 Example Street\nNortholt\nLondon\nUB5 4AS\nUK"}]]
       (is (= {:fi "PL 11110, 00076 Aalto" :en "1 Example Street, Northolt, London, UB5 4AS, UK"}
-             (oppilaitos/create-kielistetty-osoitetieto postiosoite ulkomainen_posti languages))))))
+             (oppilaitos/create-kielistetty-osoite-str postiosoite ulkomainen_posti languages))))))
 
 (deftest parse-yhteystiedot
   (testing "returns kielistetty nimi as it is in organisaatiopalveluresponse"
@@ -138,13 +154,18 @@
             :en "+358294429290"}
            (:puhelinnumero (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
-  (testing "returns postiosoite map with osoite and postinumero fields for all languages"
+  (testing "returns postiosoite_str map with addresses for all languages"
     (is (= {:fi "PL 11110, 00076 Aalto" :sv "PB 11110, 00076 Aalto" :en "1 Example Street, Northolt, London, UB5 4AS, UK"}
+           (:postiosoiteStr (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
+
+  (testing "returns postiosoite with kielistetty osoite and postinumeroKoodiUri"
+    (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
+            :postinumeroKoodiUri "posti_00076"}
            (:postiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
-  (testing "returns kayntiosoite map with osoite and postinumero fields for all languages"
+  (testing "returns kayntiosoite_str map with addresses for all languages"
     (is (= {:fi "Otakaari 1, 02150 Espoo" :sv "Otsvängen 1, 02150 Esbo" :en "12 Example Street, Northolt, London, UB5 4AS, UK"}
-           (:kayntiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0))))))
+           (:kayntiosoiteStr (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0))))))
 
 (require '[clojure.test :refer [run-tests]])
 (run-tests)

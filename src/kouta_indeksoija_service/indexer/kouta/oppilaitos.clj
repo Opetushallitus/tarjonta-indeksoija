@@ -57,6 +57,11 @@
       [(keyword lang) yhteystieto])))
 
 (defn create-kielistetty-osoitetieto
+  [osoitetieto languages]
+  {:osoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
+   :postinumeroKoodiUri (:postinumeroUri (first (filter (fn [os] (get-in os [:postinumeroUri])) osoitetieto)))})
+
+(defn create-kielistetty-osoite-str
   [osoitetieto ulkomainen_osoite_en languages]
   (let [katuosoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
         postinumero_uri (create-kielistetty-yhteystieto osoitetieto :postinumeroUri languages)
@@ -95,8 +100,10 @@
     [{:nimi (:nimi response)
       :sahkoposti (create-kielistetty-yhteystieto sahkopostit :email languages)
       :puhelinnumero (create-kielistetty-yhteystieto puhelinnumerot :numero languages)
-      :postiosoite (create-kielistetty-osoitetieto postiosoitteet ulkomainen_posti_en languages)
-      :kayntiosoite (create-kielistetty-osoitetieto kayntiosoitteet ulkomainen_kaynti_en languages)}]))
+      :postiosoite (create-kielistetty-osoitetieto postiosoitteet languages)
+      :kayntiosoite (create-kielistetty-osoitetieto kayntiosoitteet languages)
+      :postiosoiteStr (create-kielistetty-osoite-str postiosoitteet ulkomainen_posti_en languages)
+      :kayntiosoiteStr (create-kielistetty-osoite-str kayntiosoitteet ulkomainen_kaynti_en languages)}]))
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
