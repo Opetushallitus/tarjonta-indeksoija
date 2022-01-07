@@ -69,8 +69,7 @@
       (is (= {:en "admissions@aalto.fi"
               :fi "hakijapalvelut@aalto.fi"
               :sv "ansokningsservice@aalto.fi"}
-             (oppilaitos/create-kielistetty-yhteystieto sahkoposti :email languages)))))
-  )
+             (oppilaitos/create-kielistetty-yhteystieto sahkoposti :email languages))))))
 
 (deftest create-kielistetty-osoitetieto
   (testing "returns kielistetty osoitetieto with (katu)osoite and postinumero that has fields for name and koodiUri"
@@ -84,10 +83,20 @@
                         :postinumeroUri "posti_00076"
                         :postitoimipaikka "AALTO"
                         :osoite "PB 11110"}]]
-      (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
-              :postinumeroKoodiUri "posti_00076"}
+      (is (= {:fi "PL 11110, 00076 Aalto" :sv "PB 11110, 00076 Aalto"}
              (oppilaitos/create-kielistetty-osoitetieto postiosoite languages)))))
-  )
+
+  (testing "returns kielistetty osoitetieto with (katu)osoite and postinumero that has fields for name and koodiUri"
+    (let [postiosoite [{:osoiteTyyppi "posti"
+                        :kieli "kieli_fi#1"
+                        :osoite "Nakertajanraitti 1"}
+                       {:osoiteTyyppi "posti"
+                        :kieli "kieli_sv#1"
+                        :postinumeroUri "posti_00076"
+                        :postitoimipaikka "AALTO"
+                        :osoite "PB 11110"}]]
+      (is (= {:fi "Nakertajanraitti 1" :sv "PB 11110, 00076 Aalto"}
+             (oppilaitos/create-kielistetty-osoitetieto postiosoite languages))))))
 
 (deftest parse-yhteystiedot
   (testing "returns kielistetty nimi as it is in organisaatiopalveluresponse"
@@ -109,20 +118,12 @@
            (:puhelinnumero (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
   (testing "returns postiosoite map with osoite and postinumero fields for all languages"
-    (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
-            :postinumeroKoodiUri "posti_00076"}
-           (:postiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
-
-  (testing "returns postiosoite map with osoite and postinumero fields for all languages"
-    (is (= {:osoite {:fi "PL 11110" :sv "PB 11110"}
-            :postinumeroKoodiUri "posti_00076"}
+    (is (= {:fi "PL 11110, 00076 Aalto" :sv "PB 11110, 00076 Aalto"}
            (:postiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
 
   (testing "returns kayntiosoite map with osoite and postinumero fields for all languages"
-    (is (= {:osoite {:fi "Otakaari 1" :sv "Otsvängen 1"}
-            :postinumeroKoodiUri "posti_02150"}
-           (:kayntiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0)))))
-  )
+    (is (= {:fi "Otakaari 1, 02150 Espoo" :sv "Otsvängen 1, 02150 Esbo"}
+           (:kayntiosoite (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0))))))
 
 (require '[clojure.test :refer [run-tests]])
 (run-tests)

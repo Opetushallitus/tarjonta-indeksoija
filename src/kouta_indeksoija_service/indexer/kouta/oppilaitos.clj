@@ -58,8 +58,19 @@
 
 (defn create-kielistetty-osoitetieto
   [osoitetieto languages]
-  {:osoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
-   :postinumeroKoodiUri (:postinumeroUri (first (filter (fn [os] (get-in os [:postinumeroUri])) osoitetieto)))})
+  (let [katuosoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
+        postinumero_uri (create-kielistetty-yhteystieto osoitetieto :postinumeroUri languages)
+        postinumero (zipmap
+                      (keys postinumero_uri)
+                      (map #(clojure.string/replace % #"posti_" "") (vals postinumero_uri)))
+        postitoimipaikka (create-kielistetty-yhteystieto osoitetieto :postitoimipaikka languages)
+        capitalized_postitoimipaikka (zipmap (keys postitoimipaikka) (map #(clojure.string/capitalize %) (vals postitoimipaikka)))
+        postinro_ja_toimipaikka (merge-with #(str %1 " " %2)
+                                            postinumero
+                                            capitalized_postitoimipaikka)]
+    (merge-with #(str %1 ", " %2)
+                katuosoite
+                postinro_ja_toimipaikka)))
 
 (defn parse-yhteystiedot
   [response languages]
