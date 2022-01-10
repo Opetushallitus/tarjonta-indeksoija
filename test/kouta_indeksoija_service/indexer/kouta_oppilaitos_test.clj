@@ -35,7 +35,7 @@
      :osoite "12 Example Street\nNortholt\nLondon\nUB5 4AS\nUK"}
     {:osoiteTyyppi "posti"
      :kieli "kieli_sv#1"
-     :postinumeroUri "posti_00076"
+     :postinumeroUri "posti_00076#2"
      :postitoimipaikka "AALTO"
      :osoite "PB 11110"}
     {:kieli "kieli_sv#1"

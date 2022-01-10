@@ -67,7 +67,7 @@
         postinumero_uri (create-kielistetty-yhteystieto osoitetieto :postinumeroUri languages)
         postinumero (zipmap
                       (keys postinumero_uri)
-                      (map #(clojure.string/replace % #"posti_" "") (vals postinumero_uri)))
+                      (map #(re-find #"\d{5}" %) (vals postinumero_uri)))
         postitoimipaikka (create-kielistetty-yhteystieto osoitetieto :postitoimipaikka languages)
         capitalized_postitoimipaikka (zipmap
                                        (keys postitoimipaikka)
