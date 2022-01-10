@@ -252,7 +252,7 @@
             "sv": "kausi_k#1 nimi sv"
           }
         },
-        "koulutuksenAlkamisvuosi": "2021"
+        "koulutuksenAlkamisvuosi": "!!thisYear"
       },
       "suunniteltuKestoVuodet": 3,
       "onkoApuraha": true,
@@ -383,7 +383,7 @@
             "sv": "kausi_k#1 nimi sv"
           }
         },
-        "koulutuksenAlkamisvuosi": "2021"
+        "koulutuksenAlkamisvuosi": "!!thisYear"
       },
       "hakukohteet": [
         {

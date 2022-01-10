@@ -67,11 +67,14 @@
 
 (defn index-toteutukset
   [oids execution-id]
-  (let [entries (toteutus/do-index oids execution-id)
+  (let [toteutus-entries (toteutus/do-index oids execution-id)
+        koulutus-oids (get-oids :koulutusOid toteutus-entries)
         haut    (mapcat kouta-backend/list-haut-by-toteutus oids)]
-    (index-koulutukset (get-oids :koulutusOid entries) execution-id)
+    (koulutus/do-index koulutus-oids execution-id)
+    (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
-    entries))
+    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat toteutus-entries)) execution-id)
+    toteutus-entries))
 
 (defn index-toteutus
   [oid]

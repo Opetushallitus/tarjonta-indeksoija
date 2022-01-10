@@ -75,7 +75,7 @@
             "sv": "kausi_k#1 nimi sv"
           }
         },
-        "koulutuksenAlkamisvuosi": "2021"
+        "koulutuksenAlkamisvuosi": "!!thisYear"
       },
       "hakukohteet": [
         {
@@ -237,7 +237,7 @@
             "sv": "kausi_k#1 nimi sv"
           }
         },
-        "koulutuksenAlkamisvuosi": "2021"
+        "koulutuksenAlkamisvuosi": "!!thisYear"
       },
       "maksullisuusKuvaus": {
         "fi": "Maksullisuuskuvaus fi",

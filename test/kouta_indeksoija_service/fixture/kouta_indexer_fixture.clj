@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
-            [clojure.walk :refer [keywordize-keys stringify-keys]])
+            [clojure.walk :refer [keywordize-keys stringify-keys postwalk]])
   (:import (fi.oph.kouta.external KoutaFixtureTool$)
            (java.util NoSuchElementException)))
 
@@ -119,7 +119,9 @@
 (defn mock-get-toteutus
   [oid]
   (locking KoutaFixture
-    (->keywordized-json (.getToteutus KoutaFixture oid))))
+    (postwalk
+     (fn [sub] (if (:koulutuksenAlkamisvuosi sub) (assoc sub :koulutuksenAlkamisvuosi "2022") sub))
+     (->keywordized-json (.getToteutus KoutaFixture oid)))))
 
 (defn mock-get-toteutukset
   ([koulutusOid vainJulkaistut]
@@ -143,7 +145,9 @@
 (defn mock-get-haku
   [oid]
   (locking KoutaFixture
-    (->keywordized-json (.getHaku KoutaFixture oid))))
+    (postwalk
+     (fn [sub] (if (:koulutuksenAlkamisvuosi sub) (assoc sub :koulutuksenAlkamisvuosi "2022") sub))
+     (->keywordized-json (.getHaku KoutaFixture oid)))))
 
 (defn add-hakukohde-mock
   [oid toteutusOid hakuOid & {:as params}]
@@ -250,7 +254,9 @@
 (defn mock-get-hakutiedot-for-koulutus
   [oid]
   (locking KoutaFixture
-    (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid))))
+    (postwalk
+     (fn [sub] (if (:koulutuksenAlkamisvuosi sub) (assoc sub :koulutuksenAlkamisvuosi "2022") sub))
+     (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid)))))
 
 (defn mock-list-koulutus-oids-by-sorakuvaus
   [sorakuvausId]
