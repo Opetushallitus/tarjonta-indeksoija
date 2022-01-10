@@ -10,10 +10,7 @@
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json]]
-            [clj-test-utils.elasticsearch-mock-utils :refer :all])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
-
-(defonce KoutaFixtureTool KoutaFixtureTool$/MODULE$)
+            [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
 (defonce json-path "test/resources/search/")
 
