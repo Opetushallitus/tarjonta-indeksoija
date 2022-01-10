@@ -81,7 +81,7 @@
              (oppilaitos/create-kielistetty-yhteystieto sahkoposti :email languages))))))
 
 (deftest create-kielistetty-osoitetieto
-  (testing "returns kielistetty osoitetieto with (katu)osoite and postinumero that has fields for name and koodiUri"
+  (testing "returns kielistetty osoitetieto that has fields for postinumeroKoodiUri and (katu)osoite"
     (let [postiosoite [{:osoiteTyyppi "posti"
                         :kieli "kieli_fi#1"
                         :postinumeroUri "posti_00076"
@@ -123,7 +123,7 @@
       (is (= {:fi "Nakertajanraitti 1" :sv "PB 11110, 00076 Aalto"}
              (oppilaitos/create-kielistetty-osoite-str postiosoite [] languages)))))
 
-  (testing "uses ulkomainen_posti as the value for english osoite because it is missing from posti osoiteTyyppi"
+  (testing "uses ulkomainen_posti as the value for english osoite because it doesn't exist in objects that have posti as osoiteTyyppi"
     (let [postiosoite [{:osoiteTyyppi "posti"
                         :kieli "kieli_fi#1"
                         :postinumeroUri "posti_00076"
@@ -166,6 +166,3 @@
   (testing "returns kayntiosoite_str map with addresses for all languages"
     (is (= {:fi "Otakaari 1, 02150 Espoo" :sv "Otsvängen 1, 02150 Esbo" :en "12 Example Street, Northolt, London, UB5 4AS, UK"}
            (:kayntiosoiteStr (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0))))))
-
-(require '[clojure.test :refer [run-tests]])
-(run-tests)
