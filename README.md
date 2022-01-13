@@ -92,7 +92,7 @@ Ennen indeksoijan ajamista lokaalisti täytyy pyörimässä olla
 2. localstackin sqs-jonot
 
 ---
-#### Elasticsearch-kontti
+#### Elasticsearch-kontin käynnitys
 
 Elasticsearchia voi pyörittää docker-kontissa siten että data tallennetaan levylle vaikka kontin 
 sammuttaisi. Tämä onnnistuu ajamalla ensin (ainoastataan ensimmäisellä kerralla):
@@ -111,6 +111,15 @@ Ilman volumea ajaminen onnistuu komennolla:
 docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 docker.elastic.co/elasticsearch/elasticsearch:7.10.2
 ```
 Tässä tapauksessa tiedot häviävät kun kontin sammuttaa.
+
+#### Elasticsearch-kontin buildaus
+
+HUOM! Tämä tarvitsee tehdä vain jos konttiin tehdään muutoksia
+
+```
+elastic/build.sh
+elastic/deploy.sh
+```
 
 ---
 #### Localstack SQS-jonot
