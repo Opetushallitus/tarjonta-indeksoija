@@ -102,13 +102,13 @@ docker volume create kouta-elastic-data
 ```
 Jonka jälkeen kontin saa käyntiin komennolla:
 ```shell
-docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -v kouta-elastic-data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -v kouta-elastic-data:/usr/share/elasticsearch/data 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:1.0
 ```
 Jos tulee tarve poistaa data, komennolla `docker volume --help` saa apua volumeiden hallinnointiin.
 
 Ilman volumea ajaminen onnistuu komennolla:
 ```shell
-docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:1.0
 ```
 Tässä tapauksessa tiedot häviävät kun kontin sammuttaa.
 
