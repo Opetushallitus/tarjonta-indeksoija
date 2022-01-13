@@ -27,7 +27,6 @@ install:
 
 before_script:
   - docker pull localstack/localstack:0.10.2
-  - elastic/build.sh
 
 script:
   - lein -U ci-test
