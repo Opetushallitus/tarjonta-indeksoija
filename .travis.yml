@@ -30,7 +30,7 @@ before_script:
   - elastic/build.sh
 
 script:
-  #- lein -U ci-test
+  - lein -U ci-test
   - lein uberjar
 
   - mv target/kouta-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
