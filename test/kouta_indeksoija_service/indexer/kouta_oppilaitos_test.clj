@@ -166,3 +166,12 @@
   (testing "returns kayntiosoite_str map with addresses for all languages"
     (is (= {:fi "Otakaari 1, 02150 Espoo" :sv "Otsvängen 1, 02150 Esbo" :en "12 Example Street, Northolt, London, UB5 4AS, UK"}
            (:kayntiosoiteStr (nth (oppilaitos/parse-yhteystiedot oppilaitos-response languages) 0))))))
+
+(deftest create-osoite-str-for-hakijapalvelut
+  (testing "creates osoite string for fi and en languages"
+    (is (= {:en "PO BOX 4000, 00076 Espoo" :fi "PL 4000, 00076 Espoo" }
+           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "PO BOX 4000" :fi "PL 4000"} "00076" {:fi "ESPOO" :sv "ESBO" :en "ESPOO"}))))
+
+  (testing "sets finnish language postitoimipaikka as the default"
+    (is (= {:en "PO BOX 4000, 00076 Espoo" :fi "PL 4000, 00076 Espoo" }
+           (oppilaitos/create-osoite-str-for-hakijapalvelut {:en "PO BOX 4000" :fi "PL 4000"} "00076" {:fi "ESPOO" :sv "ESBO"})))) )
