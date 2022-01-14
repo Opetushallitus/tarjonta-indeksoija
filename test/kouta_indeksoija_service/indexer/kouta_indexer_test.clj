@@ -31,8 +31,6 @@
 
 (defn mock-organisaatio
   [oid & {:as params}]
-  (println "mock-organisaatio")
-  (println oid)
   (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-v4.json")))
 
 (defn mock-organisaatio-hierarkia-v4

@@ -305,6 +305,10 @@
             }
           }
         },
+        "postiosoiteStr": {
+          "fi": "Kivatie 1, 04230 Posti_04230#2 nimi fi",
+          "sv": "kivavägen 1, 04230 Posti_04230#2 nimi sv"
+        },
         "puhelinnumero": {
           "fi": "123",
           "sv": "123"
