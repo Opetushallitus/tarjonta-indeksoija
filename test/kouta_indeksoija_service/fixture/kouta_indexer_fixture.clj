@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
-            [kouta-indeksoija-service.indexer.tools.general :refer [Arkistoitu]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [not-arkistoitu? not-poistettu?]]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
@@ -116,7 +116,7 @@
 
 (defn visible
   [e]
-  (not (= (:tila e) Arkistoitu)))
+  (and (not-arkistoitu? e) (not-poistettu? e)))
 
 ; Ota nämä pois kommentista ja aja testit, jos haluat päivittää default-entiteetti jsonit kouta-backendistä
 (comment

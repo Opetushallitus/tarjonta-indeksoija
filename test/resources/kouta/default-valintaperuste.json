@@ -2,7 +2,7 @@
   "tila" : "julkaistu",
   "kohdejoukkoKoodiUri" : "haunkohdejoukko_11#1",
   "esikatselu" : false,
-  "modified" : "2021-12-22T11:05:17",
+  "modified" : "2022-01-14T13:48:49",
   "nimi" : "nimi",
   "muokkaaja" : "1.2.246.562.24.10000000000",
   "hakutapaKoodiUri" : "hakutapa_01#1",
@@ -323,8 +323,8 @@
         "postinumeroKoodiUri" : "posti_04230#2"
       },
       "aika" : {
-        "alkaa" : "2021-12-23T09:49",
-        "paattyy" : "2021-12-23T09:58"
+        "alkaa" : "2022-01-15T09:49",
+        "paattyy" : "2022-01-15T09:58"
       },
       "jarjestamispaikka" : {
         "fi" : "Järjestämispaikka fi",

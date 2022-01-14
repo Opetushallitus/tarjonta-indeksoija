@@ -3,7 +3,7 @@
   "teemakuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
   "tarjoajat" : "1.2.246.562.10.67476956288, 1.2.246.562.10.594252633210",
   "esikatselu" : false,
-  "modified" : "2021-12-22T11:05:16",
+  "modified" : "2022-01-14T13:48:49",
   "nimi" : "nimi",
   "muokkaaja" : "1.2.246.562.24.10000000000",
   "externalId" : 1122334455,
@@ -52,7 +52,7 @@
           "sv" : "Jotakin lisätietoa sv"
         },
         "koulutuksenAlkamiskausiKoodiUri" : "kausi_k#1",
-        "koulutuksenAlkamisvuosi" : "2021"
+        "koulutuksenAlkamisvuosi" : "2022"
       },
       "suunniteltuKestoVuodet" : 3,
       "onkoApuraha" : true,
