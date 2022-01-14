@@ -107,6 +107,7 @@
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)
+                                  (assoc :koulutustyyppi (get-in toteutus [:metadata :tyyppi]))
                                   (assoc :nimi (get-esitysnimi toteutus))
                                   (dissoc :_enrichedData)
                                   (enrich-metadata)
