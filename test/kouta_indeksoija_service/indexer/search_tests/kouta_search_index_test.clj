@@ -21,12 +21,14 @@
       koulutus-oid3   "1.2.246.562.13.00000000000000000097"
       koulutus-oid4   "1.2.246.562.13.00000000000000000096"
       koulutus-oid5   "1.2.246.562.13.00000000000000000095"
+      koulutus-oid6   "1.2.246.562.13.00000000000000000094"
       toteutus-oid1   "1.2.246.562.17.00000000000000000099"
       toteutus-oid2   "1.2.246.562.17.00000000000000000098"
-      toteutus-oid3   "1.2.246.562.17.00000000000000000196"
-      toteutus-oid4   "1.2.246.562.17.00000000000000000197"
-      toteutus-oid5   "1.2.246.562.17.00000000000000000198"
-      toteutus-oid6   "1.2.246.562.17.00000000000000000199"
+      toteutus-oid3   "1.2.246.562.17.00000000000000000195"
+      toteutus-oid4   "1.2.246.562.17.00000000000000000196"
+      toteutus-oid5   "1.2.246.562.17.00000000000000000197"
+      toteutus-oid6   "1.2.246.562.17.00000000000000000198"
+      toteutus-oid7   "1.2.246.562.17.00000000000000000199"
       haku-oid1       "1.2.246.562.29.00000000000000000001"
       haku-oid2       "1.2.246.562.29.00000000000000000002"
       hakukohde-oid1  "1.2.246.562.20.00000000000000000001"
@@ -82,10 +84,24 @@
 
     (fixture/add-koulutus-mock koulutus-oid5
                                :tila "julkaistu"
+                               :nimi "Hevosalan tutkinnon osat extra"
+                               :koulutustyyppi "amm-tutkinnon-osa"
+                               :johtaaTutkintoon "false"
+                               :sorakuvausId sorakuvaus-id
+                               :ePerusteId nil
+                               :koulutuksetKoodiUri []
+                               :tarjoajat [oppilaitos-oid2]
+                               :metadata
+                               {:tyyppi "amm-tutkinnon-osa"
+                                :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]
+                                :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+
+    (fixture/add-koulutus-mock koulutus-oid6
+                               :tila "julkaistu"
                                :nimi "Autoalan perustutkinto xxx"
                                :koulutuksetKoodiUri ["koulutus_351301#1"]
                                :sorakuvausId sorakuvaus-id
-                               :tarjoajat [(str oppilaitos-oid2 "2")]
+                               :tarjoajat [oppilaitos-oid2]
                                :metadata (read-json-as-string "test/resources/search/" "koulutus-metadata"))
 
     (fixture/add-toteutus-mock toteutus-oid1
@@ -105,25 +121,31 @@
                                koulutus-oid1
                                :tila "tallennettu"
                                :nimi "Autototeutus 1"
-                               :tarjoajat (str oppilaitos-oid2 "23"))
+                               :tarjoajat [(str oppilaitos-oid2 "1")])
 
     (fixture/add-toteutus-mock toteutus-oid4
                                koulutus-oid3
                                :tila "tallennettu"
-                               :nimi "Hevostoteutus xxx"
-                               :tarjoajat (str oppilaitos-oid2 "4"))
+                               :nimi "Hevostoteutus 3"
+                               :tarjoajat [(str oppilaitos-oid2 "2")])
 
     (fixture/add-toteutus-mock toteutus-oid5
                                koulutus-oid4
                                :tila "tallennettu"
-                               :nimi "Hevostoteutus yyy"
-                               :tarjoajat (str oppilaitos-oid2 "5"))
+                               :nimi "Hevostoteutus 4"
+                               :tarjoajat [(str oppilaitos-oid2 "3")])
 
     (fixture/add-toteutus-mock toteutus-oid6
                                koulutus-oid5
+                               :tila "tallennettu"
+                               :nimi "Hevostoteutus yyy"
+                               :tarjoajat [(str oppilaitos-oid2 "4")])
+
+    (fixture/add-toteutus-mock toteutus-oid7
+                               koulutus-oid6
                                :tila "arkistoitu"
                                :nimi "Autototeutus xxx"
-                               :tarjoajat (str oppilaitos-oid2 "24"))
+                               :tarjoajat [(str oppilaitos-oid2 "24")])
 
     (fixture/add-haku-mock haku-oid1
                            :tila "julkaistu"
@@ -186,17 +208,6 @@
   (defn mock-get-eperuste-by-koulutuskoodi
     [x]
     (kouta-indeksoija-service.fixture.external-services/mock-get-eperuste 6942140))
-
-  (defn children
-    [oids]
-    (map #(hash-map :oid % :status "AKTIIVINEN") oids))
-
-  (defn mock-organisaatio-hierarkia-v4
-    [oid]
-    (let [organisaatiot (condp = oid
-                 oppilaitos-oid2 [{:oid oid :status "AKTIIVINEN" :chidren (children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]
-                 [{:oid oid :status "AKTIIVINEN"}])]
-      {:organisaatiot organisaatiot}))
 
   (deftest index-oppilaitos-search-items-test-1
     (fixture/with-mocked-indexing

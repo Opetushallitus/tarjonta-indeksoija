@@ -173,7 +173,7 @@
     (if-let [julkaistut-toteutukset (seq (get-tarjoaja-entries hierarkia (filter julkaistu? all-visible-toteutukset)))]
       (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus))]
         (vec (map #(toteutus-hit oppilaitos koulutus hakutiedot %) julkaistut-toteutukset)))
-      (when (not-empty (filter luonnos? all-visible-toteutukset))
+      (when (not-empty (seq (get-tarjoaja-entries hierarkia (filter luonnos? all-visible-toteutukset))))
         (vector (koulutus-hit oppilaitos koulutus))))))
 
 (defn- create-koulutus-search-terms
@@ -182,7 +182,7 @@
     (if-let [julkaistut-toteutukset (seq (get-tarjoaja-entries hierarkia (filter julkaistu? all-visible-toteutukset)))]
       (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus))]
         (vec (map #(toteutus-search-terms oppilaitos koulutus hakutiedot %) julkaistut-toteutukset)))
-      (when (not-empty (filter luonnos? all-visible-toteutukset))
+      (when (not-empty (seq (get-tarjoaja-entries hierarkia (filter luonnos? all-visible-toteutukset))))
         (vector (koulutus-search-terms oppilaitos koulutus))))))
 
 (defn- create-oppilaitos-entry-with-hits
