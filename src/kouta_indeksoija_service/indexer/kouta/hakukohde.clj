@@ -205,6 +205,7 @@
         (indexable/->index-entry-with-forwarded-data oid
                                  (-> hakukohde
                                      (assoc-yps haku koulutus)
+                                     (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                      (set-hakukohde-tila-by-related-haku haku)
                                      (assoc-sora-data sora-kuvaus)
                                      (assoc-onko-harkinnanvarainen-koulutus koulutus)
