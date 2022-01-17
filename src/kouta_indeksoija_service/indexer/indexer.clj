@@ -19,7 +19,8 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [clojure.tools.logging :as log]
-            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]))
+            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
+            [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
 
 (defn- get-oids
   [key coll]
@@ -53,10 +54,11 @@
 ;;Tästä tiketti KTO-1226
 (defn index-koulutukset
   [oids execution-id]
-  (let [entries (koulutus/do-index oids execution-id)]
+  (let [entries (koulutus/do-index oids execution-id)
+        not-poistetut (filter not-poistettu? entries)]
     (koulutus-search/do-index oids execution-id)
-    (eperuste/do-index (eperuste-ids-on-koulutukset entries) execution-id)
-    (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset entries) execution-id)
+    (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut) execution-id)
+    (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut) execution-id)
     (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)) execution-id)
     entries))
 
@@ -214,9 +216,10 @@
   (let [start-and-execution-id (. System (currentTimeMillis))
         oids (kouta-backend/all-kouta-oids)]
     (log/info (str "ID:" start-and-execution-id " Indeksoidaan kouta-backendistä kaikki."))
-    (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)]
-      (eperuste/do-index (eperuste-ids-on-koulutukset koulutus-entries) start-and-execution-id)
-      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset koulutus-entries) start-and-execution-id))
+    (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)
+          not-poistetut-koulutus-entries (filter not-poistettu? koulutus-entries)]
+      (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut-koulutus-entries) start-and-execution-id)
+      (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut-koulutus-entries) start-and-execution-id))
     (koulutus-search/do-index (:koulutukset oids) start-and-execution-id)
     (toteutus/do-index (:toteutukset oids) start-and-execution-id)
     (haku/do-index (:haut oids) start-and-execution-id)
