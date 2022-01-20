@@ -1,0 +1,105 @@
+{
+  "status": "AKTIIVINEN",
+  "oid": "1.2.246.562.10.10101010101",
+  "nimi": {
+    "fi": "nimi",
+    "sv": "nimi sv"
+  },
+  "yhteystiedot": [
+    {
+      "osoiteTyyppi": "ulkomainen_posti",
+      "kieli": "kieli_en#1",
+      "yhteystietoOid": "1.2.246.562.5.2014041712441998349381",
+      "id": "2195084",
+      "osoite": "Katumatie 805"
+    },
+    {
+      "osoiteTyyppi": "kaynti",
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_04230#2",
+      "yhteystietoOid": "1.2.246.562.5.71229398194",
+      "id": "2195092",
+      "postitoimipaikka": "ESPOO",
+      "osoite": "Kivatie 1"
+    },
+    {
+      "osoiteTyyppi": "posti",
+      "kieli": "kieli_sv#1",
+      "postinumeroUri": "posti_04230#2",
+      "yhteystietoOid": "1.2.246.562.5.2014041712441998347411",
+      "id": "2195089",
+      "postitoimipaikka": "AALTO",
+      "osoite": "kivavägen 1"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "numero": "123",
+      "tyyppi": "puhelin",
+      "yhteystietoOid": "1.2.246.562.5.148410407610",
+      "id": "2195095"
+    },
+    {
+      "kieli": "kieli_sv#1",
+      "numero": "123",
+      "tyyppi": "puhelin",
+      "yhteystietoOid": "1.2.246.562.5.2014041712441998347868",
+      "id": "2195086"
+    },
+    {
+      "kieli": "kieli_sv#1",
+      "www": "http://www.aalto.fi/sv",
+      "yhteystietoOid": "13977278599820.439613666427096",
+      "id": "2195087"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "www": "http://www.aalto.fi/",
+      "yhteystietoOid": "1.2.246.562.5.91862370631",
+      "id": "2195094"
+    },
+    {
+      "kieli": "kieli_sv#1",
+      "yhteystietoOid": "13977278599820.24009499744648388",
+      "id": "2195088",
+      "email": "aku.ankka@ankkalinnankoulu.fi"
+    },
+    {
+      "osoiteTyyppi": "kaynti",
+      "kieli": "kieli_sv#1",
+      "postinumeroUri": "posti_04230#2",
+      "yhteystietoOid": "1.2.246.562.5.2014041712441998389679",
+      "id": "2195090",
+      "postitoimipaikka": "ESBO",
+      "osoite": "kivavägen 1"
+    },
+    {
+      "kieli": "kieli_en#1",
+      "www": "http://www.aalto.fi/en",
+      "yhteystietoOid": "13977278599820.3504394563753592",
+      "id": "2195082"
+    },
+    {
+      "osoiteTyyppi": "posti",
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_04230#2",
+      "yhteystietoOid": "1.2.246.562.5.11101255088",
+      "id": "2195093",
+      "postitoimipaikka": "ESPOO",
+      "osoite": "Kivatie 1"
+    },
+    {
+      "osoiteTyyppi": "ulkomainen_kaynti",
+      "kieli": "kieli_en#1",
+      "yhteystietoOid": "1.2.246.562.5.2014041712441998318112",
+      "id": "2195085",
+      "osoite": "Jalanluiskahtamavaarankuja 610"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "yhteystietoOid": "1.2.246.562.5.2014032410460572795030",
+      "id": "2195091",
+      "email": "aku.ankka@ankkalinnankoulu.fi"
+    }
+  ],
+  "kotipaikkaUri": "kunta_091"
+}
