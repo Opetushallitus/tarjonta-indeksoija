@@ -71,10 +71,11 @@
   [oids execution-id]
   (let [toteutus-entries (toteutus/do-index oids execution-id)
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
-        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)]
-    (koulutus/do-index koulutus-oids execution-id)
+        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)
+        koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))]
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
+    (osaamisalakuvaus/do-index (eperuste-ids-on-koulutukset koulutus-entries) execution-id)
     (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat toteutus-entries)) execution-id)
     toteutus-entries))
 
