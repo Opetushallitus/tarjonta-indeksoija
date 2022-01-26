@@ -3,7 +3,7 @@
   "teemakuva" : "https://testi.fi/oppilaitos-teemakuva/oid/kuva.jpg",
   "logo" : "https://testi.fi/oppilaitos-logo/oid/logo.png",
   "esikatselu" : false,
-  "modified" : "2022-01-14T13:48:49",
+  "modified" : "2022-01-26T11:58:41",
   "muokkaaja" : "1.2.246.562.24.10000000000",
   "kielivalinta" : "fi,sv",
   "organisaatio" : "1.2.246.562.10.67476956288",
@@ -18,34 +18,6 @@
     "tiedekuntia" : 2,
     "opiskelijoita" : 100,
     "korkeakouluja" : 1,
-    "yhteystiedot" : [ {
-      "nimi" : {
-        "fi" : "nimi",
-        "sv" : "nimi sv"
-      },
-      "postiosoite" : {
-        "osoite" : {
-          "fi" : "Kivatie 1",
-          "sv" : "kivavägen 1"
-        },
-        "postinumeroKoodiUri" : "posti_04230#2"
-      },
-      "kayntiosoite" : {
-        "osoite" : {
-          "fi" : "Kivatie 1",
-          "sv" : "kivavägen 1"
-        },
-        "postinumeroKoodiUri" : "posti_04230#2"
-      },
-      "puhelinnumero" : {
-        "fi" : "123",
-        "sv" : "123"
-      },
-      "sahkoposti" : {
-        "fi" : "aku.ankka@ankkalinnankoulu.fi",
-        "sv" : "aku.ankka@ankkalinnankoulu.fi"
-      }
-    } ],
     "hakijapalveluidenYhteystiedot" : {
       "nimi" : {
         "fi" : "nimi",
