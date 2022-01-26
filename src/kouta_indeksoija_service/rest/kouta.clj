@@ -91,10 +91,6 @@
             response)
       response)))
 
-(defn list-hakukohteet-by-toteutus
-  [toteutus-oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.toteutus.hakukohteet-list toteutus-oid)))
-
 (defn list-haut-by-toteutus
   [toteutus-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.toteutus.haut-list toteutus-oid)
@@ -108,10 +104,6 @@
 (defn list-toteutukset-by-haku
   [haku-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.toteutukset-list haku-oid)))
-
-(defn list-koulutukset-by-haku
-  [haku-oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.koulutukset-list haku-oid)))
 
 (defn list-hakukohteet-by-valintaperuste
   [valintaperuste-id]

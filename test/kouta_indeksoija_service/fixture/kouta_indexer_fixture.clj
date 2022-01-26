@@ -3,18 +3,98 @@
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
+            [kouta-indeksoija-service.indexer.tools.general :refer [not-arkistoitu? not-poistettu?]]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
-            [clojure.walk :refer [keywordize-keys stringify-keys postwalk]])
+            [clojure.string :as str]
+            [clojure.walk :refer [keywordize-keys stringify-keys postwalk]]
+            [clj-time.core :as time]
+            [clj-time.format :as time-format])
   (:import (fi.oph.kouta.external KoutaFixtureTool$)
            (java.util NoSuchElementException)))
 
 (defonce KoutaFixture KoutaFixtureTool$/MODULE$)
 
+(defonce koulutukset (atom {}))
+(defonce toteutukset (atom {}))
+(defonce haut (atom {}))
+(defonce hakukohteet (atom {}))
+(defonce valintaperusteet (atom {}))
+(defonce sorakuvaukset (atom {}))
+(defonce oppilaitokset (atom {}))
+(defonce oppilaitoksen-osat (atom {}))
+
+(defn complete-kielistetyt
+  [e]
+  (if (and (:kielivalinta e) (vector? (:kielivalinta e)))
+    (let [kielet (:kielivalinta e)
+          kieli-value (fn [kieli nimi] (assoc {} (keyword kieli) (str nimi " " kieli)))
+          do-kielista (fn [curr k] (assoc curr k (into {} (map (fn [kieli] (kieli-value kieli (get e k))) kielet))))
+          kielista (fn [curr k] (if (or (nil? (get curr k)) (map? (get curr k))) curr (do-kielista curr k)))]
+      (-> e
+          (kielista :nimi)
+          (kielista :esitysnimi)
+          (kielista :hakulomakeKuvaus)
+          (kielista :pohjakoulutusvaatimusTarkenne)
+          (kielista :hakulomakeLinkki)))
+    e))
+
+(defn common-start-time
+  []
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 1))))]
+    (str day "T09:49")))
+
+(defn common-end-time
+  []
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 1))))]
+    (str day "T09:58")))
+
+(defn common-near-future-time
+  []
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 3))))]
+    (str day "T09:58")))
+
+(defn fix-default-format
+  [entity]
+  (let [->vector (fn [e k] (if (get e k) (if (vector? (get e k)) e (assoc e k (vec (map str/trim (str/split (get e k) #","))))) e))
+        complete-esitysnimi (fn [e] (if (:esitysnimi e)
+                                      (-> e
+                                          (assoc :_enrichedData {:esitysnimi (:esitysnimi e)})
+                                          (dissoc :esitysnimi))
+                              e))
+        fix-organisaatio (fn [e] (if (and (:organisaatio e) (string? (:organisaatio e)))
+                                   (-> e
+                                       (assoc  :organisaatioOid (:organisaatio e))
+                                       (dissoc :organisaatio))
+                                   e))
+        fix-externalid (fn [e] (if (and (not (nil? (:externalId e))) (not (string? (:externalId e))))
+                                 (assoc e :externalId (str (:externalId e))) e))
+        fix-alkamisvuosi (fn [e] (postwalk (fn [sub] (if (:koulutuksenAlkamisvuosi sub)
+                                                       (assoc sub :koulutuksenAlkamisvuosi
+                                                                  (-> (time/today)
+                                                                      (.getYear)
+                                                                      (.toString))) sub)) e))]
+    (-> entity
+        (->vector :kielivalinta)
+        (->vector :tarjoajat)
+        (->vector :koulutuksetKoodiUri)
+        (->vector :pohjakoulutusvaatimusKoodiUrit)
+        (complete-kielistetyt)
+        (complete-esitysnimi)
+        (fix-organisaatio)
+        (fix-externalid)
+        (fix-alkamisvuosi))))
+
 (defn ->keywordized-json
   [string]
-  (keywordize-keys (parse-string string)))
+  (fix-default-format (keywordize-keys (parse-string string))))
+
+(defn json->clj-map
+  [string]
+  (let [clj-map (->keywordized-json string)]
+    (reduce-kv (fn [m k v]
+                 (assoc m k (if (string? v) v (generate-string v)))) {} clj-map)))
 
 (defn ->java-map
   [clj-map]
@@ -24,254 +104,367 @@
   [java-map]
   (keywordize-keys (merge {} java-map)))
 
-(defonce default-koulutus-map (->clj-map (.DefaultKoulutus KoutaFixture)))
-(defonce default-toteutus-map (->clj-map (.DefaultToteutus KoutaFixture)))
-(defonce default-haku-map (->clj-map (.DefaultHaku KoutaFixture)))
-(defonce default-hakukohde-map (->clj-map (.DefaultHakukohde KoutaFixture)))
-(defonce default-valintaperuste-map (->clj-map (.DefaultValintaperuste KoutaFixture)))
-(defonce default-sorakuvaus-map (->clj-map (.DefaultSorakuvaus KoutaFixture)))
-(defonce default-oppilaitos-map (->clj-map (.DefaultOppilaitos KoutaFixture)))
-(defonce default-oppilaitoksen-osa-map (->clj-map (.DefaultOppilaitoksenOsa KoutaFixture)))
+(defn java-map->pretty-json [java-map]
+  (let [clj-map (->clj-map java-map)
+        complete-clj-map  (reduce-kv (fn [m k v]
+                                       (assoc m k (if (string? v)
+                                                    (try
+                                                      (->keywordized-json v)
+                                                      (catch Exception _ v))
+                                                    v))) {} clj-map)]
+    (generate-string complete-clj-map {:pretty true})))
+
+(defn visible
+  [e]
+  (and (not-arkistoitu? e) (not-poistettu? e)))
+
+; Ota nämä pois kommentista ja aja testit, jos haluat päivittää default-entiteetti jsonit kouta-backendistä
+(comment
+  (spit "test/resources/kouta/default-koulutus.json" (java-map->pretty-json (.DefaultKoulutus KoutaFixture)))
+  (spit "test/resources/kouta/default-toteutus.json" (java-map->pretty-json (.DefaultToteutus KoutaFixture)))
+  (spit "test/resources/kouta/default-haku.json" (java-map->pretty-json (.DefaultHaku KoutaFixture)))
+  (spit "test/resources/kouta/default-hakukohde.json" (java-map->pretty-json (.DefaultHakukohde KoutaFixture)))
+  (spit "test/resources/kouta/default-valintaperuste.json" (java-map->pretty-json (.DefaultValintaperuste KoutaFixture)))
+  (spit "test/resources/kouta/default-sorakuvaus.json" (java-map->pretty-json (.DefaultSorakuvaus KoutaFixture)))
+  (spit "test/resources/kouta/default-oppilaitos.json" (java-map->pretty-json (.DefaultOppilaitos KoutaFixture)))
+  (spit "test/resources/kouta/default-oppilaitoksen-osa.json" (java-map->pretty-json (.DefaultOppilaitoksenOsa KoutaFixture)))
+
+  (spit "test/resources/kouta/lk-toteutus-metadata.json" (generate-string (->keywordized-json (.lukioToteutusMetadata KoutaFixture)) {:pretty true}))
+)
+
+(defonce default-koulutus-map (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json")))
+(defonce default-toteutus-map (->keywordized-json (slurp "test/resources/kouta/default-toteutus.json")))
+(defonce default-haku-map (->keywordized-json (slurp "test/resources/kouta/default-haku.json")))
+(defonce default-hakukohde-map (->keywordized-json (slurp "test/resources/kouta/default-hakukohde.json")))
+(defonce default-valintaperuste-map (->keywordized-json (slurp "test/resources/kouta/default-valintaperuste.json")))
+(defonce default-sorakuvaus-map (->keywordized-json (slurp "test/resources/kouta/default-sorakuvaus.json")))
+(defonce default-oppilaitos-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json")))
+(defonce default-oppilaitoksen-osa-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
+
+(defonce lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
 
 (defonce yo-koulutus-metadata
-  (generate-string
-   {:tyyppi               "yo"
+   {:tyyppi "yo"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce lk-koulutus-metadata
-  (generate-string
-   {:tyyppi               "lk"
+   {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
-                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]}))
+                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]})
 
 (defonce amk-koulutus-metadata
-  (generate-string
-   {:tyyppi               "amk"
+   {:tyyppi "amk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
     :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
-    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
 
 (defonce amm-tutkinnon-osa-koulutus-metadata
-  (generate-string
    {:tyyppi "amm-tutkinnon-osa"
     :tutkinnonOsat [{:koulutusKoodiUri "koulutus_123123#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}
                     {:koulutusKoodiUri "koulutus_123125#1" :tutkinnonosaId 1235 :tutkinnonosaViite 5677}
-                    {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}]}))
+                    {:koulutusKoodiUri "koulutus_123444#1" :tutkinnonosaId 1236 :tutkinnonosaViite 5679}
+                    {:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1237 :tutkinnonosaViite 5680}]
+    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce amm-osaamisala-koulutus-metadata
-  (generate-string
    {:tyyppi "amm-osaamisala"
-    :osaamisalaKoodiUri "osaamisala_1111#1"}))
+    :osaamisalaKoodiUri "osaamisala_01"
+    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce lukio-koulutus-metadata
-  (generate-string
-   {:tyyppi               "lk"
+   {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
     :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
-    :kuvauksenNimi        {:fi "kuvaus", :sv "kuvaus sv"}}))
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce tuva-koulutus-metadata
-  (generate-string
-   {:tyyppi               "tuva"
+   {:tyyppi "tuva"
     :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
-    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv" }
-    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}}))
+    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defn add-koulutus-mock
   [oid & {:as params}]
-  (let [koulutus (merge default-koulutus-map {:organisaatio Oppilaitos1} params)]
-    (.addKoulutus KoutaFixture oid (->java-map koulutus))))
+  (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid Oppilaitos1} params))]
+    (swap! koulutukset assoc oid koulutus)))
 
 (defn update-koulutus-mock
   [oid & {:as params}]
-  (.updateKoulutus KoutaFixture oid (->java-map params)))
+  (let [koulutus (fix-default-format (merge (get @koulutukset oid) params))]
+    (swap! koulutukset assoc oid koulutus)))
 
 (defn mock-get-koulutus
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getKoulutus KoutaFixture oid))))
+  (get @koulutukset oid))
 
 (defn mock-get-koulutukset-by-tarjoaja
   [oid]
-  (let [oids (str oid "," oid "1," oid "2," oid "3")]
-    (locking KoutaFixture
-      (->keywordized-json (.getKoulutuksetByTarjoajat KoutaFixture oids)))))
+  (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
+        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
+    (filter pred (vals @koulutukset))))
 
 (defn mock-get-hakukohde-oids-by-jarjestyspaikka
   [oid]
-  (let [oids (str oid "," oid "1," oid "2," oid "3")]
-    (locking KoutaFixture
-      (->keywordized-json (.getHakukohdeOidsByJarjestyspaikat KoutaFixture oids)))))
+  (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
+        pred (fn [hk] (contains? oids (:jarjestyspaikkaOid hk)))]
+    (map :oid (filter pred (vals @hakukohteet)))))
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
-  (let [toteutus (merge default-toteutus-map {:organisaatio Oppilaitos1} params {:koulutusOid koulutusOid})]
-    (.addToteutus KoutaFixture oid (->java-map toteutus))))
+  (let [toteutus (fix-default-format (merge default-toteutus-map params {:organisaatio Oppilaitos1 :koulutusOid koulutusOid :oid oid}))]
+    (swap! toteutukset assoc oid toteutus)))
 
 (defn update-toteutus-mock
   [oid & {:as params}]
-  (.updateToteutus KoutaFixture oid (->java-map params)))
+  (let [toteutus (merge (get @toteutukset oid) params)]
+    (swap! toteutukset assoc oid toteutus)))
 
 (defn mock-get-toteutus
   [oid]
-  (locking KoutaFixture
-    (postwalk
-     (fn [sub] (if (:koulutuksenAlkamisvuosi sub) (assoc sub :koulutuksenAlkamisvuosi "2022") sub))
-     (->keywordized-json (.getToteutus KoutaFixture oid)))))
+  (get @toteutukset oid))
 
 (defn mock-get-toteutukset
   ([koulutusOid vainJulkaistut]
-   (comment let [pred (fn [e] (and (= (:koulutusOid (val e)) koulutusOid) (or (not vainJulkaistut) (= (:tila (val e)) "julkaistu"))))
-                 mapper (fn [e] (->toteutus-mock-response (name (key e)) koulutusOid (val e)))]
-            (map mapper (find-from-atom toteutukset pred)))
-   (locking KoutaFixture
-     (->keywordized-json (.getToteutuksetByKoulutus KoutaFixture koulutusOid vainJulkaistut))))
+   (let [pred (fn [e] (and (= (:koulutusOid e) koulutusOid) (or (not vainJulkaistut) (= (:tila e) "julkaistu"))))]
+     (filter pred (vals @toteutukset))))
   ([koulutusOid]
    (mock-get-toteutukset koulutusOid false)))
 
+(defn set-vals-in-depth
+  [e k v]
+  (postwalk (fn [sub] (if (get sub k) (assoc sub k v) sub)) e))
+
 (defn add-haku-mock
   [oid & {:as params}]
-  (let [haku (merge default-haku-map {:organisaatio Oppilaitos1} params)]
-    (.addHaku KoutaFixture oid (->java-map haku))))
+  (let [fix-dates (fn [haku] (-> haku
+                                 (assoc :hakuajat [{:alkaa (common-start-time) :paattyy (common-end-time)}])
+                                 (dissoc :hakuaikaAlkaa :hakuaikaPaattyy)
+                                 (set-vals-in-depth :alkaa (common-start-time))
+                                 (set-vals-in-depth :paattyy (common-end-time))
+                                 (set-vals-in-depth :hakuaikaAlkaa (common-start-time))
+                                 (set-vals-in-depth :hakuaikaPaattyy (common-end-time))
+                                 (set-vals-in-depth :hakukohteenMuokkaamisenTakaraja (common-end-time))
+                                 (set-vals-in-depth :hakukohteenLiittamisenTakaraja (common-start-time))
+                                 (set-vals-in-depth :ajastettuJulkaisu (common-near-future-time))))
+        haku (fix-default-format (fix-dates (merge default-haku-map {:organisaatio Oppilaitos1} {:oid oid} params)))]
+    (swap! haut assoc oid haku)))
 
 (defn update-haku-mock
   [oid & {:as params}]
-  (.updateHaku KoutaFixture oid (->java-map params)))
+  (let [haku (merge (get @haut oid) params)]
+    (swap! haut assoc oid haku)))
 
 (defn mock-get-haku
   [oid]
-  (locking KoutaFixture
-    (postwalk
-     (fn [sub] (if (:koulutuksenAlkamisvuosi sub) (assoc sub :koulutuksenAlkamisvuosi "2022") sub))
-     (->keywordized-json (.getHaku KoutaFixture oid)))))
+  (get @haut oid))
 
 (defn add-hakukohde-mock
   [oid toteutusOid hakuOid & {:as params}]
-  (let [hakukohde (merge default-hakukohde-map {:organisaatio Oppilaitos1} params {:hakuOid hakuOid :toteutusOid toteutusOid})]
-    (.addHakukohde KoutaFixture oid (->java-map hakukohde))))
+  (let [fix-dates (fn [hk] (-> hk
+                               (assoc :hakuajat [{:alkaa (common-start-time) :paattyy (common-end-time)}])
+                               (dissoc :hakuaikaAlkaa :hakuaikaPaattyy)
+                               (set-vals-in-depth :koulutuksenAlkamispaivamaara (common-start-time))
+                               (set-vals-in-depth :koulutuksenPaattymispaivamaara (common-end-time))
+                               (set-vals-in-depth :alkaa (common-start-time))
+                               (set-vals-in-depth :paattyy (common-end-time))
+                               (set-vals-in-depth :toimitusaika (common-end-time))))
+        fix-valintaperuste (fn [hk] (if (:valintaperuste hk) (assoc hk :valintaperusteId (:valintaperuste hk)) hk))
+        fix-muu-pk-vaatimus (fn [hk] (if (nil? (:muuPohjakoulutusvaatimus hk)) (assoc hk :muuPohjakoulutusvaatimus {}) hk))
+
+        hakukohde (fix-default-format
+                   (fix-dates
+                    (fix-valintaperuste
+                     (fix-muu-pk-vaatimus
+                      (merge default-hakukohde-map {:organisaatio Oppilaitos1} params
+                                                    {:oid oid :hakuOid hakuOid :toteutusOid toteutusOid}
+                                                    {:liitteidenToimitusaika (common-near-future-time)})))))]
+    (swap! hakukohteet assoc oid hakukohde)))
 
 (defn update-hakukohde-mock
   [oid & {:as params}]
-  (.updateHakukohde KoutaFixture oid (->java-map params)))
+  (let [hakukohde (merge (get @hakukohteet oid) params)]
+    (swap! hakukohteet assoc oid hakukohde)))
 
 (defn mock-get-hakukohde
   [oid]
-  (locking KoutaFixture
-    (->keywordized-json (.getHakukohde KoutaFixture oid))))
+  (get @hakukohteet oid))
 
 (defn add-valintaperuste-mock
   [id & {:as params}]
-  (let [valintaperuste (merge default-valintaperuste-map {:organisaatio Oppilaitos1} params)]
-    (.addValintaperuste KoutaFixture id (->java-map valintaperuste))))
+  (let [fix-in-depth (fn [e] (-> e
+                              (set-vals-in-depth :alkaa (common-start-time))
+                              (set-vals-in-depth :paattyy (common-end-time))))
+        valintaperuste (fix-default-format
+                        (fix-in-depth
+                          (merge default-valintaperuste-map {:id id :organisaatio Oppilaitos1} params)))]
+    (swap! valintaperusteet assoc id valintaperuste)))
 
 (defn update-valintaperuste-mock
   [id & {:as params}]
-  (.updateValintaperuste KoutaFixture id (->java-map params)))
+  (let [valintaperuste (merge (get @valintaperusteet id) params)]
+    (swap! valintaperusteet assoc id valintaperuste)))
 
 (defn mock-get-valintaperuste
   [id]
-  (locking KoutaFixture
-    (->keywordized-json (.getValintaperuste KoutaFixture id))))
+  (get @valintaperusteet id))
 
 (defn add-sorakuvaus-mock
   [id & {:as params}]
-  (let [sorakuvaus (merge default-sorakuvaus-map {:organisaatio Oppilaitos1} params)]
-    (.addSorakuvaus KoutaFixture id (->java-map sorakuvaus))))
+  (let [strip-extra (fn [sk] (dissoc sk :sorakuvausId :julkinen))
+        sorakuvaus (fix-default-format (strip-extra (merge default-sorakuvaus-map {:organisaatio Oppilaitos1 :id id} params)))]
+    (swap! sorakuvaukset assoc id sorakuvaus)))
 
 (defn update-sorakuvaus-mock
   [id & {:as params}]
-  (.updateSorakuvaus KoutaFixture id (->java-map params)))
+  (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
+    (swap! sorakuvaukset assoc id sorakuvaus)))
 
 (defn add-oppilaitos-mock
   [oid & {:as params}]
-  (let [oppilaitos (merge default-oppilaitos-map {:organisaatio Oppilaitos1} params)]
-    (.addOppilaitos KoutaFixture oid (->java-map oppilaitos))))
+  (let [oppilaitos (fix-default-format (merge default-oppilaitos-map {:organisaatio Oppilaitos1 :oid oid} params))]
+    (swap! oppilaitokset assoc oid oppilaitos)))
 
 (defn update-oppilaitos-mock
   [oid & {:as params}]
-  (.updateOppilaitos KoutaFixture oid (->java-map params)))
+  (let [oppilaitos (merge (get @oppilaitokset oid) params)]
+    (swap! oppilaitokset assoc oid oppilaitos)))
 
 (defn mock-get-oppilaitos
   [oid]
-  (try (locking KoutaFixture
-         (->keywordized-json (.getOppilaitos KoutaFixture oid)))
-       (catch NoSuchElementException e nil)))
+  (get @oppilaitokset oid))
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
-  (let [oppilaitoksen-osa (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1} params {:oppilaitosOid oppilaitosOid})]
-    (.addOppilaitoksenOsa KoutaFixture oid (->java-map oppilaitoksen-osa))))
+  (let [oppilaitoksen-osa (fix-default-format (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1 :oppilaitosOid oppilaitosOid :oid oid} params))]
+    (swap! oppilaitoksen-osat assoc oid oppilaitoksen-osa)))
 
 (defn update-oppilaitoksen-osa-mock
   [oid & {:as params}]
-  (.updateOppilaitoksenOsa KoutaFixture oid (->java-map params)))
+  (let [oppilaitoksen-osa (merge (get @oppilaitoksen-osat oid) params)]
+    (swap! oppilaitoksen-osat assoc oid oppilaitoksen-osa)))
 
 (defn mock-get-oppilaitoksen-osa
   [oid]
-  (try (locking KoutaFixture
-         (->keywordized-json (.getOppilaitoksenOsa KoutaFixture oid)))
-       (catch NoSuchElementException e nil)))
+  (get @oppilaitoksen-osat oid))
 
 (defn mock-get-sorakuvaus
   [id]
-  (locking KoutaFixture
-    (->keywordized-json (.getSorakuvaus KoutaFixture id))))
+  (get @sorakuvaukset id))
 
 (defn mock-get-hakukohteet-by-haku
   [hakuOid]
-  (locking KoutaFixture
-    (->keywordized-json (.listHakukohteetByHaku KoutaFixture hakuOid))))
+  (let [pred (fn [e] (= (:hakuOid e) hakuOid))
+        ->list-item (fn [hk] (into {}
+                                   (remove (comp nil? second)
+                                           (assoc {}
+                                             :oid (:oid hk)
+                                             :toteutusOid (:toteutusOid hk)
+                                             :hakuOid (:hakuOid hk)
+                                             :valintaperusteId (:valintaperusteId hk)
+                                             :nimi (:nimi hk)
+                                             :hakukohdeKoodiUri (:hakukohdeKoodiUri hk)
+                                             :tila (:tila hk)
+                                             :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
+                                             :organisaatioOid (:organisaatioOid hk)
+                                             :muokkaaja (:muokkaaja hk)
+                                             :modified (:modified hk)))))]
+    (map ->list-item (filter pred (vals @hakukohteet)))))
 
 (defn mock-list-haut-by-toteutus
   [toteutusOid]
-  (locking KoutaFixture
-    (->keywordized-json (.listHautByToteutus KoutaFixture toteutusOid))))
-
-(defn mock-list-hakukohteet-by-toteutus
-  [toteutusOid]
-  (locking KoutaFixture
-    (->keywordized-json (.listHakukohteetByToteutus KoutaFixture toteutusOid))))
+  (let [find-hakukohteet (fn [tOid] (filter (fn [hk] (and (visible hk) (= (:toteutusOid hk) tOid))) (vals @hakukohteet)))
+        find-haut (fn [hakuOids] (filter visible (map mock-get-haku hakuOids)))]
+    (find-haut (map :hakuOid (find-hakukohteet toteutusOid)))))
 
 (defn mock-list-hakukohteet-by-valintaperuste
   [valintaperusteId]
-  (locking KoutaFixture
-    (->keywordized-json (.listHakukohteetByValintaperuste KoutaFixture valintaperusteId))))
-
-(defn mock-list-koulutukset-by-haku
-  [hakuOid]
-  (locking KoutaFixture
-    (->keywordized-json (.listKoulutuksetByHaku KoutaFixture hakuOid))))
+  (filter (fn [hk] (= (:valintaperusteId hk) valintaperusteId)) (vals @hakukohteet)))
 
 (defn mock-list-toteutukset-by-haku
   [hakuOid]
-  (locking KoutaFixture
-    (->keywordized-json (.listToteutuksetByHaku KoutaFixture hakuOid))))
+  (let [find-hakukohteet (fn [hOid] (filter (fn [hk] (= (:hakuOid hk) hOid)) (vals @hakukohteet)))
+        ->list-item (fn [t] (into {}
+                                  (remove (comp nil? second)
+                                          (assoc {}
+                                            :oid (:oid t)
+                                            :koulutusOid (:koulutusOid t)
+                                            :nimi (:nimi t)
+                                            :tila (:tila t)
+                                            :tarjoajat (:tarjoajat t)
+                                            :organisaatioOid (:organisaatioOid t)
+                                            :muokkaaja (:muokkaaja t)
+                                            :modified (:modified t)))))]
+    (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk)))) (find-hakukohteet hakuOid))))
 
 (defn mock-get-hakutiedot-for-koulutus
   [oid]
-  (locking KoutaFixture
-    (postwalk
-     (fn [sub] (if (:koulutuksenAlkamisvuosi sub) (assoc sub :koulutuksenAlkamisvuosi "2022") sub))
-     (->keywordized-json (.getHakutiedotByKoulutus KoutaFixture oid)))))
+  (let [find-toteutukset (fn [oid] (filter (fn [t] (= (:koulutusOid t) oid)) (vals @toteutukset)))
+        find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
+        ajanjakso (fn [alkaa paattyy] (assoc {} :alkaa alkaa :paattyy paattyy))
+        assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk))]
+                                   (into {} (remove (comp nil? second)
+                                    (assoc {}
+                                      :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
+                                      :tila (:tila hk)
+                                      :nimi (:nimi hk)
+                                      :hakukohdeOid (:oid hk)
+                                      :hakulomakeKuvaus (:hakulomakeKuvaus hk)
+                                      :kaytetaanHaunAikataulua (:kaytetaanHaunAikataulua hk)
+                                      :pohjakoulutusvaatimusKoodiUrit (:pohjakoulutusvaatimusKoodiUrit hk)
+                                      :pohjakoulutusvaatimusTarkenne (:pohjakoulutusvaatimusTarkenne hk)
+                                      :hakulomaketyyppi (:hakulomaketyyppi hk)
+                                      :hakulomakeLinkki (:hakulomakeLinkki hk)
+                                      :hakulomakeAtaruId (:hakulomakeAtaruId hk)
+                                      :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
+                                      :organisaatioOid (:organisaatioOid hk)
+                                      :muokkaaja (:muokkaaja hk)
+                                      :modified (:modified hk)
+                                      :esikatselu (:esikatselu hk)
+                                      :valintaperusteId (:valintaperusteId hk)
+                                      :aloituspaikat (get-in hk [:metadata :aloituspaikat])
+                                      :hakukohteenLinja (get-in hk [:metadata :hakukohteenLinja])
+                                      :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
+                                      :valintatapaKoodiUrit (map :valintatapaKoodiUri
+                                                                 (get-in vp [:metadata :valintatavat])))))))
+        assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid)]
+                               (assoc {}
+                                 :hakuOid hOid
+                                 :hakutapaKoodiUri (:hakutapaKoodiUri haku)
+                                 :tila (:tila haku)
+                                 :nimi (:nimi haku)
+                                 :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
+                                 :koulutuksenAlkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi])
+                                 :hakukohteet (vec (map assoc-hakukohde hks))
+                                 )
+                               nil))
+        assoc-haut (fn [hkByH] (map (fn [hOid] (assoc-haku hOid (get hkByH hOid))) (keys hkByH)))
+        assoc-toteutus (fn [t] (assoc {} :toteutusOid (:oid t)
+                                         :haut (vec (assoc-haut (group-by :hakuOid (find-hakukohteet (:oid t)))))))]
+    (vec (map assoc-toteutus (find-toteutukset oid)))))
 
 (defn mock-list-koulutus-oids-by-sorakuvaus
   [sorakuvausId]
-  (locking KoutaFixture
-    (->keywordized-json (.listKoulutusOidsBySorakuvaus KoutaFixture sorakuvausId))))
+  (let [find-koulutukset (fn [sid] (filter (fn [k] (= (:sorakuvausId k) sid)) (vals @koulutukset)))]
+    (map :oid (find-koulutukset sorakuvausId))))
 
 (defn mock-get-oppilaitoksen-osat-by-oppilaitos
   [oppilaitosOid]
-  (locking KoutaFixture
-    (->keywordized-json (.getOppilaitostenOsatByOppilaitos KoutaFixture oppilaitosOid))))
+  (filter (fn [osa] (= (:oppilaitosOid osa) oppilaitosOid)) (vals @oppilaitoksen-osat)))
 
 (defn mock-get-last-modified
   [since]
-  (locking KoutaFixture
-    (->keywordized-json (.getLastModified KoutaFixture since))))
+  (-> {}
+      (assoc :koulutukset (map :oid (vals @koulutukset)))
+      (assoc :toteutukset (map :oid (vals @toteutukset)))
+      (assoc :haut (map :oid (vals @haut)))
+      (assoc :hakukohteet (map :oid (vals @hakukohteet)))
+      (assoc :valintaperusteet (map :id (vals @valintaperusteet)))
+      (assoc :sorakuvaukset (map :id (vals @sorakuvaukset)))
+      (assoc :oppilaitokset (map :oid (vals @oppilaitokset)))))
 
 (defn reset-indices
   []
@@ -298,7 +491,14 @@
 
 (defn reset-mocks
   []
-  (.reset KoutaFixture))
+  (reset! koulutukset {})
+  (reset! toteutukset {})
+  (reset! haut {})
+  (reset! hakukohteet {})
+  (reset! valintaperusteet {})
+  (reset! sorakuvaukset {})
+  (reset! oppilaitokset {})
+  (reset! oppilaitoksen-osat {}))
 
 (defn init
   []
@@ -336,12 +536,12 @@
 (defn mocked-hierarkia-default-entity [oid]
   (println "mocked hierarkia base entity for oid " oid)
   {:organisaatiot [{:oid oid
-                    :alkuPvm	"694216800000"
+                    :alkuPvm "694216800000"
                     :kotipaikkaUri "kunta_091"
                     :parentOid (str oid "parent")
                     :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
                     :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
-                    :oppilaitosKoodi	"12345"
+                    :oppilaitosKoodi "12345"
                     :oppilaitostyyppi "oppilaitostyyppi_42#1"
                     :nimi {:fi (str "Oppilaitos fi " oid)
                            :sv (str "Oppilaitos sv " oid)}
@@ -353,12 +553,12 @@
 (defn mocked-hierarkia-konfo-backend-test-entity [oid kunta nimi-fi nimi-sv]
   (println "mocked hierarkia konfo backend entity for oid " oid " kunta " kunta " nimi " nimi-fi " nimi sv " nimi-sv)
   {:organisaatiot [{:oid oid
-                    :alkuPvm	"694216800000"
+                    :alkuPvm "694216800000"
                     :kotipaikkaUri kunta
                     :parentOid (str oid "parent")
                     :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
                     :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
-                    :oppilaitosKoodi	"12345"
+                    :oppilaitosKoodi "12345"
                     :oppilaitostyyppi "oppilaitostyyppi_42#1"
                     :nimi {:fi nimi-fi
                            :sv nimi-sv}
@@ -431,14 +631,8 @@
                  kouta-indeksoija-service.rest.kouta/list-haut-by-toteutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-haut-by-toteutus
 
-                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-toteutus
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-toteutus
-
                  kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-valintaperuste
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-valintaperuste
-
-                 kouta-indeksoija-service.rest.kouta/list-koulutukset-by-haku
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutukset-by-haku
 
                  kouta-indeksoija-service.rest.kouta/list-toteutukset-by-haku
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-toteutukset-by-haku
@@ -490,7 +684,7 @@
 
                  kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
-                 
+
                  kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
                  mock-koulutustyyppi-koodisto]
      (do ~@body)))

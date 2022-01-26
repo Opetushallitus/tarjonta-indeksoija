@@ -10,14 +10,10 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
-            [cheshire.core :refer [generate-string]])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
-
-(defonce KoutaFixtureTool KoutaFixtureTool$/MODULE$)
+            [cheshire.core :refer [generate-string]]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
-
 
 (deftest index-toteutus-test
    (fixture/with-mocked-indexing
@@ -37,8 +33,8 @@
      (testing "Indexer should index lukio toteutus to toteutus index"
        (with-redefs [kouta-indeksoija-service.rest.eperuste/get-doc mocks/mock-get-eperuste]
          (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
-         (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu" :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}}))
+         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
+         (fixture/update-hakukohde-mock hakukohde-oid :tila "tallennettu" :metadata {:hakukohteenLinja {:painotetutArvosanat [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}})
          (check-all-nil)
          (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
          (compare-json (no-timestamp (json "kouta-toteutus-lukio-result"))

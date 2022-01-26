@@ -232,8 +232,7 @@
               "paattyy": "!!endTime1"
             }
           ],
-          "hakutapa": "hakutapa_01",
-          "yhteishakuOid": "1.2.246.562.29.00000000000000000002",
+          "hakutapa": "hakutapa_03",
           "pohjakoulutusvaatimukset": [
             "pohjakoulutusvaatimuskonfo_am"
           ],
@@ -249,7 +248,8 @@
               "paattyy": "!!endTime1"
             }
           ],
-          "hakutapa": "hakutapa_03",
+          "hakutapa": "hakutapa_01",
+          "yhteishakuOid": "1.2.246.562.29.00000000000000000002",
           "pohjakoulutusvaatimukset": [
             "pohjakoulutusvaatimuskonfo_am"
           ],
@@ -569,8 +569,8 @@
               "paattyy": "!!endTime1"
             }
           ],
-          "hakutapa": "hakutapa_01",
-          "yhteishakuOid": "1.2.246.562.29.00000000000000000002",
+          "hakutapa": "hakutapa_03",
+          "yhteishakuOid": null,
           "pohjakoulutusvaatimukset": [
             "pohjakoulutusvaatimuskonfo_am"
           ],
@@ -586,8 +586,8 @@
               "paattyy": "!!endTime1"
             }
           ],
-          "hakutapa": "hakutapa_03",
-          "yhteishakuOid": null,
+          "hakutapa": "hakutapa_01",
+          "yhteishakuOid": "1.2.246.562.29.00000000000000000002",
           "pohjakoulutusvaatimukset": [
             "pohjakoulutusvaatimuskonfo_am"
           ],

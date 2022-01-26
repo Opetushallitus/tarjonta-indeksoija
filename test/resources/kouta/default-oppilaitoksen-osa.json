@@ -1,0 +1,52 @@
+{
+  "kielivalinta" : "fi,sv",
+  "tila" : "julkaistu",
+  "teemakuva" : "https://testi.fi/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
+  "modified" : "2022-01-14T13:48:49",
+  "organisaatio" : "1.2.246.562.10.67476956288",
+  "muokkaaja" : "1.2.246.562.24.10000000000",
+  "metadata" : {
+    "yhteystiedot" : [ {
+      "nimi" : {
+        "fi" : "nimi",
+        "sv" : "nimi sv"
+      },
+      "postiosoite" : {
+        "osoite" : {
+          "fi" : "Kivatie 1",
+          "sv" : "kivavägen 1"
+        },
+        "postinumeroKoodiUri" : "posti_04230#2"
+      },
+      "puhelinnumero" : {
+        "fi" : "123",
+        "sv" : "123"
+      },
+      "sahkoposti" : {
+        "fi" : "aku.ankka@ankkalinnankoulu.fi",
+        "sv" : "aku.ankka@ankkalinnankoulu.fi"
+      }
+    } ],
+    "wwwSivu" : {
+      "nimi" : {
+        "fi" : "Linkki suomeksi",
+        "sv" : "Linkki ruotsiksi"
+      },
+      "url" : {
+        "fi" : "http://www.oppilaitos.fi",
+        "sv" : "http://www.oppilaitos.sv"
+      }
+    },
+    "opiskelijoita" : 100,
+    "kampus" : {
+      "fi" : "Kampus fi",
+      "sv" : "Kampus sv"
+    },
+    "esittely" : {
+      "fi" : "Esittely",
+      "sv" : "Esittely sv"
+    },
+    "jarjestaaUrheilijanAmmKoulutusta" : false
+  },
+  "esikatselu" : false
+}

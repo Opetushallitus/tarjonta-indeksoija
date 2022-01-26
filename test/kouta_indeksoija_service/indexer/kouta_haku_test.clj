@@ -7,14 +7,11 @@
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
             [kouta-indeksoija-service.indexer.kouta.haku :as haku]
-            [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
+            [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
-            [cheshire.core :refer [generate-string]])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
-
-(defonce KoutaFixtureTool KoutaFixtureTool$/MODULE$)
+            [cheshire.core :refer [generate-string]]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -36,8 +33,8 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohteet with hakukohdeKoodiUri to haku-index, if hakukohdeKoodiUri available"
      (check-all-nil)
-     (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi "")
-     (fixture/update-hakukohde-mock hakukohde-oid2 :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2" :nimi "")
+     (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi {})
+     (fixture/update-hakukohde-mock hakukohde-oid2 :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#2" :nimi {})
      (i/index-haut [haku-oid] (. System (currentTimeMillis)))
      (let [ hakukohteet (to-array (:hakukohteet (get-doc haku/index-name haku-oid))) ]
        (is (= 2 (alength hakukohteet)))

@@ -127,7 +127,7 @@
                              :nimi "Autoalan perustutkinto 0"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :sorakuvausId sorakuvaus-id
-                             :julkinen "true"
+                             :julkinen true
                              :modified "2019-01-31T09:11:23"
                              :tarjoajat "1.2.246.562.10.54545454545")
 

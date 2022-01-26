@@ -12,10 +12,7 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
-            [cheshire.core :refer [generate-string]])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)))
-
-(defonce KoutaFixtureTool KoutaFixtureTool$/MODULE$)
+            [cheshire.core :refer [generate-string]]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
@@ -38,22 +35,22 @@
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
+     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid
-                                    :metadata (generate-string {:hakukohteenLinja {:linja nil :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
-                                                                :kaytetaanHaunAlkamiskautta false
-                                                                :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}))
+                                    :metadata {:hakukohteenLinja {:painotetutArvosanat [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
+                                               :kaytetaanHaunAlkamiskautta false
+                                                :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (= (get-in hakukohde [:metadata :hakukohteenLinja]) {:painotetutArvosanat [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}))))))
+       (is (= {:painotetutArvosanat [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}} (get-in hakukohde [:metadata :hakukohteenLinja])))))))
 
 (deftest index-hakukohde-with-hakukohdekoodiuri-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde with hakukohdekoodiuri"
       (check-all-nil)
       (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
-      (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata (.lukioToteutusMetadata KoutaFixtureTool))
-      (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi (generate-string {}))
+      (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
+      (fixture/update-hakukohde-mock hakukohde-oid :hakukohdeKoodiUri "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1" :nimi {})
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (= (:nimi hakukohde) {:fi "hakukohteetperusopetuksenjalkeinenyhteishaku_101#1 nimi fi",
@@ -72,7 +69,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde with er-koulutustyyppikoodi"
      (check-all-nil)
-     (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:ammatillinenPerustutkintoErityisopetuksena true}))
+     (fixture/update-toteutus-mock toteutus-oid :metadata {:ammatillinenPerustutkintoErityisopetuksena true})
      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= "koulutustyyppi_4" (:koulutustyyppikoodi hakukohde)))))))
@@ -81,7 +78,7 @@
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde with tuva-er-koulutustyyppikoodi"
      (check-all-nil)
-     (fixture/update-toteutus-mock toteutus-oid :metadata (generate-string {:tyyppi "tuva" :jarjestetaanErityisopetuksena true}))
+     (fixture/update-toteutus-mock toteutus-oid :metadata {:tyyppi "tuva" :jarjestetaanErityisopetuksena true})
      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= "koulutustyyppi_41" (:koulutustyyppikoodi hakukohde)))))))
@@ -101,7 +98,7 @@
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
      (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu" :kaytetaanHaunAlkamiskautta "true" :alkamiskausiKoodiUri "kausi_s#1" :alkamisvuosi nil)
-     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1" :metadata (generate-string {:koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}))
+     (fixture/update-haku-mock haku-oid :tila "julkaistu" :kohdejoukonTarkenneKoodiUri "haunkohdejoukontarkenne_3#1" :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)
            yhden-paikan-saanto (:yhdenPaikanSaanto hakukohde)]
@@ -134,12 +131,12 @@
    (testing "Indexer should create hakulomakeLinkki from haku oid"
      (check-all-nil)
      (fixture/update-haku-mock haku-oid :hakulomaketyyppi "ataru")
-     (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru" :kaytetaanHaunHakulomaketta "true")
+     (fixture/update-hakukohde-mock hakukohde-oid :hakulomaketyyppi "ataru" :kaytetaanHaunHakulomaketta true)
      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
-     (compare-json (:hakulomakeLinkki (get-doc haku/index-name haku-oid))
-                   {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
+     (compare-json {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
                     :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
-                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
+                    :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}
+                   (:hakulomakeLinkki (get-doc haku/index-name haku-oid))))))
 
 (deftest index-hakukohde-yps-haku-luonnos-test
    (fixture/with-mocked-indexing
