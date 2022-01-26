@@ -303,9 +303,6 @@
    (cond
      amm-erityisopetuksena? [amm-perustutkinto-erityisopetuksena-koulutustyyppi koulutustyyppi]
      (and (tuva? koulutus) (not= toteutus-metadata nil)) [(if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal") koulutustyyppi]
-     (amm-osaamisala? koulutus) [koulutustyyppi "amm-muu"]
-     (amm-tutkinnon-osa? koulutus) [koulutustyyppi "amm-muu"]
-     (telma? koulutus) [koulutustyyppi "amm-muu"]
      (vapaa-sivistystyo-opistovuosi? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
      (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
      :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
