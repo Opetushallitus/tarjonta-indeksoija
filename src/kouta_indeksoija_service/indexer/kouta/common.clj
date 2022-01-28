@@ -142,7 +142,7 @@
                                            t))
                                   t)))]
     (postwalk #(-> %
-                   (format-date-kws [:koulutuksenAlkamispaivamaara :liitteidenToimitusaika :toimitusaika :modified :paattyy :alkaa])) form)))
+                   (format-date-kws [:koulutuksenAlkamispaivamaara :koulutuksenPaattymispaivamaara :liitteidenToimitusaika :toimitusaika :modified :paattyy :alkaa])) form)))
 
 (defn complete-entry
   [entry]
