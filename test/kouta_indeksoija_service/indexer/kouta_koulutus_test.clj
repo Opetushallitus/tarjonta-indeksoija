@@ -218,3 +218,24 @@
       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
             opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
         (is (= opintojenLaajuusNumero 38))))))
+
+(deftest index-aikuisten-perusopetus-koulutus
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index aikuisten perusopetus specific metadata"
+     (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "tuva" :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+     (check-all-nil)
+     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+     (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+           opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
+           linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
+           kuvaus (get-in koulutus [:metadata :kuvaus :fi])
+           opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])]
+       (is (= opintojen-laajuus "opintojenlaajuus_38#1 nimi fi"))
+       (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_8#1"))
+       (is (= linkki-eperusteisiin "http://testilinkki.fi"))
+       (is (= kuvaus "kuvausteksti"))))
+
+   (testing "Indexer should index 38 for opintojenLaajuusNumero in case of aikuisten-perusopetus"
+     (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+           opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
+       (is (= opintojenLaajuusNumero 38))))))

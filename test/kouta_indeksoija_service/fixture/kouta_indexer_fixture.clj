@@ -187,6 +187,12 @@
     :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
     :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
+(defonce aikuisten-perusopetus-koulutus-metadata
+         {:tyyppi "aikuisten-perusopetus"
+          :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
+          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid Oppilaitos1} params))]
