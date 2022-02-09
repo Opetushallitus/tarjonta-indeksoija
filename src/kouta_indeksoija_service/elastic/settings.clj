@@ -15,6 +15,14 @@
                        :finnish_stemmer_for_long_words {:type "condition"
                                                         :filter ["finnish_stemmer"]
                                                         :script {:source "token.getTerm().length() > 5"}}
+                       :finnish_raudikko {:type "raudikko"}
+                       :finnish_decompound {:type "hyphenation_decompounder"
+                                            :hyphenation_patterns_path "decompound/fi/hyphenation.xml"
+                                            :word_list_path "decompound/fi/words.txt"
+                                            :min_word_size "5"
+                                            :min_subword_size "4"
+                                            :max_subword_size "100"
+                                            :only_longest_match "false"}
                        :swedish_stop {:type "stop"
                                       :stopwords "_swedish_"}
                        :swedish_stemmer {:type "stemmer"
@@ -22,6 +30,15 @@
                        :swedish_stemmer_for_long_words {:type "condition"
                                                         :filter ["swedish_stemmer"]
                                                         :script {:source "token.getTerm().length() > 5"}}
+                       :swedish_hunspell {:type "hunspell"
+                                          :locale "sv"}
+                       :swedish_decompound {:type "hyphenation_decompounder"
+                                            :hyphenation_patterns_path "decompound/sv/hyphenation.xml"
+                                            :word_list_path "decompound/sv/words.txt"
+                                            :min_word_size "5"
+                                            :min_subword_size "4"
+                                            :max_subword_size "100"
+                                            :only_longest_match "false"}
                        :english_stop {:type "stop"
                                       :stopwords "_english_"}
                        :english_keywords {:type "keyword_marker"
@@ -44,6 +61,19 @@
                                          :filter ["lowercase"
                                                   "finnish_stop"
                                                   "remove_duplicates"]}
+                         :finnish_lemmatizer {:type "custom"
+                                              :tokenizer "finnish"
+                                              :filter ["lowercase"
+                                                       "finnish_stop"
+                                                       "finnish_raudikko"
+                                                       "remove_duplicates"]}
+                         :finnish_lemmatizer_with_decompound {:type "custom"
+                                              :tokenizer "finnish"
+                                              :filter ["lowercase"
+                                                       "finnish_stop"
+                                                       "finnish_raudikko"
+                                                       "finnish_decompound"
+                                                       "remove_duplicates"]}
                          :finnish_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
@@ -60,6 +90,19 @@
                                          :filter ["lowercase"
                                                   "swedish_stop"
                                                   "remove_duplicates"]}
+                         :swedish_hunspell {:type "custom"
+                                         :tokenizer "standard"
+                                         :filter ["lowercase"
+                                                  "swedish_stop"
+                                                  "swedish_hunspell"
+                                                  "remove_duplicates"]}
+                         :swedish_hunspell_with_decompound {:type "custom"
+                                                            :tokenizer "standard"
+                                                            :filter ["lowercase"
+                                                                     "swedish_stop"
+                                                                     "swedish_hunspell"
+                                                                     "swedish_decompound"
+                                                                     "remove_duplicates"]}
                          :swedish_keyword {:type "custom"
                                            :tokenizer "standard"
                                            :filter ["lowercase"
@@ -179,19 +222,23 @@
                        {:fi {:match "fi"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "finnish"
-                                       :search_analyzer "finnish_keyword"
+                                       :analyzer "finnish_lemmatizer_with_decompound"
+                                       :search_analyzer "finnish_lemmatizer"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
-                                                :words { :type "text" :analyzer "finnish_words"}}}}}
+                                                :words {:type "text"
+                                                             :analyzer "finnish_lemmatizer"
+                                                             :search_analyzer "finnish_lemmatizer"}}}}}
                        {:sv {:match "sv"
                              :match_mapping_type "string"
                              :mapping {:type "text"
-                                       :analyzer "swedish"
-                                       :search_analyzer "swedish_keyword"
+                                       :analyzer "swedish_hunspell_with_decompound"
+                                       :search_analyzer "swedish_hunspell"
                                        :norms false
                                        :fields {:keyword { :type "keyword" :ignore_above 256}
-                                                :words { :type "text" :analyzer "swedish_words"}}}}}
+                                                :words {:type "text"
+                                                             :analyzer "swedish_hunspell"
+                                                             :search_analyzer "swedish_hunspell"}}}}}
                        {:en {:match "en"
                              :match_mapping_type "string"
                              :mapping {:type "text"
