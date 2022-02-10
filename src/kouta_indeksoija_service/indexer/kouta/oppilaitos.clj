@@ -110,7 +110,7 @@
   (let [toimipaikat (select-keys toimipaikka (keys katuosoite-map))
         toimipaikat-with-default (into {} (for [[k, v] katuosoite-map]
                                             (if (not (contains? toimipaikat k))
-                                              [k (:fi toimipaikat)]
+                                              [k (or (:fi toimipaikat) (:sv toimipaikat) (:en toimipaikat))]
                                               [k (k toimipaikat)])))
         capitalized_toimipaikat (zipmap
                                   (keys toimipaikat-with-default)
