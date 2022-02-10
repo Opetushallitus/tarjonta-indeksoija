@@ -10,8 +10,7 @@
             [kouta-indeksoija-service.indexer.kouta.hakukohde :as hakukohde]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
-            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
-            [cheshire.core :refer [generate-string]]))
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)

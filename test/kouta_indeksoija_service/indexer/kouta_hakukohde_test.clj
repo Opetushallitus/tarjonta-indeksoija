@@ -11,8 +11,7 @@
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
-            [kouta-indeksoija-service.fixture.external-services :as mocks]
-            [cheshire.core :refer [generate-string]]))
+            [kouta-indeksoija-service.fixture.external-services :as mocks]))
 
 (use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
