@@ -20,3 +20,7 @@
 (defn get-esitysnimi
   [entity]
   (get-in entity [:_enrichedData :esitysnimi] (:nimi entity)))
+
+(defn jarjestaa-urheilijan-amm-koulutusta?
+  [jarjestyspaikka]
+  (boolean (get-in jarjestyspaikka [:metadata :jarjestaaUrheilijanAmmKoulutusta])))

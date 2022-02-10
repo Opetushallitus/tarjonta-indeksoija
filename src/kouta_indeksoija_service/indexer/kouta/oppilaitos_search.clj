@@ -21,7 +21,7 @@
   [osaamisalaKoodiUri]
   (list-alakoodi-nimet-with-cache osaamisalaKoodiUri "tutkintonimikkeet"))
 
-(defn- tutkintonimikket-for-toteutus
+(defn- tutkintonimikkeet-for-toteutus
   [toteutus]
   ;TODO -> eperusteet
   (if (ammatillinen? toteutus)
@@ -83,7 +83,7 @@
                      :pohjakoulutusvaatimusUrit (search-tool/pohjakoulutusvaatimus-koodi-urit hakutieto)
                      :kuva                      (:teemakuva toteutus)
                      :onkoTuleva                false
-                     :metadata                  {:tutkintonimikkeet  (tutkintonimikket-for-toteutus toteutus)
+                     :metadata                  {:tutkintonimikkeet  (tutkintonimikkeet-for-toteutus toteutus)
                                                  :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                                                  :maksullisuustyyppi  (:maksullisuustyyppi opetus)
                                                  :maksunMaara         (:maksunMaara opetus)
@@ -133,7 +133,7 @@
                               :kuva (:teemakuva toteutus)
                               :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
-                              :metadata {:tutkintonimikkeet   (tutkintonimikket-for-toteutus toteutus)
+                              :metadata {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
                                          :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                                          :maksullisuustyyppi  (:maksullisuustyyppi opetus)
                                          :maksunMaara         (:maksunMaara opetus)
