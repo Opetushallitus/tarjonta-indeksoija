@@ -43,17 +43,17 @@
 
 (defn common-start-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 1))))]
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
     (str day "T09:49")))
 
 (defn common-end-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 1))))]
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
     (str day "T09:58")))
 
 (defn common-near-future-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 3))))]
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 3)))]
     (str day "T09:58")))
 
 (defn fix-default-format
