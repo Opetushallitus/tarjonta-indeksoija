@@ -12,7 +12,6 @@
             [kouta-indeksoija-service.fixture.external-services :as mocks]
             [cheshire.core :refer [generate-string]]))
 
-(use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (deftest index-toteutus-test

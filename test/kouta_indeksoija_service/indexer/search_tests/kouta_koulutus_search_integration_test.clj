@@ -5,7 +5,6 @@
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]))
 
-(use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (def agrologi-koulutuskoodi "koulutus_761101#1")

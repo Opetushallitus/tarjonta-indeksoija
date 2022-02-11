@@ -202,7 +202,6 @@
     (tests)
     (fixture/teardown))
 
-  (use-fixtures :each fixture/indices-fixture)
   (use-fixtures :each test-data-fixture)
 
   (defn mock-get-eperuste-by-koulutuskoodi

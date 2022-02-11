@@ -11,7 +11,6 @@
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]))
 
-(use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (deftest index-tallennettu-koulutus-test

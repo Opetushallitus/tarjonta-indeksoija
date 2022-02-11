@@ -1,13 +1,14 @@
 (ns kouta-indeksoija-service.elastic.tools-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.elastic.tools :as t]
             [clj-elasticsearch.elastic-connect :as e]
             [kouta-indeksoija-service.elastic.settings :as s]
             [kouta-indeksoija-service.elastic.tools :as tools]
-            [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions elastic-host]]
-            [kouta-indeksoija-service.test-tools :refer [refresh-index reset-test-data debug-pretty]]
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
+            [clj-elasticsearch.elastic-utils :refer [max-payload-size bulk-partitions]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [kouta-indeksoija-service.indexer.indexable :as indexable]))
+
+(use-fixtures :once (fn [t] (fixture/reset-indices) (t) (fixture/reset-indices)))
 
 (defn dummy-indexdata
   [& {:keys [amount id-offset] :or {amount 10 id-offset 100}}]
@@ -68,7 +69,7 @@
                                 (tools/refresh-index index-name)))]
 
     (e/create-index index-name s/index-settings)
-    (e/move-alias (t/->virkailija-alias index-name) index-name true)
+    (e/move-alias (tools/->virkailija-alias index-name) index-name true)
 
     (testing "Bulk upsert should"
       (testing "create document if it doesn't exist"
@@ -100,7 +101,7 @@
                                 result))]
 
         (e/create-index index-name s/index-settings)
-        (e/move-alias (t/->virkailija-alias index-name) index-name true)
+        (e/move-alias (tools/->virkailija-alias index-name) index-name true)
 
         (testing "bulk upsert returns both errors and failures"
           (let [result (bulk-upsert test-data)]

@@ -15,14 +15,6 @@
   [indexname]
   (tools/refresh-index indexname))
 
-(defn reset-test-data
-  ([reset-jobs?]
-   ;(when reset-jobs? (j/reset-jobs))
-   (doseq [index (->> (admin/list-indices-and-aliases) (keys) (map name))]
-     (tools/delete-index index)))
-  ([]
-   (reset-test-data true)))
-
 (defn in?
   [e coll]
   (some #(= e %) coll))
