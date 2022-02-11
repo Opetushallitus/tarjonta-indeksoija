@@ -13,7 +13,6 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [cheshire.core :refer [generate-string]]))
 
-(use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (deftest index-hakukohteet-without-hakukohdekoodiuri-to-haku-test

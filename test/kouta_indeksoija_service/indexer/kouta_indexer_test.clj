@@ -22,7 +22,6 @@
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [mocks.externals-mock :as mock]))
 
-(use-fixtures :each fixture/indices-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (defn mock-organisaatio-hierarkia

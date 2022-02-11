@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.elastic.tools
   (:require [kouta-indeksoija-service.util.conf :refer [env]]
-            [kouta-indeksoija-service.util.tools :refer [get-id]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
             [kouta-indeksoija-service.util.time :as time]
@@ -79,7 +78,7 @@
 
 (defn ->delete-action
   [id forwarded-data]
-    (map->BulkAction {:action "delete" :id id :doc nil :forwarded-data forwarded-data}))
+  (map->BulkAction {:action "delete" :id id :doc nil :forwarded-data forwarded-data}))
 
 (defn- bulk-action
   [index action]

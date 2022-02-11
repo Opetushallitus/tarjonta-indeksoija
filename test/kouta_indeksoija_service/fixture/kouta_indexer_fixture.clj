@@ -8,6 +8,7 @@
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.string :as str]
+            [clj-elasticsearch.elastic-utils :as u]
             [clojure.walk :refer [keywordize-keys stringify-keys postwalk]]
             [clj-time.core :as time]
             [clj-time.format :as time-format])
@@ -42,17 +43,17 @@
 
 (defn common-start-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 1))))]
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
     (str day "T09:49")))
 
 (defn common-end-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 1))))]
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
     (str day "T09:58")))
 
 (defn common-near-future-time
   []
-  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time(time/plus (time/now) (time/days 3))))]
+  (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 3)))]
     (str day "T09:58")))
 
 (defn fix-default-format
@@ -489,6 +490,14 @@
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos-search/index-name)
   (tools/refresh-index kouta-indeksoija-service.indexer.kouta.oppilaitos/index-name))
 
+(defn delete-all-elastic-data []
+  (refresh-indices)
+  (let [cat-indices (u/elastic-get (u/elastic-url "_cat" "indices") {:format "json"})
+        indices (map :index (filter (fn [i] (and (not (= (:docs.count i) "0")) (not (= (:index i) ".geoip_databases")))) cat-indices))]
+    (doseq [index indices]
+      (println index)
+      (println (u/elastic-post (u/elastic-url index "_delete_by_query") {:query {:match_all {}}} {:conflicts "proceed" :refresh true})))))
+
 (defn reset-mocks
   []
   (reset! koulutukset {})
@@ -508,7 +517,7 @@
 (defn teardown
   []
   (reset-mocks)
-  (reset-indices))
+  (delete-all-elastic-data))
 
 (defn mock-indexing-fixture [test]
   (init)

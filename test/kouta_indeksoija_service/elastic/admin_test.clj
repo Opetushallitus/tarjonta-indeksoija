@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.elastic.settings :as settings]
             [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
-            [clj-elasticsearch.elastic-utils :refer [elastic-host elastic-url elastic-get]]
+            [clj-elasticsearch.elastic-utils :refer [elastic-url elastic-get]]
             [clj-http.client :as http]
             [clojure.string :refer [starts-with?]]))
 

@@ -5,11 +5,9 @@
             [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.indexer :as i]
-            [kouta-indeksoija-service.test-tools :refer :all]
-            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.elastic.admin :as admin]))
 
-(use-fixtures :each (fn [test] (admin/initialize-koodisto-indices-for-reindexing) (test) (reset-test-data false)))
+(use-fixtures :each (fn [test] (admin/initialize-koodisto-indices-for-reindexing) (test)))
 
 (deftest koodisto-index-test
   (testing "do index koodisto"

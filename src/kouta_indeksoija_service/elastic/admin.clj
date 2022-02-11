@@ -31,7 +31,7 @@
   []
   (log/info "Checking elastic status")
   (with-error-logging
-   (e/check-elastic-status)))
+    (e/check-elastic-status)))
 
 (defn get-indices-info
   []
@@ -72,13 +72,13 @@
 (defn initialize-cluster-settings
   []
   (-> (u/elastic-url "_cluster" "settings")
-      (u/elastic-put  {:persistent { :action.auto_create_index "+.*" }})
+      (u/elastic-put  {:persistent {:action.auto_create_index "+.*"}})
       :acknowledged))
 
 (defn delete-index
   [index]
   (log/warn "WARNING! Deleting index " index "! All indexed data is lost!")
-  { :delete-index (t/delete-index index)})
+  {:delete-index (t/delete-index index)})
 
 (defn search [index query]
   (let [res (e/simple-search index query)]
@@ -159,8 +159,8 @@
 (defn- initialize-new-indices-for-reindexing
   [indices-with-settings-and-mappings]
   (vec
-    (for [[index settings mappings] indices-with-settings-and-mappings]
-      (create-new-index-with-virkailija-alias index settings mappings))))
+   (for [[index settings mappings] indices-with-settings-and-mappings]
+     (create-new-index-with-virkailija-alias index settings mappings))))
 
 (defn initialize-all-indices-for-reindexing
   []
@@ -197,8 +197,8 @@
 (defn move-oppija-aliases-to-virkailija-indices
   []
   (vec
-    (for [[index settings mappings] indices-settings-and-mappings]
-      (move-oppija-alias-to-virkailija-index index))))
+   (for [[index settings mappings] indices-settings-and-mappings]
+     (move-oppija-alias-to-virkailija-index index))))
 
 (defn list-indices-and-aliases
   []
@@ -274,8 +274,8 @@
 (defn sync-all-aliases
   []
   (vec
-    (for [[index s m] indices-settings-and-mappings]
-      (let [real-index (e/move-read-alias-to-write-index (t/->virkailija-alias index) (t/->oppija-alias index))]
-        (log/info "Moved" (t/->oppija-alias index) "to" real-index)
-        {:alias (t/->oppija-alias index)
-         :index real-index}))))
+   (for [[index s m] indices-settings-and-mappings]
+     (let [real-index (e/move-read-alias-to-write-index (t/->virkailija-alias index) (t/->oppija-alias index))]
+       (log/info "Moved" (t/->oppija-alias index) "to" real-index)
+       {:alias (t/->oppija-alias index)
+        :index real-index}))))
