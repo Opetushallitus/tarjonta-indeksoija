@@ -317,7 +317,7 @@
 (defn- get-haun-julkaistut-hakukohteet
   [haku]
   (let [hakukohteet (map #(set-hakukohde-tila-by-related-haku % haku) (:hakukohteet haku))]
-    filter julkaistu? hakukohteet)
+    (filter julkaistu? hakukohteet))
 )
 
 (defn- filter-hakutiedon-haut-julkaistu-and-not-empty-hakukohteet
