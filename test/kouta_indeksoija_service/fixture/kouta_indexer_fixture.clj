@@ -131,6 +131,7 @@
   (spit "test/resources/kouta/default-oppilaitoksen-osa.json" (java-map->pretty-json (.DefaultOppilaitoksenOsa KoutaFixture)))
 
   (spit "test/resources/kouta/lk-toteutus-metadata.json" (generate-string (->keywordized-json (.lukioToteutusMetadata KoutaFixture)) {:pretty true}))
+  (spit "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json" (generate-string (->keywordized-json (.ammTutkinnonOsaToteutusMetadata KoutaFixture)) {:pretty true}))
 )
 
 (defonce default-koulutus-map (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json")))
@@ -143,6 +144,7 @@
 (defonce default-oppilaitoksen-osa-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
 
 (defonce lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
+(defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
 
 (defonce yo-koulutus-metadata
    {:tyyppi "yo"
@@ -187,6 +189,12 @@
     :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
     :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
     :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+
+(defonce aikuisten-perusopetus-koulutus-metadata
+         {:tyyppi "aikuisten-perusopetus"
+          :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
+          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
 (defn add-koulutus-mock
   [oid & {:as params}]
@@ -239,19 +247,24 @@
   [e k v]
   (postwalk (fn [sub] (if (get sub k) (assoc sub k v) sub)) e))
 
+;; Ellei hakuaikoja ole erikseen annettu -> kaytetaan oletuksia. Oletus-jsonista tulevia arvoja ei kayteta.
 (defn add-haku-mock
   [oid & {:as params}]
   (let [fix-dates (fn [haku] (-> haku
-                                 (assoc :hakuajat [{:alkaa (common-start-time) :paattyy (common-end-time)}])
-                                 (dissoc :hakuaikaAlkaa :hakuaikaPaattyy)
                                  (set-vals-in-depth :alkaa (common-start-time))
                                  (set-vals-in-depth :paattyy (common-end-time))
+                                 (assoc :hakuajat [{:alkaa (if (nil? (:hakuaikaAlkaa haku))
+                                                             (common-start-time) (:hakuaikaAlkaa haku))
+                                                    :paattyy (if (nil? (:hakuaikaPaattyy haku))
+                                                               (common-end-time) (:hakuaikaPaattyy haku))}])
+                                 (dissoc :hakuaikaAlkaa :hakuaikaPaattyy)
                                  (set-vals-in-depth :hakuaikaAlkaa (common-start-time))
                                  (set-vals-in-depth :hakuaikaPaattyy (common-end-time))
                                  (set-vals-in-depth :hakukohteenMuokkaamisenTakaraja (common-end-time))
                                  (set-vals-in-depth :hakukohteenLiittamisenTakaraja (common-start-time))
                                  (set-vals-in-depth :ajastettuJulkaisu (common-near-future-time))))
-        haku (fix-default-format (fix-dates (merge default-haku-map {:organisaatio Oppilaitos1} {:oid oid} params)))]
+        haku (fix-default-format (fix-dates (merge (dissoc default-haku-map :hakuaikaAlkaa :hakuaikaPaattyy)
+                                                   {:organisaatio Oppilaitos1} {:oid oid} params)))]
     (swap! haut assoc oid haku)))
 
 (defn update-haku-mock
@@ -263,15 +276,19 @@
   [oid]
   (get @haut oid))
 
+;; Ellei hakuaikoja ole erikseen annettu -> kaytetaan oletuksia. Oletus-jsonista tulevia arvoja ei kayteta.
 (defn add-hakukohde-mock
   [oid toteutusOid hakuOid & {:as params}]
   (let [fix-dates (fn [hk] (-> hk
-                               (assoc :hakuajat [{:alkaa (common-start-time) :paattyy (common-end-time)}])
+                               (set-vals-in-depth :alkaa (common-start-time))
+                               (set-vals-in-depth :paattyy (common-end-time))
+                               (assoc :hakuajat [{:alkaa (if (nil? (:hakuaikaAlkaa hk))
+                                                           (common-start-time) (:hakuaikaAlkaa hk))
+                                                  :paattyy (if (nil? (:hakuaikaPaattyy hk))
+                                                             (common-end-time) (:hakuaikaPaattyy hk))}])
                                (dissoc :hakuaikaAlkaa :hakuaikaPaattyy)
                                (set-vals-in-depth :koulutuksenAlkamispaivamaara (common-start-time))
                                (set-vals-in-depth :koulutuksenPaattymispaivamaara (common-end-time))
-                               (set-vals-in-depth :alkaa (common-start-time))
-                               (set-vals-in-depth :paattyy (common-end-time))
                                (set-vals-in-depth :toimitusaika (common-end-time))))
         fix-valintaperuste (fn [hk] (if (:valintaperuste hk) (assoc hk :valintaperusteId (:valintaperuste hk)) hk))
         fix-muu-pk-vaatimus (fn [hk] (if (nil? (:muuPohjakoulutusvaatimus hk)) (assoc hk :muuPohjakoulutusvaatimus {}) hk))
@@ -280,9 +297,10 @@
                    (fix-dates
                     (fix-valintaperuste
                      (fix-muu-pk-vaatimus
-                      (merge default-hakukohde-map {:organisaatio Oppilaitos1} params
-                                                    {:oid oid :hakuOid hakuOid :toteutusOid toteutusOid}
-                                                    {:liitteidenToimitusaika (common-near-future-time)})))))]
+                      (merge (dissoc default-hakukohde-map :hakuaikaAlkaa :hakuaikaPaattyy)
+                             {:organisaatio Oppilaitos1} params
+                             {:oid oid :hakuOid hakuOid :toteutusOid toteutusOid}
+                             {:liitteidenToimitusaika (common-near-future-time)})))))]
     (swap! hakukohteet assoc oid hakukohde)))
 
 (defn update-hakukohde-mock
@@ -405,11 +423,10 @@
   [oid]
   (let [find-toteutukset (fn [oid] (filter (fn [t] (= (:koulutusOid t) oid)) (vals @toteutukset)))
         find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
-        ajanjakso (fn [alkaa paattyy] (assoc {} :alkaa alkaa :paattyy paattyy))
         assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk))]
                                    (into {} (remove (comp nil? second)
                                     (assoc {}
-                                      :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
+                                      :hakuajat (:hakuajat hk)
                                       :tila (:tila hk)
                                       :nimi (:nimi hk)
                                       :hakukohdeOid (:oid hk)
@@ -437,7 +454,7 @@
                                  :hakutapaKoodiUri (:hakutapaKoodiUri haku)
                                  :tila (:tila haku)
                                  :nimi (:nimi haku)
-                                 :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
+                                 :hakuajat (:hakuajat haku)
                                  :koulutuksenAlkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi])
                                  :hakukohteet (vec (map assoc-hakukohde hks))
                                  )

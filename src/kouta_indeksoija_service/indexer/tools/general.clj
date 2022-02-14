@@ -58,6 +58,10 @@
   [koulutus]
   (= "vapaa-sivistystyo-muu" (:koulutustyyppi koulutus)))
 
+(defn aikuisten-perusopetus?
+  [koulutus]
+  (= "aikuisten-perusopetus" (:koulutustyyppi koulutus)))
+
 (defn any-ammatillinen?
   [koulutus]
   (or (ammatillinen? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus)))
