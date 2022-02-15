@@ -148,10 +148,12 @@
 (defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
 
 (defonce yo-koulutus-metadata
-  {:tyyppi "yo"
-   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
-                          "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
-   :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
+   {:tyyppi "yo"
+    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
+    :kuvaus {}
+    :lisatiedot []})
 
 (defonce lk-koulutus-metadata
   {:tyyppi "lk"
@@ -175,15 +177,18 @@
    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
 
 (defonce amm-osaamisala-koulutus-metadata
-  {:tyyppi "amm-osaamisala"
-   :osaamisalaKoodiUri "osaamisala_01"
-   :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+   {:tyyppi "amm-osaamisala"
+    :osaamisalaKoodiUri "osaamisala_01"
+    :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
+    })
 
 (defonce lukio-koulutus-metadata
-  {:tyyppi "lk"
-   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
-   :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
-   :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
+   {:tyyppi "lk"
+    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
+    :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
+    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
+    :kuvaus {}
+    :lisatiedot []})
 
 (defonce tuva-koulutus-metadata
   {:tyyppi "tuva"
@@ -616,6 +621,8 @@
     "1.2.246.562.10.00101010102" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
     "1.2.246.562.10.00101010103" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
     "1.2.246.562.10.00101010104" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.00101010105" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
+    "1.2.246.562.10.00101010106" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
     "1.2.246.562.10.000002" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Punkaharjun yliopisto" "Punkaharjun yliopisto sv")
     "1.2.246.562.10.000005" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_091" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
     "1.2.246.562.10.0000011" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa ensimmäinen" "Aakkosissa ensimmäinen")
