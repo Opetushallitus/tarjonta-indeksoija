@@ -8,7 +8,7 @@
 
 (defn create-index-entry
   [id]
-  (let [valintaperuste (common/complete-entry (kouta-backend/get-valintaperuste id))]
+  (let [valintaperuste (common/localize-dates (common/complete-entry (kouta-backend/get-valintaperuste id)))]
     (if (not-poistettu? valintaperuste)
       (indexable/->index-entry-with-forwarded-data id valintaperuste valintaperuste)
       (indexable/->delete-entry-with-forwarded-data id valintaperuste))))
