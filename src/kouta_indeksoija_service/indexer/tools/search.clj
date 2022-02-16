@@ -32,6 +32,7 @@
              koulutusOid
              toteutusOid
              toteutusNimi
+             toteutusHakuaika,
              onkoTuleva
              nimi
              kuva
@@ -54,6 +55,7 @@
            oppilaitosOid nil
            koulutusOid nil
            toteutusOid nil
+           toteutusHakuaika nil
            toteutusNimi {}
            onkoTuleva nil
            nimi {}
@@ -101,7 +103,8 @@
       (not (nil? kuva))           (assoc :kuva kuva)
       (not (nil? onkoTuleva))     (assoc :onkoTuleva onkoTuleva)
       (not (empty? tarjoajaOids)) (assoc :tarjoajat tarjoajaOids)
-      (not (empty? nimi))         (assoc :nimi nimi))))
+      (not (empty? nimi))         (assoc :nimi nimi)
+      (not (nil? toteutusHakuaika)) (assoc :toteutusHakuaika toteutusHakuaika))))
 
 (defn- get-koulutusalatasot-by-koulutus-koodi-uri
   [koulutusKoodiUri]
