@@ -70,6 +70,7 @@
                               :ammattinimikkeet          (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
                               :toteutusOid               (:oid toteutus)
                               :toteutusNimi              (get-esitysnimi toteutus)
+                              :toteutusHakuaika          (:hakuaika toteutus-metadata)
                               :onkoTuleva                false
                               :nimi                      (:nimi oppilaitos)
                               :lukiopainotukset          (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
