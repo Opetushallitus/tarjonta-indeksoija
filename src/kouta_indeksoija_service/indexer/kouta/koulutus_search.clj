@@ -123,6 +123,7 @@
         :kuva (:logo oppilaitos)
         :nimi (:nimi oppilaitos)
         :onkoTuleva false
+        :toteutusHakuaika (:hakuaika toteutus-metadata)
         :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
         :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
         :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
