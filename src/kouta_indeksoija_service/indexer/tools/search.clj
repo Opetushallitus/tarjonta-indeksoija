@@ -358,6 +358,7 @@
              tarjoajat
              hakutiedot
              toteutus-organisaationimi
+             toteutusHakuaika
              opetuskieliUrit
              koulutustyypit
              kuva
@@ -373,6 +374,7 @@
              tarjoajat                 []
              hakutiedot                []
              toteutus-organisaationimi {}
+             toteutusHakuaika          {}
              opetuskieliUrit           []
              koulutustyypit            []
              kuva                      nil
@@ -401,6 +403,7 @@
        :toteutusNimi              {:fi (:fi toteutusNimi)
                                    :sv (:sv toteutusNimi)
                                    :en (:en toteutusNimi)}
+       :toteutusHakuaika           toteutusHakuaika
        :oppilaitosOid             (:oid oppilaitos)
        :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                    :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
