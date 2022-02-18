@@ -154,10 +154,11 @@
                                                                                (organisaatio-tool/find-oppilaitos-from-hierarkia)
                                                                                (:oid)
                                                                                (kouta-backend/get-koulutukset-by-tarjoaja)))] result))
-        entries (oppilaitos/do-index oids execution-id)]
+        entries (oppilaitos/do-index oids execution-id)
+        hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat oids)]
     (oppilaitos-search/do-index oids execution-id)
     (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids) execution-id)
-    (hakukohde/do-index (mapcat kouta-backend/get-hakukohde-oids-by-jarjestyspaikka oids) execution-id)
+    (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
     entries))
 
 (defn index-oppilaitos
