@@ -256,7 +256,7 @@
 
 (deftest index-hakukohde-jarjestaa-urheilijan-amm-koulutusta-true-with-oppilaitoksen-osa
   (fixture/with-mocked-indexing
-    (testing "Indexer should index hakukohde with jarjestaaUrheilijanAmmKoulutusta=true when jarjestyspaikka is oppilaitoksen osa and the same prop is true also"
+    (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=true to hakukohde from oppilaitoksen osa järjestyspaikka"
       (check-all-nil)
       (fixture/update-oppilaitoksen-osa-mock oppilaitoksen-osa-oid :metadata {:jarjestaaUrheilijanAmmKoulutusta true})
       (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitoksen-osa-oid)
@@ -266,17 +266,17 @@
 
 (deftest index-hakukohde-jarjestaa-urheilijan-amm-koulutusta-true-with-oppilaitos-jarjestyspaikka
   (fixture/with-mocked-indexing
-    (testing "Indexer should index hakukohde with jarjestaaUrheilijanAmmKoulutusta=true when jarjestyspaikka is oppilaitoksen osa and the same prop is true also"
+    (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=true to hakukohde from osa of oppilaitos-järjestyspaikka"
       (check-all-nil)
       (fixture/update-oppilaitoksen-osa-mock oppilaitoksen-osa-oid :metadata {:jarjestaaUrheilijanAmmKoulutusta true})
-      (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitoksen-osa-oid)
+      (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitos-oid)
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (true? (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))))
 
 (deftest index-hakukohde-jarjestaa-urheilijan-amm-koulutusta-false-with-oppilaitoksen-osa
   (fixture/with-mocked-indexing
-    (testing "Indexer should index hakukohde with jarjestaaUrheilijanAmmKoulutusta=true when jarjestyspaikka is oppilaitos and one of its osat has the prop also"
+    (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=true to hakukohde from osa of oppilaitos-järjestyspaikka"
       (check-all-nil)
       (fixture/update-oppilaitoksen-osa-mock oppilaitoksen-osa-oid :metadata {:jarjestaaUrheilijanAmmKoulutusta false})
       (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitos-oid)
