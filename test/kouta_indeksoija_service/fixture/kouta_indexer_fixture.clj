@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.fixture.external-services :refer :all]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-arkistoitu? not-poistettu?]]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :refer [reset-hierarkia-cache]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.string :as str]
@@ -522,6 +523,7 @@
 (defn teardown
   []
   (reset-mocks)
+  (reset-hierarkia-cache)
   (delete-all-elastic-data))
 
 (defn mock-indexing-fixture [test]
