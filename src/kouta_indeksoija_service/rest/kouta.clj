@@ -59,6 +59,10 @@
   [oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
 
+(defn get-oppilaitos-hierarkia
+  [oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.hierarkia oid) {}))
+
 (defn get-oppilaitoksen-osa
   [oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitoksen-osa.oid oid) {}))
