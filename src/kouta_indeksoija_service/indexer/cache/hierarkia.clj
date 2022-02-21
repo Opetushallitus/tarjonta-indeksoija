@@ -5,7 +5,11 @@
 
 (defonce hierarkia_cache_time_millis (* 1000 60 45))
 
-(defonce HIERARKIA_CACHE (atom (cache/ttl-cache-factory {} :ttl hierarkia_cache_time_millis)))
+(defn- make-cache-factory [] (cache/ttl-cache-factory {} :ttl hierarkia_cache_time_millis))
+
+(defonce HIERARKIA_CACHE (atom (make-cache-factory)))
+
+(defn reset-hierarkia-cache [] (reset! HIERARKIA_CACHE (make-cache-factory)))
 
 (defn- do-cache
   [hierarkia oids]

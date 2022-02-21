@@ -5,13 +5,14 @@
             [clj-log.error-log :refer [with-error-logging]]
             [ring.util.codec :refer [url-encode]]
             [clojure.tools.logging :as log]
+            [cheshire.core :as json]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
-            [kouta-indeksoija-service.indexer.tools.general :as general]
-            [clojure.string]))
+            [kouta-indeksoija-service.indexer.tools.general :as general]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
 
 (defonce cas-authenticated-get-as-json (partial cas-authenticated-request-as-json cas-session :get))
+(defonce cas-authenticated-post-as-json (partial cas-authenticated-request-as-json cas-session :post))
 
 (defn get-last-modified
   [since]
@@ -43,9 +44,8 @@
   [oid]
   (get-doc "hakukohde" oid))
 
-(defn get-hakukohde-oids-by-jarjestyspaikka [oid]
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.jarjestyspaikka.hakukohde-oids oid)
-                                              {:query-params {:vainOlemassaolevat "false"}}))
+(defn get-hakukohde-oids-by-jarjestyspaikat [oids]
+  (cas-authenticated-post-as-json (resolve-url :kouta-backend.jarjestyspaikat.hakukohde-oids) {:body (json/generate-string oids) :content-type :json}))
 
 (defn get-valintaperuste
   [id]
@@ -58,6 +58,10 @@
 (defn get-oppilaitos
   [oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
+
+(defn get-oppilaitos-hierarkia
+  [oid]
+  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.hierarkia oid) {}))
 
 (defn get-oppilaitoksen-osa
   [oid]
@@ -78,28 +82,28 @@
   [koulutus-oid]
   (let [response (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.hakutiedot koulutus-oid))]
     (if response
-     (map (fn [hakutieto]
-            (assoc hakutieto :haut
-                   (map (fn [haku]
-                          (assoc haku :hakukohteet
-                                 (map (fn [hakukohde]
-                                        (-> hakukohde
-                                            (koodisto/assoc-hakukohde-nimi-from-koodi)
-                                            (general/set-hakukohde-tila-by-related-haku haku)))
-                                      (:hakukohteet haku))))
-                        (:haut hakutieto))))
-            response)
+      (map (fn [hakutieto]
+             (assoc hakutieto :haut
+                    (map (fn [haku]
+                           (assoc haku :hakukohteet
+                                  (map (fn [hakukohde]
+                                         (-> hakukohde
+                                             (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                             (general/set-hakukohde-tila-by-related-haku haku)))
+                                       (:hakukohteet haku))))
+                         (:haut hakutieto))))
+           response)
       response)))
 
 (defn list-haut-by-toteutus
   [toteutus-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.toteutus.haut-list toteutus-oid)
-                                              {:query-params {:vainOlemassaolevat "false"}}))
+                                 {:query-params {:vainOlemassaolevat "false"}}))
 
 (defn list-hakukohteet-by-haku
   [haku-oid]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.hakukohteet-list haku-oid)
-                                              {:query-params {:vainOlemassaolevat "false"}}))
+                                 {:query-params {:vainOlemassaolevat "false"}}))
 
 (defn list-toteutukset-by-haku
   [haku-oid]
@@ -108,12 +112,12 @@
 (defn list-hakukohteet-by-valintaperuste
   [valintaperuste-id]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.valintaperuste.hakukohteet-list valintaperuste-id)
-                                              {:query-params {:vainOlemassaolevat "false"}}))
+                                 {:query-params {:vainOlemassaolevat "false"}}))
 
 (defn list-koulutus-oids-by-sorakuvaus
   [sorakuvaus-id]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.koulutukset-list sorakuvaus-id)
-                                              {:query-params {:vainOlemassaolevat "false"}}))
+                                 {:query-params {:vainOlemassaolevat "false"}}))
 
 (defn get-oppilaitoksen-osat
   [oppilaitos-oid]

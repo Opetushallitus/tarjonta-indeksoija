@@ -1,9 +1,7 @@
 (ns kouta-indeksoija-service.queuer.last-queued
   (:require [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
             [clj-elasticsearch.elastic-connect :as e]
-            [clj-elasticsearch.elastic-utils :as u]
-            [cheshire.core :refer [generate-string]]
-            [clojure.string :refer [join]]))
+            [clj-elasticsearch.elastic-utils :as u]))
 
 (defonce index-name "lastqueued")
 
