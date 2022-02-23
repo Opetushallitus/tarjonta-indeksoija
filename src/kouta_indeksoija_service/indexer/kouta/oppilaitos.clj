@@ -119,13 +119,13 @@
                capitalized_toimipaikat)))
 
 (defn add-osoite-str-to-yhteystiedot
-  [yhteystiedot-from-oppilaitos-metadata osoitetyyppi]
-  (if-let [postiosoite (get-in yhteystiedot-from-oppilaitos-metadata [osoitetyyppi])]
-    (let [postinumerokoodiuri (get-in postiosoite [:postinumeroKoodiUri])
+  [yhteystiedot-from-oppilaitos-metadata osoitetyyppi json-key]
+  (if-let [osoite (get-in yhteystiedot-from-oppilaitos-metadata [osoitetyyppi])]
+    (let [postinumerokoodiuri (get-in osoite [:postinumeroKoodiUri])
           postinumero (re-find #"\d{5}" postinumerokoodiuri)
           postitoimipaikka (get-koodi-nimi-with-cache postinumerokoodiuri)
-          postiosoite-str (create-osoite-str-for-hakijapalvelut (get-in postiosoite [:osoite]) postinumero (:nimi postitoimipaikka))]
-      (assoc yhteystiedot-from-oppilaitos-metadata :postiosoiteStr postiosoite-str))
+          osoite-str (create-osoite-str-for-hakijapalvelut (get-in osoite [:osoite]) postinumero (:nimi postitoimipaikka))]
+      (assoc yhteystiedot-from-oppilaitos-metadata json-key osoite-str))
     yhteystiedot-from-oppilaitos-metadata))
 
 (defn- add-data-from-organisaatio-palvelu
@@ -143,8 +143,8 @@
         oppilaitos-from-organisaatiopalvelu (organisaatio-client/get-by-oid-cached oppilaitos-oid)
         yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
         hakijapalveluiden-yhteystiedot (-> (get-in (get-in oppilaitos [:metadata]) [:hakijapalveluidenYhteystiedot])
-                                           (add-osoite-str-to-yhteystiedot :postiosoite)
-                                           (add-osoite-str-to-yhteystiedot :kayntiosoite))
+                                           (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                                           (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
         oppilaitos-metadata (assoc
                               (get-in oppilaitos [:metadata])
                               :yhteystiedot yhteystiedot
