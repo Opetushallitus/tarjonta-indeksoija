@@ -215,7 +215,17 @@ Indeksoijan lokit löytyvät AWS:n cloudwatchista log groupista <testiympärist�
 
 https://travis-ci.com/github/Opetushallitus/kouta-indeksoija
 
-## 5. Lisätietoa
+## 5. Troubleshooting
+
+Jos törmäät seuraavaan virheeseen esimerkiksi testejä ajaessasi:
+
+`An error occurred (AccessDeniedException) when calling the GetAuthorizationToken operation: User: arn:aws:iam::123456789:user/it-ankka@madness.com is not authorized to perform: ecr:GetAuthorizationToken on resource: * with an explicit deny in an identity-based policy`
+
+Aja seuraava loitsu (mahdollisesti joutuu myös ajamaan `aws configure` ennen tätä):
+
+`aws ecr get-login --no-include-email --region eu-west-1 --profile oph-utility`
+
+## 6. Lisätietoa
 
 Vanhan readme:n tiedot joiden paikkansapitävyyttä ei ole selvitetty:
 
