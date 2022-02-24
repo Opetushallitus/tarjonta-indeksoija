@@ -319,7 +319,7 @@
 (defn- get-haun-julkaistut-hakukohteet
   [haku]
   (let [hakukohteet (map #(set-hakukohde-tila-by-related-haku % haku) (:hakukohteet haku))]
-    filter julkaistu? hakukohteet)
+    (filter julkaistu? hakukohteet))
 )
 
 (defn- filter-hakutiedon-haut-julkaistu-and-not-empty-hakukohteet
@@ -357,6 +357,7 @@
              tarjoajat
              hakutiedot
              toteutus-organisaationimi
+             toteutusHakuaika
              opetuskieliUrit
              koulutustyypit
              kuva
@@ -372,6 +373,7 @@
              tarjoajat                 []
              hakutiedot                []
              toteutus-organisaationimi {}
+             toteutusHakuaika          {}
              opetuskieliUrit           []
              koulutustyypit            []
              kuva                      nil
@@ -400,6 +402,7 @@
        :toteutusNimi              {:fi (:fi toteutusNimi)
                                    :sv (:sv toteutusNimi)
                                    :en (:en toteutusNimi)}
+       :toteutusHakuaika           toteutusHakuaika
        :oppilaitosOid             (:oid oppilaitos)
        :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                    :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
