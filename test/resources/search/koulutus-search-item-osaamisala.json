@@ -76,61 +76,6 @@
       }
     }
   ],
-  "hits": [
-    {
-      "sijainti": [
-        "kunta_091",
-        "maakunta_01"
-      ],
-      "hakutiedot": [],
-      "koulutustyypit": [
-        "amm-muu",
-        "amm-osaamisala"
-      ],
-      "terms": {
-        "fi": [
-          "Hevosalan osaamisala fi",
-          "Oppilaitos fi 1.2.246.562.10.77777777799"
-        ],
-        "sv": [
-          "Hevosalan osaamisala sv",
-          "Oppilaitos sv 1.2.246.562.10.77777777799"
-        ],
-        "en": []
-      },
-      "opetuskielet": [],
-      "opetustavat": [],
-      "nimi": {
-        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
-        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
-      },
-      "koulutusalat": [
-        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
-        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
-        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
-        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
-      ],
-      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-      "onkoTuleva": true,
-      "oppilaitosOid": "1.2.246.562.10.77777777799",
-      "lukiopainotukset": [],
-      "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisalat": [],
-      "metadata": {
-        "koulutustyyppi": "yo",
-        "oppilaitosTila": "julkaistu",
-        "kunnat": [
-          {
-            "koodiUri": "kunta_091",
-            "nimi": {
-              "fi": "kunta_091 nimi fi",
-              "sv": "kunta_091 nimi sv"
-            }
-          }
-        ]
-      }
-    }
-  ],
   "nimi": {
     "fi": "Hevosalan osaamisala fi",
     "sv": "Hevosalan osaamisala sv"

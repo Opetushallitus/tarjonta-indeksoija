@@ -54,12 +54,12 @@
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-      (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "arkistoitu")
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (= "arkistoitu" (:tila (get-doc koulutus/index-name koulutus-oid))))
       (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-      (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
 
 (deftest delete-non-existing-koulutus
@@ -69,12 +69,12 @@
      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
      (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
      (fixture/update-koulutus-mock koulutus-oid :tila "poistettu")
      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-     (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid))))))
+     (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid))))))
 
 (def tutkinnon-osa-koulutusala1
   {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_07"
