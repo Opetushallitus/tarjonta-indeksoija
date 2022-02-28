@@ -185,8 +185,10 @@
    (testing "Indexer should delete passivoitu oppilaitos from indexes"
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache mock-organisaatio-hierarkia
                    kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
-                     kouta-indeksoija-service.fixture.external-services/mock-organisaatio]
+                   kouta-indeksoija-service.fixture.external-services/mock-organisaatio
+                   kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja]
        (check-all-nil)
+       (fixture/update-koulutus-mock koulutus-oid :tarjoajat ["1.2.246.562.10.10101010101"])
        (i/index-oppilaitokset [oppilaitos-oid] (. System (currentTimeMillis))))
      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]
                    (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json"))
@@ -207,7 +209,10 @@
    (testing "Indexer should index all"
      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 mock-organisaatio-hierarkia-v4]
        (let [eperuste-id 12321]
-         (fixture/update-koulutus-mock koulutus-oid :ePerusteId eperuste-id)
+         (fixture/update-koulutus-mock
+           koulutus-oid
+           :ePerusteId eperuste-id
+           :tarjoajat ["1.2.246.562.10.10101010101"])
          (check-all-nil)
          (is (nil? (eperuste/get-from-index eperuste-id)))
          (i/index-all-kouta)
