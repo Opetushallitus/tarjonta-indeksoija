@@ -217,8 +217,8 @@
             :nimi (when-let [tarjoaja (first tarjoajat)] (get-in tarjoaja [:nimi]))})))
 
 (defn create-index-entry
-  [oid]
-  (let [koulutus (kouta-backend/get-koulutus oid)]
+  [oid execution-id]
+  (let [koulutus (kouta-backend/get-koulutus oid execution-id)]
     (if (julkaistu? koulutus)
       (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
             hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))]

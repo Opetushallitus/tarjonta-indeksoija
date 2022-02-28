@@ -7,8 +7,8 @@
 (def index-name "sorakuvaus-kouta")
 
 (defn create-index-entry
-  [id]
-  (let [sorakuvaus (kouta-backend/get-sorakuvaus id)]
+  [id execution-id]
+  (let [sorakuvaus (kouta-backend/get-sorakuvaus id execution-id)]
     (if (not-poistettu? sorakuvaus)
       (indexable/->index-entry-with-forwarded-data id (common/complete-entry sorakuvaus) sorakuvaus)
       (indexable/->delete-entry-with-forwarded-data id sorakuvaus))))

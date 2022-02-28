@@ -5,7 +5,7 @@
 (def index-name "tutkinnonosa")
 
 (defn create-index-entry
-  [id]
+  [id execution-id]
   (when-let [tutkinnonosa (eperuste-service/get-tutkinnonosa id)]
     (let [id (str (:id tutkinnonosa))]
       (indexable/->index-entry id (assoc tutkinnonosa :oid id :tyyppi "tutkinnonosa")))))
