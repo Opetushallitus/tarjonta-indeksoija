@@ -17,27 +17,6 @@
 
 (defonce kouta_cache_time_millis (* 1000 60 60)) ;60 mins cache
 
-; We can take a rand and use it repeatly
-; (Just with same parameter)
-
-;(defn only-first-one-rand
-;  [n x]
-;  (rand n))
-;
-;(def ofor-memo (memoize only-first-one-rand))
-;
-;(ofor-memo 10) ;=> 3.683571228686361
-;
-;(ofor-memo 10) ;=> 3.683571228686361
-;
-;;And we can assign a random value to an integer
-;
-;(ofor-memo 6) ;=> 2.8058589761445867
-;
-;(ofor-memo 10) ;=> 3.683571228686361
-;
-
-
 (defn get-last-modified
   [since]
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.modified-since (url-encode since))
@@ -49,7 +28,7 @@
 
 (defn- get-doc
   [type oid execution-id]
-  (log/info (str "get-doc type: " type "oid: " oid))
+  ; execution-id for cache purposes only.
   (let [url-keyword (keyword (str "kouta-backend." type (if (or (= "valintaperuste" type) (= "sorakuvaus" type)) ".id" ".oid")))]
     (cas-authenticated-get-as-json (resolve-url url-keyword oid) {:query-params {:myosPoistetut "true"}})))
 
@@ -103,8 +82,13 @@
    (get-toteutus-list-for-koulutus koulutus-oid false)))
 
 (defn get-koulutukset-by-tarjoaja
-  [oppilaitos-oid]
+  [oppilaitos-oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.tarjoaja.koulutukset oppilaitos-oid)))
+
+(def get-koulutukset-by-tarjoaja-with-cache
+  (memo/ttl get-koulutukset-by-tarjoaja {} :ttl/threshold kouta_cache_time_millis))
+
 
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid]
@@ -124,30 +108,54 @@
       response)))
 
 (defn list-haut-by-toteutus
-  [toteutus-oid]
+  [toteutus-oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.toteutus.haut-list toteutus-oid)
                                  {:query-params {:vainOlemassaolevat "false"}}))
 
+(def list-haut-by-toteutus-with-cache
+  (memo/ttl list-haut-by-toteutus {} :ttl/threshold kouta_cache_time_millis))
+
 (defn list-hakukohteet-by-haku
-  [haku-oid]
+  [haku-oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.hakukohteet-list haku-oid)
                                  {:query-params {:vainOlemassaolevat "false"}}))
 
+(def list-hakukohteet-by-haku-with-cache
+  (memo/ttl list-hakukohteet-by-haku {} :ttl/threshold kouta_cache_time_millis))
+
 (defn list-toteutukset-by-haku
-  [haku-oid]
+  [haku-oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.haku.toteutukset-list haku-oid)))
 
+(def list-toteutukset-by-haku-with-cache
+  (memo/ttl list-toteutukset-by-haku {} :ttl/threshold kouta_cache_time_millis))
+
 (defn list-hakukohteet-by-valintaperuste
-  [valintaperuste-id]
+  [valintaperuste-id execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.valintaperuste.hakukohteet-list valintaperuste-id)
                                  {:query-params {:vainOlemassaolevat "false"}}))
 
+(def list-hakukohteet-by-valintaperuste-with-cache
+  (memo/ttl list-hakukohteet-by-valintaperuste {} :ttl/threshold kouta_cache_time_millis))
+
 (defn list-koulutus-oids-by-sorakuvaus
-  [sorakuvaus-id]
+  [sorakuvaus-id execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.sorakuvaus.koulutukset-list sorakuvaus-id)
                                  {:query-params {:vainOlemassaolevat "false"}}))
 
+(def list-koulutus-oids-by-sorakuvaus-with-cache
+  (memo/ttl list-koulutus-oids-by-sorakuvaus {} :ttl/threshold kouta_cache_time_millis))
+
 (defn get-oppilaitoksen-osat
-  [oppilaitos-oid]
+  [oppilaitos-oid execution-id]
+  ; execution-id for cache purposes only.
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.osat oppilaitos-oid)))
+
+(def get-oppilaitoksen-osat-with-cache
+  (memo/ttl get-oppilaitoksen-osat {} :ttl/threshold kouta_cache_time_millis))
 

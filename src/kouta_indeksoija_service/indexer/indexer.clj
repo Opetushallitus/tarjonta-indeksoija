@@ -71,7 +71,7 @@
   [oids execution-id]
   (let [toteutus-entries (toteutus/do-index oids execution-id)
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
-        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)
+        haut    (mapcat #(kouta-backend/list-haut-by-toteutus-with-cache % execution-id) oids)
         koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))]
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
@@ -116,7 +116,7 @@
 (defn index-valintaperusteet
   [oids execution-id]
   (let [entries     (valintaperuste/do-index oids execution-id)
-        hakukohteet (mapcat kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries))]
+        hakukohteet (mapcat #(kouta-backend/list-hakukohteet-by-valintaperuste-with-cache % execution-id) (get-oids :id entries))]
     (hakukohde/do-index (get-oids :oid hakukohteet) execution-id)
     entries))
 
@@ -128,7 +128,7 @@
 (defn index-sorakuvaukset
   [ids execution-id]
   (let [entries       (sorakuvaus/do-index ids execution-id)
-        koulutus-oids (mapcat kouta-backend/list-koulutus-oids-by-sorakuvaus (get-oids :id entries))]
+        koulutus-oids (mapcat #(kouta-backend/list-koulutus-oids-by-sorakuvaus-with-cache % execution-id) (get-oids :id entries))]
     (koulutus/do-index koulutus-oids execution-id)
     entries))
 
@@ -153,7 +153,7 @@
                                                                                (hierarkia/get-hierarkia)
                                                                                (organisaatio-tool/find-oppilaitos-from-hierarkia)
                                                                                (:oid)
-                                                                               (kouta-backend/get-koulutukset-by-tarjoaja)))] result))
+                                                                               (kouta-backend/get-koulutukset-by-tarjoaja-with-cache execution-id)))] result))
         entries (oppilaitos/do-index oids execution-id)
         hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat oids)]
     (oppilaitos-search/do-index oids execution-id)
