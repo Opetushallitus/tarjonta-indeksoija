@@ -186,10 +186,9 @@
         (vector (koulutus-search-terms oppilaitos koulutus))))))
 
 (defn- create-oppilaitos-entry-with-hits
-  [oppilaitos hierarkia]
+  [oppilaitos hierarkia koulutukset]
   (let [koulutus-hits (partial create-koulutus-hits oppilaitos hierarkia)
-        koulutus-search-terms (partial create-koulutus-search-terms oppilaitos hierarkia)
-        koulutukset (get-tarjoaja-entries hierarkia (kouta-backend/get-koulutukset-by-tarjoaja (:oid oppilaitos)))]
+        koulutus-search-terms (partial create-koulutus-search-terms oppilaitos hierarkia)]
     (-> oppilaitos
         (create-base-entry koulutukset)
         (assoc :hits (if (seq koulutukset)
@@ -204,10 +203,14 @@
   [oid]
   (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
-      (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)]
-        (if (organisaatio-tool/indexable? oppilaitos)
-        (indexable/->index-entry (:oid oppilaitos) (create-oppilaitos-entry-with-hits oppilaitos hierarkia))
-        (indexable/->delete-entry (:oid oppilaitos)))))))
+      (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)
+            koulutukset (delay
+                          (get-tarjoaja-entries hierarkia
+                                                (kouta-backend/get-koulutukset-by-tarjoaja oppilaitos-oid)))]
+        (if (and (organisaatio-tool/indexable? oppilaitos) (seq @koulutukset))
+          (indexable/->index-entry
+            (:oid oppilaitos) (create-oppilaitos-entry-with-hits oppilaitos hierarkia @koulutukset))
+          (indexable/->delete-entry (:oid oppilaitos)))))))
 
 (defn do-index
   [oids execution-id]
