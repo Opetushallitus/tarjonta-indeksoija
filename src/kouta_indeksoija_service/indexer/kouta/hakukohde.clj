@@ -205,7 +205,7 @@
                                 (kouta-backend/get-valintaperuste valintaperusteId execution-id))
             jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
             jarjestyspaikka-hierarkia (when-not (clojure.string/blank? jarjestyspaikkaOid)
-                                        (kouta-backend/get-oppilaitos-hierarkia jarjestyspaikkaOid))]
+                                        (kouta-backend/get-oppilaitos-hierarkia-with-cache jarjestyspaikkaOid execution-id))]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-yps haku koulutus)

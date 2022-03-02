@@ -209,7 +209,7 @@
     (filter pred (vals @koulutukset))))
 
 (defn mock-get-hakukohde-oids-by-jarjestyspaikat
-  [oids]
+  [oids execution-id]
   (let [pred (fn [hk] (some (fn [oid] (= oid (:jarjestyspaikkaOid hk))) oids))]
     (map :oid (filter pred (vals @hakukohteet)))))
 
@@ -334,7 +334,7 @@
     (swap! oppilaitokset assoc oid oppilaitos)))
 
 (defn mock-get-oppilaitos
-  [oid]
+  [oid execution-id]
    (get @oppilaitokset oid))
 
 (defn add-oppilaitoksen-osa-mock
@@ -465,10 +465,10 @@
       (assoc :sorakuvaukset (map :id (vals @sorakuvaukset)))
       (assoc :oppilaitokset (map :oid (vals @oppilaitokset)))))
 
-(defn mock-get-oppilaitos-hierarkia [oid]
+(defn mock-get-oppilaitos-hierarkia [oid execution-id]
   (let [oppilaitoksen-osa (mock-get-oppilaitoksen-osa oid)
-        oppilaitos (mock-get-oppilaitos oid)
-        osat (mock-get-oppilaitoksen-osat-by-oppilaitos oid (System/currentTimeMillis))]
+        oppilaitos (mock-get-oppilaitos oid execution-id)
+        osat (mock-get-oppilaitoksen-osat-by-oppilaitos oid execution-id)]
     (if (nil? oppilaitoksen-osa) 
       (when (not (nil? oppilaitos)) (assoc oppilaitos :osat osat))
       oppilaitoksen-osa)))
@@ -635,13 +635,13 @@
                  kouta-indeksoija-service.rest.kouta/get-sorakuvaus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-sorakuvaus
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitos
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osa
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osa-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osa
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos-hierarkia
 
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
@@ -659,7 +659,7 @@
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
 
-                 kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat
+                 kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikat
 
                  kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus-with-cache
