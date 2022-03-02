@@ -228,11 +228,11 @@
   (get @toteutukset oid))
 
 (defn mock-get-toteutukset
-  ([koulutusOid vainJulkaistut]
+  ([koulutusOid vainJulkaistut execution-id]
    (let [pred (fn [e] (and (= (:koulutusOid e) koulutusOid) (or (not vainJulkaistut) (= (:tila e) "julkaistu"))))]
      (filter pred (vals @toteutukset))))
-  ([koulutusOid]
-   (mock-get-toteutukset koulutusOid false)))
+  ([koulutusOid execution-id]
+   (mock-get-toteutukset koulutusOid false execution-id)))
 
 (defn set-vals-in-depth
   [e k v]
@@ -401,7 +401,7 @@
     (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk) (System/currentTimeMillis)))) (find-hakukohteet hakuOid))))
 
 (defn mock-get-hakutiedot-for-koulutus
-  [oid]
+  [oid execution-id]
   (let [find-toteutukset (fn [oid] (filter (fn [t] (= (:koulutusOid t) oid)) (vals @toteutukset)))
         find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
         ajanjakso (fn [alkaa paattyy] (assoc {} :alkaa alkaa :paattyy paattyy))
@@ -614,7 +614,7 @@
   `(with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutus
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutus
 
-                 kouta-indeksoija-service.rest.kouta/get-toteutus-list-for-koulutus
+                 kouta-indeksoija-service.rest.kouta/get-toteutus-list-for-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutukset
 
                  kouta-indeksoija-service.rest.kouta/get-toteutus
@@ -644,7 +644,7 @@
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos-hierarkia
 
-                 kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
+                 kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
 
                  kouta-indeksoija-service.rest.kouta/list-haut-by-toteutus-with-cache
