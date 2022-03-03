@@ -638,9 +638,6 @@
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osa-with-cache
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osa
-
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos-hierarkia
 
