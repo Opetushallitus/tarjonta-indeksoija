@@ -211,11 +211,10 @@
   (deftest index-oppilaitos-search-items-test-1
     (fixture/with-mocked-indexing
       (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
-         (testing "Create correct search item when oppilaitos has no koulutukset"
+        (testing "Do not index oppilaitos in search index when it has no koulutukset"
         (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid1)))
         (i/index-oppilaitos oppilaitos-oid1)
-        (compare-json (no-timestamp (json json-path "oppilaitos-search-item-no-koulutukset"))
-                      (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid1)))))))
+        (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid1))))))))
 
   (deftest index-oppilaitos-search-items-test-2
     (fixture/with-mocked-indexing

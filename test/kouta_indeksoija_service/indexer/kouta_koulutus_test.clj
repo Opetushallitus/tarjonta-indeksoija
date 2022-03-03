@@ -16,11 +16,11 @@
 (deftest index-tallennettu-koulutus-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index tallennettu koulutus only to koulutus index"
-      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu")
+      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :tarjoajat [mocks/Oppilaitos1])
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-      (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+      (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))
       (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "tallennettu"}))
                     (no-timestamp (get-doc koulutus/index-name koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
