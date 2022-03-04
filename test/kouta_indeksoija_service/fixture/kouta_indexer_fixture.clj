@@ -356,7 +356,7 @@
   (get @sorakuvaukset id))
 
 (defn mock-get-hakukohteet-by-haku
-  [hakuOid]
+  [hakuOid execution-id]
   (let [pred (fn [e] (= (:hakuOid e) hakuOid))
         ->list-item (fn [hk] (into {}
                                    (remove (comp nil? second)

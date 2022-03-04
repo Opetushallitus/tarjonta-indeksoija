@@ -215,7 +215,7 @@
 
 (defn index-all-kouta
   []
-  (let [start-and-execution-id (. System (currentTimeMillis))
+  (let [start-and-execution-id (str "MASSA-" (. System (currentTimeMillis)))
         oids (kouta-backend/all-kouta-oids)]
     (log/info (str "ID:" start-and-execution-id " Indeksoidaan kouta-backendistä kaikki."))
     (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)
@@ -230,54 +230,54 @@
     (oppilaitos/do-index (:oppilaitokset oids) start-and-execution-id)
     (sorakuvaus/do-index (:sorakuvaukset oids) start-and-execution-id)
     (oppilaitos-search/do-index (:oppilaitokset oids) start-and-execution-id)
-    (log/info (str "ID:" start-and-execution-id " Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start-and-execution-id) " ms."))))
+    (log/info (str "ID:" start-and-execution-id " Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) (Long. (re-find #"\d+" start-and-execution-id))) " ms."))))
 
 (defn index-all-koulutukset
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
         (index-koulutukset (:koulutukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-toteutukset
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
         (index-toteutukset (:toteutukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-haut
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-haut (:haut (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-hakukohteet
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-hakukohteet (:hakukohteet (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-valintaperusteet
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-sorakuvaukset
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-sorakuvaukset (:sorakuvaukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-eperusteet
   []
   (let [eperusteet (eperusteet-client/find-all)
-        execution-id (. System (currentTimeMillis))]
+        execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count eperusteet) " eperustetta, (o)ids: " eperusteet)
     (index-eperusteet eperusteet execution-id)))
 
 (defn index-all-oppilaitokset
   []
   (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)
-        execution-id (. System (currentTimeMillis))]
+        execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count oppilaitokset) " oppilaitosta, (o)ids: " oppilaitokset)
     (index-oppilaitokset oppilaitokset execution-id)))
 
 (defn index-all-lokalisoinnit
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan lokalisoinnit kaikilla kielillä.")
   (index-lokalisoinnit ["fi" "sv" "en"] execution-id)))
