@@ -9,7 +9,6 @@
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.general :as general]
             [kouta-indeksoija-service.util.conf :refer [env]]
-            [clojure.tools.logging :as log]
             [clojure.string :as str]))
 
 (defonce cas-session (init-session (resolve-url :kouta-backend.auth-login) false))
@@ -36,13 +35,9 @@
 
 (defn- get-doc
   [type oid execution-id]
-  ; todo let get-cache ja print.
-  (let [cache-time (get-cache-time execution-id)]
-    (log/info "GOT CACHE TIME: " cache-time)
-    (log/info "IS THIS NUMBER: " (number? cache-time))
-    {:val (let [url-keyword (keyword (str "kouta-backend." type (if (or (= "valintaperuste" type) (= "sorakuvaus" type)) ".id" ".oid")))]
+  {:val (let [url-keyword (keyword (str "kouta-backend." type (if (or (= "valintaperuste" type) (= "sorakuvaus" type)) ".id" ".oid")))]
           (cas-authenticated-get-as-json (resolve-url url-keyword oid) {:query-params {:myosPoistetut "true"}}))
-   :ttl cache-time}))
+   :ttl (get-cache-time execution-id)})
 
 (def get-doc-with-cache
   (ttl/memoize-ttl get-doc))
