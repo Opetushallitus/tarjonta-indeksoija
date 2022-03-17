@@ -12,20 +12,23 @@
   (let [hakukohde-list-raw (kouta-backend/list-hakukohteet-by-haku oid)
         haku (assoc (common/complete-entry (kouta-backend/get-haku oid)) :hakukohteet hakukohde-list-raw)]
     (if (general/not-poistettu? haku)
-      (let [toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
+      (let [toteutus-list (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
             assoc-toteutus (fn [h] (assoc h :toteutus
-                                            (common/assoc-organisaatiot
-                                             (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
+                                          (common/assoc-organisaatiot
+                                            (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
             hakukohde-list (vec (map (fn [hk] (-> hk
                                                   (general/set-hakukohde-tila-by-related-haku haku)
                                                   (koodisto/assoc-hakukohde-nimi-from-koodi)
                                                   (common/complete-entry)
                                                   (assoc-toteutus)))
                                      (filter general/not-poistettu? hakukohde-list-raw)))]
-            (indexable/->index-entry-with-forwarded-data oid (-> haku
-                                       (assoc :hakukohteet hakukohde-list)
-                                        (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
-                                          (common/localize-dates)) haku))
+        (indexable/->index-entry-with-forwarded-data oid (-> haku
+                                                             (assoc :hakukohteet hakukohde-list)
+                                                             (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
+                                                             (common/localize-dates)
+                                                             (assoc-in [:hakutapa :koodiUri]
+                                                                       (clojure.string/replace (get-in haku [:hakutapa :koodiUri]) #"#\d+" "")))
+                                                     haku))
       (indexable/->delete-entry-with-forwarded-data oid haku))))
 
 (defn do-index
