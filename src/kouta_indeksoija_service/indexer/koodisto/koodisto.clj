@@ -24,7 +24,7 @@
     (= koodisto/koodiuri-koulutusalataso1 koodisto) (assoc-alakoodi-entries koodisto/koodiuri-koulutusalataso2)))
 
 (defn create-index-entry
-  [koodisto]
+  [koodisto execution-id]
   (let [koodit (koodisto/filter-expired (koodisto-service/get-koodit koodisto))]
     (indexable/->index-entry koodisto {:id koodisto
                                        :koodisto koodisto

@@ -71,7 +71,7 @@
   [oids execution-id]
   (let [toteutus-entries (toteutus/do-index oids execution-id)
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
-        haut    (mapcat kouta-backend/list-haut-by-toteutus oids)
+        haut    (mapcat #(kouta-backend/list-haut-by-toteutus-with-cache % execution-id) oids)
         koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))]
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
@@ -116,7 +116,7 @@
 (defn index-valintaperusteet
   [oids execution-id]
   (let [entries     (valintaperuste/do-index oids execution-id)
-        hakukohteet (mapcat kouta-backend/list-hakukohteet-by-valintaperuste (get-oids :id entries))]
+        hakukohteet (mapcat #(kouta-backend/list-hakukohteet-by-valintaperuste-with-cache % execution-id) (get-oids :id entries))]
     (hakukohde/do-index (get-oids :oid hakukohteet) execution-id)
     entries))
 
@@ -128,7 +128,7 @@
 (defn index-sorakuvaukset
   [ids execution-id]
   (let [entries       (sorakuvaus/do-index ids execution-id)
-        koulutus-oids (mapcat kouta-backend/list-koulutus-oids-by-sorakuvaus (get-oids :id entries))]
+        koulutus-oids (mapcat #(kouta-backend/list-koulutus-oids-by-sorakuvaus-with-cache % execution-id) (get-oids :id entries))]
     (koulutus/do-index koulutus-oids execution-id)
     entries))
 
@@ -153,9 +153,9 @@
                                                                                (hierarkia/get-hierarkia)
                                                                                (organisaatio-tool/find-oppilaitos-from-hierarkia)
                                                                                (:oid)
-                                                                               (kouta-backend/get-koulutukset-by-tarjoaja)))] result))
+                                                                               (kouta-backend/get-koulutukset-by-tarjoaja-with-cache execution-id)))] result))
         entries (oppilaitos/do-index oids execution-id)
-        hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat oids)]
+        hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids execution-id)]
     (oppilaitos-search/do-index oids execution-id)
     (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids) execution-id)
     (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
@@ -215,7 +215,7 @@
 
 (defn index-all-kouta
   []
-  (let [start-and-execution-id (. System (currentTimeMillis))
+  (let [start-and-execution-id (str "MASSA-" (. System (currentTimeMillis)))
         oids (kouta-backend/all-kouta-oids)]
     (log/info (str "ID:" start-and-execution-id " Indeksoidaan kouta-backendistä kaikki."))
     (let [koulutus-entries (koulutus/do-index (:koulutukset oids) start-and-execution-id)
@@ -230,54 +230,54 @@
     (oppilaitos/do-index (:oppilaitokset oids) start-and-execution-id)
     (sorakuvaus/do-index (:sorakuvaukset oids) start-and-execution-id)
     (oppilaitos-search/do-index (:oppilaitokset oids) start-and-execution-id)
-    (log/info (str "ID:" start-and-execution-id " Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) start-and-execution-id) " ms."))))
+    (log/info (str "ID:" start-and-execution-id " Indeksointi valmis ja oidien haku valmis. Aikaa kului " (- (. System (currentTimeMillis)) (Long. (re-find #"\d+" start-and-execution-id))) " ms."))))
 
 (defn index-all-koulutukset
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
         (index-koulutukset (:koulutukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-toteutukset
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
         (index-toteutukset (:toteutukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-haut
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-haut (:haut (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-hakukohteet
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-hakukohteet (:hakukohteet (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-valintaperusteet
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-valintaperusteet (:valintaperusteet (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-sorakuvaukset
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (index-sorakuvaukset (:sorakuvaukset (kouta-backend/all-kouta-oids)) execution-id)))
 
 (defn index-all-eperusteet
   []
   (let [eperusteet (eperusteet-client/find-all)
-        execution-id (. System (currentTimeMillis))]
+        execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count eperusteet) " eperustetta, (o)ids: " eperusteet)
     (index-eperusteet eperusteet execution-id)))
 
 (defn index-all-oppilaitokset
   []
   (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)
-        execution-id (. System (currentTimeMillis))]
+        execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count oppilaitokset) " oppilaitosta, (o)ids: " oppilaitokset)
     (index-oppilaitokset oppilaitokset execution-id)))
 
 (defn index-all-lokalisoinnit
   []
-  (let [execution-id (. System (currentTimeMillis))]
+  (let [execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan lokalisoinnit kaikilla kielillä.")
   (index-lokalisoinnit ["fi" "sv" "en"] execution-id)))

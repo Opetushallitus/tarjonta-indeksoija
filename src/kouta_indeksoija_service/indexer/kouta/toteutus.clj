@@ -100,10 +100,10 @@
     :else toteutus))
 
 (defn create-index-entry
-  [oid]
-  (let [toteutus (kouta-backend/get-toteutus oid)]
+  [oid execution-id]
+  (let [toteutus (kouta-backend/get-toteutus-with-cache oid execution-id)]
     (if (not-poistettu? toteutus)
-      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:koulutusOid toteutus))
+      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:koulutusOid toteutus) execution-id)
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)

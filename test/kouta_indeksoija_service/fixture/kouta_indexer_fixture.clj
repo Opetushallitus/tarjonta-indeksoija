@@ -199,17 +199,17 @@
     (swap! koulutukset assoc oid koulutus)))
 
 (defn mock-get-koulutus
-  [oid]
+  [oid execution-id]
   (get @koulutukset oid))
 
 (defn mock-get-koulutukset-by-tarjoaja
-  [oid]
+  [oid execution-id]
   (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
         pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
     (filter pred (vals @koulutukset))))
 
 (defn mock-get-hakukohde-oids-by-jarjestyspaikat
-  [oids]
+  [oids execution-id]
   (let [pred (fn [hk] (some (fn [oid] (= oid (:jarjestyspaikkaOid hk))) oids))]
     (map :oid (filter pred (vals @hakukohteet)))))
 
@@ -224,15 +224,15 @@
     (swap! toteutukset assoc oid toteutus)))
 
 (defn mock-get-toteutus
-  [oid]
+  [oid execution-id]
   (get @toteutukset oid))
 
 (defn mock-get-toteutukset
-  ([koulutusOid vainJulkaistut]
+  ([koulutusOid vainJulkaistut execution-id]
    (let [pred (fn [e] (and (= (:koulutusOid e) koulutusOid) (or (not vainJulkaistut) (= (:tila e) "julkaistu"))))]
      (filter pred (vals @toteutukset))))
-  ([koulutusOid]
-   (mock-get-toteutukset koulutusOid false)))
+  ([koulutusOid execution-id]
+   (mock-get-toteutukset koulutusOid false execution-id)))
 
 (defn set-vals-in-depth
   [e k v]
@@ -259,7 +259,7 @@
     (swap! haut assoc oid haku)))
 
 (defn mock-get-haku
-  [oid]
+  [oid execution-id]
   (get @haut oid))
 
 (defn add-hakukohde-mock
@@ -290,7 +290,7 @@
     (swap! hakukohteet assoc oid hakukohde)))
 
 (defn mock-get-hakukohde
-  [oid]
+  [oid execution-id]
   (get @hakukohteet oid))
 
 (defn add-valintaperuste-mock
@@ -309,7 +309,7 @@
     (swap! valintaperusteet assoc id valintaperuste)))
 
 (defn mock-get-valintaperuste
-  [id]
+  [id execution-id]
   (get @valintaperusteet id))
 
 (defn add-sorakuvaus-mock
@@ -334,8 +334,8 @@
     (swap! oppilaitokset assoc oid oppilaitos)))
 
 (defn mock-get-oppilaitos
-  [oid]
-  (get @oppilaitokset oid))
+  [oid execution-id]
+   (get @oppilaitokset oid))
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
@@ -352,11 +352,11 @@
   (get @oppilaitoksen-osat oid))
 
 (defn mock-get-sorakuvaus
-  [id]
+  [id execution-id]
   (get @sorakuvaukset id))
 
 (defn mock-get-hakukohteet-by-haku
-  [hakuOid]
+  [hakuOid execution-id]
   (let [pred (fn [e] (= (:hakuOid e) hakuOid))
         ->list-item (fn [hk] (into {}
                                    (remove (comp nil? second)
@@ -375,17 +375,17 @@
     (map ->list-item (filter pred (vals @hakukohteet)))))
 
 (defn mock-list-haut-by-toteutus
-  [toteutusOid]
+  [toteutusOid execution-id]
   (let [find-hakukohteet (fn [tOid] (filter (fn [hk] (and (visible hk) (= (:toteutusOid hk) tOid))) (vals @hakukohteet)))
-        find-haut (fn [hakuOids] (filter visible (map mock-get-haku hakuOids)))]
+        find-haut (fn [hakuOids] (filter visible (map #(mock-get-haku % (System/currentTimeMillis)) hakuOids)))]
     (find-haut (map :hakuOid (find-hakukohteet toteutusOid)))))
 
 (defn mock-list-hakukohteet-by-valintaperuste
-  [valintaperusteId]
+  [valintaperusteId execution-id]
   (filter (fn [hk] (= (:valintaperusteId hk) valintaperusteId)) (vals @hakukohteet)))
 
 (defn mock-list-toteutukset-by-haku
-  [hakuOid]
+  [hakuOid execution-id]
   (let [find-hakukohteet (fn [hOid] (filter (fn [hk] (= (:hakuOid hk) hOid)) (vals @hakukohteet)))
         ->list-item (fn [t] (into {}
                                   (remove (comp nil? second)
@@ -398,14 +398,14 @@
                                                  :organisaatioOid (:organisaatioOid t)
                                                  :muokkaaja (:muokkaaja t)
                                                  :modified (:modified t)))))]
-    (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk)))) (find-hakukohteet hakuOid))))
+    (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk) (System/currentTimeMillis)))) (find-hakukohteet hakuOid))))
 
 (defn mock-get-hakutiedot-for-koulutus
-  [oid]
+  [oid execution-id]
   (let [find-toteutukset (fn [oid] (filter (fn [t] (= (:koulutusOid t) oid)) (vals @toteutukset)))
         find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
         ajanjakso (fn [alkaa paattyy] (assoc {} :alkaa alkaa :paattyy paattyy))
-        assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk))]
+        assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk) (System/currentTimeMillis))]
                                    (into {} (remove (comp nil? second)
                                                     (assoc {}
                                                            :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
@@ -430,7 +430,7 @@
                                                            :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
                                                            :valintatapaKoodiUrit (map :valintatapaKoodiUri
                                                                                       (get-in vp [:metadata :valintatavat])))))))
-        assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid)]
+        assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid (System/currentTimeMillis))]
                                     (assoc {}
                                            :hakuOid hOid
                                            :hakutapaKoodiUri (:hakutapaKoodiUri haku)
@@ -446,12 +446,12 @@
     (vec (map assoc-toteutus (find-toteutukset oid)))))
 
 (defn mock-list-koulutus-oids-by-sorakuvaus
-  [sorakuvausId]
+  [sorakuvausId execution-id]
   (let [find-koulutukset (fn [sid] (filter (fn [k] (= (:sorakuvausId k) sid)) (vals @koulutukset)))]
     (map :oid (find-koulutukset sorakuvausId))))
 
 (defn mock-get-oppilaitoksen-osat-by-oppilaitos
-  [oppilaitosOid]
+  [oppilaitosOid execution-id]
   (filter (fn [osa] (= (:oppilaitosOid osa) oppilaitosOid)) (vals @oppilaitoksen-osat)))
 
 (defn mock-get-last-modified
@@ -465,10 +465,10 @@
       (assoc :sorakuvaukset (map :id (vals @sorakuvaukset)))
       (assoc :oppilaitokset (map :oid (vals @oppilaitokset)))))
 
-(defn mock-get-oppilaitos-hierarkia [oid]
+(defn mock-get-oppilaitos-hierarkia [oid execution-id]
   (let [oppilaitoksen-osa (mock-get-oppilaitoksen-osa oid)
-        oppilaitos (mock-get-oppilaitos oid)
-        osat (mock-get-oppilaitoksen-osat-by-oppilaitos oid)]
+        oppilaitos (mock-get-oppilaitos oid execution-id)
+        osat (mock-get-oppilaitoksen-osat-by-oppilaitos oid execution-id)]
     (if (nil? oppilaitoksen-osa) 
       (when (not (nil? oppilaitos)) (assoc oppilaitos :osat osat))
       oppilaitoksen-osa)))
@@ -611,61 +611,58 @@
   [& body]
   ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
   ;It can be temporarily fixed by using locked in mocking functions, but better solution would be superb!
-  `(with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutus
+  `(with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutus
 
-                 kouta-indeksoija-service.rest.kouta/get-toteutus-list-for-koulutus
+                 kouta-indeksoija-service.rest.kouta/get-toteutus-list-for-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutukset
 
-                 kouta-indeksoija-service.rest.kouta/get-toteutus
+                 kouta-indeksoija-service.rest.kouta/get-toteutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutus
 
-                 kouta-indeksoija-service.rest.kouta/get-haku
+                 kouta-indeksoija-service.rest.kouta/get-haku-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-haku
 
-                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-haku
+                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-haku-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohteet-by-haku
 
-                 kouta-indeksoija-service.rest.kouta/get-hakukohde
+                 kouta-indeksoija-service.rest.kouta/get-hakukohde-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde
 
-                 kouta-indeksoija-service.rest.kouta/get-valintaperuste
+                 kouta-indeksoija-service.rest.kouta/get-valintaperuste-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-valintaperuste
 
-                 kouta-indeksoija-service.rest.kouta/get-sorakuvaus
+                 kouta-indeksoija-service.rest.kouta/get-sorakuvaus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-sorakuvaus
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitos
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osa
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osa
-
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos-hierarkia
 
-                 kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus
+                 kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
 
-                 kouta-indeksoija-service.rest.kouta/list-haut-by-toteutus
+                 kouta-indeksoija-service.rest.kouta/list-haut-by-toteutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-haut-by-toteutus
 
-                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-valintaperuste
+                 kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-valintaperuste-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-hakukohteet-by-valintaperuste
 
-                 kouta-indeksoija-service.rest.kouta/list-toteutukset-by-haku
+                 kouta-indeksoija-service.rest.kouta/list-toteutukset-by-haku-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-toteutukset-by-haku
 
-                 kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja
+                 kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
 
-                 kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat
+                 kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikat
 
-                 kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus
+                 kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutus-oids-by-sorakuvaus
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osat
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitoksen-osat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitoksen-osat-by-oppilaitos
 
                  kouta-indeksoija-service.rest.kouta/get-last-modified

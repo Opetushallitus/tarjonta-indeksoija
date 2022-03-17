@@ -28,7 +28,10 @@
   [value]         ;Numeroita voi olla 1-3 kpl
   (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (string/trim value)))
 
-(def excluded-fields {:externalId true})
+(def excluded-fields {:externalId true
+                      :fi true
+                      :sv true
+                      :en true})
 
 (defn- processable-as-koodi-uri? [v]
   (boolean (or (and (string? v) (koodi-uri? v))

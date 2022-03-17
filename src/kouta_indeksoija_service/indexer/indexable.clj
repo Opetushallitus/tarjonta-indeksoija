@@ -26,7 +26,7 @@
 
 (defn- eat-and-log-errors
   [oid f execution-id]
-  (try (f oid)
+  (try (f oid execution-id)
      (catch Exception e
        (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe.")
        nil)))
