@@ -188,6 +188,14 @@
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 
+(defonce haku-metadata
+  {:koulutuksenAlkamiskausi
+   {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+    :henkilokohtaisenSuunnitelmanLisatiedot {}
+    :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+    :koulutuksenAlkamisvuosi "2020"}
+   })
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid Oppilaitos1} params))]
