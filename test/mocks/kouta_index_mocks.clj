@@ -76,7 +76,8 @@
     (fixture/add-toteutus-mock toteutusOid5 koulutusOid1 :tila "tallennettu" :nimi "Autoalan perusopinnot" :modified "2018-06-05T12:02:23")
 
     (fixture/add-haku-mock hakuOid1 :tila "julkaistu"   :nimi "Yhteishaku" :organisaatio mocks/Oppilaitos2)
-    (fixture/add-haku-mock hakuOid2 :tila "julkaistu"   :nimi "Yhteishaku")
+    (fixture/add-haku-mock hakuOid2 :tila "julkaistu"   :nimi "Yhteishaku" :hakutapaKoodiUri "hakutapa_01")
+    (fixture/update-haku-mock hakuOid2 :metadata fixture/haku-metadata)
     (fixture/add-haku-mock hakuOid3 :tila "julkaistu"   :nimi "Jatkuva haku" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
     (fixture/add-haku-mock hakuOid4 :tila "arkistoitu"  :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23")
     (fixture/add-haku-mock hakuOid5 :tila "tallennettu" :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23")
@@ -89,7 +90,7 @@
     (fixture/add-hakukohde-mock hakukohdeOid6 toteutusOid1 hakuOid1 :tila "tallennettu" :nimi "Hakukohde" :organisaatio mocks/Oppilaitos1 :valintaperuste valintaperusteId1)
 
     (fixture/add-valintaperuste-mock valintaperusteId1 :tila "julkaistu" :nimi "Valintaperustekuvaus" :organisaatio mocks/Oppilaitos2)
-    (fixture/add-valintaperuste-mock valintaperusteId2 :tila "julkaistu" :nimi "Valintaperustekuvaus")
+    (fixture/add-valintaperuste-mock valintaperusteId2 :tila "julkaistu" :nimi "Valintaperustekuvaus" :julkinen true)
     (fixture/add-valintaperuste-mock valintaperusteId3 :tila "julkaistu" :nimi "Kiva valintaperustekuvaus" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
     (fixture/add-valintaperuste-mock valintaperusteId4 :tila "arkistoitu" :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
     (fixture/add-valintaperuste-mock valintaperusteId5 :tila "tallennettu" :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
