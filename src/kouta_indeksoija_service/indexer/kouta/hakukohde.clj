@@ -171,12 +171,17 @@
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
   (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)
-        hakokohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])]
-    (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
-                                                     (some? non-korkeakoulu-koodi-uri)
-                                                     (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))
-                                                     (or (nil? hakokohde-nimi-koodi-uri)
-                                                         (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri)))))))
+        hakokohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])
+        hakukohde-allows-harkinnanvaraiset-applicants (and
+                                                       (some? non-korkeakoulu-koodi-uri)
+                                                       (or (nil? hakokohde-nimi-koodi-uri)
+                                                           (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri))))
+        harkinnanvaraisuus-question-allowed (and
+                                             hakukohde-allows-harkinnanvaraiset-applicants
+                                             (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri)))]
+    (assoc hakukohde :onkoHarkinnanvarainenKoulutus harkinnanvaraisuus-question-allowed
+                     :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
+                     :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka]
