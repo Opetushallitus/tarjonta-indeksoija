@@ -111,7 +111,9 @@
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata)
      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-       (is (false? (:onkoHarkinnanvarainenKoulutus hakukohde)))))))
+       (is (false? (:onkoHarkinnanvarainenKoulutus hakukohde)))
+       (is (false? (:voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde)))
+       (is (false? (:salliikoHakukohdeHarkinnanvaraisuudenKysymisen hakukohde)))))))
 
 (deftest index-hakukohde-hakulomakelinkki-test
   (fixture/with-mocked-indexing

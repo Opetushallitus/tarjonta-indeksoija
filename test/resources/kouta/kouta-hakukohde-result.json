@@ -447,6 +447,8 @@
     "tila": "arkistoitu"
   },
   "onkoHarkinnanvarainenKoulutus": true,
+  "salliikoHakukohdeHarkinnanvaraisuudenKysymisen": true,
+  "voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita": true,
   "koulutustyyppikoodi": null,
   "externalId": "3344556677",
   "jarjestaaUrheilijanAmmKoulutusta": false,
