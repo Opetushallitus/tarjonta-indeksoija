@@ -171,12 +171,20 @@
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
   (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)
-        hakokohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])]
-    (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
-                                                     (some? non-korkeakoulu-koodi-uri)
-                                                     (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))
-                                                     (or (nil? hakokohde-nimi-koodi-uri)
-                                                         (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri)))))))
+        hakokohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])
+        harkinnanvaraisuus-question-allowed (and
+                                             (some? non-korkeakoulu-koodi-uri)
+                                             (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))
+                                              (or (nil? hakokohde-nimi-koodi-uri)
+                                                  (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri))))
+        hakukohde-allows-harkinnanvaraiset-applicants (or harkinnanvaraisuus-question-allowed
+                                                         (and
+                                                           (some? non-korkeakoulu-koodi-uri)
+                                                           (and (not (nil? hakokohde-nimi-koodi-uri))
+                                                                (not (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri))))))]
+    (assoc hakukohde :onkoHarkinnanvarainenKoulutus harkinnanvaraisuus-question-allowed
+                     :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
+                     :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka]
