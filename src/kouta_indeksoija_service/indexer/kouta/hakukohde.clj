@@ -178,11 +178,15 @@
         ; - Hakukohde on "Perustason ensihoidon osaamisala (Sosiaali- ja terveysalan perustutkinto)" = false
         kysytaanko-harkinnanvaraisuutta-lomakkeella (fn [koodi-uri]
                                                       (nil? (koodisto-tools/harkinnanvaraisuutta-ei-kysyta-lomakkeella koodi-uri)))
+        ; Seuraava arvo on tosi esimerkille: "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
         harkinnanvaraisuus-question-allowed (and
                                               (some? non-korkeakoulu-koodi-uri)
                                               (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
                                               (or (nil? hakukohde-nimi-koodi-uri)
                                                   (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))
+        ; Seuraava arvo on tosi seuraaville esimerkeille:
+        ; - "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
+        ; - "Hakukohde on "Perustason ensihoidon osaamisala (Sosiaali- ja terveysalan perustutkinto)"
         hakukohde-allows-harkinnanvaraiset-applicants (or harkinnanvaraisuus-question-allowed
                                                           (and
                                                             (some? non-korkeakoulu-koodi-uri)
