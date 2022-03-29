@@ -446,7 +446,6 @@
   "sora": {
     "tila": "arkistoitu"
   },
-  "onkoHarkinnanvarainenKoulutus": true,
   "salliikoHakukohdeHarkinnanvaraisuudenKysymisen": true,
   "voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita": true,
   "koulutustyyppikoodi": null,
