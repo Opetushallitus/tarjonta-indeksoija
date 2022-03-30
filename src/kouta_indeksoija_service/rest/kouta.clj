@@ -51,8 +51,13 @@
   [oid execution-id]
   (get-doc-with-cache "hakukohde" oid execution-id))
 
-(defn get-hakukohde-oids-by-jarjestyspaikat [oids]
+(defn get-hakukohde-oids-by-jarjestyspaikat
+  [oids execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-post-as-json (resolve-url :kouta-backend.jarjestyspaikat.hakukohde-oids) {:body (json/generate-string oids) :content-type :json}))
+
+(def get-hakukohde-oids-by-jarjestyspaikat-with-cache
+  (memo/ttl get-hakukohde-oids-by-jarjestyspaikat {} :ttl/threshold kouta_cache_time_millis))
 
 (defn get-valintaperuste
   [id execution-id]
@@ -63,16 +68,29 @@
   (if (some? id) (get-doc-with-cache "sorakuvaus" id execution-id) nil))
 
 (defn get-oppilaitos
-  [oid]
+  [oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.oid oid) {}))
 
+(def get-oppilaitos-with-cache
+  (memo/ttl get-oppilaitos {} :ttl/threshold kouta_cache_time_millis))
+
 (defn get-oppilaitos-hierarkia
-  [oid]
+  [oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitos.hierarkia oid) {}))
 
+(def get-oppilaitos-hierarkia-with-cache
+  (memo/ttl get-oppilaitos-hierarkia {} :ttl/threshold kouta_cache_time_millis))
+
+;TODO-tarkista onko tämä edes käytössä missään?!
 (defn get-oppilaitoksen-osa
-  [oid]
+  [oid execution-id]
+  ; execution-id for cache purposes only
   (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitoksen-osa.oid oid) {}))
+
+(def get-oppilaitoksen-osa-with-cache
+  (memo/ttl get-oppilaitoksen-osa {} :ttl/threshold kouta_cache_time_millis))
 
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut]

@@ -81,18 +81,18 @@
                                          :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn- get-kouta-oppilaitos
-  [oid]
-  (let [oppilaitos (kouta-backend/get-oppilaitos oid)]
+  [oid execution-id]
+  (let [oppilaitos (kouta-backend/get-oppilaitos-with-cache oid execution-id)]
     (when (julkaistu? oppilaitos)
       {:kielivalinta (:kielivalinta oppilaitos)
        :kuvaus       (get-in oppilaitos [:metadata :esittely])
        :logo         (:logo oppilaitos)})))
 
 (defn- create-base-entry
-  [oppilaitos koulutukset]
+  [oppilaitos koulutukset execution-id]
   (-> oppilaitos
       (select-keys [:oid :nimi])
-      (merge (get-kouta-oppilaitos (:oid oppilaitos)))
+      (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
       (assoc :koulutusohjelmia (count (filter :johtaaTutkintoon koulutukset)))))
 
 (defn- assoc-paikkakunnat
@@ -121,7 +121,7 @@
   [oppilaitos hierarkia koulutukset execution-id]
   (let [koulutus-search-terms (partial create-koulutus-search-terms oppilaitos hierarkia)]
     (-> oppilaitos
-        (create-base-entry koulutukset)
+        (create-base-entry koulutukset execution-id)
         (assoc :search_terms (if (seq koulutukset)
                                (vec (mapcat #(koulutus-search-terms %) koulutukset))
                                (vector (oppilaitos-search-terms oppilaitos))))

@@ -139,7 +139,7 @@
 (defn- oppilaitos-entry-with-osat
   [organisaatio execution-id]
   (let [oppilaitos-oid (:oid organisaatio)
-        oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
+        oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid execution-id) {})
         oppilaitos-from-organisaatiopalvelu (organisaatio-client/get-by-oid-cached oppilaitos-oid)
         yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
         hakijapalveluiden-yhteystiedot (-> (get-in (get-in oppilaitos [:metadata]) [:hakijapalveluidenYhteystiedot])
