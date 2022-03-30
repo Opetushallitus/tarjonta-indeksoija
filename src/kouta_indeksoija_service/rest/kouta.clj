@@ -35,19 +35,19 @@
 (def get-doc-with-cache
   (memo/ttl get-doc {} :ttl/threshold kouta_cache_time_millis))
 
-(defn get-koulutus
+(defn get-koulutus-with-cache
   [oid execution-id]
   (get-doc-with-cache "koulutus" oid execution-id))
 
-(defn get-toteutus
+(defn get-toteutus-with-cache
   [oid execution-id]
   (get-doc-with-cache "toteutus" oid execution-id))
 
-(defn get-haku
+(defn get-haku-with-cache
   [oid execution-id]
   (get-doc-with-cache "haku" oid execution-id))
 
-(defn get-hakukohde
+(defn get-hakukohde-with-cache
   [oid execution-id]
   (get-doc-with-cache "hakukohde" oid execution-id))
 
@@ -59,11 +59,11 @@
 (def get-hakukohde-oids-by-jarjestyspaikat-with-cache
   (memo/ttl get-hakukohde-oids-by-jarjestyspaikat {} :ttl/threshold kouta_cache_time_millis))
 
-(defn get-valintaperuste
+(defn get-valintaperuste-with-cache
   [id execution-id]
   (get-doc-with-cache "valintaperuste" id execution-id))
 
-(defn get-sorakuvaus
+(defn get-sorakuvaus-with-cache
   [id execution-id]
   (if (some? id) (get-doc-with-cache "sorakuvaus" id execution-id) nil))
 

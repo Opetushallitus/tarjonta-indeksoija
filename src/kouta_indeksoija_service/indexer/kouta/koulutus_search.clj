@@ -145,7 +145,7 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [koulutus (kouta-backend/get-koulutus oid execution-id)]
+  (let [koulutus (kouta-backend/get-koulutus-with-cache oid execution-id)]
     (if (julkaistu? koulutus)
       (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus-with-cache (:oid koulutus) true execution-id))
             hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id))]

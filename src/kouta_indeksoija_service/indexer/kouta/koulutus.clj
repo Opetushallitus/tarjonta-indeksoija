@@ -136,12 +136,12 @@
 (defn- assoc-sorakuvaus
   [koulutus execution-id]
   (if-let [sorakuvaus-id (:sorakuvausId koulutus)]
-    (assoc koulutus :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus sorakuvaus-id execution-id)))
+    (assoc koulutus :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus-with-cache sorakuvaus-id execution-id)))
     koulutus))
 
 (defn create-index-entry
   [oid execution-id]
-  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid execution-id))]
+  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus-with-cache oid execution-id))]
     (if (not-poistettu? koulutus)
       (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus-with-cache oid execution-id))
             koulutus-enriched (-> koulutus

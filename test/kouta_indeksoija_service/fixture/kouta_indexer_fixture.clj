@@ -611,28 +611,28 @@
   [& body]
   ;TODO: with-redefs is not thread safe and may cause unexpected behaviour.
   ;It can be temporarily fixed by using locked in mocking functions, but better solution would be superb!
-  `(with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutus
+  `(with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutus
 
                  kouta-indeksoija-service.rest.kouta/get-toteutus-list-for-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutukset
 
-                 kouta-indeksoija-service.rest.kouta/get-toteutus
+                 kouta-indeksoija-service.rest.kouta/get-toteutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutus
 
-                 kouta-indeksoija-service.rest.kouta/get-haku
+                 kouta-indeksoija-service.rest.kouta/get-haku-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-haku
 
                  kouta-indeksoija-service.rest.kouta/list-hakukohteet-by-haku-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohteet-by-haku
 
-                 kouta-indeksoija-service.rest.kouta/get-hakukohde
+                 kouta-indeksoija-service.rest.kouta/get-hakukohde-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde
 
-                 kouta-indeksoija-service.rest.kouta/get-valintaperuste
+                 kouta-indeksoija-service.rest.kouta/get-valintaperuste-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-valintaperuste
 
-                 kouta-indeksoija-service.rest.kouta/get-sorakuvaus
+                 kouta-indeksoija-service.rest.kouta/get-sorakuvaus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-sorakuvaus
 
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-with-cache

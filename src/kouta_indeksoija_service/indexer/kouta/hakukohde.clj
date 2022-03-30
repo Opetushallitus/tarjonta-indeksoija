@@ -199,18 +199,18 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [hakukohde (-> (kouta-backend/get-hakukohde oid execution-id)
+  (let [hakukohde (-> (kouta-backend/get-hakukohde-with-cache oid execution-id)
                       (assoc-nimi-as-esitysnimi)
                       (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
                       (common/complete-entry))]
     (if (not-poistettu? hakukohde)
-      (let [haku              (kouta-backend/get-haku (:hakuOid hakukohde) execution-id)
-            toteutus          (kouta-backend/get-toteutus (:toteutusOid hakukohde) execution-id)
-            koulutus          (kouta-backend/get-koulutus (:koulutusOid toteutus) execution-id)
-            sora-kuvaus       (kouta-backend/get-sorakuvaus (:sorakuvausId koulutus) execution-id)
+      (let [haku              (kouta-backend/get-haku-with-cache (:hakuOid hakukohde) execution-id)
+            toteutus          (kouta-backend/get-toteutus-with-cache (:toteutusOid hakukohde) execution-id)
+            koulutus          (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)
+            sora-kuvaus       (kouta-backend/get-sorakuvaus-with-cache (:sorakuvausId koulutus) execution-id)
             valintaperusteId  (:valintaperusteId hakukohde)
             valintaperuste    (when-not (clojure.string/blank? valintaperusteId)
-                                (kouta-backend/get-valintaperuste valintaperusteId execution-id))
+                                (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
             jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
             jarjestyspaikka-hierarkia (when-not (clojure.string/blank? jarjestyspaikkaOid)
                                         (kouta-backend/get-oppilaitos-hierarkia-with-cache jarjestyspaikkaOid execution-id))]
