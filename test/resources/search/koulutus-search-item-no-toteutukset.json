@@ -124,68 +124,6 @@
       }
     }
   ],
-  "hits": [
-    {
-      "koulutustyypit": [
-        "amm",
-        "koulutustyyppi_01",
-        "koulutustyyppi_02"
-      ],
-      "opetuskielet": [],
-      "opetustavat": [],
-      "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-      "sijainti": [
-        "kunta_091",
-        "maakunta_01"
-      ],
-      "hakutiedot": [],
-      "koulutusalat": [
-        "kansallinenkoulutusluokitus2016koulutusalataso1_01",
-        "kansallinenkoulutusluokitus2016koulutusalataso1_02",
-        "kansallinenkoulutusluokitus2016koulutusalataso2_01",
-        "kansallinenkoulutusluokitus2016koulutusalataso2_02"
-      ],
-      "terms": {
-        "fi": [
-          "Oppilaitos fi 1.2.246.562.10.77777777799",
-          "Autoalan perustutkinto 0 fi",
-          "Toimipiste fi 1.2.246.562.10.777777777992",
-          "tutkintonimikkeet_01 nimi fi",
-          "tutkintonimikkeet_02 nimi fi"
-        ],
-        "sv": [
-          "Oppilaitos sv 1.2.246.562.10.77777777799",
-          "Autoalan perustutkinto 0 sv",
-          "Toimipiste sv 1.2.246.562.10.777777777992",
-          "tutkintonimikkeet_01 nimi sv",
-          "tutkintonimikkeet_02 nimi sv"
-        ],
-        "en": []
-      },
-      "onkoTuleva": true,
-      "oppilaitosOid": "1.2.246.562.10.77777777799",
-      "nimi": {
-        "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
-        "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
-      },
-      "lukiopainotukset": [],
-      "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisalat": [],
-      "metadata": {
-        "oppilaitosTila": "julkaistu",
-        "kunnat": [
-          {
-            "koodiUri": "kunta_091",
-            "nimi": {
-              "fi": "kunta_091 nimi fi",
-              "sv": "kunta_091 nimi sv"
-            }
-          }
-        ],
-        "koulutustyyppi": "yo"
-      }
-    }
-  ],
   "timestamp": 1571294237902,
   "toteutustenTarjoajat": {
     "count": 0,

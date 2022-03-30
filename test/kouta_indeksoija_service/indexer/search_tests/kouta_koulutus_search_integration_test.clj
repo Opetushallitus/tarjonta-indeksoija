@@ -44,7 +44,7 @@
 (defn- get-koulutustyypit
   [koulutus]
   (-> koulutus
-      :hits
+      :search_terms
       (first) ;;Korkeakoulu koulutustyyppi päätellään ainoastaan koulutuksen perusteella joten kaikilla toteutuksilla on sama arvo ja voidaan ottaa first
       :koulutustyypit))
 
