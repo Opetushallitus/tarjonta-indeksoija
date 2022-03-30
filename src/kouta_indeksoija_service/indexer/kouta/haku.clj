@@ -9,10 +9,10 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [hakukohde-list-raw (kouta-backend/list-hakukohteet-by-haku oid)
+  (let [hakukohde-list-raw (kouta-backend/list-hakukohteet-by-haku-with-cache oid)
         haku (assoc (common/complete-entry (kouta-backend/get-haku oid execution-id)) :hakukohteet hakukohde-list-raw)]
     (if (general/not-poistettu? haku)
-      (let [toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku oid))
+      (let [toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku-with-cache oid execution-id))
             assoc-toteutus (fn [h] (assoc h :toteutus
                                             (common/assoc-organisaatiot
                                              (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
