@@ -83,15 +83,6 @@
 (def get-oppilaitos-hierarkia-with-cache
   (memo/ttl get-oppilaitos-hierarkia {} :ttl/threshold kouta_cache_time_millis))
 
-;TODO-tarkista onko tämä edes käytössä missään?!
-(defn get-oppilaitoksen-osa
-  [oid execution-id]
-  ; execution-id for cache purposes only
-  (cas-authenticated-get-as-json (resolve-url :kouta-backend.oppilaitoksen-osa.oid oid) {}))
-
-(def get-oppilaitoksen-osa-with-cache
-  (memo/ttl get-oppilaitoksen-osa {} :ttl/threshold kouta_cache_time_millis))
-
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut execution-id]
    ; execution id for cache purposes only
