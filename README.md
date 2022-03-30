@@ -65,7 +65,9 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
  :notification-dlq-cron-string "7/30 * * ? * *"
  :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
  :queueing-cron-string "*/15 * * ? * *"
- :notifier-targets ""}
+ :notifier-targets ""
+ :kouta-indeksoija-kouta-cache-time-seconds 600
+ :kouta-indeksoija-massa-kouta-cache-time-seconds 3600}
 ```
 
 Testiympäristöä voi vaihtaa laittamalla yllä olevasta configista untuva sanojen paikalle toisen testiympäristön nimen.

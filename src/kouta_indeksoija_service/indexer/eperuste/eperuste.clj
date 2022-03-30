@@ -5,7 +5,7 @@
 (def index-name "eperuste")
 
 (defn create-index-entry
-  [oid]
+  [oid execution-id]
   (when-let [eperuste (eperuste-service/get-doc-with-cache oid)]
     (let [id (str (:id eperuste))]
       (indexable/->index-entry id (assoc eperuste :oid id :tyyppi "eperuste")))))

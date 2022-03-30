@@ -6,7 +6,7 @@
 (def index-name "lokalisointi")
 
 (defn create-index-entry
-  [lng]
+  [lng execution-id]
   (when-let [lokalisointi (some-> (lokalisointi-service/do-get lng)
                                   (seq)
                                   (util/localisation->nested-json))]

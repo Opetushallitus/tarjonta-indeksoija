@@ -134,20 +134,20 @@
       (enrich-koulutustyyppi-based-metadata)))
 
 (defn- assoc-sorakuvaus
-  [koulutus]
+  [koulutus execution-id]
   (if-let [sorakuvaus-id (:sorakuvausId koulutus)]
-    (assoc koulutus :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus sorakuvaus-id)))
+    (assoc koulutus :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus-with-cache sorakuvaus-id execution-id)))
     koulutus))
 
 (defn create-index-entry
-  [oid]
-  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid))]
+  [oid execution-id]
+  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus-with-cache oid execution-id))]
     (if (not-poistettu? koulutus)
-      (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid))
+      (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus-with-cache oid execution-id))
             koulutus-enriched (-> koulutus
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)
-                                  (assoc-sorakuvaus)
+                                  (assoc-sorakuvaus execution-id)
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
                                   (common/localize-dates))]
         (indexable/->index-entry-with-forwarded-data oid koulutus-enriched koulutus-enriched))

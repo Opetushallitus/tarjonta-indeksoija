@@ -137,9 +137,9 @@
         (assoc-in [:metadata :yhteystiedot] yhteystiedot))))
 
 (defn- oppilaitos-entry-with-osat
-  [organisaatio]
+  [organisaatio execution-id]
   (let [oppilaitos-oid (:oid organisaatio)
-        oppilaitos (or (kouta-backend/get-oppilaitos oppilaitos-oid) {})
+        oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid execution-id) {})
         oppilaitos-from-organisaatiopalvelu (organisaatio-client/get-by-oid-cached oppilaitos-oid)
         yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
         hakijapalveluiden-yhteystiedot (-> (get-in (get-in oppilaitos [:metadata]) [:hakijapalveluidenYhteystiedot])
@@ -150,8 +150,8 @@
                               :yhteystiedot yhteystiedot
                               :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
-        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat oppilaitos-oid))
-        koulutukset (kouta-backend/get-koulutukset-by-tarjoaja (:oid organisaatio))
+        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
+        koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache (:oid organisaatio) execution-id)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
     (-> (oppilaitos-entry organisaatio enriched-oppilaitos koulutukset)
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
@@ -160,12 +160,12 @@
         (assoc :jarjestaaUrheilijanAmmKoulutusta (boolean (some jarjestaa-urheilijan-amm-koulutusta? oppilaitoksen-osat))))))
 
 (defn create-index-entry
-  [oid]
+  [oid execution-id]
   (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
       (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)]
         (if (organisaatio-tool/indexable? oppilaitos)
-          (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos))
+          (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos execution-id))
           (indexable/->delete-entry (:oid oppilaitos)))))))
 
 (defn do-index
