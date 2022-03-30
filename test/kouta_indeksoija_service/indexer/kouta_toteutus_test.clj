@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.indexer.indexer :as i]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture check-all-nil no-timestamp json koulutus-oid toteutus-oid toteutus-oid2 hakukohde-oid count-hits-by-key]]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [common-indexer-fixture check-all-nil no-timestamp json koulutus-oid toteutus-oid toteutus-oid2 hakukohde-oid count-search-terms-by-key]]
             [kouta-indeksoija-service.test-tools :refer [compare-json debug-pretty]]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
@@ -45,13 +45,13 @@
        (fixture/update-toteutus-mock toteutus-oid :tila "julkaistu")
        (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
        (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-       (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-       (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
+       (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+       (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
        (fixture/update-toteutus-mock toteutus-oid :tila "arkistoitu")
        (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
        (is (= "arkistoitu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-       (is (= 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-       (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid))))))
+       (is (= 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+       (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid))))))
 
 (deftest delete-non-existing-toteutus
   (fixture/with-mocked-indexing
@@ -61,16 +61,16 @@
      (i/index-toteutukset [toteutus-oid toteutus-oid2] (. System (currentTimeMillis)))
      (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
      (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid2))))
-     (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
-     (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
-     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid2)))
+     (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
+     (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
+     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid2)))
      (fixture/update-toteutus-mock toteutus-oid2 :tila "tallennettu")
      (fixture/update-toteutus-mock toteutus-oid2 :tila "poistettu")
      (i/index-toteutukset [toteutus-oid toteutus-oid2] (. System (currentTimeMillis)))
      (is (nil? (get-doc toteutus/index-name toteutus-oid2)))
      (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-     (is (< 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-     (is (< 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
-     (is (= 0 (count-hits-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
-     (is (= 0 (count-hits-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid2))))))
+     (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
+     (is (= 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
+     (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid2))))))

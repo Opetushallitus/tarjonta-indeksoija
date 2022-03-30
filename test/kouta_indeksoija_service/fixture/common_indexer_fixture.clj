@@ -108,17 +108,17 @@
   (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))
   (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos2))))
 
-(defn filter-hits-by-key
+(defn filter-search-terms-by-key
   [search-index oid key expected]
-  (filter #(= expected (get % key)) (:hits (get-doc search-index oid))))
+  (filter #(= expected (get % key)) (:search_terms (get-doc search-index oid))))
 
-(defn count-hits-by-key
+(defn count-search-terms-by-key
   [search-index oid key expected]
-  (count (filter-hits-by-key search-index oid key expected)))
+  (count (filter-search-terms-by-key search-index oid key expected)))
 
-(defn hit-key-not-empty
+(defn search-terms-key-not-empty
   [search-index oid key]
-  (some? (seq (some (fn [h] (get h key)) (:hits (get-doc search-index oid))))))
+  (some? (seq (some (fn [h] (get h key)) (:search_terms (get-doc search-index oid))))))
 
 (defn- add-mock-kouta-data
   []
