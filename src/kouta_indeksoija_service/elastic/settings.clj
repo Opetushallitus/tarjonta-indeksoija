@@ -189,19 +189,7 @@
                                        :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-search-mappings
-  {:properties {:hits {:type "nested",
-                       :properties {:hakutiedot {:type "nested"
-                                                 :properties {:hakutapa {:type "keyword"}
-                                                              :yhteishakuOid {:type "keyword"}
-                                                              :pohjakoulutusvaatimukset {:type "keyword"}
-                                                              :valintatavat {:type "keyword"}
-                                                              :hakuajat {:type "nested"
-                                                                         :properties {:alkaa   {:type "date" }
-                                                                                      :paattyy {:type "date" }}}}}
-                                    :metadata {:properties {:opintojenLaajuusNumero {:type "float"}
-                                                            :tutkinnonOsat {:type "nested"
-                                                                            :properties {:opintojenLaajuusNumero {:type "float"}}}}}}}
-                :search_terms {:type "nested",
+  {:properties {:search_terms {:type "nested",
                                :properties {:hakutiedot {:type "nested"
                                                          :properties {:hakutapa {:type "keyword"}
                                                                       :yhteishakuOid {:type "keyword"}
@@ -213,10 +201,7 @@
                                :metadata {:properties {:opintojenLaajuusNumero {:type "float"}
                                                        :tutkinnonOsat {:type "nested"
                                                                        :properties {:opintojenLaajuusNumero {:type "float"}}}}}}}}
-   :dynamic_templates [{:nested {:match "hits"
-                                 :match_mapping_type "object"
-                                 :mapping { :type "nested" }}}
-                       {:nested {:match "search_terms"
+   :dynamic_templates [{:nested {:match "search_terms"
                                  :match_mapping_type "object"
                                  :mapping { :type "nested" }}}
                        {:fi {:match "fi"
