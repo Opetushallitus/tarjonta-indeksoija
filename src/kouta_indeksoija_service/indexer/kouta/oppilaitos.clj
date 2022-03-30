@@ -160,7 +160,7 @@
         (assoc :jarjestaaUrheilijanAmmKoulutusta (boolean (some jarjestaa-urheilijan-amm-koulutusta? oppilaitoksen-osat))))))
 
 (defn create-index-entry
-  [oid]
+  [oid execution-id]
   (let [hierarkia (cache/get-hierarkia oid)]
     (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
       (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)]

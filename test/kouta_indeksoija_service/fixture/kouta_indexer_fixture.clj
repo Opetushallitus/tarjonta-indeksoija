@@ -199,7 +199,7 @@
     (swap! koulutukset assoc oid koulutus)))
 
 (defn mock-get-koulutus
-  [oid]
+  [oid execution-id]
   (get @koulutukset oid))
 
 (defn mock-get-koulutukset-by-tarjoaja
@@ -224,7 +224,7 @@
     (swap! toteutukset assoc oid toteutus)))
 
 (defn mock-get-toteutus
-  [oid]
+  [oid execution-id]
   (get @toteutukset oid))
 
 (defn mock-get-toteutukset
@@ -259,7 +259,7 @@
     (swap! haut assoc oid haku)))
 
 (defn mock-get-haku
-  [oid]
+  [oid execution-id]
   (get @haut oid))
 
 (defn add-hakukohde-mock
@@ -290,7 +290,7 @@
     (swap! hakukohteet assoc oid hakukohde)))
 
 (defn mock-get-hakukohde
-  [oid]
+  [oid execution-id]
   (get @hakukohteet oid))
 
 (defn add-valintaperuste-mock
@@ -309,7 +309,7 @@
     (swap! valintaperusteet assoc id valintaperuste)))
 
 (defn mock-get-valintaperuste
-  [id]
+  [id execution-id]
   (get @valintaperusteet id))
 
 (defn add-sorakuvaus-mock
@@ -335,7 +335,7 @@
 
 (defn mock-get-oppilaitos
   [oid]
-  (get @oppilaitokset oid))
+   (get @oppilaitokset oid))
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
@@ -352,7 +352,7 @@
   (get @oppilaitoksen-osat oid))
 
 (defn mock-get-sorakuvaus
-  [id]
+  [id execution-id]
   (get @sorakuvaukset id))
 
 (defn mock-get-hakukohteet-by-haku
@@ -377,7 +377,7 @@
 (defn mock-list-haut-by-toteutus
   [toteutusOid]
   (let [find-hakukohteet (fn [tOid] (filter (fn [hk] (and (visible hk) (= (:toteutusOid hk) tOid))) (vals @hakukohteet)))
-        find-haut (fn [hakuOids] (filter visible (map mock-get-haku hakuOids)))]
+        find-haut (fn [hakuOids] (filter visible (map #(mock-get-haku % (System/currentTimeMillis)) hakuOids)))]
     (find-haut (map :hakuOid (find-hakukohteet toteutusOid)))))
 
 (defn mock-list-hakukohteet-by-valintaperuste
@@ -398,14 +398,14 @@
                                                  :organisaatioOid (:organisaatioOid t)
                                                  :muokkaaja (:muokkaaja t)
                                                  :modified (:modified t)))))]
-    (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk)))) (find-hakukohteet hakuOid))))
+    (map (fn [hk] (->list-item (mock-get-toteutus (:toteutusOid hk) (System/currentTimeMillis)))) (find-hakukohteet hakuOid))))
 
 (defn mock-get-hakutiedot-for-koulutus
   [oid]
   (let [find-toteutukset (fn [oid] (filter (fn [t] (= (:koulutusOid t) oid)) (vals @toteutukset)))
         find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
         ajanjakso (fn [alkaa paattyy] (assoc {} :alkaa alkaa :paattyy paattyy))
-        assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk))]
+        assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk) (System/currentTimeMillis))]
                                    (into {} (remove (comp nil? second)
                                                     (assoc {}
                                                            :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
@@ -430,7 +430,7 @@
                                                            :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
                                                            :valintatapaKoodiUrit (map :valintatapaKoodiUri
                                                                                       (get-in vp [:metadata :valintatavat])))))))
-        assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid)]
+        assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid (System/currentTimeMillis))]
                                     (assoc {}
                                            :hakuOid hOid
                                            :hakutapaKoodiUri (:hakutapaKoodiUri haku)

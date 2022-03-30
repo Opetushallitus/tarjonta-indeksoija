@@ -4,6 +4,7 @@
             [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
             [clj-log.error-log :refer [with-error-logging]]
             [ring.util.codec :refer [url-encode]]
+            [clojure.core.memoize :as memo]
             [clojure.tools.logging :as log]
             [cheshire.core :as json]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
@@ -13,6 +14,29 @@
 
 (defonce cas-authenticated-get-as-json (partial cas-authenticated-request-as-json cas-session :get))
 (defonce cas-authenticated-post-as-json (partial cas-authenticated-request-as-json cas-session :post))
+
+(defonce kouta_cache_time_millis (* 1000 60 60)) ;60 mins cache
+
+; We can take a rand and use it repeatly
+; (Just with same parameter)
+
+;(defn only-first-one-rand
+;  [n x]
+;  (rand n))
+;
+;(def ofor-memo (memoize only-first-one-rand))
+;
+;(ofor-memo 10) ;=> 3.683571228686361
+;
+;(ofor-memo 10) ;=> 3.683571228686361
+;
+;;And we can assign a random value to an integer
+;
+;(ofor-memo 6) ;=> 2.8058589761445867
+;
+;(ofor-memo 10) ;=> 3.683571228686361
+;
+
 
 (defn get-last-modified
   [since]
@@ -24,36 +48,40 @@
   (get-last-modified (long->rfc1123 0)))
 
 (defn- get-doc
-  [type oid]
+  [type oid execution-id]
+  (log/info (str "get-doc type: " type "oid: " oid))
   (let [url-keyword (keyword (str "kouta-backend." type (if (or (= "valintaperuste" type) (= "sorakuvaus" type)) ".id" ".oid")))]
     (cas-authenticated-get-as-json (resolve-url url-keyword oid) {:query-params {:myosPoistetut "true"}})))
 
+(def get-doc-with-cache
+  (memo/ttl get-doc {} :ttl/threshold kouta_cache_time_millis))
+
 (defn get-koulutus
-  [oid]
-  (get-doc "koulutus" oid))
+  [oid execution-id]
+  (get-doc-with-cache "koulutus" oid execution-id))
 
 (defn get-toteutus
-  [oid]
-  (get-doc "toteutus" oid))
+  [oid execution-id]
+  (get-doc-with-cache "toteutus" oid execution-id))
 
 (defn get-haku
-  [oid]
-  (get-doc "haku" oid))
+  [oid execution-id]
+  (get-doc-with-cache "haku" oid execution-id))
 
 (defn get-hakukohde
-  [oid]
-  (get-doc "hakukohde" oid))
+  [oid execution-id]
+  (get-doc-with-cache "hakukohde" oid execution-id))
 
 (defn get-hakukohde-oids-by-jarjestyspaikat [oids]
   (cas-authenticated-post-as-json (resolve-url :kouta-backend.jarjestyspaikat.hakukohde-oids) {:body (json/generate-string oids) :content-type :json}))
 
 (defn get-valintaperuste
-  [id]
-  (get-doc "valintaperuste" id))
+  [id execution-id]
+  (get-doc-with-cache "valintaperuste" id execution-id))
 
 (defn get-sorakuvaus
-  [id]
-  (if (some? id) (get-doc "sorakuvaus" id) nil))
+  [id execution-id]
+  (if (some? id) (get-doc-with-cache "sorakuvaus" id execution-id) nil))
 
 (defn get-oppilaitos
   [oid]
