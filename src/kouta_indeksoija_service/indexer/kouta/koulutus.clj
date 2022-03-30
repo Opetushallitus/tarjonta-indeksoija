@@ -143,7 +143,7 @@
   [oid execution-id]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus oid execution-id))]
     (if (not-poistettu? koulutus)
-      (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus oid ))
+      (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus-with-cache oid execution-id))
             koulutus-enriched (-> koulutus
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)

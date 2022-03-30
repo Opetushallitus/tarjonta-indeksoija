@@ -93,11 +93,15 @@
   (memo/ttl get-oppilaitoksen-osa {} :ttl/threshold kouta_cache_time_millis))
 
 (defn get-toteutus-list-for-koulutus
-  ([koulutus-oid vainJulkaistut]
+  ([koulutus-oid vainJulkaistut execution-id]
+   ; execution id for cache purposes only
    (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.toteutukset koulutus-oid)
                                   {:query-params {:vainJulkaistut vainJulkaistut}}))
-  ([koulutus-oid]
-   (get-toteutus-list-for-koulutus koulutus-oid false)))
+  ([koulutus-oid execution-id]
+   (get-toteutus-list-for-koulutus koulutus-oid false execution-id)))
+
+(def get-toteutus-list-for-koulutus-with-cache
+  (memo/ttl get-toteutus-list-for-koulutus {} :ttl/threshold kouta_cache_time_millis))
 
 (defn get-koulutukset-by-tarjoaja
   [oppilaitos-oid execution-id]
@@ -109,7 +113,8 @@
 
 
 (defn get-hakutiedot-for-koulutus
-  [koulutus-oid]
+  [koulutus-oid execution-id]
+  ; execution id for cache purposes only
   (let [response (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.hakutiedot koulutus-oid))]
     (if response
       (map (fn [hakutieto]
@@ -124,6 +129,9 @@
                          (:haut hakutieto))))
            response)
       response)))
+
+(def get-hakutiedot-for-koulutus-with-cache
+  (memo/ttl get-hakutiedot-for-koulutus {} :ttl/threshold kouta_cache_time_millis))
 
 (defn list-haut-by-toteutus
   [toteutus-oid execution-id]

@@ -109,17 +109,17 @@
        (vec)))
 
 (defn- create-koulutus-search-terms
-  [oppilaitos hierarkia koulutus]
-  (when-let [all-visible-toteutukset (filter not-arkistoitu? (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus)))]
+  [execution-id oppilaitos hierarkia koulutus]
+  (when-let [all-visible-toteutukset (filter not-arkistoitu? (kouta-backend/get-toteutus-list-for-koulutus-with-cache (:oid koulutus) execution-id))]
     (if-let [julkaistut-toteutukset (seq (get-tarjoaja-entries hierarkia (filter julkaistu? all-visible-toteutukset)))]
-      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus))]
+      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id)]
         (vec (map #(toteutus-search-terms oppilaitos koulutus hakutiedot %) julkaistut-toteutukset)))
       (when (not-empty (seq (get-tarjoaja-entries hierarkia (filter luonnos? all-visible-toteutukset))))
         (vector (koulutus-search-terms oppilaitos koulutus))))))
 
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos hierarkia koulutukset execution-id]
-  (let [koulutus-search-terms (partial create-koulutus-search-terms oppilaitos hierarkia)]
+  (let [koulutus-search-terms (partial create-koulutus-search-terms execution-id oppilaitos hierarkia)]
     (-> oppilaitos
         (create-base-entry koulutukset execution-id)
         (assoc :search_terms (if (seq koulutukset)

@@ -147,8 +147,8 @@
   [oid execution-id]
   (let [koulutus (kouta-backend/get-koulutus oid execution-id)]
     (if (julkaistu? koulutus)
-      (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus (:oid koulutus) true))
-            hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus (:oid koulutus)))]
+      (let [toteutukset (seq (kouta-backend/get-toteutus-list-for-koulutus-with-cache (:oid koulutus) true execution-id))
+            hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id))]
         (indexable/->index-entry oid (-> koulutus
                                          (assoc-jarjestaja-search-terms toteutukset hakutiedot)
                                          (assoc-toteutusten-tarjoajat toteutukset)
