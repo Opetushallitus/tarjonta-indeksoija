@@ -171,12 +171,30 @@
 (defn- assoc-onko-harkinnanvarainen-koulutus
   [hakukohde koulutus]
   (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)
-        hakokohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])]
-    (assoc hakukohde :onkoHarkinnanvarainenKoulutus (and
-                                                     (some? non-korkeakoulu-koodi-uri)
-                                                     (nil? (koodisto-tools/ei-harkinnanvaraisuutta non-korkeakoulu-koodi-uri))
-                                                     (or (nil? hakokohde-nimi-koodi-uri)
-                                                         (nil? (koodisto-tools/ei-harkinnanvaraisuutta hakokohde-nimi-koodi-uri)))))))
+        hakukohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])
+        ; Alla oleva funktio palauttaa koodirelaatioiden kautta esimerkiksi seuraavilla ehdoilla:
+        ; - Hakukohde kuuluu koulutukseen "Media-alan perustutkinto" = false
+        ; - Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto" = true
+        ; - Hakukohde on "Perustason ensihoidon osaamisala (Sosiaali- ja terveysalan perustutkinto)" = false
+        kysytaanko-harkinnanvaraisuutta-lomakkeella (fn [koodi-uri]
+                                                      (nil? (koodisto-tools/harkinnanvaraisuutta-ei-kysyta-lomakkeella koodi-uri)))
+        ; Seuraava arvo on tosi esimerkille: "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
+        harkinnanvaraisuus-question-allowed (and
+                                              (some? non-korkeakoulu-koodi-uri)
+                                              (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
+                                              (or (nil? hakukohde-nimi-koodi-uri)
+                                                  (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))
+        ; Seuraava arvo on tosi seuraaville esimerkeille:
+        ; - "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
+        ; - "Hakukohde on "Perustason ensihoidon osaamisala (Sosiaali- ja terveysalan perustutkinto)"
+        hakukohde-allows-harkinnanvaraiset-applicants (or harkinnanvaraisuus-question-allowed
+                                                          (and
+                                                            (some? non-korkeakoulu-koodi-uri)
+                                                            (and (some? hakukohde-nimi-koodi-uri)
+                                                                 ;Jos hakukohteella on relaatio ei-harkinnanvaraisuutta koodiin "Harkinnanvaraisuutta ei kysytä lomakkeella", se on automaattisesti harkinnanvarainen
+                                                                 (not (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))))]
+    (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
+                     :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka]

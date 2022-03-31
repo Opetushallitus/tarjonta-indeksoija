@@ -53,7 +53,8 @@
   [koulutusKoodiUri]
   (list-alakoodi-nimet-with-cache koulutusKoodiUri "tutkintotyyppi"))
 
-(defn ei-harkinnanvaraisuutta
+;eiharkinnanvaraisuutta koodin kuvaus: "Koulutukselta ei kysytä harkinnanvaraisuutta (ei siis suodatu hakukohderyhmäpalvelun harkinnanvarainen valinta-listaukseen), jos sillä on pääsykoe."
+(defn harkinnanvaraisuutta-ei-kysyta-lomakkeella
   [koulutusKoodiUri]
   (let [asetukset (list-alakoodi-nimet-with-cache koulutusKoodiUri "hakulomakkeenasetukset")]
     (some #(= "hakulomakkeenasetukset_eiharkinnanvaraisuutta" (get % :koodiUri)) asetukset)))
