@@ -20,3 +20,50 @@
                     :koulutustyyppi "tuva"}]
       (is (= true
              (general/tuva? koulutus))))))
+
+(deftest remove-version-from-koodiuri
+  (testing "removes version from hakutapa koodiuri"
+    (let [haku {:hakutapa {:koodiUri "hakutapa_02#1" :nimi {:sv "Separata antagningar" :en "Separate application" :fi "Erillishaku"}}
+                :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                     :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                     :koulutuksenAlkamiskausi {:koodiUri "kausi_s#1"
+                                                                               :nimi {:sv "Höst" :en "Autumn" :fi "Syksy"}}
+                                                     :koulutuksenAlkamisvuosi "2022"}}}
+          result {:hakutapa {:koodiUri "hakutapa_02" :nimi {:sv "Separata antagningar" :en "Separate application" :fi "Erillishaku"}}
+                  :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                       :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                       :koulutuksenAlkamiskausi {:koodiUri "kausi_s#1"
+                                                                                 :nimi {:sv "Höst" :en "Autumn" :fi "Syksy"}}
+                                                       :koulutuksenAlkamisvuosi "2022"}}}]
+      (is (= result
+             (general/remove-version-from-koodiuri haku [:hakutapa :koodiUri])))))
+
+  (testing "removes version from koulutuksenAlkamiskausi koodiuri"
+    (let [haku {:hakutapa {:koodiUri "hakutapa_02#1" :nimi {:sv "Separata antagningar" :en "Separate application" :fi "Erillishaku"}}
+                :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                     :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                     :koulutuksenAlkamiskausi {:koodiUri "kausi_s#1"
+                                                                               :nimi {:sv "Höst" :en "Autumn" :fi "Syksy"}}
+                                                     :koulutuksenAlkamisvuosi "2022"}}}
+          result {:hakutapa {:koodiUri "hakutapa_02#1" :nimi {:sv "Separata antagningar" :en "Separate application" :fi "Erillishaku"}}
+                  :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                       :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                       :koulutuksenAlkamiskausi {:koodiUri "kausi_s"
+                                                                                 :nimi {:sv "Höst" :en "Autumn" :fi "Syksy"}}
+                                                       :koulutuksenAlkamisvuosi "2022"}}}]
+      (is (= (general/remove-version-from-koodiuri haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri])
+             result))))
+
+  (testing "does not try to remove version from koulutuksenAlkamiskausi koodiuri if it does not exist"
+    (let [haku {:hakutapa {:koodiUri "hakutapa_02#1" :nimi {:sv "Separata antagningar" :en "Separate application" :fi "Erillishaku"}}
+                :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                     :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                     :koulutuksenAlkamiskausi {}
+                                                     :koulutuksenAlkamisvuosi "2022"}}}
+          result {:hakutapa {:koodiUri "hakutapa_02#1" :nimi {:sv "Separata antagningar" :en "Separate application" :fi "Erillishaku"}}
+                  :metadata {:koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                       :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                       :koulutuksenAlkamiskausi {}
+                                                       :koulutuksenAlkamisvuosi "2022"}}}]
+      (is (= (general/remove-version-from-koodiuri haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri])
+             result)))))

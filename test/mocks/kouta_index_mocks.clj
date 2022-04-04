@@ -79,7 +79,7 @@
     (fixture/add-haku-mock hakuOid2 :tila "julkaistu"   :nimi "Yhteishaku" :hakutapaKoodiUri "hakutapa_01")
     (fixture/update-haku-mock hakuOid2 :metadata fixture/haku-metadata)
     (fixture/add-haku-mock hakuOid3 :tila "julkaistu"   :nimi "Jatkuva haku" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
-    (fixture/add-haku-mock hakuOid4 :tila "arkistoitu"  :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23")
+    (fixture/add-haku-mock hakuOid4 :tila "arkistoitu"  :nimi "Erillishaku" :modified "2018-06-05T12:02:23" :hakutapaKoodiUri "hakutapa_02")
     (fixture/add-haku-mock hakuOid5 :tila "tallennettu" :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23")
 
     (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1 :organisaatio mocks/Oppilaitos2)

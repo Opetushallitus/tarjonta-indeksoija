@@ -26,11 +26,8 @@
                                                              (assoc :hakukohteet hakukohde-list)
                                                              (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
                                                              (common/localize-dates)
-                                                             (assoc-in [:hakutapa :koodiUri]
-                                                                       (clojure.string/replace (get-in haku [:hakutapa :koodiUri]) #"#\d+" ""))
-                                                             (assoc-in [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri]
-                                                                       (clojure.string/replace
-                                                                         (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri]) #"#\w+" "")))
+                                                             (general/remove-version-from-koodiuri [:hakutapa :koodiUri])
+                                                             (general/remove-version-from-koodiuri [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri]))
                                                      haku))
       (indexable/->delete-entry-with-forwarded-data oid haku))))
 

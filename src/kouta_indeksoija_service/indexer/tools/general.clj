@@ -79,3 +79,12 @@
     (assoc hakukohde :tila (:tila haku))
       hakukohde
   ))
+
+(defn remove-version-from-koodiuri
+  [entity path-to-koodiuri]
+  (let [koodiuri (get-in entity path-to-koodiuri)]
+    (if (not (nil? koodiuri))
+      (assoc-in entity
+                path-to-koodiuri
+                (clojure.string/replace koodiuri #"#\w+" ""))
+      entity)))
