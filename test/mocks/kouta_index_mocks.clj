@@ -69,18 +69,32 @@
     (fixture/add-koulutus-mock koulutusOid5 :tila "tallennettu" :nimi "Tietojenkäsittelytieteen perusopinnot" :sorakuvausId sorakuvausId :julkinen "true")
     (fixture/add-koulutus-mock yoKoulutusOid1 :tila "tallennettu" :koulutustyyppi "yo" :nimi "Diplomi-insinööri" :sorakuvausId sorakuvausId :metadata fixture/yo-koulutus-metadata)
 
-    (fixture/add-toteutus-mock toteutusOid1 koulutusOid1 :tila "julkaistu"   :nimi "Automaatioalan perusopinnot" :organisaatio mocks/Oppilaitos1)
-    (fixture/add-toteutus-mock toteutusOid2 koulutusOid1 :tila "julkaistu"   :nimi "Automatiikan perusopinnot")
-    (fixture/add-toteutus-mock toteutusOid3 koulutusOid1 :tila "julkaistu"   :nimi "Autoalan perusopinnot" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
-    (fixture/add-toteutus-mock toteutusOid4 koulutusOid1 :tila "arkistoitu"  :nimi "Autoalan perusopinnot" :modified "2018-06-05T12:02:23")
+    (fixture/add-toteutus-mock toteutusOid1 koulutusOid1 :tila "julkaistu" :nimi "Automaatioalan perusopinnot" :organisaatio mocks/Oppilaitos1)
+    (fixture/add-toteutus-mock toteutusOid2 koulutusOid1 :tila "julkaistu" :nimi "Automatiikan perusopinnot")
+    (fixture/add-toteutus-mock toteutusOid3 koulutusOid1 :tila "julkaistu" :nimi "Autoalan perusopinnot" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
+    (fixture/add-toteutus-mock toteutusOid4 koulutusOid1 :tila "arkistoitu" :nimi "Autoalan perusopinnot" :modified "2018-06-05T12:02:23")
     (fixture/add-toteutus-mock toteutusOid5 koulutusOid1 :tila "tallennettu" :nimi "Autoalan perusopinnot" :modified "2018-06-05T12:02:23")
 
-    (fixture/add-haku-mock hakuOid1 :tila "julkaistu"   :nimi "Yhteishaku" :organisaatio mocks/Oppilaitos2)
-    (fixture/add-haku-mock hakuOid2 :tila "julkaistu"   :nimi "Yhteishaku" :hakutapaKoodiUri "hakutapa_01")
-    (fixture/update-haku-mock hakuOid2 :metadata fixture/haku-metadata)
-    (fixture/add-haku-mock hakuOid3 :tila "julkaistu"   :nimi "Jatkuva haku" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
-    (fixture/add-haku-mock hakuOid4 :tila "arkistoitu"  :nimi "Erillishaku" :modified "2018-06-05T12:02:23" :hakutapaKoodiUri "hakutapa_02")
+    (fixture/add-haku-mock hakuOid1 :tila "julkaistu" :nimi "Yhteishaku" :organisaatio mocks/Oppilaitos2)
+    (fixture/add-haku-mock hakuOid2 :tila "julkaistu" :nimi "Yhteishaku" :hakutapaKoodiUri "hakutapa_01")
+    (fixture/update-haku-mock hakuOid2 :metadata {:koulutuksenAlkamiskausi
+                                                  {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                   :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                   :koulutuksenAlkamiskausiKoodiUri "kausi_s"
+                                                   :koulutuksenAlkamisvuosi "2020"}})
+    (fixture/add-haku-mock hakuOid3 :tila "julkaistu" :nimi "Jatkuva haku" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
+    (fixture/add-haku-mock hakuOid4 :tila "arkistoitu" :nimi "Erillishaku" :modified "2018-06-05T12:02:23" :hakutapaKoodiUri "hakutapa_02")
+    (fixture/update-haku-mock hakuOid4 :metadata {:koulutuksenAlkamiskausi
+                                                  {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                   :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                   :koulutuksenAlkamiskausiKoodiUri "kausi_k"
+                                                   :koulutuksenAlkamisvuosi "2020"}})
     (fixture/add-haku-mock hakuOid5 :tila "tallennettu" :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23")
+    (fixture/update-haku-mock hakuOid5 :metadata {:koulutuksenAlkamiskausi
+                                                  {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                   :henkilokohtaisenSuunnitelmanLisatiedot {}
+                                                   :koulutuksenAlkamiskausiKoodiUri "kausi_k"
+                                                   :koulutuksenAlkamisvuosi "2021"}})
 
     (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1 :organisaatio mocks/Oppilaitos2)
     (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid4 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1)
