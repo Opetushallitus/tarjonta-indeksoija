@@ -10,7 +10,7 @@
   "modified" : "2022-01-26T11:58:40",
   "nimi" : "nimi",
   "muokkaaja" : "1.2.246.562.24.10000000000",
-  "hakutapaKoodiUri" : "hakutapa_03#1",
+  "hakutapaKoodiUri" : "hakutapa_03",
   "externalId" : 2233445566,
   "hakuaikaAlkaa" : "2022-01-27T09:49",
   "kielivalinta" : "fi,sv",
@@ -48,7 +48,7 @@
     "koulutuksenAlkamiskausi" : {
       "alkamiskausityyppi" : "alkamiskausi ja -vuosi",
       "henkilokohtaisenSuunnitelmanLisatiedot" : { },
-      "koulutuksenAlkamiskausiKoodiUri" : "kausi_k#1",
+      "koulutuksenAlkamiskausiKoodiUri" : "kausi_k",
       "koulutuksenAlkamisvuosi" : "2022"
     }
   }

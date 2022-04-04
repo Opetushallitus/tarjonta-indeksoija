@@ -8,8 +8,8 @@
   "hakutapa": {
     "koodiUri": "hakutapa_03",
     "nimi": {
-      "fi": "hakutapa_03#1 nimi fi",
-      "sv": "hakutapa_03#1 nimi sv"
+      "fi": "hakutapa_03 nimi fi",
+      "sv": "hakutapa_03 nimi sv"
     }
   },
   "hakukohteet": [
@@ -307,10 +307,10 @@
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
       "koulutuksenAlkamisvuosi": "!!thisYear",
       "koulutuksenAlkamiskausi": {
-        "koodiUri": "kausi_k#1",
+        "koodiUri": "kausi_k",
         "nimi": {
-          "fi": "kausi_k#1 nimi fi",
-          "sv": "kausi_k#1 nimi sv"
+          "fi": "kausi_k nimi fi",
+          "sv": "kausi_k nimi sv"
         }
       }
     }
