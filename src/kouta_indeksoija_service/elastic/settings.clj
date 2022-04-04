@@ -271,4 +271,22 @@
                                :mapping {:type "text"
                                          :analyzer "finnish"
                                          :norms false
-                                         :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
+                                         :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:hakutapa {:match "hakutapa.koodiUri"
+                               :match_mapping_type "string"
+                               :mapping {:type "text"
+                                         :analyzer "finnish"
+                                         :norms false
+                                         :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:koulutuksenAlkamiskausi {:match "metadata.koulutuksenAlkamiskausi.koulutuksenAlkamiskausi.koodiUri"
+                                   :match_mapping_type "string"
+                                   :mapping {:type "text"
+                                             :analyzer "finnish_keyword"
+                                             :norms false
+                                             :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:koulutuksenAlkamisvuosi {:match "metadata.koulutuksenAlkamiskausi.koulutuksenAlkamisvuosi"
+                                                  :match_mapping_type "string"
+                                                  :mapping {:type "text"
+                                                            :analyzer "finnish_keyword"
+                                                            :norms false
+                                                            :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
