@@ -271,4 +271,10 @@
                                :mapping {:type "text"
                                          :analyzer "finnish"
                                          :norms false
+                                         :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}
+                       {:hakutapa {:match "hakutapa.koodiUri"
+                               :match_mapping_type "string"
+                               :mapping {:type "text"
+                                         :analyzer "finnish"
+                                         :norms false
                                          :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
