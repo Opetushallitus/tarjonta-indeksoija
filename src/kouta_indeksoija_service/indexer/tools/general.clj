@@ -33,6 +33,10 @@
   [koulutus]
   (= "amm-osaamisala" (:koulutustyyppi koulutus)))
 
+(defn amm-muu?
+  [koulutus]
+  (= "amm-muu" (:koulutustyyppi koulutus)))
+
 (defn korkeakoulutus?
   [koulutus]
   (or (= "yo" (:koulutustyyppi koulutus))

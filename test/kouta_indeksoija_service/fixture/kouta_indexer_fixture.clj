@@ -182,6 +182,11 @@
     :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
     })
 
+(defonce amm-muu-koulutus-metadata
+         {:tyyppi "amm-muu"
+          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4#1"
+          :opintojenLaajuusNumero 11})
+
 (defonce lukio-koulutus-metadata
    {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
@@ -198,7 +203,8 @@
 
 (defonce aikuisten-perusopetus-koulutus-metadata
          {:tyyppi "aikuisten-perusopetus"
-          :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
+          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+          :opintojenLaajuusNumero 13
           :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
           :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 

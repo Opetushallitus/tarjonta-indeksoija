@@ -99,11 +99,6 @@
   (-> koulutus
       (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache koodiuri-osaamispiste-laajuusyksikko))))
 
-(defn enrich-aikuisten-perusopetus-metadata
-  [koulutus]
-  (-> koulutus
-      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache koodiuri-viikko-laajuusyksikko))))
-
 (defn- does-not-have-tutkintonimike?
   [koulutus]
   (nil? (get-in koulutus [:metadata :tutkintonimike])))
@@ -130,7 +125,6 @@
     (lukio? koulutus)                 (enrich-lukio-metadata koulutus)
     (tuva? koulutus)                  (enrich-tuva-metadata koulutus)
     (telma? koulutus)                 (enrich-telma-metadata koulutus)
-    (aikuisten-perusopetus? koulutus) (enrich-aikuisten-perusopetus-metadata koulutus)
     :default koulutus))
 
 (defn- enrich-metadata

@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -92,8 +92,10 @@
 (defn opintojen-laajuus-numero
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
-    (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
+    (ammatillinen? koulutus)            (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
+    (amm-osaamisala? koulutus)          (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
+    (amm-muu? koulutus)                 (get-in koulutus [:metadata :opintojenLaajuusNumero])
+    (aikuisten-perusopetus? koulutus)   (get-in koulutus [:metadata :opintojenLaajuusNumero])
     :default                   (edn/read-string (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo number-or-nil))))
 
 (defn opintojen-laajuusyksikko-koodi-uri
@@ -101,11 +103,12 @@
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
+    (amm-muu? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
     (korkeakoulutus? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (tuva? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
     (telma? koulutus) koodisto/koodiuri-osaamispiste-laajuusyksikko
-    (aikuisten-perusopetus? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
+    (aikuisten-perusopetus? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
     :else nil))
 
 (defn tutkinnon-osat
