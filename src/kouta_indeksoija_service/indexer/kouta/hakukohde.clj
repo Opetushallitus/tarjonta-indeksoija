@@ -192,7 +192,8 @@
                                                             (some? non-korkeakoulu-koodi-uri)
                                                             (and (some? hakukohde-nimi-koodi-uri)
                                                                  ;Jos hakukohteella on relaatio ei-harkinnanvaraisuutta koodiin "Harkinnanvaraisuutta ei kysytä lomakkeella", se on automaattisesti harkinnanvarainen
-                                                                 (not (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))))]
+                                                                 (or (not (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri))
+                                                                     (not (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri))))))]
     (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
                      :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
