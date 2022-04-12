@@ -169,7 +169,7 @@
     (assoc hakukohde :koulutustyyppikoodi koulutustyyppikoodi)))
 
 (defn- assoc-onko-harkinnanvarainen-koulutus
-  [hakukohde koulutus]
+  [hakukohde toteutus koulutus]
   (let [non-korkeakoulu-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus)
         hakukohde-nimi-koodi-uri (get-in hakukohde [:hakukohde :koodiUri])
         ; Alla oleva funktio palauttaa koodirelaatioiden kautta esimerkiksi seuraavilla ehdoilla:
@@ -192,6 +192,7 @@
                                                             (some? non-korkeakoulu-koodi-uri)
                                                             (and (some? hakukohde-nimi-koodi-uri)
                                                                  ;Jos hakukohteella on relaatio ei-harkinnanvaraisuutta koodiin "Harkinnanvaraisuutta ei kysytä lomakkeella", se on automaattisesti harkinnanvarainen
+                                                                 (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
                                                                  (or (not (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri))
                                                                      (not (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri))))))]
     (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
@@ -231,7 +232,7 @@
                                                          (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                                          (set-hakukohde-tila-by-related-haku haku)
                                                          (assoc-sora-data sora-kuvaus)
-                                                         (assoc-onko-harkinnanvarainen-koulutus koulutus)
+                                                         (assoc-onko-harkinnanvarainen-koulutus toteutus koulutus)
                                                          (assoc-koulutustyypit toteutus koulutus)
                                                          (assoc-toteutus toteutus)
                                                          (assoc-valintaperuste valintaperuste)
