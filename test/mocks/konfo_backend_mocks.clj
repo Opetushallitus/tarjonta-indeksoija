@@ -24,15 +24,15 @@
 (defonce lukio-oid                "1.2.246.562.13.000008")
 (defonce kk-koulutus-oid          "1.2.246.562.13.000009")
 
-(defonce traktoriala-oid          "1.2.246.562.13.000010")
-(defonce hevosala-oid             "1.2.246.562.13.000011")
-(defonce traktoriala-oid2         "1.2.246.562.13.000012")
-(defonce hevostutkinnon-osa-oid   "1.2.246.562.13.000013")
-(defonce hevososaamisala-oid      "1.2.246.562.13.000014")
-(defonce yo-koulutus-oid          "1.2.246.562.13.000015")
-(defonce amk-oid                  "1.2.246.562.13.000016")
-(defonce lukio-oid2               "1.2.246.562.13.000017")
-(defonce amm-muu-oid              "1.2.246.562.13.000018")
+(defonce traktoriala-oid            "1.2.246.562.13.000010")
+(defonce hevosala-oid               "1.2.246.562.13.000011")
+(defonce traktoriala-oid2           "1.2.246.562.13.000012")
+(defonce hevostutkinnon-osa-oid     "1.2.246.562.13.000013")
+(defonce hevososaamisala-oid        "1.2.246.562.13.000014")
+(defonce yo-koulutus-oid            "1.2.246.562.13.000015")
+(defonce amk-oid                    "1.2.246.562.13.000016")
+(defonce lukio-oid2                 "1.2.246.562.13.000017")
+(defonce amm-muu-oid                "1.2.246.562.13.000018")
 
 (defonce aakkostus-koulutus-oid1  "1.2.246.562.13.000020")
 (defonce aakkostus-koulutus-oid2  "1.2.246.562.13.000021")
@@ -85,6 +85,12 @@
 (defonce massikkakoulu-oid      "1.2.246.562.17.000012")
 (defonce zetorkoulu-oid         "1.2.246.562.17.000013")
 (defonce poniosatoteutus-oid    "1.2.246.562.17.000014")
+
+(defonce aakkostus-toteutus-oid1  "1.2.246.562.17.000015")
+(defonce aakkostus-toteutus-oid2  "1.2.246.562.17.000016")
+(defonce aakkostus-toteutus-oid3  "1.2.246.562.17.000017")
+(defonce aakkostus-toteutus-oid4  "1.2.246.562.17.000018")
+(defonce aakkostus-toteutus-oid5  "1.2.246.562.17.000019")
 
 (defonce keyword-toteutus-oid1  "1.2.246.562.17.000020")
 (defonce keyword-toteutus-oid2  "1.2.246.562.17.000021")
@@ -210,6 +216,16 @@
                     :opetustapaKoodiUrit ["opetuspaikkakk_02"]
                     :opetusaikaKoodiUrit []}})
 
+(defonce aikuisten-perusopetus-toteutus-metatieto
+         {:tyyppi           "aikuisten-perusopetus"
+          :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+          :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
+          :ammatillinenPerustutkintoErityisopetuksena false
+          :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
+                   :opetustapaKoodiUrit ["opetuspaikkakk_02"]
+                   :opetusaikaKoodiUrit []}})
+
+
 (defonce amm-toteutus-metatieto
          (merge (:metadata fixture/default-toteutus-map)
          {:tyyppi           "amm"
@@ -233,9 +249,6 @@
           :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
                    :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
                    :opetusaikaKoodiUrit ["opetusaikakk_1"]}})
-
-(defonce amm-muu-koulutus-metatieto
-         {:tyyppi "amm-muu"})
 
 (defonce yo-toteutus-metatieto
          (merge (dissoc (:metadata fixture/default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
@@ -280,13 +293,18 @@
     (fixture/add-koulutus-mock yo-koulutus-oid :tila "julkaistu" :koulutustyyppi "yo" :nimi "Arkkitehti" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
     (fixture/add-koulutus-mock amk-oid :tila "julkaistu" :koulutustyyppi "amk" :nimi "Artenomi" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amk-koulutus-metadata :sorakuvausId sorakuvausId)
     (fixture/add-koulutus-mock lukio-oid2 :tila "julkaistu" :koulutustyyppi "lk" :nimi "Lukio" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/lukio-koulutus-metadata :sorakuvausId sorakuvausId)
-    (fixture/add-koulutus-mock amm-muu-oid :tila "julkaistu" :koulutustyyppi "amm-muu" :nimi "Muu ammatillinen" :tarjoajat [punkaharjun-yliopisto] :metadata amm-muu-koulutus-metatieto :sorakuvausId sorakuvausId)
+    (fixture/add-koulutus-mock amm-muu-oid :tila "julkaistu" :koulutustyyppi "amm-muu" :nimi "Muu ammatillinen" :tarjoajat [punkaharjun-yliopisto] :metadata fixture/amm-muu-koulutus-metadata :sorakuvausId sorakuvausId)
 
-    (fixture/add-koulutus-mock aakkostus-koulutus-oid1 :tila "julkaistu" :nimi "Aakkosissa ensimmäinen"   :organisaatio aakkostus-oppilaitos-oid1 :sorakuvausId sorakuvausId)
-    (fixture/add-koulutus-mock aakkostus-koulutus-oid2 :tila "julkaistu" :nimi "Aakkosissa toinen"        :organisaatio aakkostus-oppilaitos-oid2 :sorakuvausId sorakuvausId)
-    (fixture/add-koulutus-mock aakkostus-koulutus-oid3 :tila "julkaistu" :nimi "Aakkosissa vasta kolmas"  :organisaatio aakkostus-oppilaitos-oid3 :sorakuvausId sorakuvausId)
-    (fixture/add-koulutus-mock aakkostus-koulutus-oid4 :tila "julkaistu" :nimi "Aakkosissa vasta neljäs"  :organisaatio aakkostus-oppilaitos-oid4 :sorakuvausId sorakuvausId)
-    (fixture/add-koulutus-mock aakkostus-koulutus-oid5 :tila "julkaistu" :nimi "Aakkosissa viidentenä"    :organisaatio aakkostus-oppilaitos-oid5 :sorakuvausId sorakuvausId)
+    (fixture/add-koulutus-mock aakkostus-koulutus-oid1 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa ensimmäinen"   :tarjoajat aakkostus-oppilaitos-oid1
+                               :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+    (fixture/add-koulutus-mock aakkostus-koulutus-oid2 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa toinen"        :tarjoajat aakkostus-oppilaitos-oid2
+                               :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+    (fixture/add-koulutus-mock aakkostus-koulutus-oid3 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa vasta kolmas"  :tarjoajat aakkostus-oppilaitos-oid3
+                               :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+    (fixture/add-koulutus-mock aakkostus-koulutus-oid4 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa vasta neljäs"  :tarjoajat aakkostus-oppilaitos-oid4
+                               :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+    (fixture/add-koulutus-mock aakkostus-koulutus-oid5 :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :nimi "Aakkosissa viidentenä"    :tarjoajat aakkostus-oppilaitos-oid5
+                               :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
 
     (fixture/add-koulutus-mock keyword-koulutus-oid1  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid1 :nimi "Lääketieteen koulutus" :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
     (fixture/add-koulutus-mock keyword-koulutus-oid2  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid2 :nimi "Humanistinen koulutus" :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
@@ -325,6 +343,12 @@
     (fixture/add-toteutus-mock massikkakoulu-oid traktoriala-oid        :koulutustyyppi "amk"             :tila "julkaistu" :nimi "Massikkakoulutus" :tarjoajat [helsingin-toimipiste] :metadata amk-toteutus-metatieto)
     (fixture/add-toteutus-mock zetorkoulu-oid traktoriala-oid2          :koulutustyyppi "amm"             :tila "julkaistu" :nimi "Zetorkoulutus" :tarjoajat [punkaharjun-toimipiste-2] :metadata oletus-toteutus-metatieto)
     (fixture/add-toteutus-mock poniosatoteutus-oid hevososaamisala-oid  :koulutustyyppi "amm-osaamisala"  :tila "julkaistu" :nimi "Ponikoulu tutkinnon osa" :tarjoajat [punkaharjun-toimipiste-2] :metadata amm-osaamisala-toteutus-metatieto)
+
+    (fixture/add-toteutus-mock aakkostus-toteutus-oid1 aakkostus-koulutus-oid1 :tila "julkaistu" :nimi "Aakkosissa ensimmäinen toteutus" :tarjoajat aakkostus-oppilaitos-oid1 :metadata aikuisten-perusopetus-toteutus-metatieto)
+    (fixture/add-toteutus-mock aakkostus-toteutus-oid2 aakkostus-koulutus-oid2 :tila "julkaistu" :nimi "Aakkosissa toinen toteutus" :tarjoajat aakkostus-oppilaitos-oid2 :metadata aikuisten-perusopetus-toteutus-metatieto)
+    (fixture/add-toteutus-mock aakkostus-toteutus-oid3 aakkostus-koulutus-oid3 :tila "julkaistu" :nimi "Aakkosissa vasta kolmas toteutus" :tarjoajat aakkostus-oppilaitos-oid3 :metadata aikuisten-perusopetus-toteutus-metatieto)
+    (fixture/add-toteutus-mock aakkostus-toteutus-oid4 aakkostus-koulutus-oid4 :tila "julkaistu" :nimi "Aakkosissa vasta neljäs toteutus" :tarjoajat aakkostus-oppilaitos-oid4 :metadata aikuisten-perusopetus-toteutus-metatieto)
+    (fixture/add-toteutus-mock aakkostus-toteutus-oid5 aakkostus-koulutus-oid5 :tila "julkaistu" :nimi "Aakkosissa viides toteutus" :tarjoajat aakkostus-oppilaitos-oid5 :metadata aikuisten-perusopetus-toteutus-metatieto)
 
     (fixture/add-toteutus-mock keyword-toteutus-oid1 keyword-koulutus-oid1  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid1 :metadata {:tyyppi "yo" :ammattinimikkeet [{:kieli "fi" :arvo "lääkäri"}, {:kieli "fi" :arvo "esimies"}]})
     (fixture/add-toteutus-mock keyword-toteutus-oid2 keyword-koulutus-oid2  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid2 :metadata {:tyyppi "yo" :ammattinimikkeet [{:kieli "fi" :arvo "psykologi"}] :asiasanat [{:kieli "fi" :arvo "ammattikorkeakoulu"}]})

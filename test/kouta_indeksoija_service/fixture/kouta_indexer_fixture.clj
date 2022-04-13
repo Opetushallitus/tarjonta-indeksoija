@@ -184,6 +184,8 @@
 
 (defonce amm-muu-koulutus-metadata
          {:tyyppi "amm-muu"
+          :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                                 "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
           :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4#1"
           :opintojenLaajuusNumero 11})
 
@@ -206,7 +208,8 @@
           :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
           :opintojenLaajuusNumero 13
           :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
-          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+          :lisatiedot []})
 
 (defn add-koulutus-mock
   [oid & {:as params}]

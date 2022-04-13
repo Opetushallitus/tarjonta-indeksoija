@@ -99,6 +99,8 @@
 (defonce koulutusOid2   "1.2.246.562.13.00000000000000000002")
 (defonce koulutusOid3   "1.2.246.562.13.00000000000000000003")
 (defonce koulutusOid4   "1.2.246.562.13.00000000000000000004")
+(defonce koulutusOid5   "1.2.246.562.13.00000000000000000005")
+(defonce koulutusOid6   "1.2.246.562.13.00000000000000000006")
 
 (defonce toteutusOid1   "1.2.246.562.17.00000000000000000001")
 (defonce toteutusOid2   "1.2.246.562.17.00000000000000000002")
@@ -119,6 +121,8 @@
                 (fixture/add-koulutus-mock koulutusOid2 :tila "julkaistu" :organisaatio OphOid :sorakuvausId sorakuvausId1)
                 (fixture/add-koulutus-mock koulutusOid3 :tila "julkaistu" :organisaatio LonelyOid :sorakuvausId sorakuvausId1 :julkinen true)
                 (fixture/add-koulutus-mock koulutusOid4 :tila "julkaistu" :organisaatio LonelyOid :sorakuvausId sorakuvausId1 :tarjoajat [ChildOid])
+                (fixture/add-koulutus-mock koulutusOid5 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata)
+                (fixture/add-koulutus-mock koulutusOid6 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
 
                 (fixture/add-toteutus-mock toteutusOid1 koulutusOid1 :tila "julkaistu" :organisaatio ChildOid)
                 (fixture/add-toteutus-mock toteutusOid2 koulutusOid1 :tila "julkaistu" :organisaatio LonelyOid :tarjoajat [ChildOid])
@@ -134,7 +138,7 @@
                 (fixture/add-hakukohde-mock hakukohdeOid3 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
 
                 (fixture/index-oids-without-related-indices {:sorakuvaukset [sorakuvausId1 sorakuvausId2]
-                                                             :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4]
+                                                             :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6]
                                                              :toteutukset [toteutusOid1 toteutusOid2]
                                                              :haut [hakuOid1]
                                                              :valintaperusteet [valintaPerusteId1 valintaPerusteId2 valintaPerusteId3]

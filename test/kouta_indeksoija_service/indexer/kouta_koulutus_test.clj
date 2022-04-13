@@ -226,14 +226,16 @@
      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
-           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])]
+           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+           opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
        (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_4#1"))
-       (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_4#1 nimi fi"))))
+       (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_4#1 nimi fi"))
+       (is (= 11 opintojenLaajuusNumero))))
 
    (testing "Indexer should index 11 for opintojenLaajuusNumero in case of amm-muu"
      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-       (is (= opintojenLaajuusNumero 11))))))
+       (is (= 11 opintojenLaajuusNumero))))))
 
 (deftest index-aikuisten-perusopetus-koulutus
   (fixture/with-mocked-indexing
@@ -245,13 +247,15 @@
            linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
            kuvaus (get-in koulutus [:metadata :kuvaus :fi])
            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
-           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])]
+           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+           opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
        (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
        (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
+       (is (= 13 opintojenLaajuusNumero))
        (is (= linkki-eperusteisiin "http://testilinkki.fi"))
        (is (= kuvaus "kuvausteksti"))))
 
    (testing "Indexer should index 13 for opintojenLaajuusNumero in case of aikuisten-perusopetus"
      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-       (is (= opintojenLaajuusNumero 13))))))
+       (is (= 13 opintojenLaajuusNumero))))))

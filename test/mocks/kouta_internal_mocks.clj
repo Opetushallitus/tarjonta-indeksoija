@@ -30,9 +30,11 @@
 
 (defonce sorakuvausId      "9267884f-fba1-4b85-8bb3-3eb77440c197")
 
-(defonce ammKoulutusOid     "1.2.246.562.13.00000000000000000001")
-(defonce ammTukinnonosaOid  "1.2.246.562.13.00000000000000000002")
-(defonce ammOsaamisalaOid   "1.2.246.562.13.00000000000000000003")
+(defonce ammKoulutusOid           "1.2.246.562.13.00000000000000000001")
+(defonce ammTukinnonosaOid        "1.2.246.562.13.00000000000000000002")
+(defonce ammOsaamisalaOid         "1.2.246.562.13.00000000000000000003")
+(defonce ammMuuOid                "1.2.246.562.13.00000000000000000004")
+(defonce aikuitenPerusopetusOid   "1.2.246.562.13.00000000000000000005")
 
 (defonce ammToteutusOid             "1.2.246.562.17.00000000000000000001")
 (defonce ammTukinnonosaToteutusOid  "1.2.246.562.17.00000000000000000002")
@@ -98,7 +100,8 @@
 (defn- orgs
   [x & {:as params}]
   (cond
-    (or (= x ParentOid) (= x ChildOid) (= x GrandChildOid) (= x EvilGrandChildOid)) child-org
+    (or (= x ParentOid) (= x ChildOid)
+        (= x GrandChildOid) (= x EvilGrandChildOid)) child-org
     (or (= x EvilChild) (= x EvilCousin)) evil-org))
 
 (comment
@@ -111,6 +114,10 @@
                                            :johtaaTutkintoon false :koulutuksetKoodiUri nil :ePerusteId nil :metadata fixture/amm-tutkinnon-osa-koulutus-metadata)
                 (fixture/add-koulutus-mock ammOsaamisalaOid :koulutustyyppi "amm-osaamisala" :tila "julkaistu" :organisaatioOid ChildOid
                                            :johtaaTutkintoon false :sorakuvausId sorakuvausId :metadata fixture/amm-osaamisala-koulutus-metadata)
+                (fixture/add-koulutus-mock ammMuuOid :koulutustyyppi "amm-muu" :tila "julkaistu" :organisaatioOid ChildOid
+                                           :johtaaTutkintoon false :sorakuvausId sorakuvausId :metadata fixture/amm-muu-koulutus-metadata)
+                (fixture/add-koulutus-mock aikuitenPerusopetusOid :koulutustyyppi "aikuisten-perusopetus" :tila "julkaistu" :organisaatioOid ChildOid
+                                           :johtaaTutkintoon false :sorakuvausId sorakuvausId :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
 
                 (fixture/add-toteutus-mock ammToteutusOid ammKoulutusOid :tila "julkaistu" :organisaatioOid ChildOid :tarjoajat ChildOid
                                            :metadata {:tyyppi "amm"})
@@ -129,11 +136,12 @@
                 (fixture/add-valintaperuste-mock valintaPerusteId1 :organisaatioOid ChildOid)
                 (fixture/add-hakukohde-mock hakukohdeOid1 ammToteutusOid hakuOid1 :valintaperuste valintaPerusteId1 :organisaatioOid ChildOid :jarjestyspaikkaOid ChildOid)
                 (fixture/add-hakukohde-mock hakukohdeOid2 ammToteutusOid hakuOid1 :valintaperuste valintaPerusteId1 :organisaatioOid GrandChildOid :jarjestyspaikkaOid OphOid)
-                (fixture/index-oids-without-related-indices {:koulutukset [ammKoulutusOid ammTukinnonosaOid ammOsaamisalaOid]
+                (fixture/index-oids-without-related-indices {:koulutukset [ammKoulutusOid ammTukinnonosaOid ammOsaamisalaOid ammMuuOid aikuitenPerusopetusOid]
                                                              :toteutukset [ammToteutusOid ammTukinnonosaToteutusOid ammOsaamisalaToteutusOid]
                                                              :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 hakuOid6]
                                                              :valintaperusteet [valintaPerusteId1]
                                                              :hakukohteet [hakukohdeOid1 hakukohdeOid2]
                                                              :oppilaitokset [child-org evil-org]} orgs)
-                (export-elastic-data))
+                (export-elastic-data)
+                )
  )
