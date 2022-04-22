@@ -55,6 +55,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [],
+      "enrichedTarjoajat": [],
       "metadata": {
         "tutkintonimikkeet": [
           {
@@ -186,6 +187,10 @@
           "Toimipiste sv 1.2.246.562.10.777777777993"
         ]
       },
+      "enrichedTarjoajat": [
+        {"oid": "1.2.246.562.10.777777777991"},
+        {"oid": "1.2.246.562.10.777777777993"}
+      ],
       "tutkintonimikkeet": {
         "fi": [
           "tutkintonimikkeet_01 nimi fi",
@@ -306,6 +311,9 @@
           "Toimipiste sv 1.2.246.562.10.777777777991"
         ]
       },
+      "enrichedTarjoajat": [
+        {"oid": "1.2.246.562.10.777777777991"}
+      ],
       "tutkintonimikkeet": {
         "fi": [
           "tutkintonimikkeet_01 nimi fi",
@@ -430,6 +438,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [],
+      "enrichedTarjoajat": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "opintojenLaajuus": {
@@ -498,6 +507,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [],
+      "enrichedTarjoajat": [],
       "metadata": {
         "tutkintonimikkeet": [],
         "koulutustyypit": [],

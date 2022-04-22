@@ -262,11 +262,22 @@
   [lang values]
   (distinct (remove nil? (map #(lang %) values))))
 
+(defn enrich-tarjoaja-organisaatiot
+  [tarjoajat oppilaitoksen-osat-from-kouta]
+  (let [oppilaitoksen-osat (group-by :oid oppilaitoksen-osat-from-kouta)
+        tarjoaja-oid (:oid (first tarjoajat))]
+    (for [tarjoaja tarjoajat
+          :let [tarjoaja-oid (:oid tarjoaja)
+                osa (first (get oppilaitoksen-osat tarjoaja-oid))]]
+      {:oid tarjoaja-oid
+       :jarjestaaUrheilijanAmmKoulutusta (get-in osa [:metadata :jarjestaaUrheilijanAmmKoulutusta])})))
+
 (defn search-terms
   [& {:keys [koulutus
              toteutus
              oppilaitos
              tarjoajat
+             enriched-tarjoajat
              hakutiedot
              toteutus-organisaationimi
              toteutusHakuaika
@@ -283,6 +294,7 @@
              toteutus                  []
              oppilaitos                []
              tarjoajat                 []
+             enriched-tarjoajat        []
              hakutiedot                []
              toteutus-organisaationimi {}
              toteutusHakuaika          {}
@@ -344,4 +356,5 @@
        :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
        :lukiopainotukset          (clean-uris lukiopainotukset)
        :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
-       :osaamisalat               (clean-uris osaamisalat)})))
+       :osaamisalat               (clean-uris osaamisalat)
+       :enrichedTarjoajat        enriched-tarjoajat})))

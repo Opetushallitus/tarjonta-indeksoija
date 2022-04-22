@@ -144,6 +144,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": ["osaamisala_1"],
+      "enrichedTarjoajat": [],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
@@ -282,6 +283,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": ["osaamisala_0001"],
+      "enrichedTarjoajat": [],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
