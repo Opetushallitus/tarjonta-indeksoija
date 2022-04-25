@@ -35,8 +35,9 @@
 
 (defn korkeakoulutus?
   [koulutus]
-  (or (= "yo" (:koulutustyyppi koulutus))
-      (= "amk" (:koulutustyyppi koulutus))))
+  (some
+    #(= (:koulutustyyppi koulutus) %)
+    ["yo", "amk", "amm-ope-erityisope-ja-opo"]))
 
 (defn lukio?
   [koulutus]
@@ -57,6 +58,10 @@
 (defn vapaa-sivistystyo-muu?
   [koulutus]
   (= "vapaa-sivistystyo-muu" (:koulutustyyppi koulutus)))
+
+(defn amm-ope-erityisope-ja-opo?
+  [koulutus]
+  (= "amm-ope-erityisope-ja-opo" (:koulutustyyppi koulutus)))
 
 (defn any-ammatillinen?
   [koulutus]
