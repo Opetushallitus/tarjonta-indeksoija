@@ -231,7 +231,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [],
-      "jarjestaaUrheilijanAmmKoulutusta": true,
+      "jarjestaaUrheilijanAmmKoulutusta": false,
       "metadata": {
         "tutkintonimikkeet": [],
         "opetusajat": [
@@ -371,7 +371,7 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [],
-      "jarjestaaUrheilijanAmmKoulutusta": true,
+      "jarjestaaUrheilijanAmmKoulutusta": false,
       "metadata": {
         "tutkintonimikkeet": [],
         "opetusajat": [
