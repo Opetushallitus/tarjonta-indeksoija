@@ -14,7 +14,8 @@
       (assoc :hakutapa (:hakutapaKoodiUri haku))
       (assoc :yhteishakuOid (when (= koodiuri-yhteishaku-hakutapa (remove-uri-version (:hakutapaKoodiUri haku))) (:hakuOid haku)))
       (assoc :pohjakoulutusvaatimukset (pohjakoulutusvaatimus-koodi-urit hakukohde))
-      (assoc :valintatavat (:valintatapaKoodiUrit hakukohde))))
+      (assoc :valintatavat (:valintatapaKoodiUrit hakukohde))
+      (assoc :jarjestaaUrheilijanAmmKoulutusta (:jarjestaaUrheilijanAmmKoulutusta hakukohde))))
 
 (defn- map-haut
   [haku]

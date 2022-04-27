@@ -2,11 +2,12 @@
   (:require [clojure.string :as string]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+            [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? not-arkistoitu? luonnos?]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
@@ -58,16 +59,23 @@
                                               (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-search-terms
-  [oppilaitos oppilaitoksen-osat-from-kouta koulutus hakutiedot toteutus]
+  [oppilaitos koulutus hakutiedot toteutus]
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
         tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
         opetus (get-in toteutus [:metadata :opetus])
-        enriched-tarjoajat (search-tool/enrich-tarjoaja-organisaatiot tarjoajat oppilaitoksen-osat-from-kouta)]
+        hakujen-hakukohteet (apply concat (for [haku (:haut hakutieto)]
+                                            (get-in haku [:hakukohteet])))
+        ;; jos joku toteutuksen hakukohteista järjestää urheilijan amm koulutusta
+        ;; asetetaan arvo myös toteutukselle trueksi
+        jarjestaa-urheilijan-amm-koulutusta (boolean
+                                              (some #(true? %)
+                                                    (for [hakukohde hakujen-hakukohteet]
+                                                      (:jarjestaaUrheilijanAmmKoulutusta hakukohde))))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
-                              :enriched-tarjoajat enriched-tarjoajat
+                              :jarjestaa-urheilijan-amm-koulutusta jarjestaa-urheilijan-amm-koulutusta
                               :oppilaitos oppilaitos
                               :hakutiedot (get-search-hakutiedot hakutieto)
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
@@ -114,9 +122,8 @@
   [execution-id oppilaitos hierarkia koulutus]
   (when-let [all-visible-toteutukset (filter not-arkistoitu? (kouta-backend/get-toteutus-list-for-koulutus-with-cache (:oid koulutus) execution-id))]
     (if-let [julkaistut-toteutukset (seq (get-tarjoaja-entries hierarkia (filter julkaistu? all-visible-toteutukset)))]
-      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id)
-            oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat-with-cache (:oid oppilaitos) execution-id)]
-        (vec (map #(toteutus-search-terms oppilaitos oppilaitoksen-osat koulutus hakutiedot %) julkaistut-toteutukset)))
+      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id)]
+        (vec (map #(toteutus-search-terms oppilaitos koulutus hakutiedot %) julkaistut-toteutukset)))
       (when (not-empty (seq (get-tarjoaja-entries hierarkia (filter luonnos? all-visible-toteutukset))))
         (vector (koulutus-search-terms oppilaitos koulutus))))))
 
