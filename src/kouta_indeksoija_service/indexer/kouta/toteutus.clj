@@ -44,6 +44,7 @@
                                    :aloituspaikat
                                    :hakukohteenLinja
                                    :jarjestyspaikkaOid
+                                   :jarjestaaUrheilijanAmmKoulutusta
                                    :organisaatioOid])
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
         (common/decorate-koodi-uris)

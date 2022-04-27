@@ -117,7 +117,8 @@
           "valintatavat": [
             "valintatapajono_av",
             "valintatapajono_tv"
-          ]
+          ],
+          "jarjestaaUrheilijanAmmKoulutusta": true
         }
       ],
       "opetuskielet": [
@@ -144,7 +145,6 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": ["osaamisala_1"],
-      "enrichedTarjoajat": [],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
@@ -240,7 +240,8 @@
           "valintatavat": [
             "valintatapajono_av",
             "valintatapajono_tv"
-          ]
+          ],
+          "jarjestaaUrheilijanAmmKoulutusta": true
         },
         {
           "hakuajat": [
@@ -257,7 +258,8 @@
           "valintatavat": [
             "valintatapajono_av",
             "valintatapajono_tv"
-          ]
+          ],
+          "jarjestaaUrheilijanAmmKoulutusta": true
         }
       ],
       "opetuskielet": [
@@ -283,7 +285,6 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": ["osaamisala_0001"],
-      "enrichedTarjoajat": [],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
