@@ -59,19 +59,20 @@
                                               (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-search-terms
-  [oppilaitos koulutus hakutiedot toteutus]
+  [oppilaitos oppilaitoksen-osat koulutus hakutiedot toteutus]
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
         tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
         opetus (get-in toteutus [:metadata :opetus])
-        hakujen-hakukohteet (apply concat (for [haku (:haut hakutieto)]
-                                            (get-in haku [:hakukohteet])))
-        ;; jos joku toteutuksen hakukohteista järjestää urheilijan amm koulutusta
-        ;; asetetaan arvo myös toteutukselle trueksi
+        ;; jos joku toteutuksen tarjoajista järjestää urheilijan amm koulutusta
+        ;; asetetaan arvo toteutukselle trueksi
         jarjestaa-urheilijan-amm-koulutusta (boolean
-                                              (some #(true? %)
-                                                    (for [hakukohde hakujen-hakukohteet]
-                                                      (:jarjestaaUrheilijanAmmKoulutusta hakukohde))))]
+                                              (some true?
+                                                    (for [tarjoaja-oid (:tarjoajat toteutus)
+                                                          :let [found-osa (first
+                                                                            (filter
+                                                                              #(= (:oid %) tarjoaja-oid) oppilaitoksen-osat))]]
+                                                      (get-in found-osa [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
@@ -122,8 +123,9 @@
   [execution-id oppilaitos hierarkia koulutus]
   (when-let [all-visible-toteutukset (filter not-arkistoitu? (kouta-backend/get-toteutus-list-for-koulutus-with-cache (:oid koulutus) execution-id))]
     (if-let [julkaistut-toteutukset (seq (get-tarjoaja-entries hierarkia (filter julkaistu? all-visible-toteutukset)))]
-      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id)]
-        (vec (map #(toteutus-search-terms oppilaitos koulutus hakutiedot %) julkaistut-toteutukset)))
+      (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id)
+            oppilaitoksen-osat (kouta-backend/get-oppilaitoksen-osat-with-cache (:oid oppilaitos) execution-id)]
+        (vec (map #(toteutus-search-terms oppilaitos oppilaitoksen-osat koulutus hakutiedot %) julkaistut-toteutukset)))
       (when (not-empty (seq (get-tarjoaja-entries hierarkia (filter luonnos? all-visible-toteutukset))))
         (vector (koulutus-search-terms oppilaitos koulutus))))))
 
