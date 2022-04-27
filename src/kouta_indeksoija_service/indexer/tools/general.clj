@@ -33,6 +33,10 @@
   [koulutus]
   (= "amm-osaamisala" (:koulutustyyppi koulutus)))
 
+(defn amm-muu?
+  [koulutus]
+  (= "amm-muu" (:koulutustyyppi koulutus)))
+
 (defn korkeakoulutus?
   [koulutus]
   (or (= "yo" (:koulutustyyppi koulutus))
@@ -57,6 +61,10 @@
 (defn vapaa-sivistystyo-muu?
   [koulutus]
   (= "vapaa-sivistystyo-muu" (:koulutustyyppi koulutus)))
+
+(defn aikuisten-perusopetus?
+  [koulutus]
+  (= "aikuisten-perusopetus" (:koulutustyyppi koulutus)))
 
 (defn any-ammatillinen?
   [koulutus]
