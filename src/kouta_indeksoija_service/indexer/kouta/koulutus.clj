@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu? aikuisten-perusopetus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koodiuri-viikko-laajuusyksikko koodiuri-osaamispiste-laajuusyksikko]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
 
@@ -118,13 +118,13 @@
 (defn- enrich-koulutustyyppi-based-metadata
   [koulutus]
   (cond
-    (ammatillinen? koulutus)      (enrich-ammatillinen-metadata koulutus)
-    (amm-tutkinnon-osa? koulutus) (enrich-tutkinnon-osa-metadata koulutus)
-    (amm-osaamisala? koulutus)    (enrich-osaamisala-metadata koulutus)
-    (korkeakoulutus? koulutus)    (enrich-korkeakoulutus-metadata koulutus)
-    (lukio? koulutus)             (enrich-lukio-metadata koulutus)
-    (tuva? koulutus)              (enrich-tuva-metadata koulutus)
-    (telma? koulutus)             (enrich-telma-metadata koulutus)
+    (ammatillinen? koulutus)          (enrich-ammatillinen-metadata koulutus)
+    (amm-tutkinnon-osa? koulutus)     (enrich-tutkinnon-osa-metadata koulutus)
+    (amm-osaamisala? koulutus)        (enrich-osaamisala-metadata koulutus)
+    (korkeakoulutus? koulutus)        (enrich-korkeakoulutus-metadata koulutus)
+    (lukio? koulutus)                 (enrich-lukio-metadata koulutus)
+    (tuva? koulutus)                  (enrich-tuva-metadata koulutus)
+    (telma? koulutus)                 (enrich-telma-metadata koulutus)
     :default koulutus))
 
 (defn- enrich-metadata
