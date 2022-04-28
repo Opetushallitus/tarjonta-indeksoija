@@ -439,30 +439,30 @@
         find-hakukohteet (fn [tOid] (filter (fn [hk] (= (:toteutusOid hk) tOid)) (vals @hakukohteet)))
         assoc-hakukohde (fn [hk] (let [vp (mock-get-valintaperuste (:valintaperuste hk) (System/currentTimeMillis))]
                                    (into {} (remove (comp nil? second)
-                                                    (assoc {}
-                                                           :hakuajat [(ajanjakso (common-start-time) (common-end-time))]
-                                                           :tila (:tila hk)
-                                                           :nimi (:nimi hk)
-                                                           :hakukohdeOid (:oid hk)
-                                                           :hakulomakeKuvaus (:hakulomakeKuvaus hk)
-                                                           :kaytetaanHaunAikataulua (:kaytetaanHaunAikataulua hk)
-                                                           :pohjakoulutusvaatimusKoodiUrit (:pohjakoulutusvaatimusKoodiUrit hk)
-                                                           :pohjakoulutusvaatimusTarkenne (:pohjakoulutusvaatimusTarkenne hk)
-                                                           :hakulomaketyyppi (:hakulomaketyyppi hk)
-                                                           :hakulomakeLinkki (:hakulomakeLinkki hk)
-                                                           :hakulomakeAtaruId (:hakulomakeAtaruId hk)
-                                                           :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
-                                                           :organisaatioOid (:organisaatioOid hk)
-                                                           :muokkaaja (:muokkaaja hk)
-                                                           :modified (:modified hk)
-                                                           :esikatselu (:esikatselu hk)
-                                                           :valintaperusteId (:valintaperusteId hk)
-                                                           :aloituspaikat (get-in hk [:metadata :aloituspaikat])
-                                                           :hakukohteenLinja (get-in hk [:metadata :hakukohteenLinja])
-                                                           :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
-                                                           :jarjestaaUrheilijanAmmKoulutusta true
-                                                           :valintatapaKoodiUrit (map :valintatapaKoodiUri
-                                                                                      (get-in vp [:metadata :valintatavat])))))))
+                                    (assoc {}
+                                      :hakuajat (:hakuajat hk)
+                                      :tila (:tila hk)
+                                      :nimi (:nimi hk)
+                                      :hakukohdeOid (:oid hk)
+                                      :hakulomakeKuvaus (:hakulomakeKuvaus hk)
+                                      :kaytetaanHaunAikataulua (:kaytetaanHaunAikataulua hk)
+                                      :pohjakoulutusvaatimusKoodiUrit (:pohjakoulutusvaatimusKoodiUrit hk)
+                                      :pohjakoulutusvaatimusTarkenne (:pohjakoulutusvaatimusTarkenne hk)
+                                      :hakulomaketyyppi (:hakulomaketyyppi hk)
+                                      :hakulomakeLinkki (:hakulomakeLinkki hk)
+                                      :hakulomakeAtaruId (:hakulomakeAtaruId hk)
+                                      :jarjestyspaikkaOid (:jarjestyspaikkaOid hk)
+                                      :organisaatioOid (:organisaatioOid hk)
+                                      :muokkaaja (:muokkaaja hk)
+                                      :modified (:modified hk)
+                                      :esikatselu (:esikatselu hk)
+                                      :valintaperusteId (:valintaperusteId hk)
+                                      :aloituspaikat (get-in hk [:metadata :aloituspaikat])
+                                      :hakukohteenLinja (get-in hk [:metadata :hakukohteenLinja])
+                                      :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
+                                      :jarjestaaUrheilijanAmmKoulutusta true
+                                      :valintatapaKoodiUrit (map :valintatapaKoodiUri
+                                                                 (get-in vp [:metadata :valintatavat])))))))
         assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid (System/currentTimeMillis))]
                                (assoc {}
                                  :hakuOid hOid
