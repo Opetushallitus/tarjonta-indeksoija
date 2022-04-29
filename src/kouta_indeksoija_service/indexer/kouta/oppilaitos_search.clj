@@ -64,15 +64,10 @@
         toteutus-metadata (:metadata toteutus)
         tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
         opetus (get-in toteutus [:metadata :opetus])
-        ;; jos joku toteutuksen tarjoajista järjestää urheilijan amm koulutusta
-        ;; asetetaan arvo toteutukselle trueksi
-        jarjestaa-urheilijan-amm-koulutusta (boolean
-                                              (some true?
-                                                    (for [tarjoaja-oid (:tarjoajat toteutus)
-                                                          :let [found-osa (first
-                                                                            (filter
-                                                                              #(= (:oid %) tarjoaja-oid) oppilaitoksen-osat))]]
-                                                      (get-in found-osa [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))]
+        jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
+                                              (:tarjoajat toteutus)
+                                              oppilaitoksen-osat
+                                              hakutieto)]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
