@@ -1,6 +1,10 @@
 #!/bin/bash
 cd "${0%/*}"
-eval $(aws ecr get-login --region eu-west-1 --profile oph-utility --no-include-email)
-docker tag elasticsearch-kouta 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:7.16.3
-docker push 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:7.16.3
+
+# No need to do ECR login in CI, ci-tools takes care of that
+if [[ -z "$CI" ]]
+then
+    aws ecr get-login-password --region eu-west-1 --profile oph-utility | docker login --username AWS --password-stdin 190073735177.dkr.ecr.eu-west-1.amazonaws.com
+fi
+docker push 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:7.17.2
 cd -
