@@ -35,7 +35,10 @@ jobs:
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
 
-      - name: Build
+      - name: Build and tag development elasticsearch docker image
+        run: ./elastic/build.sh
+
+      - name: Build jar
         run: lein uberjar
 
       - uses: actions/cache@v2
@@ -82,9 +85,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         shell: bash
         run: lein deploy
-      - name: Deploy development elasticsearch docker container image to ECR
+      - name: Deploy development elasticsearch docker image to ECR
         if: github.ref == 'refs/heads/master'
         shell: bash
-        run: |
-          ./elastic/build.sh
-          ./elastic/deploy.sh
+        run: ./elastic/deploy.sh
