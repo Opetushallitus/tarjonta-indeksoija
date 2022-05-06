@@ -67,7 +67,7 @@
         jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
                                               (:tarjoajat toteutus)
                                               oppilaitoksen-osat
-                                              hakutieto)]
+                                              (:haut hakutieto))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
