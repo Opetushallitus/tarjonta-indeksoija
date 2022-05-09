@@ -182,6 +182,7 @@
         harkinnanvaraisuus-question-allowed (and
                                               (some? non-korkeakoulu-koodi-uri)
                                               (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
+                                              (not (.contains ["telma" "tuva" "vapaa-sivistystyo-opistovuosi"] (:koulutustyyppi koulutus)))
                                               (or (nil? hakukohde-nimi-koodi-uri)
                                                   (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))
         ; Seuraava arvo on tosi seuraaville esimerkeille:
