@@ -460,6 +460,7 @@
                                       :aloituspaikat (get-in hk [:metadata :aloituspaikat])
                                       :hakukohteenLinja (get-in hk [:metadata :hakukohteenLinja])
                                       :koulutuksenAlkamiskausi (get-in hk [:metadata :koulutuksenAlkamiskausi])
+                                      :jarjestaaUrheilijanAmmKoulutusta true
                                       :valintatapaKoodiUrit (map :valintatapaKoodiUri
                                                                  (get-in vp [:metadata :valintatavat])))))))
         assoc-haku (fn [hOid hks] (if-let [haku (mock-get-haku hOid (System/currentTimeMillis))]
