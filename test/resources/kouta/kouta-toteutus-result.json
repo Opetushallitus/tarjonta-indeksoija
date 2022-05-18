@@ -165,7 +165,8 @@
           },
           "tila": "julkaistu",
           "modified": "2019-02-05T09:49:23",
-          "esikatselu": false
+          "esikatselu": false,
+          "hasValintaperustekuvausData": false
         }
       ]
     }
