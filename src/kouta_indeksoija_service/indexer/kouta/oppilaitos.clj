@@ -7,7 +7,8 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.util.tools :refer [jarjestaa-urheilijan-amm-koulutusta?]]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]))
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [clojure.string :as s]))
 
 (def index-name "oppilaitos-kouta")
 (def languages ["fi" "en" "sv"])
@@ -58,8 +59,9 @@
 
 (defn create-kielistetty-osoitetieto
   [osoitetieto languages]
-  {:osoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
-   :postinumeroKoodiUri (:postinumeroUri (first (filter (fn [os] (get-in os [:postinumeroUri])) osoitetieto)))})
+  (let [postinumeroKoodiUri (:postinumeroUri (first (filter (fn [os] (get-in os [:postinumeroUri])) osoitetieto)))]
+    {:osoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
+     :postinumeroKoodiUri (when (not (s/blank? postinumeroKoodiUri)) postinumeroKoodiUri)}))
 
 (defn create-kielistetty-osoite-str
   [osoitetieto ulkomainen_osoite_en languages]

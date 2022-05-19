@@ -2,7 +2,7 @@
 (cemerick.pomegranate.aether/register-wagon-factory!
  "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
 
-(defproject kouta-indeksoija-service "9.4.1-SNAPSHOT"
+(defproject kouta-indeksoija-service "9.4.2-SNAPSHOT"
   :description "Kouta-indeksoija"
   :repositories [["releases" {:url "https://artifactory.opintopolku.fi/artifactory/oph-sade-release-local"
                               :username :env/artifactory_username
@@ -82,9 +82,9 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
-                                                       [fi.oph.kouta/kouta-backend "6.21.2-SNAPSHOT"]
-                                                       [fi.oph.kouta/kouta-backend "6.21.2-SNAPSHOT" :classifier "tests"]
-                                                       [fi.oph.kouta/kouta-common "2.8.0-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-backend "6.23.2-SNAPSHOT"]
+                                                       [fi.oph.kouta/kouta-backend "6.23.2-SNAPSHOT" :classifier "tests"]
+                                                       [fi.oph.kouta/kouta-common "2.8.1-SNAPSHOT" :classifier "tests"]
                                                        [oph/clj-test-utils "0.5.0-SNAPSHOT"]]
 
                     :resource-paths ["test_resources"]
@@ -96,9 +96,9 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
-                                      [fi.oph.kouta/kouta-backend "6.21.2-SNAPSHOT"]
-                                      [fi.oph.kouta/kouta-backend "6.21.2-SNAPSHOT" :classifier "tests"]
-                                      [fi.oph.kouta/kouta-common "2.8.0-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-backend "6.23.2-SNAPSHOT"]
+                                      [fi.oph.kouta/kouta-backend "6.23.2-SNAPSHOT" :classifier "tests"]
+                                      [fi.oph.kouta/kouta-common "2.8.1-SNAPSHOT" :classifier "tests"]
                                       [oph/clj-test-utils "0.5.0-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"

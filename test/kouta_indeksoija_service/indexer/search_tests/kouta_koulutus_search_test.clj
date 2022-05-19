@@ -52,24 +52,6 @@
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
         (is (= ["vapaa-sivistystyo-muu" "vapaa-sivistystyo"] result)))))
 
-(deftest add-amm-muu-koulutustyyppi-when-telma
-  (testing "If telma, add 'amm-muu' koulutustyyppi"
-    (let [koulutus {:koulutustyyppi "telma"}
-          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
-      (is (= ["telma" "amm-muu"] result)))))
-
-(deftest add-amm-muu-koulutustyyppi-when-tutkinnon-osa
-  (testing "If amm-tutkinnon-osa, add 'amm-muu' koulutustyyppi"
-    (let [koulutus {:koulutustyyppi "amm-tutkinnon-osa"}
-          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
-      (is (= ["amm-tutkinnon-osa" "amm-muu"] result)))))
-
-(deftest add-amm-muu-koulutustyyppi-when-osaamisala
-  (testing "If amm-osaamisala, add 'amm-muu' koulutustyyppi"
-    (let [koulutus {:koulutustyyppi "amm-osaamisala"}
-          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
-      (is (= ["amm-osaamisala" "amm-muu"] result)))))
-
 (deftest hakutieto-tools-test
   (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
         hakuaika2     {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}

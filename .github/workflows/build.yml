@@ -6,6 +6,12 @@ on:
     paths-ignore:
       - '**.md'
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+  ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,12 +21,10 @@ jobs:
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
 
+      - name: Build dev elastic container to use in tests
+        run: ./elastic/build.sh
+
       - name: Run tests
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
@@ -35,7 +39,7 @@ jobs:
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
 
-      - name: Build
+      - name: Build jar
         run: lein uberjar
 
       - uses: actions/cache@v2
@@ -47,11 +51,6 @@ jobs:
   deploy:
     needs: [ test, build ]
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-      ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
 
