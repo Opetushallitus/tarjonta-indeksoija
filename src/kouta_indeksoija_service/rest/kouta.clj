@@ -66,6 +66,14 @@
 (def get-hakukohde-oids-by-jarjestyspaikat-with-cache
   (ttl/memoize-ttl get-hakukohde-oids-by-jarjestyspaikat))
 
+(defn get-toteutus-oids-by-tarjoajat
+  [oids execution-id]
+  {:val (cas-authenticated-post-as-json (resolve-url :kouta-backend.tarjoajat.toteutus-oids) {:body (json/generate-string oids) :content-type :json})
+   :ttl (get-cache-time execution-id)})
+
+(def get-toteutus-oids-by-tarjoajat-with-cache
+  (ttl/memoize-ttl get-toteutus-oids-by-tarjoajat))
+
 (defn get-valintaperuste-with-cache
   [id execution-id]
   (get-doc-with-cache "valintaperuste" id execution-id))
