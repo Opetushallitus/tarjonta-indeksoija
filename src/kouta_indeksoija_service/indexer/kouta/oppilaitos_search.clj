@@ -2,12 +2,11 @@
   (:require [clojure.string :as string]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? not-arkistoitu? luonnos?]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
