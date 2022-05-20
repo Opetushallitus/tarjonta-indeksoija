@@ -467,7 +467,8 @@
             },
             "oid": "1.2.246.562.10.54545454545"
           },
-          "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
+          "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+          "hasValintaperustekuvausData": false
         }
       ]
     }
