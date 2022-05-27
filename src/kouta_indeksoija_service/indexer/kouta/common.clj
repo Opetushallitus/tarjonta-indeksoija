@@ -4,7 +4,7 @@
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
             [clojure.string :refer [replace]]
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
@@ -79,7 +79,11 @@
 (defn assoc-jarjestyspaikka
   [entry]
   (if-let [oid (:jarjestyspaikkaOid entry)]
-    (assoc (dissoc entry :jarjestyspaikkaOid) :jarjestyspaikka (get-tarjoaja oid))
+    (assoc (dissoc entry :jarjestyspaikkaOid :jarjestaaUrheilijanAmmKoulutusta)
+           :jarjestyspaikka
+           (assoc (get-tarjoaja oid)
+                  :jarjestaaUrheilijanAmmKoulutusta
+                  (get-in entry [:jarjestaaUrheilijanAmmKoulutusta])))
     entry))
 
 (defn assoc-muokkaaja

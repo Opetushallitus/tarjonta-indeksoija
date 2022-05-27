@@ -236,6 +236,18 @@
   (let [pred (fn [hk] (some (fn [oid] (= oid (:jarjestyspaikkaOid hk))) oids))]
     (map :oid (filter pred (vals @hakukohteet)))))
 
+(defn mock-get-toteutus-oids-by-tarjoajat
+  [oids execution-id]
+  (let [pred (fn [toteutus]
+               (some
+                 (fn [oid]
+                   (some
+                     (fn [tarjoaja-oid]
+                       (= oid tarjoaja-oid))
+                     (:tarjoajat toteutus)))
+                 oids))]
+    (map :oid (filter pred (vals @toteutukset)))))
+
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
   (let [toteutus (fix-default-format (merge default-toteutus-map params {:organisaatio Oppilaitos1 :koulutusOid koulutusOid :oid oid}))]
@@ -694,6 +706,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikat
+
+                 kouta-indeksoija-service.rest.kouta/get-toteutus-oids-by-tarjoajat-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutus-oids-by-tarjoajat
 
                  kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutus-oids-by-sorakuvaus

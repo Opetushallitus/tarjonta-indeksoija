@@ -51,6 +51,7 @@
                       :aloituspaikat
                       :hakukohteenLinja
                       :jarjestyspaikkaOid
+                      :jarjestaaUrheilijanAmmKoulutusta
                       :organisaatioOid
                       :hasValintaperustekuvausData])
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))

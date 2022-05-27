@@ -117,7 +117,8 @@
           "valintatavat": [
             "valintatapajono_av",
             "valintatapajono_tv"
-          ]
+          ],
+          "jarjestaaUrheilijanAmmKoulutusta": true
         }
       ],
       "opetuskielet": [
@@ -239,7 +240,8 @@
           "valintatavat": [
             "valintatapajono_av",
             "valintatapajono_tv"
-          ]
+          ],
+          "jarjestaaUrheilijanAmmKoulutusta": true
         },
         {
           "hakuajat": [
@@ -256,7 +258,8 @@
           "valintatavat": [
             "valintatapajono_av",
             "valintatapajono_tv"
-          ]
+          ],
+          "jarjestaaUrheilijanAmmKoulutusta": true
         }
       ],
       "opetuskielet": [

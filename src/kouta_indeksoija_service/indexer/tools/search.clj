@@ -269,6 +269,7 @@
              toteutus
              oppilaitos
              tarjoajat
+             jarjestaa-urheilijan-amm-koulutusta
              hakutiedot
              toteutus-organisaationimi
              toteutusHakuaika
@@ -285,6 +286,7 @@
              toteutus                  []
              oppilaitos                []
              tarjoajat                 []
+             jarjestaa-urheilijan-amm-koulutusta nil
              hakutiedot                []
              toteutus-organisaationimi {}
              toteutusHakuaika          {}
@@ -346,4 +348,35 @@
        :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
        :lukiopainotukset          (clean-uris lukiopainotukset)
        :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
-       :osaamisalat               (clean-uris osaamisalat)})))
+       :osaamisalat               (clean-uris osaamisalat)
+       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
+       })))
+
+(defn jarjestaako-hakukohteen-jarjestaja-urheilijan-amm-koulutusta
+  [tarjoaja-oids haut]
+  (let [hakukohteet (apply concat (for [haku haut]
+                                    (:hakukohteet haku)))]
+    (if (seq hakukohteet)
+      (let [hakukohteet (group-by :organisaatioOid hakukohteet)
+            tarjoaja-hakukohteet (apply concat (for [tarjoaja-oid tarjoaja-oids]
+                                                 (get hakukohteet tarjoaja-oid)))]
+        (boolean
+          (some
+            true?
+            (for [hakukohde tarjoaja-hakukohteet]
+              (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))
+      false)))
+
+(defn jarjestaako-tarjoaja-urheilijan-amm-koulutusta
+  [tarjoaja-oids oppilaitoksen-osat haut]
+  (or
+    (boolean
+      (some
+        true?
+        (for [tarjoaja-oid tarjoaja-oids
+              :let [found-osa (first (filter #(= (:oid %) tarjoaja-oid) oppilaitoksen-osat))]]
+          (get-in
+            found-osa
+            [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))
+    (jarjestaako-hakukohteen-jarjestaja-urheilijan-amm-koulutusta tarjoaja-oids haut)
+    ))
