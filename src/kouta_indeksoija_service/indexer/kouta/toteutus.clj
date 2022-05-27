@@ -30,22 +30,30 @@
              (select-keys ht-haku aikatauluKeys)
              (select-keys ht-hakukohde aikatauluKeys)))))
 
+(defn- assoc-has-valintaperustekuvaus-data [ht-hakukohde]
+  (let [kynnysehto (:kynnysehto ht-hakukohde)
+        valintakoe-ids (:valintakoeIds ht-hakukohde)]
+    (assoc ht-hakukohde :hasValintaperustekuvausData (boolean (or (seq kynnysehto) (seq valintakoe-ids))))))
+
 (defn- create-hakukohteiden-hakutiedot
   [ht-haku]
   (for [ht-hakukohde (:hakukohteet ht-haku)]
-    (-> (select-keys ht-hakukohde [:hakukohdeOid
-                                   :nimi
-                                   :modified
-                                   :tila
-                                   :esikatselu
-                                   :valintaperusteId
-                                   :pohjakoulutusvaatimusKoodiUrit
-                                   :pohjakoulutusvaatimusTarkenne
-                                   :aloituspaikat
-                                   :hakukohteenLinja
-                                   :jarjestyspaikkaOid
-                                   :jarjestaaUrheilijanAmmKoulutusta
-                                   :organisaatioOid])
+    (-> ht-hakukohde
+        (assoc-has-valintaperustekuvaus-data)
+        (select-keys [:hakukohdeOid
+                      :nimi
+                      :modified
+                      :tila
+                      :esikatselu
+                      :valintaperusteId
+                      :pohjakoulutusvaatimusKoodiUrit
+                      :pohjakoulutusvaatimusTarkenne
+                      :aloituspaikat
+                      :hakukohteenLinja
+                      :jarjestyspaikkaOid
+                      :organisaatioOid
+                      :hasValintaperustekuvausData
+                      :jarjestaaUrheilijanAmmKoulutusta])
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
         (common/decorate-koodi-uris)
         (common/assoc-jarjestyspaikka)
