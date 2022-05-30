@@ -58,14 +58,16 @@
                                               (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-search-terms
-  [oppilaitos koulutus hakutiedot toteutus]
+  [oppilaitos tarjoaja-oppilaitokset koulutus hakutiedot toteutus]
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
         tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
         opetus (get-in toteutus [:metadata :opetus])
-        jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-                                              (:tarjoajat toteutus)
-                                              (:haut hakutieto))]
+        jarjestaa-urheilijan-amm-koulutusta (boolean
+                                              (some
+                                                true?
+                                                (for [oppilaitos tarjoaja-oppilaitokset]
+                                                  (:jarjestaaUrheilijanAmmKoulutusta oppilaitos))))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
@@ -117,7 +119,10 @@
   (when-let [all-visible-toteutukset (filter not-arkistoitu? (kouta-backend/get-toteutus-list-for-koulutus-with-cache (:oid koulutus) execution-id))]
     (if-let [julkaistut-toteutukset (seq (get-tarjoaja-entries hierarkia (filter julkaistu? all-visible-toteutukset)))]
       (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:oid koulutus) execution-id)]
-        (vec (map #(toteutus-search-terms oppilaitos koulutus hakutiedot %) julkaistut-toteutukset)))
+        (vec (map #(let [tarjoaja-oids (:tarjoajat %)
+                         tarjoaja-oppilaitokset (kouta-backend/get-oppilaitokset-with-cache tarjoaja-oids execution-id)]
+                     (toteutus-search-terms oppilaitos tarjoaja-oppilaitokset koulutus hakutiedot %))
+                  julkaistut-toteutukset)))
       (when (not-empty (seq (get-tarjoaja-entries hierarkia (filter luonnos? all-visible-toteutukset))))
         (vector (koulutus-search-terms oppilaitos koulutus))))))
 
