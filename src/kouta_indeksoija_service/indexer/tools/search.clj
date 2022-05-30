@@ -94,8 +94,10 @@
   (cond
     (ammatillinen? koulutus)            (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
     (amm-osaamisala? koulutus)          (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
-    (amm-muu? koulutus)                 (get-in koulutus [:metadata :opintojenLaajuusNumero])
-    (aikuisten-perusopetus? koulutus)   (get-in koulutus [:metadata :opintojenLaajuusNumero])
+    (or
+     (amm-muu? koulutus)
+     (aikuisten-perusopetus? koulutus)
+     (kk-opintojakso? koulutus))        (get-in koulutus [:metadata :opintojenLaajuusNumero])
     :default                   (edn/read-string (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo number-or-nil))))
 
 (defn opintojen-laajuusyksikko-koodi-uri
