@@ -686,6 +686,9 @@
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
 
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitokset-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitokset
+
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos-hierarkia
 
@@ -755,6 +758,11 @@
                  kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
                  mock-koulutustyyppi-koodisto]
      (do ~@body)))
+
+
+(defn mock-get-oppilaitokset
+  [oid execution-id]
+  {:oppilaitokset [(get @oppilaitokset oid)] :organisaatioHierarkia (mocked-hierarkia-default-entity oid)})
 
 (defn index-oppilaitokset
   [oids]

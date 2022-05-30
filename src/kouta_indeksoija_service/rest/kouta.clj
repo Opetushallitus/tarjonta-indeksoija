@@ -98,6 +98,14 @@
 (def get-oppilaitos-hierarkia-with-cache
   (ttl/memoize-ttl get-oppilaitos-hierarkia))
 
+(defn get-oppilaitokset
+  [oids execution-id]
+  {:val (cas-authenticated-post-as-json (resolve-url :kouta-backend.oppilaitos.oppilaitokset) {:body (json/generate-string oids) :content-type :json})
+   :ttl (get-cache-time execution-id)})
+
+(def get-oppilaitokset-with-cache
+  (ttl/memoize-ttl get-oppilaitokset))
+
 (defn get-toteutus-list-for-koulutus
   ([koulutus-oid vainJulkaistut execution-id]
    {:val (cas-authenticated-get-as-json (resolve-url :kouta-backend.koulutus.toteutukset koulutus-oid)
