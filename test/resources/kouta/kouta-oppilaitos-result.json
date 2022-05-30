@@ -342,7 +342,8 @@
           "fi": "http://www.oppilaitos.fi",
           "sv": "http://www.oppilaitos.sv"
         }
-      }
+      },
+      "jarjestaaUrheilijanAmmKoulutusta": false
     }
   },
   "nimi": {
