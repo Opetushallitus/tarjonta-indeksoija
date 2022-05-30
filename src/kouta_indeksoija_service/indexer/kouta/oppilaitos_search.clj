@@ -66,8 +66,8 @@
         jarjestaa-urheilijan-amm-koulutusta (boolean
                                               (some
                                                 true?
-                                                (for [oppilaitos tarjoaja-oppilaitokset]
-                                                  (:jarjestaaUrheilijanAmmKoulutusta oppilaitos))))]
+                                                (for [oppilaitos (:oppilaitokset tarjoaja-oppilaitokset)]
+                                                  (get-in oppilaitos [:metadata :jarjestaaUrheilijanAmmKoulutusta]))))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
