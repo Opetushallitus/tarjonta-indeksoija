@@ -269,7 +269,7 @@
   (fixture/with-mocked-indexing
     (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=true to hakukohde from osa of oppilaitos-järjestyspaikka"
       (check-all-nil)
-      (fixture/update-oppilaitoksen-osa-mock oppilaitoksen-osa-oid :metadata {:jarjestaaUrheilijanAmmKoulutusta true})
+      (fixture/update-oppilaitos-mock oppilaitos-oid :metadata {:jarjestaaUrheilijanAmmKoulutusta true})
       (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitos-oid)
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
@@ -277,7 +277,7 @@
 
 (deftest index-hakukohde-jarjestaa-urheilijan-amm-koulutusta-false-with-oppilaitoksen-osa
   (fixture/with-mocked-indexing
-    (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=true to hakukohde from osa of oppilaitos-järjestyspaikka"
+    (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=false to hakukohde from osa of oppilaitos-järjestyspaikka"
       (check-all-nil)
       (fixture/update-oppilaitoksen-osa-mock oppilaitoksen-osa-oid :metadata {:jarjestaaUrheilijanAmmKoulutusta false})
       (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitos-oid)

@@ -4,7 +4,7 @@
             [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
-            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
             [clojure.string :refer [replace]]
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
