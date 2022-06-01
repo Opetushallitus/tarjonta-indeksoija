@@ -520,14 +520,6 @@
       (assoc :sorakuvaukset (map :id (vals @sorakuvaukset)))
       (assoc :oppilaitokset (map :oid (vals @oppilaitokset)))))
 
-(defn mock-get-oppilaitos-hierarkia [oid execution-id]
-  (let [oppilaitoksen-osa (mock-get-oppilaitoksen-osa oid)
-        oppilaitos (mock-get-oppilaitos oid execution-id)
-        osat (mock-get-oppilaitoksen-osat-by-oppilaitos oid execution-id)]
-    (if (nil? oppilaitoksen-osa) 
-      (when (not (nil? oppilaitos)) (assoc oppilaitos :osat osat))
-      oppilaitoksen-osa)))
-
 (defn reset-indices
   []
   (doseq [index (->> (admin/list-indices-and-aliases)
