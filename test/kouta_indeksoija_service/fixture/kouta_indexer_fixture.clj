@@ -767,7 +767,7 @@
 
 
 (defn mock-get-oppilaitokset
-  [oid execution-id]
+  [oids execution-id]
   (let [oppilaitokset-ja-osat (apply concat
                                      (for [oid oids] [(get @oppilaitokset oid) (get @oppilaitoksen-osat oid)]))]
     {:oppilaitokset (filter some? oppilaitokset-ja-osat)
