@@ -759,7 +759,10 @@
 
 (defn mock-get-oppilaitokset
   [oid execution-id]
-  {:oppilaitokset [(merge (get @oppilaitokset oid) (get @oppilaitoksen-osat oid))] :organisaatioHierarkia (mocked-hierarkia-default-entity oid)})
+  (let [oppilaitokset-ja-osat (apply concat
+                                     (for [oid oids] [(get @oppilaitokset oid) (get @oppilaitoksen-osat oid)]))]
+    {:oppilaitokset (filter some? oppilaitokset-ja-osat)
+     :organisaatioHierarkia (mocked-hierarkia-default-entity (first oids))}))
 
 (defn index-oppilaitokset
   [oids]
