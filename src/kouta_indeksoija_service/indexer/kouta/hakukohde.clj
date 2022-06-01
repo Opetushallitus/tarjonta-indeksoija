@@ -226,7 +226,7 @@
             jarjestyspaikka-oppilaitos (when-not (clojure.string/blank? jarjestyspaikkaOid)
                                          (first
                                            (:oppilaitokset
-                                            (kouta-backend/get-oppilaitokset-with-cache jarjestyspaikkaOid execution-id))))]
+                                            (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-yps haku koulutus)

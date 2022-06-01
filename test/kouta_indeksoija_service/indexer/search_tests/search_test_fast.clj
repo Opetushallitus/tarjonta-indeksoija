@@ -166,6 +166,3 @@
                :nimi {:fi "Yhteishaku"}
                :organisaatioOid "1.2.246.562.10.48442622063"}]))))
     )
-
-(use 'clojure.test)
-(run-all-tests)
