@@ -40,8 +40,8 @@
 (defn korkeakoulutus?
   [koulutus]
   (some
-    #(= (:koulutustyyppi koulutus) %)
-    ["yo", "amk", "amm-ope-erityisope-ja-opo"]))
+   #(= (:koulutustyyppi koulutus) %)
+   ["yo", "amk", "amm-ope-erityisope-ja-opo" "kk-opintojakso"]))
 
 (defn lukio?
   [koulutus]
@@ -67,6 +67,10 @@
   [koulutus]
   (= "amm-ope-erityisope-ja-opo" (:koulutustyyppi koulutus)))
 
+(defn kk-opintojakso?
+  [koulutus]
+  (= "kk-opintojakso" (:koulutustyyppi koulutus)))
+
 (defn aikuisten-perusopetus?
   [koulutus]
   (= "aikuisten-perusopetus" (:koulutustyyppi koulutus)))
@@ -90,8 +94,7 @@
   [hakukohde haku]
   (if (and (julkaistu? hakukohde) (not (nil? haku)) (not (nil? (:tila haku))) (not (julkaistu? haku)))
     (assoc hakukohde :tila (:tila haku))
-      hakukohde
-  ))
+    hakukohde))
 
 (defn remove-version-from-koodiuri
   [entity path-to-koodiuri]
