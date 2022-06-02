@@ -64,17 +64,17 @@
 
 (deftest delete-non-existing-koulutus
   (fixture/with-mocked-indexing
-   (testing "Indexer should delete non-existing koulutus from index"
-     (check-all-nil)
-     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-     (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
-     (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
-     (fixture/update-koulutus-mock koulutus-oid :tila "poistettu")
-     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-     (is (nil? (get-doc koulutus/index-name koulutus-oid)))
-     (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-     (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid))))))
+    (testing "Indexer should delete non-existing koulutus from index"
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
+      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (fixture/update-koulutus-mock koulutus-oid :tila "poistettu")
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
+      (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
+      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid))))))
 
 (def tutkinnon-osa-koulutusala1
   {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_07"
@@ -112,26 +112,26 @@
 
 (deftest eperuste-data-enrichment
   (fixture/with-mocked-indexing
-   (testing "Indexer should enrich eperuste data to metadata"
-     (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
-     (check-all-nil)
-     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-     (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
-       (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
-       (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1111-OPH-2021"))
-       (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) "2018-01-01T00:00:00"))))))
+    (testing "Indexer should enrich eperuste data to metadata"
+      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
+        (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
+        (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1111-OPH-2021"))
+        (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) "2018-01-01T00:00:00"))))))
 
 (deftest eperuste-data-enrichment-with-no-loppuu-date
   (fixture/with-mocked-indexing
-   (testing "Indexer should enrich eperuste data to metadata"
-     (with-redefs [kouta-indeksoija-service.indexer.cache.eperuste/get-eperuste-by-id (fn [id] {:id id :diaarinumero "1234-OPH" :voimassaoloLoppuu nil})]
-       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
-       (check-all-nil)
-       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-       (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
-         (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
-         (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1234-OPH"))
-         (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) nil)))))))
+    (testing "Indexer should enrich eperuste data to metadata"
+      (with-redefs [kouta-indeksoija-service.indexer.cache.eperuste/get-eperuste-by-id (fn [id] {:id id :diaarinumero "1234-OPH" :voimassaoloLoppuu nil})]
+        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata)
+        (check-all-nil)
+        (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+        (let [koulutus (get-doc koulutus/index-name koulutus-oid)]
+          (is (= (get-in koulutus [:metadata :eperuste :id]) 1234))
+          (is (= (get-in koulutus [:metadata :eperuste :diaarinumero]) "1234-OPH"))
+          (is (= (get-in koulutus [:metadata :eperuste :voimassaoloLoppuu]) nil)))))))
 
 (deftest tutkinnon-osa-enrichment
   (fixture/with-mocked-indexing
@@ -163,26 +163,26 @@
 
 (deftest index-lukio-koulutus
   (fixture/with-mocked-indexing
-   (testing "Indexer should index lukio specific metadata"
-     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
-       (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "lk" :metadata fixture/lukio-koulutus-metadata)
-       (check-all-nil)
-       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-             tutkintonimike (-> koulutus
-                                (get-in [:metadata :tutkintonimike])
-                                (first)
-                                (get-in [:nimi :fi]))
-             opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
-             opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
-             koulutusala (-> koulutus
+    (testing "Indexer should index lukio specific metadata"
+      (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
+        (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :koulutustyyppi "lk" :metadata fixture/lukio-koulutus-metadata)
+        (check-all-nil)
+        (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+        (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+              tutkintonimike (-> koulutus
+                                 (get-in [:metadata :tutkintonimike])
+                                 (first)
+                                 (get-in [:nimi :fi]))
+              opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
+              opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+              koulutusala (-> koulutus
                               (get-in [:metadata :koulutusala])
                               (first)
                               (get-in [:nimi :fi]))]
-         (is (= tutkintonimike "tutkintonimikkeet_00001#1 nimi fi"))
-         (is (= opintojen-laajuus "opintojenlaajuus_40#1 nimi fi"))
-         (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1 nimi fi"))
-         (is (= koulutusala "kansallinenkoulutusluokitus2016koulutusalataso1_001#1 nimi fi")))))))
+          (is (= tutkintonimike "tutkintonimikkeet_00001#1 nimi fi"))
+          (is (= opintojen-laajuus "opintojenlaajuus_40#1 nimi fi"))
+          (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1 nimi fi"))
+          (is (= koulutusala "kansallinenkoulutusluokitus2016koulutusalataso1_001#1 nimi fi")))))))
 
 (deftest index-amk-koulutus
   (fixture/with-mocked-indexing
@@ -220,42 +220,61 @@
 
 (deftest index-amm-muu-koulutus
   (fixture/with-mocked-indexing
-   (testing "Indexer should index amm-muu specific metadata"
-     (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata)
-     (check-all-nil)
-     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-     (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-           opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
-           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
-           opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
-       (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_4#1"))
-       (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_4#1 nimi fi"))
-       (is (= 11 opintojenLaajuusNumero))))
+    (testing "Indexer should index amm-muu specific metadata"
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata)
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
+            opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+            opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
+        (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_4#1"))
+        (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_4#1 nimi fi"))
+        (is (= 11 opintojenLaajuusNumero))))
 
-   (testing "Indexer should index 11 for opintojenLaajuusNumero in case of amm-muu"
-     (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
-           opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-       (is (= 11 opintojenLaajuusNumero))))))
+    (testing "Indexer should index 11 for opintojenLaajuusNumero in case of amm-muu"
+      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
+        (is (= 11 opintojenLaajuusNumero))))))
 
 (deftest index-aikuisten-perusopetus-koulutus
   (fixture/with-mocked-indexing
-   (testing "Indexer should index aikuisten perusopetus specific metadata"
-     (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
-     (check-all-nil)
-     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
-     (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-           linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
-           kuvaus (get-in koulutus [:metadata :kuvaus :fi])
-           opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
-           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
-           opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
-       (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
-       (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
-       (is (= 13 opintojenLaajuusNumero))
-       (is (= linkki-eperusteisiin "http://testilinkki.fi"))
-       (is (= kuvaus "kuvausteksti"))))
+    (testing "Indexer should index aikuisten perusopetus specific metadata"
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+            linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
+            kuvaus (get-in koulutus [:metadata :kuvaus :fi])
+            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
+            opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+            opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
+        (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
+        (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
+        (is (= 13 opintojenLaajuusNumero))
+        (is (= linkki-eperusteisiin "http://testilinkki.fi"))
+        (is (= kuvaus "kuvausteksti"))))
 
-   (testing "Indexer should index 13 for opintojenLaajuusNumero in case of aikuisten-perusopetus"
-     (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
-           opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-       (is (= 13 opintojenLaajuusNumero))))))
+    (testing "Indexer should index 13 for opintojenLaajuusNumero in case of aikuisten-perusopetus"
+      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
+        (is (= 13 opintojenLaajuusNumero))))))
+
+(deftest index-kk-opintojakso-koulutus
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index kk-opintojakso specific metadata"
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "kk-opintojakso" :metadata fixture/kk-opintojakso-koulutus-metadata)
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
+            opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+            opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
+        (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
+        (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
+        (is (= 14 opintojenLaajuusNumero))))
+
+    (testing "Indexer should index 14 for opintojenLaajuusNumero in case of kk-opintojakso"
+      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
+        (is (= 14 opintojenLaajuusNumero))))))
