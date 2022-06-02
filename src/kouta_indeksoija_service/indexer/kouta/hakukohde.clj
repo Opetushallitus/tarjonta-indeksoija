@@ -202,10 +202,9 @@
 
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka]
-  (let [osat (:osat jarjestyspaikka)]
-    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (boolean (or
-                                                                 (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka)
-                                                                 (some jarjestaa-urheilijan-amm-koulutusta? osat))))))
+  (if (= (:tila jarjestyspaikka) "julkaistu")
+    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka))
+    hakukohde))
 
 (defn- assoc-nimi-as-esitysnimi
   [hakukohde]
@@ -226,8 +225,10 @@
             valintaperuste    (when-not (clojure.string/blank? valintaperusteId)
                                 (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
             jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
-            jarjestyspaikka-hierarkia (when-not (clojure.string/blank? jarjestyspaikkaOid)
-                                        (kouta-backend/get-oppilaitos-hierarkia-with-cache jarjestyspaikkaOid execution-id))]
+            jarjestyspaikka-oppilaitos (when-not (clojure.string/blank? jarjestyspaikkaOid)
+                                         (first
+                                           (:oppilaitokset
+                                            (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-yps haku koulutus)
@@ -238,7 +239,7 @@
                                                          (assoc-koulutustyypit toteutus koulutus)
                                                          (assoc-toteutus toteutus)
                                                          (assoc-valintaperuste valintaperuste)
-                                                         (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-hierarkia)
+                                                         (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))

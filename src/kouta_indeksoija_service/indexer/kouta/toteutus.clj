@@ -52,7 +52,8 @@
                       :hakukohteenLinja
                       :jarjestyspaikkaOid
                       :organisaatioOid
-                      :hasValintaperustekuvausData])
+                      :hasValintaperustekuvausData
+                      :jarjestaaUrheilijanAmmKoulutusta])
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
         (common/decorate-koodi-uris)
         (common/assoc-jarjestyspaikka)

@@ -62,10 +62,14 @@
   (let [hakutieto (search-tool/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)
         toteutus-metadata (:metadata toteutus)
         tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
-        opetus (get-in toteutus [:metadata :opetus])]
+        opetus (get-in toteutus [:metadata :opetus])
+        jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
+                                              (:tarjoajat toteutus)
+                                              (:haut hakutieto))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
+                              :jarjestaa-urheilijan-amm-koulutusta jarjestaa-urheilijan-amm-koulutusta
                               :oppilaitos oppilaitos
                               :hakutiedot (get-search-hakutiedot hakutieto)
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))

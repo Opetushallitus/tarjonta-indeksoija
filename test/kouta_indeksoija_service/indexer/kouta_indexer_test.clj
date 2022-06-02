@@ -161,6 +161,14 @@
         (i/index-oppilaitokset [default-jarjestyspaikka-oid] (. System (currentTimeMillis)))
         (is (= "1.2.246.562.20.00000000000000000002" (:oid (get-doc hakukohde/index-name "1.2.246.562.20.00000000000000000002"))))))))
 
+(deftest index-oppilaitoksen-osa-2
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index toteutus when indexing oppilaitoksen osa"
+      (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-without-parents mocks/mock-organisaatio]
+        (check-all-nil)
+        (i/index-oppilaitokset [mocks/Toimipiste1OfOppilaitos1] (. System (currentTimeMillis)))
+        (is (= toteutus-oid2 (:oid (get-doc toteutus/index-name toteutus-oid2))))))))
+
 (deftest index-organisaatio-no-oppilaitokset-test
   (fixture/with-mocked-indexing
    (with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja (fn [oid] (throw (Exception. (str "I was called with [" oid "]"))))

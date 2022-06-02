@@ -236,6 +236,18 @@
   (let [pred (fn [hk] (some (fn [oid] (= oid (:jarjestyspaikkaOid hk))) oids))]
     (map :oid (filter pred (vals @hakukohteet)))))
 
+(defn mock-get-toteutus-oids-by-tarjoajat
+  [oids execution-id]
+  (let [pred (fn [toteutus]
+               (some
+                 (fn [oid]
+                   (some
+                     (fn [tarjoaja-oid]
+                       (= oid tarjoaja-oid))
+                     (:tarjoajat toteutus)))
+                 oids))]
+    (map :oid (filter pred (vals @toteutukset)))))
+
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
   (let [toteutus (fix-default-format (merge default-toteutus-map params {:organisaatio Oppilaitos1 :koulutusOid koulutusOid :oid oid}))]
@@ -499,14 +511,6 @@
       (assoc :sorakuvaukset (map :id (vals @sorakuvaukset)))
       (assoc :oppilaitokset (map :oid (vals @oppilaitokset)))))
 
-(defn mock-get-oppilaitos-hierarkia [oid execution-id]
-  (let [oppilaitoksen-osa (mock-get-oppilaitoksen-osa oid)
-        oppilaitos (mock-get-oppilaitos oid execution-id)
-        osat (mock-get-oppilaitoksen-osat-by-oppilaitos oid execution-id)]
-    (if (nil? oppilaitoksen-osa) 
-      (when (not (nil? oppilaitos)) (assoc oppilaitos :osat osat))
-      oppilaitoksen-osa)))
-
 (defn reset-indices
   []
   (doseq [index (->> (admin/list-indices-and-aliases)
@@ -674,8 +678,8 @@
                  kouta-indeksoija-service.rest.kouta/get-oppilaitos-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos
 
-                 kouta-indeksoija-service.rest.kouta/get-oppilaitos-hierarkia-with-cache
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitos-hierarkia
+                 kouta-indeksoija-service.rest.kouta/get-oppilaitokset-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-oppilaitokset
 
                  kouta-indeksoija-service.rest.kouta/get-hakutiedot-for-koulutus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakutiedot-for-koulutus
@@ -694,6 +698,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikat
+
+                 kouta-indeksoija-service.rest.kouta/get-toteutus-oids-by-tarjoajat-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-toteutus-oids-by-tarjoajat
 
                  kouta-indeksoija-service.rest.kouta/list-koulutus-oids-by-sorakuvaus-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-koulutus-oids-by-sorakuvaus
@@ -740,6 +747,14 @@
                  kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
                  mock-koulutustyyppi-koodisto]
      (do ~@body)))
+
+
+(defn mock-get-oppilaitokset
+  [oids execution-id]
+  (let [oppilaitokset-ja-osat (apply concat
+                                     (for [oid oids] [(get @oppilaitokset oid) (get @oppilaitoksen-osat oid)]))]
+    {:oppilaitokset (filter some? oppilaitokset-ja-osat)
+     :organisaatioHierarkia (mocked-hierarkia-default-entity (first oids))}))
 
 (defn index-oppilaitokset
   [oids]

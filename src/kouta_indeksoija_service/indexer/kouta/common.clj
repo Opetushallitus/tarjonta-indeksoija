@@ -79,7 +79,11 @@
 (defn assoc-jarjestyspaikka
   [entry]
   (if-let [oid (:jarjestyspaikkaOid entry)]
-    (assoc (dissoc entry :jarjestyspaikkaOid) :jarjestyspaikka (get-tarjoaja oid))
+    (assoc (dissoc entry :jarjestyspaikkaOid :jarjestaaUrheilijanAmmKoulutusta)
+           :jarjestyspaikka
+           (assoc (get-tarjoaja oid)
+                  :jarjestaaUrheilijanAmmKoulutusta
+                  (get-in entry [:jarjestaaUrheilijanAmmKoulutusta])))
     entry))
 
 (defn assoc-muokkaaja

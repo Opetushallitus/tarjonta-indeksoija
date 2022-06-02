@@ -155,10 +155,12 @@
                                                                                (:oid)
                                                                                (kouta-backend/get-koulutukset-by-tarjoaja-with-cache execution-id)))] result))
         entries (oppilaitos/do-index oids execution-id)
-        hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids execution-id)]
+        hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids execution-id)
+        toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids execution-id)]
+    (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
     (oppilaitos-search/do-index oids execution-id)
     (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids) execution-id)
-    (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
+    (toteutus/do-index toteutus-oids execution-id)
     entries))
 
 (defn index-oppilaitos
