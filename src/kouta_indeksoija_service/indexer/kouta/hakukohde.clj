@@ -202,7 +202,9 @@
 
 
 (defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka]
-  (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka)))
+  (if (= (:tila jarjestyspaikka) "julkaistu")
+    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka))
+    hakukohde))
 
 (defn- assoc-nimi-as-esitysnimi
   [hakukohde]
