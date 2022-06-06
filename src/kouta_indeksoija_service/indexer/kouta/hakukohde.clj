@@ -212,18 +212,19 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [hakukohde (-> (kouta-backend/get-hakukohde-with-cache oid execution-id)
-                      (assoc-nimi-as-esitysnimi)
-                      (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
-                      (common/complete-entry))]
-    (if (not-poistettu? hakukohde)
-      (let [haku              (kouta-backend/get-haku-with-cache (:hakuOid hakukohde) execution-id)
-            toteutus          (kouta-backend/get-toteutus-with-cache (:toteutusOid hakukohde) execution-id)
-            koulutus          (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)
-            sora-kuvaus       (kouta-backend/get-sorakuvaus-with-cache (:sorakuvausId koulutus) execution-id)
-            valintaperusteId  (:valintaperusteId hakukohde)
-            valintaperuste    (when-not (clojure.string/blank? valintaperusteId)
-                                (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
+  (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
+    (if (not-poistettu? hakukohde-from-kouta)
+      (let [hakukohde (-> hakukohde-from-kouta
+                          (assoc-nimi-as-esitysnimi)
+                          (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
+                          (common/complete-entry))
+            haku (kouta-backend/get-haku-with-cache (:hakuOid hakukohde) execution-id)
+            toteutus (kouta-backend/get-toteutus-with-cache (:toteutusOid hakukohde) execution-id)
+            koulutus (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)
+            sora-kuvaus (kouta-backend/get-sorakuvaus-with-cache (:sorakuvausId koulutus) execution-id)
+            valintaperusteId (:valintaperusteId hakukohde)
+            valintaperuste (when-not (clojure.string/blank? valintaperusteId)
+                             (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
             jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
             jarjestyspaikka-oppilaitos (when-not (clojure.string/blank? jarjestyspaikkaOid)
                                          (first
@@ -243,7 +244,7 @@
                                                          (assoc-hakulomake-linkki haku)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
-      (indexable/->delete-entry-with-forwarded-data oid hakukohde))))
+      (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
 
 (defn do-index
   [oids execution-id]

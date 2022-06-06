@@ -12,7 +12,8 @@
 (defn not-poistettu?
   [entry]
   (let [tila (:tila entry)]
-    (and (not (nil? tila))
+    (and (not (nil? entry))
+         (not (nil? tila))
          (not= tila "poistettu"))))
 
 (defn luonnos?

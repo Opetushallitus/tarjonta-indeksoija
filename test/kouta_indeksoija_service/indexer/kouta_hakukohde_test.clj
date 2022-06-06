@@ -255,6 +255,15 @@
    (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
    (is (= false (search-terms-key-not-empty oppilaitos-search/index-name mocks/Oppilaitos1 :hakutiedot))))))
 
+(deftest delete-nil-hakukohde
+  (fixture/with-mocked-indexing
+    (testing "Indexer should delete hakukohde that does not exist in kouta"
+      (check-all-nil)
+      (i/index-hakukohteet [hakukohde-oid2] (. System (currentTimeMillis)))
+      (fixture/update-hakukohde-mock hakukohde-oid2) ;;Päivitetään hakukohteen arvoksi nil
+      (i/index-hakukohteet [hakukohde-oid2] (. System (currentTimeMillis)))
+      (is (nil? (get-doc hakukohde/index-name hakukohde-oid2))))))
+
 (deftest index-hakukohde-jarjestaa-urheilijan-amm-koulutusta-true-with-oppilaitoksen-osa
   (fixture/with-mocked-indexing
     (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=true to hakukohde from oppilaitoksen osa järjestyspaikka"

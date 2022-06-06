@@ -87,3 +87,13 @@
      (is (nil? (get-doc toteutus/index-name toteutus-oid3)))
      (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
      (is (= false (search-terms-key-not-empty oppilaitos-search/index-name mocks/Oppilaitos1 :hakutiedot))))))
+
+(deftest delete-nil-haku
+  (fixture/with-mocked-indexing
+    (testing "Indexer should delete haku that does not exist in kouta and related hakukohde"
+      (check-all-nil)
+      (i/index-haut [ei-julkaistu-haku-oid] (. System (currentTimeMillis)))
+      (fixture/update-haku-mock ei-julkaistu-haku-oid) ;;Päivitetään haun arvoksi nil
+      (i/index-haut [ei-julkaistu-haku-oid] (. System (currentTimeMillis)))
+      (is (nil? (get-doc haku/index-name ei-julkaistu-haku-oid)))
+      (is (nil? (get-doc haku/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid))))))

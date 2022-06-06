@@ -259,3 +259,12 @@
      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
        (is (= 13 opintojenLaajuusNumero))))))
+
+(deftest delete-nil-koulutus
+  (fixture/with-mocked-indexing
+    (testing "Indexer should delete koulutus that does not exist in kouta"
+      (check-all-nil)
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (fixture/update-koulutus-mock koulutus-oid) ;;Päivitetään koulutuksen arvoksi nil
+      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+      (is (nil? (get-doc koulutus/index-name koulutus-oid))))))
