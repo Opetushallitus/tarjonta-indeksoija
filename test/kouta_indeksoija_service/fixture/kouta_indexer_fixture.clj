@@ -361,8 +361,11 @@
 
 (defn update-valintaperuste-mock
   [id & {:as params}]
-  (let [valintaperuste (merge (get @valintaperusteet id) params)]
-    (swap! valintaperusteet assoc id valintaperuste)))
+  (if (nil? params)
+    (swap! valintaperusteet assoc id nil)
+    (let [valintaperuste (merge (get @valintaperusteet id) params)]
+      (swap! valintaperusteet assoc id valintaperuste))
+    ))
 
 (defn mock-get-valintaperuste
   [id execution-id]
@@ -376,8 +379,11 @@
 
 (defn update-sorakuvaus-mock
   [id & {:as params}]
-  (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
-    (swap! sorakuvaukset assoc id sorakuvaus)))
+  (if (nil? params)
+    (swap! sorakuvaukset assoc id nil)
+    (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
+      (swap! sorakuvaukset assoc id sorakuvaus))
+    ))
 
 (defn add-oppilaitos-mock
   [oid & {:as params}]
