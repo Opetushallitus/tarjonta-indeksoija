@@ -36,9 +36,16 @@
         body     (:body response)]
     (case status
       200 body
-      404 (do (log/warn  "Got " status " from " method-name ": " url " with body " body) nil)
-      nil (do (log/error  "Got " status " from " method-name ": " url " with error: " (if (instance? Exception response) (.getMessage response) response)) nil)
-      (do (log/error "Got " status " from " method-name ": " url " with response " response) nil))))
+      404 (do (log/warn "Got " status " from " method-name ": " url " with body " body) nil)
+      nil (do (log/error "Got " status " from " method-name ": " url " with error: "
+                         (if (instance? Exception response)
+                           (.getMessage response)
+                           response))
+              (if (instance? Exception response)
+                (throw response)
+                (throw (Exception. (str response)))))
+      (do (log/error "Got " status " from " method-name ": " url " with response " response)
+          (throw (Exception. (str body)))))))
 
 (defn ->json-body-with-error-handling
   [url method opts]
