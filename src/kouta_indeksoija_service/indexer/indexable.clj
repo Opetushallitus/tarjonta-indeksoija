@@ -28,7 +28,7 @@
   [oid f execution-id]
   (try (f oid execution-id)
      (catch Exception e
-       (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe. Keskeytetään indeksointi.")
+       (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe! Keskeytetään indeksointi.")
        (throw e))))
 
 (defn- create-actions
