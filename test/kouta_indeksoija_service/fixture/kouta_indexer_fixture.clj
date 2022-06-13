@@ -218,8 +218,11 @@
 
 (defn update-koulutus-mock
   [oid & {:as params}]
-  (let [koulutus (fix-default-format (merge (get @koulutukset oid) params))]
-    (swap! koulutukset assoc oid koulutus)))
+  (if (nil? params)
+    (swap! koulutukset assoc oid nil)
+    (let [koulutus (fix-default-format (merge (get @koulutukset oid) params))]
+      (swap! koulutukset assoc oid koulutus))
+    ))
 
 (defn mock-get-koulutus
   [oid execution-id]
@@ -255,8 +258,11 @@
 
 (defn update-toteutus-mock
   [oid & {:as params}]
-  (let [toteutus (merge (get @toteutukset oid) params)]
-    (swap! toteutukset assoc oid toteutus)))
+  (if (nil? params)
+    (swap! toteutukset assoc oid nil)
+    (let [toteutus (merge (get @toteutukset oid) params)]
+      (swap! toteutukset assoc oid toteutus))
+    ))
 
 (defn mock-get-toteutus
   [oid execution-id]
@@ -295,8 +301,10 @@
 
 (defn update-haku-mock
   [oid & {:as params}]
-  (let [haku (merge (get @haut oid) params)]
-    (swap! haut assoc oid haku)))
+  (if (nil? params)
+      (swap! haut assoc oid nil)
+    (let [haku (merge (get @haut oid) params)]
+      (swap! haut assoc oid haku))))
 
 (defn mock-get-haku
   [oid execution-id]
@@ -331,8 +339,11 @@
 
 (defn update-hakukohde-mock
   [oid & {:as params}]
-  (let [hakukohde (merge (get @hakukohteet oid) params)]
-    (swap! hakukohteet assoc oid hakukohde)))
+  (if (nil? params)
+    (swap! hakukohteet assoc oid nil)
+    (let [hakukohde (merge (get @hakukohteet oid) params)]
+      (swap! hakukohteet assoc oid hakukohde))
+    ))
 
 (defn mock-get-hakukohde
   [oid execution-id]
@@ -350,8 +361,11 @@
 
 (defn update-valintaperuste-mock
   [id & {:as params}]
-  (let [valintaperuste (merge (get @valintaperusteet id) params)]
-    (swap! valintaperusteet assoc id valintaperuste)))
+  (if (nil? params)
+    (swap! valintaperusteet assoc id nil)
+    (let [valintaperuste (merge (get @valintaperusteet id) params)]
+      (swap! valintaperusteet assoc id valintaperuste))
+    ))
 
 (defn mock-get-valintaperuste
   [id execution-id]
@@ -365,8 +379,11 @@
 
 (defn update-sorakuvaus-mock
   [id & {:as params}]
-  (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
-    (swap! sorakuvaukset assoc id sorakuvaus)))
+  (if (nil? params)
+    (swap! sorakuvaukset assoc id nil)
+    (let [sorakuvaus (merge (get @sorakuvaukset id) params)]
+      (swap! sorakuvaukset assoc id sorakuvaus))
+    ))
 
 (defn add-oppilaitos-mock
   [oid & {:as params}]
@@ -734,6 +751,9 @@
 
                  kouta-indeksoija-service.rest.eperuste/get-doc-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
+
+                 kouta-indeksoija-service.rest.eperuste/get-osaamisalakuvaukset
+                 kouta-indeksoija-service.fixture.external-services/mock-get-osaamisalakuvaukset
 
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit

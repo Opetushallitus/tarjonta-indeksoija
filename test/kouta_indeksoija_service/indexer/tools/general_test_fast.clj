@@ -67,3 +67,19 @@
                                                        :koulutuksenAlkamisvuosi "2022"}}}]
       (is (= (general/remove-version-from-koodiuri haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausi :koodiUri])
              result)))))
+
+(deftest not-poistettu?
+  (testing "returns true for entry with tila as tallennettu"
+    (let [entry {:tila "tallennettu"}]
+      (is (= true (general/not-poistettu? entry)))))
+
+  (testing "returns false for entry with tila as poistettu"
+    (let [entry {:tila "poistettu"}]
+      (is (= false (general/not-poistettu? entry)))))
+
+  (testing "returns false for entry that doesn't exist"
+    (is (= false (general/not-poistettu? nil))))
+
+  (testing "returns false for entry that doesn't have tila set"
+    (is (= false (general/not-poistettu? {}))))
+  )

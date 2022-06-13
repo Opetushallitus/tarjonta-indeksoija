@@ -131,3 +131,21 @@
        {:oid (first oids)}
        {:oid (second oids)}
        (vec (map (fn [o] {:oid o}) (last oids)))))))
+
+(defn mock-get-osaamisalakuvaukset
+  [eperuste-id eperuste-tila]
+  [{
+    :id 5697410
+    :nimi {
+           :fi "Osaamisala"
+           :sv "Kompetensområdet"}
+    :tila "valmis"
+    :teksti {
+             :fi "<p>Kuvaus suomeksi</p>"
+             :sv "<p>Kuvaus ruotsiksi</p<"}
+    :osaamisala {
+                 :nimi {
+                        :fi "Osaamisala"
+                        :sv "Kompetensområdet"}
+                 :uri "osaamisala_3157"
+                 :koodisto "osaamisala"}}])

@@ -24,16 +24,16 @@
   (when (not-empty actions)
     (tools/bulk index-name actions)))
 
-(defn- eat-and-log-errors
+(defn- log-errors
   [oid f execution-id]
   (try (f oid execution-id)
      (catch Exception e
-       (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe.")
-       nil)))
+       (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe. Keskeytetään indeksointi.")
+       (throw e))))
 
 (defn- create-actions
   [oids f execution-id]
-  (flatten (doall (pmap #(eat-and-log-errors % f execution-id) oids))))
+  (flatten (doall (pmap #(log-errors % f execution-id) oids))))
 
 (defn- index-chunk
   [index-name oids f execution-id]

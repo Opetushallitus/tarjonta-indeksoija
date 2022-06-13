@@ -74,3 +74,12 @@
      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid)))
      (is (= 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :toteutusOid toteutus-oid2))))))
+
+(deftest delete-nil-toteutus
+  (fixture/with-mocked-indexing
+    (testing "Indexer should delete toteutus that does not exist in kouta"
+      (check-all-nil)
+      (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
+      (fixture/update-toteutus-mock toteutus-oid) ;;Päivitetään toteutuksen arvoksi nil
+      (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
+      (is (nil? (get-doc toteutus/index-name toteutus-oid))))))
