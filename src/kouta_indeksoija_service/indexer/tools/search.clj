@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-ope-erityisope-ja-opo? amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-ope-erityisope-ja-opo? kk-opintojakso? amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -94,8 +94,10 @@
   (cond
     (ammatillinen? koulutus)            (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
     (amm-osaamisala? koulutus)          (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
-    (amm-muu? koulutus)                 (get-in koulutus [:metadata :opintojenLaajuusNumero])
-    (aikuisten-perusopetus? koulutus)   (get-in koulutus [:metadata :opintojenLaajuusNumero])
+    (or
+     (amm-muu? koulutus)
+     (aikuisten-perusopetus? koulutus)
+     (kk-opintojakso? koulutus))        (get-in koulutus [:metadata :opintojenLaajuusNumero])
     :default                   (edn/read-string (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo number-or-nil))))
 
 (defn opintojen-laajuusyksikko-koodi-uri
@@ -222,6 +224,7 @@
      (vapaa-sivistystyo-opistovuosi? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
      (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
      (amm-ope-erityisope-ja-opo? koulutus) [koulutustyyppi "amk-muu"]
+     (kk-opintojakso? koulutus) [koulutustyyppi "kk-muu"]
      :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
    (deduce-koulutustyypit koulutus nil)))
