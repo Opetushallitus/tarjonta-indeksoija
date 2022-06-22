@@ -17,6 +17,14 @@
 
 (defonce koodiuri-koulutusalataso2 "kansallinenkoulutusluokitus2016koulutusalataso2")
 
+(defonce koulutusalataso-koodistot [koodiuri-koulutusalataso1
+                                    koodiuri-koulutusalataso2
+                                    "kansallinenkoulutusluokitus2016koulutusalataso3"])
+
+(defonce koulutusaste-koodistot ["kansallinenkoulutusluokitus2016koulutusastetaso1"
+                                 "kansallinenkoulutusluokitus2016koulutusastetaso2"
+                                 "okmohjauksenala"])
+
 (defn paikkakunta
   [kuntaKoodiUri]
   (get-koodi-nimi-with-cache "kunta" kuntaKoodiUri))
@@ -39,11 +47,25 @@
 
 (defn koulutusalat-taso1
   [koulutusKoodiUri]
-  (list-alakoodi-nimet-with-cache koulutusKoodiUri "kansallinenkoulutusluokitus2016koulutusalataso1"))
+  (list-alakoodi-nimet-with-cache koulutusKoodiUri koodiuri-koulutusalataso1))
 
 (defn koulutusalat-taso2
   [koulutusKoodiUri]
-  (list-alakoodi-nimet-with-cache koulutusKoodiUri "kansallinenkoulutusluokitus2016koulutusalataso2"))
+  (list-alakoodi-nimet-with-cache koulutusKoodiUri koodiuri-koulutusalataso2))
+
+(defn- get-koodiurit-from-ala-koodistot
+  [koulutusKoodiUri koodistot]
+  (->> koodistot
+       (mapcat (list-alakoodi-nimet-with-cache koulutusKoodiUri %))
+       (map :koodiUri)))
+
+(defn koulutusalat
+  [koulutusKoodiUri]
+  (get-koodiurit-from-ala-koodistot koulutusKoodiUri koulutusalataso-koodistot))
+
+(defn koulutusasteet
+  [koulutusKoodiUri]
+  (get-koodiurit-from-ala-koodistot koulutusKoodiUri koulutusaste-koodistot))
 
 (defn koulutustyypit
   [koulutusKoodiUri]
