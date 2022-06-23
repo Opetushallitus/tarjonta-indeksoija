@@ -142,7 +142,8 @@
 
 (defn- create-koulutuskoodiuri-with-aste-and-ala
   [koodiuri]
-  {:koulutusalaKoodit (koodisto/koulutusalat koodiuri)
+  {:koulutusKoodiUri koodiuri
+   :koulutusalaKoodit (koodisto/koulutusalat koodiuri)
    :koulutusasteKoodit (koodisto/koulutusasteet koodiuri)})
 
 (defn- assoc-koulutusala-and-koulutusaste
