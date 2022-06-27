@@ -56,7 +56,7 @@
 (defn- get-koodiurit-from-ala-koodistot
   [koulutusKoodiUri koodistot]
   (->> koodistot
-       (mapcat (list-alakoodi-nimet-with-cache koulutusKoodiUri %))
+       (mapcat #(list-alakoodi-nimet-with-cache koulutusKoodiUri %))
        (map :koodiUri)))
 
 (defn koulutusalat
