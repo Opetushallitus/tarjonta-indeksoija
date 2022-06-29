@@ -24,16 +24,19 @@
   (when (not-empty actions)
     (tools/bulk index-name actions)))
 
-(defn- log-errors
+(defn- handle-errors
   [oid f execution-id]
   (try (f oid execution-id)
      (catch Exception e
-       (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe. Keskeytetään indeksointi.")
-       (throw e))))
+       (if (clojure.string/starts-with? execution-id "MASSA")
+         (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe.")
+         (do
+           (log/error e "ID: " execution-id " Indeksoinnissa " oid " tapahtui virhe. Keskeytetään indeksointi.")
+           (throw e))))))
 
 (defn- create-actions
   [oids f execution-id]
-  (flatten (doall (pmap #(log-errors % f execution-id) oids))))
+  (flatten (doall (pmap #(handle-errors % f execution-id) oids))))
 
 (defn- index-chunk
   [index-name oids f execution-id]
