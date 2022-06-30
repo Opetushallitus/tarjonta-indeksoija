@@ -102,6 +102,13 @@ sammuttaisi. Tämä onnnistuu ajamalla ensin (ainoastataan ensimmäisellä kerra
 ```shell
 docker volume create kouta-elastic-data
 ```
+
+elasticsearch-koutan lataaminen vaatii kirjautumista ecr:n
+
+```shell
+aws ecr get-login-password --region eu-west-1 --profile oph-utility | docker login --username AWS --password-stdin 190073735177.dkr.ecr.eu-west-1.amazonaws.com
+```
+
 Jonka jälkeen kontin saa käyntiin komennolla:
 ```shell
 docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -v kouta-elastic-data:/usr/share/elasticsearch/data 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:7.17.3
