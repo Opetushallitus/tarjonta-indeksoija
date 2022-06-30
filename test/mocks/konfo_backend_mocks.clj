@@ -255,8 +255,6 @@
                 {:tyyppi           "yo"
                  :asiasanat        []
                  :ammattinimikkeet []
-                 :alemmanKorkeakoulututkinnonOsaamisalat []
-                 :ylemmanKorkeakoulututkinnonOsaamisalat []
                  :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
                  }))
 

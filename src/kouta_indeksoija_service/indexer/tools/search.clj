@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-ope-erityisope-ja-opo? kk-opintojakso? amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-ope-erityisope-ja-opo? kk-opintojakso? erikoislaakari? amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -225,6 +225,7 @@
      (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi "vapaa-sivistystyo"]
      (amm-ope-erityisope-ja-opo? koulutus) [koulutustyyppi "amk-muu"]
      (kk-opintojakso? koulutus) [koulutustyyppi "kk-muu"]
+     (erikoislaakari? koulutus) [koulutustyyppi "kk-muu"]
      :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
    (deduce-koulutustyypit koulutus nil)))
