@@ -8,7 +8,8 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu? aikuisten-perusopetus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koodiuri-viikko-laajuusyksikko koodiuri-osaamispiste-laajuusyksikko]]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]))
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]))
 
 (def index-name "koulutus-kouta")
 
@@ -139,6 +140,19 @@
     (assoc koulutus :sorakuvaus (common/complete-entry (kouta-backend/get-sorakuvaus-with-cache sorakuvaus-id execution-id)))
     koulutus))
 
+(defn- create-koulutuskoodiuri-with-aste-and-ala
+  [koodiuri]
+  {:koulutusKoodiUri koodiuri
+   :koulutusalaKoodiUrit (koodisto/koulutusalat koodiuri)
+   :koulutusasteKoodiUrit (koodisto/koulutusasteet koodiuri)})
+
+(defn- assoc-koulutusala-and-koulutusaste
+  [koulutus]
+  (let [koulutusAlaJaAstekoodiUrit (->> (:koulutukset koulutus)
+                                        (map :koodiUri)
+                                        (map create-koulutuskoodiuri-with-aste-and-ala))]
+    (assoc koulutus :koulutuskoodienAlatJaAsteet koulutusAlaJaAstekoodiUrit)))
+
 (defn create-index-entry
   [oid execution-id]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus-with-cache oid execution-id))]
@@ -149,6 +163,7 @@
                                   (enrich-metadata)
                                   (assoc-sorakuvaus execution-id)
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
+                                  (assoc-koulutusala-and-koulutusaste)
                                   (common/localize-dates))]
         (indexable/->index-entry-with-forwarded-data oid koulutus-enriched koulutus-enriched))
       (indexable/->delete-entry-with-forwarded-data oid koulutus))))
