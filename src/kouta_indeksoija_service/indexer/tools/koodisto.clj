@@ -19,11 +19,11 @@
 
 (defonce koulutusalataso-koodistot [koodiuri-koulutusalataso1
                                     koodiuri-koulutusalataso2
-                                    "kansallinenkoulutusluokitus2016koulutusalataso3"])
+                                    "kansallinenkoulutusluokitus2016koulutusalataso3"
+                                    "okmohjauksenala"])
 
 (defonce koulutusaste-koodistot ["kansallinenkoulutusluokitus2016koulutusastetaso1"
-                                 "kansallinenkoulutusluokitus2016koulutusastetaso2"
-                                 "okmohjauksenala"])
+                                 "kansallinenkoulutusluokitus2016koulutusastetaso2"])
 
 (defn paikkakunta
   [kuntaKoodiUri]
