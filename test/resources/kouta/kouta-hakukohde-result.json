@@ -453,5 +453,9 @@
   "externalId": "3344556677",
   "jarjestaaUrheilijanAmmKoulutusta": false,
   "koulutustyyppi": "amm",
-  "paateltyAlkamiskausi": {"kausiUri": "kausi_k#1", "vuosi": 2022, "alkamiskausityyppi": "tarkka alkamisajankohta"}
+  "paateltyAlkamiskausi": {
+    "kausiUri": "kausi_k#1",
+    "vuosi": 2022,
+    "alkamiskausityyppi": "tarkka alkamisajankohta",
+    "source": "1.2.246.562.20.00000000000000000001"}
 }

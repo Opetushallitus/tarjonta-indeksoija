@@ -219,19 +219,21 @@
                  "kausi_k#1")
      :vuosi (t/year date)}))
 
-(defn- parse-alkamiskausi [alkamiskausi]
+(defn- parse-alkamiskausi [alkamiskausi oid]
   (let [tyyppi (:alkamiskausityyppi alkamiskausi)
         result (case tyyppi
                  "tarkka alkamisajankohta" (parse-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
                  "alkamiskausi ja -vuosi" {:kausiUri (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) :vuosi (:koulutuksenAlkamisvuosi alkamiskausi)}
                  {})]
     (when (and (:kausiUri result) (:vuosi result))
-      (assoc result :alkamiskausityyppi tyyppi))))
+      (merge result
+             {:alkamiskausityyppi tyyppi
+              :source oid}))))
 
-(defn- assoc-deduced-alkamiskausi-for-hakukohde [hakukohde haku toteutus]
-  (if-let [result (or (parse-alkamiskausi (get-in hakukohde [:metadata :koulutuksenAlkamiskausi]))
-                      (parse-alkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi]))
-                      (parse-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))]
+(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde haku toteutus]
+  (if-let [result (or (parse-alkamiskausi (get-in hakukohde [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
+                      (parse-alkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
+                      (parse-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
     (assoc hakukohde :paateltyAlkamiskausi result)
     hakukohde))
 
@@ -267,7 +269,7 @@
                                                          (assoc-valintaperuste valintaperuste)
                                                          (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
-                                                         (assoc-deduced-alkamiskausi-for-hakukohde haku toteutus)
+                                                         (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
