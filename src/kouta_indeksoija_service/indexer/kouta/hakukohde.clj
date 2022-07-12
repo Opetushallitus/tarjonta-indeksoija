@@ -220,12 +220,13 @@
      :vuosi (t/year date)}))
 
 (defn- parse-alkamiskausi [alkamiskausi]
-  (let [result (case (:alkamiskausityyppi alkamiskausi)
+  (let [tyyppi (:alkamiskausityyppi alkamiskausi)
+        result (case tyyppi
                  "tarkka alkamisajankohta" (parse-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
                  "alkamiskausi ja -vuosi" {:kausiUri (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) :vuosi (:koulutuksenAlkamisvuosi alkamiskausi)}
                  {})]
     (when (and (:kausiUri result) (:vuosi result))
-      result)))
+      (assoc result :alkamiskausityyppi tyyppi))))
 
 (defn- assoc-deduced-alkamiskausi-for-hakukohde [hakukohde haku toteutus]
   (if-let [result (or (parse-alkamiskausi (get-in hakukohde [:metadata :koulutuksenAlkamiskausi]))
