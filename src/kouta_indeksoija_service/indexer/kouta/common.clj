@@ -151,17 +151,15 @@
     (postwalk #(-> %
                    (format-date-kws [:koulutuksenAlkamispaivamaara :koulutuksenPaattymispaivamaara :liitteidenToimitusaika :toimitusaika :modified :paattyy :alkaa])) form)))
 
-(defn- langs-not-in-kielivalinta [form]
-  (let [langs #{:fi :sv :en}
-        used-langs (set (map #(keyword %) (:kielivalinta form)))]
-    (log/info "langs not used: " (apply disj langs used-langs))
-    (apply disj langs used-langs)))
-
 (defn clean-langs-not-in-kielivalinta [form]
-  (let [langs-to-clean (langs-not-in-kielivalinta form)
+  (let [langs #{:fi :sv :en}
+        used-langs (set (map #(keyword %) (:kielivalinta form)))
+        langs-to-clean (apply disj langs used-langs)
         dissoc-langs (fn [x]
                        (if (map? x) (apply dissoc x langs-to-clean) x))]
-    (clojure.walk/postwalk dissoc-langs form)))
+    (if (< 0 (count used-langs))
+      (clojure.walk/postwalk dissoc-langs form)
+      form)))
 
 (defn complete-entry
   [entry]
@@ -170,7 +168,8 @@
       (assoc-organisaatio)
       (assoc-tarjoajat)
       (assoc-jarjestyspaikka)
-      (assoc-muokkaaja)))
+      (assoc-muokkaaja)
+      (clean-langs-not-in-kielivalinta)))
 
 (defn complete-entries
   [entries]
