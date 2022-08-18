@@ -80,6 +80,7 @@
       },
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": true,
+      "hasJotpaRahoitus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
