@@ -11,7 +11,8 @@
             [clj-time.format :as f]
             [clojure.walk :refer [postwalk]]
             [clojure.string :as string]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [clojure.set :as set]))
 
 (defn- strip-koodi-uri-key
   [key]
@@ -154,11 +155,13 @@
 (defn clean-langs-not-in-kielivalinta [form]
   (let [langs #{:fi :sv :en}
         used-langs (set (map #(keyword %) (:kielivalinta form)))
-        langs-to-clean (apply disj langs used-langs)
+        langs-to-clean (set/difference langs used-langs)
         dissoc-langs (fn [x]
                        (if (map? x) (apply dissoc x langs-to-clean) x))]
-    (if (< 0 (count used-langs))
-      (clojure.walk/postwalk dissoc-langs form)
+    (if (and
+          (< 0 (count langs-to-clean))
+          (< (count langs-to-clean) 3))
+      (postwalk dissoc-langs form)
       form)))
 
 (defn complete-entry
