@@ -11,7 +11,8 @@
             [clj-time.format :as f]
             [clojure.walk :refer [postwalk]]
             [clojure.string :as string]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [clojure.set :as set]))
 
 (defn- strip-koodi-uri-key
   [key]
@@ -151,6 +152,18 @@
     (postwalk #(-> %
                    (format-date-kws [:koulutuksenAlkamispaivamaara :koulutuksenPaattymispaivamaara :liitteidenToimitusaika :toimitusaika :modified :paattyy :alkaa])) form)))
 
+(defn clean-langs-not-in-kielivalinta [form]
+  (let [langs #{:fi :sv :en}
+        used-langs (set (map #(keyword %) (:kielivalinta form)))
+        langs-to-clean (set/difference langs used-langs)
+        dissoc-langs (fn [x]
+                       (if (map? x) (apply dissoc x langs-to-clean) x))]
+    (if (and
+          (< 0 (count langs-to-clean))
+          (< (count langs-to-clean) 3))
+      (postwalk dissoc-langs form)
+      form)))
+
 (defn complete-entry
   [entry]
   (-> entry
@@ -158,7 +171,8 @@
       (assoc-organisaatio)
       (assoc-tarjoajat)
       (assoc-jarjestyspaikka)
-      (assoc-muokkaaja)))
+      (assoc-muokkaaja)
+      (clean-langs-not-in-kielivalinta)))
 
 (defn complete-entries
   [entries]
