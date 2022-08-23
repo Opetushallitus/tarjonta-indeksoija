@@ -120,6 +120,8 @@
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
                   (assoc :opintojenLaajuus        (search-tool/opintojen-laajuus-koodi-uri koulutus))
                   (assoc :opintojenLaajuusNumero  (search-tool/opintojen-laajuus-numero koulutus))
+                  (assoc :opintojenLaajuusNumeroMin (get-in koulutus [:metadata :opintojenLaajuusNumeroMin]))
+                  (assoc :opintojenLaajuusNumeroMax (get-in koulutus [:metadata :opintojenLaajuusNumeroMax]))
                   (assoc :opintojenLaajuusyksikko (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :search_terms (:search_terms koulutus))

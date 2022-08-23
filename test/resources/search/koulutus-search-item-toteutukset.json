@@ -21,6 +21,8 @@
     }
   },
   "opintojenLaajuusNumero": 150,
+  "opintojenLaajuusNumeroMin": null,
+  "opintojenLaajuusNumeroMax": null,
   "opintojenLaajuus": {
     "koodiUri": "opintojenlaajuus_150",
     "nimi": {
