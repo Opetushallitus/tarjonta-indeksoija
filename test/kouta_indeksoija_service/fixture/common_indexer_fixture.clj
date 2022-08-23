@@ -65,9 +65,14 @@
                       (.plusDays days-in-future))]
     (format/unparse-local formatter test-date)))
 
+(def far-enough-in-the-future-start-time "2042-03-24T09:49")
+(def far-enough-in-the-future-end-time "2042-03-29T09:49")
+
 (defn replace-times
   [json-string]
   (-> json-string
+      (string/replace "!!startTime1hc" far-enough-in-the-future-start-time)
+      (string/replace "!!endTime1hc" far-enough-in-the-future-end-time)
       (string/replace "!!startTime1" (test-date "09:49" 1))
       (string/replace "!!endTime1" (test-date "09:58" 1))
       (string/replace "!!time3" (test-date "09:58" 3))

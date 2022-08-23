@@ -47,6 +47,10 @@
   (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
     (str day "T09:49")))
 
+(def far-enough-in-the-future-start-time "2042-03-24T09:49")
+
+(def far-enough-in-the-future-end-time "2042-03-29T09:49")
+
 (defn common-end-time
   []
   (let [day (time-format/unparse (time-format/formatter "yyyy-MM-dd") (time/plus (time/now) (time/days 1)))]
@@ -330,8 +334,8 @@
                                                   :paattyy (if (nil? (:hakuaikaPaattyy hk))
                                                              (common-end-time) (:hakuaikaPaattyy hk))}])
                                (dissoc :hakuaikaAlkaa :hakuaikaPaattyy)
-                               (set-vals-in-depth :koulutuksenAlkamispaivamaara (common-start-time))
-                               (set-vals-in-depth :koulutuksenPaattymispaivamaara (common-end-time))
+                               (set-vals-in-depth :koulutuksenAlkamispaivamaara far-enough-in-the-future-start-time)
+                               (set-vals-in-depth :koulutuksenPaattymispaivamaara far-enough-in-the-future-end-time)
                                (set-vals-in-depth :toimitusaika (common-end-time))))
         fix-valintaperuste (fn [hk] (if (:valintaperuste hk) (assoc hk :valintaperusteId (:valintaperuste hk)) hk))
         fix-muu-pk-vaatimus (fn [hk] (if (nil? (:muuPohjakoulutusvaatimus hk)) (assoc hk :muuPohjakoulutusvaatimus {}) hk))

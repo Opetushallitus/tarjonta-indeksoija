@@ -332,8 +332,8 @@
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
-      "koulutuksenAlkamispaivamaara": "!!startTime1",
-      "koulutuksenPaattymispaivamaara": "!!endTime1"
+      "koulutuksenAlkamispaivamaara": "!!startTime1hc",
+      "koulutuksenPaattymispaivamaara": "!!endTime1hc"
     },
     "aloituspaikat": {
       "lukumaara": 100,
@@ -455,7 +455,7 @@
   "koulutustyyppi": "amm",
   "paateltyAlkamiskausi": {
     "kausiUri": "kausi_k#1",
-    "vuosi": 2022,
+    "vuosi": 2042,
     "alkamiskausityyppi": "tarkka alkamisajankohta",
     "source": "1.2.246.562.20.00000000000000000001"}
 }
