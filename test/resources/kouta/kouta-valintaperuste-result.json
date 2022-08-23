@@ -189,10 +189,6 @@
             "sv": "valintatapajono_av#1 nimi sv"
           }
         },
-        "kuvaus": {
-          "fi": "kuvaus fi",
-          "sv": "kuvaus sv"
-        },
         "sisalto": [
           {
             "tyyppi": "teksti",
