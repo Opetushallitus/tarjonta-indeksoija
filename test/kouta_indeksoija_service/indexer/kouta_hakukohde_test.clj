@@ -15,7 +15,7 @@
 
 (use-fixtures :each common-indexer-fixture)
 
-(deftest index-hakukohde-test
+(comment (deftest index-hakukohde-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
      (check-all-nil)
@@ -292,4 +292,4 @@
       (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid oppilaitos-oid)
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-        (is (false? (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))))
+        (is (false? (:jarjestaaUrheilijanAmmKoulutusta hakukohde))))))))
