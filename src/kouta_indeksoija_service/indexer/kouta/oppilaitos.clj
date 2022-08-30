@@ -33,15 +33,6 @@
                                             (common/complete-entry)
                                             (dissoc :oid)))))
 
-(defn- oppilaitoksen-osa-entry
-  [organisaatio oppilaitoksen-osa]
-  ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
-  ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
-  (cond-> (organisaatio-entry organisaatio)
-    (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
-                                                         (common/complete-entry)
-                                                         (dissoc :oppilaitosOid :oid)))))
-
 (defn create-kielistetty-yhteystieto
   [yhteystieto-group yhteystieto-keyword languages]
   (into
@@ -129,6 +120,27 @@
       (assoc yhteystiedot-from-oppilaitos-metadata json-key osoite-str))
     yhteystiedot-from-oppilaitos-metadata))
 
+(defn- oppilaitoksen-osa-entry
+  [organisaatio oppilaitoksen-osa]
+  ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
+  ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
+  (let [hakijapalveluiden-yhteystiedot (-> (get-in oppilaitoksen-osa [:metadata :hakijapalveluidenYhteystiedot])
+                                           (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                                           (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))]
+    (-> oppilaitoksen-osa
+        (common/complete-entry)
+        (assoc :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
+        (dissoc :oppilaitosOid :oid)))
+  (cond-> (organisaatio-entry organisaatio)
+          (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (let [hakijapalveluiden-yhteystiedot (-> (get-in oppilaitoksen-osa [:metadata :hakijapalveluidenYhteystiedot])
+                                                                                                    (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                                                                                                    (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
+                                                                 add-tiedot-fn (fn [oo] (if (nil? hakijapalveluiden-yhteystiedot) oo (assoc oo :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)))]
+                                                             (-> oppilaitoksen-osa
+                                                                 (common/complete-entry)
+                                                                 (add-tiedot-fn)
+                                                                 (dissoc :oppilaitosOid :oid))))))
+
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
   (let [org-from-organisaatio-palvelu (organisaatio-client/get-by-oid-cached (:oid organisaatio))
@@ -143,7 +155,7 @@
         oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid execution-id) {})
         oppilaitos-from-organisaatiopalvelu (organisaatio-client/get-by-oid-cached oppilaitos-oid)
         yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
-        hakijapalveluiden-yhteystiedot (-> (get-in (get-in oppilaitos [:metadata]) [:hakijapalveluidenYhteystiedot])
+        hakijapalveluiden-yhteystiedot (-> (get-in oppilaitos [:metadata :hakijapalveluidenYhteystiedot])
                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                                            (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
         oppilaitos-metadata (assoc
