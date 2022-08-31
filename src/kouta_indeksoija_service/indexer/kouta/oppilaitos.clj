@@ -124,13 +124,14 @@
   [organisaatio oppilaitoksen-osa]
   ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
   ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
-  (cond-> (organisaatio-entry organisaatio)
-          (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
-                                                               (common/complete-entry)
-                                                               (update-in [:metadata :hakijapalveluidenYhteystiedot] (fn [yhteystiedot] (-> yhteystiedot
-                                                                                                                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
-                                                                                                                                            (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))))
-                                                               (dissoc :oppilaitosOid :oid)))))
+  (let [update-yhteystiedot-fn (fn [oo] (if (nil? (get-in oo [:metadata :hakijapalveluidenYhteystiedot])) oo (update-in oo [:metadata :hakijapalveluidenYhteystiedot] (fn [yhteystiedot] (-> yhteystiedot
+                                                                                                                                                                                             (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                                                                                                                                                                                             (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))))))]
+    (cond-> (organisaatio-entry organisaatio)
+            (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
+                                                                 (common/complete-entry)
+                                                                 (update-yhteystiedot-fn)
+                                                                 (dissoc :oppilaitosOid :oid))))))
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
