@@ -78,6 +78,8 @@
                               :kuva (:teemakuva toteutus)
                               :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
+                              :toteutusHakuaika (:hakuaika toteutus-metadata)
+                              :hasJotpaRahoitus (:hasJotpaRahoitus toteutus-metadata)
                               :metadata {:tutkintonimikkeet   (tutkintonimikkeet-for-toteutus toteutus)
                                          :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                                          :maksullisuustyyppi  (:maksullisuustyyppi opetus)
