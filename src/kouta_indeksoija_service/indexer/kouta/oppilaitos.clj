@@ -113,20 +113,24 @@
 (defn add-osoite-str-to-yhteystiedot
   [yhteystiedot-from-oppilaitos-metadata osoitetyyppi json-key]
   (if-let [osoite (get-in yhteystiedot-from-oppilaitos-metadata [osoitetyyppi])]
-    (let [postinumerokoodiuri (get-in osoite [:postinumeroKoodiUri])
-          postinumero (re-find #"\d{5}" postinumerokoodiuri)
-          postitoimipaikka (get-koodi-nimi-with-cache postinumerokoodiuri)
-          osoite-str (create-osoite-str-for-hakijapalvelut (get-in osoite [:osoite]) postinumero (:nimi postitoimipaikka))]
-      (assoc yhteystiedot-from-oppilaitos-metadata json-key osoite-str))
+    (if-let [postinumeroKoodiUri (or (get-in osoite [:postinumeroKoodiUri])
+                                     (get-in osoite [:postinumero :koodiUri]))]
+      (let [postinumero (re-find #"\d{5}" postinumeroKoodiUri)
+            postitoimipaikka (get-koodi-nimi-with-cache postinumeroKoodiUri)
+            osoite-str (create-osoite-str-for-hakijapalvelut (get-in osoite [:osoite]) postinumero (:nimi postitoimipaikka))]
+        (assoc yhteystiedot-from-oppilaitos-metadata json-key osoite-str))
+      yhteystiedot-from-oppilaitos-metadata)
     yhteystiedot-from-oppilaitos-metadata))
 
 (defn- oppilaitoksen-osa-entry
   [organisaatio oppilaitoksen-osa]
   ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
   ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
-  (let [update-yhteystiedot-fn (fn [oo] (if (nil? (get-in oo [:metadata :hakijapalveluidenYhteystiedot])) oo (update-in oo [:metadata :hakijapalveluidenYhteystiedot] (fn [yhteystiedot] (-> yhteystiedot
-                                                                                                                                                                                             (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
-                                                                                                                                                                                             (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))))))]
+  (let [update-yhteystiedot-fn (fn [oo] (if (nil? (get-in oo [:metadata :hakijapalveluidenYhteystiedot]))
+                                          oo (update-in oo [:metadata :hakijapalveluidenYhteystiedot]
+                                                        (fn [yhteystiedot] (-> yhteystiedot
+                                                                               (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                                                                               (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))))))]
     (cond-> (organisaatio-entry organisaatio)
             (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
                                                                  (common/complete-entry)
