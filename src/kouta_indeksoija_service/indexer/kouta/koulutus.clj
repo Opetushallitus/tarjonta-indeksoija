@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.util.time :refer [long->indexed-date-time]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
@@ -104,6 +104,20 @@
   [koulutus]
   (nil? (get-in koulutus [:metadata :tutkintonimike])))
 
+(defn- get-alakoodis-for-multiple-koodiUri
+  [koodiUrit alaKoodiKoodistoUri]
+  (let [alakoodit (map #(list-alakoodi-nimet-with-cache % alaKoodiKoodistoUri) koodiUrit)]
+    (->distinct-vec (flatten alakoodit))))
+
+(defn- assoc-eqf-and-nqf
+  [koulutus]
+  (let [koulutusKoodiUrit (map #(get % :koodiUri) (get koulutus :koulutukset))
+        eqf (get-alakoodis-for-multiple-koodiUri koulutusKoodiUrit "eqf")
+        nqf (get-alakoodis-for-multiple-koodiUri koulutusKoodiUrit "nqf")]
+    (-> koulutus
+      (assoc :eqf eqf)
+      (assoc :nqf nqf))))
+
 (defn- enrich-common-metadata
   [koulutus]
   (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))]
@@ -161,6 +175,7 @@
             koulutus-enriched (-> koulutus
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)
+                                  (assoc-eqf-and-nqf)
                                   (assoc-sorakuvaus execution-id)
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
                                   (assoc-koulutusala-and-koulutusaste)

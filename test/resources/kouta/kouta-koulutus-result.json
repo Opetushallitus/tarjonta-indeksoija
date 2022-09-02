@@ -351,6 +351,38 @@
   "organisaatiot": [
     "1.2.246.562.10.54545454545"
   ],
+  "eqf": [
+    {
+      "koodiUri": "eqf_01",
+      "nimi": {
+        "fi": "eqf_01 nimi fi",
+        "sv": "eqf_01 nimi sv"
+      }
+    },
+    {
+      "koodiUri": "eqf_02",
+      "nimi": {
+        "fi": "eqf_02 nimi fi",
+        "sv": "eqf_02 nimi sv"
+      }
+    }
+  ],
+  "nqf": [
+    {
+      "koodiUri": "nqf_01",
+      "nimi": {
+        "fi": "nqf_01 nimi fi",
+        "sv": "nqf_01 nimi sv"
+      }
+    },
+    {
+      "koodiUri": "nqf_02",
+      "nimi": {
+        "fi": "nqf_02 nimi fi",
+        "sv": "nqf_02 nimi sv"
+      }
+    }
+  ],
   "koulutuskoodienAlatJaAsteet": [
     {
       "koulutusKoodiUri": "koulutus_371101#1",
