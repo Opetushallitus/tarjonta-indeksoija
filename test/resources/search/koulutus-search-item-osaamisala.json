@@ -102,6 +102,8 @@
       "sv": "opintojenlaajuus_30 nimi sv"
     }
   },
+  "opintojenLaajuusNumeroMin": null,
+  "opintojenLaajuusNumeroMax": null,
   "timestamp": 1600944714227,
   "eperuste": 1234,
   "koulutustyyppi": "amm-osaamisala",
