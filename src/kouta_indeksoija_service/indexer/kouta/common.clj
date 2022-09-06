@@ -156,8 +156,9 @@
   (let [langs #{:fi :sv :en}
         used-langs (set (map #(keyword %) (:kielivalinta form)))
         langs-to-clean (set/difference langs used-langs)
-        dissoc-langs (fn [x]
-                       (if (map? x) (apply dissoc x langs-to-clean) x))]
+        dissoc-langs (fn [x] (if (and (map? x) (not-empty (clojure.set/difference (set (keys x)) langs-to-clean)))
+                               (apply dissoc x langs-to-clean)
+                               x))]
     (if (and
           (< 0 (count langs-to-clean))
           (< (count langs-to-clean) 3))
