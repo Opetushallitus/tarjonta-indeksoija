@@ -78,6 +78,10 @@
   [koulutus]
   (= "erikoislaakari" (:koulutustyyppi koulutus)))
 
+(defn kk-opintokokonaisuus?
+  [koulutus]
+  (= "kk-opintokokonaisuus" (:koulutustyyppi koulutus)))
+
 (defn aikuisten-perusopetus?
   [koulutus]
   (= "aikuisten-perusopetus" (:koulutustyyppi koulutus)))
