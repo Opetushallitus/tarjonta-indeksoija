@@ -168,12 +168,12 @@
 (defn complete-entry
   [entry]
   (-> entry
+      (clean-langs-not-in-kielivalinta)
       (decorate-koodi-uris)
       (assoc-organisaatio)
       (assoc-tarjoajat)
       (assoc-jarjestyspaikka)
-      (assoc-muokkaaja)
-      (clean-langs-not-in-kielivalinta)))
+      (assoc-muokkaaja)))
 
 (defn complete-entries
   [entries]
