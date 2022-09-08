@@ -1,6 +1,8 @@
 {
   "opintojenLaajuusyksikko": null,
   "opintojenLaajuusNumero": null,
+  "opintojenLaajuusNumeroMin": null,
+  "opintojenLaajuusNumeroMax": null,
   "kuvaus": {
     "fi": "kuvaus",
     "sv": "kuvaus sv"

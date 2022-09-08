@@ -7,7 +7,7 @@
     (.randomizePorts builder true)
     (.pullNewImage builder false)
     (.environmentVariables builder {"SERVICES" "sqs"})
-    (.imageTag builder "0.10.2")
+    (.imageTag builder "1.0.4")
     (.build builder)))
 
 
