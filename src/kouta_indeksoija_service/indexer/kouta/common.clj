@@ -156,8 +156,9 @@
   (let [langs #{:fi :sv :en}
         used-langs (set (map #(keyword %) (:kielivalinta form)))
         langs-to-clean (set/difference langs used-langs)
-        dissoc-langs (fn [x]
-                       (if (map? x) (apply dissoc x langs-to-clean) x))]
+        dissoc-langs (fn [x] (if (and (map? x) (not-empty (clojure.set/difference (set (keys x)) langs-to-clean)))
+                               (apply dissoc x langs-to-clean)
+                               x))]
     (if (and
           (< 0 (count langs-to-clean))
           (< (count langs-to-clean) 3))
@@ -167,12 +168,12 @@
 (defn complete-entry
   [entry]
   (-> entry
+      (clean-langs-not-in-kielivalinta)
       (decorate-koodi-uris)
       (assoc-organisaatio)
       (assoc-tarjoajat)
       (assoc-jarjestyspaikka)
-      (assoc-muokkaaja)
-      (clean-langs-not-in-kielivalinta)))
+      (assoc-muokkaaja)))
 
 (defn complete-entries
   [entries]
