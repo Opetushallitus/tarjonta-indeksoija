@@ -53,6 +53,8 @@
                                                :opintojenLaajuusKoodiUri        (search-tool/opintojen-laajuus-koodi-uri koulutus)
                                                :opintojenLaajuusyksikkoKoodiUri (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus)
                                                :opintojenLaajuusNumero          (search-tool/opintojen-laajuus-numero koulutus)
+                                               :opintojenLaajuusNumeroMin       (search-tool/opintojen-laajuus-numero-min koulutus)
+                                               :opintojenLaajuusNumeroMax       (search-tool/opintojen-laajuus-numero-max koulutus)
                                                :koulutustyypitKoodiUrit         (search-tool/koulutustyyppi-koodi-urit koulutus)
                                                :koulutustyyppi                  (:koulutustyyppi koulutus)}
                                               (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))

@@ -30,7 +30,7 @@
 
 (deftest index-lukio-hakukohde-test
   (fixture/with-mocked-indexing
-   (testing "Indexer should index hakukohde to hakukohde index and update related indexes"
+   (testing "Indexer should index hakukohde to hakukohde index and update related indexes 2"
      (check-all-nil)
      (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
      (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)

@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.edn :as edn]
-            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-ope-erityisope-ja-opo? kk-opintojakso? erikoislaakari? amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [asiasana->lng-value-map amm-ope-erityisope-ja-opo? kk-opintojakso? kk-opintokokonaisuus? erikoislaakari? amm-osaamisala? amm-tutkinnon-osa? amm-muu? any-ammatillinen? ammatillinen? korkeakoulutus? lukio? tuva? telma? julkaistu? vapaa-sivistystyo-opistovuosi? vapaa-sivistystyo-muu? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku aikuisten-perusopetus?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version koodi-arvo oppilaitostyyppi-uri-to-tyyppi]]
@@ -100,6 +100,16 @@
      (kk-opintojakso? koulutus))        (get-in koulutus [:metadata :opintojenLaajuusNumero])
     :default                   (edn/read-string (-> (get-in koulutus [:metadata :opintojenLaajuusKoodiUri]) koodi-arvo number-or-nil))))
 
+(defn opintojen-laajuus-numero-min
+  [koulutus]
+  (cond
+    (kk-opintokokonaisuus? koulutus) (-> koulutus (get-in koulutus [:metadata :opintojenLaajuusNumeroMin]))))
+
+(defn opintojen-laajuus-numero-max
+  [koulutus]
+  (cond
+    (kk-opintokokonaisuus? koulutus) (-> koulutus (get-in koulutus [:metadata :opintojenLaajuusNumeroMax]))))
+
 (defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]
   (cond
@@ -111,6 +121,7 @@
     (tuva? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
     (telma? koulutus) koodisto/koodiuri-osaamispiste-laajuusyksikko
     (aikuisten-perusopetus? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
+    (kk-opintokokonaisuus? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
     :else nil))
 
 (defn tutkinnon-osat
@@ -226,6 +237,7 @@
      (amm-ope-erityisope-ja-opo? koulutus) [koulutustyyppi "amk-muu"]
      (kk-opintojakso? koulutus) [koulutustyyppi "kk-muu"]
      (erikoislaakari? koulutus) [koulutustyyppi "kk-muu"]
+     (kk-opintokokonaisuus? koulutus) [koulutustyyppi "kk-muu"]
      :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
    (deduce-koulutustyypit koulutus nil)))

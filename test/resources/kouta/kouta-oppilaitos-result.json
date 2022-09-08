@@ -93,8 +93,7 @@
               },
               "postiosoiteStr": {
                 "fi": "Kivatie 1, 04230 Espoo",
-                "sv": "kivavägen 1, 04230 Aalto",
-                "en": "Katumatie 805"
+                "sv": "kivavägen 1, 04230 Aalto"
               },
               "kayntiosoite": {
                 "osoite": {
@@ -111,8 +110,7 @@
               },
               "kayntiosoiteStr": {
                 "fi": "Kivatie 1, 04230 Espoo",
-                "sv": "kivavägen 1, 04230 Esbo",
-                "en": "Jalanluiskahtamavaarankuja 610"
+                "sv": "kivavägen 1, 04230 Esbo"
               },
               "puhelinnumero": {
                 "fi": "123",
@@ -256,8 +254,7 @@
           },
           "postiosoiteStr": {
             "fi": "Kivatie 1, 04230 Espoo",
-            "sv": "kivavägen 1, 04230 Aalto",
-            "en": "Katumatie 805"
+            "sv": "kivavägen 1, 04230 Aalto"
           },
           "kayntiosoite": {
             "osoite": {
@@ -274,8 +271,7 @@
           },
           "kayntiosoiteStr": {
             "fi": "Kivatie 1, 04230 Espoo",
-            "sv": "kivavägen 1, 04230 Esbo",
-            "en": "Jalanluiskahtamavaarankuja 610"
+            "sv": "kivavägen 1, 04230 Esbo"
           },
           "puhelinnumero": {
             "fi": "123",

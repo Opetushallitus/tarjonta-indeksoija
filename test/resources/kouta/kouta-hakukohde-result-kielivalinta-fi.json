@@ -56,8 +56,7 @@
     },
     "esikatselu": false,
     "kielivalinta": [
-      "fi",
-      "sv"
+      "fi"
     ],
     "julkinen": false,
     "organisaatio": {
@@ -287,8 +286,7 @@
     }
   ],
   "kielivalinta": [
-    "fi",
-    "sv"
+    "fi"
   ],
   "timestamp": 1549372069493,
   "metadata": {
@@ -332,8 +330,8 @@
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
-      "koulutuksenAlkamispaivamaara": "!!startTime1hc",
-      "koulutuksenPaattymispaivamaara": "!!endTime1hc"
+      "koulutuksenAlkamispaivamaara": "!!startTime1",
+      "koulutuksenPaattymispaivamaara": "!!endTime1"
     },
     "aloituspaikat": {
       "lukumaara": 100,
@@ -452,10 +450,5 @@
   "koulutustyyppikoodi": null,
   "externalId": "3344556677",
   "jarjestaaUrheilijanAmmKoulutusta": false,
-  "koulutustyyppi": "amm",
-  "paateltyAlkamiskausi": {
-    "kausiUri": "kausi_k#1",
-    "vuosi": 2042,
-    "alkamiskausityyppi": "tarkka alkamisajankohta",
-    "source": "1.2.246.562.20.00000000000000000001"}
+  "koulutustyyppi": "amm"
 }

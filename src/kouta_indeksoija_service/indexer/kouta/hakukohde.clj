@@ -6,7 +6,9 @@
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
-            [clojure.string]))
+            [clojure.string]
+            [clj-time.format :as f]
+            [clj-time.core :as t]))
 
 (def index-name "hakukohde-kouta")
 (defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
@@ -210,6 +212,31 @@
   [hakukohde]
   (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
 
+(defn- parse-tarkka-ajankohta [time-str]
+  (if-let [date (f/parse time-str)]
+    {:kausiUri (if (>= (t/month date) 8)
+                 "kausi_s#1"
+                 "kausi_k#1")
+     :vuosi (t/year date)}))
+
+(defn- parse-alkamiskausi [alkamiskausi oid]
+  (let [tyyppi (:alkamiskausityyppi alkamiskausi)
+        result (case tyyppi
+                 "tarkka alkamisajankohta" (parse-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
+                 "alkamiskausi ja -vuosi" {:kausiUri (:koulutuksenAlkamiskausiKoodiUri alkamiskausi) :vuosi (:koulutuksenAlkamisvuosi alkamiskausi)}
+                 {})]
+    (when (and (:kausiUri result) (:vuosi result))
+      (merge result
+             {:alkamiskausityyppi tyyppi
+              :source oid}))))
+
+(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde haku toteutus]
+  (if-let [result (or (parse-alkamiskausi (get-in hakukohde [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
+                      (parse-alkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
+                      (parse-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
+    (assoc hakukohde :paateltyAlkamiskausi result)
+    hakukohde))
+
 (defn create-index-entry
   [oid execution-id]
   (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
@@ -242,6 +269,7 @@
                                                          (assoc-valintaperuste valintaperuste)
                                                          (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
+                                                         (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))

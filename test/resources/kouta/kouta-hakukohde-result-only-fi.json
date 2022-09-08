@@ -6,22 +6,19 @@
   "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
   "esikatselu": false,
   "pohjakoulutusvaatimusTarkenne": {
-    "fi": "Pohjakoulutusvaatimuksen tarkenne fi",
-    "sv": "Pohjakoulutusvaatimuksen tarkenne sv"
+    "fi": "Pohjakoulutusvaatimuksen tarkenne fi"
   },
   "pohjakoulutusvaatimus": [
     {
       "koodiUri": "pohjakoulutusvaatimuskouta_104#1",
       "nimi": {
-        "fi": "pohjakoulutusvaatimuskouta_104#1 nimi fi",
-        "sv": "pohjakoulutusvaatimuskouta_104#1 nimi sv"
+        "fi": "pohjakoulutusvaatimuskouta_104#1 nimi fi"
       }
     },
     {
       "koodiUri": "pohjakoulutusvaatimuskouta_109#1",
       "nimi": {
-        "fi": "pohjakoulutusvaatimuskouta_109#1 nimi fi",
-        "sv": "pohjakoulutusvaatimuskouta_109#1 nimi sv"
+        "fi": "pohjakoulutusvaatimuskouta_109#1 nimi fi"
       }
     }
   ],
@@ -34,13 +31,11 @@
     "hakutapa": {
       "koodiUri": "hakutapa_01#1",
       "nimi": {
-        "fi": "hakutapa_01#1 nimi fi",
-        "sv": "hakutapa_01#1 nimi sv"
+        "fi": "hakutapa_01#1 nimi fi"
       }
     },
     "nimi": {
-      "fi": "Valintaperuste 0 fi",
-      "sv": "Valintaperuste 0 sv"
+      "fi": "Valintaperuste 0 fi"
     },
     "muokkaaja": {
       "oid": "1.2.246.562.24.62301161440",
@@ -50,27 +45,23 @@
     "kohdejoukko": {
       "koodiUri": "haunkohdejoukko_11#1",
       "nimi": {
-        "fi": "haunkohdejoukko_11#1 nimi fi",
-        "sv": "haunkohdejoukko_11#1 nimi sv"
+        "fi": "haunkohdejoukko_11#1 nimi fi"
       }
     },
     "esikatselu": false,
     "kielivalinta": [
-      "fi",
-      "sv"
+      "fi"
     ],
     "julkinen": false,
     "organisaatio": {
       "paikkakunta": {
         "koodiUri": "kunta_091",
         "nimi": {
-          "fi": "kunta_091 nimi fi",
-          "sv": "kunta_091 nimi sv"
+          "fi": "kunta_091 nimi fi"
         }
       },
       "nimi": {
-        "fi": "Kiva ammattikorkeakoulu",
-        "sv": "Kiva ammattikorkeakoulu sv"
+        "fi": "Kiva ammattikorkeakoulu"
       },
       "oid": "1.2.246.562.10.54545454545"
     },
@@ -78,45 +69,38 @@
       {
         "id": "f50c7536-1c50-4fa8-b13c-514877be71a0",
         "nimi": {
-          "fi": "valintakokeen nimi fi",
-          "sv": "valintakokeen nimi sv"
+          "fi": "valintakokeen nimi fi"
         },
         "metadata": {
           "tietoja": {
-            "fi": "tietoa valintakokeesta fi",
-            "sv": "tietoa valintakokeesta sv"
+            "fi": "tietoa valintakokeesta fi"
           },
           "liittyyEnnakkovalmistautumista": true,
           "vahimmaispisteet": 182.1,
           "ohjeetEnnakkovalmistautumiseen": {
-            "fi": "Ennakko-ohjeet fi",
-            "sv": "Ennakko-ohjeet sv"
+            "fi": "Ennakko-ohjeet fi"
           },
           "erityisjarjestelytMahdollisia": true,
           "ohjeetErityisjarjestelyihin": {
-            "fi": "Erityisvalmistelut fi",
-            "sv": "Erityisvalmistelut sv"
+            "fi": "Erityisvalmistelut fi"
           }
         },
         "tyyppi": {
           "koodiUri": "valintakokeentyyppi_1#1",
           "nimi": {
-            "fi": "valintakokeentyyppi_1#1 nimi fi",
-            "sv": "valintakokeentyyppi_1#1 nimi sv"
+            "fi": "valintakokeentyyppi_1#1 nimi fi"
           }
         },
         "tilaisuudet": [
           {
             "osoite": {
               "osoite": {
-                "fi": "Kivatie 1",
-                "sv": "kivavägen 1"
+                "fi": "Kivatie 1"
               },
               "postinumero": {
                 "koodiUri": "posti_04230#2",
                 "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
+                  "fi": "posti_04230#2 nimi fi"
                 }
               }
             },
@@ -125,12 +109,10 @@
               "paattyy": "!!endTime1"
             },
             "lisatietoja": {
-              "fi": "lisätieto fi",
-              "sv": "lisätieto sv"
+              "fi": "lisätieto fi"
             },
             "jarjestamispaikka": {
-              "fi": "Järjestämispaikka fi",
-              "sv": "Järjestämispaikka sv"
+              "fi": "Järjestämispaikka fi"
             }
           }
         ]
@@ -145,19 +127,16 @@
       "paikkakunta": {
         "koodiUri": "kunta_091",
         "nimi": {
-          "fi": "kunta_091 nimi fi",
-          "sv": "kunta_091 nimi sv"
+          "fi": "kunta_091 nimi fi"
         }
       },
       "nimi": {
-        "fi": "Kiva ammattikorkeakoulu",
-        "sv": "Kiva ammattikorkeakoulu sv"
+        "fi": "Kiva ammattikorkeakoulu"
       },
       "oid": "1.2.246.562.10.54545454545"
     },
     "nimi": {
-      "fi": "Koulutuksen 0 toteutus 0 fi",
-      "sv": "Koulutuksen 0 toteutus 0 sv"
+      "fi": "Koulutuksen 0 toteutus 0 fi"
     },
     "tila": "arkistoitu",
     "tarjoajat": [
@@ -165,13 +144,11 @@
         "paikkakunta": {
           "koodiUri": "kunta_091",
           "nimi": {
-            "fi": "kunta_091 nimi fi",
-            "sv": "kunta_091 nimi sv"
+            "fi": "kunta_091 nimi fi"
           }
         },
         "nimi": {
-          "fi": "Kiva ammattikorkeakoulu, Helsingin toimipiste",
-          "sv": "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
+          "fi": "Kiva ammattikorkeakoulu, Helsingin toimipiste"
         },
         "oid": "1.2.246.562.10.54545454511"
       },
@@ -179,13 +156,11 @@
         "paikkakunta": {
           "koodiUri": "kunta_297",
           "nimi": {
-            "fi": "kunta_297 nimi fi",
-            "sv": "kunta_297 nimi sv"
+            "fi": "kunta_297 nimi fi"
           }
         },
         "nimi": {
-          "fi": "Kiva ammattikorkeakoulu, Kuopion toimipiste",
-          "sv": "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
+          "fi": "Kiva ammattikorkeakoulu, Kuopion toimipiste"
         },
         "oid": "1.2.246.562.10.54545454522"
       }
@@ -203,16 +178,13 @@
   },
   "muuPohjakoulutusvaatimus": {},
   "nimi": {
-    "fi": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi fi",
-    "sv": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi sv"
+    "fi": "Koulutuksen 0 toteutuksen 0 hakukohteen 0 esitysnimi fi"
   },
   "hakulomakeKuvaus": {
-    "fi": "Hakulomake tulostetaan ja toimitetaan postitse fi",
-    "sv": "Hakulomake tulostetaan ja toimitetaan postitse sv"
+    "fi": "Hakulomake tulostetaan ja toimitetaan postitse fi"
   },
   "hakulomakeLinkki": {
-    "fi": "https://koulu.test/hakemusinfo fi",
-    "sv": "https://koulu.test/hakemusinfo sv"
+    "fi": "https://koulu.test/hakemusinfo fi"
   },
   "kaytetaanHaunHakulomaketta": false,
   "muokkaaja": {
@@ -235,17 +207,14 @@
       "tyyppi": {
         "koodiUri": "liitetyypitamm_2#1",
         "nimi": {
-          "fi": "liitetyypitamm_2#1 nimi fi",
-          "sv": "liitetyypitamm_2#1 nimi sv"
+          "fi": "liitetyypitamm_2#1 nimi fi"
         }
       },
       "nimi": {
-        "fi": "liite 1 Fi",
-        "sv": "liite 1 Sv"
+        "fi": "liite 1 Fi"
       },
       "kuvaus": {
-        "fi": "kuvaus Fi",
-        "sv": "kuvaus Sv"
+        "fi": "kuvaus Fi"
       },
       "toimitusaika": "!!endTime1",
       "toimitustapa": "hakijapalvelu"
@@ -255,30 +224,25 @@
       "tyyppi": {
         "koodiUri": "liitetyypitamm_1#1",
         "nimi": {
-          "fi": "liitetyypitamm_1#1 nimi fi",
-          "sv": "liitetyypitamm_1#1 nimi sv"
+          "fi": "liitetyypitamm_1#1 nimi fi"
         }
       },
       "nimi": {
-        "fi": "liite 2 Fi",
-        "sv": "liite 2 Sv"
+        "fi": "liite 2 Fi"
       },
       "kuvaus": {
-        "fi": "kuvaus Fi",
-        "sv": "kuvaus Sv"
+        "fi": "kuvaus Fi"
       },
       "toimitustapa": "osoite",
       "toimitusosoite": {
         "osoite": {
           "osoite": {
-            "fi": "Kivatie 1",
-            "sv": "kivavägen 1"
+            "fi": "Kivatie 1"
           },
           "postinumero": {
             "koodiUri": "posti_04230#2",
             "nimi": {
-              "fi": "posti_04230#2 nimi fi",
-              "sv": "posti_04230#2 nimi sv"
+              "fi": "posti_04230#2 nimi fi"
             }
           }
         },
@@ -287,14 +251,12 @@
     }
   ],
   "kielivalinta": [
-    "fi",
-    "sv"
+    "fi"
   ],
   "timestamp": 1549372069493,
   "metadata": {
     "valintakokeidenYleiskuvaus": {
-      "fi": "yleiskuvaus fi",
-      "sv": "yleiskuvaus sv"
+      "fi": "yleiskuvaus fi"
     },
     "valintaperusteenValintakokeidenLisatilaisuudet": [
       {
@@ -302,14 +264,12 @@
           {
             "osoite": {
               "osoite": {
-                "fi": "Kivatie 1",
-                "sv": "kivavägen 1"
+                "fi": "Kivatie 1"
               },
               "postinumero": {
                 "koodiUri": "posti_04230#2",
                 "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
+                  "fi": "posti_04230#2 nimi fi"
                 }
               }
             },
@@ -318,12 +278,10 @@
               "paattyy": "!!endTime1"
             },
             "jarjestamispaikka": {
-              "fi": "Lisä järjestämispaikka fi",
-              "sv": "Lisä järjestämispaikka sv"
+              "fi": "Lisä järjestämispaikka fi"
             },
             "lisatietoja": {
-              "fi": "lisätieto fi",
-              "sv": "lisätieto sv"
+              "fi": "lisätieto fi"
             }
           }
         ]
@@ -332,34 +290,30 @@
     "koulutuksenAlkamiskausi": {
       "alkamiskausityyppi": "tarkka alkamisajankohta",
       "henkilokohtaisenSuunnitelmanLisatiedot": {},
-      "koulutuksenAlkamispaivamaara": "!!startTime1hc",
-      "koulutuksenPaattymispaivamaara": "!!endTime1hc"
+      "koulutuksenAlkamispaivamaara": "!!startTime1",
+      "koulutuksenPaattymispaivamaara": "!!endTime1"
     },
     "aloituspaikat": {
       "lukumaara": 100,
       "ensikertalaisille": 50,
       "kuvaus": {
-        "fi": "aloituspaikkojen kuvaus fi",
-        "sv": "aloituspaikkojen kuvaus sv"
+        "fi": "aloituspaikkojen kuvaus fi"
       }
     },
     "kaytetaanHaunAlkamiskautta": false,
     "kynnysehto": {
-      "fi": "Kynnysehto fi",
-      "sv": "Kynnysehto sv"
+      "fi": "Kynnysehto fi"
     }
   },
   "organisaatio": {
     "paikkakunta": {
       "koodiUri": "kunta_091",
       "nimi": {
-        "fi": "kunta_091 nimi fi",
-        "sv": "kunta_091 nimi sv"
+        "fi": "kunta_091 nimi fi"
       }
     },
     "nimi": {
-      "fi": "Kiva ammattikorkeakoulu",
-      "sv": "Kiva ammattikorkeakoulu sv"
+      "fi": "Kiva ammattikorkeakoulu"
     },
     "oid": "1.2.246.562.10.54545454545"
   },
@@ -367,45 +321,38 @@
     {
       "id": "f50c7536-1c50-4fa8-b13c-514877be71a0",
       "nimi": {
-        "fi": "valintakokeen nimi fi",
-        "sv": "valintakokeen nimi sv"
+        "fi": "valintakokeen nimi fi"
       },
       "metadata": {
         "tietoja": {
-          "fi": "tietoa valintakokeesta fi",
-          "sv": "tietoa valintakokeesta sv"
+          "fi": "tietoa valintakokeesta fi"
         },
         "vahimmaispisteet": 182.1,
         "liittyyEnnakkovalmistautumista": true,
         "ohjeetEnnakkovalmistautumiseen": {
-          "fi": "Ennakko-ohjeet fi",
-          "sv": "Ennakko-ohjeet sv"
+          "fi": "Ennakko-ohjeet fi"
         },
         "erityisjarjestelytMahdollisia": true,
         "ohjeetErityisjarjestelyihin": {
-          "fi": "Erityisvalmistelut fi",
-          "sv": "Erityisvalmistelut sv"
+          "fi": "Erityisvalmistelut fi"
         }
       },
       "tyyppi": {
         "koodiUri": "valintakokeentyyppi_1#1",
         "nimi": {
-          "fi": "valintakokeentyyppi_1#1 nimi fi",
-          "sv": "valintakokeentyyppi_1#1 nimi sv"
+          "fi": "valintakokeentyyppi_1#1 nimi fi"
         }
       },
       "tilaisuudet": [
         {
           "osoite": {
             "osoite": {
-              "fi": "Kivatie 1",
-              "sv": "kivavägen 1"
+              "fi": "Kivatie 1"
             },
             "postinumero": {
               "koodiUri": "posti_04230#2",
               "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
+                "fi": "posti_04230#2 nimi fi"
               }
             }
           },
@@ -414,12 +361,10 @@
             "paattyy": "!!endTime1"
           },
           "lisatietoja": {
-            "fi": "lisätieto fi",
-            "sv": "lisätieto sv"
+            "fi": "lisätieto fi"
           },
           "jarjestamispaikka": {
-            "fi": "Järjestämispaikka fi",
-            "sv": "Järjestämispaikka sv"
+            "fi": "Järjestämispaikka fi"
           }
         }
       ]
@@ -433,13 +378,11 @@
     "paikkakunta": {
       "koodiUri": "kunta_297",
       "nimi": {
-        "fi": "kunta_297 nimi fi",
-        "sv": "kunta_297 nimi sv"
+        "fi": "kunta_297 nimi fi"
       }
     },
     "nimi": {
-      "fi": "Jokin järjestyspaikka",
-      "sv": "Jokin järjestyspaikka sv"
+      "fi": "Jokin järjestyspaikka"
     },
     "oid": "1.2.246.562.10.67476956288",
     "jarjestaaUrheilijanAmmKoulutusta": null
@@ -452,10 +395,5 @@
   "koulutustyyppikoodi": null,
   "externalId": "3344556677",
   "jarjestaaUrheilijanAmmKoulutusta": false,
-  "koulutustyyppi": "amm",
-  "paateltyAlkamiskausi": {
-    "kausiUri": "kausi_k#1",
-    "vuosi": 2042,
-    "alkamiskausityyppi": "tarkka alkamisajankohta",
-    "source": "1.2.246.562.20.00000000000000000001"}
+  "koulutustyyppi": "amm"
 }

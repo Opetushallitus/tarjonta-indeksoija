@@ -45,6 +45,8 @@
       "sv": "opintojenlaajuusyksikko_6 nimi sv"
     }
   },
+  "opintojenLaajuusNumeroMin": null,
+  "opintojenLaajuusNumeroMax": null,
   "koulutustyyppi": "amm",
   "koulutukset": [
     {
