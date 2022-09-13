@@ -391,7 +391,15 @@
 
        (POST "/resume-lokalisointi-indexing" [:as request]
          :summary "Käynnistää prosessin, joka indeksoi lokalisointeja lokalisaatiopalvelusta"
-         (with-access-logging request (ok (jobs/resume-lokalisaatio-indexing-job)))))
+         (with-access-logging request (ok (jobs/resume-lokalisaatio-indexing-job))))
+
+       (POST "/pause-organisaatio-indexing" [:as request]
+         :summary "Keskeyttää prosessin, joka indeksoi organisaatiot organisaatiopalvelusta"
+         (with-access-logging request (ok (jobs/pause-organisaatio-indexing-job))))
+
+       (POST "/resume-organisaatio-indexing" [:as request]
+         :summary "Käynnistää prosessin, joka indeksoi organisaatiot organisaatiopalvelusta"
+         (with-access-logging request (ok (jobs/resume-organisaatio-indexing-job)))))
 
      (context "/indexer" []
        :tags ["indexer"]

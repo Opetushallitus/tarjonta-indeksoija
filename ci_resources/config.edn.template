@@ -17,6 +17,7 @@
  :dlq-cron-string "{{kouta_indeksoija_dlq_cron_string}}"
  :notification-dlq-cron-string "{{kouta_indeksoija_notification_dlq_cron_string}}"
  :lokalisaatio-indexing-cron-string "{{kouta_indeksoija_lokalisaatio_indexing_cron_string}}"
+ :organisaatio-indexing-cron-string "{{kouta_indeksoija_organisaatio_indexing_cron_string}}"
  :queueing-cron-string "{{kouta_indeksoija_cron_string}}"
  :notifier-targets "{{kouta_indeksoija_notifier_targets}}"
  :kouta-indeksoija-kouta-cache-time-seconds "{{kouta_indeksoija_kouta_cache_time_seconds}}"

@@ -14,6 +14,7 @@
     (with-redefs [env {:dlq-cron-string "*/1 * * ? * *"
                        :notification-dlq-cron-string "*/1 * * ? * *"
                        :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
+                       :organisaatio-indexing-cron-string "* 0 * ? * *"
                        :queueing-cron-string "*/1 * * ? * *"}
                   kouta-indeksoija-service.queue.queue/clean-dlq (fn [] (reset! dlq-called true))
                   kouta-indeksoija-service.queue.queue/index-from-sqs (fn [] (do (reset! sqs-called true) (loop [] (recur))))
