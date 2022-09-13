@@ -103,8 +103,6 @@
   []
   (scheduler/resume-job lokalisaatio-indexing-job-name))
 
-;;
-
 (defjob organisaatio-indexing-job [ctx] (indexer/index-all-oppilaitokset))
 
 (defonce organisaatio-indexing-job-name "organisaatio-indexing")
@@ -120,8 +118,6 @@
 (defn resume-organisaatio-indexing-job
   []
   (scheduler/resume-job organisaatio-indexing-job-name))
-
-;;
 
 (defn schedule-jobs
   []
