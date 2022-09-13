@@ -3,9 +3,26 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :as general]))
+            [kouta-indeksoija-service.indexer.tools.general :as general]
+            [clj-time.format :as f]
+            [clj-time.core :as t]))
 
 (def index-name "haku-kouta")
+
+(defn- parse-hakuaika [hakuaika]
+  {:alkaa (f/parse (get :alkaa hakuaika))
+   :paattyy (f/parse (get :paattyy hakuaika))})
+
+(defn- assoc-paatelty-hakuvuosi-ja-hakukausi-for-hakukohde [haku]
+  (if-let [hakuaika (first (sort-by :alkaa (map parse-hakuaika (get :hakuajat haku))))]
+    (-> haku
+        (assoc :hakuvuosi (or (some-> (:paattyy hakuaika)
+                                      t/year)
+                              (t/year (:alkaa hakuaika))))
+        (assoc :hakukausi (if (>= (t/month (:alkaa hakuaika)) 8)
+                            "kausi_s#1"
+                            "kausi_k#1")))
+    haku))
 
 (defn create-index-entry
   [oid execution-id]
@@ -24,6 +41,7 @@
                                      (filter general/not-poistettu? hakukohde-list-raw)))]
         (indexable/->index-entry-with-forwarded-data oid (-> haku
                                                              (assoc :hakukohteet hakukohde-list)
+                                                             (assoc-paatelty-hakuvuosi-ja-hakukausi-for-hakukohde)
                                                              (conj (common/create-hakulomake-linkki-for-haku haku (:oid haku)))
                                                              (common/localize-dates)
                                                              (general/remove-version-from-koodiuri [:hakutapa :koodiUri])
