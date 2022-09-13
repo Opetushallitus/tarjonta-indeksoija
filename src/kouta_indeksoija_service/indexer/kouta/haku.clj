@@ -3,7 +3,9 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :as general]))
+            [kouta-indeksoija-service.indexer.tools.general :as general]
+            [clj-time.format :as f]
+            [clj-time.core :as t]))
 
 (def index-name "haku-kouta")
 
