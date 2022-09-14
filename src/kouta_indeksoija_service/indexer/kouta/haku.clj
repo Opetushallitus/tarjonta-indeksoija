@@ -11,11 +11,11 @@
 (def index-name "haku-kouta")
 
 (defn- parse-hakuaika [hakuaika]
-  {:alkaa (f/parse (get :alkaa hakuaika))
-   :paattyy (f/parse (get :paattyy hakuaika))})
+  {:alkaa (f/parse (:alkaa hakuaika))
+   :paattyy (f/parse (:paattyy hakuaika))})
 
 (defn- assoc-paatelty-hakuvuosi-ja-hakukausi-for-hakukohde [haku]
-  (if-let [hakuaika (first (sort-by :alkaa (map parse-hakuaika (get :hakuajat haku))))]
+  (if-let [hakuaika (first (sort-by :alkaa (map parse-hakuaika (:hakuajat haku))))]
     (-> haku
         (assoc :hakuvuosi (or (some-> (:paattyy hakuaika)
                                       t/year)
@@ -30,8 +30,7 @@
   (let [hakukohde-list-raw (kouta-backend/list-hakukohteet-by-haku-with-cache oid execution-id)
         haku (assoc (common/complete-entry (kouta-backend/get-haku-with-cache oid execution-id)) :hakukohteet hakukohde-list-raw)]
     (if (general/not-poistettu? haku)
-      (let [debugprn1 (log/warn "DEBUG HAKUAJAT " (keys haku))
-            toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku-with-cache oid execution-id))
+      (let [toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku-with-cache oid execution-id))
             assoc-toteutus (fn [h] (assoc h :toteutus
                                           (common/assoc-organisaatiot
                                             (first (filter #(= (:oid %) (:toteutusOid h)) toteutus-list)))))
