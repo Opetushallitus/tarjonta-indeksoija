@@ -103,6 +103,22 @@
   []
   (scheduler/resume-job lokalisaatio-indexing-job-name))
 
+(defjob organisaatio-indexing-job [ctx] (indexer/index-all-oppilaitokset))
+
+(defonce organisaatio-indexing-job-name "organisaatio-indexing")
+
+(defn schedule-organisaatio-indexing-job
+  []
+  (scheduler/schedule-cron-job organisaatio-indexing-job-name organisaatio-indexing-job (:organisaatio-indexing-cron-string env)))
+
+(defn pause-organisaatio-indexing-job
+  []
+  (scheduler/pause-job organisaatio-indexing-job-name))
+
+(defn resume-organisaatio-indexing-job
+  []
+  (scheduler/resume-job organisaatio-indexing-job-name))
+
 (defn schedule-jobs
   []
   (schedule-sqs-job)
@@ -110,7 +126,8 @@
   (schedule-queueing-job)
   (schedule-notification-job)
   (schedule-notification-dlq-job)
-  (schedule-lokalisaatio-indexing-job))
+  (schedule-lokalisaatio-indexing-job)
+  (schedule-organisaatio-indexing-job))
 
 (defn get-jobs-info
   []
