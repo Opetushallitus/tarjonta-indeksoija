@@ -239,6 +239,7 @@
       "paattyy": "!!endTime1"
     }
   ],
+  "hakuvuosi": 2022,
   "kohdejoukko": {
     "koodiUri": "haunkohdejoukko_02#2",
     "nimi": {
@@ -257,6 +258,7 @@
       "sv": "haunkohdejoukontarkenne_1#11 nimi sv"
     }
   },
+  "hakukausi": "kausi_s#1",
   "timestamp": 1549368453241,
   "hakukohteenLiittamisenTakaraja": "!!startTime1",
   "organisaatio": {
