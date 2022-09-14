@@ -1,4 +1,5 @@
-(ns kouta-indeksoija-service.indexer.tools.general)
+(ns kouta-indeksoija-service.indexer.tools.general
+  (:require [clojure.string :as string]))
 
 (defonce Julkaistu "julkaistu")
 (defonce Tallennettu "tallennettu")
@@ -113,5 +114,5 @@
     (if (not (nil? koodiuri))
       (assoc-in entity
                 path-to-koodiuri
-                (clojure.string/replace koodiuri #"#\w+" ""))
+                (string/replace koodiuri #"#\w+" ""))
       entity)))
