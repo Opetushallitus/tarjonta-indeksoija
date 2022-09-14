@@ -30,8 +30,7 @@
   (let [hakukohde-list-raw (kouta-backend/list-hakukohteet-by-haku-with-cache oid execution-id)
         haku (assoc (common/complete-entry (kouta-backend/get-haku-with-cache oid execution-id)) :hakukohteet hakukohde-list-raw)]
     (if (general/not-poistettu? haku)
-      (let [debugprn1 (log/warn "DEBUG1 HAKUAJAT " (get :hakuajat haku))
-            debugprn2 (log/warn "DEBUG2 HAKUAIKA " (first (map parse-hakuaika (get :hakuajat haku))))
+      (let [debugprn1 (log/warn "DEBUG HAKUAJAT " (keys haku))
             toteutus-list  (common/complete-entries (kouta-backend/list-toteutukset-by-haku-with-cache oid execution-id))
             assoc-toteutus (fn [h] (assoc h :toteutus
                                           (common/assoc-organisaatiot
