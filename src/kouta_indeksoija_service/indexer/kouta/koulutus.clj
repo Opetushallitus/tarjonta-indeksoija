@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [get-eperuste-by-koulutuskoodi get-eperuste-by-id filter-tutkinnon-osa]]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.util.time :refer [long->indexed-date-time]]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-oids]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu? aikuisten-perusopetus?]]
@@ -172,11 +172,14 @@
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus-with-cache oid execution-id))]
     (if (not-poistettu? koulutus)
       (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus-with-cache oid execution-id))
+            hakutiedot (when toteutukset (kouta-backend/get-hakutiedot-for-koulutus-with-cache oid execution-id))
+            haku-oids (get-oids :hakuOid (mapcat :haut hakutiedot))
             koulutus-enriched (-> koulutus
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)
                                   (assoc-eqf-and-nqf)
                                   (assoc-sorakuvaus execution-id)
+                                  (assoc :haut haku-oids)
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
                                   (assoc-koulutusala-and-koulutusaste)
                                   (common/localize-dates))]
