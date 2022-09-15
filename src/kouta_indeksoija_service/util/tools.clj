@@ -24,3 +24,7 @@
 (defn jarjestaa-urheilijan-amm-koulutusta?
   [jarjestyspaikka]
   (boolean (get-in jarjestyspaikka [:metadata :jarjestaaUrheilijanAmmKoulutusta])))
+
+(defn get-oids
+  [key coll]
+  (set (remove clojure.string/blank? (map key coll))))
