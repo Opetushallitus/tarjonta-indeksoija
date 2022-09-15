@@ -3,6 +3,10 @@
   "externalId": "987654321",
   "johtaaTutkintoon": true,
   "sorakuvausId": "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd",
+  "haut": [
+    "1.2.246.562.29.00000000000000000001"
+    "1.2.246.562.29.00000000000000000099"
+  ],
   "sorakuvaus": {
     "tila": "arkistoitu",
     "modified": "2019-02-05T09:49:23",
@@ -19,10 +23,6 @@
     "kielivalinta": [
       "fi",
       "sv"
-    ],
-    "haut": [
-      "1.2.246.562.29.00000000000000000001"
-      "1.2.246.562.29.00000000000000000099"
     ],
     "organisaatio": {
       "paikkakunta": {
