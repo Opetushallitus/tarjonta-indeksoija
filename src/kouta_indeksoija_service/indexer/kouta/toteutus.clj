@@ -127,6 +127,8 @@
         koulutus (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)]
     (if (not-poistettu? toteutus)
       (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:koulutusOid toteutus) execution-id)
+            haut       (kouta-backend/list-haut-by-toteutus-with-cache oid execution-id)
+            haku-oids  (get-oids :oid haut)
             opintojaksot (when-let [liitetyt-opintojaksot (get-in toteutus [:metadata :liitetytOpintojaksot])]
                                     (kouta-backend/get-toteutukset-with-cache
                                       liitetyt-opintojaksot
@@ -141,6 +143,7 @@
                                   (assoc :koulutustyyppi (get-in toteutus [:metadata :tyyppi]))
                                   (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
                                   (assoc :nimi (get-esitysnimi toteutus))
+                                  (assoc :haut haku-oids)
                                   (dissoc :_enrichedData)
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
