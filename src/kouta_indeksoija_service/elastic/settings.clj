@@ -240,7 +240,10 @@
                                          :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-mappings
-  {:dynamic_templates [{:muokkaaja {:match "muokkaaja.nimi"
+  {:dynamic_templates [{:haut {:match "haut"
+                               :mapping {:type "keyword"}
+                               :match_mapping_type "string"}}
+                       {:muokkaaja {:match "muokkaaja.nimi"
                                     :match_mapping_type "string"
                                     :mapping {:type "text"
                                               :analyzer "finnish"
