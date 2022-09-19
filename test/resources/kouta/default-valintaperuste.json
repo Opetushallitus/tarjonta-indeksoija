@@ -18,10 +18,6 @@
         "sv" : "Valintatapa1 sv"
       },
       "valintatapaKoodiUri" : "valintatapajono_av#1",
-      "kuvaus" : {
-        "fi" : "kuvaus fi",
-        "sv" : "kuvaus sv"
-      },
       "sisalto" : [ {
         "tyyppi" : "teksti",
         "data" : {
