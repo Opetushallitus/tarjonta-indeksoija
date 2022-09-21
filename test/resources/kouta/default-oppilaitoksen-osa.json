@@ -6,6 +6,30 @@
   "organisaatio" : "1.2.246.562.10.67476956288",
   "muokkaaja" : "1.2.246.562.24.10000000000",
   "metadata" : {
+    "hakijapalveluidenYhteystiedot": {
+      "nimi": {
+        "fi": "Hermannin testiyhteystieto",
+        "sv": "Hermannis testkontakt"
+      },
+      "postiosoite": {
+        "osoite": {
+          "fi": "Hermannin rantatie 66"
+        },
+        "postinumeroKoodiUri": "posti_00100#2"
+      },
+      "kayntiosoite": {
+        "osoite": {
+          "fi": "Hermannin käyntiosoite 67"
+        },
+        "postinumeroKoodiUri": "posti_00220#2"
+      },
+      "puhelinnumero": {
+        "fi": ""
+      },
+      "sahkoposti": {
+        "fi": "hermanni@posti.fi"
+      }
+    },
     "wwwSivu" : {
       "nimi" : {
         "fi" : "Linkki suomeksi",

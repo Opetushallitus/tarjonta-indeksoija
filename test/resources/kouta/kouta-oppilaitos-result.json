@@ -72,6 +72,48 @@
         ],
         "teemakuva": "https://testi.fi/oppilaitoksen-osa-teemakuva/oid/kuva.jpg",
         "metadata": {
+          "hakijapalveluidenYhteystiedot": {
+            "nimi": {
+              "fi": "Hermannin testiyhteystieto",
+              "sv": "Hermannis testkontakt"
+            },
+            "postiosoite": {
+              "osoite": {
+                "fi": "Hermannin rantatie 66"
+              },
+              "postinumero": {
+                "koodiUri": "posti_00100#2",
+                "nimi": {
+                  "fi": "posti_00100#2 nimi fi",
+                  "sv": "posti_00100#2 nimi sv"
+                }
+              }
+            },
+            "kayntiosoite": {
+              "osoite": {
+                "fi": "Hermannin käyntiosoite 67"
+              },
+              "postinumero": {
+                "koodiUri": "posti_00220#2",
+                "nimi": {
+                  "fi": "posti_00220#2 nimi fi",
+                  "sv": "posti_00220#2 nimi sv"
+                }
+              }
+            },
+            "postiosoiteStr": {
+              "fi": "Hermannin rantatie 66, 00100 Posti_00100#2 nimi fi"
+            },
+            "kayntiosoiteStr": {
+              "fi": "Hermannin käyntiosoite 67, 00220 Posti_00220#2 nimi fi"
+            },
+            "puhelinnumero": {
+              "fi": ""
+            },
+            "sahkoposti": {
+              "fi": "hermanni@posti.fi"
+            }
+          },
           "yhteystiedot": [
             {
               "nimi": {
