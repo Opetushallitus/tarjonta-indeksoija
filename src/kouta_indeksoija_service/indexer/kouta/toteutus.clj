@@ -87,6 +87,15 @@
               (->distinct-vec))))
 
 
+(defn assoc-opintojaksot
+  [toteutus opintojaksot]
+  (let [liitetyt-opintojaksot (for [opintojakso opintojaksot]
+                                {:nimi (:nimi opintojakso)
+                                 :oid (:oid opintojakso)
+                                 :kuvaus (get-in opintojakso [:metadata :kuvaus])})]
+    (assoc toteutus :liitetytOpintojaksot liitetyt-opintojaksot)))
+
+
 ;Palauttaa toteutuksen johon on rikastettu lukiodiplomeiden sisällöt ja tavoitteet eperusteista
 (defn- enrich-lukiodiplomit
   [toteutus eperuste]
@@ -115,6 +124,10 @@
         koulutus (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)]
     (if (not-poistettu? toteutus)
       (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:koulutusOid toteutus) execution-id)
+            opintojaksot (when-let [liitetyt-opintojaksot (get-in toteutus [:metadata :liitetytOpintojaksot])]
+                                    (kouta-backend/get-toteutukset-with-cache
+                                      liitetyt-opintojaksot
+                                      execution-id))
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)
@@ -125,8 +138,8 @@
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
                                   (assoc-hakutiedot hakutiedot)
+                                  (assoc-opintojaksot opintojaksot)
                                   (common/localize-dates))]
-
         (indexable/->index-entry-with-forwarded-data oid toteutus-enriched toteutus-enriched))
       (indexable/->delete-entry-with-forwarded-data oid toteutus))))
 

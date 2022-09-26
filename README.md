@@ -60,7 +60,7 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
  :notifications {:name "koutaIndeksoijaNotifications" :health-threshold 10}
  :notifications-dlq {:name "koutaIndeksoijaNotificationsDlq" :health-threshold 10}}
  :sqs-region ""
- :sqs-endpoint "http://localhost:4576"
+ :sqs-endpoint "http://localhost:4566"
  :dlq-cron-string "*/15 * * ? * *"
  :notification-dlq-cron-string "7/30 * * ? * *"
  :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"

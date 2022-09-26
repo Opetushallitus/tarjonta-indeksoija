@@ -190,3 +190,13 @@
 
 (def get-oppilaitoksen-osat-with-cache
   (ttl/memoize-ttl get-oppilaitoksen-osat))
+
+(defn get-toteutukset
+  [oids execution-id]
+  (println oids)
+  {:val (cas-authenticated-post-as-json
+          (resolve-url :kouta-backend.toteutukset) {:body (json/generate-string oids) :content-type :json})
+   :ttl (get-cache-time execution-id)})
+
+(def get-toteutukset-with-cache
+  (ttl/memoize-ttl get-toteutukset))
