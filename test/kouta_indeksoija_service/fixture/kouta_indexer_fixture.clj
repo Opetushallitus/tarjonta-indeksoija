@@ -13,10 +13,7 @@
             [clojure.walk :refer [keywordize-keys stringify-keys postwalk]]
             [clj-time.core :as time]
             [clj-time.format :as time-format])
-  (:import (fi.oph.kouta.external KoutaFixtureTool$)
-           (java.util NoSuchElementException)))
-
-(defonce KoutaFixture KoutaFixtureTool$/MODULE$)
+  (:import (java.util NoSuchElementException)))
 
 (defonce koulutukset (atom {}))
 (defonce toteutukset (atom {}))
@@ -124,21 +121,6 @@
   [e]
   (and (not-arkistoitu? e) (not-poistettu? e)))
 
-; Ota nämä pois kommentista ja aja testit, jos haluat päivittää default-entiteetti jsonit kouta-backendistä
-(comment
-  (spit "test/resources/kouta/default-koulutus.json" (java-map->pretty-json (.DefaultKoulutus KoutaFixture)))
-  (spit "test/resources/kouta/default-toteutus.json" (java-map->pretty-json (.DefaultToteutus KoutaFixture)))
-  (spit "test/resources/kouta/default-haku.json" (java-map->pretty-json (.DefaultHaku KoutaFixture)))
-  (spit "test/resources/kouta/default-hakukohde.json" (java-map->pretty-json (.DefaultHakukohde KoutaFixture)))
-  (spit "test/resources/kouta/default-valintaperuste.json" (java-map->pretty-json (.DefaultValintaperuste KoutaFixture)))
-  (spit "test/resources/kouta/default-sorakuvaus.json" (java-map->pretty-json (.DefaultSorakuvaus KoutaFixture)))
-  (spit "test/resources/kouta/default-oppilaitos.json" (java-map->pretty-json (.DefaultOppilaitos KoutaFixture)))
-  (spit "test/resources/kouta/default-oppilaitoksen-osa.json" (java-map->pretty-json (.DefaultOppilaitoksenOsa KoutaFixture)))
-
-  (spit "test/resources/kouta/lk-toteutus-metadata.json" (generate-string (->keywordized-json (.lukioToteutusMetadata KoutaFixture)) {:pretty true}))
-  (spit "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json" (generate-string (->keywordized-json (.ammTutkinnonOsaToteutusMetadata KoutaFixture)) {:pretty true})))
-
-
 (defonce default-koulutus-map (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json")))
 (defonce default-toteutus-map (->keywordized-json (slurp "test/resources/kouta/default-toteutus.json")))
 (defonce default-haku-map (->keywordized-json (slurp "test/resources/kouta/default-haku.json")))
@@ -184,7 +166,6 @@
    {:tyyppi "amm-osaamisala"
     :osaamisalaKoodiUri "osaamisala_01"
     :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
-    
 
 (defonce amm-muu-koulutus-metadata
          {:tyyppi "amm-muu"
@@ -514,7 +495,6 @@
                                      :hakuajat (:hakuajat haku)
                                      :koulutuksenAlkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi])
                                      :hakukohteet (vec (map assoc-hakukohde hks)))
-                                 
                                    nil))
         assoc-haut (fn [hkByH] (map (fn [hOid] (assoc-haku hOid (get hkByH hOid))) (keys hkByH)))
         assoc-toteutus (fn [t] (assoc {} :toteutusOid (:oid t)
