@@ -90,9 +90,12 @@
 (defn assoc-opintojaksot
   [toteutus opintojaksot]
   (let [liitetyt-opintojaksot (for [opintojakso opintojaksot]
-                                {:nimi (:nimi opintojakso)
-                                 :oid (:oid opintojakso)
-                                 :kuvaus (get-in opintojakso [:metadata :kuvaus])})]
+                                (common/decorate-koodi-uris
+                                  {:nimi (:nimi opintojakso)
+                                   :oid (:oid opintojakso)
+                                   :kuvaus (get-in opintojakso [:metadata :kuvaus])
+                                   :opintojenLaajuusNumero (get-in opintojakso [:koulutusMetadata :opintojenLaajuusNumero])
+                                   :opintojenLaajuusyksikkoKoodiUri (get-in opintojakso [:koulutusMetadata :opintojenLaajuusyksikkoKoodiUri])}))]
     (assoc toteutus :liitetytOpintojaksot liitetyt-opintojaksot)))
 
 
