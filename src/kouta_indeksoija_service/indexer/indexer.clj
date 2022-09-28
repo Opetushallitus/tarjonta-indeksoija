@@ -70,9 +70,12 @@
 (defn index-toteutukset
   [oids execution-id]
   (let [toteutus-entries (toteutus/do-index oids execution-id)
+        opintokokonaisuus-oids (kouta-backend/get-opintokokonaisuus-oids-by-toteutus-oids-cache oids execution-id)
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
         haut    (mapcat #(kouta-backend/list-haut-by-toteutus-with-cache % execution-id) oids)
         koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))]
+    (when (seq opintokokonaisuus-oids)
+      (toteutus/do-index opintokokonaisuus-oids execution-id))
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
     (osaamisalakuvaus/do-index (eperuste-ids-on-koulutukset koulutus-entries) execution-id)
