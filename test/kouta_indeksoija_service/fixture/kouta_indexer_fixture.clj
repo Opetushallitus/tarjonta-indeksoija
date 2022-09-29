@@ -597,7 +597,7 @@
             (assoc :nimi {:fi (str "Toimipiste fi " %)
                           :sv (str "Toimipiste sv " %)})) oids))
 
-(defn mock-get-opintokokonaisuus-oids-by-toteutus-oids
+(defn mock-get-opintokokonaisuudet-by-toteutus-oids
   [oids execution-id]
   [])
 
@@ -707,8 +707,8 @@
                  kouta-indeksoija-service.rest.kouta/list-toteutukset-by-haku-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-list-toteutukset-by-haku
 
-                 kouta-indeksoija-service.rest.kouta/get-opintokokonaisuus-oids-by-toteutus-oids-cache
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-opintokokonaisuus-oids-by-toteutus-oids
+                 kouta-indeksoija-service.rest.kouta/get-opintokokonaisuudet-by-toteutus-oids-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-opintokokonaisuudet-by-toteutus-oids
 
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja

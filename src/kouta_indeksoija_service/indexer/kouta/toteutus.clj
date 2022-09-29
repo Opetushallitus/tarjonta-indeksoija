@@ -131,6 +131,10 @@
                                     (kouta-backend/get-toteutukset-with-cache
                                       liitetyt-opintojaksot
                                       execution-id))
+            opintokokonaisuudet (when (= "kk-opintojakso" (get-in toteutus [:metadata :tyyppi]))
+                                  (kouta-backend/get-opintokokonaisuudet-by-toteutus-oids-with-cache
+                                    [(:oid toteutus)]
+                                    execution-id))
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)
@@ -142,6 +146,7 @@
                                   (assoc-tarjoajien-oppilaitokset)
                                   (assoc-hakutiedot hakutiedot)
                                   (assoc-opintojaksot opintojaksot)
+                                  (assoc :kuuluuOpintokokonaisuuksiin opintokokonaisuudet)
                                   (common/localize-dates))]
         (indexable/->index-entry-with-forwarded-data oid toteutus-enriched toteutus-enriched))
       (indexable/->delete-entry-with-forwarded-data oid toteutus))))

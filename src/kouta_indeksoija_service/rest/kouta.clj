@@ -200,12 +200,12 @@
 (def get-toteutukset-with-cache
   (ttl/memoize-ttl get-toteutukset))
 
-(defn get-opintokokonaisuus-oids-by-toteutus-oids
+(defn get-opintokokonaisuudet-by-toteutus-oids
   [oids execution-id]
   {:val (cas-authenticated-post-as-json
-          (resolve-url :kouta-backend.opintokokonaisuus-oids) {:body (json/generate-string oids) :content-type :json})
+          (resolve-url :kouta-backend.opintokokonaisuudet) {:body (json/generate-string oids) :content-type :json})
    :ttl (get-cache-time execution-id)})
 
-(def get-opintokokonaisuus-oids-by-toteutus-oids-cache
-  (ttl/memoize-ttl get-opintokokonaisuus-oids-by-toteutus-oids))
+(def get-opintokokonaisuudet-by-toteutus-oids-with-cache
+  (ttl/memoize-ttl get-opintokokonaisuudet-by-toteutus-oids))
 
