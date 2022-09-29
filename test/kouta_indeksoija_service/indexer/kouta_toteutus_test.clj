@@ -130,17 +130,17 @@
                                :organisaatioOid "1.2.246.562.10.75204242195"
                                :liitetytOpintojaksot [{:nimi {:fi "testiopintojaksototeutus"}
                                                        :oid "1.2.246.562.17.00000000000000009999"
-                                                       :kuvaus {:fi "<p>Opintojakson kuvaus</p>"}
-                                                       :opintojenLaajuusNumero 7.0
-                                                       :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
-                                                                                 :nimi
-                                                                                 {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
-                                                                                  :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}
+                                                       :metadata {:kuvaus {:fi "<p>Opintojakson kuvaus</p>"}
+                                                                  :opintojenLaajuusNumero 7.0
+                                                                  :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
+                                                                                            :nimi
+                                                                                            {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
+                                                                                             :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}}
                                                       {:nimi {:fi "testiopintojaksototeutus nro 2"}
                                                        :oid "1.2.246.562.17.00000000000000008888"
-                                                       :kuvaus {:fi "<p>Opintojakson nro 2 kuvaus</p>"}
-                                                       :opintojenLaajuusNumero 7.0
-                                                       :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
-                                                                                 :nimi {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
-                                                                                        :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}]}]
+                                                       :metadata {:kuvaus {:fi "<p>Opintojakson nro 2 kuvaus</p>"}
+                                                                  :opintojenLaajuusNumero 7.0
+                                                                  :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
+                                                                                            :nimi {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
+                                                                                                   :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}}]}]
         (is (= enriched-toteutus (toteutus/assoc-opintojaksot toteutus liitetyt-opintojaksot)))))))
