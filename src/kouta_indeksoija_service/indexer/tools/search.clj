@@ -217,7 +217,7 @@
   (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
         koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
         internal-koulutustyyppi (vector (:koulutustyyppi koulutus))
-        result (concat internal-koulutustyyppi koulutustyypit-without-erityisopetus )]
+        result (concat internal-koulutustyyppi koulutustyypit-without-erityisopetus)]
     (if (korkeakoulutus? koulutus)
       (concat result (get-korkeakoulutus-koulutustyyppi koulutus))
       result)))
