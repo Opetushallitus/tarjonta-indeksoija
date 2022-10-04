@@ -474,5 +474,6 @@
       ]
     }
   ],
-  "koulutustyyppi": "lk"
+  "koulutustyyppi": "lk",
+  "koulutustyyppiPath": "lk"
 }

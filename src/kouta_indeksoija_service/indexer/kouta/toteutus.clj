@@ -7,6 +7,7 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
+            [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
 
 (def index-name "toteutus-kouta")
@@ -110,13 +111,15 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [toteutus (kouta-backend/get-toteutus-with-cache oid execution-id)]
+  (let [toteutus (kouta-backend/get-toteutus-with-cache oid execution-id)
+        koulutus (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)]
     (if (not-poistettu? toteutus)
       (let [hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache (:koulutusOid toteutus) execution-id)
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)
                                   (assoc :koulutustyyppi (get-in toteutus [:metadata :tyyppi]))
+                                  (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
                                   (assoc :nimi (get-esitysnimi toteutus))
                                   (dissoc :_enrichedData)
                                   (enrich-metadata)

@@ -6,10 +6,11 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu? aikuisten-perusopetus?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koodiuri-viikko-laajuusyksikko koodiuri-osaamispiste-laajuusyksikko]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? amm-osaamisala? korkeakoulutus? lukio? tuva? telma? not-poistettu?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koulutusalat koulutusasteet koulutusalat-taso1 koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koodiuri-viikko-laajuusyksikko koodiuri-osaamispiste-laajuusyksikko]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]))
+            [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
+))
 
 (def index-name "koulutus-kouta")
 
@@ -115,20 +116,20 @@
         eqf (get-alakoodis-for-multiple-koodiUri koulutusKoodiUrit "eqf")
         nqf (get-alakoodis-for-multiple-koodiUri koulutusKoodiUrit "nqf")]
     (-> koulutus
-      (assoc :eqf eqf)
-      (assoc :nqf nqf))))
+        (assoc :eqf eqf)
+        (assoc :nqf nqf))))
 
 (defn- enrich-common-metadata
   [koulutus]
   (let [eperuste (some-> koulutus :ePerusteId (get-eperuste-by-id))]
     (cond-> koulutus
-            (does-not-have-tutkintonimike? koulutus) (assoc-in [:metadata :tutkintonimike] [])
-            (some? eperuste) (#(-> %
-                                   (assoc-in [:metadata :eperuste :id]                (:id eperuste))
-                                   (assoc-in [:metadata :eperuste :diaarinumero]      (:diaarinumero eperuste))
-                                   (assoc-in [:metadata :eperuste :voimassaoloLoppuu] (some-> eperuste
-                                                                                              :voimassaoloLoppuu
-                                                                                              (long->indexed-date-time))))))))
+      (does-not-have-tutkintonimike? koulutus) (assoc-in [:metadata :tutkintonimike] [])
+      (some? eperuste) (#(-> %
+                             (assoc-in [:metadata :eperuste :id]                (:id eperuste))
+                             (assoc-in [:metadata :eperuste :diaarinumero]      (:diaarinumero eperuste))
+                             (assoc-in [:metadata :eperuste :voimassaoloLoppuu] (some-> eperuste
+                                                                                        :voimassaoloLoppuu
+                                                                                        (long->indexed-date-time))))))))
 
 (defn- enrich-koulutustyyppi-based-metadata
   [koulutus]
@@ -157,8 +158,8 @@
 (defn- create-koulutuskoodiuri-with-aste-and-ala
   [koodiuri]
   {:koulutusKoodiUri koodiuri
-   :koulutusalaKoodiUrit (koodisto/koulutusalat koodiuri)
-   :koulutusasteKoodiUrit (koodisto/koulutusasteet koodiuri)})
+   :koulutusalaKoodiUrit (koulutusalat koodiuri)
+   :koulutusasteKoodiUrit (koulutusasteet koodiuri)})
 
 (defn- assoc-koulutusala-and-koulutusaste
   [koulutus]
@@ -167,12 +168,14 @@
                                         (map create-koulutuskoodiuri-with-aste-and-ala))]
     (assoc koulutus :koulutuskoodienAlatJaAsteet koulutusAlaJaAstekoodiUrit)))
 
+
 (defn create-index-entry
   [oid execution-id]
   (let [koulutus (common/complete-entry (kouta-backend/get-koulutus-with-cache oid execution-id))]
     (if (not-poistettu? koulutus)
       (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus-with-cache oid execution-id))
             koulutus-enriched (-> koulutus
+                                  (assoc-koulutustyyppi-path koulutus)
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)
                                   (assoc-eqf-and-nqf)
