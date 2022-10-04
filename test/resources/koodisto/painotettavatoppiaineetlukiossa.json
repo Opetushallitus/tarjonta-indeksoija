@@ -1,0 +1,4817 @@
+[
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3pt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3pt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_PT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 portugali",
+        "kuvaus": "B3 portugali",
+        "lyhytNimi": "B3 portugali",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 portugisiska",
+        "kuvaus": "B3 portugisiska",
+        "lyhytNimi": "B3 portugisiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1lt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1lt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_LT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 litauiska",
+        "kuvaus": "B1 litauiska",
+        "lyhytNimi": "B1 litauiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 liettua",
+        "kuvaus": "B1 liettua",
+        "lyhytNimi": "B1 liettua",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2en",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2en",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_EN",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 engelska",
+        "kuvaus": "B2 engelska",
+        "lyhytNimi": "B2 engelska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 englanti",
+        "kuvaus": "B2 englanti",
+        "lyhytNimi": "B2 englanti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ks",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ks",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "KS",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Slöjd",
+        "kuvaus": "Slöjd",
+        "lyhytNimi": "Slöjd",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Käsityö",
+        "kuvaus": "Käsityö",
+        "lyhytNimi": "Käsityö",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2ru",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2ru",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_RU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 venäjä",
+        "kuvaus": "A2 venäjä",
+        "lyhytNimi": "A2 venäjä",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 ryska",
+        "kuvaus": "A2 ryska",
+        "lyhytNimi": "A2 ryska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3vk",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3vk",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_VK",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 teckenspråk",
+        "kuvaus": "B3 teckenspråk",
+        "lyhytNimi": "B3 teckenspråk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 viittomakieli",
+        "kuvaus": "B3 viittomakieli",
+        "lyhytNimi": "B3 viittomakieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1se",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1se",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_SE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 samiska",
+        "kuvaus": "B1 samiska",
+        "lyhytNimi": "B1 samiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 saame",
+        "kuvaus": "B1 saame",
+        "lyhytNimi": "B1 saame",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_bi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_bi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "BI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Biologia",
+        "kuvaus": "Biologia",
+        "lyhytNimi": "Biologia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Biologi",
+        "kuvaus": "Biologi",
+        "lyhytNimi": "Biologi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ge",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ge",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "GE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Maantieto",
+        "kuvaus": "Maantieto",
+        "lyhytNimi": "Maantieto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Geografi",
+        "kuvaus": "Geografi",
+        "lyhytNimi": "Geografi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1lv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1lv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_LV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 lettiska",
+        "kuvaus": "A1 lettiska",
+        "lyhytNimi": "A1 lettiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 latvia",
+        "kuvaus": "A1 latvia",
+        "lyhytNimi": "A1 latvia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2et",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2et",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_ET",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 eesti",
+        "kuvaus": "B2 eesti",
+        "lyhytNimi": "B2 eesti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 estniska",
+        "kuvaus": "B2 estniska",
+        "lyhytNimi": "B2 estniska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2lv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2lv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_LV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 latvia",
+        "kuvaus": "B2 latvia",
+        "lyhytNimi": "B2 latvia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 lettiska",
+        "kuvaus": "B2 lettiska",
+        "lyhytNimi": "B2 lettiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_hi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_hi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "HI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Historia",
+        "kuvaus": "Historia",
+        "lyhytNimi": "Historia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Historia",
+        "kuvaus": "Historia",
+        "lyhytNimi": "Historia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2sv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2sv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_SV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 ruotsi",
+        "kuvaus": "B2 ruotsi",
+        "lyhytNimi": "B2 ruotsi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 svenska",
+        "kuvaus": "B2 svenska",
+        "lyhytNimi": "B2 svenska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1pt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1pt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_PT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 portugali",
+        "kuvaus": "B1 portugali",
+        "lyhytNimi": "B1 portugali",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B1 portugisiska",
+        "kuvaus": "B1 portugisiska",
+        "lyhytNimi": "B1 portugisiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2zh",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2zh",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_ZH",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 kiina",
+        "kuvaus": "B2 kiina",
+        "lyhytNimi": "B2 kiina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 kinesiska",
+        "kuvaus": "B2 kinesiska",
+        "lyhytNimi": "B2 kinesiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1vk",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1vk",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_VK",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 viittomakieli",
+        "kuvaus": "A1 viittomakieli",
+        "lyhytNimi": "A1 viittomakieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 teckenspråk",
+        "kuvaus": "A1 teckenspråk",
+        "lyhytNimi": "A1 teckenspråk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1et",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1et",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_ET",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 eesti",
+        "kuvaus": "A1 eesti",
+        "lyhytNimi": "A1 eesti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 estniska",
+        "kuvaus": "A1 estniska",
+        "lyhytNimi": "A1 estniska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1de",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1de",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_DE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 tyska",
+        "kuvaus": "A1 tyska",
+        "lyhytNimi": "A1 tyska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 saksa",
+        "kuvaus": "A1 saksa",
+        "lyhytNimi": "A1 saksa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2de",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2de",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_DE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 tyska",
+        "kuvaus": "B2 tyska",
+        "lyhytNimi": "B2 tyska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 saksa",
+        "kuvaus": "B2 saksa",
+        "lyhytNimi": "B2 saksa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2vk",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2vk",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_VK",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 viittomakieli",
+        "kuvaus": "B2 viittomakieli",
+        "lyhytNimi": "B2 viittomakieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 teckenspråk",
+        "kuvaus": "B2 teckenspråk",
+        "lyhytNimi": "B2 teckenspråk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2fi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 suomi",
+        "kuvaus": "A2 suomi",
+        "lyhytNimi": "A2 suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 finska",
+        "kuvaus": "A2 finska",
+        "lyhytNimi": "A2 finska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1vk",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1vk",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_VK",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 teckenspråk",
+        "kuvaus": "B1 teckenspråk",
+        "lyhytNimi": "B1 teckenspråk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 viittomakieli",
+        "kuvaus": "B1 viittomakieli",
+        "lyhytNimi": "B1 viittomakieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2el",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2el",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_EL",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 kreikka",
+        "kuvaus": "A2 kreikka",
+        "lyhytNimi": "A2 kreikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 grekiska",
+        "kuvaus": "A2 grekiska",
+        "lyhytNimi": "A2 grekiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1ru",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1ru",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_RU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 venäjä",
+        "kuvaus": "A1 venäjä",
+        "lyhytNimi": "A1 venäjä",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 ryska",
+        "kuvaus": "A1 ryska",
+        "lyhytNimi": "A1 ryska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ma",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ma",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "MA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Matematiikka",
+        "kuvaus": "Matematiikka",
+        "lyhytNimi": "Matematiikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Matematik",
+        "kuvaus": "Matematik",
+        "lyhytNimi": "Matematik",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1fr",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1fr",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_FR",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 ranska",
+        "kuvaus": "A1 ranska",
+        "lyhytNimi": "A1 ranska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 franska",
+        "kuvaus": "A1 franska",
+        "lyhytNimi": "A1 franska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3et",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3et",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_ET",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 estniska",
+        "kuvaus": "B3 estniska",
+        "lyhytNimi": "B3 estniska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 eesti",
+        "kuvaus": "B3 eesti",
+        "lyhytNimi": "B3 eesti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2pt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2pt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_PT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 portugisiska",
+        "kuvaus": "B2 portugisiska",
+        "lyhytNimi": "B2 portugisiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 portugali",
+        "kuvaus": "B2 portugali",
+        "lyhytNimi": "B2 portugali",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3la",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3la",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_LA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 latina",
+        "kuvaus": "B3 latina",
+        "lyhytNimi": "B3 latina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 latin",
+        "kuvaus": "B3 latin",
+        "lyhytNimi": "B3 latin",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1ja",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1ja",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_JA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 japanska",
+        "kuvaus": "A1 japanska",
+        "lyhytNimi": "A1 japanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 japani",
+        "kuvaus": "A1 japani",
+        "lyhytNimi": "A1 japani",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1en",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1en",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_EN",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 englanti",
+        "kuvaus": "B1 englanti",
+        "lyhytNimi": "B1 englanti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B1 engelska",
+        "kuvaus": "B1 engelska",
+        "lyhytNimi": "B1 engelska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2fr",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2fr",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_FR",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 franska",
+        "kuvaus": "B2 franska",
+        "lyhytNimi": "B2 franska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 ranska",
+        "kuvaus": "B2 ranska",
+        "lyhytNimi": "B2 ranska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1lt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1lt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_LT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 liettua",
+        "kuvaus": "A1 liettua",
+        "lyhytNimi": "A1 liettua",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 litauiska",
+        "kuvaus": "A1 litauiska",
+        "lyhytNimi": "A1 litauiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2it",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2it",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_IT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 italia",
+        "kuvaus": "B2 italia",
+        "lyhytNimi": "B2 italia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 italienska",
+        "kuvaus": "B2 italienska",
+        "lyhytNimi": "B2 italienska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1fr",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1fr",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_FR",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 ranska",
+        "kuvaus": "B1 ranska",
+        "lyhytNimi": "B1 ranska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B1 franska",
+        "kuvaus": "B1 franska",
+        "lyhytNimi": "B1 franska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3fi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 finska",
+        "kuvaus": "B3 finska",
+        "lyhytNimi": "B3 finska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 suomi",
+        "kuvaus": "B3 suomi",
+        "lyhytNimi": "B3 suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3ja",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3ja",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_JA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 japani",
+        "kuvaus": "B3 japani",
+        "lyhytNimi": "B3 japani",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 japanska",
+        "kuvaus": "B3 japanska",
+        "lyhytNimi": "B3 japanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3de",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3de",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_DE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 saksa",
+        "kuvaus": "B3 saksa",
+        "lyhytNimi": "B3 saksa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 tyska",
+        "kuvaus": "B3 tyska",
+        "lyhytNimi": "B3 tyska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_kt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_kt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "KT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-12-10",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Uskonto tai elämänkatsomustieto",
+        "kuvaus": "Uskonto tai elämänkatsomustieto",
+        "lyhytNimi": "Uskonto tai elämänkatsomustieto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Religion eller livsåskådningskunskap",
+        "kuvaus": "Religion eller livsåskådningskunskap",
+        "lyhytNimi": "Religion eller livsåskådningskunskap",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3it",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3it",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_IT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 italienska",
+        "kuvaus": "B3 italienska",
+        "lyhytNimi": "B3 italienska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 italia",
+        "kuvaus": "B3 italia",
+        "lyhytNimi": "B3 italia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1en",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1en",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_EN",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 englanti",
+        "kuvaus": "A1 englanti",
+        "lyhytNimi": "A1 englanti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 engelska",
+        "kuvaus": "A1 engelska",
+        "lyhytNimi": "A1 engelska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2lv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2lv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_LV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 lettiska",
+        "kuvaus": "A2 lettiska",
+        "lyhytNimi": "A2 lettiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 latvia",
+        "kuvaus": "A2 latvia",
+        "lyhytNimi": "A2 latvia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2ru",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2ru",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_RU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 ryska",
+        "kuvaus": "B2 ryska",
+        "lyhytNimi": "B2 ryska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 venäjä",
+        "kuvaus": "B2 venäjä",
+        "lyhytNimi": "B2 venäjä",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1zh",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1zh",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_ZH",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 kiina",
+        "kuvaus": "A1 kiina",
+        "lyhytNimi": "A1 kiina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 kinesiska",
+        "kuvaus": "A1 kinesiska",
+        "lyhytNimi": "A1 kinesiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_yh",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_yh",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "YH",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Yhteiskuntaoppi",
+        "kuvaus": "Yhteiskuntaoppi",
+        "lyhytNimi": "Yhteiskuntaoppi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Samhällslära",
+        "kuvaus": "Samhällslära",
+        "lyhytNimi": "Samhällslära",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2et",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2et",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_ET",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 eesti",
+        "kuvaus": "A2 eesti",
+        "lyhytNimi": "A2 eesti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 estniska",
+        "kuvaus": "A2 estniska",
+        "lyhytNimi": "A2 estniska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2lt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2lt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_LT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 liettua",
+        "kuvaus": "A2 liettua",
+        "lyhytNimi": "A2 liettua",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 litauiska",
+        "kuvaus": "A2 litauiska",
+        "lyhytNimi": "A2 litauiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2se",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2se",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_SE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 samiska",
+        "kuvaus": "A2 samiska",
+        "lyhytNimi": "A2 samiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 saame",
+        "kuvaus": "A2 saame",
+        "lyhytNimi": "A2 saame",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2ja",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2ja",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_JA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 japani",
+        "kuvaus": "B2 japani",
+        "lyhytNimi": "B2 japani",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 japanska",
+        "kuvaus": "B2 japanska",
+        "lyhytNimi": "B2 japanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1pt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1pt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_PT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 portugisiska",
+        "kuvaus": "A1 portugisiska",
+        "lyhytNimi": "A1 portugisiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 portugali",
+        "kuvaus": "A1 portugali",
+        "lyhytNimi": "A1 portugali",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3es",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3es",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_ES",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 espanja",
+        "kuvaus": "B3 espanja",
+        "lyhytNimi": "B3 espanja",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 spanska",
+        "kuvaus": "B3 spanska",
+        "lyhytNimi": "B3 spanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_fi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Filosofia",
+        "kuvaus": "Filosofia",
+        "lyhytNimi": "Filosofia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Filosofi",
+        "kuvaus": "Filosofi",
+        "lyhytNimi": "Filosofi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ai",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ai",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "AI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Äidinkieli ja kirjallisuus",
+        "kuvaus": "Äidinkieli ja kirjallisuus",
+        "lyhytNimi": "Äidinkieli ja kirjallisuus",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Modersmålet och litteratur",
+        "kuvaus": "Modersmålet och litteratur",
+        "lyhytNimi": "Modersmålet och litteratur",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1la",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1la",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_LA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 latin",
+        "kuvaus": "A1 latin",
+        "lyhytNimi": "A1 latin",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 latina",
+        "kuvaus": "A1 latina",
+        "lyhytNimi": "A1 latina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ko",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ko",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "KO",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Kotitalous",
+        "kuvaus": "Kotitalous",
+        "lyhytNimi": "Kotitalous",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Huslig ekonomi",
+        "kuvaus": "Huslig ekonomi",
+        "lyhytNimi": "Huslig ekonomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1el",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1el",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_EL",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 kreikka",
+        "kuvaus": "A1 kreikka",
+        "lyhytNimi": "A1 kreikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 grekiska",
+        "kuvaus": "A1 grekiska",
+        "lyhytNimi": "A1 grekiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_fy",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_fy",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "FY",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Fysiikka",
+        "kuvaus": "Fysiikka",
+        "lyhytNimi": "Fysiikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Fysik",
+        "kuvaus": "Fysik",
+        "lyhytNimi": "Fysik",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ke",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ke",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "KE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Kemi",
+        "kuvaus": "Kemi",
+        "lyhytNimi": "Kemi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Kemia",
+        "kuvaus": "Kemia",
+        "lyhytNimi": "Kemia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2en",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2en",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_EN",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 engelska",
+        "kuvaus": "A2 engelska",
+        "lyhytNimi": "A2 engelska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 englanti",
+        "kuvaus": "A2 englanti",
+        "lyhytNimi": "A2 englanti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_te",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_te",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "TE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Hälsokunskap",
+        "kuvaus": "Hälsokunskap",
+        "lyhytNimi": "Hälsokunskap",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Terveystieto",
+        "kuvaus": "Terveystieto",
+        "lyhytNimi": "Terveystieto",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3zh",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3zh",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_ZH",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 kinesiska",
+        "kuvaus": "B3 kinesiska",
+        "lyhytNimi": "B3 kinesiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 kiina",
+        "kuvaus": "B3 kiina",
+        "lyhytNimi": "B3 kiina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2la",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2la",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_LA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 latin",
+        "kuvaus": "A2 latin",
+        "lyhytNimi": "A2 latin",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 latina",
+        "kuvaus": "A2 latina",
+        "lyhytNimi": "A2 latina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3se",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3se",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_SE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 saame",
+        "kuvaus": "B3 saame",
+        "lyhytNimi": "B3 saame",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 samiska",
+        "kuvaus": "B3 samiska",
+        "lyhytNimi": "B3 samiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1lv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1lv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_LV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 lettiska",
+        "kuvaus": "B1 lettiska",
+        "lyhytNimi": "B1 lettiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 latvia",
+        "kuvaus": "B1 latvia",
+        "lyhytNimi": "B1 latvia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3en",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3en",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_EN",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 engelska",
+        "kuvaus": "B3 engelska",
+        "lyhytNimi": "B3 engelska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 englanti",
+        "kuvaus": "B3 englanti",
+        "lyhytNimi": "B3 englanti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3el",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3el",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_EL",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 grekiska",
+        "kuvaus": "B3 grekiska",
+        "lyhytNimi": "B3 grekiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 kreikka",
+        "kuvaus": "B3 kreikka",
+        "lyhytNimi": "B3 kreikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2el",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2el",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_EL",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 kreikka",
+        "kuvaus": "B2 kreikka",
+        "lyhytNimi": "B2 kreikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 grekiska",
+        "kuvaus": "B2 grekiska",
+        "lyhytNimi": "B2 grekiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1it",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1it",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_IT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 italia",
+        "kuvaus": "A1 italia",
+        "lyhytNimi": "A1 italia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 italienska",
+        "kuvaus": "A1 italienska",
+        "lyhytNimi": "A1 italienska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1et",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1et",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_ET",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 eesti",
+        "kuvaus": "B1 eesti",
+        "lyhytNimi": "B1 eesti",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B1 estniska",
+        "kuvaus": "B1 estniska",
+        "lyhytNimi": "B1 estniska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2fi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 suomi",
+        "kuvaus": "B2 suomi",
+        "lyhytNimi": "B2 suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 finska",
+        "kuvaus": "B2 finska",
+        "lyhytNimi": "B2 finska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2fr",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2fr",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_FR",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 ranska",
+        "kuvaus": "A2 ranska",
+        "lyhytNimi": "A2 ranska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 franska",
+        "kuvaus": "A2 franska",
+        "lyhytNimi": "A2 franska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2de",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2de",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_DE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 saksa",
+        "kuvaus": "A2 saksa",
+        "lyhytNimi": "A2 saksa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 tyska",
+        "kuvaus": "A2 tyska",
+        "lyhytNimi": "A2 tyska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1la",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1la",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_LA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 latin",
+        "kuvaus": "B1 latin",
+        "lyhytNimi": "B1 latin",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 latina",
+        "kuvaus": "B1 latina",
+        "lyhytNimi": "B1 latina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1es",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1es",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_ES",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 spanska",
+        "kuvaus": "B1 spanska",
+        "lyhytNimi": "B1 spanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 espanja",
+        "kuvaus": "B1 espanja",
+        "lyhytNimi": "B1 espanja",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1ru",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1ru",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_RU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 ryska",
+        "kuvaus": "B1 ryska",
+        "lyhytNimi": "B1 ryska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 venäjä",
+        "kuvaus": "B1 venäjä",
+        "lyhytNimi": "B1 venäjä",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2se",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2se",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_SE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 samiska",
+        "kuvaus": "B2 samiska",
+        "lyhytNimi": "B2 samiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 saame",
+        "kuvaus": "B2 saame",
+        "lyhytNimi": "B2 saame",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2es",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2es",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_ES",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 espanja",
+        "kuvaus": "B2 espanja",
+        "lyhytNimi": "B2 espanja",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 spanska",
+        "kuvaus": "B2 spanska",
+        "lyhytNimi": "B2 spanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1ja",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1ja",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_JA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 japani",
+        "kuvaus": "B1 japani",
+        "lyhytNimi": "B1 japani",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B1 japanska",
+        "kuvaus": "B1 japanska",
+        "lyhytNimi": "B1 japanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1sv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1sv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_SV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 svenska",
+        "kuvaus": "B1 svenska",
+        "lyhytNimi": "B1 svenska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 ruotsi",
+        "kuvaus": "B1 ruotsi",
+        "lyhytNimi": "B1 ruotsi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2zh",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2zh",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_ZH",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 kinesiska",
+        "kuvaus": "A2 kinesiska",
+        "lyhytNimi": "A2 kinesiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 kiina",
+        "kuvaus": "A2 kiina",
+        "lyhytNimi": "A2 kiina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_mu",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_mu",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "MU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Musik",
+        "kuvaus": "Musik",
+        "lyhytNimi": "Musik",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Musiikki",
+        "kuvaus": "Musiikki",
+        "lyhytNimi": "Musiikki",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2lt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2lt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_LT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 litauiska",
+        "kuvaus": "B2 litauiska",
+        "lyhytNimi": "B2 litauiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B2 liettua",
+        "kuvaus": "B2 liettua",
+        "lyhytNimi": "B2 liettua",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1zh",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1zh",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_ZH",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 kinesiska",
+        "kuvaus": "B1 kinesiska",
+        "lyhytNimi": "B1 kinesiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 kiina",
+        "kuvaus": "B1 kiina",
+        "lyhytNimi": "B1 kiina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3lv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3lv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_LV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 latvia",
+        "kuvaus": "B3 latvia",
+        "lyhytNimi": "B3 latvia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 lettiska",
+        "kuvaus": "B3 lettiska",
+        "lyhytNimi": "B3 lettiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2vk",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2vk",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_VK",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 viittomakieli",
+        "kuvaus": "A2 viittomakieli",
+        "lyhytNimi": "A2 viittomakieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 teckenspråk",
+        "kuvaus": "A2 teckenspråk",
+        "lyhytNimi": "A2 teckenspråk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3ru",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3ru",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_RU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 ryska",
+        "kuvaus": "B3 ryska",
+        "lyhytNimi": "B3 ryska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 venäjä",
+        "kuvaus": "B3 venäjä",
+        "lyhytNimi": "B3 venäjä",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3fr",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3fr",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_FR",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 ranska",
+        "kuvaus": "B3 ranska",
+        "lyhytNimi": "B3 ranska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 franska",
+        "kuvaus": "B3 franska",
+        "lyhytNimi": "B3 franska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ps",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ps",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "PS",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Psykologia",
+        "kuvaus": "Psykologia",
+        "lyhytNimi": "Psykologia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Psykologi",
+        "kuvaus": "Psykologi",
+        "lyhytNimi": "Psykologi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1de",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1de",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_DE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 tyska",
+        "kuvaus": "B1 tyska",
+        "lyhytNimi": "B1 tyska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 saksa",
+        "kuvaus": "B1 saksa",
+        "lyhytNimi": "B1 saksa",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_li",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_li",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "LI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Gymnastik",
+        "kuvaus": "Gymnastik",
+        "lyhytNimi": "Gymnastik",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Liikunta",
+        "kuvaus": "Liikunta",
+        "lyhytNimi": "Liikunta",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2la",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2la",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B2_LA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 latina",
+        "kuvaus": "B2 latina",
+        "lyhytNimi": "B2 latina",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 latin",
+        "kuvaus": "B2 latin",
+        "lyhytNimi": "B2 latin",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1sv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1sv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_SV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 svenska",
+        "kuvaus": "A1 svenska",
+        "lyhytNimi": "A1 svenska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 ruotsi",
+        "kuvaus": "A1 ruotsi",
+        "lyhytNimi": "A1 ruotsi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2sv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2sv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_SV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 svenska",
+        "kuvaus": "A2 svenska",
+        "lyhytNimi": "A2 svenska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 ruotsi",
+        "kuvaus": "A2 ruotsi",
+        "lyhytNimi": "A2 ruotsi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2it",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2it",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_IT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 italia",
+        "kuvaus": "A2 italia",
+        "lyhytNimi": "A2 italia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 italienska",
+        "kuvaus": "A2 italienska",
+        "lyhytNimi": "A2 italienska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2es",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2es",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_ES",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 espanja",
+        "kuvaus": "A2 espanja",
+        "lyhytNimi": "A2 espanja",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A2 spanska",
+        "kuvaus": "A2 spanska",
+        "lyhytNimi": "A2 spanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1el",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1el",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_EL",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 kreikka",
+        "kuvaus": "B1 kreikka",
+        "lyhytNimi": "B1 kreikka",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B1 grekiska",
+        "kuvaus": "B1 grekiska",
+        "lyhytNimi": "B1 grekiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2ja",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2ja",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_JA",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 japanska",
+        "kuvaus": "A2 japanska",
+        "lyhytNimi": "A2 japanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 japani",
+        "kuvaus": "A2 japani",
+        "lyhytNimi": "A2 japani",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3lt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3lt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_LT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 litauiska",
+        "kuvaus": "B3 litauiska",
+        "lyhytNimi": "B3 litauiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 liettua",
+        "kuvaus": "B3 liettua",
+        "lyhytNimi": "B3 liettua",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1es",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1es",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_ES",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 spanska",
+        "kuvaus": "A1 spanska",
+        "lyhytNimi": "A1 spanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 espanja",
+        "kuvaus": "A1 espanja",
+        "lyhytNimi": "A1 espanja",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1se",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1se",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_SE",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 samiska",
+        "kuvaus": "A1 samiska",
+        "lyhytNimi": "A1 samiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 saame",
+        "kuvaus": "A1 saame",
+        "lyhytNimi": "A1 saame",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2pt",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2pt",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A2_PT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 portugisiska",
+        "kuvaus": "A2 portugisiska",
+        "lyhytNimi": "A2 portugisiska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 portugali",
+        "kuvaus": "A2 portugali",
+        "lyhytNimi": "A2 portugali",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1fi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "A1_FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 finska",
+        "kuvaus": "A1 finska",
+        "lyhytNimi": "A1 finska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A1 suomi",
+        "kuvaus": "A1 suomi",
+        "lyhytNimi": "A1 suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3sv",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3sv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B3_SV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 svenska",
+        "kuvaus": "B3 svenska",
+        "lyhytNimi": "B3 svenska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B3 ruotsi",
+        "kuvaus": "B3 ruotsi",
+        "lyhytNimi": "B3 ruotsi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1it",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1it",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_IT",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 italienska",
+        "kuvaus": "B1 italienska",
+        "lyhytNimi": "B1 italienska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 italia",
+        "kuvaus": "B1 italia",
+        "lyhytNimi": "B1 italia",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_ku",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_ku",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "KU",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2007-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Kuvataide",
+        "kuvaus": "Kuvataide",
+        "lyhytNimi": "Kuvataide",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Bildkonst",
+        "kuvaus": "Bildkonst",
+        "lyhytNimi": "Bildkonst",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1fi",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "B1_FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-08-27",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 finska",
+        "kuvaus": "B1 finska",
+        "lyhytNimi": "B1 finska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 suomi",
+        "kuvaus": "B1 suomi",
+        "lyhytNimi": "B1 suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  }
+]

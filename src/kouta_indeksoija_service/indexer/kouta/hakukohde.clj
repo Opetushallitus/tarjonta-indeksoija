@@ -2,11 +2,13 @@
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku not-poistettu?]]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
-            [clojure.string]
+            [clojure.set :as s]
+            [clojure.string :as str]
             [clj-time.format :as f]
             [clj-time.core :as t]))
 
@@ -17,6 +19,11 @@
 (defonce vapaa-sivistava-koulutustyyppi "koulutustyyppi_10")
 (defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 (defonce lukio-koulutustyyppi "koulutustyyppi_2")
+(defonce painotettavat-oppiaineet-lukiossa-kaikki #{"painotettavatoppiaineetlukiossa_a1"
+                                                   "painotettavatoppiaineetlukiossa_a2"
+                                                   "painotettavatoppiaineetlukiossa_b1"
+                                                   "painotettavatoppiaineetlukiossa_b2"
+                                                   "painotettavatoppiaineetlukiossa_b3"})
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -52,7 +59,7 @@
   (if-some [alkamiskausi-koodi-uri (if (:kaytetaanHaunAlkamiskautta hakukohde)
                                      (get-in haku [:metadata :koulutuksenAlkamiskausi :koulutuksenAlkamiskausiKoodiUri])
                                      (:alkamiskausiKoodiUri hakukohde))]
-    (clojure.string/starts-with? alkamiskausi-koodi-uri "kausi_k#")
+    (str/starts-with? alkamiskausi-koodi-uri "kausi_k#")
     false))
 
 (defn- alkamisvuosi
@@ -72,11 +79,11 @@
 
 (defn- some-kohdejoukon-tarkenne?
   [haku]
-  (not (clojure.string/blank? (:kohdejoukonTarkenneKoodiUri haku))))
+  (not (str/blank? (:kohdejoukonTarkenneKoodiUri haku))))
 
 (defn- jatkotutkintohaku-tarkenne?
   [haku]
-  (clojure.string/starts-with?
+  (str/starts-with?
    (:kohdejoukonTarkenneKoodiUri haku)
    "haunkohdejoukontarkenne_3#"))
 
@@ -237,6 +244,34 @@
     (assoc hakukohde :paateltyAlkamiskausi result)
     hakukohde))
 
+(defn remove-uri-versions
+  [koodiurit]
+  (map #(update-in % [:koodiUrit :oppiaine] remove-uri-version) koodiurit))
+
+(defn- replace-with-koodisto-oppiaineet
+  [koodiuri]
+  (let [koodisto-oppiaineet (filter #(str/starts-with? % (get-in koodiuri [:koodiUrit :oppiaine]))
+                                    (koodisto-tools/painotettavatoppiaineetlukiossa-koodiurit))
+        painokerroin (get koodiuri :painokerroin)]
+    (map #(assoc {} :koodiUrit {:oppiaine %}, :painokerroin painokerroin) koodisto-oppiaineet)))
+
+(defn- get-matching-painokerroin
+  [koodiuri koodiurit-koodisto]
+  (first (filter #(= (get-in koodiuri [:koodiUrit :oppiaine]) (get-in % [:koodiUrit :oppiaine])) koodiurit-koodisto)))
+
+(defn- get-painokerroin-or-use-current
+  [koodiuri koodiurit-koodisto]
+  (assoc koodiuri :painokerroin (get (or (get-matching-painokerroin koodiuri koodiurit-koodisto) koodiuri) :painokerroin)))
+
+(defn- complete-painotetut-lukioarvosanat-kaikki
+  [koodiurit]
+  (let [koodiurit-to-complete (flatten (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (get-in % [:koodiUrit :oppiaine])) (set koodiurit)))
+        koodiurit-koodisto (flatten (remove-uri-versions (s/difference (set koodiurit) (set koodiurit-to-complete))))
+        koodiurit-completed (flatten (map #(replace-with-koodisto-oppiaineet %) koodiurit-to-complete))
+        koodiurit-with-painokertoimet (map #(get-painokerroin-or-use-current % koodiurit-koodisto) koodiurit-completed)
+        koodiurit-to-add (flatten (seq (s/difference (set koodiurit-koodisto) (set koodiurit-with-painokertoimet))))]
+    (vec (flatten (conj koodiurit-with-painokertoimet koodiurit-to-add)))))
+
 (defn create-index-entry
   [oid execution-id]
   (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
@@ -244,16 +279,17 @@
       (let [hakukohde (-> hakukohde-from-kouta
                           (assoc-nimi-as-esitysnimi)
                           (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
+                          (update-in [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
                           (common/complete-entry))
             haku (kouta-backend/get-haku-with-cache (:hakuOid hakukohde) execution-id)
             toteutus (kouta-backend/get-toteutus-with-cache (:toteutusOid hakukohde) execution-id)
             koulutus (kouta-backend/get-koulutus-with-cache (:koulutusOid toteutus) execution-id)
             sora-kuvaus (kouta-backend/get-sorakuvaus-with-cache (:sorakuvausId koulutus) execution-id)
             valintaperusteId (:valintaperusteId hakukohde)
-            valintaperuste (when-not (clojure.string/blank? valintaperusteId)
+            valintaperuste (when-not (str/blank? valintaperusteId)
                              (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
             jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
-            jarjestyspaikka-oppilaitos (when-not (clojure.string/blank? jarjestyspaikkaOid)
+            jarjestyspaikka-oppilaitos (when-not (str/blank? jarjestyspaikkaOid)
                                          (first
                                            (:oppilaitokset
                                             (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
