@@ -244,9 +244,19 @@
     (assoc hakukohde :paateltyAlkamiskausi result)
     hakukohde))
 
-(defn remove-uri-versions
+(defn- get-koodiurit-to-complete
+  [koodiurit]
+  (flatten
+    (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (get-in % [:koodiUrit :oppiaine])) (set koodiurit))))
+
+(defn- remove-uri-versions
   [koodiurit]
   (map #(update-in % [:koodiUrit :oppiaine] remove-uri-version) koodiurit))
+
+(defn- get-koodisto-koodiurit
+  [koodiurit koodiurit-to-complete]
+  (flatten
+    (remove-uri-versions (s/difference (set koodiurit) (set koodiurit-to-complete)))))
 
 (defn- replace-with-koodisto-oppiaineet
   [koodiuri]
@@ -255,21 +265,32 @@
         painokerroin (get koodiuri :painokerroin)]
     (map #(assoc {} :koodiUrit {:oppiaine %}, :painokerroin painokerroin) koodisto-oppiaineet)))
 
+(defn- complete-koodiurit
+  [koodiurit-to-complete]
+  (flatten
+    (map #(replace-with-koodisto-oppiaineet %) koodiurit-to-complete)))
+
 (defn- get-matching-painokerroin
   [koodiuri koodiurit-koodisto]
-  (first (filter #(= (get-in koodiuri [:koodiUrit :oppiaine]) (get-in % [:koodiUrit :oppiaine])) koodiurit-koodisto)))
+  (first
+    (filter #(= (get-in koodiuri [:koodiUrit :oppiaine]) (get-in % [:koodiUrit :oppiaine])) koodiurit-koodisto)))
 
 (defn- get-painokerroin-or-use-current
   [koodiuri koodiurit-koodisto]
   (assoc koodiuri :painokerroin (get (or (get-matching-painokerroin koodiuri koodiurit-koodisto) koodiuri) :painokerroin)))
 
+(defn- get-missing-koodiurit
+  [koodiurit-koodisto koodiurit-with-painokertoimet]
+  (flatten
+    (seq (s/difference (set koodiurit-koodisto) (set koodiurit-with-painokertoimet)))))
+
 (defn- complete-painotetut-lukioarvosanat-kaikki
   [koodiurit]
-  (let [koodiurit-to-complete (flatten (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (get-in % [:koodiUrit :oppiaine])) (set koodiurit)))
-        koodiurit-koodisto (flatten (remove-uri-versions (s/difference (set koodiurit) (set koodiurit-to-complete))))
-        koodiurit-completed (flatten (map #(replace-with-koodisto-oppiaineet %) koodiurit-to-complete))
+  (let [koodiurit-to-complete (get-koodiurit-to-complete koodiurit)
+        koodiurit-koodisto (get-koodisto-koodiurit koodiurit koodiurit-to-complete)
+        koodiurit-completed (complete-koodiurit koodiurit-to-complete)
         koodiurit-with-painokertoimet (map #(get-painokerroin-or-use-current % koodiurit-koodisto) koodiurit-completed)
-        koodiurit-to-add (flatten (seq (s/difference (set koodiurit-koodisto) (set koodiurit-with-painokertoimet))))]
+        koodiurit-to-add (get-missing-koodiurit koodiurit-koodisto koodiurit-with-painokertoimet)]
     (vec (flatten (conj koodiurit-with-painokertoimet koodiurit-to-add)))))
 
 (defn create-index-entry
