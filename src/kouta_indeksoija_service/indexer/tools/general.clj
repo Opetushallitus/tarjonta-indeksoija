@@ -1,4 +1,5 @@
-(ns kouta-indeksoija-service.indexer.tools.general)
+(ns kouta-indeksoija-service.indexer.tools.general
+  (:require [clojure.string :as string]))
 
 (defonce Julkaistu "julkaistu")
 (defonce Tallennettu "tallennettu")
@@ -44,7 +45,7 @@
   [koulutus]
   (some
    #(= (:koulutustyyppi koulutus) %)
-   ["yo", "amk", "amm-ope-erityisope-ja-opo" "kk-opintojakso" "erikoislaakari"]))
+   ["yo", "amk", "amm-ope-erityisope-ja-opo" "ope-pedag-opinnot" "kk-opintojakso" "erikoislaakari"]))
 
 (defn lukio?
   [koulutus]
@@ -69,6 +70,10 @@
 (defn amm-ope-erityisope-ja-opo?
   [koulutus]
   (= "amm-ope-erityisope-ja-opo" (:koulutustyyppi koulutus)))
+
+(defn ope-pedag-opinnot?
+  [koulutus]
+  (= "ope-pedag-opinnot" (:koulutustyyppi koulutus)))
 
 (defn kk-opintojakso?
   [koulutus]
@@ -113,5 +118,5 @@
     (if (not (nil? koodiuri))
       (assoc-in entity
                 path-to-koodiuri
-                (clojure.string/replace koodiuri #"#\w+" ""))
+                (string/replace koodiuri #"#\w+" ""))
       entity)))
