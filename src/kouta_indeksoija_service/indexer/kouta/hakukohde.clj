@@ -293,6 +293,13 @@
         koodiurit-to-add (get-missing-koodiurit koodiurit-koodisto koodiurit-with-painokertoimet)]
     (vec (flatten (conj koodiurit-with-painokertoimet koodiurit-to-add)))))
 
+(defn- complete-painotetut-lukioarvosanat-if-exists
+  [hakukohde]
+  (if
+    (not (nil? (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])))
+    (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
+    hakukohde))
+
 (defn create-index-entry
   [oid execution-id]
   (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
@@ -300,7 +307,7 @@
       (let [hakukohde (-> hakukohde-from-kouta
                           (assoc-nimi-as-esitysnimi)
                           (koodisto-tools/assoc-hakukohde-nimi-from-koodi)
-                          (update-in [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
+                          (complete-painotetut-lukioarvosanat-if-exists)
                           (common/complete-entry))
             haku (kouta-backend/get-haku-with-cache (:hakuOid hakukohde) execution-id)
             toteutus (kouta-backend/get-toteutus-with-cache (:toteutusOid hakukohde) execution-id)
