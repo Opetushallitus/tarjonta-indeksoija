@@ -21,10 +21,10 @@
 (defonce tuva-erityisopetus-koulutustyyppi "koulutustyyppi_41")
 (defonce lukio-koulutustyyppi "koulutustyyppi_2")
 (defonce painotettavat-oppiaineet-lukiossa-kaikki #{"painotettavatoppiaineetlukiossa_a1"
-                                                   "painotettavatoppiaineetlukiossa_a2"
-                                                   "painotettavatoppiaineetlukiossa_b1"
-                                                   "painotettavatoppiaineetlukiossa_b2"
-                                                   "painotettavatoppiaineetlukiossa_b3"})
+                                                    "painotettavatoppiaineetlukiossa_a2"
+                                                    "painotettavatoppiaineetlukiossa_b1"
+                                                    "painotettavatoppiaineetlukiossa_b2"
+                                                    "painotettavatoppiaineetlukiossa_b3"})
 
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
@@ -248,16 +248,12 @@
 (defn- get-koodiurit-to-complete
   [koodiurit]
   (flatten
-    (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (get-in % [:koodiUrit :oppiaine])) (set koodiurit))))
-
-(defn- remove-uri-versions
-  [koodiurit]
-  (map #(update-in % [:koodiUrit :oppiaine] remove-uri-version) koodiurit))
+    (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (remove-uri-version (get-in % [:koodiUrit :oppiaine]))) (set koodiurit))))
 
 (defn- get-koodisto-koodiurit
   [koodiurit koodiurit-to-complete]
   (flatten
-    (remove-uri-versions (s/difference (set koodiurit) (set koodiurit-to-complete)))))
+    (seq (s/difference (set koodiurit) (set koodiurit-to-complete)))))
 
 (defn- replace-with-koodisto-oppiaineet
   [koodiuri]
