@@ -262,6 +262,7 @@
                                                          (assoc-yps haku koulutus)
                                                          (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                                          (set-hakukohde-tila-by-related-haku haku)
+                                                         (assoc :hakuNimi (:nimi haku))
                                                          (assoc-sora-data sora-kuvaus)
                                                          (assoc-onko-harkinnanvarainen-koulutus toteutus koulutus)
                                                          (assoc-koulutustyypit toteutus koulutus)
