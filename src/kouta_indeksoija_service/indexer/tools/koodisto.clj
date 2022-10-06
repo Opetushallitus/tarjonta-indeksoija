@@ -88,7 +88,7 @@
 
 (defn painotettavatoppiaineetlukiossa-koodiurit
   []
-  (map #(get % :koodiUri)
+  (map #(str (get % :koodiUri) "#" (get % :versio))
        (get-koodit-with-cache "painotettavatoppiaineetlukiossa")))
 
 (defn assoc-hakukohde-nimi-from-koodi [hakukohde]
