@@ -42,6 +42,108 @@
      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
        (is (= {:painotetutArvosanat [] :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}} (get-in hakukohde [:metadata :hakukohteenLinja])))))))
 
+(deftest index-lukio-hakukohde-painotetut-arvosanat-kaikki-test
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index hakukohde to hakukohde index and update related indexes 2"
+      (with-redefs [kouta-indeksoija-service.rest.koodisto/get-koodit-with-cache #(json "test/resources/koodisto/" %)]
+        (check-all-nil)
+        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+        (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
+        (fixture/update-hakukohde-mock hakukohde-oid
+                                       :metadata {:hakukohteenLinja           {:painotetutArvosanat     [{:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1it#1"}, :painokerroin 7},
+                                                                                                         {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1"}, :painokerroin 2},
+                                                                                                         {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1en#1"}, :painokerroin 99},
+                                                                                                         {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_b2en#1"}, :painokerroin 5}]
+                                                                               :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
+                                                  :kaytetaanHaunAlkamiskautta false
+                                                  :koulutuksenAlkamiskausi    {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
+        (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+        (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+          (is (= {:painotetutArvosanat     [{:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_b2en#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_b2en#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_b2en#1 nimi sv"}}}, :painokerroin 5}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1lv#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1lv#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1lv#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1vk#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1vk#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1vk#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1et#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1et#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1et#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1de#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1de#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1de#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1ru#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1ru#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1ru#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1fr#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1fr#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1fr#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1ja#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1ja#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1ja#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1lt#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1lt#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1lt#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1en#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1en#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1en#1 nimi sv"}}}, :painokerroin 99}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1zh#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1zh#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1zh#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1pt#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1pt#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1pt#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1la#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1la#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1la#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1el#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1el#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1el#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1it#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1it#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1it#1 nimi sv"}}}, :painokerroin 7}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1sv#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1sv#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1sv#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1es#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1es#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1es#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1se#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1se#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1se#1 nimi sv"}}}, :painokerroin 2}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1fi#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1fi#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1fi#1 nimi sv"}}}, :painokerroin 2}]
+                  :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
+                 (get-in hakukohde [:metadata :hakukohteenLinja]))))))))
+
+(deftest index-lukio-hakukohde-no-painotetut-arvosanat-kaikki-test
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index hakukohde to hakukohde index and update related indexes 2"
+      (with-redefs [kouta-indeksoija-service.rest.koodisto/get-koodit-with-cache #(json "test/resources/koodisto/" %)]
+        (check-all-nil)
+        (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "lk" :metadata fixture/lk-koulutus-metadata)
+        (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
+        (fixture/update-hakukohde-mock hakukohde-oid
+                                       :metadata {:hakukohteenLinja           {:painotetutArvosanat     [{:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1it#1"}, :painokerroin 666},
+                                                                                                         {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_b2en#1"}, :painokerroin 999}]
+                                                                               :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
+                                                  :kaytetaanHaunAlkamiskautta false
+                                                  :koulutuksenAlkamiskausi    {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
+        (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+        (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+          (is (= {:painotetutArvosanat     [{:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_b2en#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_b2en#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_b2en#1 nimi sv"}}}, :painokerroin 999}
+                                            {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1it#1",
+                                                                 :nimi     {:fi "painotettavatoppiaineetlukiossa_a1it#1 nimi fi",
+                                                                            :sv "painotettavatoppiaineetlukiossa_a1it#1 nimi sv"}}}, :painokerroin 666}]
+                  :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
+                 (get-in hakukohde [:metadata :hakukohteenLinja]))))))))
+
+
 (deftest index-hakukohde-with-hakukohdekoodiuri-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index hakukohde with hakukohdekoodiuri"

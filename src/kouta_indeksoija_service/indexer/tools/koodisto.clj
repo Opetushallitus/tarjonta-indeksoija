@@ -86,6 +86,11 @@
   (map #(assoc % :alakoodit (list-alakoodit-with-cache (:koodiUri %) "pohjakoulutusvaatimuskouta"))
        (get-koodit-with-cache "pohjakoulutusvaatimuskonfo")))
 
+(defn painotettavatoppiaineetlukiossa-koodiurit
+  []
+  (map #(str (get % :koodiUri) "#" (get % :versio))
+       (get-koodit-with-cache "painotettavatoppiaineetlukiossa")))
+
 (defn assoc-hakukohde-nimi-from-koodi [hakukohde]
   (let [hakukohde-koodi-uri (:hakukohdeKoodiUri hakukohde)
         hakukohde-koodi-nimi (when-not (clojure.string/blank? hakukohde-koodi-uri)
