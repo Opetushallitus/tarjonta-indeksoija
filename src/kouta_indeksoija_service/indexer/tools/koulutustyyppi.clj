@@ -12,7 +12,7 @@
                   (some #{"koulutustyyppi_12"} konfo-koulutustyypit) "amm/erikoisammattitutkinto"
                   (= kouta-koulutustyyppi "amk") "kk/amk"
                   (= kouta-koulutustyyppi "yo") "kk/yo"
-                  (some #{"kk-muu"} konfo-koulutustyypit) (str "kk-muu/" kouta-koulutustyyppi) 
+                  (some #{"kk-muu"} konfo-koulutustyypit) (str "kk-muu/" kouta-koulutustyyppi)
                   (some #{"vapaa-sivistystyo"} konfo-koulutustyypit) "vapaa-sivistystyo"
                   (some #{"amm-muu" "amm-osaamisala" "amm-tutkinnon-osa" "telma"} [kouta-koulutustyyppi]) (str "amm-tutkintoon-johtamaton/" kouta-koulutustyyppi)
                   (ammatillinen? koulutus) "amm/muu-amm-tutkintoon-johtava"

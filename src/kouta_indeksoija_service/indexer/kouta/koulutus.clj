@@ -171,10 +171,11 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [koulutus (common/complete-entry (kouta-backend/get-koulutus-with-cache oid execution-id))]
+  (let [koulutus (kouta-backend/get-koulutus-with-cache oid execution-id)
+        koulutus-intermediate (common/complete-entry koulutus)]
     (if (not-poistettu? koulutus)
       (let [toteutukset (common/complete-entries (kouta-backend/get-toteutus-list-for-koulutus-with-cache oid execution-id))
-            koulutus-enriched (-> koulutus
+            koulutus-enriched (-> koulutus-intermediate
                                   (assoc-koulutustyyppi-path koulutus)
                                   (common/assoc-organisaatiot)
                                   (enrich-metadata)
@@ -183,8 +184,8 @@
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
                                   (assoc-koulutusala-and-koulutusaste)
                                   (common/localize-dates))]
-        (indexable/->index-entry-with-forwarded-data oid koulutus-enriched koulutus-enriched))
-      (indexable/->delete-entry-with-forwarded-data oid koulutus))))
+        (indexable/->index-entry-with-forwarded-data oid koulutus-enriched koulutus-intermediate))
+      (indexable/->delete-entry-with-forwarded-data oid koulutus-intermediate))))
 
 (defn do-index
   [oids execution-id]
