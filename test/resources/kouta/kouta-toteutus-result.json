@@ -373,5 +373,6 @@
       }
     ]
   },
-  "koulutustyyppi": "amm"
+  "koulutustyyppi": "amm",
+  "koulutustyyppiPath": "amm/muu-amm-tutkintoon-johtava"
 }
