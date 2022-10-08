@@ -4,6 +4,7 @@
             [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku not-poistettu?]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
@@ -319,6 +320,7 @@
                                             (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
+                                                         (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
                                                          (assoc-yps haku koulutus)
                                                          (assoc :koulutustyyppi (:koulutustyyppi koulutus))
                                                          (set-hakukohde-tila-by-related-haku haku)

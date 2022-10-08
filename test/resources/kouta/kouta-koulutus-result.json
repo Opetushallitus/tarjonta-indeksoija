@@ -348,6 +348,7 @@
     }
   },
   "koulutustyyppi": "amm",
+  "koulutustyyppiPath": "amm/koulutustyyppi_01/koulutustyyppi_02",
   "organisaatiot": [
     "1.2.246.562.10.54545454545"
   ],
