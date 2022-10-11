@@ -28,9 +28,9 @@
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
   (cond-> (dissoc hakukohde :valintaperusteId)
-    (some? (:valintaperusteId hakukohde)) (assoc :valintaperuste (-> valintaperuste
-                                                                     (dissoc :metadata)
-                                                                     (common/complete-entry)))))
+          (some? (:valintaperusteId hakukohde)) (assoc :valintaperuste (-> valintaperuste
+                                                                           (dissoc :metadata)
+                                                                           (common/complete-entry)))))
 
 (defn- assoc-toteutus
   [hakukohde toteutus]
@@ -41,10 +41,10 @@
 (defn- assoc-sora-data
   [hakukohde sora-tiedot]
   (assoc
-   hakukohde
-   :sora
-   (when sora-tiedot
-     (select-keys sora-tiedot [:tila]))))
+    hakukohde
+    :sora
+    (when sora-tiedot
+      (select-keys sora-tiedot [:tila]))))
 
 (defn- luonnos?
   [haku-tai-hakukohde]
@@ -84,8 +84,8 @@
 (defn- jatkotutkintohaku-tarkenne?
   [haku]
   (str/starts-with?
-   (:kohdejoukonTarkenneKoodiUri haku)
-   "haunkohdejoukontarkenne_3#"))
+    (:kohdejoukonTarkenneKoodiUri haku)
+    "haunkohdejoukontarkenne_3#"))
 
 (defn- ->ei-yps
   [syy]
@@ -98,30 +98,30 @@
 (defn- assoc-yps
   [hakukohde haku koulutus]
   (assoc
-   hakukohde
-   :yhdenPaikanSaanto
-   (cond (luonnos? haku)
-         (->ei-yps "Haku on luonnos tilassa")
+    hakukohde
+    :yhdenPaikanSaanto
+    (cond (luonnos? haku)
+          (->ei-yps "Haku on luonnos tilassa")
 
-         (luonnos? hakukohde)
-         (->ei-yps "Hakukohde on luonnos tilassa")
+          (luonnos? hakukohde)
+          (->ei-yps "Hakukohde on luonnos tilassa")
 
-         (not (korkeakoulutus? koulutus))
-         (->ei-yps "Ei korkeakoulutus koulutusta")
+          (not (korkeakoulutus? koulutus))
+          (->ei-yps "Ei korkeakoulutus koulutusta")
 
-         (not (johtaa-tutkintoon? koulutus))
-         (->ei-yps "Ei tutkintoon johtavaa koulutusta")
+          (not (johtaa-tutkintoon? koulutus))
+          (->ei-yps "Ei tutkintoon johtavaa koulutusta")
 
-         (alkamiskausi-ennen-syksya-2016? haku hakukohde)
-         (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
+          (alkamiskausi-ennen-syksya-2016? haku hakukohde)
+          (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
 
-         (and (some-kohdejoukon-tarkenne? haku)
-              (not (jatkotutkintohaku-tarkenne? haku)))
-         (->ei-yps (str "Haun kohdejoukon tarkenne on "
-                        (:kohdejoukonTarkenneKoodiUri haku)))
+          (and (some-kohdejoukon-tarkenne? haku)
+               (not (jatkotutkintohaku-tarkenne? haku)))
+          (->ei-yps (str "Haun kohdejoukon tarkenne on "
+                         (:kohdejoukonTarkenneKoodiUri haku)))
 
-         :else
-         yps)))
+          :else
+          yps)))
 
 (defn- assoc-hakulomake-linkki
   [hakukohde haku]
@@ -163,7 +163,7 @@
                        (distinct)
                        (filter #(not (.contains [amm-perustutkinto-erityisopetus-koulutustyyppi tuva-erityisopetus-koulutustyyppi] %))))]
     (cond
-      (= 1 (count koodiurit)) ; ei tehdä päättelyä useamman koulutustyypin välillä, vaan jätetään arvoksi nil paitsi jos lukiokoulutus löytyy
+      (= 1 (count koodiurit))                               ; ei tehdä päättelyä useamman koulutustyypin välillä, vaan jätetään arvoksi nil paitsi jos lukiokoulutus löytyy
       (first koodiurit)
 
       (seq (filter #(= lukio-koulutustyyppi %) koodiurit))
@@ -224,7 +224,7 @@
     {:kausiUri (if (>= (t/month date) 8)
                  "kausi_s#1"
                  "kausi_k#1")
-     :vuosi (t/year date)}))
+     :vuosi    (t/year date)}))
 
 (defn- parse-alkamiskausi [alkamiskausi oid]
   (let [tyyppi (:alkamiskausityyppi alkamiskausi)
@@ -235,7 +235,7 @@
     (when (and (:kausiUri result) (:vuosi result))
       (merge result
              {:alkamiskausityyppi tyyppi
-              :source oid}))))
+              :source             oid}))))
 
 (defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde haku toteutus]
   (if-let [result (or (parse-alkamiskausi (get-in hakukohde [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
@@ -296,46 +296,72 @@
     (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
     hakukohde))
 
-(defn- alempi?
+(defn- odw-alempi-kk-aste?
   [koulutus-koodi-uri]
-  (let [matching-start-withs ["koulutus_6" "koulutus_772100" "koulutus_772101" "koulutus_772200" "koulutus_772201" "koulutus_772300" "koulutus_772301"]]
-    (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))))
+  (println (str "koulutus-koodi-uri=" koulutus-koodi-uri))
+  (str/starts-with? koulutus-koodi-uri "koulutus_6"))
 
-(defn- ylempi?
+(defn- odw-ylempi-kk-aste?
   [koulutus-koodi-uri]
-  (let [matching-start-withs ["koulutus_7"]
-        not-matching-start-withs ["koulutus_772100" "koulutus_772101" "koulutus_772200" "koulutus_772201" "koulutus_772300" "koulutus_772301"]]
-    (and (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))
-         (not (some #(str/starts-with? koulutus-koodi-uri %) not-matching-start-withs)))))
+  (str/starts-with? koulutus-koodi-uri "koulutus_7"))
 
 (defn- jatkotutkinto?
   [koulutus-koodi-uri]
-  (let [matching-start-withs ["koulutus_8"]]
+  (str/starts-with? koulutus-koodi-uri "koulutus_8"))
+
+(defn siirtohaku?
+  [haku]
+  (str/starts-with? (:kohdejoukkoKoodiUri haku) "haunkohdejoukko_12"))
+
+(defn- lääkis?
+  [koulutus-koodi-uri]
+  (let [matching-start-withs ["koulutus_772100" "koulutus_772101" "koulutus_772200" "koulutus_772201" "koulutus_772300" "koulutus_772301"]]
     (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))))
 
-(defn- get-kk-sykli
-  [alempi ylempi jatkotutkinto]
+(defn- get-odw-kk-tutkinnon-taso-sykli
+  [alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis]
   (cond
-    (and (false? alempi) (false? ylempi) (true? jatkotutkinto)) 3
-    (and (false? alempi) (true? ylempi) (false? jatkotutkinto))  2
-    (and (true? alempi) (false? jatkotutkinto)) 1
-    :else -1))
+    (true? jatkotutkinto) 5
+    (true? siirtohaku) (cond
+                         (and (true? alempi-kk-aste) (false? ylempi-kk-aste)) 2
+                         (and (true? alempi-kk-aste) (true? ylempi-kk-aste)) 2
+                         (and (false? alempi-kk-aste) (true? ylempi-kk-aste) (true? lääkis)) 2
+                         (and (false? alempi-kk-aste) (true? ylempi-kk-aste)) 4
+                         :else -1)
+    (and (true? alempi-kk-aste) (false? ylempi-kk-aste)) 1
+    (and (true? alempi-kk-aste) (true? ylempi-kk-aste)) 1
+    (and (false? alempi-kk-aste) (true? ylempi-kk-aste) (true? lääkis)) 1
+    (and (false? alempi-kk-aste) (true? ylempi-kk-aste)) 3
+    :else 6))
 
-(defn- assoc-kk-sykli
-  [hakukohde koulutus]
-  (if (and (korkeakoulutus? koulutus) (johtaa-tutkintoon? koulutus))
+(defn- get-odw-kk-tutkinnon-taso
+  [alempi-kk-aste ylempi-kk-aste jatkotutkinto]
+  (cond
+    (and (true? alempi-kk-aste) (false? ylempi-kk-aste)) 1
+    (and (false? alempi-kk-aste) (true? ylempi-kk-aste)) 2
+    (and (true? alempi-kk-aste) (true? ylempi-kk-aste)) 3
+    (true? jatkotutkinto) 4
+    :else 5)
+  )
+
+(defn- assoc-odw-kk-sykli
+  [hakukohde haku koulutus]
+  (if (korkeakoulutus? koulutus)
     (let [koulutusKoodiUrit (get koulutus :koulutuksetKoodiUri)
-          alempi (boolean (some alempi? koulutusKoodiUrit))
-          ylempi (boolean (some ylempi? koulutusKoodiUrit))
-          jatkotutkinto (boolean (some jatkotutkinto? koulutusKoodiUrit))
-          kk-sykli (get-kk-sykli alempi ylempi jatkotutkinto)]
+          alempi-kk-aste (and (boolean (some odw-alempi-kk-aste? koulutusKoodiUrit)) (johtaa-tutkintoon? koulutus))
+          ylempi-kk-aste (and (boolean (some odw-ylempi-kk-aste? koulutusKoodiUrit)) (johtaa-tutkintoon? koulutus))
+          jatkotutkinto (and (boolean (some jatkotutkinto? koulutusKoodiUrit)) (johtaa-tutkintoon? koulutus))
+          siirtohaku (siirtohaku? haku)
+          lääkis (lääkis? koulutus)
+          kk-tutkinnon-taso (get-odw-kk-tutkinnon-taso alempi-kk-aste ylempi-kk-aste jatkotutkinto)
+          kk-tutkinnon-taso-sykli (get-odw-kk-tutkinnon-taso-sykli alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis)]
       (-> hakukohde
-          (assoc :kkSykli {
-                           :alempi alempi
-                           :ylempi ylempi
-                           :jatkotutkinto jatkotutkinto
-                           :sykli kk-sykli
-                           })))
+          (assoc :odwKkTasot {
+                               :alempiKkAste         alempi-kk-aste
+                               :ylempiKkAste         ylempi-kk-aste
+                               :kkTutkinnonTaso        kk-tutkinnon-taso
+                               :kkTutkinnonTasoSykli kk-tutkinnon-taso-sykli
+                               })))
     hakukohde))
 
 (defn create-index-entry
@@ -358,7 +384,7 @@
             jarjestyspaikka-oppilaitos (when-not (str/blank? jarjestyspaikkaOid)
                                          (first
                                            (:oppilaitokset
-                                            (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
+                                             (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-yps haku koulutus)
@@ -372,7 +398,7 @@
                                                          (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
-                                                         (assoc-kk-sykli koulutus)
+                                                         (assoc-odw-kk-sykli haku koulutus)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
