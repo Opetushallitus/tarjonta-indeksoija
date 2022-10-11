@@ -8,6 +8,7 @@
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
+            [clojure.tools.logging :as log]
             [clojure.set :as s]
             [clojure.string :as str]
             [clj-time.format :as f]
@@ -299,7 +300,6 @@
 
 (defn- odw-alempi-kk-aste?
   [koulutus-koodi-uri]
-  (println (str "koulutus-koodi-uri=" koulutus-koodi-uri))
   (str/starts-with? koulutus-koodi-uri "koulutus_6"))
 
 (defn- odw-ylempi-kk-aste?
@@ -312,7 +312,7 @@
 
 (defn siirtohaku?
   [haku]
-  (str/starts-with? (:kohdejoukkoKoodiUri haku) "haunkohdejoukko_12"))
+  (str/starts-with? (:hakutapaKoodiUri haku) "hakutapa_05"))
 
 (defn- lääkis?
   [koulutus-koodi-uri]
@@ -320,7 +320,8 @@
     (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))))
 
 (defn- get-odw-kk-tutkinnon-taso-sykli
-  [alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis]
+  [alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis hakukohde-oid]
+  (log/info (str "get-odw-kk-tutkinnon-taso-sykli | hakukohde-oid: " hakukohde-oid " | alempi-kk-aste: " alempi-kk-aste " | ylempi-kk-aste: " ylempi-kk-aste " | jatkotutkinto: " jatkotutkinto " | siirtohaku: " siirtohaku " | lääkis: " lääkis))
   (cond
     (true? jatkotutkinto) 5
     (true? siirtohaku) (cond
@@ -336,7 +337,8 @@
     :else 6))
 
 (defn- get-odw-kk-tutkinnon-taso
-  [alempi-kk-aste ylempi-kk-aste jatkotutkinto]
+  [alempi-kk-aste ylempi-kk-aste jatkotutkinto hakukohde-oid]
+  (log/info (str "get-odw-kk-tutkinnon-taso | hakukohde-oid: " hakukohde-oid " | alempi-kk-aste: " alempi-kk-aste " | ylempi-kk-aste: " ylempi-kk-aste " | jatkotutkinto: " jatkotutkinto))
   (cond
     (and (true? alempi-kk-aste) (false? ylempi-kk-aste)) 1
     (and (false? alempi-kk-aste) (true? ylempi-kk-aste)) 2
@@ -345,7 +347,7 @@
     :else 5)
   )
 
-(defn- assoc-odw-kk-sykli
+(defn- assoc-odw-kk-tasot
   [hakukohde haku koulutus]
   (if (korkeakoulutus? koulutus)
     (let [koulutusKoodiUrit (get koulutus :koulutuksetKoodiUri)
@@ -353,14 +355,14 @@
           ylempi-kk-aste (and (boolean (some odw-ylempi-kk-aste? koulutusKoodiUrit)) (johtaa-tutkintoon? koulutus))
           jatkotutkinto (and (boolean (some jatkotutkinto? koulutusKoodiUrit)) (johtaa-tutkintoon? koulutus))
           siirtohaku (siirtohaku? haku)
-          lääkis (lääkis? koulutus)
-          kk-tutkinnon-taso (get-odw-kk-tutkinnon-taso alempi-kk-aste ylempi-kk-aste jatkotutkinto)
-          kk-tutkinnon-taso-sykli (get-odw-kk-tutkinnon-taso-sykli alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis)]
+          lääkis (boolean (some lääkis? koulutusKoodiUrit))
+          kk-tutkinnon-taso (get-odw-kk-tutkinnon-taso alempi-kk-aste ylempi-kk-aste jatkotutkinto (:oid hakukohde))
+          kk-tutkinnon-taso-sykli (get-odw-kk-tutkinnon-taso-sykli alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis (:oid hakukohde))]
       (-> hakukohde
           (assoc :odwKkTasot {
                                :alempiKkAste         alempi-kk-aste
                                :ylempiKkAste         ylempi-kk-aste
-                               :kkTutkinnonTaso        kk-tutkinnon-taso
+                               :kkTutkinnonTaso      kk-tutkinnon-taso
                                :kkTutkinnonTasoSykli kk-tutkinnon-taso-sykli
                                })))
     hakukohde))
@@ -401,7 +403,7 @@
                                                          (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
-                                                         (assoc-odw-kk-sykli haku koulutus)
+                                                         (assoc-odw-kk-tasot haku koulutus)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))

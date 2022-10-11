@@ -45,7 +45,7 @@
   [koulutus]
   (some
    #(= (:koulutustyyppi koulutus) %)
-   ["yo", "amk", "amm-ope-erityisope-ja-opo" "ope-pedag-opinnot" "kk-opintojakso" "erikoislaakari"]))
+   ["yo", "amk", "amm-ope-erityisope-ja-opo" "ope-pedag-opinnot" "kk-opintokokonaisuus" "kk-opintojakso" "erikoislaakari"]))
 
 (defn lukio?
   [koulutus]
