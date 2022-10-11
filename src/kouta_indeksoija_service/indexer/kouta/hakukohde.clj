@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
   (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku not-poistettu?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku not-poistettu? korkeakoulutus?]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
@@ -297,6 +297,48 @@
     (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
     hakukohde))
 
+(defn- alempi?
+  [koulutus-koodi-uri]
+  (let [matching-start-withs ["koulutus_6" "koulutus_772100" "koulutus_772101" "koulutus_772200" "koulutus_772201" "koulutus_772300" "koulutus_772301"]]
+    (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))))
+
+(defn- ylempi?
+  [koulutus-koodi-uri]
+  (let [matching-start-withs ["koulutus_7"]
+        not-matching-start-withs ["koulutus_772100" "koulutus_772101" "koulutus_772200" "koulutus_772201" "koulutus_772300" "koulutus_772301"]]
+    (and (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))
+         (not (some #(str/starts-with? koulutus-koodi-uri %) not-matching-start-withs)))))
+
+(defn- jatkotutkinto?
+  [koulutus-koodi-uri]
+  (let [matching-start-withs ["koulutus_8"]]
+    (boolean (some #(str/starts-with? koulutus-koodi-uri %) matching-start-withs))))
+
+(defn- get-kk-sykli
+  [alempi ylempi jatkotutkinto]
+  (cond
+    (and (false? alempi) (false? ylempi) (true? jatkotutkinto)) 3
+    (and (false? alempi) (true? ylempi) (false? jatkotutkinto))  2
+    (and (true? alempi) (false? jatkotutkinto)) 1
+    :else -1))
+
+(defn- assoc-kk-sykli
+  [hakukohde koulutus]
+  (if (and (korkeakoulutus? koulutus) (johtaa-tutkintoon? koulutus))
+    (let [koulutusKoodiUrit (get koulutus :koulutuksetKoodiUri)
+          alempi (boolean (some alempi? koulutusKoodiUrit))
+          ylempi (boolean (some ylempi? koulutusKoodiUrit))
+          jatkotutkinto (boolean (some jatkotutkinto? koulutusKoodiUrit))
+          kk-sykli (get-kk-sykli alempi ylempi jatkotutkinto)]
+      (-> hakukohde
+          (assoc :kkSykli {
+                           :alempi alempi
+                           :ylempi ylempi
+                           :jatkotutkinto jatkotutkinto
+                           :sykli kk-sykli
+                           })))
+    hakukohde))
+
 (defn create-index-entry
   [oid execution-id]
   (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
@@ -333,6 +375,7 @@
                                                          (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
+                                                         (assoc-kk-sykli koulutus)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
