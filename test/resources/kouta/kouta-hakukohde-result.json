@@ -228,6 +228,10 @@
     }
   ],
   "hakuOid": "1.2.246.562.29.00000000000000000001",
+  "hakuNimi": {
+    "fi": "Haku 0 fi",
+    "sv": "Haku 0 sv"
+  },
   "liitteetOnkoSamaToimitusosoite": false,
   "liitteet": [
     {
