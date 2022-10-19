@@ -475,5 +475,7 @@
     }
   ],
   "koulutustyyppi": "lk",
-  "koulutustyyppiPath": "lk"
+  "koulutustyyppiPath": "lk",
+  "liitetytOpintojaksot": [],
+  "kuuluuOpintokokonaisuuksiin": null
 }
