@@ -18,13 +18,10 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+            [kouta-indeksoija-service.util.tools :refer [get-oids]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
-
-(defn- get-oids
-  [key coll]
-  (set (remove clojure.string/blank? (map key coll))))
 
 (defn- get-ids
   [key coll]
