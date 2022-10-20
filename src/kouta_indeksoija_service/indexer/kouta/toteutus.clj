@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi get-oids]]
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
 
