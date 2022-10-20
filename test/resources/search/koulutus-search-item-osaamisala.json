@@ -80,6 +80,11 @@
     "fi": "Hevosalan osaamisala fi",
     "sv": "Hevosalan osaamisala sv"
   },
+  "nimi_sort": {
+    "fi": "Hevosalan osaamisala fi",
+    "sv": "Hevosalan osaamisala sv",
+    "en": "Hevosalan osaamisala fi"
+  },
   "oid": "1.2.246.562.13.00000000000000000097",
   "kielivalinta": [
     "fi",

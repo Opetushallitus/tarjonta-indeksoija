@@ -221,3 +221,15 @@
                       "muu"   (:hakulomakeLinkki hakulomaketiedot)
                       nil)]
     {:hakulomakeLinkki linkki}))
+
+(defn create-sort-names [nimi]
+  {:fi (or (not-empty (:fi nimi))
+           (not-empty (:sv nimi))
+           (not-empty (:en nimi)))
+   :sv (or (not-empty (:sv nimi))
+           (not-empty (:fi nimi))
+           (not-empty (:en nimi)))
+   :en (or (not-empty (:en nimi))
+           (not-empty (:fi nimi))
+           (not-empty (:sv nimi)))})
+

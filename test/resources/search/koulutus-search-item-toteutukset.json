@@ -334,6 +334,11 @@
     "fi": "Hevosalan perustutkinto 0 fi",
     "sv": "Hevosalan perustutkinto 0 sv"
   },
+  "nimi_sort": {
+    "fi": "Hevosalan perustutkinto 0 fi",
+    "sv": "Hevosalan perustutkinto 0 sv",
+    "en": "Hevosalan perustutkinto 0 fi"
+  },
   "oid": "1.2.246.562.13.00000000000000000098",
   "kielivalinta": [
     "fi",

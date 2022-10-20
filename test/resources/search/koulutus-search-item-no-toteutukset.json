@@ -4,6 +4,11 @@
     "fi": "Autoalan perustutkinto 0 fi",
     "sv": "Autoalan perustutkinto 0 sv"
   },
+  "nimi_sort": {
+    "fi": "Autoalan perustutkinto 0 fi",
+    "sv": "Autoalan perustutkinto 0 sv",
+    "en": "Autoalan perustutkinto 0 fi"
+  },
   "kielivalinta": [
     "fi",
     "sv"

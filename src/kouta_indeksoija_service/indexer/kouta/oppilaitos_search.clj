@@ -8,6 +8,7 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.kouta.common :refer [create-sort-names]]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? not-arkistoitu? luonnos?]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
 
@@ -101,6 +102,7 @@
   (-> oppilaitos
       (select-keys [:oid :nimi])
       (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
+      (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
       (assoc :koulutusohjelmia (count (filter :johtaaTutkintoon koulutukset)))))
 
 (defn- assoc-paikkakunnat
