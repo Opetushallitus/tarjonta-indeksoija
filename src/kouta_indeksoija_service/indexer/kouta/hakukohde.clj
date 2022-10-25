@@ -211,9 +211,9 @@
                      :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
 
-(defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka]
+(defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka-oid jarjestyspaikka]
   (if (= (:tila jarjestyspaikka) "julkaistu")
-    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka))
+    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka-oid jarjestyspaikka))
     hakukohde))
 
 (defn- assoc-nimi-as-esitysnimi
@@ -330,7 +330,7 @@
                                                          (assoc-koulutustyypit toteutus koulutus)
                                                          (assoc-toteutus toteutus)
                                                          (assoc-valintaperuste valintaperuste)
-                                                         (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikka-oppilaitos)
+                                                         (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikkaOid jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
                                                          (dissoc :_enrichedData)

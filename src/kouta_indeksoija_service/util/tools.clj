@@ -21,9 +21,16 @@
   [entity]
   (get-in entity [:_enrichedData :esitysnimi] (:nimi entity)))
 
+(defn- organisaatio-jarjestaa-urheilijan-amm-koulutusta?
+  [organisaatio]
+  (boolean (get-in organisaatio [:metadata :jarjestaaUrheilijanAmmKoulutusta])))
+
 (defn jarjestaa-urheilijan-amm-koulutusta?
-  [jarjestyspaikka]
-  (boolean (get-in jarjestyspaikka [:metadata :jarjestaaUrheilijanAmmKoulutusta])))
+  [jarjestyspaikka-oid oppilaitos]
+  (if (= jarjestyspaikka-oid (:oid oppilaitos))
+    (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitos)
+    (let [oppilaitoksen-osa (first (filter #(= jarjestyspaikka-oid (:oid %)) (:osat oppilaitos)))]
+      (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitoksen-osa))))
 
 (defn get-oids
   [key coll]
