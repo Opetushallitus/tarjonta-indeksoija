@@ -111,6 +111,7 @@
   (let [entry (-> koulutus
                   (assoc :oid (:oid koulutus))
                   (assoc :nimi (:nimi koulutus))
+                  (assoc :nimi_sort (common/create-sort-names (:nimi koulutus)))
                   (assoc :kielivalinta (:kielivalinta koulutus))
                   (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid :ePerusteId)
                   (assoc :eperuste                (:ePerusteId koulutus))

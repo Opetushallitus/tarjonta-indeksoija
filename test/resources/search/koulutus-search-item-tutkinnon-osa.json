@@ -104,6 +104,11 @@
     "fi": "Hevosalan tutkinnon osat fi",
     "sv": "Hevosalan tutkinnon osat sv"
   },
+  "nimi_sort": {
+    "fi": "Hevosalan tutkinnon osat fi",
+    "sv": "Hevosalan tutkinnon osat sv",
+    "en": "Hevosalan tutkinnon osat fi"
+  },
   "oid": "1.2.246.562.13.00000000000000000096",
   "kielivalinta": [
     "fi",
