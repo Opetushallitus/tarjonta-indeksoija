@@ -148,6 +148,7 @@
 
 (defonce amk-koulutus-metadata
   {:tyyppi "amk"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
@@ -178,13 +179,15 @@
    {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
     :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
+    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
     :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
     :kuvaus {}
     :lisatiedot []})
 
 (defonce tuva-koulutus-metadata
   {:tyyppi "tuva"
-   :opintojenLaajuusKoodiUri "opintojenlaajuus_38#1"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_8#1"
+   :opintojenLaajuusNumero 38
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
 

@@ -204,19 +204,14 @@
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
-            opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
             linkki-eperusteisiin (get-in koulutus [:metadata :linkkiEPerusteisiin :fi])
             kuvaus (get-in koulutus [:metadata :kuvaus :fi])
-            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])]
-        (is (= opintojen-laajuus "opintojenlaajuus_38#1 nimi fi"))
+            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
+            opintojen-laajuusnumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
         (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_8#1"))
         (is (= linkki-eperusteisiin "http://testilinkki.fi"))
-        (is (= kuvaus "kuvausteksti"))))
-
-    (testing "Indexer should index 38 for opintojenLaajuusNumero in case of tuva"
-      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
-            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-        (is (= opintojenLaajuusNumero 38))))))
+        (is (= kuvaus "kuvausteksti"))
+        (is (= opintojen-laajuusnumero 38))))))
 
 (deftest index-amm-muu-koulutus
   (fixture/with-mocked-indexing
