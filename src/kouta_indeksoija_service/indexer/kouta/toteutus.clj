@@ -61,17 +61,19 @@
         (common/assoc-organisaatio))))
 
 (defn- determine-correct-hakutiedot
-  [ht-toteutus]
-  (-> (for [ht-haku (:haut ht-toteutus)]
+  [ht-toteutus haut]
+  (-> (for [ht-haku (:haut ht-toteutus)
+            :let [matching-haku (first (filter #(= (:oid %) (:hakuOid ht-haku)) haut))]]
         (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri :koulutuksenAlkamiskausi])
             (common/decorate-koodi-uris)
+            (assoc :kohdejoukkoKoodiUri (:kohdejoukkoKoodiUri matching-haku))
             (assoc :hakukohteet (vec (create-hakukohteiden-hakutiedot ht-haku)))))
       (vec)))
 
 (defn- assoc-hakutiedot
-  [toteutus hakutiedot]
+  [toteutus hakutiedot haut]
   (if-let [ht-toteutus (first (filter (fn [x] (= (:toteutusOid x) (:oid toteutus))) hakutiedot))]
-    (assoc toteutus :hakutiedot (determine-correct-hakutiedot ht-toteutus))
+    (assoc toteutus :hakutiedot (determine-correct-hakutiedot ht-toteutus haut))
     toteutus))
 
 (defn- assoc-tarjoajien-oppilaitokset
@@ -147,7 +149,7 @@
                                   (dissoc :_enrichedData)
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
-                                  (assoc-hakutiedot hakutiedot)
+                                  (assoc-hakutiedot hakutiedot haut)
                                   (assoc-opintojaksot opintojaksot)
                                   (assoc :kuuluuOpintokokonaisuuksiin opintokokonaisuudet)
                                   (common/localize-dates))]
