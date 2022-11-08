@@ -25,12 +25,10 @@
   [organisaatio]
   (boolean (get-in organisaatio [:metadata :jarjestaaUrheilijanAmmKoulutusta])))
 
-(defn jarjestaa-urheilijan-amm-koulutusta?
-  [jarjestyspaikka-oid oppilaitos]
-  (if (= jarjestyspaikka-oid (:oid oppilaitos))
-    (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitos)
-    (let [oppilaitoksen-osa (first (filter #(= jarjestyspaikka-oid (:oid %)) (:osat oppilaitos)))]
-      (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitoksen-osa))))
+(defn oppilaitos-jarjestaa-urheilijan-amm-koulutusta?
+  [oppilaitos]
+  (or (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitos)
+      (some #(organisaatio-jarjestaa-urheilijan-amm-koulutusta? %) (:osat oppilaitos))))
 
 (defn get-oids
   [key coll]
