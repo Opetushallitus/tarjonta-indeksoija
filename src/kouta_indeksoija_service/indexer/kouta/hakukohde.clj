@@ -7,7 +7,7 @@
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
             [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
-            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi jarjestaa-urheilijan-amm-koulutusta?]]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
             [clojure.tools.logging :as log]
             [clojure.set :as s]
             [clojure.string :as str]
@@ -211,12 +211,6 @@
     (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
                      :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
-
-(defn- assoc-jarjestaako-urheilijan-amm-koulutusta [hakukohde jarjestyspaikka-oid jarjestyspaikka]
-  (if (= (:tila jarjestyspaikka) "julkaistu")
-    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta (jarjestaa-urheilijan-amm-koulutusta? jarjestyspaikka-oid jarjestyspaikka))
-    hakukohde))
-
 (defn- assoc-nimi-as-esitysnimi
   [hakukohde]
   (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
@@ -382,12 +376,7 @@
             sora-kuvaus (kouta-backend/get-sorakuvaus-with-cache (:sorakuvausId koulutus) execution-id)
             valintaperusteId (:valintaperusteId hakukohde)
             valintaperuste (when-not (str/blank? valintaperusteId)
-                             (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
-            jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
-            jarjestyspaikka-oppilaitos (when-not (str/blank? jarjestyspaikkaOid)
-                                         (first
-                                           (:oppilaitokset
-                                             (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))]
+                             (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
@@ -400,7 +389,6 @@
                                                          (assoc-koulutustyypit toteutus koulutus)
                                                          (assoc-toteutus toteutus)
                                                          (assoc-valintaperuste valintaperuste)
-                                                         (assoc-jarjestaako-urheilijan-amm-koulutusta jarjestyspaikkaOid jarjestyspaikka-oppilaitos)
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
                                                          (assoc-odw-kk-tasot haku koulutus)

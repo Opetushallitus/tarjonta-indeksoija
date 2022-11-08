@@ -7,6 +7,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.util.tools :refer [oppilaitos-jarjestaa-urheilijan-amm-koulutusta?]]
             [clojure.string :as s]))
 
 (def index-name "oppilaitos-kouta")
@@ -166,7 +167,7 @@
         (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
                           (vec)))
-        (assoc :jarjestaaUrheilijanAmmKoulutusta (get-in oppilaitos-metadata [:jarjestaaUrheilijanAmmKoulutusta])))))
+        (assoc :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? oppilaitos)))))
 
 (defn create-index-entry
   [oid execution-id]
