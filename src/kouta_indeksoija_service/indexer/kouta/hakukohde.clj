@@ -392,6 +392,7 @@
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
                                                          (assoc-odw-kk-tasot haku koulutus)
+                                                         (assoc :jarjestaaUrheilijanAmmKoulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
