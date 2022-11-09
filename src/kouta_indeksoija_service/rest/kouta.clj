@@ -58,6 +58,17 @@
   [oid execution-id]
   (get-doc-with-cache "hakukohde" oid execution-id))
 
+(defn get-pistehistoria
+  [tarjoaja-oid hakukohdekoodi execution-id]
+  (if (nil? hakukohdekoodi)
+    []
+    {:val (cas-authenticated-get-as-json (resolve-url :kouta-backend.pistehistoria) {:query-params {:tarjoaja tarjoaja-oid
+                                                                                                    :hakukohdekoodi hakukohdekoodi}})
+     :ttl (get-cache-time execution-id)}))
+
+(def get-pistehistoria-with-cache
+  (ttl/memoize-ttl get-pistehistoria))
+
 (defn get-hakukohde-oids-by-jarjestyspaikat
   [oids execution-id]
   {:val (cas-authenticated-post-as-json (resolve-url :kouta-backend.jarjestyspaikat.hakukohde-oids) {:body (json/generate-string oids) :content-type :json})
