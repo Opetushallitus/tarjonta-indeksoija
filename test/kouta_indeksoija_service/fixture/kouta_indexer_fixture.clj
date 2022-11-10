@@ -303,6 +303,13 @@
     (let [haku (merge (get @haut oid) params)]
       (swap! haut assoc oid haku))))
 
+(defn mock-get-pistehistoria [tarjoajaOid hakukohdekoodi execution-id]
+  (if (nil? hakukohdekoodi) []
+                            (map #(-> %
+                                      (assoc :tarjoaja tarjoajaOid)
+                                      (assoc :hakukohdekoodi hakukohdekoodi))
+                                 [{:vuosi "2022" :pisteet 6} {:vuosi "2021" :pisteet 8}])))
+
 (defn mock-get-haku
   [oid execution-id]
   (get @haut oid))
@@ -329,7 +336,8 @@
                     (fix-valintaperuste
                      (fix-muu-pk-vaatimus
                       (merge (dissoc default-hakukohde-map :hakuaikaAlkaa :hakuaikaPaattyy)
-                             {:organisaatio Oppilaitos1} params
+                             {:organisaatio Oppilaitos1}
+                             params
                              {:oid oid :hakuOid hakuOid :toteutusOid toteutusOid}
                              {:liitteidenToimitusaika (common-near-future-time)})))))]
     (swap! hakukohteet assoc oid hakukohde)))
@@ -768,7 +776,10 @@
                  kouta-indeksoija-service.fixture.external-services/mock-organisaatio
 
                  kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
-                 mock-koulutustyyppi-koodisto]
+                 mock-koulutustyyppi-koodisto
+
+                 kouta-indeksoija-service.rest.kouta/get-pistehistoria-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-pistehistoria]
      (do ~@body)))
 
 
