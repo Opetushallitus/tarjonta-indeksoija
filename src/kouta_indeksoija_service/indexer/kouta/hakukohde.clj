@@ -233,8 +233,8 @@
              {:alkamiskausityyppi tyyppi
               :source             oid}))))
 
-(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde haku toteutus]
-  (if-let [result (or (parse-alkamiskausi (get-in hakukohde [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
+(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde hakukoude-source haku toteutus]
+  (if-let [result (or (parse-alkamiskausi (get-in hakukoude-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
                       (parse-alkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
                       (parse-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
     (assoc hakukohde :paateltyAlkamiskausi result)
@@ -390,7 +390,7 @@
                                                          (assoc-toteutus toteutus)
                                                          (assoc-valintaperuste valintaperuste)
                                                          (assoc-hakulomake-linkki haku)
-                                                         (assoc-paatelty-alkamiskausi-for-hakukohde haku toteutus)
+                                                         (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
                                                          (assoc-odw-kk-tasot haku koulutus)
                                                          (assoc :jarjestaaUrheilijanAmmKoulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
                                                          (dissoc :_enrichedData)
