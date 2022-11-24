@@ -83,7 +83,7 @@
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
                                                        [net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.3-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.5.4-SNAPSHOT"]]
 
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -95,7 +95,7 @@
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [cloud.localstack/localstack-utils "0.1.22"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.3-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.5.4-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
