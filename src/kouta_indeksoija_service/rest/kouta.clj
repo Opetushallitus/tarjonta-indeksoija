@@ -128,6 +128,10 @@
 (def get-koulutukset-by-tarjoaja-with-cache
   (ttl/memoize-ttl get-koulutukset-by-tarjoaja))
 
+(defn- assoc-pistehistoria [hakukohde pistehistoria]
+  (if (nil? pistehistoria)
+    hakukohde
+    (assoc-in hakukohde [:metadata :pistehistoria] pistehistoria)))
 
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid execution-id]
@@ -138,9 +142,15 @@
                                     (map (fn [haku]
                                            (assoc haku :hakukohteet
                                                        (map (fn [hakukohde]
-                                                              (-> hakukohde
-                                                                  (koodisto/assoc-hakukohde-nimi-from-koodi)
-                                                                  (general/set-hakukohde-tila-by-related-haku haku)))
+                                                              (let [hakukohdeKoodiUri (:hakukohdeKoodiUri hakukohde)
+                                                                    jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
+                                                                    pistehistoria (when (and (some? hakukohdeKoodiUri)
+                                                                                             (some? jarjestyspaikkaOid))
+                                                                                    (get-pistehistoria-with-cache jarjestyspaikkaOid hakukohdeKoodiUri execution-id))]
+                                                                (-> hakukohde
+                                                                    (assoc-pistehistoria pistehistoria)
+                                                                    (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                                                    (general/set-hakukohde-tila-by-related-haku haku))))
                                                             (:hakukohteet haku))))
                                          (:haut hakutieto))))
                  response)
