@@ -143,7 +143,7 @@
                                            (assoc haku :hakukohteet
                                                        (map (fn [hakukohde]
                                                               (let [hakukohdeKoodiUri (:hakukohdeKoodiUri hakukohde)
-                                                                    jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
+                                                                    jarjestyspaikkaOid (:jarjestyspaikkaOid hakukohde)
                                                                     pistehistoria (when (and (some? hakukohdeKoodiUri)
                                                                                              (some? jarjestyspaikkaOid))
                                                                                     (get-pistehistoria-with-cache jarjestyspaikkaOid hakukohdeKoodiUri execution-id))]
