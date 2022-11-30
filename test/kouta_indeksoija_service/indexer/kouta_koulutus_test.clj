@@ -282,3 +282,19 @@
       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
             opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
         (is (= 14 opintojenLaajuusNumero))))))
+
+(deftest index-erikoistumiskoulutus
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index erikoistumiskoulutus specific metadata"
+     (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "erikoistumiskoulutus" :metadata fixture/erikoistumiskoulutus-metadata)
+     (check-all-nil)
+     (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+     (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+           opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
+           opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+           opintojenLaajuusNumeroMin (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
+           opintojenLaajuusNumeroMax (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])]
+       (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
+       (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
+       (is (= 5 opintojenLaajuusNumeroMin))
+       (is (= 10 opintojenLaajuusNumeroMax))))))

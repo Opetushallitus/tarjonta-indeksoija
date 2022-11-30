@@ -208,6 +208,17 @@
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
    :lisatiedot []})
 
+(defonce erikoistumiskoulutus-metadata
+         {:tyyppi "erikoistumiskoulutus"
+          :erikoistumiskoulutusKoodiUri "erikoistumiskoulutukset_001#2"
+          :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                                 "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+          :opintojenLaajuusNumeroMin 5
+          :opintojenLaajuusNumeroMax 10
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+          :lisatiedot []})
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid Oppilaitos1} params))]
