@@ -80,26 +80,9 @@
   []
   (get-koodi-nimi-with-cache koodiuri-opintopiste-laajuusyksikko))
 
-(defn- enrich-korkeakoulutus-metadata
-  [koulutus]
-  (-> koulutus
-      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))))
-
 (defn- enrich-lukio-metadata
   [koulutus]
-  (-> koulutus
-      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-opintopiste-laajuusyksikko))
-      (assoc-in [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache koodiuri-ylioppilas-tutkintonimike)))))
-
-(defn enrich-tuva-metadata
-  [koulutus]
-  (-> koulutus
-      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache koodiuri-viikko-laajuusyksikko))))
-
-(defn enrich-telma-metadata
-  [koulutus]
-  (-> koulutus
-      (assoc-in [:metadata :opintojenLaajuusyksikko] (get-koodi-nimi-with-cache koodiuri-osaamispiste-laajuusyksikko))))
+  (assoc-in koulutus [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache koodiuri-ylioppilas-tutkintonimike))))
 
 (defn- does-not-have-tutkintonimike?
   [koulutus]
@@ -137,10 +120,7 @@
     (ammatillinen? koulutus)          (enrich-ammatillinen-metadata koulutus)
     (amm-tutkinnon-osa? koulutus)     (enrich-tutkinnon-osa-metadata koulutus)
     (amm-osaamisala? koulutus)        (enrich-osaamisala-metadata koulutus)
-    (korkeakoulutus? koulutus)        (enrich-korkeakoulutus-metadata koulutus)
     (lukio? koulutus)                 (enrich-lukio-metadata koulutus)
-    (tuva? koulutus)                  (enrich-tuva-metadata koulutus)
-    (telma? koulutus)                 (enrich-telma-metadata koulutus)
     :default koulutus))
 
 (defn- enrich-metadata
