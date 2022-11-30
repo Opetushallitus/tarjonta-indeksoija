@@ -63,7 +63,7 @@
 (defn- determine-correct-hakutiedot
   [ht-toteutus]
   (-> (for [ht-haku (:haut ht-toteutus)]
-        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri :koulutuksenAlkamiskausi])
+        (-> (select-keys ht-haku [:hakuOid :nimi :hakutapaKoodiUri :koulutuksenAlkamiskausi :kohdejoukkoKoodiUri])
             (common/decorate-koodi-uris)
             (assoc :hakukohteet (vec (create-hakukohteiden-hakutiedot ht-haku)))))
       (vec)))
