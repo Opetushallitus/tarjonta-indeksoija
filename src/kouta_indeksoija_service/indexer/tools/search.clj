@@ -226,16 +226,17 @@
   ([koulutus toteutus-metadata]
    (let [koulutustyyppi (:koulutustyyppi koulutus)
          amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
-         tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)]
+         tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
+         avoin-korkeakoulutus? (get-in koulutus [:metadata :isAvoinKorkeakoulutus])]
    (cond
      amm-erityisopetuksena? [koulutustyyppi amm-perustutkinto-erityisopetuksena-koulutustyyppi]
      (and (tuva? koulutus) (not= toteutus-metadata nil)) [koulutustyyppi (if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal")]
      (vapaa-sivistystyo-opistovuosi? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
      (vapaa-sivistystyo-muu? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
      (amm-ope-erityisope-ja-opo? koulutus) ["amk-muu" koulutustyyppi]
-     (kk-opintojakso? koulutus) ["kk-muu" koulutustyyppi]
+     (kk-opintojakso? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-avoin" "kk-normal")]
      (erikoislaakari? koulutus) ["kk-muu" koulutustyyppi]
-     (kk-opintokokonaisuus? koulutus) ["kk-muu" koulutustyyppi] 
+     (kk-opintokokonaisuus? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-avoin" "kk-normal")]
      (ope-pedag-opinnot? koulutus) ["kk-muu" koulutustyyppi]
      :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
