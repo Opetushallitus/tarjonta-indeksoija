@@ -86,7 +86,7 @@
                                                        [fi.oph.kouta/kouta-backend "6.23.2-SNAPSHOT" :classifier "tests"]
                                                        [fi.oph.kouta/kouta-common "2.8.1-SNAPSHOT" :classifier "tests"]
                                                        [net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.0-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.5.3-SNAPSHOT"]]
 
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -101,7 +101,7 @@
                                       [fi.oph.kouta/kouta-backend "6.23.2-SNAPSHOT" :classifier "tests"]
                                       [fi.oph.kouta/kouta-common "2.8.1-SNAPSHOT" :classifier "tests"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.0-SNAPSHOT"]]
+                                      [oph/clj-test-utils "0.5.3-SNAPSHOT"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"
                                   "-Daws.accessKeyId=randomKeyIdForLocalstack"
