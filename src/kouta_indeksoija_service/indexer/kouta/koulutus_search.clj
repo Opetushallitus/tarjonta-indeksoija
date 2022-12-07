@@ -120,6 +120,7 @@
                   (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
                   (assoc :teemakuva               (:teemakuva koulutus))
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
+                  (assoc :isAvoinKorkeakoulutus   (get-in koulutus [:metadata :isAvoinKorkeakoulutus]))
                   (assoc :opintojenLaajuus        (search-tool/opintojen-laajuus-koodi-uri koulutus))
                   (assoc :opintojenLaajuusNumero  (search-tool/opintojen-laajuus-numero koulutus))
                   (assoc :opintojenLaajuusNumeroMin (get-in koulutus [:metadata :opintojenLaajuusNumeroMin]))
