@@ -169,6 +169,7 @@
           {"fi": "tutkintonimikkeet_02 nimi fi",
            "sv": "tutkintonimikkeet_02 nimi sv"}}],
         "ammatillinenPerustutkintoErityisopetuksena": false,
+        "jarjestaaUrheilijanAmmKoulutusta": true,
         "oppilaitosTila": "julkaistu",
         "koulutustyyppi": "amm"
       }
@@ -325,6 +326,7 @@
           }
         ],
         "ammatillinenPerustutkintoErityisopetuksena": false,
+        "jarjestaaUrheilijanAmmKoulutusta": true,
         "oppilaitosTila": "julkaistu",
         "koulutustyyppi": "amm"
       }

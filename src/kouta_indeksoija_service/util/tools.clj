@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.util.tools
-  (:require [clojure.string :refer [blank? split lower-case]]))
+  (:require [clojure.string :refer [blank? split]]))
 
 (defn uuid
   []
@@ -21,16 +21,15 @@
   [entity]
   (get-in entity [:_enrichedData :esitysnimi] (:nimi entity)))
 
-(defn- organisaatio-jarjestaa-urheilijan-amm-koulutusta?
-  [organisaatio]
-  (boolean (get-in organisaatio [:metadata :jarjestaaUrheilijanAmmKoulutusta])))
+(defn- kouta-organisaatio-jarjestaa-urheilijan-amm-koulutusta?
+  [kouta-organisaatio]
+  (boolean (get-in kouta-organisaatio [:metadata :jarjestaaUrheilijanAmmKoulutusta])))
 
-(defn jarjestaa-urheilijan-amm-koulutusta?
-  [jarjestyspaikka-oid oppilaitos]
-  (if (= jarjestyspaikka-oid (:oid oppilaitos))
-    (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitos)
-    (let [oppilaitoksen-osa (first (filter #(= jarjestyspaikka-oid (:oid %)) (:osat oppilaitos)))]
-      (organisaatio-jarjestaa-urheilijan-amm-koulutusta? oppilaitoksen-osa))))
+(defn oppilaitos-jarjestaa-urheilijan-amm-koulutusta?
+  [oppilaitos]
+  (boolean
+    (or (kouta-organisaatio-jarjestaa-urheilijan-amm-koulutusta? (:oppilaitos oppilaitos))
+      (some #(kouta-organisaatio-jarjestaa-urheilijan-amm-koulutusta? (:oppilaitoksenOsa %)) (:osat oppilaitos)))))
 
 (defn get-oids
   [key coll]

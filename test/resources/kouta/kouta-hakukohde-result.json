@@ -295,7 +295,9 @@
     "sv"
   ],
   "timestamp": 1549372069493,
+  "jarjestaaUrheilijanAmmKoulutusta": false,
   "metadata": {
+    "jarjestaaUrheilijanAmmKoulutusta": false,
     "valintakokeidenYleiskuvaus": {
       "fi": "yleiskuvaus fi",
       "sv": "yleiskuvaus sv"
@@ -455,7 +457,6 @@
   "voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita": true,
   "koulutustyyppikoodi": null,
   "externalId": "3344556677",
-  "jarjestaaUrheilijanAmmKoulutusta": false,
   "koulutustyyppi": "amm",
   "koulutustyyppiPath": "amm/muu-amm-tutkintoon-johtava",
   "paateltyAlkamiskausi": {

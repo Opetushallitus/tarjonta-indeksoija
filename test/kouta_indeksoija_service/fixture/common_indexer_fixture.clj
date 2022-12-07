@@ -242,6 +242,7 @@
 
   (fixture/add-oppilaitoksen-osa-mock default-jarjestyspaikka-oid
                                       mocks/Oppilaitos1
+
                                       :tila "julkaistu"
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49:23"))

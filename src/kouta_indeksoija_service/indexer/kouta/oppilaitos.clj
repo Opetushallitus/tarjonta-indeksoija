@@ -7,6 +7,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.util.tools :refer [oppilaitos-jarjestaa-urheilijan-amm-koulutusta?]]
             [clojure.string :as s]))
 
 (def index-name "oppilaitos-kouta")
@@ -124,6 +125,8 @@
 
 (defn- oppilaitoksen-osa-entry
   [organisaatio oppilaitoksen-osa]
+  ;(println (str "ORGANISAATIO: " organisaatio))
+  ;(println (str "OPPILAITOKSEN OSA: " oppilaitoksen-osa))
   ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
   ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
   (let [update-yhteystiedot-fn (fn [oo] (if (nil? (get-in oo [:metadata :hakijapalveluidenYhteystiedot]))
@@ -162,11 +165,11 @@
         oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
         koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache (:oid organisaatio) execution-id)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
-    (-> (oppilaitos-entry organisaatio enriched-oppilaitos koulutukset)
-        (assoc :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
+    (as-> (oppilaitos-entry organisaatio enriched-oppilaitos koulutukset) o
+        (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
                           (vec)))
-        (assoc :jarjestaaUrheilijanAmmKoulutusta (get-in oppilaitos-metadata [:jarjestaaUrheilijanAmmKoulutusta])))))
+        (assoc o :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? o)))))
 
 (defn create-index-entry
   [oid execution-id]

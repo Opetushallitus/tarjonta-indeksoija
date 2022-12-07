@@ -385,3 +385,11 @@
             (for [hakukohde tarjoaja-hakukohteet]
               (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))
       false)))
+
+(defn jarjestaako-toteutus-urheilijan-amm-koulutusta
+  [haut]
+  (let [hakukohteet (apply concat (for [haku haut]
+                                    (:hakukohteet haku)))]
+    (if (seq hakukohteet)
+      (boolean (some #(true? (:jarjestaaUrheilijanAmmKoulutusta %)) hakukohteet))
+      false)))

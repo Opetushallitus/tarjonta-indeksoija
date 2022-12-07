@@ -75,6 +75,8 @@
                    :maksunMaara                                (:maksunMaara opetus)
                    :koulutustyyppi                             (:tyyppi toteutus-metadata)
                    :oppilaitosTila                             (:tila oppilaitos)
+                   :jarjestaaUrheilijanAmmKoulutusta           (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
+                                                                 (:haut hakutieto))
                    :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
                    :jarjestetaanErityisopetuksena              (:jarjestetaanErityisopetuksena toteutus-metadata)}))))
 
