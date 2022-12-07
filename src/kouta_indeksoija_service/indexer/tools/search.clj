@@ -234,9 +234,9 @@
      (vapaa-sivistystyo-opistovuosi? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
      (vapaa-sivistystyo-muu? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
      (amm-ope-erityisope-ja-opo? koulutus) ["amk-muu" koulutustyyppi]
-     (kk-opintojakso? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-avoin" "kk-normal")]
+     (kk-opintojakso? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-opintojakso-avoin" "kk-opintojakso-normal")]
      (erikoislaakari? koulutus) ["kk-muu" koulutustyyppi]
-     (kk-opintokokonaisuus? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-avoin" "kk-normal")]
+     (kk-opintokokonaisuus? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-opintokokonaisuus-avoin" "kk-opintokokonaisuus-normal")]
      (ope-pedag-opinnot? koulutus) ["kk-muu" koulutustyyppi]
      :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
