@@ -303,7 +303,7 @@
     (let [haku (merge (get @haut oid) params)]
       (swap! haut assoc oid haku))))
 
-(defn mock-get-pistehistoria [tarjoajaOid hakukohdekoodi execution-id]
+(defn mock-get-pistehistoria [tarjoajaOid hakukohdekoodi lukiolinjakoodi execution-id]
   (if (nil? hakukohdekoodi) []
                             (map #(-> %
                                       (assoc :tarjoaja tarjoajaOid)
