@@ -374,8 +374,7 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)
-        hakukohdeKoodiUri (:hakukohdeKoodiUri hakukohde-from-kouta)]
+  (let [hakukohde-from-kouta (kouta-backend/get-hakukohde-with-cache oid execution-id)]
     (if (not-poistettu? hakukohde-from-kouta)
       (let [hakukohde (-> hakukohde-from-kouta
                           (assoc-nimi-as-esitysnimi)
@@ -394,8 +393,7 @@
                                          (first
                                            (:oppilaitokset
                                              (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))
-            pistehistoria (when (some? hakukohdeKoodiUri)
-                            (kouta-backend/get-pistehistoria-with-cache jarjestyspaikkaOid hakukohdeKoodiUri execution-id))]
+            pistehistoria (kouta-backend/get-pistehistoria-for-hakukohde hakukohde-from-kouta execution-id)]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
