@@ -173,15 +173,15 @@
                                  (get-in [:metadata :tutkintonimike])
                                  (first)
                                  (get-in [:nimi :fi]))
-              opintojen-laajuus (get-in koulutus [:metadata :opintojenLaajuus :nimi :fi])
               opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
+              opintojen-laajuusnumero (get-in koulutus [:metadata :opintojenLaajuusNumero])
               koulutusala (-> koulutus
                               (get-in [:metadata :koulutusala])
                               (first)
                               (get-in [:nimi :fi]))]
           (is (= tutkintonimike "tutkintonimikkeet_00001#1 nimi fi"))
-          (is (= opintojen-laajuus "opintojenlaajuus_40#1 nimi fi"))
           (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1 nimi fi"))
+          (is (= opintojen-laajuusnumero 25))
           (is (= koulutusala "kansallinenkoulutusluokitus2016koulutusalataso1_001#1 nimi fi")))))))
 
 (deftest index-amk-koulutus
@@ -193,6 +193,7 @@
       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
             tutkintonimikkeet (get-in koulutus [:metadata :tutkintonimike])]
         (is (= "opintojenlaajuusyksikko_2#1" (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])))
+        (is (= 27 (get-in koulutus [:metadata :opintojenLaajuusNumero])))
         (is (= 2 (count tutkintonimikkeet)))
         (is (-> tutkintonimikkeet first :nimi :fi) "tutkintonimikekk_033#1 nimi fi")
         (is (-> tutkintonimikkeet last :nimi :fi) "tutkintonimikekk_031#1 nimi fi")))))
@@ -273,15 +274,12 @@
       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
             opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
             opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
-            opintojenLaajuusNumero (get-in koulutus [:metadata :opintojenLaajuusNumero])]
+            opintojenLaajuusNumeroMin (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
+            opintojenLaajuusNumeroMax (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])]
         (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
         (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
-        (is (= 14 opintojenLaajuusNumero))))
-
-    (testing "Indexer should index 14 for opintojenLaajuusNumero in case of kk-opintojakso"
-      (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
-            opintojenLaajuusNumero (get-in koulutus [:opintojenLaajuusNumero])]
-        (is (= 14 opintojenLaajuusNumero))))))
+        (is (= 14 opintojenLaajuusNumeroMin))
+        (is (= 15 opintojenLaajuusNumeroMax))))))
 
 (deftest index-erikoistumiskoulutus
   (fixture/with-mocked-indexing
