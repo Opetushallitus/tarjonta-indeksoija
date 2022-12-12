@@ -288,10 +288,12 @@
      (check-all-nil)
      (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
      (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+           erikoistumiskoulutus (get-in koulutus [:metadata :erikoistumiskoulutus :koodiUri])
            opintojen-laajuusyksikko (get-in koulutus [:metadata :opintojenLaajuusyksikko :koodiUri])
            opintojen-laajuusyksikko-nimi (get-in koulutus [:metadata :opintojenLaajuusyksikko :nimi :fi])
            opintojenLaajuusNumeroMin (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
            opintojenLaajuusNumeroMax (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])]
+       (is (= erikoistumiskoulutus "erikoistumiskoulutukset_001#2"))
        (is (= opintojen-laajuusyksikko "opintojenlaajuusyksikko_2#1"))
        (is (= opintojen-laajuusyksikko-nimi "opintojenlaajuusyksikko_2#1 nimi fi"))
        (is (= 5 opintojenLaajuusNumeroMin))
