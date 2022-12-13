@@ -75,6 +75,8 @@
                    :maksunMaara                                (:maksunMaara opetus)
                    :koulutustyyppi                             (:tyyppi toteutus-metadata)
                    :oppilaitosTila                             (:tila oppilaitos)
+                   :jarjestaaUrheilijanAmmKoulutusta           (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
+                                                                 (:haut hakutieto))
                    :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
                    :jarjestetaanErityisopetuksena              (:jarjestetaanErityisopetuksena toteutus-metadata)}))))
 
@@ -122,8 +124,8 @@
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
                   (assoc :opintojenLaajuus        (search-tool/opintojen-laajuus-koodi-uri koulutus))
                   (assoc :opintojenLaajuusNumero  (search-tool/opintojen-laajuus-numero koulutus))
-                  (assoc :opintojenLaajuusNumeroMin (get-in koulutus [:metadata :opintojenLaajuusNumeroMin]))
-                  (assoc :opintojenLaajuusNumeroMax (get-in koulutus [:metadata :opintojenLaajuusNumeroMax]))
+                  (assoc :opintojenLaajuusNumeroMin (search-tool/opintojen-laajuus-numero-min koulutus))
+                  (assoc :opintojenLaajuusNumeroMax (search-tool/opintojen-laajuus-numero-max koulutus))
                   (assoc :opintojenLaajuusyksikko (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus))
                   (common/decorate-koodi-uris)
                   (assoc :search_terms (:search_terms koulutus))
