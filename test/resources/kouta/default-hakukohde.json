@@ -61,6 +61,7 @@
   "hakuaikaPaattyy" : "2022-01-27T09:58",
   "organisaatio" : "1.2.246.562.10.67476956288",
   "metadata" : {
+    "jarjestaaUrheilijanAmmKoulutusta": false,
     "valintakokeidenYleiskuvaus" : {
       "fi" : "yleiskuvaus fi",
       "sv" : "yleiskuvaus sv"
