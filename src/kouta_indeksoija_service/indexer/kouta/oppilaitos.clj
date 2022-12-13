@@ -125,8 +125,6 @@
 
 (defn- oppilaitoksen-osa-entry
   [organisaatio oppilaitoksen-osa]
-  ;(println (str "ORGANISAATIO: " organisaatio))
-  ;(println (str "OPPILAITOKSEN OSA: " oppilaitoksen-osa))
   ; TODO oppilaitosten osat eivät voi käyttää assoc-koulutusohjelmia sillä kouta-backend/get-koulutukset-by-tarjoaja ei palauta osille mitään
   ; TODO oppilaitoksen osien pitäisi päätellä koulutusohjelmia-lkm eri reittiä: toteutukset -> koulutukset -> johtaaTutkintoon
   (let [update-yhteystiedot-fn (fn [oo] (if (nil? (get-in oo [:metadata :hakijapalveluidenYhteystiedot]))
@@ -166,10 +164,10 @@
         koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache (:oid organisaatio) execution-id)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
     (as-> (oppilaitos-entry organisaatio enriched-oppilaitos koulutukset) o
-        (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
-                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
-                          (vec)))
-        (assoc o :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? o)))))
+          (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
+                         (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
+                         (vec)))
+          (assoc o :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? o)))))
 
 (defn create-index-entry
   [oid execution-id]
