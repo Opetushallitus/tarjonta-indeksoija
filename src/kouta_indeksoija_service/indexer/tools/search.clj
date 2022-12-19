@@ -316,6 +316,8 @@
              lukiolinjat_er
              osaamisalat
              hasJotpaRahoitus
+             isTyovoimakoulutus
+             isTaydennyskoulutus
              metadata]
       :or   {koulutus                  []
              toteutus                  []
@@ -334,6 +336,8 @@
              lukiolinjat_er            []
              osaamisalat               []
              hasJotpaRahoitus          false
+             isTyovoimakoulutus        false
+             isTaydennyskoulutus       false
              metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
@@ -386,6 +390,8 @@
        :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
        :osaamisalat               (clean-uris osaamisalat)
        :hasJotpaRahoitus          hasJotpaRahoitus
+       :isTyovoimakoulutus        isTyovoimakoulutus
+       :isTaydennyskoulutus       isTaydennyskoulutus
        :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
        })))
 

@@ -68,6 +68,8 @@
         :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
         :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
         :hasJotpaRahoitus (:hasJotpaRahoitus toteutus-metadata)
+        :isTyovoimakoulutus (:isTyovoimakoulutus toteutus-metadata)
+        :isTaydennyskoulutus (:isTaydennyskoulutus toteutus-metadata)
 
         :metadata {:tutkintonimikkeetKoodiUrit                 (search-tool/tutkintonimike-koodi-urit koulutus)
                    :opetusajatKoodiUrit                        (:opetusaikaKoodiUrit opetus)
