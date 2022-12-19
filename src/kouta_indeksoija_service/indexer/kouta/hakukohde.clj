@@ -346,6 +346,11 @@
     hakukohde
     (assoc-in hakukohde [:metadata :pistehistoria] pistehistoria)))
 
+(defn- assoc-jarjestaa-urheilijan-ammatillista-koulutusta [hakukohde juak?]
+  (if (nil? juak?)
+    hakukohde
+    (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta juak?)))
+
 (defn- assoc-odw-kk-tasot
   [hakukohde haku koulutus]
   (if (korkeakoulutus? koulutus)
@@ -403,9 +408,7 @@
                                                          (assoc-hakulomake-linkki haku)
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
                                                          (assoc-odw-kk-tasot haku koulutus)
-                                                         (assoc-pistehistoria pistehistoria)
-                                                         (assoc :jarjestaaUrheilijanAmmKoulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
-                                                         (assoc-pistehistoria pistehistoria)
+                                                         (assoc-jarjestaa-urheilijan-ammatillista-koulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
