@@ -405,6 +405,7 @@
                                                          (assoc-odw-kk-tasot haku koulutus)
                                                          (assoc-pistehistoria pistehistoria)
                                                          (assoc :jarjestaaUrheilijanAmmKoulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
+                                                         (assoc-pistehistoria pistehistoria)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
