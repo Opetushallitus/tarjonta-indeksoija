@@ -58,6 +58,32 @@
   [oid execution-id]
   (get-doc-with-cache "hakukohde" oid execution-id))
 
+;lukiolinjakoodi saa olla arvo koodistoista "lukiopainotukset" tai "lukiolinjaterityinenkoulutustehtava"
+(defn get-pistehistoria
+  [tarjoaja-oid hakukohdekoodi lukiolinjakoodi execution-id]
+  (if (and (nil? hakukohdekoodi) (nil? lukiolinjakoodi))
+    []
+    {:val (cas-authenticated-get-as-json (resolve-url :kouta-backend.pistehistoria) (if (some? hakukohdekoodi) {:query-params {:tarjoaja tarjoaja-oid
+                                                                                                                               :hakukohdekoodi hakukohdekoodi}}
+                                                                                                               {:query-params {:tarjoaja tarjoaja-oid
+                                                                                                                               :lukiolinjakoodi lukiolinjakoodi}}))
+     :ttl (get-cache-time execution-id)}))
+
+(def get-pistehistoria-with-cache
+  (ttl/memoize-ttl get-pistehistoria))
+
+;Käytännössä tällä löytyy tietoa vain toisen asteen hakukohteille
+(defn get-pistehistoria-for-hakukohde [hakukohde execution-id]
+  (let [jarjestyspaikkaOid (:jarjestyspaikkaOid hakukohde)
+        lukiolinja (:hakukohteenLinja hakukohde)
+        lukiolinjaKoodiUri (:linja lukiolinja)
+        hakukohdeKoodiUri (or (:hakukohdeKoodiUri hakukohde)
+                              (when (and (some? lukiolinja) (nil? lukiolinjaKoodiUri)) "hakukohteet_000"))]
+    (when (and (some? jarjestyspaikkaOid)
+               (or (some? hakukohdeKoodiUri)
+                   (some? lukiolinjaKoodiUri)))
+      (get-pistehistoria-with-cache jarjestyspaikkaOid hakukohdeKoodiUri lukiolinjaKoodiUri execution-id))))
+
 (defn get-hakukohde-oids-by-jarjestyspaikat
   [oids execution-id]
   {:val (cas-authenticated-post-as-json (resolve-url :kouta-backend.jarjestyspaikat.hakukohde-oids) {:body (json/generate-string oids) :content-type :json})
@@ -117,6 +143,10 @@
 (def get-koulutukset-by-tarjoaja-with-cache
   (ttl/memoize-ttl get-koulutukset-by-tarjoaja))
 
+(defn- assoc-pistehistoria [hakukohde pistehistoria]
+  (if (nil? pistehistoria)
+    hakukohde
+    (assoc-in hakukohde [:metadata :pistehistoria] pistehistoria)))
 
 (defn get-hakutiedot-for-koulutus
   [koulutus-oid execution-id]
@@ -127,9 +157,11 @@
                                     (map (fn [haku]
                                            (assoc haku :hakukohteet
                                                        (map (fn [hakukohde]
-                                                              (-> hakukohde
-                                                                  (koodisto/assoc-hakukohde-nimi-from-koodi)
-                                                                  (general/set-hakukohde-tila-by-related-haku haku)))
+                                                              (let [pistehistoria (get-pistehistoria-for-hakukohde hakukohde execution-id)]
+                                                                (-> hakukohde
+                                                                    (assoc-pistehistoria pistehistoria)
+                                                                    (koodisto/assoc-hakukohde-nimi-from-koodi)
+                                                                    (general/set-hakukohde-tila-by-related-haku haku))))
                                                             (:hakukohteet haku))))
                                          (:haut hakutieto))))
                  response)

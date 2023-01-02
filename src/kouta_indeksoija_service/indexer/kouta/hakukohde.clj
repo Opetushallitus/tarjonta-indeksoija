@@ -346,6 +346,11 @@
     hakukohde
     (assoc hakukohde :jarjestaaUrheilijanAmmKoulutusta juak?)))
 
+(defn- assoc-pistehistoria [hakukohde pistehistoria]
+  (if (nil? pistehistoria)
+    hakukohde
+    (assoc-in hakukohde [:metadata :pistehistoria] pistehistoria)))
+
 (defn- assoc-odw-kk-tasot
   [hakukohde haku koulutus]
   (if (korkeakoulutus? koulutus)
@@ -381,7 +386,13 @@
             sora-kuvaus (kouta-backend/get-sorakuvaus-with-cache (:sorakuvausId koulutus) execution-id)
             valintaperusteId (:valintaperusteId hakukohde)
             valintaperuste (when-not (str/blank? valintaperusteId)
-                             (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))]
+                             (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
+            jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
+            jarjestyspaikka-oppilaitos (when-not (str/blank? jarjestyspaikkaOid)
+                                         (first
+                                           (:oppilaitokset
+                                             (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))
+            pistehistoria (kouta-backend/get-pistehistoria-for-hakukohde hakukohde-from-kouta execution-id)]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
                                                          (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
@@ -398,6 +409,7 @@
                                                          (assoc-paatelty-alkamiskausi-for-hakukohde hakukohde-from-kouta haku toteutus)
                                                          (assoc-odw-kk-tasot haku koulutus)
                                                          (assoc-jarjestaa-urheilijan-ammatillista-koulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
+                                                         (assoc-pistehistoria pistehistoria)
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
