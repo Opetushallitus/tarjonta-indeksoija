@@ -132,6 +132,7 @@
 
 (defonce lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
 (defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
+(defonce tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteiden-perusopetus-toteutus-metadata.json")))
 
 (defonce yo-koulutus-metadata
    {:tyyppi "yo"
@@ -241,6 +242,12 @@
           :opintojenLaajuusNumeroMin 5
           :opintojenLaajuusNumeroMax 10
           :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+          :lisatiedot []})
+
+(defonce tpo-koulutus-metadata
+         {:tyyppi "taiteiden-perusopetus"
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
           :lisatiedot []})
 
 (defn add-koulutus-mock
