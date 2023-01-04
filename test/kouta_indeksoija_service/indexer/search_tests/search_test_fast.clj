@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.search-tests.search-test-fast
   (:require [clojure.test :refer [deftest testing is]]
+            [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.indexer.tools.search :as search]))
 
 (deftest number-or-nil
@@ -166,3 +167,52 @@
                :nimi {:fi "Yhteishaku"}
                :organisaatioOid "1.2.246.562.10.48442622063"}]))))
     )
+
+(deftest opintojen-laajuus
+  (testing "returns opintojenLaajuusYksikkoKoodiUri for relevant koulutukset"
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "yo"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "amk"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "amm-ope-erityisope-ja-opo"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "ope-pedag-opinnot"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "kk-opintojakso"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "kk-opintokokonaisuus"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "erikoistumiskoulutus"})))
+    (is (= nil (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "erikoislaakari"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "vapaa-sivistystyo-opistovuosi"})))
+    (is (= "opintojenlaajuusyksikko_8#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "tuva"})))
+    (is (= "opintojenlaajuusyksikko_6#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "telma"})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "lk"})))
+    (is (= "opintojenlaajuusyksikko_8#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "vapaa-sivistystyo-muu" :metadata fixture/vapaa-sivistystyo-muu-metadata})))
+    (is (= "opintojenlaajuusyksikko_4#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata})))
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata})))
+  )
+
+  (testing "returns laajuusnumero for relevant koulutukset"
+    (is (= 11 (search/opintojen-laajuus-numero {:koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata})))
+    (is (= 26 (search/opintojen-laajuus-numero {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))
+    (is (= 27 (search/opintojen-laajuus-numero {:koulutustyyppi "amk" :metadata fixture/amk-koulutus-metadata})))
+    (is (= 60 (search/opintojen-laajuus-numero {:koulutustyyppi "amm-ope-erityisope-ja-opo" :metadata {:tyyppi "amm-ope-erityisope-ja-opo" :opintojenLaajuusNumero 60}})))
+    (is (= 60 (search/opintojen-laajuus-numero {:koulutustyyppi "ope-pedag-opinnot" :metadata {:tyyppi "ope-pedag-opinnot" :opintojenLaajuusNumero 60}})))
+    (is (= 38 (search/opintojen-laajuus-numero {:koulutustyyppi "tuva" :metadata fixture/tuva-koulutus-metadata})))
+    (is (= 41 (search/opintojen-laajuus-numero {:koulutustyyppi "telma" :metadata fixture/telma-koulutus-metadata})))
+    (is (= 25 (search/opintojen-laajuus-numero {:koulutustyyppi "lk" :metadata fixture/lukio-koulutus-metadata})))
+    (is (= 38 (search/opintojen-laajuus-numero {:koulutustyyppi "vapaa-sivistystyo-muu" :metadata fixture/vapaa-sivistystyo-muu-metadata})))
+    (is (= 20 (search/opintojen-laajuus-numero {:koulutustyyppi "vapaa-sivistystyo-opistovuosi" :metadata {:tyyppi "vapaa-sivistystyo-opistovuosi" :opintojenLaajuusNumero 20}})))
+    (is (= 13 (search/opintojen-laajuus-numero {:koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata})))
+    (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "erikoislaakari" :metadata {:tyyppi "erikoislaakari" :opintojenLaajuusNumero 60}})))
+    (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "kk-opintojakso" :metadata {:tyyppi "kk-opintojakso" :opintojenLaajuusNumero 60}})))
+    (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "kk-opintokokonaisuus" :metadata {:tyyppi "kk-opintokokonaisuus" :opintojenLaajuusNumero 60}})))
+    (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "erikoistumiskoulutus" :metadata {:tyyppi "erikoistumiskoulutus" :opintojenLaajuusNumero 60}})))
+  )
+
+  (testing "return laajuusnumero min and max for relevant koulutukset"
+    (is (= 14 (search/opintojen-laajuus-numero-min {:koulutustyyppi "kk-opintojakso" :metadata fixture/kk-opintojakso-koulutus-metadata})))
+    (is (= 15 (search/opintojen-laajuus-numero-max {:koulutustyyppi "kk-opintojakso" :metadata fixture/kk-opintojakso-koulutus-metadata})))
+    (is (= 24 (search/opintojen-laajuus-numero-min {:koulutustyyppi "kk-opintokokonaisuus" :metadata fixture/kk-opintokokonaisuus-koulutus-metadata})))
+    (is (= 25 (search/opintojen-laajuus-numero-max {:koulutustyyppi "kk-opintokokonaisuus" :metadata fixture/kk-opintokokonaisuus-koulutus-metadata})))
+    (is (= 5 (search/opintojen-laajuus-numero-min {:koulutustyyppi "erikoistumiskoulutus" :metadata fixture/erikoistumiskoulutus-metadata})))
+    (is (= 10 (search/opintojen-laajuus-numero-max {:koulutustyyppi "erikoistumiskoulutus" :metadata fixture/erikoistumiskoulutus-metadata})))
+    (is (= nil (search/opintojen-laajuus-numero-min {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))
+    (is (= nil (search/opintojen-laajuus-numero-max {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))
+  )
+)

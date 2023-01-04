@@ -118,7 +118,7 @@
                 (fixture/add-sorakuvaus-mock sorakuvausId2 :organisaatio OphOid)
 
                 (fixture/add-koulutus-mock koulutusOid1 :tila "julkaistu" :organisaatio ChildOid :sorakuvausId sorakuvausId1)
-                (fixture/add-koulutus-mock koulutusOid2 :tila "julkaistu" :organisaatio OphOid :sorakuvausId sorakuvausId1)
+                (fixture/add-koulutus-mock koulutusOid2 :tila "julkaistu" :organisaatio OphOid :sorakuvausId sorakuvausId1 :julkinen true)
                 (fixture/add-koulutus-mock koulutusOid3 :tila "julkaistu" :organisaatio LonelyOid :sorakuvausId sorakuvausId1 :julkinen true)
                 (fixture/add-koulutus-mock koulutusOid4 :tila "julkaistu" :organisaatio LonelyOid :sorakuvausId sorakuvausId1 :tarjoajat [ChildOid])
                 (fixture/add-koulutus-mock koulutusOid5 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata)
@@ -128,7 +128,7 @@
                 (fixture/add-toteutus-mock toteutusOid2 koulutusOid1 :tila "julkaistu" :organisaatio LonelyOid :tarjoajat [ChildOid])
 
                 (fixture/add-valintaperuste-mock valintaPerusteId1 :organisaatio ChildOid)
-                (fixture/add-valintaperuste-mock valintaPerusteId2 :organisaatio OphOid)
+                (fixture/add-valintaperuste-mock valintaPerusteId2 :organisaatio OphOid :julkinen true)
                 (fixture/add-valintaperuste-mock valintaPerusteId3 :organisaatio LonelyOid :julkinen true)
 
                 (fixture/add-haku-mock hakuOid1 :tila "julkaistu" :organisaatio ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)

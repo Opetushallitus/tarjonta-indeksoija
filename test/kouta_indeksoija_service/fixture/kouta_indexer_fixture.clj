@@ -135,6 +135,8 @@
 
 (defonce yo-koulutus-metadata
    {:tyyppi "yo"
+    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+    :opintojenLaajuusNumero 26
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                            "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
     :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
@@ -149,6 +151,7 @@
 (defonce amk-koulutus-metadata
   {:tyyppi "amk"
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+   :opintojenLaajuusNumero 27
    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
@@ -178,8 +181,8 @@
 (defonce lukio-koulutus-metadata
    {:tyyppi "lk"
     :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_001#1"]
-    :opintojenLaajuusKoodiUri "opintojenlaajuus_40#1"
     :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+    :opintojenLaajuusNumero 25
     :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}
     :kuvaus {}
     :lisatiedot []})
@@ -190,6 +193,22 @@
    :opintojenLaajuusNumero 38
    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+
+(defonce telma-koulutus-metadata
+         {:tyyppi "telma"
+          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_6#1"
+          :opintojenLaajuusNumero 41
+          :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+
+(defonce vapaa-sivistystyo-muu-metadata
+   {:tyyppi "vapaa-sivistystyo-muu"
+    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_080#1"]
+    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_8#1"
+    :opintojenLaajuusNumero 38
+    :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
+    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}})
+
 
 (defonce aikuisten-perusopetus-koulutus-metadata
          {:tyyppi "aikuisten-perusopetus"
@@ -204,9 +223,25 @@
    :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
                           "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
-   :opintojenLaajuusNumero 14
+   :opintojenLaajuusNumeroMin 14
+   :opintojenLaajuusNumeroMax 15
    :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
    :lisatiedot []})
+
+(defonce kk-opintokokonaisuus-koulutus-metadata
+  (merge kk-opintojakso-koulutus-metadata {:tyyppi "kk-opintokokonaisuus" :opintojenLaajuusNumeroMin 24 :opintojenLaajuusNumeroMax 25})
+)
+
+(defonce erikoistumiskoulutus-metadata
+         {:tyyppi "erikoistumiskoulutus"
+          :erikoistumiskoulutusKoodiUri "erikoistumiskoulutukset_001#2"
+          :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_01#1"
+                                 "kansallinenkoulutusluokitus2016koulutusalataso2_02#1"]
+          :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
+          :opintojenLaajuusNumeroMin 5
+          :opintojenLaajuusNumeroMax 10
+          :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
+          :lisatiedot []})
 
 (defn add-koulutus-mock
   [oid & {:as params}]

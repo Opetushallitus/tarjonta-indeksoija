@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.search-tests.kouta-koulutus-search-test
   (:require [clojure.test :refer :all]
-            [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [json]]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]))
 
@@ -51,6 +50,36 @@
       (let [koulutus {:koulutustyyppi "vapaa-sivistystyo-muu"}
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
         (is (= ["vapaa-sivistystyo" "vapaa-sivistystyo-muu"] result)))))
+
+(deftest add-kk-muu-when-yo-ope
+  (testing "If ope-pedag-opinnot, add 'kk-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "ope-pedag-opinnot"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["kk-muu" "ope-pedag-opinnot"] result)))))
+
+(deftest add-kk-muu-when-erikoislaakari
+  (testing "If erikoislaakari, add 'kk-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "erikoislaakari"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["kk-muu" "erikoislaakari"] result)))))
+
+(deftest add-kk-muu-when-erikoistumiskoulutus
+  (testing "If erikoistumiskoulutus, add 'kk-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "erikoistumiskoulutus"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["kk-muu" "erikoistumiskoulutus"] result)))))
+
+(deftest add-kk-muu-when-kk-opintojakso
+  (testing "If kk-opintojakso, add 'kk-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "kk-opintojakso"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["kk-muu" "kk-opintojakso"] result)))))
+
+(deftest add-kk-muu-when-kk-opintokokonaisuus
+  (testing "If kk-opintokokonaisuus, add 'kk-muu' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "kk-opintokokonaisuus"}
+          result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
+      (is (= ["kk-muu" "kk-opintokokonaisuus"] result)))))
 
 (deftest hakutieto-tools-test
   (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
