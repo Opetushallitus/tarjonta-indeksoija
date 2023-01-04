@@ -73,13 +73,13 @@
   (testing "If kk-opintojakso, add 'kk-muu' koulutustyyppi"
     (let [koulutus {:koulutustyyppi "kk-opintojakso"}
           result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
-      (is (= ["kk-muu" "kk-opintojakso"] result)))))
+      (is (= ["kk-muu" "kk-opintojakso" "kk-opintojakso-normal"] result)))))
 
 (deftest add-kk-muu-when-kk-opintokokonaisuus
   (testing "If kk-opintokokonaisuus, add 'kk-muu' koulutustyyppi"
     (let [koulutus {:koulutustyyppi "kk-opintokokonaisuus"}
           result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus)]
-      (is (= ["kk-muu" "kk-opintokokonaisuus"] result)))))
+      (is (= ["kk-muu" "kk-opintokokonaisuus" "kk-opintokokonaisuus-normal"] result)))))
 
 (deftest hakutieto-tools-test
   (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
