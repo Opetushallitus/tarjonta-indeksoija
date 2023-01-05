@@ -417,7 +417,7 @@
 
        (POST "/koodistot" [:as request]
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."
-         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi,opetuspaikkakk,hakutapa,valintatapajono,pohjakoulutusvaatimuskonfo,lukiopainotukset,lukiolinjaterityinenkoulutustehtava,osaamisala"}]
+         :query-params [{koodistot :- String "maakunta,kunta,oppilaitoksenopetuskieli,kansallinenkoulutusluokitus2016koulutusalataso1,kansallinenkoulutusluokitus2016koulutusalataso2,koulutustyyppi,opetuspaikkakk,hakutapa,valintatapajono,pohjakoulutusvaatimuskonfo,lukiopainotukset,lukiolinjaterityinenkoulutustehtava,osaamisala,kielivalikoima"}]
          (with-access-logging request (ok {:result (indexer/index-koodistot (comma-separated-string->vec koodistot))})))
 
        (POST "/lokalisointi" [:as request]
