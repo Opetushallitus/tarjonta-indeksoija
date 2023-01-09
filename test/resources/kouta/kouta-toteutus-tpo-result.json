@@ -194,7 +194,7 @@
     "1.2.246.562.10.54545454522"
   ],
   "metadata": {
-    "tyyppi": "taiteiden-perusopetus",
+    "tyyppi": "taiteen-perusopetus",
     "kuvaus": {},
     "opintojenLaajuusyksikko": {
       "koodiUri": "opintojenlaajuusyksikko_2#1",
@@ -384,8 +384,8 @@
       "sv" : "Lisätieto sv"
     }
   },
-  "koulutustyyppi": "taiteiden-perusopetus",
-  "koulutustyyppiPath": "taiteiden-perusopetus",
+  "koulutustyyppi": "taiteen-perusopetus",
+  "koulutustyyppiPath": "taiteen-perusopetus",
   "liitetytOpintojaksot": [],
   "kuuluuOpintokokonaisuuksiin": null
 }
