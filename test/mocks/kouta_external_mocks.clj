@@ -91,6 +91,8 @@
 (defonce sorakuvausId1     "e17773b2-f5a0-418d-a49f-34578c4b3625")
 (defonce sorakuvausId2     "171c3d2c-a43e-4155-a68f-f5c9816f3154")
 (defonce ataruId1          "dcd38a87-912e-4e91-8840-99c7e242dd53")
+(defonce ataruId2          "dcd38a87-912e-4e91-8840-99c7e242dd54")
+(defonce ataruId3          "dcd38a87-912e-4e91-8840-99c7e242dd55")
 (defonce valintaPerusteId1 "fa7fcb96-3f80-4162-8d19-5b74731cf90c")
 (defonce valintaPerusteId2 "171c3d2c-a43e-4155-a68f-f5c9816f3154")
 (defonce valintaPerusteId3 "db8acf4f-6e29-409d-93a4-06000fa9a4cd")
@@ -106,6 +108,12 @@
 (defonce toteutusOid2   "1.2.246.562.17.00000000000000000002")
 
 (defonce hakuOid1       "1.2.246.562.29.00000000000000000001")
+(defonce hakuOid2       "1.2.246.562.29.00000000000000000002")
+(defonce hakuOid3       "1.2.246.562.29.00000000000000000003")
+(defonce hakuOid4       "1.2.246.562.29.00000000000000000004")
+(defonce hakuOid5       "1.2.246.562.29.00000000000000000005")
+(defonce hakuOid6       "1.2.246.562.29.00000000000000000006")
+
 
 (defonce hakukohdeOid1    "1.2.246.562.20.00000000000000000001")
 (defonce hakukohdeOid2    "1.2.246.562.20.00000000000000000002")
@@ -132,6 +140,11 @@
                 (fixture/add-valintaperuste-mock valintaPerusteId3 :organisaatio LonelyOid :julkinen true)
 
                 (fixture/add-haku-mock hakuOid1 :tila "julkaistu" :organisaatio ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+                (fixture/add-haku-mock hakuOid2 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+                (fixture/add-haku-mock hakuOid3 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId2)
+                (fixture/add-haku-mock hakuOid4 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId2)
+                (fixture/add-haku-mock hakuOid5 :tila "julkaistu" :organisaatioOid ParentOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+                (fixture/add-haku-mock hakuOid6 :tila "julkaistu" :organisaatioOid EvilChild :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
 
                 (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :organisaatio ChildOid :valintaperusteId valintaPerusteId1)
                 (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid2 hakuOid1 :tila "julkaistu" :organisaatio LonelyOid :valintaperusteId valintaPerusteId1)
@@ -140,7 +153,7 @@
                 (fixture/index-oids-without-related-indices {:sorakuvaukset [sorakuvausId1 sorakuvausId2]
                                                              :koulutukset [koulutusOid1 koulutusOid2 koulutusOid3 koulutusOid4 koulutusOid5 koulutusOid6]
                                                              :toteutukset [toteutusOid1 toteutusOid2]
-                                                             :haut [hakuOid1]
+                                                             :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 hakuOid6]
                                                              :valintaperusteet [valintaPerusteId1 valintaPerusteId2 valintaPerusteId3]
                                                              :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3]
                                                              :oppilaitokset [base-org evil-org]} orgs)
