@@ -165,6 +165,16 @@ osoittamaan haluamaasi testiympäristöä vasten ja ajamalla swaggerista `POST /
 Voit myös indeksoida vain yksittäisen entiteetin, esimerkiksi ajamalla swaggerista 
 `POST /kouta-indeksoija/api/kouta/koulutus/:oid` 
 
+### 3.6 Mock-datan generointi
+
+Muiden palvelujen testien käyttämän mock-datadumpin generointi tapahtuu testeillä, jotka löytyvät hakemistosta test/mocks.
+
+palvelunnimi_mocks.clj -tiedostoissa on testi, joka on kommentoitu pois. Kun olet tehnyt tarvittavat muutokset 
+testidatan generointiin, ota (comment ) -kääre pois ja aja testi komennolla lein test :only mocks.palvelunnimi-mocks
+Se luo elasticsearch-testidata-dumpin hakemistoon elasticdump/palvelunnimi
+
+Korvaa sitten kyseisen palvelun repositoriossa elastic_dump -hakemiston vastaavat tiedostot tuohon hakemistoon luoduilla tiedostoilla.
+
 ## 4. Ympäristöt
 
 ### 4.1. Testiympäristöt
