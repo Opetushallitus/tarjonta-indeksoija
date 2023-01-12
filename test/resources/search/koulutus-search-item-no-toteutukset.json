@@ -109,6 +109,8 @@
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": true,
       "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "nimi": {
         "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",

@@ -16,7 +16,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
@@ -28,13 +28,13 @@ jobs:
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
-          docker pull localstack/localstack:0.10.2
+          docker pull localstack/localstack:1.0.4
           lein -U ci-test
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
@@ -42,7 +42,7 @@ jobs:
       - name: Build jar
         run: lein uberjar
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: restore-build
         with:
           path: target
@@ -52,9 +52,9 @@ jobs:
     needs: [ test, build ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: restore-build
         with:
           path: target
