@@ -38,9 +38,9 @@
          (is (.startsWith (nth bulk-data 2) "{\"index")))))
    (testing "should be partitioned correctly when contain both index and delete actions"
      (with-redefs [max-payload-size 2025]
-       (let [docs (concat (dummy-indexdata :amount 20 :id-offset 1000)
-                          (vector (indexable/->delete-entry 1020))
-                          (dummy-indexdata :amount 20 :id-offset 1021))
+       (let [docs (concat (dummy-indexdata :amount 25 :id-offset 1000)
+                          (vector (indexable/->delete-entry 1025))
+                          (dummy-indexdata :amount 25 :id-offset 1026))
              data (tools/->bulk-actions "indexdata" docs)
              bulk-data (bulk-partitions data)]
          (println docs)

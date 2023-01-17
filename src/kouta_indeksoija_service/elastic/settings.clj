@@ -227,7 +227,10 @@
                                          :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
 
 (def kouta-mappings
-  {:dynamic_templates [{:haut {:match "haut"
+  {:properties {:metadata {:properties {:opintojenLaajuusNumero {:type "float"}
+                                        :tutkinnonOsat {:type "nested"
+                                                        :properties {:opintojenLaajuusNumero {:type "float"}}}}}}
+   :dynamic_templates [{:haut {:match "haut"
                                :mapping {:type "keyword"}
                                :match_mapping_type "string"}}
                        {:muokkaaja {:match "muokkaaja.nimi"
