@@ -38,6 +38,17 @@
          (compare-json (no-timestamp (json "kouta-toteutus-lukio-result"))
                        (no-timestamp (get-doc toteutus/index-name toteutus-oid)))))))
 
+(deftest index-taiteen-perusopetus-toteutus-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index taiteen perusopetus -toteutus to toteutus index"
+     (check-all-nil)
+     (fixture/update-hakukohde-mock hakukohde-oid :tila "julkaistu")
+     (fixture/update-koulutus-mock koulutus-oid :koulutustyyppi "taiteen-perusopetus" :metadata fixture/tpo-koulutus-metadata)
+     (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/tpo-toteutus-metadata)
+     (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
+     (compare-json (no-timestamp (json "kouta-toteutus-tpo-result"))
+                   (no-timestamp (get-doc toteutus/index-name toteutus-oid))))))
+
 (deftest index-arkistoitu-toteutus-test
    (fixture/with-mocked-indexing
     (testing "Indexer should index delete toteutus from search indexes when it's arkistoitu"

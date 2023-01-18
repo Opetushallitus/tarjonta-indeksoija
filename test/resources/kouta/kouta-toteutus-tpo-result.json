@@ -1,0 +1,391 @@
+{
+  "tila": "tallennettu",
+  "externalId": "1122334455",
+  "haut": ["1.2.246.562.29.00000000000000000001"],
+  "tarjoajat": [
+    {
+      "nimi": {
+        "fi": "Kiva ammattikorkeakoulu, Helsingin toimipiste",
+        "sv": "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
+      },
+      "oid": "1.2.246.562.10.54545454511",
+      "paikkakunta": {
+        "koodiUri": "kunta_091",
+        "nimi": {
+          "fi": "kunta_091 nimi fi",
+          "sv": "kunta_091 nimi sv"
+        }
+      }
+    },
+    {
+      "nimi": {
+        "fi": "Kiva ammattikorkeakoulu, Kuopion toimipiste",
+        "sv": "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
+      },
+      "oid": "1.2.246.562.10.54545454522",
+      "paikkakunta": {
+        "koodiUri": "kunta_297",
+        "nimi": {
+          "fi": "kunta_297 nimi fi",
+          "sv": "kunta_297 nimi sv"
+        }
+      }
+    }
+  ],
+  "oppilaitokset": [
+    "1.2.246.562.10.54545454545"
+  ],
+  "modified": "2019-02-01T13:16:23",
+  "koulutusOid": "1.2.246.562.13.00000000000000000001",
+  "nimi": {
+    "fi": "Koulutuksen 0 toteutus 0 fi",
+    "sv": "Koulutuksen 0 toteutus 0 sv"
+  },
+  "muokkaaja": {
+    "oid": "1.2.246.562.24.62301161440",
+    "nimi": "Kalle Ankka"
+  },
+  "esikatselu": false,
+  "oid": "1.2.246.562.17.00000000000000000001",
+  "kielivalinta": [
+    "fi",
+    "sv"
+  ],
+  "teemakuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
+  "hakutiedot": [
+    {
+      "hakuOid": "1.2.246.562.29.00000000000000000001",
+      "nimi": {
+        "fi": "Haku 0 fi",
+        "sv": "Haku 0 sv"
+      },
+      "hakutapa": {
+        "koodiUri": "hakutapa_03",
+        "nimi": {
+          "fi": "hakutapa_03 nimi fi",
+          "sv": "hakutapa_03 nimi sv"
+        }
+      },
+      "koulutuksenAlkamiskausi": {
+        "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+        "henkilokohtaisenSuunnitelmanLisatiedot": {},
+        "koulutuksenAlkamiskausi": {
+          "koodiUri": "kausi_k",
+          "nimi": {
+            "fi": "kausi_k nimi fi",
+            "sv": "kausi_k nimi sv"
+          }
+        },
+        "koulutuksenAlkamisvuosi": "!!thisYear"
+      },
+      "hakukohteet": [
+        {
+          "hakulomakeKuvaus": {
+            "fi": "Hakulomake tulostetaan ja toimitetaan postitse fi",
+            "sv": "Hakulomake tulostetaan ja toimitetaan postitse sv"
+          },
+          "pohjakoulutusvaatimusTarkenne": {
+            "fi": "Pohjakoulutusvaatimuksen tarkenne fi",
+            "sv": "Pohjakoulutusvaatimuksen tarkenne sv"
+          },
+          "hakulomaketyyppi": "ei sähköistä",
+          "koulutuksenAlkamiskausi": {
+            "alkamiskausityyppi": "tarkka alkamisajankohta",
+            "henkilokohtaisenSuunnitelmanLisatiedot": {},
+            "koulutuksenAlkamispaivamaara": "!!startTime1hc",
+            "koulutuksenPaattymispaivamaara": "!!endTime1hc"
+          },
+          "pohjakoulutusvaatimus": [
+            {
+              "koodiUri": "pohjakoulutusvaatimuskouta_104#1",
+              "nimi": {
+                "fi": "pohjakoulutusvaatimuskouta_104#1 nimi fi",
+                "sv": "pohjakoulutusvaatimuskouta_104#1 nimi sv"
+              }
+            },
+            {
+              "koodiUri": "pohjakoulutusvaatimuskouta_109#1",
+              "nimi": {
+                "fi": "pohjakoulutusvaatimuskouta_109#1 nimi fi",
+                "sv": "pohjakoulutusvaatimuskouta_109#1 nimi sv"
+              }
+            }
+          ],
+          "hakulomakeLinkki": {
+            "fi": "https://koulu.test/hakemusinfo fi",
+            "sv": "https://koulu.test/hakemusinfo sv"
+          },
+          "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
+          "aloituspaikat": {
+            "lukumaara": 100,
+            "ensikertalaisille": 50,
+            "kuvaus": {
+              "fi": "aloituspaikkojen kuvaus fi",
+              "sv": "aloituspaikkojen kuvaus sv"
+            }
+          },
+          "nimi": {
+            "fi": "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
+            "sv": "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
+          },
+          "hakuajat": [
+            {
+              "alkaa": "!!startTime1",
+              "paattyy": "!!endTime1"
+            }
+          ],
+          "hakukohdeOid": "1.2.246.562.20.00000000000000000001",
+          "organisaatio": {
+            "paikkakunta": {
+              "koodiUri": "kunta_091",
+              "nimi": {
+                "fi": "kunta_091 nimi fi",
+                "sv": "kunta_091 nimi sv"
+              }
+            },
+            "nimi": {
+              "fi": "Kiva ammattikorkeakoulu",
+              "sv": "Kiva ammattikorkeakoulu sv"
+            },
+            "oid": "1.2.246.562.10.54545454545"
+          },
+          "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
+          "jarjestyspaikka": {
+            "paikkakunta": {
+              "koodiUri": "kunta_297",
+              "nimi": {
+                "fi": "kunta_297 nimi fi",
+                "sv": "kunta_297 nimi sv"
+              }
+            },
+            "nimi": {
+              "fi": "Jokin järjestyspaikka",
+              "sv": "Jokin järjestyspaikka sv"
+            },
+            "oid": "1.2.246.562.10.67476956288",
+            "jarjestaaUrheilijanAmmKoulutusta": true
+          },
+          "tila": "julkaistu",
+          "modified": "2019-02-05T09:49:23",
+          "esikatselu": false,
+          "hasValintaperustekuvausData": false
+        }
+      ]
+    }
+  ],
+  "timestamp": 1549364610909,
+  "organisaatio": {
+    "paikkakunta": {
+      "koodiUri": "kunta_091",
+      "nimi": {
+        "fi": "kunta_091 nimi fi",
+        "sv": "kunta_091 nimi sv"
+      }
+    },
+    "nimi": {
+      "fi": "Kiva ammattikorkeakoulu",
+      "sv": "Kiva ammattikorkeakoulu sv"
+    },
+    "oid": "1.2.246.562.10.54545454545"
+  },
+  "organisaatiot": [
+    "1.2.246.562.10.54545454545",
+    "1.2.246.562.10.54545454511",
+    "1.2.246.562.10.54545454522"
+  ],
+  "metadata": {
+    "tyyppi": "taiteen-perusopetus",
+    "kuvaus": {},
+    "opintojenLaajuusyksikko": {
+      "koodiUri": "opintojenlaajuusyksikko_2#1",
+      "nimi": {
+        "fi": "opintojenlaajuusyksikko_2#1 nimi fi",
+        "sv": "opintojenlaajuusyksikko_2#1 nimi sv"
+      }
+    },
+    "opintojenLaajuusNumeroMin": 14,
+    "opintojenLaajuusNumeroMax": 20,
+    "taiteenala": [
+      {
+        "koodiUri": "taiteenperusopetustaiteenala_sirkustaide#1",
+        "nimi": {
+          "fi": "taiteenperusopetustaiteenala_sirkustaide#1 nimi fi",
+          "sv": "taiteenperusopetustaiteenala_sirkustaide#1 nimi sv"
+        }
+      },
+      {
+        "koodiUri": "taiteenperusopetustaiteenala_sanataide#1",
+        "nimi": {
+          "fi": "taiteenperusopetustaiteenala_sanataide#1 nimi fi",
+          "sv": "taiteenperusopetustaiteenala_sanataide#1 nimi sv"
+        }
+      }
+    ],
+    "opetus": {
+      "maksunMaara": 200.5,
+      "opetuskieli": [
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_1#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"
+          }
+        }
+      ],
+      "koulutuksenAlkamiskausi": {
+        "alkamiskausityyppi": "alkamiskausi ja -vuosi",
+        "henkilokohtaisenSuunnitelmanLisatiedot": {
+          "fi": "Jotakin lisätietoa",
+          "sv": "Jotakin lisätietoa sv"
+        },
+        "koulutuksenAlkamiskausi": {
+          "koodiUri": "kausi_k#1",
+          "nimi": {
+            "fi": "kausi_k#1 nimi fi",
+            "sv": "kausi_k#1 nimi sv"
+          }
+        },
+        "koulutuksenAlkamisvuosi": "!!thisYear"
+      },
+      "maksullisuusKuvaus": {
+        "fi": "Maksullisuuskuvaus fi",
+        "sv": "Maksullisuuskuvaus sv"
+      },
+      "opetustapa": [
+        {
+          "koodiUri": "opetuspaikkakk_1#1",
+          "nimi": {
+            "fi": "opetuspaikkakk_1#1 nimi fi",
+            "sv": "opetuspaikkakk_1#1 nimi sv"
+          }
+        },
+        {
+          "koodiUri": "opetuspaikkakk_2#1",
+          "nimi": {
+            "fi": "opetuspaikkakk_2#1 nimi fi",
+            "sv": "opetuspaikkakk_2#1 nimi sv"
+          }
+        }
+      ],
+      "lisatiedot": [
+        {
+          "otsikko": {
+            "koodiUri": "koulutuksenlisatiedot_03#1",
+            "nimi": {
+              "fi": "koulutuksenlisatiedot_03#1 nimi fi",
+              "sv": "koulutuksenlisatiedot_03#1 nimi sv"
+            }
+          },
+          "teksti": {
+            "fi": "Opintojen rakenteen kuvaus",
+            "sv": "Rakenne kuvaus sv"
+          }
+        },
+        {
+          "otsikko": {
+            "koodiUri": "koulutuksenlisatiedot_03#1",
+            "nimi": {
+              "fi": "koulutuksenlisatiedot_03#1 nimi fi",
+              "sv": "koulutuksenlisatiedot_03#1 nimi sv"
+            }
+          },
+          "teksti": {
+            "fi": "Sisältö kuvaus",
+            "sv": "Sisältö kuvaus sv"
+          }
+        }
+      ],
+      "onkoApuraha": true,
+      "apuraha": {
+        "min": 100,
+        "max": 200,
+        "yksikko": "euro",
+        "kuvaus": {
+          "fi": "apurahakuvaus fi",
+          "sv": "apurahakuvaus sv"
+        }
+      },
+      "opetustapaKuvaus": {
+        "fi": "Opetustapakuvaus fi",
+        "sv": "Opetustapakuvaus sv"
+      },
+      "opetuskieletKuvaus": {
+        "fi": "Kielikuvaus fi",
+        "sv": "Kielikuvaus sv"
+      },
+      "maksullisuustyyppi": "maksullinen",
+      "opetusaikaKuvaus": {
+        "fi": "Opetusaikakuvaus fi",
+        "sv": "Opetusaikakuvaus sv"
+      },
+      "suunniteltuKestoKuvaus": {
+        "fi": "Keston kuvaus fi",
+        "sv": "Keston kuvaus sv"
+      },
+      "suunniteltuKestoVuodet": 3,
+      "suunniteltuKestoKuukaudet": 10,
+      "opetusaika": [
+        {
+          "koodiUri": "opetusaikakk_1#1",
+          "nimi": {
+            "fi": "opetusaikakk_1#1 nimi fi",
+            "sv": "opetusaikakk_1#1 nimi sv"
+          }
+        }
+      ]
+    },
+    "asiasanat": [
+      {
+        "kieli": "fi",
+        "arvo": "tutkija"
+      }
+    ],
+    "ammattinimikkeet": [],
+    "yhteyshenkilot": [
+      {
+        "nimi": {
+          "fi": "Aku Ankka",
+          "sv": "Aku Ankka"
+        },
+        "titteli": {
+          "fi": "titteli",
+          "sv": "titteli sv"
+        },
+        "sahkoposti": {
+          "fi": "aku.ankka@ankkalinnankoulu.fi",
+          "sv": "aku.ankka@ankkalinnankoulu.fi"
+        },
+        "puhelinnumero": {
+          "fi": "123",
+          "sv": "123"
+        },
+        "wwwSivu": {
+          "fi": "http://opintopolku.fi",
+          "sv": "http://studieinfo.fi"
+        }
+      }
+    ],
+    "hakutermi" : "hakeutuminen",
+    "hakulomaketyyppi" : "muu",
+    "hakulomakeLinkki" : {
+      "fi" : "http://www.linkki.fi",
+      "sv" : "http://www.linkki.se"
+    },
+    "hakuaika" : {
+      "alkaa" : "2022-02-07T09:58",
+      "paattyy" : "2022-02-07T10:07"
+    },
+    "lisatietoaValintaperusteista" : {
+      "fi" : "Lisätieto",
+      "sv" : "Lisätieto sv"
+    },
+    "lisatietoaHakeutumisesta" : {
+      "fi" : "Lisätieto",
+      "sv" : "Lisätieto sv"
+    }
+  },
+  "koulutustyyppi": "taiteen-perusopetus",
+  "koulutustyyppiPath": "taiteen-perusopetus",
+  "liitetytOpintojaksot": [],
+  "kuuluuOpintokokonaisuuksiin": null
+}
