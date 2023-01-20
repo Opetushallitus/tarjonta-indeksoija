@@ -30,6 +30,7 @@
   (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (string/trim value)))
 
 (def excluded-fields {:externalId true
+                      :tunniste true
                       :fi true
                       :sv true
                       :en true})
