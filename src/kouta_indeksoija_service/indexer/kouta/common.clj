@@ -184,6 +184,11 @@
   [toteutus]
   (-> toteutus
       (select-keys [:oid :organisaatio :tila :tarjoajat :muokkaaja :modified :organisaatiot])
+      (assoc :metadata
+             (select-keys (:metadata toteutus) [:opintojenLaajuusNumero
+                                                :opintojenLaajuusNumeroMin
+                                                :opintojenLaajuusNumeroMax
+                                                :opintojenLaajuusyksikko]))
       (assoc :nimi (get-esitysnimi toteutus))
       (assoc-organisaatiot)))
 
