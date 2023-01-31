@@ -83,7 +83,7 @@
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[cloud.localstack/localstack-utils "0.1.22"]
                                                        [net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.4-SNAPSHOT"]]
+                                                       [oph/clj-test-utils "0.5.5-SNAPSHOT"]]
 
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
