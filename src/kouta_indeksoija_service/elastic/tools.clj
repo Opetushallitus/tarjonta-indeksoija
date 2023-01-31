@@ -82,7 +82,7 @@
 
 (defn- bulk-action
   [index action]
-  {(keyword (:action action)) {:_index index :_type "_doc" :_id (:id action)}})
+  {(keyword (:action action)) {:_index index :_id (:id action)}})
 
 (defn- bulk-doc
   [doc time]

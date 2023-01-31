@@ -7,7 +7,7 @@
 
 (defn set-last-queued-time
   [timestamp]
-  (let [url (u/elastic-url index-name "_doc" "1" "_update")
+  (let [url (u/elastic-url index-name "_update" "1")
         query {:doc {:timestamp timestamp} :doc_as_upsert true}]
     (u/elastic-post url query)))
 
