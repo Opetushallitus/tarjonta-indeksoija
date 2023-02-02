@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
   (:refer-clojure :exclude [replace])
   (:require [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.indexer.cache.tarjoaja :as tarjoaja]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
@@ -12,7 +12,8 @@
             [clojure.walk :refer [postwalk]]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]))
 
 (defn- strip-koodi-uri-key
   [key]
@@ -70,7 +71,10 @@
 
 (defn- get-tarjoaja
   [oid]
-  (assoc (tarjoaja/get-tarjoaja oid) :oid oid))
+  (when-let [tarjoaja (cache/get-hierarkia-item oid)]
+    (-> tarjoaja
+      (assoc :paikkakunta (get-koodi-nimi-with-cache "kunta" (:kotipaikkaUri tarjoaja)))
+      (select-keys [:oid :nimi :paikkakunta]))))
 
 (defn assoc-organisaatio
   [entry]

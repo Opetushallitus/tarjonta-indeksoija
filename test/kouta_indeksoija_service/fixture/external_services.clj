@@ -1,24 +1,8 @@
 (ns kouta-indeksoija-service.fixture.external-services
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [kouta-indeksoija-service.fixture.common-oids :refer :all]))
 
-(def Koulutustoimija "1.2.246.562.10.11111111111")
-(def Oppilaitos1 "1.2.246.562.10.54545454545")
-(def Toimipiste1OfOppilaitos1 "1.2.246.562.10.54545454511")
-(def Toimipiste2OfOppilaitos1 "1.2.246.562.10.54545454522")
 (def Oppilaitos2 "1.2.246.562.10.55555555555")
-(def Toimipiste1OfOppilaitos2 "1.2.246.562.10.55555555511")
-(def Jarjestyspaikka "1.2.246.562.10.67476956288")
-
-(defn mock-organisaatio
-  [oid]
-  (locking oid
-    (condp = oid
-      Oppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu" :sv "Kiva ammattikorkeakoulu sv"} :oid oid :kotipaikkaUri "kunta_091" :status "AKTIIVINEN"}
-      Toimipiste1OfOppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu, Helsingin toimipiste" :sv "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"} :oid oid :kotipaikkaUri "kunta_091" :status "AKTIIVINEN"}
-      Toimipiste2OfOppilaitos1 { :nimi { :fi "Kiva ammattikorkeakoulu, Kuopion toimipiste" :sv "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"} :oid oid :kotipaikkaUri "kunta_297" :status "AKTIIVINEN"}
-      Oppilaitos2 { :nimi { :fi "Toinen kiva ammattikorkeakoulu"} :oid oid :kotipaikkaUri "kunta_532" :status "AKTIIVINEN"}
-      Jarjestyspaikka { :nimi { :fi "Jokin järjestyspaikka" :sv "Jokin järjestyspaikka sv"} :oid oid :kotipaikkaUri "kunta_297" :status "AKTIIVINEN"}
-      { :nimi { :fi (str "Nimi " oid " fi") :en (str "Nimi " oid " en")} :oid oid :kotipaikkaUri "kunta_091" :status "AKTIIVINEN"} )))
 
 (defn mock-koodisto
   ([koodisto koodi-uri]
@@ -70,22 +54,6 @@
                                                                  :tavoitteet [{:fi "Tavoite 1 fi" :sv "Tavoite 1 sv"} {:fi "Tavoite 2 fi" :sv "Tavoite 2 sv"}]}
                                                     :sisallot [{:sisallot [{:fi "Sisalto 1 fi" :sv "Sisalto 1 sv"} {:fi "Sisalto 2 fi" :sv "Sisalto 2 sv"}]}]}]}]}})
 
-(defn- oppilaitos1-hierarkia?
-  [oid]
-  (or (= Oppilaitos1 oid) (= Toimipiste1OfOppilaitos1 oid) (= Toimipiste2OfOppilaitos1 oid)))
-
-(defn- oppilaitos2-hierarkia?
-  [oid]
-  (or (= Oppilaitos2 oid) (= Toimipiste1OfOppilaitos2 oid)))
-
-(defn get-oids
-  [oid]
-  (if (oppilaitos1-hierarkia? oid)
-    [Koulutustoimija Oppilaitos1 [Toimipiste1OfOppilaitos1 Toimipiste2OfOppilaitos1]]
-    (if (oppilaitos2-hierarkia? oid)
-      [Koulutustoimija Oppilaitos2 [Toimipiste1OfOppilaitos2]]
-      [(str oid "55") oid [(str oid "1"), (str oid "2"), (str oid "3")]])))
-
 (defn create-organisaatio-hierarkia
   [koulutustoimija oppilaitos oppilaitoksen-osat]
   {:numHits (+ 2 (count oppilaitoksen-osat))
@@ -123,15 +91,6 @@
                                                                           :organisaatiotyypit ["organisaatiotyyppi_03"]
                                                                           :status "AKTIIVINEN"
                                                                           :children []}) oppilaitoksen-osat))}]}]})
-(defn mock-organisaatio-hierarkia
-  [oid]
-  (locking mock-organisaatio-hierarkia ;with-redefs used in kouta-indexer-fixture is not thread safe
-    (let [oids (get-oids oid)]
-      (create-organisaatio-hierarkia
-       {:oid (first oids)}
-       {:oid (second oids)}
-       (vec (map (fn [o] {:oid o}) (last oids)))))))
-
 (defn mock-get-osaamisalakuvaukset
   [eperuste-id eperuste-tila]
   [{

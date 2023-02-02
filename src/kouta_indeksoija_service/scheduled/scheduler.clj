@@ -5,8 +5,7 @@
             [clojurewerkz.quartzite.jobs :as j]
             [clojurewerkz.quartzite.triggers :as t]
             [clojure.string :refer [lower-case]]
-            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]]
-            [kouta-indeksoija-service.util.tools :refer [uuid]])
+            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]])
   (:import (org.quartz.impl.matchers GroupMatcher)
            (org.quartz Scheduler)))
 
