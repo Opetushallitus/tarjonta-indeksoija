@@ -1,44 +1,158 @@
 (ns kouta-indeksoija-service.indexer.cache.hierarkia
-  (:require [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot-with-cache clear-get-all-organisaatiot-cache get-hierarkia-for-oid-from-cache]]
+  (:require [clojure.core.cache :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
-            [clojure.core.cache :as cache]))
+            [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot get-by-oid find-last-changes]]
+            [clojure.core.memoize :as memoize]))
 
 (defonce hierarkia_cache_time_millis (* 1000 60 45))
 
 (defn- make-cache-factory [] (cache/ttl-cache-factory {} :ttl hierarkia_cache_time_millis))
 
-(defonce HIERARKIA_CACHE (atom (make-cache-factory)))
+(defonce YHTEYSTIETO_CACHE (atom (make-cache-factory)))
 
-(defn reset-hierarkia-cache [] (reset! HIERARKIA_CACHE (make-cache-factory)))
+(defn clear-yhteystieto-cache [] (reset! YHTEYSTIETO_CACHE (make-cache-factory)))
 
-(defn- do-cache
+(comment
+ (defonce HIERARKIA_CACHE (atom (make-cache-factory)))
+ (defn reset-hierarkia-cache [] (reset! HIERARKIA_CACHE (make-cache-factory)))
+
+ (defn- do-cache
   [hierarkia oids]
   (doseq [oid oids]
     (swap! HIERARKIA_CACHE cache/through-cache oid (constantly hierarkia))))
 
-(defn cache-hierarkia
+(defn cache-hierarkia-old
   [oid]
   (when-let [hierarkia (get-hierarkia-for-oid-from-cache oid)]
-    (let [this (o/find-from-hierarkia hierarkia oid)]
+    (let [this (o/find-from-hierarkia (:organisaatiot hierarkia) oid)]
       (cond
         (o/koulutustoimija? this) (do-cache hierarkia (vector oid))
-        (o/oppilaitos? this)      (do-cache hierarkia (filter #(not (o/koulutustoimija? %)) (o/get-all-oids-flat hierarkia)))
-        :else                     (when-let [oppilaitos-oid (:oid (o/find-oppilaitos-from-hierarkia hierarkia))]
-                                    (cache-hierarkia oppilaitos-oid))))))
+        (o/oppilaitos? this) (do-cache hierarkia (filter #(not (o/koulutustoimija? %)) (o/get-all-oids-flat hierarkia)))
+        :else (when-let [oppilaitos-oid (:oid (o/find-oppilaitos-from-hierarkia (:organisaatiot hierarkia)))]
+                (cache-hierarkia-old oppilaitos-oid))))))
 
-(defn get-hierarkia
+
+(defn get-hierarkia-old
   [oid]
   (if-let [hierarkia (cache/lookup @HIERARKIA_CACHE oid)]
     hierarkia
-    (do (cache-hierarkia oid)
+    (do (cache-hierarkia-old oid)
         (cache/lookup @HIERARKIA_CACHE oid))))
 
-(defn- do-evict
-  [oids]
-  (doseq [oid oids]
-    (swap! HIERARKIA_CACHE cache/evict oid)))
+ (defn- do-evict
+   [oids]
+   (doseq [oid oids]
+     (swap! HIERARKIA_CACHE cache/evict oid)))
 
-(defn clear-hierarkia
+ (defn clear-hierarkia
+   [oid]
+   (when-let [hierarkia (cache/lookup @HIERARKIA_CACHE oid)]
+     (do-evict (o/get-all-oids-flat hierarkia))))
+ )
+
+
+(defn- do-cache-yhteystiedot
+  [yhteystiedot-from-org-palvelu]
+  (swap! YHTEYSTIETO_CACHE cache/through-cache
+    (:oid yhteystiedot-from-org-palvelu)
+         (constantly (select-keys yhteystiedot-from-org-palvelu [:nimi :status :yhteystiedot]))))
+
+(defn- cache-yhteystiedot
   [oid]
-  (when-let [hierarkia (cache/lookup @HIERARKIA_CACHE oid)]
-    (do-evict (o/get-all-oids-flat hierarkia))))
+  (when-let [yhteystiedot (get-by-oid oid)]
+    (do-cache-yhteystiedot yhteystiedot)))
+
+(defn- koulutustoimija-from-hierarkia-item
+  [hierarkia-item]
+  (select-keys hierarkia-item [:oid :status :organisaatiotyypit]))
+
+(defn- oppilaitos-from-hierarkia-item
+  [hierarkia-item]
+  (select-keys hierarkia-item [:oid :status :organisaatiotyypit :oppilaitostyyppi :parentOid :nimi :kotipaikkaUri :kieletUris]))
+
+(defn- toimipiste-from-hierarkia-item
+  [hierarkia-item]
+  (select-keys hierarkia-item [:oid :status :organisaatiotyypit :parentOid :nimi :kotipaikkaUri :kieletUris]))
+
+(defn- find-parent-oppilaitos-recursively
+  [cache-atom oid]
+  (when-let [parent-oid (:parentOid (get @cache-atom oid))]
+    (let [parent (get @cache-atom parent-oid)]
+      (if (o/oppilaitos? parent)
+        parent-oid
+        (find-parent-oppilaitos-recursively cache-atom parent-oid)))))
+
+(defn fix-toimipiste-parents
+  [cache-atom]
+  (let [toimipiste-oids (filter (fn [oid] (o/toimipiste? (get @cache-atom oid))) (keys @cache-atom))]
+    (doseq [oid toimipiste-oids]
+      (let [toimipiste (get @cache-atom oid)
+            parent-oid (:parentOid toimipiste)]
+        (when (not (o/oppilaitos? (get @cache-atom parent-oid)))
+          (let [parent-oppilaitos-oid (find-parent-oppilaitos-recursively cache-atom parent-oid)]
+            (if (not (nil? parent-oppilaitos-oid))
+              (swap! cache-atom assoc oid (assoc toimipiste :parentOid parent-oppilaitos-oid))
+              (swap! cache-atom assoc oid (dissoc toimipiste :parentOid)))))))))
+
+(defn- update-children-of-parents
+  [cache-atom]
+  (doseq [oid (keys @cache-atom)]
+    (let [hierakia-item (get @cache-atom oid)]
+      (when (or (o/koulutustoimija? hierakia-item)(o/oppilaitos? hierakia-item))
+        (let [child-oids (vec (filter (fn [item-oid] (= oid (:parentOid (get @cache-atom item-oid)))) (keys @cache-atom)))]
+          (swap! cache-atom assoc oid (assoc hierakia-item :childOids child-oids)))))))
+
+(defn- cache-hierarkia-recursively
+  [cache hierarkia-item]
+  (let [oid (:oid hierarkia-item)]
+  (cond
+    (o/koulutustoimija? hierarkia-item) (swap! cache assoc oid (koulutustoimija-from-hierarkia-item hierarkia-item))
+    (o/oppilaitos? hierarkia-item) (swap! cache assoc oid (oppilaitos-from-hierarkia-item hierarkia-item))
+    (o/toimipiste? hierarkia-item) (swap! cache assoc oid (toimipiste-from-hierarkia-item hierarkia-item)))
+  (doseq [child (:children hierarkia-item)] (cache-hierarkia-recursively cache child))))
+
+(defn cache-whole-hierarkia
+  []
+  (let [cache (atom {})
+        orgs (:organisaatiot (get-all-organisaatiot))]
+    (doseq [hierarkia-item orgs] (cache-hierarkia-recursively cache hierarkia-item))
+    (fix-toimipiste-parents cache)
+    (update-children-of-parents cache)
+    cache))
+
+(def hierarkia-cached
+  (memoize/ttl cache-whole-hierarkia :ttl/threshold (* 1000 60 30))) ;;30 minuutin cache
+
+(defn clear-hierarkia-cache [] (memoize/memo-clear! hierarkia-cached))
+(defn clear-all-cached-data [] (do (clear-hierarkia-cache) (clear-yhteystieto-cache)))
+
+
+(defn get-hierarkia-cached []
+  (hierarkia-cached))
+
+(defn get-hierarkia-item
+  [oid]
+  (get @(get-hierarkia-cached) oid))
+
+(defn find-oppilaitos-by-own-or-child-oid
+  [oid]
+  (when-let [member (get-hierarkia-item oid)]
+    (let [assoc-toimipisteet (fn [oppilaitos] (-> oppilaitos
+                                                (assoc :children (vec (map get-hierarkia-item (sort (:childOids oppilaitos)))))
+                                                (dissoc :childOids)))]
+      (cond
+        (o/oppilaitos? member)(assoc-toimipisteet member)
+        (o/toimipiste? member)(assoc-toimipisteet (get-hierarkia-item (:parentOid member)))))))
+
+(defn get-yhteystiedot
+  [oid]
+  (if-let [yhteystiedot (cache/lookup @YHTEYSTIETO_CACHE oid)]
+    yhteystiedot
+    (do (cache-yhteystiedot oid)
+        (cache/lookup @YHTEYSTIETO_CACHE oid))))
+
+(defn get-muutetut-cached
+  [last-modified]
+  (when-let [muutetut (find-last-changes last-modified)]
+    (do (doseq [muutettu muutetut] (do-cache-yhteystiedot muutettu))
+        (map :oid muutetut))))

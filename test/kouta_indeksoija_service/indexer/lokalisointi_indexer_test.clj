@@ -6,7 +6,6 @@
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
             [kouta-indeksoija-service.lokalisointi.service :as service]
             [kouta-indeksoija-service.test-tools :refer :all]
-            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.elastic.admin :as admin]))
 
 (defonce translation-json (parse (str "test/resources/lokalisointi/translation.json")))

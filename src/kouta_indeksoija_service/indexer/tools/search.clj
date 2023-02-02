@@ -5,7 +5,7 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [aikuisten-perusopetus? amm-muu? amm-ope-erityisope-ja-opo? amm-osaamisala? amm-tutkinnon-osa? ammatillinen? any-ammatillinen? asiasana->lng-value-map erikoislaakari? erikoistumiskoulutus? get-non-korkeakoulu-koodi-uri julkaistu? kk-opintojakso? kk-opintokokonaisuus? korkeakoulutus? lukio? ope-pedag-opinnot? set-hakukohde-tila-by-related-haku telma? tuva? vapaa-sivistystyo-muu? vapaa-sivistystyo-opistovuosi? yo? amk?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [koodi-arvo oppilaitostyyppi-uri-to-tyyppi remove-uri-version]]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi remove-uri-version]]
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]))
 

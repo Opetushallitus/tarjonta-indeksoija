@@ -6,7 +6,6 @@
             [kouta-indeksoija-service.indexer.indexer :as i]
             [mocks.externals-mock :as mock]
             [kouta-indeksoija-service.test-tools :refer :all]
-            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.elastic.admin :as admin]))
 
 (use-fixtures :once (fn [tests]

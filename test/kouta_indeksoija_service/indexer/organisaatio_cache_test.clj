@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.indexer.organisaatio-cache-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
-            [kouta-indeksoija-service.indexer.tools.organisaatio :as tool]
-            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]))
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as tool]))
 
 (defonce everything {:numHits 10,
                      :organisaatiot [{:oid "1.1.1",
@@ -90,99 +89,3 @@
                                                      :status "AKTIIVINEN"}],
                                          :status "AKTIIVINEN"}],
                              :status "AKTIIVINEN"}]}))))
-
-(deftest test-organisaatio-cache
-  (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-all-organisaatiot-with-cache (fn [] everything)]
-    (testing "Find hierarkia for koulutustoimija"
-      (is (= (cache/get-hierarkia "1.1.1")
-             {:organisaatiot [{:oid "1.1.1",
-                               :organisaatiotyypit ["organisaatiotyyppi_01"],
-                               :parentOid "1.2.246.562.10.00000000001",
-                               :parentOidPath "|1.2.246.562.10.00000000001|",
-                               :children [{:oid "1.1.1.1",
-                                           :organisaatiotyypit ["organisaatiotyyppi_02"],
-                                           :parentOid "1.1.1",
-                                           :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|",
-                                           :children [{:oid "1.1.1.1.1",
-                                                       :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                       :parentOid "1.1.1.1",
-                                                       :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|",
-                                                       :children [{:oid "1.1.1.1.1.1",
-                                                                   :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                                   :parentOid "1.1.1.1.1",
-                                                                   :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|1.1.1.1.1|",
-                                                                   :children [],
-                                                                   :status "AKTIIVINEN"}],
-                                                       :status "AKTIIVINEN"},
-                                                      {:oid "1.1.1.1.2",
-                                                       :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                       :parentOid "1.1.1.1",
-                                                       :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|",
-                                                       :children [],
-                                                       :status "AKTIIVINEN"}],
-                                           :status "AKTIIVINEN"},
-                                          {:oid "1.1.1.2",
-                                           :organisaatiotyypit ["organisaatiotyyppi_02"],
-                                           :parentOid "1.1.1",
-                                           :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|",
-                                           :children [],
-                                           :status "AKTIIVINEN"}],
-                               :status "AKTIIVINEN"}]})))
-    (testing "Find hierarkia for oppilaitos"
-      (is (= (cache/get-hierarkia "1.1.1.1")
-             {:organisaatiot [{:oid "1.1.1",
-                               :organisaatiotyypit ["organisaatiotyyppi_01"],
-                               :parentOid "1.2.246.562.10.00000000001",
-                               :parentOidPath "|1.2.246.562.10.00000000001|",
-                               :children [{:oid "1.1.1.1",
-                                           :organisaatiotyypit ["organisaatiotyyppi_02"],
-                                           :parentOid "1.1.1",
-                                           :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|",
-                                           :children [{:oid "1.1.1.1.1",
-                                                       :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                       :parentOid "1.1.1.1",
-                                                       :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|",
-                                                       :children [{:oid "1.1.1.1.1.1",
-                                                                   :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                                   :parentOid "1.1.1.1.1",
-                                                                   :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|1.1.1.1.1|",
-                                                                   :children [],
-                                                                   :status "AKTIIVINEN"}],
-                                                       :status "AKTIIVINEN"},
-                                                      {:oid "1.1.1.1.2",
-                                                       :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                       :parentOid "1.1.1.1",
-                                                       :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|",
-                                                       :children [],
-                                                       :status "AKTIIVINEN"}],
-                                           :status "AKTIIVINEN"}],
-                               :status "AKTIIVINEN"}]})))
-    (testing "Find hierarkia for toimipiste"
-      (is (= (cache/get-hierarkia "1.1.1.1.1")
-             {:organisaatiot [{:oid "1.1.1",
-                               :organisaatiotyypit ["organisaatiotyyppi_01"],
-                               :parentOid "1.2.246.562.10.00000000001",
-                               :parentOidPath "|1.2.246.562.10.00000000001|",
-                               :children [{:oid "1.1.1.1",
-                                           :organisaatiotyypit ["organisaatiotyyppi_02"],
-                                           :parentOid "1.1.1",
-                                           :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|",
-                                           :children [{:oid "1.1.1.1.1",
-                                                       :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                       :parentOid "1.1.1.1",
-                                                       :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|",
-                                                       :children [{:oid "1.1.1.1.1.1",
-                                                                   :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                                   :parentOid "1.1.1.1.1",
-                                                                   :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|1.1.1.1.1|",
-                                                                   :children [],
-                                                                   :status "AKTIIVINEN"}],
-                                                       :status "AKTIIVINEN"},
-                                                      {:oid "1.1.1.1.2",
-                                                       :organisaatiotyypit ["organisaatiotyyppi_03"],
-                                                       :parentOid "1.1.1.1",
-                                                       :parentOidPath "|1.2.246.562.10.00000000001|1.1.1|1.1.1.1|",
-                                                       :children [],
-                                                       :status "AKTIIVINEN"}],
-                                           :status "AKTIIVINEN"}],
-                               :status "AKTIIVINEN"}]})))))

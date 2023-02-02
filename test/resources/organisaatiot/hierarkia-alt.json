@@ -1,0 +1,1892 @@
+{
+  "numHits": 100,
+  "organisaatiot": [
+    {
+      "aliOrganisaatioMaara": 1,
+      "alkuPvm": 1363816800000,
+      "children": [
+        {
+          "aliOrganisaatioMaara": 5,
+          "alkuPvm": 838846800000,
+          "children": [
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1375304400000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_743",
+              "lyhytNimi": {
+                "fi": "SeAMK Ruoka, Seinäjoki",
+                "sv": "SeAMK Ruoka, Seinäjoki",
+                "en": "SeAMK Ruoka, Seinäjoki"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Seinäjoen ammattikorkeakoulu, SeAMK Ruoka, Seinäjoki",
+                "sv": "Seinäjoen ammattikorkeakoulu, SeAMK Ruoka, Seinäjoki",
+                "en": "Seinäjoki University of Applied Sciences, SeAMK Ruoka, Seinäjoki"
+              },
+              "oid": "1.2.246.562.10.41117090922",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.54453921329",
+              "parentOidPath": "1.2.246.562.10.41117090922/1.2.246.562.10.54453921329/1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0247235",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 820447200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_743",
+              "lyhytNimi": {
+                "fi": "SeAMK Sosiaali- ja terveysala, Seinäjoki",
+                "sv": "SeAMK Sosiaali- ja terveysala, Seinäjoki",
+                "en": "SeAMK, School of Health Care and Social Work"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Seinäjoen ammattikorkeakoulu, SeAMK Sosiaali- ja terveysala, Seinäjoki",
+                "sv": "Seinäjoen ammattikorkeakoulu, SeAMK Sosiaali- ja terveysala, Seinäjoki",
+                "en": "Seinäjoki University of Applied Sciences, SeAMK, School of Health Care and Social Work"
+              },
+              "oid": "1.2.246.562.10.82061758015",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.54453921329",
+              "parentOidPath": "1.2.246.562.10.82061758015/1.2.246.562.10.54453921329/1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0247221",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 820447200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_743",
+              "lyhytNimi": {
+                "fi": "SeAMK Tekniikka, Seinäjoki",
+                "sv": "SeAMK Tekniikka, Seinäjoki",
+                "en": "SeAMK, School of Technology"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Seinäjoen ammattikorkeakoulu, SeAMK Tekniikka, Seinäjoki",
+                "sv": "Seinäjoen ammattikorkeakoulu, SeAMK Tekniikka, Seinäjoki",
+                "en": "Seinäjoki University of Applied Sciences, SeAMK, School of Technology"
+              },
+              "oid": "1.2.246.562.10.83918870482",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.54453921329",
+              "parentOidPath": "1.2.246.562.10.83918870482/1.2.246.562.10.54453921329/1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0247203",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 820447200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2"
+              ],
+              "kotipaikkaUri": "kunta_743",
+              "lyhytNimi": {
+                "fi": "SeAMK, Liiketoiminta ja kulttuuri, Seinäjoki",
+                "sv": "SeAMK, Liiketoiminta ja kulttuuri, Seinäjoki",
+                "en": "SeAMK, School of Business and Culture"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Seinäjoen ammattikorkeakoulu, SeAMK, Liiketoiminta ja kulttuuri, Seinäjoki",
+                "sv": "Seinäjoen ammattikorkeakoulu, SeAMK, Liiketoiminta ja kulttuuri, Seinäjoki",
+                "en": "Seinäjoki University of Applied Sciences, SeAMK, School of Business and Culture"
+              },
+              "oid": "1.2.246.562.10.42160341923",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.54453921329",
+              "parentOidPath": "1.2.246.562.10.42160341923/1.2.246.562.10.54453921329/1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0247204",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1623358800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_743",
+              "lyhytNimi": {
+                "fi": "SeAMK",
+                "sv": "SeAMK",
+                "en": "SeAMK"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Seinäjoen ammattikorkeakoulu, SeAMK",
+                "sv": "Seinäjoen ammattikorkeakoulu, SeAMK",
+                "en": "Seinäjoki University of Applied Sciences, SeAMK"
+              },
+              "oid": "1.2.246.562.10.52750255714",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.54453921329",
+              "parentOidPath": "1.2.246.562.10.52750255714/1.2.246.562.10.54453921329/1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0247238",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            }
+          ],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1",
+            "oppilaitoksenopetuskieli_4#2"
+          ],
+          "kotipaikkaUri": "kunta_743",
+          "lyhytNimi": {
+            "fi": "Seinäjoen ammattikorkeakoulu",
+            "sv": "Seinäjoen ammattikorkeakoulu",
+            "en": "Seinäjoki University of Applied Sciences"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Seinäjoen ammattikorkeakoulu",
+            "sv": "Seinäjoen ammattikorkeakoulu",
+            "en": "Seinäjoki University of Applied Sciences"
+          },
+          "oid": "1.2.246.562.10.54453921329",
+          "oppilaitosKoodi": "02472",
+          "oppilaitostyyppi": "oppilaitostyyppi_41#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.2014041511401945349694",
+          "parentOidPath": "1.2.246.562.10.54453921329/1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "02472",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        }
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1",
+        "oppilaitoksenopetuskieli_4#2"
+      ],
+      "kotipaikkaUri": "kunta_743",
+      "lyhytNimi": {
+        "fi": "Seinäjoen Ammattikorkeakoulu Oy",
+        "sv": "Seinäjoen Ammattikorkeakoulu Oy",
+        "en": "Seinäjoen Ammattikorkeakoulu Oy"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Seinäjoen Ammattikorkeakoulu Oy",
+        "sv": "Seinäjoen Ammattikorkeakoulu Oy",
+        "en": "Seinäjoen Ammattikorkeakoulu Oy"
+      },
+      "oid": "1.2.246.562.10.2014041511401945349694",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_01"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.2014041511401945349694/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_01"
+      ],
+      "ytunnus": "2539767-3"
+    },
+    {
+      "aliOrganisaatioMaara": 3,
+      "alkuPvm": 313106400000,
+      "children": [
+        {
+          "aliOrganisaatioMaara": 18,
+          "alkuPvm": 725839200000,
+          "children": [
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1053982800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Bio- ja ympäristötieteellinen tiedekunta",
+                "sv": "Bio- och miljövetenskapliga fakulteten",
+                "en": "Faculty of Biological and Environmental Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Bio- ja ympäristötieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Bio- och miljövetenskapliga fakulteten",
+                "en": "University of Helsinki, Faculty of Biological and Environmental Sciences"
+              },
+              "oid": "1.2.246.562.10.41941575486",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.41941575486/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190124",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1627765200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_2#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Ympäristö-, elintarvike- ja biotieteellinen tutkijakoulu",
+                "sv": "Miljö-, livsmedels- och biovetenskapliga forskarskolan",
+                "en": "Doctoral School in Environmental, Food and Biological Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Ympäristö-, elintarvike- ja biotieteellinen tutkijakoulu",
+                "sv": "Helsingfors universitet, Miljö-, livsmedels- och biovetenskapliga forskarskolan",
+                "en": "University of Helsinki, Doctoral School in Environmental, Food and Biological Sciences"
+              },
+              "oid": "1.2.246.562.10.41092748163",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.41092748163/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190138",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1627765200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_2#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Terveyden tutkimuksen tutkijakoulu",
+                "sv": "Forskarskolan i hälsoforskning",
+                "en": "Doctoral School in Health Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Terveyden tutkimuksen tutkijakoulu",
+                "sv": "Helsingfors universitet, Forskarskolan i hälsoforskning",
+                "en": "University of Helsinki, Doctoral School in Health Sciences"
+              },
+              "oid": "1.2.246.562.10.43256000142",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.43256000142/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190137",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 1,
+              "alkuPvm": 725839200000,
+              "children": [
+                {
+                  "aliOrganisaatioMaara": 0,
+                  "alkuPvm": 1633554000000,
+                  "children": [],
+                  "kieletUris": [
+                    "oppilaitoksenopetuskieli_1#2",
+                    "oppilaitoksenopetuskieli_2#2"
+                  ],
+                  "kotipaikkaUri": "kunta_905",
+                  "lyhytNimi": {
+                    "fi": "Vaasan oikeustieteellinen koulutus",
+                    "sv": "Juridiska utbildningen i Vasa",
+                    "en": "Vaasa Unit of Legal Studies"
+                  },
+                  "match": true,
+                  "nimi": {
+                    "fi": "Helsingin yliopisto, Oikeustieteellinen tiedekunta, Vaasan oikeustieteellinen koulutus",
+                    "sv": "Helsingfors universitet, Juridiska fakulteten, Juridiska utbildningen i Vasa",
+                    "en": "University of Helsinki, Faculty of Law, Vaasa Unit of Legal Studies"
+                  },
+                  "oid": "1.2.246.562.10.24134663046",
+                  "organisaatiotyypit": [
+                    "organisaatiotyyppi_03"
+                  ],
+                  "parentOid": "1.2.246.562.10.37753840224",
+                  "parentOidPath": "1.2.246.562.10.24134663046/1.2.246.562.10.37753840224/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+                  "status": "AKTIIVINEN",
+                  "subRows": [],
+                  "toimipistekoodi": "0190139",
+                  "tyypit": [
+                    "organisaatiotyyppi_03"
+                  ]
+                }
+              ],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Oikeustieteellinen tiedekunta",
+                "sv": "Juridiska fakulteten",
+                "en": "Faculty of Law"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Oikeustieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Juridiska fakulteten",
+                "en": "University of Helsinki, Faculty of Law"
+              },
+              "oid": "1.2.246.562.10.37753840224",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.37753840224/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190116",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1627765200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_2#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Humanistis-yhteiskuntatieteellinen tutkijakoulu",
+                "sv": "Humanistisk-samhällsvetenskapliga forskarskolan",
+                "en": "Doctoral School in Humanities and Social Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Humanistis-yhteiskuntatieteellinen tutkijakoulu",
+                "sv": "Helsingfors universitet, Humanistisk-samhällsvetenskapliga forskarskolan",
+                "en": "University of Helsinki, Doctoral School in Humanities and Social Sciences"
+              },
+              "oid": "1.2.246.562.10.39147468688",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.39147468688/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190135",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 725839200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Humanistinen tiedekunta",
+                "sv": "Humanistiska fakulteten",
+                "en": "Faculty of Arts"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Humanistinen tiedekunta",
+                "sv": "Helsingfors universitet, Humanistiska fakulteten",
+                "en": "University of Helsinki, Faculty of Arts"
+              },
+              "oid": "1.2.246.562.10.61397511793",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.61397511793/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190118",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 1,
+              "alkuPvm": 725839200000,
+              "children": [
+                {
+                  "aliOrganisaatioMaara": 0,
+                  "alkuPvm": 1637186400000,
+                  "children": [],
+                  "kieletUris": [
+                    "oppilaitoksenopetuskieli_2#2",
+                    "oppilaitoksenopetuskieli_4#2"
+                  ],
+                  "kotipaikkaUri": "kunta_905",
+                  "lyhytNimi": {
+                    "fi": "Utbildningen i socialt arbete i Vasa",
+                    "sv": "Utbildningen i socialt arbete i Vasa",
+                    "en": "Education in social work in Vasa"
+                  },
+                  "match": true,
+                  "nimi": {
+                    "fi": "Helsingin yliopisto, Svenska social- och kommunalhögskolan vid Helsingfors universitet, Utbildningen i socialt arbete i Vasa",
+                    "sv": "Helsingfors universitet, Svenska social- och kommunalhögskolan vid Helsingfors universitet, Utbildningen i socialt arbete i Vasa",
+                    "en": "University of Helsinki, Swedish School of Social Science, Education in social work in Vasa"
+                  },
+                  "oid": "1.2.246.562.10.73683668492",
+                  "organisaatiotyypit": [
+                    "organisaatiotyyppi_03"
+                  ],
+                  "parentOid": "1.2.246.562.10.73307006806",
+                  "parentOidPath": "1.2.246.562.10.73683668492/1.2.246.562.10.73307006806/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+                  "status": "AKTIIVINEN",
+                  "subRows": [],
+                  "toimipistekoodi": "0190140",
+                  "tyypit": [
+                    "organisaatiotyyppi_03"
+                  ]
+                }
+              ],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Svenska social- och kommunalhögskolan vid Helsingfors universitet",
+                "sv": "Svenska social- och kommunalhögskolan vid Helsingfors universitet",
+                "en": "Swedish School of Social Science"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Svenska social- och kommunalhögskolan vid Helsingfors universitet",
+                "sv": "Helsingfors universitet, Svenska social- och kommunalhögskolan vid Helsingfors universitet",
+                "en": "University of Helsinki, Swedish School of Social Science"
+              },
+              "oid": "1.2.246.562.10.73307006806",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.73307006806/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190127",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1659301200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_2#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Tutkijakoulu",
+                "sv": "Forskarskolan",
+                "en": "Doctoral School"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Tutkijakoulu",
+                "sv": "Helsingfors universitet, Forskarskolan",
+                "en": "University of Helsinki, Doctoral School"
+              },
+              "oid": "1.2.246.562.10.85024656564",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.85024656564/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "tarkastusPvm": 1661316344092,
+              "toimipistekoodi": "0190141",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1454536800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_2#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Avoin yliopisto",
+                "sv": "Öppna universitetet",
+                "en": "Open University"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Avoin yliopisto",
+                "sv": "Helsingfors universitet, Öppna universitetet",
+                "en": "University of Helsinki, Open University"
+              },
+              "oid": "1.2.246.562.10.74168867104",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.74168867104/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190113",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 725839200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Eläinlääketieteellinen tiedekunta",
+                "sv": "Veterinärmedicinska fakulteten",
+                "en": "Faculty of Veterinary Medicine"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Eläinlääketieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Veterinärmedicinska fakulteten",
+                "en": "University of Helsinki, Faculty of Veterinary Medicine"
+              },
+              "oid": "1.2.246.562.10.45501388404",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.45501388404/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190123",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 725839200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Maatalous-metsätieteellinen tiedekunta",
+                "sv": "Agrikultur-forstvetenskapliga fakulteten",
+                "en": "Faculty of Agriculture and Forestry"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Maatalous-metsätieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Agrikultur-forstvetenskapliga fakulteten",
+                "en": "University of Helsinki, Faculty of Agriculture and Forestry"
+              },
+              "oid": "1.2.246.562.10.445049088710",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.445049088710/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190122",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1627765200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2",
+                "oppilaitoksenopetuskieli_2#2",
+                "oppilaitoksenopetuskieli_4#2"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Luonnontieteellinen tutkijakoulu",
+                "sv": "Naturvetenskapliga forskarskolan",
+                "en": "Doctoral School in Natural Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Luonnontieteellinen tutkijakoulu",
+                "sv": "Helsingfors universitet, Naturvetenskapliga forskarskolan",
+                "en": "University of Helsinki, Doctoral School in Natural Sciences"
+              },
+              "oid": "1.2.246.562.10.84134527203",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.84134527203/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190136",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 1,
+              "alkuPvm": 725839200000,
+              "children": [
+                {
+                  "aliOrganisaatioMaara": 0,
+                  "alkuPvm": 1553205600000,
+                  "children": [],
+                  "kieletUris": [
+                    "oppilaitoksenopetuskieli_1#1",
+                    "oppilaitoksenopetuskieli_2#1",
+                    "oppilaitoksenopetuskieli_4#1"
+                  ],
+                  "kotipaikkaUri": "kunta_091",
+                  "lyhytNimi": {
+                    "fi": "Ammatillinen jatkokoulutus",
+                    "sv": "Yrkesinriktad påbyggnadsutbildning",
+                    "en": "Postgraduate professional education"
+                  },
+                  "match": true,
+                  "nimi": {
+                    "fi": "Helsingin yliopisto, Lääketieteellinen tiedekunta, Ammatillinen jatkokoulutus",
+                    "sv": "Helsingfors universitet, Medicinska fakulteten, Yrkesinriktad påbyggnadsutbildning",
+                    "en": "University of Helsinki, Faculty of Medicine, Postgraduate professional education"
+                  },
+                  "oid": "1.2.246.562.10.27277224708",
+                  "organisaatiotyypit": [
+                    "organisaatiotyyppi_03"
+                  ],
+                  "parentOid": "1.2.246.562.10.94997228401",
+                  "parentOidPath": "1.2.246.562.10.27277224708/1.2.246.562.10.94997228401/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+                  "status": "AKTIIVINEN",
+                  "subRows": [],
+                  "toimipistekoodi": "0190133",
+                  "tyypit": [
+                    "organisaatiotyyppi_03"
+                  ]
+                }
+              ],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Lääketieteellinen tiedekunta",
+                "sv": "Medicinska fakulteten",
+                "en": "Faculty of Medicine"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Lääketieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Medicinska fakulteten",
+                "en": "University of Helsinki, Faculty of Medicine"
+              },
+              "oid": "1.2.246.562.10.94997228401",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.94997228401/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190117",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 725839200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Kasvatustieteellinen tiedekunta",
+                "sv": "Pedagogiska fakulteten",
+                "en": "Faculty of Educational Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Kasvatustieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Pedagogiska fakulteten",
+                "en": "University of Helsinki, Faculty of Educational Sciences"
+              },
+              "oid": "1.2.246.562.10.67451633415",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.67451633415/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190120",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 1,
+              "alkuPvm": 725839200000,
+              "children": [
+                {
+                  "aliOrganisaatioMaara": 0,
+                  "alkuPvm": 1618779600000,
+                  "children": [],
+                  "kieletUris": [
+                    "oppilaitoksenopetuskieli_1#1",
+                    "oppilaitoksenopetuskieli_2#1",
+                    "oppilaitoksenopetuskieli_4#1"
+                  ],
+                  "kotipaikkaUri": "kunta_091",
+                  "lyhytNimi": {
+                    "fi": "FITech",
+                    "sv": "FITech",
+                    "en": "FITech"
+                  },
+                  "match": true,
+                  "nimi": {
+                    "fi": "Helsingin yliopisto, Matemaattis-luonnontieteellinen tiedekunta, FITech",
+                    "sv": "Helsingfors universitet, Matematisk-naturvetenskapliga fakulteten, FITech",
+                    "en": "University of Helsinki, Faculty of Science, FITech"
+                  },
+                  "oid": "1.2.246.562.10.38836199083",
+                  "organisaatiotyypit": [
+                    "organisaatiotyyppi_03"
+                  ],
+                  "parentOid": "1.2.246.562.10.94639300915",
+                  "parentOidPath": "1.2.246.562.10.38836199083/1.2.246.562.10.94639300915/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+                  "status": "AKTIIVINEN",
+                  "subRows": [],
+                  "toimipistekoodi": "0190134",
+                  "tyypit": [
+                    "organisaatiotyyppi_03"
+                  ]
+                }
+              ],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Matemaattis-luonnontieteellinen tiedekunta",
+                "sv": "Matematisk-naturvetenskapliga fakulteten",
+                "en": "Faculty of Science"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Matemaattis-luonnontieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Matematisk-naturvetenskapliga fakulteten",
+                "en": "University of Helsinki, Faculty of Science"
+              },
+              "oid": "1.2.246.562.10.94639300915",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.94639300915/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190119",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 725839200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Teologinen tiedekunta",
+                "sv": "Teologiska fakulteten",
+                "en": "Faculty of Theology"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Teologinen tiedekunta",
+                "sv": "Helsingfors universitet, Teologiska fakulteten",
+                "en": "University of Helsinki, Faculty of Theology"
+              },
+              "oid": "1.2.246.562.10.74478323608",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.74478323608/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190115",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 725839200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Valtiotieteellinen tiedekunta",
+                "sv": "Statsvetenskapliga fakulteten",
+                "en": "Faculty of Social Sciences"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Valtiotieteellinen tiedekunta",
+                "sv": "Helsingfors universitet, Statsvetenskapliga fakulteten",
+                "en": "University of Helsinki, Faculty of Social Sciences"
+              },
+              "oid": "1.2.246.562.10.80520096209",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.80520096209/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190121",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1055365200000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1",
+                "oppilaitoksenopetuskieli_2#1",
+                "oppilaitoksenopetuskieli_4#1"
+              ],
+              "kotipaikkaUri": "kunta_091",
+              "lyhytNimi": {
+                "fi": "Farmasian tiedekunta",
+                "sv": "Farmaceutiska fakulteten",
+                "en": "Faculty of Pharmacy"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Helsingin yliopisto, Farmasian tiedekunta",
+                "sv": "Helsingfors universitet, Farmaceutiska fakulteten",
+                "en": "University of Helsinki, Faculty of Pharmacy"
+              },
+              "oid": "1.2.246.562.10.80593660139",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.39218317368",
+              "parentOidPath": "1.2.246.562.10.80593660139/1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0190126",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            }
+          ],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1",
+            "oppilaitoksenopetuskieli_2#1",
+            "oppilaitoksenopetuskieli_4#1"
+          ],
+          "kotipaikkaUri": "kunta_091",
+          "lyhytNimi": {
+            "fi": "Helsingin yliopisto",
+            "sv": "Helsingfors universitet",
+            "en": "University of Helsinki"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Helsingin yliopisto",
+            "sv": "Helsingfors universitet",
+            "en": "University of Helsinki"
+          },
+          "oid": "1.2.246.562.10.39218317368",
+          "oppilaitosKoodi": "01901",
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.53814745062",
+          "parentOidPath": "1.2.246.562.10.39218317368/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "01901",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        },
+        {
+          "aliOrganisaatioMaara": 0,
+          "alkuPvm": 694216800000,
+          "children": [],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1"
+          ],
+          "kotipaikkaUri": "kunta_091",
+          "lyhytNimi": {
+            "fi": "Helsingin normaalilyseo",
+            "sv": "Helsingin normaalilyseo",
+            "en": "Helsingin normaalilyseo"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Helsingin normaalilyseo",
+            "sv": "Helsingin normaalilyseo",
+            "en": "Helsingin normaalilyseo"
+          },
+          "oid": "1.2.246.562.10.112212847610",
+          "oppilaitosKoodi": "00083",
+          "oppilaitostyyppi": "oppilaitostyyppi_19#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.53814745062",
+          "parentOidPath": "1.2.246.562.10.112212847610/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "00083",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        },
+        {
+          "aliOrganisaatioMaara": 0,
+          "alkuPvm": 694216800000,
+          "children": [],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#2"
+          ],
+          "kotipaikkaUri": "kunta_091",
+          "lyhytNimi": {
+            "fi": "Helsingin yliopiston Viikin normaalikoulu",
+            "sv": "Helsingin yliopiston Viikin normaalikoulu",
+            "en": "Helsingin yliopiston Viikin normaalikoulu"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Helsingin yliopiston Viikin normaalikoulu",
+            "sv": "Helsingin yliopiston Viikin normaalikoulu",
+            "en": "Helsingin yliopiston Viikin normaalikoulu"
+          },
+          "oid": "1.2.246.562.10.81927839589",
+          "oppilaitosKoodi": "00842",
+          "oppilaitostyyppi": "oppilaitostyyppi_19#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.53814745062",
+          "parentOidPath": "1.2.246.562.10.81927839589/1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "tarkastusPvm": 1664515712613,
+          "toimipistekoodi": "00842",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        }
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_091",
+      "lyhytNimi": {
+        "fi": "Helsingin Yliopisto",
+        "sv": "Helsingin Yliopisto",
+        "en": "Helsingin Yliopisto"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Helsingin Yliopisto",
+        "sv": "Helsingin Yliopisto",
+        "en": "Helsingin Yliopisto"
+      },
+      "oid": "1.2.246.562.10.53814745062",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_01"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.53814745062/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_01"
+      ],
+      "ytunnus": "0313471-7"
+    },
+    {
+      "aliOrganisaatioMaara": 1,
+      "alkuPvm": 1586206800000,
+      "children": [],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_049",
+      "lyhytNimi": {
+        "fi": "Yksityinen elinkeinonharjoittaja (1234567-8)",
+        "en": "Private trader (1234567-8)",
+        "sv": "Enskild näringsidkare (1234567-8)"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Yksityinen elinkeinonharjoittaja (1234567-8)",
+        "en": "Private trader (1234567-8)",
+        "sv": "Enskild näringsidkare (1234567-8)"
+      },
+      "oid": "1.2.246.562.10.59769703014",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_07"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.59769703014/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_07"
+      ],
+      "ytunnus": "1234567-8"
+    },
+    {
+      "aliOrganisaatioMaara": 0,
+      "alkuPvm": 1175029200000,
+      "children": [],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_142",
+      "lyhytNimi": {
+        "fi": "Yksityinen elinkeinonharjoittaja (2345678-9)",
+        "en": "Private trader (2345678-9)",
+        "sv": "Enskild näringsidkare (2345678-9)"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Yksityinen elinkeinonharjoittaja (2345678-9)",
+        "en": "Private trader (2345678-9)",
+        "sv": "Enskild näringsidkare (2345678-9)"
+      },
+      "oid": "1.2.246.562.10.16423515218",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_07"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.16423515218/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_07"
+      ],
+      "ytunnus": "2345678-9"
+    },
+    {
+      "aliOrganisaatioMaara": 1,
+      "alkuPvm": 868568400000,
+      "children": [
+        {
+          "aliOrganisaatioMaara": 0,
+          "alkuPvm": 870382800000,
+          "children": [],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1"
+          ],
+          "kotipaikkaUri": "kunta_049",
+          "lyhytNimi": {
+            "fi": "Steinerpäiväkoti Peukaloinen",
+            "sv": "Steinerpäiväkoti Peukaloinen",
+            "en": "Steinerpäiväkoti Peukaloinen"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Steinerpäiväkoti Peukaloinen",
+            "sv": "Steinerpäiväkoti Peukaloinen",
+            "en": "Steinerpäiväkoti Peukaloinen"
+          },
+          "oid": "1.2.246.562.10.18668235957",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_08"
+          ],
+          "parentOid": "1.2.246.562.10.12733861863",
+          "parentOidPath": "1.2.246.562.10.18668235957/1.2.246.562.10.12733861863/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "",
+          "tyypit": [
+            "organisaatiotyyppi_08"
+          ]
+        }
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_049",
+      "lyhytNimi": {
+        "fi": "Espoon steinerpedagogisen lastenhoidon kannatusyhdistys ry",
+        "sv": "Espoon steinerpedagogisen lastenhoidon kannatusyhdistys ry",
+        "en": "Espoon steinerpedagogisen lastenhoidon kannatusyhdistys ry"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Espoon steinerpedagogisen lastenhoidon kannatusyhdistys ry",
+        "sv": "Espoon steinerpedagogisen lastenhoidon kannatusyhdistys ry",
+        "en": "Espoon steinerpedagogisen lastenhoidon kannatusyhdistys ry"
+      },
+      "oid": "1.2.246.562.10.12733861863",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_07"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.12733861863/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_07"
+      ],
+      "ytunnus": "1092402-0"
+    },
+    {
+      "aliOrganisaatioMaara": 0,
+      "alkuPvm": 1476997200000,
+      "children": [],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_179",
+      "lyhytNimi": {
+        "fi": "Lapsiasiavaltuutetun toimisto",
+        "sv": "Lapsiasiavaltuutetun toimisto",
+        "en": "Lapsiasiavaltuutetun toimisto"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Lapsiasiavaltuutetun toimisto",
+        "sv": "Lapsiasiavaltuutetun toimisto",
+        "en": "Lapsiasiavaltuutetun toimisto"
+      },
+      "oid": "1.2.246.562.10.11677788470",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_05"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.11677788470/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_05"
+      ],
+      "virastoTunnus": "150015"
+    },
+    {
+      "aliOrganisaatioMaara": 5,
+      "alkuPvm": 258760800000,
+      "children": [
+        {
+          "aliOrganisaatioMaara": 0,
+          "alkuPvm": 694216800000,
+          "children": [],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#2"
+          ],
+          "kotipaikkaUri": "kunta_759",
+          "lyhytNimi": {
+            "fi": "Soinin yhtenäiskoulu",
+            "sv": "Soinin yhtenäiskoulu",
+            "en": "Soinin yhtenäiskoulu"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Soinin yhtenäiskoulu",
+            "sv": "Soinin yhtenäiskoulu",
+            "en": "Soinin yhtenäiskoulu"
+          },
+          "oid": "1.2.246.562.10.53670619591",
+          "oppilaitosKoodi": "05419",
+          "oppilaitostyyppi": "oppilaitostyyppi_11#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.73481747332",
+          "parentOidPath": "1.2.246.562.10.53670619591/1.2.246.562.10.73481747332/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "tarkastusPvm": 1654840616971,
+          "toimipistekoodi": "05419",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        },
+        {
+          "aliOrganisaatioMaara": 0,
+          "alkuPvm": 946677600000,
+          "children": [],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1"
+          ],
+          "kotipaikkaUri": "kunta_759",
+          "lyhytNimi": {
+            "fi": "Päiväkoti Laulumaa",
+            "sv": "Päiväkoti Laulumaa",
+            "en": "Päiväkoti Laulumaa"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Päiväkoti Laulumaa",
+            "sv": "Päiväkoti Laulumaa",
+            "en": "Päiväkoti Laulumaa"
+          },
+          "oid": "1.2.246.562.10.14452275770",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_08"
+          ],
+          "parentOid": "1.2.246.562.10.73481747332",
+          "parentOidPath": "1.2.246.562.10.14452275770/1.2.246.562.10.73481747332/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "",
+          "tyypit": [
+            "organisaatiotyyppi_08"
+          ]
+        }
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#2"
+      ],
+      "kotipaikkaUri": "kunta_759",
+      "lyhytNimi": {
+        "fi": "Soinin kunta",
+        "sv": "Soinin kunta",
+        "en": "Soinin kunta"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Soinin kunta",
+        "sv": "Soinin kunta",
+        "en": "Soinin kunta"
+      },
+      "oid": "1.2.246.562.10.73481747332",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_01",
+        "organisaatiotyyppi_07",
+        "organisaatiotyyppi_09"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.73481747332/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "tarkastusPvm": 1654840634239,
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_01",
+        "organisaatiotyyppi_07",
+        "organisaatiotyyppi_09"
+      ],
+      "ytunnus": "0182637-3"
+    },
+    {
+      "aliOrganisaatioMaara": 3,
+      "alkuPvm": 274312800000,
+      "children": [
+        {
+          "aliOrganisaatioMaara": 1,
+          "alkuPvm": 694216800000,
+          "children": [
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 694216800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_858",
+              "lyhytNimi": {
+                "fi": "Pekka Halosen akatemia",
+                "sv": "Pekka Halosen akatemia",
+                "en": "Pekka Halosen akatemia"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Pekka Halosen akatemia",
+                "sv": "Pekka Halosen akatemia",
+                "en": "Pekka Halosen akatemia"
+              },
+              "oid": "1.2.246.562.10.78314029667",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.197113642410",
+              "parentOidPath": "1.2.246.562.10.78314029667/1.2.246.562.10.197113642410/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0169101",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            }
+          ],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1"
+          ],
+          "kotipaikkaUri": "kunta_858",
+          "lyhytNimi": {
+            "fi": "Pekka Halosen akatemia",
+            "sv": "Pekka Halosen akatemia",
+            "en": "Pekka Halosen akatemia"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Pekka Halosen akatemia",
+            "sv": "Pekka Halosen akatemia",
+            "en": "Pekka Halosen akatemia"
+          },
+          "oid": "1.2.246.562.10.197113642410",
+          "oppilaitosKoodi": "01691",
+          "oppilaitostyyppi": "oppilaitostyyppi_63#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.55867603791",
+          "parentOidPath": "1.2.246.562.10.197113642410/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "01691",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        },
+        {
+          "aliOrganisaatioMaara": 10,
+          "alkuPvm": 694216800000,
+          "children": [
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_505",
+              "lyhytNimi": {
+                "fi": "Mäntsälä, Lukkarinpolku",
+                "sv": "Mäntsälä, Lukkarinpolku",
+                "en": "Mäntsälä, Lukkarinpolku"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Mäntsälä, Lukkarinpolku",
+                "sv": "Keuda, Mäntsälä, Lukkarinpolku",
+                "en": "Keuda, Mäntsälä, Lukkarinpolku"
+              },
+              "oid": "1.2.246.562.10.80117936338",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.80117936338/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106705",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_858",
+              "lyhytNimi": {
+                "fi": "Tuusula, Kirkkotie",
+                "sv": "Tuusula, Kirkkotie",
+                "en": "Tuusula, Kirkkotie"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Tuusula, Kirkkotie",
+                "sv": "Keuda, Tuusula, Kirkkotie",
+                "en": "Keuda, Tuusula, Kirkkotie"
+              },
+              "oid": "1.2.246.562.10.33553959546",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.33553959546/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106709",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1185915600000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#2"
+              ],
+              "kotipaikkaUri": "kunta_186",
+              "lyhytNimi": {
+                "fi": "Järvenpää, Sibeliuksenväylä",
+                "sv": "Järvenpää, Sibeliuksenväylä",
+                "en": "Järvenpää, Sibeliuksenväylä"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Järvenpää, Sibeliuksenväylä",
+                "sv": "Keuda, Järvenpää, Sibeliuksenväylä",
+                "en": "Keuda, Järvenpää, Sibeliuksenväylä"
+              },
+              "oid": "1.2.246.562.10.29631644423",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.29631644423/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "tarkastusPvm": 1650957200017,
+              "toimipistekoodi": "0106702",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_245",
+              "lyhytNimi": {
+                "fi": "Kerava, Keskikatu",
+                "sv": "Kerava, Keskikatu",
+                "en": "Kerava, Keskikatu"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Kerava, Keskikatu",
+                "sv": "Keuda, Kerava, Keskikatu",
+                "en": "Keuda, Kerava, Keskikatu"
+              },
+              "oid": "1.2.246.562.10.43682075486",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.43682075486/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106703",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_245",
+              "lyhytNimi": {
+                "fi": "Kerava, Sarviniitynkatu",
+                "sv": "Kerava, Sarviniitynkatu",
+                "en": "Kerava, Sarviniitynkatu"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Kerava, Sarviniitynkatu",
+                "sv": "Keuda, Kerava, Sarviniitynkatu",
+                "en": "Keuda, Kerava, Sarviniitynkatu"
+              },
+              "oid": "1.2.246.562.10.19049298185",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.19049298185/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106704",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 694216800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_186",
+              "lyhytNimi": {
+                "fi": "Järvenpää, Wärtsilänkatu 7",
+                "sv": "Järvenpää, Wärtsilänkatu 7",
+                "en": "Järvenpää, Wärtsilänkatu 7"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Järvenpää, Wärtsilänkatu 7",
+                "sv": "Keuda, Järvenpää, Wärtsilänkatu 7",
+                "en": "Keuda, Järvenpää, Wärtsilänkatu 7"
+              },
+              "oid": "1.2.246.562.10.92613592937",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.92613592937/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106701",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_753",
+              "lyhytNimi": {
+                "fi": "Sipoo, Enter",
+                "sv": "Sipoo, Enter",
+                "en": "Sipoo, Enter"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Sipoo, Enter",
+                "sv": "Keuda, Sipoo, Enter",
+                "en": "Keuda, Sipoo, Enter"
+              },
+              "oid": "1.2.246.562.10.47353291801",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.47353291801/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106708",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_858",
+              "lyhytNimi": {
+                "fi": "Tuusula, Pekka Halosen akatemia",
+                "sv": "Tuusula, Pekka Halosen akatemia",
+                "en": "Tuusula, Pekka Halosen akatemia"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Tuusula, Pekka Halosen akatemia",
+                "sv": "Keuda, Tuusula, Pekka Halosen akatemia",
+                "en": "Keuda, Tuusula, Pekka Halosen akatemia"
+              },
+              "oid": "1.2.246.562.10.72599284709",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.72599284709/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106710",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_543",
+              "lyhytNimi": {
+                "fi": "Nurmijärvi, Lopentie",
+                "sv": "Nurmijärvi, Lopentie",
+                "en": "Nurmijärvi, Lopentie"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Nurmijärvi, Lopentie",
+                "sv": "Keuda, Nurmijärvi, Lopentie",
+                "en": "Keuda, Nurmijärvi, Lopentie"
+              },
+              "oid": "1.2.246.562.10.94410465259",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.94410465259/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106707",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "aliOrganisaatioMaara": 0,
+              "alkuPvm": 1325368800000,
+              "children": [],
+              "kieletUris": [
+                "oppilaitoksenopetuskieli_1#1"
+              ],
+              "kotipaikkaUri": "kunta_505",
+              "lyhytNimi": {
+                "fi": "Mäntsälä, Saaren kartano",
+                "sv": "Mäntsälä, Saaren kartano",
+                "en": "Mäntsälä, Saaren kartano"
+              },
+              "match": true,
+              "nimi": {
+                "fi": "Keuda, Mäntsälä, Saaren kartano",
+                "sv": "Keuda, Mäntsälä, Saaren kartano",
+                "en": "Keuda, Mäntsälä, Saaren kartano"
+              },
+              "oid": "1.2.246.562.10.37818936132",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "parentOid": "1.2.246.562.10.32506551657",
+              "parentOidPath": "1.2.246.562.10.37818936132/1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+              "status": "PASSIIVINEN",
+              "subRows": [],
+              "toimipistekoodi": "0106706",
+              "tyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            }
+          ],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#2"
+          ],
+          "kotipaikkaUri": "kunta_186",
+          "lyhytNimi": {
+            "fi": "Keuda",
+            "sv": "Keuda",
+            "en": "Keuda"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Keuda",
+            "sv": "Keuda",
+            "en": "Keuda"
+          },
+          "oid": "1.2.246.562.10.32506551657",
+          "oppilaitosKoodi": "01067",
+          "oppilaitostyyppi": "oppilaitostyyppi_21#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "parentOid": "1.2.246.562.10.55867603791",
+          "parentOidPath": "1.2.246.562.10.32506551657/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "tarkastusPvm": 1650957031670,
+          "toimipistekoodi": "01067",
+          "tyypit": [
+            "organisaatiotyyppi_02"
+          ]
+        },
+        {
+          "aliOrganisaatioMaara": 0,
+          "alkuPvm": 1483221600000,
+          "children": [],
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1",
+            "oppilaitoksenopetuskieli_1#2"
+          ],
+          "kotipaikkaUri": "kunta_245",
+          "lyhytNimi": {
+            "fi": "Yritys- ja elinvoimapalvelut",
+            "sv": "Yritys- ja elinvoimapalvelut",
+            "en": "Yritys- ja elinvoimapalvelut"
+          },
+          "match": true,
+          "nimi": {
+            "fi": "Yritys- ja elinvoimapalvelut",
+            "sv": "Yritys- ja elinvoimapalvelut",
+            "en": "Yritys- ja elinvoimapalvelut"
+          },
+          "oid": "1.2.246.562.10.31186964119",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_04"
+          ],
+          "parentOid": "1.2.246.562.10.55867603791",
+          "parentOidPath": "1.2.246.562.10.31186964119/1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "subRows": [],
+          "toimipistekoodi": "",
+          "tyypit": [
+            "organisaatiotyyppi_04"
+          ]
+        }
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "kotipaikkaUri": "kunta_186",
+      "lyhytNimi": {
+        "fi": "Keski-Uudenmaan koulutuskuntayhtymä",
+        "sv": "Keski-Uudenmaan koulutuskuntayhtymä",
+        "en": "Keski-Uudenmaan koulutuskuntayhtymä"
+      },
+      "match": true,
+      "nimi": {
+        "fi": "Keski-Uudenmaan koulutuskuntayhtymä",
+        "sv": "Keski-Uudenmaan koulutuskuntayhtymä",
+        "en": "Keski-Uudenmaan koulutuskuntayhtymä"
+      },
+      "oid": "1.2.246.562.10.55867603791",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_01",
+        "organisaatiotyyppi_07"
+      ],
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.55867603791/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "subRows": [],
+      "toimipistekoodi": "",
+      "tyypit": [
+        "organisaatiotyyppi_01",
+        "organisaatiotyyppi_07"
+      ],
+      "ytunnus": "0213834-5"
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos
   (:require [clojure.set :refer [rename-keys]]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
@@ -140,7 +139,7 @@
 
 (defn- add-data-from-organisaatio-palvelu
   [organisaatio]
-  (let [org-from-organisaatio-palvelu (organisaatio-client/get-by-oid-cached (:oid organisaatio))
+  (let [org-from-organisaatio-palvelu (cache/get-yhteystiedot (:oid organisaatio))
         yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)]
     (-> organisaatio
         (assoc :status (:status org-from-organisaatio-palvelu))
@@ -150,7 +149,7 @@
   [organisaatio execution-id]
   (let [oppilaitos-oid (:oid organisaatio)
         oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid execution-id) {})
-        oppilaitos-from-organisaatiopalvelu (organisaatio-client/get-by-oid-cached oppilaitos-oid)
+        oppilaitos-from-organisaatiopalvelu (cache/get-yhteystiedot oppilaitos-oid)
         yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
         hakijapalveluiden-yhteystiedot (-> (get-in oppilaitos [:metadata :hakijapalveluidenYhteystiedot])
                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
@@ -171,16 +170,18 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [hierarkia (cache/get-hierarkia oid)]
-    (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
-      (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)]
-        (if (organisaatio-tool/indexable? oppilaitos)
-          (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos execution-id))
-          (indexable/->delete-entry (:oid oppilaitos)))))))
+  (when-let [oppilaitos (cache/find-oppilaitos-by-own-or-child-oid  oid)]
+    (if (organisaatio-tool/indexable? oppilaitos)
+      (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos execution-id))
+      (indexable/->delete-entry (:oid oppilaitos)))))
 
 (defn do-index
-  [oids execution-id]
-  (indexable/do-index index-name oids create-index-entry execution-id))
+  ([oids execution-id clear-cache-before]
+    (when (= true clear-cache-before)(cache/clear-all-cached-data))
+    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
+      (indexable/do-index index-name oids-to-index create-index-entry execution-id)))
+  ([oids execution-id]
+   (do-index oids execution-id true)))
 
 (defn get-from-index
   [oid & query-params]

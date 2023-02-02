@@ -24,20 +24,18 @@
       (cond-> (assoc oppilaitos :tila tila)
         (julkaistu? {:tila tila}) (assoc :logo logo)))))
 
-(defn tuleva-jarjestaja?
+(defn- tuleva-jarjestaja?
   [hierarkia toteutukset]
   (-> (organisaatio-tool/filter-indexable-for-hierarkia hierarkia (mapcat :tarjoajat toteutukset))
       (->distinct-vec)
       (empty?)))
 
-(defn find-indexable-oppilaitos-oids
+(defn- find-hierarkiat-for-indexable-oppilaitokset
   [tarjoajat]
   (->> tarjoajat
-       (map cache/get-hierarkia)
-       (map organisaatio-tool/find-oppilaitos-from-hierarkia)
+       (map cache/find-oppilaitos-by-own-or-child-oid)
        (remove nil?)
        (filter organisaatio-tool/indexable?)
-       (map :oid)
        (->distinct-vec)))
 
 (defn- jarjestaja-search-terms
@@ -108,10 +106,10 @@
 (defn assoc-jarjestaja-search-terms
   [koulutus toteutukset hakutiedot]
   (if (seq (:tarjoajat koulutus))
-    (let [search-terms (for [hierarkia (map cache/get-hierarkia (find-indexable-oppilaitos-oids (:tarjoajat koulutus)))]
-                         (if (tuleva-jarjestaja? hierarkia toteutukset)
-                           {:search_terms [(tuleva-jarjestaja-search-terms hierarkia koulutus)]}
-                           {:search_terms (jarjestaja-search-terms hierarkia koulutus toteutukset hakutiedot)}))]
+    (let [search-terms (for [oppilaitos-hierarkia (find-hierarkiat-for-indexable-oppilaitokset (:tarjoajat koulutus))]
+                         (if (tuleva-jarjestaja? oppilaitos-hierarkia toteutukset)
+                           {:search_terms [(tuleva-jarjestaja-search-terms oppilaitos-hierarkia koulutus)]}
+                           {:search_terms (jarjestaja-search-terms oppilaitos-hierarkia koulutus toteutukset hakutiedot)}))]
       (->> search-terms
            (apply merge-with concat)
            (merge koulutus)))
@@ -149,10 +147,7 @@
   (let [tarjoajat (distinct (mapcat (fn [toteutus]
                                       (let [tarjoaja-oids (:tarjoajat toteutus)]
                                         (map (fn [tarjoaja-oid]
-                                               (let [hierarkia (cache/get-hierarkia tarjoaja-oid)]
-                                                 (organisaatio-tool/find-oppilaitos-from-hierarkia
-                                                  hierarkia)))
-                                             tarjoaja-oids)))
+                                               (cache/find-oppilaitos-by-own-or-child-oid tarjoaja-oid)) tarjoaja-oids)))
                                     toteutukset))]
     (assoc koulutus
            :toteutustenTarjoajat

@@ -1,0 +1,254 @@
+{
+  "maskingActive": false,
+  "oid": "1.2.246.562.10.52750255714",
+  "parentOid": "1.2.246.562.10.54453921329",
+  "alkuPvm": "2021-06-11",
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#2",
+    "oppilaitoksenopetuskieli_4#2"
+  ],
+  "kotipaikkaUri": "kunta_743",
+  "kuvaus2": {},
+  "maaUri": "maatjavaltiot1_fin",
+  "metadata": {
+    "nimi": {},
+    "yhteystiedot": [
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_60320",
+        "yhteystietoOid": "1.2.246.562.5.48860048528",
+        "id": "8118844",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Umpilampi 32"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_60101",
+        "yhteystietoOid": "1.2.246.562.5.84842306924",
+        "id": "8118845",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Risteysaukio 570"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "16233874609780.25201608073848325",
+        "id": "8118846",
+        "email": "hakija-59918567@oph.fi"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.seamk.fi/haku",
+        "yhteystietoOid": "16233874609780.08977193683936435",
+        "id": "8118847"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 95830951",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.60641512896",
+        "id": "8118848"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_kaynti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.14416981174",
+        "id": "8118849",
+        "osoite": "Egyptinkorventie 112"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_posti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.52189117667",
+        "id": "8118850",
+        "osoite": "Jänishaikulankuja 340"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "16233874609780.8949064933517027",
+        "id": "8118851",
+        "email": "hakija-18695542@oph.fi"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "www": "https://www.seamk.fi/en/study-with-us/how-to-apply/",
+        "yhteystietoOid": "16233874609780.1472847049330701",
+        "id": "8118852"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "numero": "050 85728991",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.44519574337",
+        "id": "8118853"
+      }
+    ],
+    "hakutoimistoEctsEmail": {},
+    "hakutoimistoEctsNimi": {},
+    "hakutoimistoEctsPuhelin": {},
+    "hakutoimistoEctsTehtavanimike": {},
+    "hakutoimistonNimi": {
+      "kieli_en#1": "SeAMK Admission Services",
+      "kieli_fi#1": "SeAMK Hakijapalvelut"
+    },
+    "luontiPvm": 1623387460978,
+    "muokkausPvm": 1623387460978,
+    "data": {
+      "YLEISKUVAUS": {},
+      "KANSAINVALISET_KOULUTUSOHJELMAT": {},
+      "KIELIOPINNOT": {},
+      "TERVEYDENHUOLTOPALVELUT": {},
+      "TEHTAVANIMIKE": {},
+      "SAHKOPOSTIOSOITE": {},
+      "RAHOITUS": {},
+      "AIEMMIN_HANKITTU_OSAAMINEN": {},
+      "sosiaalinenmedia_7#1": {},
+      "sosiaalinenmedia_5#1": {},
+      "sosiaalinenmedia_6#1": {},
+      "OPISKELIJALIIKKUVUUS": {},
+      "VAKUUTUKSET": {},
+      "OPISKELIJA_JARJESTOT": {},
+      "VALINTAMENETTELY": {},
+      "sosiaalinenmedia_3#1": {},
+      "sosiaalinenmedia_4#1": {},
+      "VASTUUHENKILOT": {},
+      "KUSTANNUKSET": {},
+      "sosiaalinenmedia_1#1": {},
+      "OPPIMISYMPARISTO": {},
+      "sosiaalinenmedia_2#1": {},
+      "PUHELINNUMERO": {},
+      "NIMI": {},
+      "OPISKELIJALIIKUNTA": {},
+      "VUOSIKELLO": {},
+      "OPISKELIJARUOKAILU": {},
+      "ESTEETOMYYS": {},
+      "VAPAA_AIKA": {},
+      "TIETOA_ASUMISESTA": {},
+      "TYOHARJOITTELU": {}
+    }
+  },
+  "nimi": {
+    "fi": "Seinäjoen ammattikorkeakoulu, SeAMK",
+    "sv": "Seinäjoen ammattikorkeakoulu, SeAMK",
+    "en": "Seinäjoki University of Applied Sciences, SeAMK"
+  },
+  "nimet": [
+    {
+      "nimi": {
+        "fi": "SeAMK",
+        "sv": "SeAMK",
+        "en": "SeAMK"
+      },
+      "alkuPvm": "2021-06-11",
+      "version": 0
+    }
+  ],
+  "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.2014041511401945349694|1.2.246.562.10.54453921329|",
+  "toimipistekoodi": "0247238",
+  "tyypit": [
+    "organisaatiotyyppi_03"
+  ],
+  "vuosiluokat": [],
+  "lisatiedot": [],
+  "ryhmatyypit": [],
+  "kayttoryhmat": [],
+  "yhteystiedot": [
+    {
+      "kieli": "kieli_fi#1",
+      "yhteystietoOid": "16233874609780.6260027810056359",
+      "id": "8118865",
+      "email": "hakija-54955405@oph.fi"
+    },
+    {
+      "osoiteTyyppi": "kaynti",
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_60320",
+      "yhteystietoOid": "1.2.246.562.5.26391871477",
+      "id": "8118858",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Polvivaara 632"
+    },
+    {
+      "osoiteTyyppi": "ulkomainen_posti",
+      "kieli": "kieli_en#1",
+      "yhteystietoOid": "1.2.246.562.5.65038260785",
+      "id": "8118856",
+      "osoite": "Vääkiönsammal 464"
+    },
+    {
+      "osoiteTyyppi": "posti",
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_60101",
+      "yhteystietoOid": "1.2.246.562.5.30065803246",
+      "id": "8118859",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Palatkannotko 213"
+    },
+    {
+      "kieli": "kieli_en#1",
+      "yhteystietoOid": "16233874609780.15539179560673266",
+      "id": "8118864",
+      "email": "hakija-12047096@oph.fi"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "numero": "050 91923551",
+      "tyyppi": "puhelin",
+      "yhteystietoOid": "1.2.246.562.5.78922305632",
+      "id": "8118857"
+    },
+    {
+      "osoiteTyyppi": "ulkomainen_kaynti",
+      "kieli": "kieli_en#1",
+      "yhteystietoOid": "1.2.246.562.5.50444875376",
+      "id": "8118863",
+      "osoite": "Kuoppamäki 429"
+    },
+    {
+      "kieli": "kieli_en#1",
+      "www": "http://www.seamk.fi/en",
+      "yhteystietoOid": "16233874609780.89205461567308",
+      "id": "8118862"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "www": "http://www.seamk.fi",
+      "yhteystietoOid": "16233874609780.3691713919628876",
+      "id": "8118861"
+    },
+    {
+      "kieli": "kieli_en#1",
+      "numero": "050 19682971",
+      "tyyppi": "puhelin",
+      "yhteystietoOid": "1.2.246.562.5.48126353720",
+      "id": "8118860"
+    }
+  ],
+  "kayntiosoite": {
+    "postinumeroUri": "posti_60320",
+    "osoiteTyyppi": "kaynti",
+    "yhteystietoOid": "1.2.246.562.5.26391871477",
+    "postitoimipaikka": "SEINÄJOKI",
+    "osoite": "Polvivaara 632"
+  },
+  "postiosoite": {
+    "postinumeroUri": "posti_60101",
+    "osoiteTyyppi": "posti",
+    "yhteystietoOid": "1.2.246.562.5.30065803246",
+    "postitoimipaikka": "SEINÄJOKI",
+    "osoite": "Palatkannotko 213"
+  },
+  "lyhytNimi": {
+    "fi": "SeAMK",
+    "sv": "SeAMK",
+    "en": "SeAMK"
+  },
+  "yhteystietoArvos": [],
+  "opetuspisteenJarjNro": "38",
+  "muutKotipaikatUris": [],
+  "muutOppilaitosTyyppiUris": [],
+  "piilotettu": false,
+  "status": "AKTIIVINEN",
+  "version": 1
+}
