@@ -53,7 +53,7 @@
         (log/info "Fetched last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
         (set-last-queued-time now)))))
 
-(defjob queueing-job [ctx] handle-and-queue-changed-data)
+(defjob queueing-job [ctx] (handle-and-queue-changed-data))
 
 (defonce queueing-job-name "queueing")
 

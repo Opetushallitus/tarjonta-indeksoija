@@ -25,23 +25,18 @@
 
 (def oppilaitos-with-wrong-type "1.2.246.562.10.14452275770")
 
-(defn mock-organisaatio-hierarkia
-  []
-  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json")))
-
-(defn mock-get-oppilaitos-from-hierarkia
-  [oid]
-  (kouta-indeksoija-service.indexer.tools.organisaatio/find-oppilaitos-from-hierarkia mock-organisaatio-hierarkia))
-
-(defn mock-organisaatio
-  [oid & {:as params}]
-  (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-v4.json")))
-
 (defn mock-organisaatio-hierarkia-passive
   []
-  (update-in mock-organisaatio-hierarkia
-             [:organisaatiot 0 :children 0 :status]
-             (constantly "PASSIIVINEN")))
+  {:organisaatiotyypit ["organisaatiotyyppi_02"]
+   :status "PASSIIVINEN"
+   :children []
+   :oid "1.2.246.562.10.10101010101"
+   :parentOid  "1.2.246.562.10.10101010100"
+   :oppilaitostyyppi "oppilaitostyyppi_42#1"
+   :nimi {:sv "Tanhuala universitet"
+          :fi "Tanhualan Yliopisto"
+          :en "University of Tanhuala"}
+  })
 
  (deftest index-haku-test-1
    (fixture/with-mocked-indexing
@@ -159,8 +154,6 @@
       (i/index-oppilaitokset [oppilaitoksen-osa-oid] (. System (currentTimeMillis)))
       (is (= toteutus-oid2 (:oid (get-doc toteutus/index-name toteutus-oid2)))))))
 
-(comment
-
  (deftest index-organisaatio-no-oppilaitokset-test
    (fixture/with-mocked-indexing
     (with-redefs [kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja (fn [oid] (throw (Exception. (str "I was called with [" oid "]"))))]
@@ -172,20 +165,15 @@
  (deftest index-passiivinen-oppilaitos-test
    (fixture/with-mocked-indexing
     (testing "Indexer should delete passivoitu oppilaitos from indexes"
-      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-cached mock-organisaatio-hierarkia
-                    kouta-indeksoija-service.indexer.cache.hierarkia/find-oppilaitos-by-own-or-child-oid mock-get-oppilaitos-from-hierarkia
-                    kouta-indeksoija-service.rest.organisaatio/get-by-oid mock-organisaatio]
-        (check-all-nil)
-        (fixture/update-koulutus-mock koulutus-oid :tarjoajat ["1.2.246.562.10.10101010101"])
-        (i/index-oppilaitokset [own-oppilaitos-oid] (. System (currentTimeMillis))))
-      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-cached mock-organisaatio-hierarkia-passive
-                    kouta-indeksoija-service.indexer.cache.hierarkia/find-oppilaitos-by-own-or-child-oid (fn [oid] (kouta-indeksoija-service.indexer.tools.organisaatio/find-oppilaitos-from-hierarkia mock-organisaatio-hierarkia-passive))
-                    kouta-indeksoija-service.rest.organisaatio/get-by-oid mock-organisaatio]
-        (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
-        (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
-        (i/index-oppilaitokset [own-oppilaitos-oid] (. System (currentTimeMillis)))
-        (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid))))
-        (is (= nil (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))))))
+      (check-all-nil)
+      (fixture/update-koulutus-mock koulutus-oid :tarjoajat [oppilaitos-oid2])
+      (i/index-oppilaitokset [oppilaitos-oid2] (. System (currentTimeMillis)))
+      (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/find-oppilaitos-by-own-or-child-oid (fn [oid] (kouta-indeksoija-service.indexer.tools.organisaatio/find-oppilaitos-from-hierarkia (mock-organisaatio-hierarkia-passive)))]
+        (is (= oppilaitos-oid2 (:oid (get-doc oppilaitos/index-name oppilaitos-oid2))))
+        (is (= oppilaitos-oid2 (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid2))))
+        (i/index-oppilaitokset [oppilaitos-oid2] (. System (currentTimeMillis)))
+        (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid2))))
+        (is (= nil (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid2))))))))
 
  (deftest index-all-test
    (fixture/with-mocked-indexing
@@ -347,4 +335,21 @@
       (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
       (is (nil? (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
       (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
- )
+
+(deftest index-all-oppilaitokset-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index all oppilaitokset"
+     (let [all-oppilaitokset ["1.2.246.562.10.10101010101", "1.2.246.562.10.53670619591", "1.2.246.562.10.54545454545",
+                              "1.2.246.562.10.197113642410", "1.2.246.562.10.77777777799", "1.2.246.562.10.112212847610",
+                              "1.2.246.562.10.67476956288", "1.2.246.562.10.54453921329", "1.2.246.562.10.81927839589",
+                              "1.2.246.562.10.39218317368", "1.2.246.562.10.32506551657", "1.2.246.562.10.66634895871",
+                              "1.2.246.562.10.81934895871", "1.2.246.562.10.000002", "1.2.246.562.10.99999999999"]
+           oppilaitokset-with-koulutukset ["1.2.246.562.10.54545454545"]]
+     (check-all-nil)
+     (i/index-all-oppilaitokset)
+     (doseq [oppilaitos-oid all-oppilaitokset]
+       (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid)))))
+     (doseq [oppilaitos-oid oppilaitokset-with-koulutukset]
+       (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid)))))
+     (doseq [oppilaitos-oid (filter (fn [oid] (not (some #(= oid %) oppilaitokset-with-koulutukset))) all-oppilaitokset)]
+       (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid))))))))

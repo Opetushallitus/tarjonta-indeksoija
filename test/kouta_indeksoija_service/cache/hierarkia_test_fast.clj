@@ -24,7 +24,15 @@
       (is (= "1.2.246.562.10.1" (:parentOid (get @cache-atom "1.2.246.562.10.11"))))
       (is (= "1.2.246.562.10.2" (:parentOid (get @cache-atom "1.2.246.562.10.222"))))
       (is (= "1.2.246.562.10.3" (:parentOid (get @cache-atom "1.2.246.562.10.3333"))))
-      (is (= (contains? (get @cache-atom "1.2.246.562.10.444") :parentOid) false)))))
+      (is (= (contains? (get @cache-atom "1.2.246.562.10.444") :parentOid) false))))
+
+  (testing "All indexable oppilaitos oids"
+    (let [cache-atom (atom {"1.2.246.562.10.1" {:oid "1.2.246.562.10.1" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "AKTIIVINEN"},
+                            "1.2.246.562.10.2" {:oid "1.2.246.562.10.2" :organisaatiotyypit ["organisaatiotyyppi_03"] :status "AKTIIVINEN"},
+                            "1.2.246.562.10.3" {:oid "1.2.246.562.10.3" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "PASSIIVINEN"},
+                            "1.2.246.562.10.4" {:oid "1.2.246.562.10.4" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "AKTIIVINEN"}})]
+    (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-cached (fn [] cache-atom)]
+      (is (= ["1.2.246.562.10.1", "1.2.246.562.10.4"] (hierarkia/get-all-indexable-oppilaitos-oids)))))))
 
 (deftest organisaatio-tool-test-fast
   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-all-organisaatiot mock-get-all-organisaatiot]
@@ -35,7 +43,7 @@
                                                (= (:organisaatiotyypit toimipiste) ["organisaatiotyyppi_03"])))]
     (testing "Oppilaitos hierarkia fetched correctly from cache"
       (let [res (tools/find-oppilaitos-hierarkia-from-cache (hierarkia/get-hierarkia-cached) "1.2.246.562.10.54453921329")]
-      (is (= (keys res) [:oid :status :organisaatiotyypit :children]))
+      (is (= (keys res) [:oid :status :organisaatiotyypit :kotipaikkaUri :children]))
       (is (= (:oid res) "1.2.246.562.10.2014041511401945349694"))
       (is (= (:organisaatiotyypit res) ["organisaatiotyyppi_01"]))
       (is (= (:status res) "AKTIIVINEN"))

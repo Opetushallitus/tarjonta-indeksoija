@@ -17,7 +17,6 @@
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.util.tools :refer [get-oids]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
@@ -276,10 +275,11 @@
 
 (defn index-all-oppilaitokset
   []
-  (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)
+  (hierarkia/clear-all-cached-data)
+  (let [oppilaitokset (hierarkia/get-all-indexable-oppilaitos-oids)
         execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count oppilaitokset) " oppilaitosta, (o)ids: " oppilaitokset)
-    (index-oppilaitokset oppilaitokset execution-id)))
+    (index-oppilaitokset oppilaitokset execution-id false)))
 
 (defn index-all-lokalisoinnit
   []

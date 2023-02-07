@@ -1937,6 +1937,7 @@
           }
         },
         {
+          "children": [],
           "oid": "1.2.246.562.10.67476956288",
           "parentOid": "1.2.246.562.10.11111111111",
           "parentOidPath": "1.2.246.562.10.67476956288/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
@@ -1996,6 +1997,45 @@
           "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
           "kotipaikkaUri": "kunta_091",
           "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.77777777799", "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"}
+        },
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.000003",
+              "parentOid": "1.2.246.562.10.000002",
+              "parentOidPath": "1.2.246.562.10.000003/1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_618",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Punkaharjun yliopiston toimipiste", "sv": "Punkaharjun yliopiston toimipiste sv"}
+            },
+            {
+              "oid": "1.2.246.562.10.000004",
+              "parentOid": "1.2.246.562.10.000002",
+              "parentOidPath": "1.2.246.562.10.000004/1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_220",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
+              "nimi": {"fi": "Punkaharjun yliopiston Karjaan toimipiste", "sv": "Punkaharjun yliopiston Karjaan toimipiste sv"}
+            }
+          ],
+          "oid": "1.2.246.562.10.000002",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Punkaharjun yliopisto", "sv": "Punkaharjun yliopisto sv"}
         }
       ],
       "oid": "1.2.246.562.10.11111111111",
@@ -2158,6 +2198,129 @@
       "organisaatiotyypit": [
         "organisaatiotyyppi_01"
       ],
+      "status": "AKTIIVINEN"
+    },
+    {
+      "oid": "1.2.246.562.10.594252633210",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_01"
+      ],
+      "status": "AKTIIVINEN",
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+      "children": [
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.67603619189",
+              "parentOid": "1.2.246.562.10.81934895871",
+              "parentOidPath": "1.2.246.562.10.67603619189/1.2.246.562.10.81934895871/1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+              "nimi": {
+                "sv": "Koulutuskeskus Salpaus, Lahti, Jokimaa",
+                "fi": "Koulutuskeskus Salpaus, Lahti, Jokimaa sv"
+              },
+              "kotipaikkaUri": "kunta_398",
+              "children": [],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "status": "AKTIIVINEN"
+            },
+            {
+              "oid": "1.2.246.562.10.66603619189",
+              "parentOid": "1.2.246.562.10.81934895871",
+              "parentOidPath": "1.2.246.562.10.66603619189/1.2.246.562.10.81934895871/1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+              "nimi": {
+                "sv": "Koulutuskeskus Salpaus, Lahti, Pahamaa",
+                "fi": "Koulutuskeskus Salpaus, Lahti, Pahamaa sv"
+              },
+              "kotipaikkaUri": "kunta_398",
+              "children": [],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "status": "AKTIIVINEN"
+            }
+          ],
+          "oid": "1.2.246.562.10.81934895871",
+          "parentOid": "1.2.246.562.10.594252633210",
+          "parentOidPath": "1.2.246.562.10.81934895871/1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+          "nimi": {
+            "fi": "Koulutuskeskus Salpaus",
+            "sv": "Koulutuskeskus Salpaus sv"
+          },
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kotipaikkaUri": "kunta_398",
+          "status": "AKTIIVINEN"
+        },
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.66634895666",
+              "parentOid": "1.2.246.562.10.81934895871",
+              "parentOidPath": "1.2.246.562.10.66634895666/1.2.246.562.10.66634895871/1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+              "nimi": {
+                "sv": "Evil cousin",
+                "fi": "Evil cousin sv"
+              },
+              "kotipaikkaUri": "kunta_618",
+              "children": [],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "status": "AKTIIVINEN"
+            }
+          ],
+          "oid": "1.2.246.562.10.66634895871",
+          "parentOid": "1.2.246.562.10.594252633210",
+          "parentOidPath": "1.2.246.562.10.66634895871/1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+          "nimi": {
+            "fi": "Evil child",
+            "sv": "Evil child sv"
+          },
+          "kieletUris": [
+            "oppilaitoksenopetuskieli_1#1"
+          ],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kotipaikkaUri": "kunta_618",
+          "status": "AKTIIVINEN"
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.99999999999",
+          "parentOid": "1.2.246.562.10.594252633210",
+          "parentOidPath": "1.2.246.562.10.99999999999/1.2.246.562.10.594252633210/1.2.246.562.10.00000000001",
+          "nimi": {
+            "fi": "Lonely oppilaitos fi 1.2.246.562.10.99999999999",
+            "sv": "Lonely oppilaitos sv 1.2.246.562.10.99999999999"
+          },
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_21#1",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kotipaikkaUri": "kunta_091",
+          "status": "AKTIIVINEN"
+        }
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "nimi": {
+        "fi": "Koulutuskeskus Salpaus -kuntayhtymä",
+        "sv": "Koulutuskeskus Salpaus -kuntayhtymä sv"
+      },
+      "kotipaikkaUri": "kunta_398",
       "status": "AKTIIVINEN"
     }
   ]
