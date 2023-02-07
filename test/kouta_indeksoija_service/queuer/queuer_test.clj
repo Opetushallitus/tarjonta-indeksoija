@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.queuer.queuer-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.queuer.queuer :as q]
-            [kouta-indeksoija-service.queue.sqs :refer [send-message]]
-            [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order?]]))
+            [kouta-indeksoija-service.test-tools :refer [contains-same-elements-in-any-order? parse]]))
 
 (def test-queue (atom []))
 (defonce last-modified (System/currentTimeMillis))
@@ -20,26 +19,24 @@
   []
   (vec (map #(str %) (range 21))))
 
-(defn mock-organisaatio-oids
+(defn mock-organisaatio-hierarkia
   []
-  (vec (map (fn [x] (str x)) (range 21))))
+  (atom {"1.2.246.562.10.1" {:oid "1.2.246.562.10.1" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "AKTIIVINEN"},
+         "1.2.246.562.10.2" {:oid "1.2.246.562.10.2" :organisaatiotyypit ["organisaatiotyyppi_03"] :status "AKTIIVINEN"},
+         "1.2.246.562.10.3" {:oid "1.2.246.562.10.3" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "PASSIIVINEN"},
+         "1.2.246.562.10.4" {:oid "1.2.246.562.10.4" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "AKTIIVINEN"}}))
 
 (defn mock-eperuste-changes
   [l]
   ["111" "222" "333"])
-
-(defn mock-organisaatio-changes
-  [l]
-  ["555" "666" "777"])
 
 (deftest queuer-test
   (testing "Queuer should"
     (with-redefs [kouta-indeksoija-service.queue.sqs/queue mock-queue-name
                   kouta-indeksoija-service.queue.sqs/send-message mock-send-message
                   kouta-indeksoija-service.rest.eperuste/find-all mock-eperuste-oids
-                  kouta-indeksoija-service.rest.organisaatio/get-all-oppilaitos-oids mock-organisaatio-oids
+                  kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-cached mock-organisaatio-hierarkia
                   kouta-indeksoija-service.rest.eperuste/find-changes mock-eperuste-changes
-                  kouta-indeksoija-service.rest.organisaatio/find-last-changes mock-organisaatio-changes
                   kouta-indeksoija-service.queuer.last-queued/get-last-queued-time (fn [] last-modified)
                   kouta-indeksoija-service.queuer.last-queued/set-last-queued-time (fn [t] (is (< last-modified t)))]
 
@@ -58,14 +55,13 @@
         (is (= [{:oppilaitokset ["123"]}] @test-queue))
         (reset! test-queue []))
 
-      (testing "queue all organisaatiot"
+      (testing "queue all oppilaitokset"
         (q/queue-all-oppilaitokset-from-organisaatiopalvelu)
-        (is (= [{:oppilaitokset (vec (map str (range 20)))} {:oppilaitokset ["20"]}] @test-queue))
+        (is (= [{:oppilaitokset ["1.2.246.562.10.1", "1.2.246.562.10.4"]}] @test-queue))
         (reset! test-queue []))
 
       (testing "queue changes"
-        (q/queue-changes)
+        (q/queue-eperuste-changes (System/currentTimeMillis))
         (is (= 1 (count @test-queue)))
         (is (contains-same-elements-in-any-order? ["111" "222" "333"] (-> @test-queue (first) :eperusteet)))
-        (is (contains-same-elements-in-any-order? ["555" "666" "777"] (-> @test-queue (first) :oppilaitokset)))
         (reset! test-queue [])))))

@@ -2,8 +2,6 @@
   (:require [clojure.string :as string]
             [kouta-indeksoija-service.fixture.common-oids :refer :all]))
 
-(def Oppilaitos2 "1.2.246.562.10.55555555555")
-
 (defn mock-koodisto
   ([koodisto koodi-uri]
    (locking koodi-uri
@@ -54,43 +52,6 @@
                                                                  :tavoitteet [{:fi "Tavoite 1 fi" :sv "Tavoite 1 sv"} {:fi "Tavoite 2 fi" :sv "Tavoite 2 sv"}]}
                                                     :sisallot [{:sisallot [{:fi "Sisalto 1 fi" :sv "Sisalto 1 sv"} {:fi "Sisalto 2 fi" :sv "Sisalto 2 sv"}]}]}]}]}})
 
-(defn create-organisaatio-hierarkia
-  [koulutustoimija oppilaitos oppilaitoksen-osat]
-  {:numHits (+ 2 (count oppilaitoksen-osat))
-   :organisaatiot [{:oid (:oid koulutustoimija)
-                    :alkuPvm 313106400000
-                    :parentOid "1.2.246.562.10.00000000001"
-                    :parentOidPath (str (:oid koulutustoimija)  "/1.2.246.562.10.10101010100")
-                    :nimi (or (:nimi koulutustoimija) {:fi (str "Koulutustoimija fi " (:oid koulutustoimija)), :sv (str "Koulutustoimija sv " (:oid koulutustoimija))})
-                    :kieletUris (or (:kielet koulutustoimija) ["oppilaitoksenopetuskieli_1#1"])
-                    :kotipaikkaUri (or (:kotipaikka koulutustoimija) "kunta_091")
-                    :organisaatiotyypit ["organisaatiotyyppi_01"]
-                    :status "AKTIIVINEN"
-                    :children [{:oid (:oid oppilaitos)
-                                :alkuPvm 725839200000
-                                :parentOid (:oid koulutustoimija)
-                                :parentOidPath (str (:oid oppilaitos) "/"  (:oid koulutustoimija)  "/1.2.246.562.10.10101010100")
-                                :oppilaitosKoodi "00000"
-                                :oppilaitostyyppi "oppilaitostyyppi_42#1"
-                                :toimipistekoodi "00000"
-                                :nimi (or (:nimi oppilaitos) {:fi (str "Oppilaitos fi " (:oid oppilaitos)), :sv (str "Oppilaitos sv " (:oid oppilaitos))})
-                                :kieletUris (or (:kielet oppilaitos) ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"])
-                                :kotipaikkaUri (or (:kotipaikka oppilaitos) "kunta_091")
-                                :aliOrganisaatioMaara (count oppilaitoksen-osat)
-                                :organisaatiotyypit ["organisaatiotyyppi_02"]
-                                :status "AKTIIVINEN"
-                                :children (vec (map #(let [toimipiste %] {:oid (:oid toimipiste)
-                                                                          :alkuPvm 725839200000
-                                                                          :parentOid (:oid oppilaitos)
-                                                                          :parentOidPath (str (:oid toimipiste) "/" (:oid oppilaitos) "/"  (:oid koulutustoimija)  "/1.2.246.562.10.10101010100")
-                                                                          :toimipistekoodi "00000"
-                                                                          :nimi (or (:nimi toimipiste) {:fi (str "Toimipiste fi " (:oid toimipiste)), :sv (str "Toimipiste sv " (:oid toimipiste))})
-                                                                          :kieletUris (or (:kielet toimipiste) ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"])
-                                                                          :kotipaikkaUri (or (:kotipaikka toimipiste) "kunta_091")
-                                                                          :aliOrganisaatioMaara 0
-                                                                          :organisaatiotyypit ["organisaatiotyyppi_03"]
-                                                                          :status "AKTIIVINEN"
-                                                                          :children []}) oppilaitoksen-osat))}]}]})
 (defn mock-get-osaamisalakuvaukset
   [eperuste-id eperuste-tila]
   [{

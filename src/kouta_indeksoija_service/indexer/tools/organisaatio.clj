@@ -45,6 +45,10 @@
   [organisaatio]
   (and (aktiivinen? organisaatio) (valid-oppilaitostyyppi? organisaatio)))
 
+(defn indexable-oppilaitos?
+  [organisaatio]
+  (and (aktiivinen? organisaatio) (oppilaitos? organisaatio)))
+
 (defn get-indexable-children
   [organisaatio]
   (filter indexable? (:children organisaatio)))

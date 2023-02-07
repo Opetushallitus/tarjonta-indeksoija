@@ -18,7 +18,7 @@
                        :queueing-cron-string "*/1 * * ? * *"}
                   kouta-indeksoija-service.queue.queue/clean-dlq (fn [] (reset! dlq-called true))
                   kouta-indeksoija-service.queue.queue/index-from-sqs (fn [] (do (reset! sqs-called true) (loop [] (recur))))
-                  kouta-indeksoija-service.queuer.queuer/queue-changes (fn [] (reset! que-called true))
+                  kouta-indeksoija-service.scheduled.jobs/handle-and-queue-changed-data (fn [] (reset! que-called true))
                   kouta-indeksoija-service.queue.notification-queue/clean-dlq(fn [] (reset! notification-dlq-called true))
                   kouta-indeksoija-service.queue.notification-queue/read-and-send-notifications (fn [] (do (reset! notification-called true) (loop [] (recur))))]
 

@@ -1,5 +1,5 @@
 (ns kouta-indeksoija-service.queuer.queuer
-  (:require [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
+  (:require [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.queue.sqs :as sqs]))
@@ -26,9 +26,10 @@
 
 (defn queue-all-oppilaitokset-from-organisaatiopalvelu
   []
-  (let [all-organisaatiot (organisaatio-client/get-all-oppilaitos-oids)]
-    (doseq [organisaatiot (partition-all 20 all-organisaatiot)]
-      (queue :oppilaitokset organisaatiot))))
+  (organisaatio-cache/clear-hierarkia-cache)
+  (let [all-oppilaitokset (organisaatio-cache/get-all-indexable-oppilaitos-oids)]
+    (doseq [oppilaitokset (partition-all 20 all-oppilaitokset)]
+      (queue :oppilaitokset oppilaitokset))))
 
 (defn queue-oppilaitos
   [oid]

@@ -122,7 +122,7 @@
                              :sorakuvausId sorakuvaus-id
                              :julkinen "true"
                              :modified "2021-11-16T08:55:23"
-                             :tarjoajat ["1.2.246.562.10.55555555555"])
+                             :tarjoajat [oppilaitos-oid3])
 
   (fixture/add-toteutus-mock toteutus-oid
                              koulutus-oid
