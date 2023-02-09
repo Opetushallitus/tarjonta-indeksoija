@@ -293,7 +293,7 @@
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
-  (let [toteutus (fix-default-format (merge default-toteutus-map params {:organisaatio oppilaitos-oid :koulutusOid koulutusOid :oid oid}))]
+  (let [toteutus (fix-default-format (merge default-toteutus-map {:organisaatio oppilaitos-oid :koulutusOid koulutusOid :oid oid} params))]
     (swap! toteutukset assoc oid toteutus)))
 
 (defn update-toteutus-mock

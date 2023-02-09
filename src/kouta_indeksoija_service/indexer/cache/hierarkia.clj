@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.cache.hierarkia
   (:require [clojure.core.cache :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
-            [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot get-by-oid find-last-changes]]
+            [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot get-by-oid find-last-changes oph-oid]]
             [clojure.core.memoize :as memoize]))
 
 (defonce hierarkia_cache_time_millis (* 1000 60 45))
@@ -25,7 +25,7 @@
 
 (defn- koulutustoimija-from-hierarkia-item
   [hierarkia-item]
-  (select-keys hierarkia-item [:oid :status :organisaatiotyypit :kotipaikkaUri]))
+  (select-keys hierarkia-item [:oid :status :organisaatiotyypit :nimi :kotipaikkaUri]))
 
 (defn- oppilaitos-from-hierarkia-item
   [hierarkia-item]
@@ -84,16 +84,29 @@
 (def hierarkia-cached
   (memoize/ttl cache-whole-hierarkia :ttl/threshold (* 1000 60 30))) ;;30 minuutin cache
 
+(def hierarkia-lock (Object.))
 (defn clear-hierarkia-cache [] (memoize/memo-clear! hierarkia-cached))
 (defn clear-all-cached-data [] (do (clear-hierarkia-cache) (clear-yhteystieto-cache)))
 
 
 (defn get-hierarkia-cached []
-  (hierarkia-cached))
+  (locking hierarkia-lock
+    (hierarkia-cached)))
+
+(defn get-yhteystiedot
+  [oid]
+  (if-let [yhteystiedot (cache/lookup @YHTEYSTIETO_CACHE oid)]
+    yhteystiedot
+    (do (cache-yhteystiedot oid)
+        (cache/lookup @YHTEYSTIETO_CACHE oid))))
 
 (defn get-hierarkia-item
   [oid]
-  (get @(get-hierarkia-cached) oid))
+  (if (= oph-oid oid)
+    (-> (get-yhteystiedot oph-oid)
+        (assoc :oid oph-oid)
+        (dissoc :yhteystiedot))
+    (get @(get-hierarkia-cached) oid)))
 
 (defn find-oppilaitos-by-own-or-child-oid
   [oid]
@@ -105,12 +118,6 @@
         (o/oppilaitos? member)(assoc-toimipisteet member)
         (o/toimipiste? member)(assoc-toimipisteet (get-hierarkia-item (:parentOid member)))))))
 
-(defn get-yhteystiedot
-  [oid]
-  (if-let [yhteystiedot (cache/lookup @YHTEYSTIETO_CACHE oid)]
-    yhteystiedot
-    (do (cache-yhteystiedot oid)
-        (cache/lookup @YHTEYSTIETO_CACHE oid))))
 
 (defn get-muutetut-cached
   [last-modified]

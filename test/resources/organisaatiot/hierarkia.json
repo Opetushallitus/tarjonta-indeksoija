@@ -1889,168 +1889,6 @@
       "ytunnus": "0213834-5"
     },
     {
-      "children": [
-        {
-          "children": [
-            {
-              "oid": "1.2.246.562.10.54545454511",
-              "parentOid": "1.2.246.562.10.54545454545",
-              "parentOidPath": "1.2.246.562.10.54545454511/1.2.246.562.10.54545454545/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "nimi": {
-                "fi": "Kiva ammattikorkeakoulu, Helsingin toimipiste",
-                "sv": "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
-              },
-              "kotipaikkaUri": "kunta_091",
-              "status": "AKTIIVINEN",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ]
-            },
-            {
-              "oid": "1.2.246.562.10.54545454522",
-              "parentOid": "1.2.246.562.10.54545454545",
-              "parentOidPath": "1.2.246.562.10.54545454522/1.2.246.562.10.54545454545/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "nimi": {
-                "fi": "Kiva ammattikorkeakoulu, Kuopion toimipiste",
-                "sv": "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
-              },
-              "kotipaikkaUri": "kunta_297",
-              "status": "AKTIIVINEN",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ]
-            }
-          ],
-          "oid": "1.2.246.562.10.54545454545",
-          "parentOid": "1.2.246.562.10.11111111111",
-          "parentOidPath": "1.2.246.562.10.54545454545/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-          "status": "AKTIIVINEN",
-          "organisaatiotyypit": [
-            "organisaatiotyyppi_02"
-          ],
-          "oppilaitostyyppi": "oppilaitostyyppi_41#1",
-          "kieletUris": ["oppilaitoksenopetuskieli_1#2"],
-          "kotipaikkaUri": "kunta_091",
-          "nimi": {
-            "fi": "Kiva ammattikorkeakoulu",
-            "sv": "Kiva ammattikorkeakoulu sv"
-          }
-        },
-        {
-          "children": [],
-          "oid": "1.2.246.562.10.67476956288",
-          "parentOid": "1.2.246.562.10.11111111111",
-          "parentOidPath": "1.2.246.562.10.67476956288/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-          "status": "AKTIIVINEN",
-          "organisaatiotyypit": [
-            "organisaatiotyyppi_02"
-          ],
-          "kieletUris": ["oppilaitoksenopetuskieli_1#2"],
-          "oppilaitostyyppi": "oppilaitostyyppi_21#1",
-          "kotipaikkaUri": "kunta_297",
-          "nimi": {"fi": "Jokin järjestyspaikka", "sv": "Jokin järjestyspaikka sv"}
-        },
-        {
-          "children": [
-            {
-              "oid": "1.2.246.562.10.777777777991",
-              "parentOid": "1.2.246.562.10.77777777799",
-              "parentOidPath": "1.2.246.562.10.777777777991/1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "status": "AKTIIVINEN",
-              "kotipaikkaUri": "kunta_091",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.777777777991", "sv": "Toimipiste sv 1.2.246.562.10.777777777991"}
-            },
-            {
-              "oid": "1.2.246.562.10.777777777992",
-              "parentOid": "1.2.246.562.10.77777777799",
-              "parentOidPath": "1.2.246.562.10.777777777992/1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "status": "AKTIIVINEN",
-              "kotipaikkaUri": "kunta_091",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.777777777992", "sv": "Toimipiste sv 1.2.246.562.10.777777777992"}
-            },
-            {
-              "oid": "1.2.246.562.10.777777777993",
-              "parentOid": "1.2.246.562.10.77777777799",
-              "parentOidPath": "1.2.246.562.10.777777777993/1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "status": "AKTIIVINEN",
-              "kotipaikkaUri": "kunta_091",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.777777777993", "sv": "Toimipiste sv 1.2.246.562.10.777777777993"}
-            }
-          ],
-          "oid": "1.2.246.562.10.77777777799",
-          "parentOid": "1.2.246.562.10.11111111111",
-          "parentOidPath": "1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-          "status": "AKTIIVINEN",
-          "organisaatiotyypit": [
-            "organisaatiotyyppi_02"
-          ],
-          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
-          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
-          "kotipaikkaUri": "kunta_091",
-          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.77777777799", "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"}
-        },
-        {
-          "children": [
-            {
-              "oid": "1.2.246.562.10.000003",
-              "parentOid": "1.2.246.562.10.000002",
-              "parentOidPath": "1.2.246.562.10.000003/1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "status": "AKTIIVINEN",
-              "kotipaikkaUri": "kunta_618",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "kieletUris": ["oppilaitoksenopetuskieli_2#1"],
-              "nimi": {"fi": "Punkaharjun yliopiston toimipiste", "sv": "Punkaharjun yliopiston toimipiste sv"}
-            },
-            {
-              "oid": "1.2.246.562.10.000004",
-              "parentOid": "1.2.246.562.10.000002",
-              "parentOidPath": "1.2.246.562.10.000004/1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-              "status": "AKTIIVINEN",
-              "kotipaikkaUri": "kunta_220",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
-              "nimi": {"fi": "Punkaharjun yliopiston Karjaan toimipiste", "sv": "Punkaharjun yliopiston Karjaan toimipiste sv"}
-            }
-          ],
-          "oid": "1.2.246.562.10.000002",
-          "parentOid": "1.2.246.562.10.11111111111",
-          "parentOidPath": "1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-          "status": "AKTIIVINEN",
-          "organisaatiotyypit": [
-            "organisaatiotyyppi_02"
-          ],
-          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
-          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
-          "kotipaikkaUri": "kunta_618",
-          "nimi": {"fi": "Punkaharjun yliopisto", "sv": "Punkaharjun yliopisto sv"}
-        }
-      ],
-      "oid": "1.2.246.562.10.11111111111",
-      "parentOid": "1.2.246.562.10.00000000001",
-      "parentOidPath": "1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
-      "status": "AKTIIVINEN",
-      "organisaatiotyypit": [
-        "organisaatiotyyppi_01"
-      ],
-      "nimi": {
-        "fi": "Testi koulutustoimija",
-        "sv": "Testi koulutustoimija"
-      }
-    },
-    {
       "oid": "1.2.246.562.10.10101010100",
       "alkuPvm": 313106400000,
       "parentOid": "1.2.246.562.10.00000000001",
@@ -2322,6 +2160,415 @@
       },
       "kotipaikkaUri": "kunta_398",
       "status": "AKTIIVINEN"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.54545454511",
+              "parentOid": "1.2.246.562.10.54545454545",
+              "parentOidPath": "1.2.246.562.10.54545454511/1.2.246.562.10.54545454545/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "nimi": {
+                "fi": "Kiva ammattikorkeakoulu, Helsingin toimipiste",
+                "sv": "Kiva ammattikorkeakoulu, Helsingin toimipiste sv"
+              },
+              "kotipaikkaUri": "kunta_091",
+              "status": "AKTIIVINEN",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            },
+            {
+              "oid": "1.2.246.562.10.54545454522",
+              "parentOid": "1.2.246.562.10.54545454545",
+              "parentOidPath": "1.2.246.562.10.54545454522/1.2.246.562.10.54545454545/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "nimi": {
+                "fi": "Kiva ammattikorkeakoulu, Kuopion toimipiste",
+                "sv": "Kiva ammattikorkeakoulu, Kuopion toimipiste sv"
+              },
+              "kotipaikkaUri": "kunta_297",
+              "status": "AKTIIVINEN",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ]
+            }
+          ],
+          "oid": "1.2.246.562.10.54545454545",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.54545454545/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "oppilaitostyyppi": "oppilaitostyyppi_41#1",
+          "kieletUris": ["oppilaitoksenopetuskieli_1#2"],
+          "kotipaikkaUri": "kunta_091",
+          "nimi": {
+            "fi": "Kiva ammattikorkeakoulu",
+            "sv": "Kiva ammattikorkeakoulu sv"
+          }
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.55555555555",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.55555555555/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "oppilaitostyyppi": "oppilaitostyyppi_41#1",
+          "kieletUris": ["oppilaitoksenopetuskieli_1#2"],
+          "kotipaikkaUri": "kunta_532",
+          "nimi": {
+            "fi": "Toinen kiva ammattikorkeakoulu"
+          }
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.67476956288",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.67476956288/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#2"],
+          "oppilaitostyyppi": "oppilaitostyyppi_21#1",
+          "kotipaikkaUri": "kunta_297",
+          "nimi": {"fi": "Jokin järjestyspaikka", "sv": "Jokin järjestyspaikka sv"}
+        },
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.777777777991",
+              "parentOid": "1.2.246.562.10.77777777799",
+              "parentOidPath": "1.2.246.562.10.777777777991/1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.777777777991", "sv": "Toimipiste sv 1.2.246.562.10.777777777991"}
+            },
+            {
+              "oid": "1.2.246.562.10.777777777992",
+              "parentOid": "1.2.246.562.10.77777777799",
+              "parentOidPath": "1.2.246.562.10.777777777992/1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.777777777992", "sv": "Toimipiste sv 1.2.246.562.10.777777777992"}
+            },
+            {
+              "oid": "1.2.246.562.10.777777777993",
+              "parentOid": "1.2.246.562.10.77777777799",
+              "parentOidPath": "1.2.246.562.10.777777777993/1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.777777777993", "sv": "Toimipiste sv 1.2.246.562.10.777777777993"}
+            }
+          ],
+          "oid": "1.2.246.562.10.77777777799",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.77777777799/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "kotipaikkaUri": "kunta_091",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.77777777799", "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"}
+        },
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.000003",
+              "parentOid": "1.2.246.562.10.000002",
+              "parentOidPath": "1.2.246.562.10.000003/1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_618",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Punkaharjun yliopiston toimipiste", "sv": "Punkaharjun yliopiston toimipiste sv"}
+            },
+            {
+              "oid": "1.2.246.562.10.000004",
+              "parentOid": "1.2.246.562.10.000002",
+              "parentOidPath": "1.2.246.562.10.000004/1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_220",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1"],
+              "nimi": {"fi": "Punkaharjun yliopiston Karjaan toimipiste", "sv": "Punkaharjun yliopiston Karjaan toimipiste sv"}
+            }
+          ],
+          "oid": "1.2.246.562.10.000002",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.000002/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Punkaharjun yliopisto", "sv": "Punkaharjun yliopisto sv"}
+        },
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.001010101011",
+              "parentOid": "1.2.246.562.10.00101010101",
+              "parentOidPath": "1.2.246.562.10.001010101011/1.2.246.562.10.00101010101/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.001010101011", "sv": "Toimipiste sv 1.2.246.562.10.001010101011"}
+            },
+            {
+              "oid": "1.2.246.562.10.001010101012",
+              "parentOid": "1.2.246.562.10.00101010101",
+              "parentOidPath": "1.2.246.562.10.001010101012/1.2.246.562.10.00101010101/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.001010101012", "sv": "Toimipiste fi 1.2.246.562.10.001010101012"}
+            }
+          ],
+          "oid": "1.2.246.562.10.00101010101",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010101/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010101", "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"}
+        },
+        {
+          "children": [
+            {
+              "oid": "1.2.246.562.10.001010101021",
+              "parentOid": "1.2.246.562.10.00101010102",
+              "parentOidPath": "1.2.246.562.10.001010101021/1.2.246.562.10.00101010102/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.001010101021", "sv": "Toimipiste fi 1.2.246.562.10.001010101021"}
+            },
+            {
+              "oid": "1.2.246.562.10.001010101022",
+              "parentOid": "1.2.246.562.10.00101010102",
+              "parentOidPath": "1.2.246.562.10.001010101022/1.2.246.562.10.00101010102/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.001010101022", "sv": "Toimipiste fi 1.2.246.562.10.001010101022"}
+            },
+            {
+              "oid": "1.2.246.562.10.001010101023",
+              "parentOid": "1.2.246.562.10.00101010102",
+              "parentOidPath": "1.2.246.562.10.001010101023/1.2.246.562.10.00101010102/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+              "status": "AKTIIVINEN",
+              "kotipaikkaUri": "kunta_091",
+              "organisaatiotyypit": [
+                "organisaatiotyyppi_03"
+              ],
+              "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+              "nimi": {"fi": "Toimipiste fi 1.2.246.562.10.001010101023", "sv": "Toimipiste fi 1.2.246.562.10.001010101023"}
+            }
+
+          ],
+          "oid": "1.2.246.562.10.00101010102",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010102/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010102", "sv": "Oppilaitos sv 1.2.246.562.10.00101010102"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.00101010103",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010103/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010103", "sv": "Oppilaitos sv 1.2.246.562.10.00101010103"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.00101010104",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010104/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010104", "sv": "Oppilaitos sv 1.2.246.562.10.00101010104"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.00101010105",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010105/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010105", "sv": "Oppilaitos sv 1.2.246.562.10.00101010105"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.00101010106",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010106/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010106", "sv": "Oppilaitos sv 1.2.246.562.10.00101010106"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.00101010107",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.00101010107/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Oppilaitos fi 1.2.246.562.10.00101010107", "sv": "Oppilaitos sv 1.2.246.562.10.00101010107"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.0000011",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.0000011/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Aakkosissa ensimmäinen", "sv": "Aakkosissa ensimmäinen"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.0000012",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.0000012/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Aakkosissa toinen", "sv": "Aakkosissa toinen"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.0000013",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.0000013/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Aakkosissa vasta kolmas", "sv": "Aakkosissa vasta kolmas"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.0000014",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.0000014/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Aakkosissa vasta neljäs", "sv": "Aakkosissa vasta neljäs"}
+        },
+        {
+          "children": [],
+          "oid": "1.2.246.562.10.0000015",
+          "parentOid": "1.2.246.562.10.11111111111",
+          "parentOidPath": "1.2.246.562.10.0000015/1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+          "status": "AKTIIVINEN",
+          "organisaatiotyypit": [
+            "organisaatiotyyppi_02"
+          ],
+          "kieletUris": ["oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1"],
+          "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+          "kotipaikkaUri": "kunta_618",
+          "nimi": {"fi": "Aakkosissa viidentenä", "sv": "Aakkosissa viidentenä"}
+        }
+      ],
+      "oid": "1.2.246.562.10.11111111111",
+      "parentOid": "1.2.246.562.10.00000000001",
+      "parentOidPath": "1.2.246.562.10.11111111111/1.2.246.562.10.00000000001",
+      "status": "AKTIIVINEN",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_01"
+      ],
+      "nimi": {
+        "fi": "Testi koulutustoimija",
+        "sv": "Testi koulutustoimija"
+      }
     }
   ]
 }

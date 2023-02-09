@@ -43,7 +43,7 @@
                                                (= (:organisaatiotyypit toimipiste) ["organisaatiotyyppi_03"])))]
     (testing "Oppilaitos hierarkia fetched correctly from cache"
       (let [res (tools/find-oppilaitos-hierarkia-from-cache (hierarkia/get-hierarkia-cached) "1.2.246.562.10.54453921329")]
-      (is (= (keys res) [:oid :status :organisaatiotyypit :kotipaikkaUri :children]))
+      (is (= (keys res) [:oid :status :organisaatiotyypit :nimi :kotipaikkaUri :children]))
       (is (= (:oid res) "1.2.246.562.10.2014041511401945349694"))
       (is (= (:organisaatiotyypit res) ["organisaatiotyyppi_01"]))
       (is (= (:status res) "AKTIIVINEN"))
