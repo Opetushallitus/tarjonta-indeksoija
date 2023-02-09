@@ -112,13 +112,13 @@ aws ecr get-login-password --region eu-west-1 --profile oph-utility | docker log
 
 Jonka jälkeen kontin saa käyntiin komennolla:
 ```shell
-docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -v kouta-elastic-data:/usr/share/elasticsearch/data 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:7.17.3
+docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e xpack.security.enabled=false -v kouta-elastic-data:/usr/share/elasticsearch/data 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:8.5.2
 ```
 Jos tulee tarve poistaa data, komennolla `docker volume --help` saa apua volumeiden hallinnointiin.
 
 Ilman volumea ajaminen onnistuu komennolla:
 ```shell
-docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:7.17.3
+docker run --rm --name kouta-elastic --env "discovery.type=single-node" -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e xpack.security.enabled=false 190073735177.dkr.ecr.eu-west-1.amazonaws.com/utility/elasticsearch-kouta:8.5.2
 ```
 Tässä tapauksessa tiedot häviävät kun kontin sammuttaa.
 

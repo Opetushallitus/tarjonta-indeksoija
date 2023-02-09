@@ -71,16 +71,23 @@
         :isTyovoimakoulutus (:isTyovoimakoulutus toteutus-metadata)
         :isTaydennyskoulutus (:isTaydennyskoulutus toteutus-metadata)
 
-        :metadata {:tutkintonimikkeetKoodiUrit                 (search-tool/tutkintonimike-koodi-urit koulutus)
-                   :opetusajatKoodiUrit                        (:opetusaikaKoodiUrit opetus)
-                   :maksullisuustyyppi                         (:maksullisuustyyppi opetus)
-                   :maksunMaara                                (:maksunMaara opetus)
-                   :koulutustyyppi                             (:tyyppi toteutus-metadata)
-                   :oppilaitosTila                             (:tila oppilaitos)
-                   :jarjestaaUrheilijanAmmKoulutusta           (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
-                                                                 (:haut hakutieto))
-                   :ammatillinenPerustutkintoErityisopetuksena (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
-                   :jarjestetaanErityisopetuksena              (:jarjestetaanErityisopetuksena toteutus-metadata)}))))
+        :metadata (merge
+                    {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
+                     :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                     :maksullisuustyyppi (:maksullisuustyyppi opetus)
+                     :maksunMaara (:maksunMaara opetus)
+                     :koulutustyyppi (:tyyppi toteutus-metadata)
+                     :oppilaitosTila (:tila oppilaitos)
+                     :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
+                                                         (:haut hakutieto))}
+                    (select-keys toteutus-metadata
+                                 [:ammatillinenPerustutkintoErityisopetuksena
+                                  :jarjestetaanErityisopetuksena
+                                  :opintojenLaajuusNumero
+                                  :opintojenLaajuusNumeroMin
+                                  :opintojenLaajuusNumeroMax
+                                  :opintojenLaajuusyksikkoKoodiUri]
+                                 ))))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
