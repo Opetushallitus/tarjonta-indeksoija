@@ -2,13 +2,15 @@
   (:require [clojure.string :as string]
             [kouta-indeksoija-service.fixture.common-oids :refer :all]))
 
+(def koodi-uri-lock (Object.))
+
 (defn mock-koodisto
   ([koodisto koodi-uri]
-   (locking koodi-uri
+   (locking koodi-uri-lock
      (if koodi-uri
        {:koodiUri koodi-uri :nimi {:fi (str koodi-uri " nimi fi") :sv (str koodi-uri " nimi sv")}})))
   ([koodi-uri]
-   (locking koodi-uri
+   (locking koodi-uri-lock
      (if koodi-uri
        (mock-koodisto (subs koodi-uri 0 (string/index-of koodi-uri "_")) koodi-uri)))))
 

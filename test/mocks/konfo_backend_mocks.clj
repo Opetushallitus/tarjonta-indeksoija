@@ -141,8 +141,8 @@
 (defonce punkaharjun-yliopisto    "1.2.246.562.10.000002")
 (defonce punkaharjun-toimipiste-1 "1.2.246.562.10.000003")
 (defonce punkaharjun-toimipiste-2 "1.2.246.562.10.000004")
-(defonce helsingin-yliopisto      "1.2.246.562.10.000005")
-(defonce helsingin-toimipiste     "1.2.246.562.10.000006")
+(defonce helsingin-yliopisto      "1.2.246.562.10.39218317368")
+(defonce helsingin-toimipiste     "1.2.246.562.10.80593660139")
 
 
 (defonce oppilaitoksenOsaOid1  "1.2.246.562.10.001010101011")
