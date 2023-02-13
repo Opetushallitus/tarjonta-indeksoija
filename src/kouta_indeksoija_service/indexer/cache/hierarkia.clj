@@ -2,7 +2,8 @@
   (:require [clojure.core.cache :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot get-by-oid find-last-changes oph-oid]]
-            [clojure.core.memoize :as memoize]))
+            [clojure.core.memoize :as memoize]
+            [clojure.tools.logging :as log]))
 
 (defonce hierarkia_cache_time_millis (* 1000 60 45))
 
@@ -84,14 +85,16 @@
 (def hierarkia-cached
   (memoize/ttl cache-whole-hierarkia :ttl/threshold (* 1000 60 30))) ;;30 minuutin cache
 
-(def hierarkia-lock (Object.))
-(defn clear-hierarkia-cache [] (memoize/memo-clear! hierarkia-cached))
+(defn clear-hierarkia-cache []
+  (log/info "Clearing hierarkia-cache")
+  (memoize/memo-clear! hierarkia-cached))
+
 (defn clear-all-cached-data [] (do (clear-hierarkia-cache) (clear-yhteystieto-cache)))
 
 
 (defn get-hierarkia-cached []
-  (locking hierarkia-lock
-    (hierarkia-cached)))
+  (log/info "get cached hierarkia")
+  (hierarkia-cached))
 
 (defn get-yhteystiedot
   [oid]
