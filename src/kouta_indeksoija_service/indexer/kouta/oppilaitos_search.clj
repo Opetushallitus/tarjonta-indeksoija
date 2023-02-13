@@ -9,7 +9,8 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :refer [create-sort-names]]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? not-arkistoitu? luonnos?]]
-            [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
+            [kouta-indeksoija-service.indexer.tools.search :as search-tool]
+            [clojure.tools.logging :as log]))
 
 (def index-name "oppilaitos-kouta-search")
 
