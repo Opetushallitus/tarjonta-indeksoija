@@ -3,6 +3,7 @@
             [kouta-indeksoija-service.test-tools :as tools]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]))
+(import '(java.util.concurrent Executors))
 
 (defonce use-alternative-hierarkia (atom false))
 
@@ -214,3 +215,12 @@
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.54453921329")) "PASSIIVINEN"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.197113642410")) "AKTIIVINEN"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.78314029667")) "AKTIIVINEN"))))))
+
+(deftest thread-test
+  (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-all-organisaatiot mock-get-all-organisaatiot]
+    (testing "playing with threads"
+      (let [pool  (Executors/newFixedThreadPool 10)
+            tasks (map (fn [t]
+                    (fn [] (println "!!!!!!!!!!!!!!!!!! " + (cache/get-hierarkia-item "1.2.246.562.10.54453921329")))) (range 10))]
+        (.invokeAll pool tasks)
+        (.shutdown pool)))))

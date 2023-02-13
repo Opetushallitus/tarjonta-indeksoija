@@ -150,7 +150,6 @@
 
 (defn index-oppilaitokset
   ([oids execution-id clear-cache-before]
-   (log/info "indeksoidaan " + (count oids) + " oppilaitosta")
     (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (hierarkia/get-hierarkia-cached) oids)
           get-organisaation-koulutukset (fn [oid] (map :oid (some-> oid
                                                                     (hierarkia/find-oppilaitos-by-own-or-child-oid)
