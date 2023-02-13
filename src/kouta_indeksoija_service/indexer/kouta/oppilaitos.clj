@@ -7,8 +7,7 @@
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.util.tools :refer [oppilaitos-jarjestaa-urheilijan-amm-koulutusta?]]
-            [clojure.string :as s]
-            [clojure.tools.logging :as log]))
+            [clojure.string :as s]))
 
 (def index-name "oppilaitos-kouta")
 (def languages ["fi" "en" "sv"])
@@ -178,9 +177,7 @@
 
 (defn do-index
   ([oids execution-id clear-cache-before]
-   (log/info "Indexing " + (count oids) + " to oppilaitos-index")
    (when (= true clear-cache-before)
-      (log/info "Cleaning cache")
       (cache/clear-all-cached-data))
     (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
       (indexable/do-index index-name oids-to-index create-index-entry execution-id)))

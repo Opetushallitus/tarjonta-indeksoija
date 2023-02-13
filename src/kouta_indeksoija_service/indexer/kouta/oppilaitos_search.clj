@@ -9,8 +9,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :refer [create-sort-names]]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? not-arkistoitu? luonnos?]]
-            [kouta-indeksoija-service.indexer.tools.search :as search-tool]
-            [clojure.tools.logging :as log]))
+            [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
 
 (def index-name "oppilaitos-kouta-search")
 
@@ -154,9 +153,7 @@
 
 (defn do-index
   ([oids execution-id clear-cache-before]
-   (log/info "Indexing " + (count oids) + " to oppilaitos-search-index")
    (when (= true clear-cache-before)
-     (log/info "Cleaning cache")
      (cache/clear-all-cached-data))
     (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
       (indexable/do-index index-name oids-to-index create-index-entry execution-id)))

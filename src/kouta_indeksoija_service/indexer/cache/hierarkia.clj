@@ -86,6 +86,7 @@
   (memoize/ttl cache-whole-hierarkia :ttl/threshold (* 1000 60 30))) ;;30 minuutin cache
 
 (defn clear-hierarkia-cache []
+  (log/info "Clearing hierarkia cache")
   (memoize/memo-clear! hierarkia-cached))
 
 (defn clear-all-cached-data [] (do (clear-hierarkia-cache) (clear-yhteystieto-cache)))
