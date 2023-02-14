@@ -39,7 +39,6 @@
 
 (defn handle-and-queue-changed-data
   []
-  (log/info "handle-and-queue")
   (wait-for-elastic-lock
    (let [now (System/currentTimeMillis)
          last-modified (get-last-queued-time)
