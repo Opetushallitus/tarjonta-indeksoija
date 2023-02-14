@@ -196,22 +196,13 @@
           (is (= (get-in res [:nimi :en]) "Seinäjoki University of Applied Sciences, SeAMK"))
           (is (= (count (:yhteystiedot res)) 10)))))
     (testing "Fetching changes should"
-      (testing "return correct data"
+      (testing "Fetch only required organisaatiotyypit"
         (let [changed (cache/get-muutetut-cached (System/currentTimeMillis))]
           (is (= changed ["1.2.246.562.10.52750255714", "1.2.246.562.10.54453921329", "1.2.246.562.10.197113642410", "1.2.246.562.10.78314029667"]))))
-      (testing "Update only missing yhteystiedot to cache as default"
-        (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.52750255714")) "AKTIIVINEN"))
-        (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.54453921329")) "AKTIIVINEN"))
-        (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.197113642410")) "AKTIIVINEN"))
-        (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.197113642410") [:nimi :fi]) "Pekka Halosen akatemia"))
-        (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.78314029667")) "AKTIIVINEN"))
-        (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.78314029667") [:nimi :fi]) "Pekka Halosen akatemia"))))
-    (testing "Clearing yhteystieto-cache and fetching change should"
-      (testing "Refresh data in cache"
-        (cache/clear-all-cached-data)
-        (let [changed (cache/get-muutetut-cached (System/currentTimeMillis))]
-          (is (= changed ["1.2.246.562.10.52750255714", "1.2.246.562.10.54453921329", "1.2.246.562.10.197113642410", "1.2.246.562.10.78314029667"])))
+      (testing "Refresh data in cache and fetch missing yhteystiedot"
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.52750255714")) "PASSIIVINEN"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.54453921329")) "PASSIIVINEN"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.197113642410")) "AKTIIVINEN"))
-        (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.78314029667")) "AKTIIVINEN"))))))
+        (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.197113642410") [:nimi :fi]) "Pekka Halosen akatemia"))
+        (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.78314029667")) "AKTIIVINEN"))
+        (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.78314029667") [:nimi :fi]) "Pekka Halosen akatemia"))))))

@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.cache.hierarkia
   (:require [clojure.core.cache :as cache]
+            [clojure.set :refer [rename-keys]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot get-by-oid find-last-changes oph-oid]]
             [clojure.core.memoize :as memoize]
@@ -124,9 +125,11 @@
 
 (defn get-muutetut-cached
   [last-modified]
-  (when-let [muutetut (find-last-changes last-modified)]
-    (do (doseq [muutettu muutetut] (do-cache-yhteystiedot muutettu))
-        (map :oid muutetut))))
+  (when-let [muutetut-all (find-last-changes last-modified)]
+    (let [muutetut (filter (fn [m] (or (o/oppilaitos? m) (o/toimipiste? m)))
+                           (map (fn [m] (rename-keys m {:tyypit :organisaatiotyypit})) muutetut-all))]
+      (doseq [muutettu muutetut] (do (swap! YHTEYSTIETO_CACHE cache/evict (:oid muutettu)) (do-cache-yhteystiedot muutettu)))
+      (map :oid muutetut))))
 
 (defn get-all-indexable-oppilaitos-oids
   []
