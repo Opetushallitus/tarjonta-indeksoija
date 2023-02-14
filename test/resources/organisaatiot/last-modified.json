@@ -421,5 +421,326 @@
     "piilotettu": false,
     "status": "AKTIIVINEN",
     "version": 5
+  },
+  {
+    "maskingActive": false,
+    "kieletUris": [
+      "oppilaitoksenopetuskieli_1#2",
+      "oppilaitoksenopetuskieli_2#2"
+    ],
+    "kotipaikkaUri": "kunta_245",
+    "maaUri": "maatjavaltiot1_fin",
+    "parentOid": "1.2.246.562.10.00000000001",
+    "piilotettu": false,
+    "lyhytNimi": {
+      "fi": "Keravan kaupunki",
+      "sv": "Keravan kaupunki",
+      "en": "Keravan kaupunki"
+    },
+    "vuosiluokat": [],
+    "lisatiedot": [],
+    "ryhmatyypit": [],
+    "kayttoryhmat": [],
+    "yritysmuoto": "Kunta",
+    "ytjkieli": "kieli_fi#1",
+    "ytjpaivitysPvm": "2017-04-18",
+    "ytunnus": "0127485-5",
+    "tarkastusPvm": 1665395493857,
+    "yhteystiedot": [
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 33967921",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.24620031054",
+        "id": "9797933"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_04250",
+        "yhteystietoOid": "1.2.246.562.5.36974259701",
+        "id": "9797937",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Kalsaari 121"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "yhteystietoOid": "15887689743050.9401800300883439",
+        "id": "9797929",
+        "email": "hakija-47662500@oph.fi"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "www": "http://www.kerava.fi/",
+        "yhteystietoOid": "15887689743050.08251565681112949",
+        "id": "9797935"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "1.2.246.562.5.2013092510101889057651",
+        "id": "9797931",
+        "email": "hakija-9575714@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_04201",
+        "yhteystietoOid": "1.2.246.562.5.36346033891",
+        "id": "9797934",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Verhonkulmala 863"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.kerava.fi/",
+        "yhteystietoOid": "1.2.246.562.5.2013092510101889183934",
+        "id": "9797932"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_04250",
+        "yhteystietoOid": "1.2.246.562.5.35134750658",
+        "id": "9797936",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Hunningonpolku 158",
+        "ytjPaivitysPvm": "2016-04-18"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "numero": "050 53972031",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.91178238795",
+        "id": "9797928"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_04201",
+        "yhteystietoOid": "1.2.246.562.5.99286718582",
+        "id": "9797930",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Horontaipaleenpolku 660",
+        "ytjPaivitysPvm": "2017-04-18"
+      }
+    ],
+    "toimipistekoodi": "",
+    "parentOidPath": "|1.2.246.562.10.00000000001|",
+    "kayntiosoite": {
+      "postinumeroUri": "posti_04250",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.35134750658",
+      "postitoimipaikka": "KERAVA",
+      "osoite": "Hunningonpolku 158",
+      "ytjPaivitysPvm": "2016-04-18"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_04201",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.99286718582",
+      "postitoimipaikka": "KERAVA",
+      "osoite": "Horontaipaleenpolku 660",
+      "ytjPaivitysPvm": "2017-04-18"
+    },
+    "oid": "1.2.246.562.10.94791481685",
+    "alkuPvm": "1978-03-15",
+    "kuvaus2": {},
+    "tyypit": [
+      "organisaatiotyyppi_01",
+      "organisaatiotyyppi_07",
+      "organisaatiotyyppi_09"
+    ],
+    "nimi": {
+      "fi": "Keravan kaupunki",
+      "sv": "Keravan kaupunki",
+      "en": "Keravan kaupunki"
+    },
+    "nimet": [
+      {
+        "nimi": {
+          "fi": "Keravan kaupunki",
+          "sv": "Keravan kaupunki",
+          "en": "Keravan kaupunki"
+        },
+        "alkuPvm": "1978-03-15",
+        "version": 0
+      }
+    ],
+    "status": "AKTIIVINEN",
+    "yhteystietoArvos": [
+      {
+        "YhteystietoArvo.arvoText": "hakija-8351803@oph.fi",
+        "YhteystietojenTyyppi.nimi.fi": "Kriisitiedotuksen sähköpostiosoite",
+        "YhteystietojenTyyppi.nimi.sv": "Kriskommunikation epost",
+        "YhteystietoElementti.tyyppi": "Email",
+        "YhteystietojenTyyppi.oid": "1.2.246.562.5.31532764098",
+        "YhteystietoElementti.oid": "1.2.246.562.5.30789631784",
+        "YhteystietoElementti.nimi": "Sähköpostiosoite",
+        "YhteystietoElementti.nimiSv": "Epostadress",
+        "YhteystietoElementti.pakollinen": "false",
+        "YhteystietojenTyyppi.nimi.en": "Kriisitiedotuksen sähköpostiosoite",
+        "YhteystietoElementti.kaytossa": "true",
+        "YhteystietoArvo.kieli": "kieli_fi#1"
+      }
+    ],
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "version": 29
+  },
+  {
+    "maskingActive": false,
+    "kieletUris": [
+      "oppilaitoksenopetuskieli_1#1"
+    ],
+    "kotipaikkaUri": "kunta_598",
+    "maaUri": "maatjavaltiot1_fin",
+    "parentOid": "1.2.246.562.10.57993240753",
+    "yhteystiedot": [
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 86058401",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.69962203811",
+        "id": "9801940"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.34465315355",
+        "id": "9801936",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Jänishaikulankuja 38"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "15913929654120.11759774458034844",
+        "id": "9801938",
+        "email": "hakija-25014179@oph.fi"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "numero": "050 86992791",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.22307501951",
+        "id": "9801932"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "yhteystietoOid": "15505752252230.062392868678755264",
+        "id": "9801935",
+        "email": "hakija-51449212@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_posti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.53178642921",
+        "id": "9801933",
+        "osoite": "Vihavuodentie 448"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "15913929654120.4211273802733386",
+        "id": "9801930",
+        "email": "hakija-53828338@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.41361336252",
+        "id": "9801939",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Hiljaisten miesten laakso 606"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_kaynti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.49508632723",
+        "id": "9801929",
+        "osoite": "Leipeekorpi 559"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "numero": "050 26921031",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.90195170783",
+        "id": "9801937"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.18318012814",
+        "id": "9801934",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Hyväneulankatu 511"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.92397809234",
+        "id": "9801931",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Katinhännänraitti 417"
+      }
+    ],
+    "toimipistekoodi": "",
+    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.57993240753|",
+    "kayntiosoite": {
+      "postinumeroUri": "posti_68600",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.34465315355",
+      "postitoimipaikka": "JAKOBSTAD",
+      "osoite": "Jänishaikulankuja 38"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_68600",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.92397809234",
+      "postitoimipaikka": "JAKOBSTAD",
+      "osoite": "Katinhännänraitti 417"
+    },
+    "oid": "1.2.246.562.10.67247086191",
+    "alkuPvm": "2008-08-01",
+    "kuvaus2": {},
+    "tyypit": [
+      "organisaatiotyyppi_08"
+    ],
+    "nimi": {
+      "fi": "Språkbad/Kielikylpy",
+      "sv": "Språkbad/Kielikylpy",
+      "en": "Språkbad/Kielikylpy"
+    },
+    "status": "AKTIIVINEN",
+    "yhteystietoArvos": [],
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "varhaiskasvatuksenToimipaikkaTiedot": {
+      "toimintamuoto": "vardatoimintamuoto_tm01",
+      "kasvatusopillinenJarjestelma": "vardakasvatusopillinenjarjestelma_kj98",
+      "varhaiskasvatuksenJarjestamismuodot": [
+        "vardajarjestamismuoto_jm01"
+      ],
+      "paikkojenLukumaara": 72,
+      "varhaiskasvatuksenKielipainotukset": [
+        {
+          "kielipainotus": "kieli_fi",
+          "alkupvm": "2008-08-01"
+        },
+        {
+          "kielipainotus": "kieli_sv",
+          "alkupvm": "2008-08-01"
+        }
+      ],
+      "varhaiskasvatuksenToiminnallinenpainotukset": [
+        {
+          "toiminnallinenpainotus": "vardatoiminnallinenpainotus_tp98",
+          "alkupvm": "2022-10-13"
+        }
+      ]
+    },
+    "version": 697
   }
 ]

@@ -39,8 +39,8 @@
 
 (defn handle-and-queue-changed-data
   []
+  (log/info "handle-and-queue")
   (wait-for-elastic-lock
-   (organisaatio-hierarkia/clear-all-cached-data)
    (let [now (System/currentTimeMillis)
          last-modified (get-last-queued-time)
          organisaatio-changes (organisaatio-hierarkia/get-muutetut-cached last-modified)
@@ -48,6 +48,7 @@
          eperuste-change-count (queuer/queue-eperuste-changes last-modified)
          changes-count (+ eperuste-change-count org-change-count)]
      (when (< 0 org-change-count)
+       (organisaatio-hierarkia/clear-hierarkia-cache)
        (indexer/index-oppilaitokset organisaatio-changes now false))
      (when (< 0 changes-count)
        (log/info "Fetched and indexed last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
