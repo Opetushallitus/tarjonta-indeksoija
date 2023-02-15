@@ -109,27 +109,23 @@
                       :organisaatioOid "1.2.246.562.10.75204242195"}
             liitetyt-opintojaksot [{:tila "julkaistu"
                                     :koulutusOid "1.2.246.562.13.00000000000000003333"
-                                    :koulutusMetadata {:tyyppi "kk-kokonaisuus"
-                                                       :kuvaus {:fi "<p>Opintojaksokoulutuksen kuvaus</p>"}
-                                                       :opintojenLaajuusNumero 7.0
-                                                       :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_1#1"}
                                     :nimi {:fi "testiopintojaksototeutus"}
                                     :oid "1.2.246.562.17.00000000000000009999"
                                     :metadata {:liitetytOpintojaksot nil
                                                :kuvaus {:fi "<p>Opintojakson kuvaus</p>"}
-                                               :tyyppi "kk-opintojakso"}
+                                               :tyyppi "kk-opintojakso"
+                                               :opintojenLaajuusNumero 7.0
+                                               :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_1#1"}
                                     :organisaatioOid "1.2.246.562.10.75204242195"}
                                    {:tila "julkaistu"
                                     :koulutusOid "1.2.246.562.13.00000000000000003333"
-                                    :koulutusMetadata {:tyyppi "kk-kokonaisuus"
-                                                       :kuvaus {:fi "<p>Opintojaksokoulutuksen kuvaus</p>"}
-                                                       :opintojenLaajuusNumero 7.0
-                                                       :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_1#1"}
                                     :nimi {:fi "testiopintojaksototeutus nro 2"}
                                     :oid "1.2.246.562.17.00000000000000008888"
                                     :metadata {:liitetytOpintojaksot nil
                                                :kuvaus {:fi "<p>Opintojakson nro 2 kuvaus</p>"}
-                                               :tyyppi "kk-opintojakso"}
+                                               :tyyppi "kk-opintojakso"
+                                               :opintojenLaajuusNumero 5.0
+                                               :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_1#1"}
                                     :organisaatioOid "1.2.246.562.10.75204242195"}]
             enriched-toteutus {:tila "julkaistu"
                                :koulutusOid "1.2.246.562.13.00000000000000003145"
@@ -150,7 +146,7 @@
                                                       {:nimi {:fi "testiopintojaksototeutus nro 2"}
                                                        :oid "1.2.246.562.17.00000000000000008888"
                                                        :metadata {:kuvaus {:fi "<p>Opintojakson nro 2 kuvaus</p>"}
-                                                                  :opintojenLaajuusNumero 7.0
+                                                                  :opintojenLaajuusNumero 5.0
                                                                   :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
                                                                                             :nimi {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
                                                                                                    :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}}]}]

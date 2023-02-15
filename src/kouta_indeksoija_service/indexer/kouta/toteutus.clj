@@ -95,8 +95,8 @@
                                   {:nimi (:nimi opintojakso)
                                    :oid (:oid opintojakso)
                                    :metadata {:kuvaus (get-in opintojakso [:metadata :kuvaus])
-                                              :opintojenLaajuusNumero (get-in opintojakso [:koulutusMetadata :opintojenLaajuusNumero])
-                                              :opintojenLaajuusyksikkoKoodiUri (get-in opintojakso [:koulutusMetadata :opintojenLaajuusyksikkoKoodiUri])}}))]
+                                              :opintojenLaajuusNumero (get-in opintojakso [:metadata :opintojenLaajuusNumero])
+                                              :opintojenLaajuusyksikkoKoodiUri (get-in opintojakso [:metadata :opintojenLaajuusyksikkoKoodiUri])}}))]
     (assoc toteutus :liitetytOpintojaksot liitetyt-opintojaksot)))
 
 
