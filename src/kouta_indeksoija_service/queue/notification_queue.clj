@@ -51,14 +51,3 @@
         (Thread/sleep 3000)))
     (recur)))
 
-
-(defn clean-dlq
-  "Handle messages from DLQ. Log failed messages."
-  []
-  (if-let [dlq (sqs/queue :notifications-dlq)]
-    (when-let [failed (seq (:messages (sqs/short-poll dlq)))]
-      (do
-        (doseq [msg failed]
-          (log/error "Notification message has failed despite retries. The failed notification was" (:body msg))
-          (sqs/delete-message :queue-url dlq :receipt-handle (:receipt-handle msg)))))
-    (log/error "No DLQ found.")))

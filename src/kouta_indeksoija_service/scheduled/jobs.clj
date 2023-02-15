@@ -7,22 +7,6 @@
             [kouta-indeksoija-service.queuer.queuer :as queuer]
             [kouta-indeksoija-service.indexer.indexer :as indexer]))
 
-(defjob dlq-job [ctx] (queue/clean-dlq))
-
-(defonce dlq-job-name "dlq")
-
-(defn schedule-dlq-job
-  []
-  (scheduler/schedule-cron-job dlq-job-name dlq-job (:dlq-cron-string env)))
-
-(defn pause-dlq-job
-  []
-  (scheduler/pause-job dlq-job-name))
-
-(defn resume-dlq-job
-  []
-  (scheduler/resume-job dlq-job-name))
-
 (defjob sqs-job [ctx] (queue/index-from-sqs))
 
 (defonce sqs-job-name "sqs")
@@ -71,22 +55,6 @@
   []
   (scheduler/resume-job notification-job-name))
 
-(defjob notification-dlq-job [ctx] (notification-queue/clean-dlq))
-
-(defonce notification-dlq-job-name "notification-dlq")
-
-(defn schedule-notification-dlq-job
-  []
-  (scheduler/schedule-cron-job notification-dlq-job-name notification-dlq-job (:notification-dlq-cron-string env)))
-
-(defn pause-notification-dlq-job
-  []
-  (scheduler/pause-job notification-dlq-job-name))
-
-(defn resume-notification-dlq-job
-  []
-  (scheduler/resume-job notification-dlq-job-name))
-
 (defjob lokalisaatio-indexing-job [ctx] (indexer/index-all-lokalisoinnit))
 
 (defonce lokalisaatio-indexing-job-name "lokalisaatio-indexing")
@@ -122,10 +90,8 @@
 (defn schedule-jobs
   []
   (schedule-sqs-job)
-  (schedule-dlq-job)
   (schedule-queueing-job)
   (schedule-notification-job)
-  (schedule-notification-dlq-job)
   (schedule-lokalisaatio-indexing-job)
   (schedule-organisaatio-indexing-job))
 
