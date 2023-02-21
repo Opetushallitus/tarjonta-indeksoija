@@ -3,9 +3,10 @@
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.elastic.tools :as tools]
             [kouta-indeksoija-service.fixture.external-services :refer :all]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :refer [clear-all-cached-data]]
+            [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.indexer.tools.general :refer [not-arkistoitu? not-poistettu?]]
-            [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
-            [kouta-indeksoija-service.indexer.cache.hierarkia :refer [reset-hierarkia-cache]]
+            [kouta-indeksoija-service.test-tools :refer [parse debug-pretty]]
             [clojure.test :refer :all]
             [cheshire.core :refer [parse-string, generate-string]]
             [clojure.string :as str]
@@ -252,7 +253,7 @@
 
 (defn add-koulutus-mock
   [oid & {:as params}]
-  (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid Oppilaitos1} params))]
+  (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid oppilaitos-oid} params))]
     (swap! koulutukset assoc oid koulutus)))
 
 (defn update-koulutus-mock
@@ -292,7 +293,7 @@
 
 (defn add-toteutus-mock
   [oid koulutusOid & {:as params}]
-  (let [toteutus (fix-default-format (merge default-toteutus-map params {:organisaatio Oppilaitos1 :koulutusOid koulutusOid :oid oid}))]
+  (let [toteutus (fix-default-format (merge default-toteutus-map {:organisaatio oppilaitos-oid :koulutusOid koulutusOid :oid oid} params))]
     (swap! toteutukset assoc oid toteutus)))
 
 (defn update-toteutus-mock
@@ -335,7 +336,7 @@
                                  (set-vals-in-depth :hakukohteenLiittamisenTakaraja (common-start-time))
                                  (set-vals-in-depth :ajastettuJulkaisu (common-near-future-time))))
         haku (fix-default-format (fix-dates (merge (dissoc default-haku-map :hakuaikaAlkaa :hakuaikaPaattyy)
-                                                   {:organisaatio Oppilaitos1} {:oid oid} params)))]
+                                                   {:organisaatio oppilaitos-oid} {:oid oid} params)))]
     (swap! haut assoc oid haku)))
 
 (defn update-haku-mock
@@ -378,7 +379,7 @@
                     (fix-valintaperuste
                      (fix-muu-pk-vaatimus
                       (merge (dissoc default-hakukohde-map :hakuaikaAlkaa :hakuaikaPaattyy)
-                             {:organisaatio Oppilaitos1}
+                             {:organisaatio oppilaitos-oid}
                              params
                              {:oid oid :hakuOid hakuOid :toteutusOid toteutusOid}
                              {:liitteidenToimitusaika (common-near-future-time)})))))]
@@ -403,7 +404,7 @@
                                  (set-vals-in-depth :paattyy (common-end-time))))
         valintaperuste (fix-default-format
                         (fix-in-depth
-                         (merge default-valintaperuste-map {:id id :organisaatio Oppilaitos1} params)))]
+                         (merge default-valintaperuste-map {:id id :organisaatio oppilaitos-oid} params)))]
     (swap! valintaperusteet assoc id valintaperuste)))
 
 (defn update-valintaperuste-mock
@@ -421,7 +422,7 @@
 (defn add-sorakuvaus-mock
   [id & {:as params}]
   (let [strip-extra (fn [sk] (dissoc sk :sorakuvausId :julkinen))
-        sorakuvaus (fix-default-format (strip-extra (merge default-sorakuvaus-map {:organisaatio Oppilaitos1 :id id} params)))]
+        sorakuvaus (fix-default-format (strip-extra (merge default-sorakuvaus-map {:organisaatio oppilaitos-oid :id id} params)))]
     (swap! sorakuvaukset assoc id sorakuvaus)))
 
 (defn update-sorakuvaus-mock
@@ -434,7 +435,7 @@
 
 (defn add-oppilaitos-mock
   [oid & {:as params}]
-  (let [oppilaitos (fix-default-format (merge default-oppilaitos-map {:organisaatio Oppilaitos1 :oid oid} params))]
+  (let [oppilaitos (fix-default-format (merge default-oppilaitos-map {:organisaatio oppilaitos-oid :oid oid} params))]
     (swap! oppilaitokset assoc oid oppilaitos)))
 
 (defn update-oppilaitos-mock
@@ -448,7 +449,7 @@
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]
-  (let [oppilaitoksen-osa (fix-default-format (merge default-oppilaitoksen-osa-map {:organisaatio Oppilaitos1 :oppilaitosOid oppilaitosOid :oid oid} params))]
+  (let [oppilaitoksen-osa (fix-default-format (merge default-oppilaitoksen-osa-map {:organisaatio oppilaitos-oid :oppilaitosOid oppilaitosOid :oid oid} params))]
     (swap! oppilaitoksen-osat assoc oid oppilaitoksen-osa)))
 
 (defn update-oppilaitoksen-osa-mock
@@ -624,7 +625,7 @@
 (defn teardown
   []
   (reset-mocks)
-  (reset-hierarkia-cache)
+  (clear-all-cached-data)
   (delete-all-elastic-data))
 
 (defn mock-indexing-fixture [test]
@@ -671,48 +672,13 @@
                     :organisaatiotyypit ["organisaatiotyyppi_03"]
                     :children (toimipiste-children ["1.2.246.562.10.777777777991" "1.2.246.562.10.777777777992" "1.2.246.562.10.777777777993"])}]})
 
-(defn mocked-hierarkia-konfo-backend-test-entity [oid kunta nimi-fi nimi-sv]
-  (println "mocked hierarkia konfo backend entity for oid " oid " kunta " kunta " nimi " nimi-fi " nimi sv " nimi-sv)
-  {:organisaatiot [{:oid oid
-                    :alkuPvm "694216800000"
-                    :kotipaikkaUri kunta
-                    :parentOid (str oid "parent")
-                    :kieletUris ["oppilaitoksenopetuskieli_1#1" "oppilaitoksenopetuskieli_2#1"]
-                    :parentOidPath "1.2.246.562.10.30705820527/1.2.246.562.10.75341760405/1.2.246.562.10.00000000001"
-                    :oppilaitosKoodi "12345"
-                    :oppilaitostyyppi "oppilaitostyyppi_42#1"
-                    :nimi {:fi nimi-fi
-                           :sv nimi-sv}
-                    :status "AKTIIVINEN"
-                    :aliOrganisaatioMaara 5
-                    :organisaatiotyypit ["organisaatiotyyppi_03"]
-                    :children (toimipiste-children ["1.2.246.562.10.001010101011"
-                                                    "1.2.246.562.10.001010101012"
-                                                    "1.2.246.562.10.001010101021"
-                                                    "1.2.246.562.10.001010101022"
-                                                    "1.2.246.562.10.001010101023"
-                                                    "1.2.246.562.10.000003"
-                                                    "1.2.246.562.10.000004"])}]})
-
-(defn mock-organisaatio-hierarkia-v4
+(defn mock-get-organisaatio-by-oid
   [oid]
-  (condp = oid
-    "1.2.246.562.10.10101010101" (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
-    "1.2.246.562.10.00101010101" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.00101010102" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.00101010103" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.00101010104" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.00101010105" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.00101010106" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.000002" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Punkaharjun yliopisto" "Punkaharjun yliopisto sv")
-    "1.2.246.562.10.000005" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_091" (str "Oppilaitos fi " oid) (str "Oppilaitos sv " oid))
-    "1.2.246.562.10.0000011" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa ensimmäinen" "Aakkosissa ensimmäinen")
-    "1.2.246.562.10.0000012" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa toinen" "Aakkosissa toinen")
-    "1.2.246.562.10.0000013" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa vasta kolmas" "Aakkosissa vasta kolmas")
-    "1.2.246.562.10.0000014" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa vasta neljäs" "Aakkosissa vasta neljäs")
-    "1.2.246.562.10.0000015" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa viidentenä" "Aakkosissa viidentenä")
-    "1.2.246.562.10.0000016" (mocked-hierarkia-konfo-backend-test-entity oid "kunta_618" "Aakkosissa viimein kuudentena" "Aakkosissa viimein kuudentena")
-    (mocked-hierarkia-default-entity oid)))
+  (parse (str "test/resources/organisaatiot/" oid ".json")))
+
+(defn mock-get-all-organisaatiot
+  []
+  (parse (str "test/resources/organisaatiot/hierarkia.json")))
 
 (defmacro with-mocked-indexing
   [& body]
@@ -781,15 +747,6 @@
                  kouta-indeksoija-service.rest.kouta/get-last-modified
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-last-modified
 
-                 kouta-indeksoija-service.rest.organisaatio/get-by-oid
-                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio
-
-                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
-                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio
-
-                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache
-                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio-hierarkia
-
                  kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
 
@@ -811,17 +768,17 @@
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
 
-                 kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4
-                 mock-organisaatio-hierarkia-v4
-
-                 kouta-indeksoija-service.rest.organisaatio/get-by-oid-cached
-                 kouta-indeksoija-service.fixture.external-services/mock-organisaatio
-
                  kouta-indeksoija-service.indexer.koodisto.koodisto/get-from-index
                  mock-koulutustyyppi-koodisto
 
                  kouta-indeksoija-service.rest.kouta/get-pistehistoria-with-cache
-                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-pistehistoria]
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-pistehistoria
+
+                 kouta-indeksoija-service.rest.organisaatio/get-all-organisaatiot
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-all-organisaatiot
+
+                 kouta-indeksoija-service.rest.organisaatio/get-by-oid
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-organisaatio-by-oid]
      (do ~@body)))
 
 
@@ -832,33 +789,9 @@
     {:oppilaitokset (filter some? oppilaitokset-ja-osat)
      :organisaatioHierarkia (mocked-hierarkia-default-entity (first oids))}))
 
-(defn index-oppilaitokset
-  [oids]
-  (with-mocked-indexing
-    (indexer/index-oppilaitokset oids (. System (currentTimeMillis))))
-  (refresh-indices))
-
-(defn index-oids-with-related-indices
-  [oids]
-  (with-mocked-indexing
-    (indexer/index-oids oids (. System (currentTimeMillis))))
-  (refresh-indices))
-
 (defn index-oids-without-related-indices
-  ([oids]
-   (with-mocked-indexing
+  [oids]
+  (with-mocked-indexing
      (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)]
        (indexer/index-all-kouta)))
-   (refresh-indices))
-  ([oids organisaatio-hierarkia-mock]
-   (with-mocked-indexing
-     (with-redefs [kouta-indeksoija-service.rest.kouta/get-last-modified (fn [x] oids)
-                   kouta-indeksoija-service.rest.organisaatio/get-hierarkia-for-oid-from-cache organisaatio-hierarkia-mock]
-       (indexer/index-all-kouta)))
-   (refresh-indices)))
-
-(defn index-all
-  []
-  (with-mocked-indexing
-    (indexer/index-all-kouta))
   (refresh-indices))

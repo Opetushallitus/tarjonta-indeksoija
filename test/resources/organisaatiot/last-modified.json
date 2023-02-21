@@ -1,761 +1,219 @@
 [
   {
-    "oid": "1.2.246.562.28.60493022663"
-  },
-  {
-    "nimi": {
-      "fi": "Suomen Nuoriso-opiston Kannatusyhdistys ry"
-    },
-    "oid": "1.2.246.562.10.83431223615",
-    "alkuPvm": "1978-06-30",
-    "yritysmuoto": "Aatteellinen yhdistys",
-    "parentOid": "1.2.246.562.10.00000000001",
-    "kayntiosoite": {
-      "postinumeroUri": "posti_50170",
-      "osoiteTyyppi": "kaynti",
-      "yhteystietoOid": "1.2.246.562.5.77520386036",
-      "postitoimipaikka": "MIKKELI",
-      "osoite": "Paukkulantie 22",
-      "ytjPaivitysPvm": "2015-06-26"
-    },
-    "postiosoite": {
-      "postinumeroUri": "posti_50170",
-      "osoiteTyyppi": "posti",
-      "yhteystietoOid": "1.2.246.562.5.54299151552",
-      "postitoimipaikka": "MIKKELI",
-      "osoite": "Paukkulantie 22",
-      "ytjPaivitysPvm": "2017-04-18"
-    },
-    "toimipistekoodi": "",
-    "kotipaikkaUri": "kunta_491",
+    "maskingActive": false,
+    "oid": "1.2.246.562.10.52750255714",
+    "parentOid": "1.2.246.562.10.54453921329",
+    "alkuPvm": "2021-06-11",
     "kieletUris": [
-      "oppilaitoksenopetuskieli_1#1"
+      "oppilaitoksenopetuskieli_1#2",
+      "oppilaitoksenopetuskieli_4#2"
     ],
-    "parentOidPath": "|1.2.246.562.10.00000000001|",
+    "kotipaikkaUri": "kunta_743",
     "kuvaus2": {},
     "maaUri": "maatjavaltiot1_fin",
-    "metadata": {
-      "nimi": {},
-      "hakutoimistonNimi": {},
-      "luontiPvm": 1377171461078,
-      "muokkausPvm": 1377171461078,
-      "data": {
-        "KANSAINVALISET_KOULUTUSOHJELMAT": {},
-        "YLEISKUVAUS": {},
-        "KIELIOPINNOT": {},
-        "TERVEYDENHUOLTOPALVELUT": {},
-        "TEHTAVANIMIKE": {},
-        "SAHKOPOSTIOSOITE": {},
-        "RAHOITUS": {},
-        "AIEMMIN_HANKITTU_OSAAMINEN": {},
-        "sosiaalinenmedia_7#1": {},
-        "sosiaalinenmedia_5#1": {},
-        "sosiaalinenmedia_6#1": {},
-        "OPISKELIJALIIKKUVUUS": {},
-        "VAKUUTUKSET": {},
-        "OPISKELIJA_JARJESTOT": {},
-        "VALINTAMENETTELY": {},
-        "sosiaalinenmedia_3#1": {},
-        "sosiaalinenmedia_4#1": {},
-        "sosiaalinenmedia_1#1": {},
-        "VASTUUHENKILOT": {},
-        "KUSTANNUKSET": {},
-        "OPPIMISYMPARISTO": {},
-        "sosiaalinenmedia_2#1": {},
-        "PUHELINNUMERO": {},
-        "NIMI": {},
-        "OPISKELIJALIIKUNTA": {},
-        "VUOSIKELLO": {},
-        "OPISKELIJARUOKAILU": {},
-        "VAPAA_AIKA": {},
-        "ESTEETOMYYS": {},
-        "TIETOA_ASUMISESTA": {},
-        "TYOHARJOITTELU": {}
-      },
-      "hakutoimistoEctsNimi": {},
-      "hakutoimistoEctsEmail": {},
-      "hakutoimistoEctsPuhelin": {},
-      "hakutoimistoEctsTehtavanimike": {},
-      "yhteystiedot": [
-        {
-          "osoiteTyyppi": "posti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_50170",
-          "yhteystietoOid": "1.2.246.562.5.2013082214374052352924",
-          "id": "1187245",
-          "postitoimipaikka": "MIKKELI",
-          "osoite": "Paukkulantie 22"
-        },
-        {
-          "osoiteTyyppi": "kaynti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_50170",
-          "yhteystietoOid": "1.2.246.562.5.2013082214374052375968",
-          "id": "1187246",
-          "postitoimipaikka": "MIKKELI",
-          "osoite": "Paukkulantie 22"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "numero": "040-357 7735",
-          "tyyppi": "puhelin",
-          "yhteystietoOid": "1.2.246.562.5.2013082214374052381088",
-          "id": "1187248"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "yhteystietoOid": "1.2.246.562.5.2014031409434999326823",
-          "id": "1187249",
-          "email": "hallinto@sno.fi"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "www": "http://www.paukkula.fi",
-          "yhteystietoOid": "1.2.246.562.5.2014031409434999335557",
-          "id": "1187250"
-        }
-      ]
+    "nimi": {
+      "fi": "Seinäjoen ammattikorkeakoulu, SeAMK",
+      "sv": "Seinäjoen ammattikorkeakoulu, SeAMK",
+      "en": "Seinäjoki University of Applied Sciences, SeAMK"
     },
+    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.2014041511401945349694|1.2.246.562.10.54453921329|",
+    "toimipistekoodi": "0247238",
+    "tyypit": [
+      "organisaatiotyyppi_03"
+    ],
+    "vuosiluokat": [],
+    "lisatiedot": [],
     "ryhmatyypit": [],
     "kayttoryhmat": [],
-    "ytjkieli": "kieli_fi#1",
-    "ytjpaivitysPvm": "2021-05-12",
-    "ytunnus": "0207230-7",
-    "tyypit": [
-      "Koulutustoimija"
-    ],
-    "yhteystietoArvos": [
-      {
-        "YhteystietoArvo.arvoText": "valmius@sno.fi",
-        "YhteystietojenTyyppi.nimi.fi": "Kriisitiedotuksen sähköpostiosoite",
-        "YhteystietojenTyyppi.nimi.sv": "Kriskommunikation epost",
-        "YhteystietoElementti.tyyppi": "Email",
-        "YhteystietojenTyyppi.oid": "1.2.246.562.5.31532764098",
-        "YhteystietoElementti.oid": "1.2.246.562.5.30789631784",
-        "YhteystietoElementti.nimi": "Sähköpostiosoite",
-        "YhteystietoElementti.nimiSv": "Epostadress",
-        "YhteystietoElementti.pakollinen": "false",
-        "YhteystietojenTyyppi.nimi.en": "Kriisitiedotuksen sähköpostiosoite",
-        "YhteystietoElementti.kaytossa": "true",
-        "YhteystietoArvo.kieli": "kieli_fi#1"
-      }
-    ],
     "yhteystiedot": [
       {
         "kieli": "kieli_fi#1",
-        "yhteystietoOid": "1.2.246.562.5.23409515832",
-        "id": "1187257",
-        "email": "teija.ruhanen@sno.fi"
-      },
-      {
-        "kieli": "kieli_fi#1",
-        "www": "http://www.sno.fi",
-        "yhteystietoOid": "1.2.246.562.5.58313069872",
-        "id": "1187258"
-      },
-      {
-        "osoiteTyyppi": "posti",
-        "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_50170",
-        "yhteystietoOid": "1.2.246.562.5.54299151552",
-        "id": "1187259",
-        "postitoimipaikka": "MIKKELI",
-        "osoite": "Paukkulantie 22",
-        "ytjPaivitysPvm": "2017-04-18"
+        "yhteystietoOid": "16233874609780.6260027810056359",
+        "id": "8118865",
+        "email": "hakija-54955405@oph.fi"
       },
       {
         "osoiteTyyppi": "kaynti",
         "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_50170",
-        "yhteystietoOid": "1.2.246.562.5.77520386036",
-        "id": "1187260",
-        "postitoimipaikka": "MIKKELI",
-        "osoite": "Paukkulantie 22",
-        "ytjPaivitysPvm": "2015-06-26"
+        "postinumeroUri": "posti_60320",
+        "yhteystietoOid": "1.2.246.562.5.26391871477",
+        "id": "8118858",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Polvivaara 632"
       },
       {
-        "kieli": "kieli_fi#1",
-        "numero": "040-357 7735",
-        "tyyppi": "puhelin",
-        "yhteystietoOid": "1.2.246.562.5.310061112110",
-        "id": "1187255"
-      }
-    ],
-    "nimet": [
-      {
-        "nimi": {
-          "fi": "Suomen Nuoriso-opiston Kannatusyhdistys ry"
-        },
-        "alkuPvm": "2021-05-11",
-        "version": 1
-      }
-    ],
-    "vuosiluokat": [],
-    "version": 17,
-    "status": "AKTIIVINEN"
-  },
-  {
-    "nimi": {
-      "fi": "Kiinteistöalan Koulutussäätiö sr"
-    },
-    "oid": "1.2.246.562.10.86077555174",
-    "alkuPvm": "1989-12-28",
-    "yritysmuoto": "Säätiö",
-    "parentOid": "1.2.246.562.10.00000000001",
-    "kayntiosoite": {
-      "postinumeroUri": "posti_00700",
-      "osoiteTyyppi": "kaynti",
-      "yhteystietoOid": "1.2.246.562.5.82911631149",
-      "postitoimipaikka": "HELSINKI",
-      "osoite": "Malmin asematie 6"
-    },
-    "postiosoite": {
-      "postinumeroUri": "posti_00700",
-      "osoiteTyyppi": "posti",
-      "yhteystietoOid": "1.2.246.562.5.26966362092",
-      "postitoimipaikka": "HELSINKI",
-      "osoite": "MALMIN ASEMATIE 6",
-      "ytjPaivitysPvm": "2017-04-18"
-    },
-    "toimipistekoodi": "",
-    "kotipaikkaUri": "kunta_091",
-    "kieletUris": [
-      "oppilaitoksenopetuskieli_1#1"
-    ],
-    "parentOidPath": "|1.2.246.562.10.00000000001|",
-    "kuvaus2": {},
-    "maaUri": "maatjavaltiot1_fin",
-    "metadata": {
-      "nimi": {},
-      "hakutoimistonNimi": {
-        "kieli_fi#1": "Kiinteistöalan Koulutussäätiö"
-      },
-      "luontiPvm": 1435146189056,
-      "muokkausPvm": 1435093200000,
-      "data": {
-        "KANSAINVALISET_KOULUTUSOHJELMAT": {},
-        "YLEISKUVAUS": {
-          "kieli_fi#1": "<p>Kiinteistöalan Koulutussäätiö sr. (Kiinko) on ammatillinen oppilaitos, jonka toimintaa valvoo Opetushallitus. Kiinko tarjoaa kiinteistöalan ammateissa toimiville ja alalle hakeutuville sekä ammatillisia tutkintoja että Kiinkon omia tutkintoja ja koulutusohjelmia. Koulutusalueina ovat isännöinti ja asuminen, tekninen ylläpito, kiinteistöjen taloushallinto, kiinteistönvälitys ja –arviointi, rakennuttaminen ja suunnittelu, kiinteistöliiketoiminta ja -rahoitus sekä kiinteistöjohtaminen ja esimiestyö.</p> <p>Kiinkon koulutukset ovat käytännönläheisiä ja niiden suunnittelussa otetaan huomioon asiakkaiden tarpeet. Opiskelu koulutuksissamme on monimuoto-opiskelua, mikä mahdollistaa opiskelun joustavasti työn ohessa. Koulutukset koostuvat lähipäivistä, ohjatusta etäopiskelusta ja itsenäisestä työskentelystä. Etäopiskelun tukena on käytössä Optima-verkko-oppimisympäristö. Kouluttajamme ovat työelämässä toimivia alan asiantuntijoita, joiden tietämys takaa ajantasaisen tiedon ja sen soveltamisen käytäntöön. Opiskelijalla on koulutuksen aikana mahdollisuus saada opintoihinsa henkilökohtaista ja muuta tarpeellista ohjausta. Ammatillisia tutkintoja on mahdollista suorittaa oppisopimuskoulutuksena. Järjestämme Kiinkossa koulutuksia myös yrityskohtaisina toteutuksina.</p> <p>Koulutusohjelmamme kuuluvat valtion tuen piiriin. </p>"
-        },
-        "KIELIOPINNOT": {},
-        "TERVEYDENHUOLTOPALVELUT": {},
-        "TEHTAVANIMIKE": {},
-        "SAHKOPOSTIOSOITE": {},
-        "RAHOITUS": {},
-        "AIEMMIN_HANKITTU_OSAAMINEN": {},
-        "sosiaalinenmedia_7#1": {},
-        "sosiaalinenmedia_5#1": {},
-        "sosiaalinenmedia_6#1": {},
-        "OPISKELIJALIIKKUVUUS": {},
-        "VAKUUTUKSET": {},
-        "OPISKELIJA_JARJESTOT": {},
-        "VALINTAMENETTELY": {},
-        "sosiaalinenmedia_3#1": {},
-        "sosiaalinenmedia_4#1": {},
-        "sosiaalinenmedia_1#1": {},
-        "VASTUUHENKILOT": {},
-        "KUSTANNUKSET": {},
-        "OPPIMISYMPARISTO": {},
-        "sosiaalinenmedia_2#1": {},
-        "PUHELINNUMERO": {},
-        "NIMI": {},
-        "OPISKELIJALIIKUNTA": {},
-        "VUOSIKELLO": {},
-        "OPISKELIJARUOKAILU": {},
-        "VAPAA_AIKA": {},
-        "ESTEETOMYYS": {},
-        "TIETOA_ASUMISESTA": {},
-        "TYOHARJOITTELU": {}
-      },
-      "hakutoimistoEctsNimi": {},
-      "hakutoimistoEctsEmail": {},
-      "hakutoimistoEctsPuhelin": {},
-      "hakutoimistoEctsTehtavanimike": {},
-      "yhteystiedot": [
-        {
-          "kieli": "kieli_fi#1",
-          "numero": "09 350 9290",
-          "tyyppi": "puhelin",
-          "yhteystietoOid": "1.2.246.562.5.32641558302",
-          "id": "7935647"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "www": "https://www.kiinko.fi/",
-          "yhteystietoOid": "15235127482620.642225003897305",
-          "id": "7935646"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "yhteystietoOid": "15235127482620.9320632796242763",
-          "id": "7935645",
-          "email": "opintotoimisto@kiinko.fi"
-        },
-        {
-          "osoiteTyyppi": "posti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_00700",
-          "yhteystietoOid": "1.2.246.562.5.57111864518",
-          "id": "7935644",
-          "postitoimipaikka": "HELSINKI",
-          "osoite": "Malmin asematie 6"
-        },
-        {
-          "osoiteTyyppi": "kaynti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_00700",
-          "yhteystietoOid": "1.2.246.562.5.24282353762",
-          "id": "7935643",
-          "postitoimipaikka": "HELSINKI",
-          "osoite": "Malmin asematie 6"
-        }
-      ]
-    },
-    "ryhmatyypit": [],
-    "kayttoryhmat": [],
-    "ytjkieli": "kieli_fi#1",
-    "ytjpaivitysPvm": "2019-06-07",
-    "ytunnus": "0774302-6",
-    "tyypit": [
-      "Koulutustoimija"
-    ],
-    "yhteystietoArvos": [
-      {
-        "YhteystietoArvo.arvoText": "info@kiinko.fi",
-        "YhteystietojenTyyppi.nimi.fi": "Kriisitiedotuksen sähköpostiosoite",
-        "YhteystietojenTyyppi.nimi.sv": "Kriskommunikation epost",
-        "YhteystietoElementti.tyyppi": "Email",
-        "YhteystietojenTyyppi.oid": "1.2.246.562.5.31532764098",
-        "YhteystietoElementti.oid": "1.2.246.562.5.30789631784",
-        "YhteystietoElementti.nimi": "Sähköpostiosoite",
-        "YhteystietoElementti.nimiSv": "Epostadress",
-        "YhteystietoElementti.pakollinen": "false",
-        "YhteystietojenTyyppi.nimi.en": "Kriisitiedotuksen sähköpostiosoite",
-        "YhteystietoElementti.kaytossa": "true",
-        "YhteystietoArvo.kieli": "kieli_fi#1"
-      }
-    ],
-    "yhteystiedot": [
-      {
-        "kieli": "kieli_fi#1",
-        "yhteystietoOid": "1.2.246.562.5.47254083851",
-        "id": "7935654",
-        "email": "info@kiinko.fi"
-      },
-      {
-        "osoiteTyyppi": "kaynti",
-        "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_00700",
-        "yhteystietoOid": "1.2.246.562.5.82911631149",
-        "id": "7935653",
-        "postitoimipaikka": "HELSINKI",
-        "osoite": "Malmin asematie 6"
-      },
-      {
-        "kieli": "kieli_fi#1",
-        "www": "http://www.kiinko.fi",
-        "yhteystietoOid": "1.2.246.562.5.81061940854",
-        "id": "7935650"
+        "osoiteTyyppi": "ulkomainen_posti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.65038260785",
+        "id": "8118856",
+        "osoite": "Vääkiönsammal 464"
       },
       {
         "osoiteTyyppi": "posti",
         "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_00700",
-        "yhteystietoOid": "1.2.246.562.5.26966362092",
-        "id": "7935651",
-        "postitoimipaikka": "HELSINKI",
-        "osoite": "MALMIN ASEMATIE 6",
-        "ytjPaivitysPvm": "2017-04-18"
+        "postinumeroUri": "posti_60101",
+        "yhteystietoOid": "1.2.246.562.5.30065803246",
+        "id": "8118859",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Palatkannotko 213"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "16233874609780.15539179560673266",
+        "id": "8118864",
+        "email": "hakija-12047096@oph.fi"
       },
       {
         "kieli": "kieli_fi#1",
-        "numero": "09 350 9290",
+        "numero": "050 91923551",
         "tyyppi": "puhelin",
-        "yhteystietoOid": "1.2.246.562.5.91937546413",
-        "id": "7935652"
-      }
-    ],
-    "nimet": [
+        "yhteystietoOid": "1.2.246.562.5.78922305632",
+        "id": "8118857"
+      },
       {
-        "nimi": {
-          "fi": "Kiinteistöalan Koulutussäätiö sr"
-        },
-        "alkuPvm": "2015-12-01",
-        "version": 0
+        "osoiteTyyppi": "ulkomainen_kaynti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.50444875376",
+        "id": "8118863",
+        "osoite": "Kuoppamäki 429"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "www": "http://www.seamk.fi/en",
+        "yhteystietoOid": "16233874609780.89205461567308",
+        "id": "8118862"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.seamk.fi",
+        "yhteystietoOid": "16233874609780.3691713919628876",
+        "id": "8118861"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "numero": "050 19682971",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.48126353720",
+        "id": "8118860"
       }
     ],
-    "vuosiluokat": [],
-    "version": 21,
-    "status": "AKTIIVINEN"
-  },
-  {
-    "nimi": {
-      "fi": "Kiinteistöalan Koulutussäätiö sr.",
-      "sv": "Kiinteistöalan Koulutussäätiö sr.",
-      "en": "Kiinteistöalan Koulutussäätiö sr."
-    },
-    "oid": "1.2.246.562.10.919116475010",
-    "alkuPvm": "1993-01-01",
-    "parentOid": "1.2.246.562.10.86077555174",
-    "oppilaitosKoodi": "02380",
     "kayntiosoite": {
-      "postinumeroUri": "posti_00700",
+      "postinumeroUri": "posti_60320",
       "osoiteTyyppi": "kaynti",
-      "yhteystietoOid": "1.2.246.562.5.40175518915",
-      "postitoimipaikka": "HELSINKI",
-      "osoite": "Malmin asematie 6"
+      "yhteystietoOid": "1.2.246.562.5.26391871477",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Polvivaara 632"
     },
     "postiosoite": {
-      "postinumeroUri": "posti_00700",
+      "postinumeroUri": "posti_60101",
       "osoiteTyyppi": "posti",
-      "yhteystietoOid": "1.2.246.562.5.49596581691",
-      "postitoimipaikka": "HELSINKI",
-      "osoite": "Malmin asematie 6"
+      "yhteystietoOid": "1.2.246.562.5.30065803246",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Palatkannotko 213"
     },
-    "toimipistekoodi": "02380",
-    "kotipaikkaUri": "kunta_091",
-    "kieletUris": [
-      "oppilaitoksenopetuskieli_1#1"
-    ],
-    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.86077555174|",
-    "kuvaus2": {},
-    "maaUri": "maatjavaltiot1_fin",
-    "metadata": {
-      "nimi": {},
-      "hakutoimistonNimi": {
-        "kieli_fi#1": "Kiinteistöalan Koulutussäätiö"
-      },
-      "luontiPvm": 1387358159759,
-      "muokkausPvm": 1387358159759,
-      "data": {
-        "KANSAINVALISET_KOULUTUSOHJELMAT": {},
-        "YLEISKUVAUS": {
-          "kieli_fi#1": "<p>Kiinteistöalan Koulutussäätiö sr. (Kiinko) on ammatillinen oppilaitos, jonka toimintaa valvoo Opetushallitus. Kiinko tarjoaa kiinteistöalan ammateissa toimiville ja alalle hakeutuville sekä ammatillisia tutkintoja että Kiinkon omia tutkintoja ja koulutusohjelmia. Koulutusalueina ovat isännöinti ja asuminen, tekninen ylläpito, kiinteistöjen taloushallinto, kiinteistönvälitys ja -arviointi, rakennuttaminen ja suunnittelu, kiinteistöliiketoiminta ja -rahoitus sekä kiinteistöjohtaminen ja esimiestyö.</p> <p>Kiinkon koulutukset ovat käytännönläheisiä ja niiden suunnittelussa otetaan huomioon asiakkaiden tarpeet. Opiskelu koulutuksissamme on monimuoto-opiskelua, mikä mahdollistaa opiskelun joustavasti työn ohessa. Koulutukset koostuvat lähipäivistä, ohjatusta etäopiskelusta ja itsenäisestä työskentelystä. Etäopiskelun tukena on käytössä Optima-verkko-oppimisympäristö. Kouluttajamme ovat työelämässä toimivia alan asiantuntijoita, joiden tietämys takaa ajantasaisen tiedon ja sen soveltamisen käytäntöön. Opiskelijalla on koulutuksen aikana mahdollisuus saada opintoihinsa henkilökohtaista ja muuta tarpeellista ohjausta. Ammatillisia tutkintoja on mahdollista suorittaa oppisopimuskoulutuksena. Järjestämme Kiinkossa koulutuksia myös yrityskohtaisina toteutuksina.</p> <p>Koulutusohjelmamme kuuluvat valtion tuen piiriin. </p>"
-        },
-        "KIELIOPINNOT": {},
-        "TERVEYDENHUOLTOPALVELUT": {},
-        "TEHTAVANIMIKE": {},
-        "SAHKOPOSTIOSOITE": {},
-        "RAHOITUS": {},
-        "AIEMMIN_HANKITTU_OSAAMINEN": {},
-        "sosiaalinenmedia_7#1": {},
-        "sosiaalinenmedia_5#1": {},
-        "sosiaalinenmedia_6#1": {},
-        "OPISKELIJALIIKKUVUUS": {},
-        "VAKUUTUKSET": {},
-        "OPISKELIJA_JARJESTOT": {},
-        "VALINTAMENETTELY": {},
-        "sosiaalinenmedia_3#1": {},
-        "sosiaalinenmedia_4#1": {},
-        "sosiaalinenmedia_1#1": {},
-        "VASTUUHENKILOT": {},
-        "KUSTANNUKSET": {},
-        "OPPIMISYMPARISTO": {},
-        "sosiaalinenmedia_2#1": {},
-        "PUHELINNUMERO": {},
-        "NIMI": {},
-        "OPISKELIJALIIKUNTA": {},
-        "VUOSIKELLO": {},
-        "OPISKELIJARUOKAILU": {},
-        "VAPAA_AIKA": {},
-        "ESTEETOMYYS": {},
-        "TIETOA_ASUMISESTA": {},
-        "TYOHARJOITTELU": {}
-      },
-      "hakutoimistoEctsNimi": {},
-      "hakutoimistoEctsEmail": {},
-      "hakutoimistoEctsPuhelin": {},
-      "hakutoimistoEctsTehtavanimike": {},
-      "yhteystiedot": [
-        {
-          "kieli": "kieli_fi#1",
-          "yhteystietoOid": "15295594070250.8600808705865784",
-          "id": "7935559",
-          "email": "opintotoimisto@kiinko.fi"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "numero": "09 350 9290",
-          "tyyppi": "puhelin",
-          "yhteystietoOid": "1.2.246.562.5.77409907084",
-          "id": "7935558"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "www": "https://www.kiinko.fi/",
-          "yhteystietoOid": "15235124440560.26095877472777496",
-          "id": "7935557"
-        },
-        {
-          "osoiteTyyppi": "posti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_00700",
-          "yhteystietoOid": "1.2.246.562.5.13901388903",
-          "id": "7935556",
-          "postitoimipaikka": "HELSINKI",
-          "osoite": "Malmin asematie 6"
-        },
-        {
-          "osoiteTyyppi": "kaynti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_00700",
-          "yhteystietoOid": "1.2.246.562.5.88151082034",
-          "id": "7935555",
-          "postitoimipaikka": "HELSINKI",
-          "osoite": "Malmin asematie 6"
-        }
-      ]
+    "lyhytNimi": {
+      "fi": "SeAMK",
+      "sv": "SeAMK",
+      "en": "SeAMK"
     },
-    "oppilaitosTyyppiUri": "oppilaitostyyppi_23#1",
-    "ryhmatyypit": [],
-    "kayttoryhmat": [],
-    "tyypit": [
-      "Oppilaitos"
-    ],
-    "yhteystietoArvos": [
-      {
-        "YhteystietoArvo.arvoText": "opintotoimisto@kiinko.fi",
-        "YhteystietojenTyyppi.nimi.fi": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
-        "YhteystietojenTyyppi.nimi.sv": "E-postadress för felanmälan i egna uppgifter i KOSKI-tjänsten",
-        "YhteystietoElementti.tyyppi": "Email",
-        "YhteystietojenTyyppi.oid": "1.2.246.562.5.79385887983",
-        "YhteystietoElementti.oid": "1.2.246.562.5.57850489428",
-        "YhteystietoElementti.nimi": "Sähköpostiosoite",
-        "YhteystietoElementti.nimiSv": "Epostadress",
-        "YhteystietoElementti.pakollinen": "false",
-        "YhteystietojenTyyppi.nimi.en": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
-        "YhteystietoElementti.kaytossa": "true",
-        "YhteystietoArvo.kieli": "kieli_fi#1"
-      }
-    ],
-    "yhteystiedot": [
-      {
-        "kieli": "kieli_fi#1",
-        "www": "http://www.kiinko.fi",
-        "yhteystietoOid": "1.2.246.562.5.44382371993",
-        "id": "7935564"
-      },
-      {
-        "kieli": "kieli_fi#1",
-        "numero": "09  3509 290",
-        "tyyppi": "puhelin",
-        "yhteystietoOid": "1.2.246.562.5.89455347768",
-        "id": "7935565"
-      },
-      {
-        "kieli": "kieli_fi#1",
-        "yhteystietoOid": "1.2.246.562.5.34903479474",
-        "id": "7935566",
-        "email": "info@kiinko.fi"
-      },
-      {
-        "osoiteTyyppi": "kaynti",
-        "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_00700",
-        "yhteystietoOid": "1.2.246.562.5.40175518915",
-        "id": "7935567",
-        "postitoimipaikka": "HELSINKI",
-        "osoite": "Malmin asematie 6"
-      },
-      {
-        "osoiteTyyppi": "posti",
-        "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_00700",
-        "yhteystietoOid": "1.2.246.562.5.49596581691",
-        "id": "7935568",
-        "postitoimipaikka": "HELSINKI",
-        "osoite": "Malmin asematie 6"
-      }
-    ],
-    "nimet": [
-      {
-        "nimi": {
-          "fi": "Kiinteistöalan koulutussäätiön ammatillinen oppilaitos"
-        },
-        "alkuPvm": "1993-01-01",
-        "version": 1
-      },
-      {
-        "nimi": {
-          "fi": "Kiinteistöalan Koulutussäätiö sr.",
-          "sv": "Kiinteistöalan Koulutussäätiö sr.",
-          "en": "Kiinteistöalan Koulutussäätiö sr."
-        },
-        "alkuPvm": "2018-01-01",
-        "version": 0
-      }
-    ],
-    "vuosiluokat": [],
-    "version": 19,
-    "status": "AKTIIVINEN"
+    "yhteystietoArvos": [],
+    "opetuspisteenJarjNro": "38",
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "piilotettu": false,
+    "status": "PASSIIVINEN",
+    "version": 1
   },
   {
-    "nimi": {
-      "fi": "Oulun ammattikorkeakoulu",
-      "sv": "Oulun ammattikorkeakoulu",
-      "en": "Oulu University of Applied Sciences"
-    },
-    "oid": "1.2.246.562.10.50880626531",
+    "maskingActive": false,
+    "oid": "1.2.246.562.10.54453921329",
+    "parentOid": "1.2.246.562.10.2014041511401945349694",
     "alkuPvm": "1996-08-01",
-    "parentOid": "1.2.246.562.10.2014050615360888388032",
-    "oppilaitosKoodi": "02471",
-    "kayntiosoite": {
-      "postinumeroUri": "posti_90570",
-      "osoiteTyyppi": "kaynti",
-      "yhteystietoOid": "1.2.246.562.5.29974839937",
-      "postitoimipaikka": "OULU",
-      "osoite": "Yliopistokatu 9"
-    },
-    "postiosoite": {
-      "postinumeroUri": "posti_90101",
-      "osoiteTyyppi": "posti",
-      "yhteystietoOid": "1.2.246.562.5.19493297303",
-      "postitoimipaikka": "OULU",
-      "osoite": "PL 222"
-    },
-    "toimipistekoodi": "02471",
-    "kotipaikkaUri": "kunta_564",
     "kieletUris": [
-      "oppilaitoksenopetuskieli_1#1"
+      "oppilaitoksenopetuskieli_1#1",
+      "oppilaitoksenopetuskieli_4#2"
     ],
-    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.2014050615360888388032|",
+    "kotipaikkaUri": "kunta_743",
     "kuvaus2": {},
     "maaUri": "maatjavaltiot1_fin",
-    "metadata": {
-      "nimi": {},
-      "hakutoimistonNimi": {
-        "kieli_en#1": "Admission Services",
-        "kieli_fi#1": "Hakijapalvelut"
-      },
-      "luontiPvm": 1395643577747,
-      "muokkausPvm": 1395612000000,
-      "data": {
-        "KANSAINVALISET_KOULUTUSOHJELMAT": {},
-        "YLEISKUVAUS": {
-          "kieli_fi#1": "<p>Oamk on yksi Suomen suurimmista ammattikorkeakouluista. Opiskelijoita on noin 8 000. Ammattikorkeakoulututkinnon voi suorittaa 27 koulutuksessa, joista kolmessa opetuskielenä on englanti. Ylemmän ammattikorkeakoulututkinnon voi suorittaa seitsemässä tutkinto-ohjelmassa. Tutkintoon johtavan koulutuksen lisäksi järjestämme opettajan pedagogisia opintoja, avointa ammattikorkeakouluopetusta sekä täydennyskoulutusta. </p> <p>Tavoitteenamme on kouluttaa Pohjois-Suomeen ammattilaisia, joiden osaaminen vastaa alueen työelämän tarpeita ja sen kehittämistä. Kehitämme opetusta tiiviissä yhteistyössä työ- ja elinkeinoelämän kanssa. Näin edistämme kilpailukykyä sekä alueen väestön osaamista, työllistymistä ja hyvinvointia.</p> <p> </p>"
-        },
-        "KIELIOPINNOT": {},
-        "TERVEYDENHUOLTOPALVELUT": {},
-        "TEHTAVANIMIKE": {},
-        "SAHKOPOSTIOSOITE": {},
-        "RAHOITUS": {},
-        "AIEMMIN_HANKITTU_OSAAMINEN": {},
-        "sosiaalinenmedia_7#1": {},
-        "sosiaalinenmedia_5#1": {
-          "kieli_fi#1": "http://www.youtube.com/user/oamkextra/"
-        },
-        "sosiaalinenmedia_6#1": {},
-        "OPISKELIJALIIKKUVUUS": {},
-        "VAKUUTUKSET": {},
-        "OPISKELIJA_JARJESTOT": {},
-        "VALINTAMENETTELY": {},
-        "sosiaalinenmedia_3#1": {},
-        "sosiaalinenmedia_4#1": {
-          "kieli_fi#1": "https://twitter.com/oamk_ouas/"
-        },
-        "sosiaalinenmedia_1#1": {
-          "kieli_fi#1": "https://www.facebook.com/oulu.oamk"
-        },
-        "VASTUUHENKILOT": {},
-        "KUSTANNUKSET": {},
-        "OPPIMISYMPARISTO": {},
-        "sosiaalinenmedia_2#1": {},
-        "PUHELINNUMERO": {},
-        "NIMI": {},
-        "OPISKELIJALIIKUNTA": {},
-        "VUOSIKELLO": {},
-        "OPISKELIJARUOKAILU": {},
-        "VAPAA_AIKA": {},
-        "ESTEETOMYYS": {},
-        "TIETOA_ASUMISESTA": {},
-        "TYOHARJOITTELU": {}
-      },
-      "hakutoimistoEctsNimi": {},
-      "hakutoimistoEctsEmail": {},
-      "hakutoimistoEctsPuhelin": {},
-      "hakutoimistoEctsTehtavanimike": {},
-      "yhteystiedot": [
-        {
-          "kieli": "kieli_fi#1",
-          "www": "http://www.oamk.fi",
-          "yhteystietoOid": "1.2.246.562.5.2014032408461700105585",
-          "id": "7935889"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "yhteystietoOid": "14030737340140.27014377754585095",
-          "id": "7935888",
-          "email": "hakijapalvelut@oamk.fi"
-        },
-        {
-          "kieli": "kieli_fi#1",
-          "numero": "029 448 9002",
-          "tyyppi": "puhelin",
-          "yhteystietoOid": "1.2.246.562.5.91491489112",
-          "id": "7935887"
-        },
-        {
-          "kieli": "kieli_en#1",
-          "yhteystietoOid": "14030738401390.549308060804558",
-          "id": "7935886",
-          "email": "admissions@oamk.fi"
-        },
-        {
-          "kieli": "kieli_en#1",
-          "www": "http://www.oamk.fi/english",
-          "yhteystietoOid": "14030738401390.43131142605029826",
-          "id": "7935885"
-        },
-        {
-          "kieli": "kieli_en#1",
-          "numero": "+358 29 448 9001",
-          "tyyppi": "puhelin",
-          "yhteystietoOid": "1.2.246.562.5.59528569597",
-          "id": "7935884"
-        },
-        {
-          "osoiteTyyppi": "kaynti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_90570",
-          "yhteystietoOid": "1.2.246.562.5.39597418928",
-          "id": "7935883",
-          "postitoimipaikka": "OULU",
-          "osoite": "Yliopistokatu 9"
-        },
-        {
-          "osoiteTyyppi": "posti",
-          "kieli": "kieli_fi#1",
-          "postinumeroUri": "posti_90101",
-          "yhteystietoOid": "1.2.246.562.5.62052777687",
-          "id": "7935882",
-          "postitoimipaikka": "OULU",
-          "osoite": "PL 405"
-        },
-        {
-          "osoiteTyyppi": "ulkomainen_kaynti",
-          "kieli": "kieli_en#1",
-          "yhteystietoOid": "1.2.246.562.5.43835545005",
-          "id": "7935881",
-          "osoite": "Yliopistokatu 9\n90570 Oulu"
-        },
-        {
-          "osoiteTyyppi": "ulkomainen_posti",
-          "kieli": "kieli_en#1",
-          "yhteystietoOid": "1.2.246.562.5.97389268810",
-          "id": "7935880",
-          "osoite": "PL 405\n90101 Oulu"
-        }
-      ]
+    "metadata":  {},
+    "nimi": {
+      "fi": "Seinäjoen ammattikorkeakoulu",
+      "sv": "Seinäjoen ammattikorkeakoulu",
+      "en": "Seinäjoki University of Applied Sciences"
     },
-    "oppilaitosTyyppiUri": "oppilaitostyyppi_41#1",
+    "nimet": [],
+    "oppilaitosKoodi": "02472",
+    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.2014041511401945349694|",
+    "toimipistekoodi": "02472",
+    "tyypit": [
+      "organisaatiotyyppi_02"
+    ],
+    "vuosiluokat": [],
+    "lisatiedot": [],
     "ryhmatyypit": [],
     "kayttoryhmat": [],
-    "tyypit": [
-      "Oppilaitos"
+    "yhteystiedot": [
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_60320",
+        "yhteystietoOid": "1.2.246.562.5.44626035453",
+        "id": "9679611",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Kouralehto 334"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "1.2.246.562.5.38237305602",
+        "id": "9679610",
+        "email": "hakija-45140526@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_60101",
+        "yhteystietoOid": "1.2.246.562.5.16348285103",
+        "id": "9679609",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Junttilantie 187"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 79134291",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.72585509168",
+        "id": "9679608"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.seamk.fi",
+        "yhteystietoOid": "1.2.246.562.5.43474034543",
+        "id": "9679612"
+      }
     ],
+    "kayntiosoite": {
+      "postinumeroUri": "posti_60320",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.44626035453",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Kouralehto 334"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_60101",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.16348285103",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Junttilantie 187"
+    },
+    "lyhytNimi": {
+      "fi": "Seinäjoen ammattikorkeakoulu",
+      "sv": "Seinäjoen ammattikorkeakoulu",
+      "en": "Seinäjoki University of Applied Sciences"
+    },
     "yhteystietoArvos": [
       {
-        "YhteystietoArvo.arvoText": "hakijapalvelut@oamk.fi",
+        "YhteystietoArvo.arvoText": "hakija-10869437@oph.fi",
         "YhteystietojenTyyppi.nimi.fi": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
         "YhteystietojenTyyppi.nimi.sv": "E-postadress för felanmälan i egna uppgifter i KOSKI-tjänsten",
         "YhteystietoElementti.tyyppi": "Email",
@@ -767,81 +225,522 @@
         "YhteystietojenTyyppi.nimi.en": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
         "YhteystietoElementti.kaytossa": "true",
         "YhteystietoArvo.kieli": "kieli_fi#1"
-      },
-      {
-        "YhteystietoArvo.arvoText": "admissions@oamk.fi",
-        "YhteystietojenTyyppi.nimi.fi": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
-        "YhteystietojenTyyppi.nimi.sv": "E-postadress för felanmälan i egna uppgifter i KOSKI-tjänsten",
-        "YhteystietoElementti.tyyppi": "Email",
-        "YhteystietojenTyyppi.oid": "1.2.246.562.5.79385887983",
-        "YhteystietoElementti.oid": "1.2.246.562.5.57850489428",
-        "YhteystietoElementti.nimi": "Sähköpostiosoite",
-        "YhteystietoElementti.nimiSv": "Epostadress",
-        "YhteystietoElementti.pakollinen": "false",
-        "YhteystietojenTyyppi.nimi.en": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
-        "YhteystietoElementti.kaytossa": "true",
-        "YhteystietoArvo.kieli": "kieli_en#1"
       }
     ],
+    "oppilaitosTyyppiUri": "oppilaitostyyppi_41#1",
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "piilotettu": false,
+    "status": "PASSIIVINEN",
+    "version": 30
+  },
+  {
+    "maskingActive": false,
+    "oid": "1.2.246.562.10.197113642410",
+    "parentOid": "1.2.246.562.10.55867603791",
+    "alkuPvm": "1992-01-01",
+    "kieletUris": [
+      "oppilaitoksenopetuskieli_1#1"
+    ],
+    "kotipaikkaUri": "kunta_858",
+    "kuvaus2": {},
+    "maaUri": "maatjavaltiot1_fin",
+    "metadata": {},
+    "nimi": {
+      "fi": "Pekka Halosen akatemia",
+      "sv": "Pekka Halosen akatemia",
+      "en": "Pekka Halosen akatemia"
+    },
+    "nimet": [],
+    "oppilaitosKoodi": "01691",
+    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.55867603791|",
+    "toimipistekoodi": "01691",
+    "tyypit": [
+      "organisaatiotyyppi_02"
+    ],
+    "vuosiluokat": [],
+    "lisatiedot": [],
+    "ryhmatyypit": [],
+    "kayttoryhmat": [],
     "yhteystiedot": [
       {
+        "osoiteTyyppi": "kaynti",
         "kieli": "kieli_fi#1",
-        "www": "http://www.oamk.fi",
-        "yhteystietoOid": "1.2.246.562.5.71766132287",
-        "id": "7935898"
+        "postinumeroUri": "posti_04400",
+        "yhteystietoOid": "1.2.246.562.5.41268010679",
+        "id": "3581903",
+        "postitoimipaikka": "JÄRVENPÄÄ",
+        "osoite": "Katumatie 478"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "1.2.246.562.5.27346956785",
+        "id": "3581899",
+        "email": "hakija-61214956@oph.fi"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.keuda.fi/pha",
+        "yhteystietoOid": "1.2.246.562.5.70593463659",
+        "id": "3581902"
       },
       {
         "osoiteTyyppi": "posti",
         "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_90101",
-        "yhteystietoOid": "1.2.246.562.5.19493297303",
-        "id": "7935896",
-        "postitoimipaikka": "OULU",
-        "osoite": "PL 222"
+        "postinumeroUri": "posti_04400",
+        "yhteystietoOid": "1.2.246.562.5.46914830495",
+        "id": "3581901",
+        "postitoimipaikka": "JÄRVENPÄÄ",
+        "osoite": "Yläpääntie 737"
       },
       {
         "kieli": "kieli_fi#1",
-        "numero": "020 611 0200",
+        "numero": "050 34845331",
         "tyyppi": "puhelin",
-        "yhteystietoOid": "1.2.246.562.5.16531729511",
-        "id": "7935895"
+        "yhteystietoOid": "1.2.246.562.5.77697386058",
+        "id": "3581900"
+      }
+    ],
+    "kayntiosoite": {
+      "postinumeroUri": "posti_04400",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.41268010679",
+      "postitoimipaikka": "JÄRVENPÄÄ",
+      "osoite": "Katumatie 478"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_04400",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.46914830495",
+      "postitoimipaikka": "JÄRVENPÄÄ",
+      "osoite": "Yläpääntie 737"
+    },
+    "lyhytNimi": {
+      "fi": "Pekka Halosen akatemia",
+      "sv": "Pekka Halosen akatemia",
+      "en": "Pekka Halosen akatemia"
+    },
+    "yhteystietoArvos": [],
+    "oppilaitosTyyppiUri": "oppilaitostyyppi_63#1",
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "piilotettu": false,
+    "status": "AKTIIVINEN",
+    "version": 2
+  },
+  {
+    "yhteishaunKoulukoodi": "0394",
+    "maskingActive": false,
+    "oid": "1.2.246.562.10.78314029667",
+    "parentOid": "1.2.246.562.10.197113642410",
+    "alkuPvm": "1992-01-01",
+    "kieletUris": [
+      "oppilaitoksenopetuskieli_1#1"
+    ],
+    "kotipaikkaUri": "kunta_858",
+    "kuvaus2": {},
+    "maaUri": "maatjavaltiot1_fin",
+    "metadata": {},
+    "nimi": {
+      "fi": "Pekka Halosen akatemia",
+      "sv": "Pekka Halosen akatemia",
+      "en": "Pekka Halosen akatemia"
+    },
+    "nimet": [],
+    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.55867603791|1.2.246.562.10.197113642410|",
+    "toimipistekoodi": "0169101",
+    "tyypit": [
+      "organisaatiotyyppi_03"
+    ],
+    "vuosiluokat": [],
+    "lisatiedot": [],
+    "ryhmatyypit": [],
+    "kayttoryhmat": [],
+    "yhteystiedot": [
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_04400",
+        "yhteystietoOid": "1.2.246.562.5.28808042999",
+        "id": "3615861",
+        "postitoimipaikka": "JÄRVENPÄÄ",
+        "osoite": "Kalsaari 36"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 35280181",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.77753383346",
+        "id": "3615859"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.keuda.fi/pha",
+        "yhteystietoOid": "1.2.246.562.5.13528798179",
+        "id": "3615857"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_04400",
+        "yhteystietoOid": "1.2.246.562.5.12335198722",
+        "id": "3615858",
+        "postitoimipaikka": "JÄRVENPÄÄ",
+        "osoite": "Halivaarankatu 512"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "1.2.246.562.5.66565577401",
+        "id": "3615860",
+        "email": "hakija-27585877@oph.fi"
+      }
+    ],
+    "kayntiosoite": {
+      "postinumeroUri": "posti_04400",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.28808042999",
+      "postitoimipaikka": "JÄRVENPÄÄ",
+      "osoite": "Kalsaari 36"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_04400",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.12335198722",
+      "postitoimipaikka": "JÄRVENPÄÄ",
+      "osoite": "Halivaarankatu 512"
+    },
+    "lyhytNimi": {
+      "fi": "Pekka Halosen akatemia",
+      "sv": "Pekka Halosen akatemia",
+      "en": "Pekka Halosen akatemia"
+    },
+    "yhteystietoArvos": [],
+    "opetuspisteenJarjNro": "01",
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "piilotettu": false,
+    "status": "AKTIIVINEN",
+    "version": 5
+  },
+  {
+    "maskingActive": false,
+    "kieletUris": [
+      "oppilaitoksenopetuskieli_1#2",
+      "oppilaitoksenopetuskieli_2#2"
+    ],
+    "kotipaikkaUri": "kunta_245",
+    "maaUri": "maatjavaltiot1_fin",
+    "parentOid": "1.2.246.562.10.00000000001",
+    "piilotettu": false,
+    "lyhytNimi": {
+      "fi": "Keravan kaupunki",
+      "sv": "Keravan kaupunki",
+      "en": "Keravan kaupunki"
+    },
+    "vuosiluokat": [],
+    "lisatiedot": [],
+    "ryhmatyypit": [],
+    "kayttoryhmat": [],
+    "yritysmuoto": "Kunta",
+    "ytjkieli": "kieli_fi#1",
+    "ytjpaivitysPvm": "2017-04-18",
+    "ytunnus": "0127485-5",
+    "tarkastusPvm": 1665395493857,
+    "yhteystiedot": [
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 33967921",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.24620031054",
+        "id": "9797933"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_04250",
+        "yhteystietoOid": "1.2.246.562.5.36974259701",
+        "id": "9797937",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Kalsaari 121"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "yhteystietoOid": "15887689743050.9401800300883439",
+        "id": "9797929",
+        "email": "hakija-47662500@oph.fi"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "www": "http://www.kerava.fi/",
+        "yhteystietoOid": "15887689743050.08251565681112949",
+        "id": "9797935"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "1.2.246.562.5.2013092510101889057651",
+        "id": "9797931",
+        "email": "hakija-9575714@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_04201",
+        "yhteystietoOid": "1.2.246.562.5.36346033891",
+        "id": "9797934",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Verhonkulmala 863"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.kerava.fi/",
+        "yhteystietoOid": "1.2.246.562.5.2013092510101889183934",
+        "id": "9797932"
       },
       {
         "osoiteTyyppi": "kaynti",
         "kieli": "kieli_fi#1",
-        "postinumeroUri": "posti_90570",
-        "yhteystietoOid": "1.2.246.562.5.29974839937",
-        "id": "7935897",
-        "postitoimipaikka": "OULU",
-        "osoite": "Yliopistokatu 9"
+        "postinumeroUri": "posti_04250",
+        "yhteystietoOid": "1.2.246.562.5.35134750658",
+        "id": "9797936",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Hunningonpolku 158",
+        "ytjPaivitysPvm": "2016-04-18"
       },
       {
+        "kieli": "kieli_sv#1",
+        "numero": "050 53972031",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.91178238795",
+        "id": "9797928"
+      },
+      {
+        "osoiteTyyppi": "posti",
         "kieli": "kieli_fi#1",
-        "yhteystietoOid": "1.2.246.562.5.57286811153",
-        "id": "7935894",
-        "email": "info@oamk.fi"
+        "postinumeroUri": "posti_04201",
+        "yhteystietoOid": "1.2.246.562.5.99286718582",
+        "id": "9797930",
+        "postitoimipaikka": "KERAVA",
+        "osoite": "Horontaipaleenpolku 660",
+        "ytjPaivitysPvm": "2017-04-18"
       }
     ],
+    "toimipistekoodi": "",
+    "parentOidPath": "|1.2.246.562.10.00000000001|",
+    "kayntiosoite": {
+      "postinumeroUri": "posti_04250",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.35134750658",
+      "postitoimipaikka": "KERAVA",
+      "osoite": "Hunningonpolku 158",
+      "ytjPaivitysPvm": "2016-04-18"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_04201",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.99286718582",
+      "postitoimipaikka": "KERAVA",
+      "osoite": "Horontaipaleenpolku 660",
+      "ytjPaivitysPvm": "2017-04-18"
+    },
+    "oid": "1.2.246.562.10.94791481685",
+    "alkuPvm": "1978-03-15",
+    "kuvaus2": {},
+    "tyypit": [
+      "organisaatiotyyppi_01",
+      "organisaatiotyyppi_07",
+      "organisaatiotyyppi_09"
+    ],
+    "nimi": {
+      "fi": "Keravan kaupunki",
+      "sv": "Keravan kaupunki",
+      "en": "Keravan kaupunki"
+    },
     "nimet": [
       {
         "nimi": {
-          "fi": "Oulun seudun ammattikorkeakoulu"
+          "fi": "Keravan kaupunki",
+          "sv": "Keravan kaupunki",
+          "en": "Keravan kaupunki"
         },
-        "alkuPvm": "1996-08-01",
-        "version": 0
-      },
-      {
-        "nimi": {
-          "fi": "Oulun ammattikorkeakoulu",
-          "sv": "Oulun ammattikorkeakoulu",
-          "en": "Oulu University of Applied Sciences"
-        },
-        "alkuPvm": "2013-11-05",
+        "alkuPvm": "1978-03-15",
         "version": 0
       }
     ],
-    "vuosiluokat": [],
-    "version": 54,
-    "status": "AKTIIVINEN"
+    "status": "AKTIIVINEN",
+    "yhteystietoArvos": [
+      {
+        "YhteystietoArvo.arvoText": "hakija-8351803@oph.fi",
+        "YhteystietojenTyyppi.nimi.fi": "Kriisitiedotuksen sähköpostiosoite",
+        "YhteystietojenTyyppi.nimi.sv": "Kriskommunikation epost",
+        "YhteystietoElementti.tyyppi": "Email",
+        "YhteystietojenTyyppi.oid": "1.2.246.562.5.31532764098",
+        "YhteystietoElementti.oid": "1.2.246.562.5.30789631784",
+        "YhteystietoElementti.nimi": "Sähköpostiosoite",
+        "YhteystietoElementti.nimiSv": "Epostadress",
+        "YhteystietoElementti.pakollinen": "false",
+        "YhteystietojenTyyppi.nimi.en": "Kriisitiedotuksen sähköpostiosoite",
+        "YhteystietoElementti.kaytossa": "true",
+        "YhteystietoArvo.kieli": "kieli_fi#1"
+      }
+    ],
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "version": 29
+  },
+  {
+    "maskingActive": false,
+    "kieletUris": [
+      "oppilaitoksenopetuskieli_1#1"
+    ],
+    "kotipaikkaUri": "kunta_598",
+    "maaUri": "maatjavaltiot1_fin",
+    "parentOid": "1.2.246.562.10.57993240753",
+    "yhteystiedot": [
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 86058401",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.69962203811",
+        "id": "9801940"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.34465315355",
+        "id": "9801936",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Jänishaikulankuja 38"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "15913929654120.11759774458034844",
+        "id": "9801938",
+        "email": "hakija-25014179@oph.fi"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "numero": "050 86992791",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.22307501951",
+        "id": "9801932"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "yhteystietoOid": "15505752252230.062392868678755264",
+        "id": "9801935",
+        "email": "hakija-51449212@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_posti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.53178642921",
+        "id": "9801933",
+        "osoite": "Vihavuodentie 448"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "15913929654120.4211273802733386",
+        "id": "9801930",
+        "email": "hakija-53828338@oph.fi"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.41361336252",
+        "id": "9801939",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Hiljaisten miesten laakso 606"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_kaynti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.49508632723",
+        "id": "9801929",
+        "osoite": "Leipeekorpi 559"
+      },
+      {
+        "kieli": "kieli_sv#1",
+        "numero": "050 26921031",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.90195170783",
+        "id": "9801937"
+      },
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_sv#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.18318012814",
+        "id": "9801934",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Hyväneulankatu 511"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_68600",
+        "yhteystietoOid": "1.2.246.562.5.92397809234",
+        "id": "9801931",
+        "postitoimipaikka": "JAKOBSTAD",
+        "osoite": "Katinhännänraitti 417"
+      }
+    ],
+    "toimipistekoodi": "",
+    "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.57993240753|",
+    "kayntiosoite": {
+      "postinumeroUri": "posti_68600",
+      "osoiteTyyppi": "kaynti",
+      "yhteystietoOid": "1.2.246.562.5.34465315355",
+      "postitoimipaikka": "JAKOBSTAD",
+      "osoite": "Jänishaikulankuja 38"
+    },
+    "postiosoite": {
+      "postinumeroUri": "posti_68600",
+      "osoiteTyyppi": "posti",
+      "yhteystietoOid": "1.2.246.562.5.92397809234",
+      "postitoimipaikka": "JAKOBSTAD",
+      "osoite": "Katinhännänraitti 417"
+    },
+    "oid": "1.2.246.562.10.67247086191",
+    "alkuPvm": "2008-08-01",
+    "kuvaus2": {},
+    "tyypit": [
+      "organisaatiotyyppi_08"
+    ],
+    "nimi": {
+      "fi": "Språkbad/Kielikylpy",
+      "sv": "Språkbad/Kielikylpy",
+      "en": "Språkbad/Kielikylpy"
+    },
+    "status": "AKTIIVINEN",
+    "yhteystietoArvos": [],
+    "muutKotipaikatUris": [],
+    "muutOppilaitosTyyppiUris": [],
+    "varhaiskasvatuksenToimipaikkaTiedot": {
+      "toimintamuoto": "vardatoimintamuoto_tm01",
+      "kasvatusopillinenJarjestelma": "vardakasvatusopillinenjarjestelma_kj98",
+      "varhaiskasvatuksenJarjestamismuodot": [
+        "vardajarjestamismuoto_jm01"
+      ],
+      "paikkojenLukumaara": 72,
+      "varhaiskasvatuksenKielipainotukset": [
+        {
+          "kielipainotus": "kieli_fi",
+          "alkupvm": "2008-08-01"
+        },
+        {
+          "kielipainotus": "kieli_sv",
+          "alkupvm": "2008-08-01"
+        }
+      ],
+      "varhaiskasvatuksenToiminnallinenpainotukset": [
+        {
+          "toiminnallinenpainotus": "vardatoiminnallinenpainotus_tp98",
+          "alkupvm": "2022-10-13"
+        }
+      ]
+    },
+    "version": 697
   }
 ]

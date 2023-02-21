@@ -8,6 +8,8 @@
 
 (defrecord CasSession [service session-id jsession?])
 
+(defonce error-codes-causing-session-reset [302, 401, 403])
+
 (defn init-session
   [service-url jsession?]
   (let [path (.getPath (java.net.URI. service-url))]
@@ -37,7 +39,7 @@
      (reset cas-session))
    (let [http (fn [] (request (assoc-cas-session-params cas-session opts)))
          res (http)]
-     (if (<= 300 (:status res))
+     (if (some #(= % (:status res)) error-codes-causing-session-reset)
        (do (reset cas-session)
            (http))
        res)))

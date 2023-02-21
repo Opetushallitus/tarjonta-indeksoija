@@ -388,10 +388,6 @@
             valintaperuste (when-not (str/blank? valintaperusteId)
                              (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
             jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
-            jarjestyspaikka-oppilaitos (when-not (str/blank? jarjestyspaikkaOid)
-                                         (first
-                                           (:oppilaitokset
-                                             (kouta-backend/get-oppilaitokset-with-cache [jarjestyspaikkaOid] execution-id))))
             pistehistoria (kouta-backend/get-pistehistoria-for-hakukohde hakukohde-from-kouta execution-id)]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde

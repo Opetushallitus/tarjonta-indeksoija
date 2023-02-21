@@ -234,6 +234,51 @@
         }
       ],
       "oid": "1.2.246.562.10.10101010103"
+    },
+    {
+      "organisaatiotyyppi": [
+        {
+          "koodiUri": "organisaatiotyyppi_03",
+          "nimi": {
+            "fi": "organisaatiotyyppi_03 nimi fi",
+            "sv": "organisaatiotyyppi_03 nimi sv"
+          }
+        }
+      ],
+      "nimi": {
+        "sv": "Tanhuala universitet, Farmaceutiska fakulteten extra",
+        "fi": "Tanhualan yliopisto, Farmasian tiedekunta extra",
+        "en": "University of Tanhuala, Faculty of Pharmacy extra"
+      },
+      "oid": "1.2.246.562.10.10101010109",
+      "status": "AKTIIVINEN",
+      "opetuskieli": [
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_1#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_1#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_1#1 nimi sv"}
+        },
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_2#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_2#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_2#1 nimi sv"}
+        },
+        {
+          "koodiUri": "oppilaitoksenopetuskieli_4#1",
+          "nimi": {
+            "fi": "oppilaitoksenopetuskieli_4#1 nimi fi",
+            "sv": "oppilaitoksenopetuskieli_4#1 nimi sv"}
+        }
+      ],
+      "kotipaikka": {
+        "koodiUri": "kunta_091",
+        "nimi": {
+          "fi": "kunta_091 nimi fi",
+          "sv": "kunta_091 nimi sv"
+        }
+      }
     }
   ],
   "oppilaitos": {

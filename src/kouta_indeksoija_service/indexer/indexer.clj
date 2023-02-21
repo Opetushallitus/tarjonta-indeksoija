@@ -17,7 +17,6 @@
             [kouta-indeksoija-service.rest.eperuste :as eperusteet-client]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.util.tools :refer [get-oids]]
             [clojure.tools.logging :as log]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
@@ -150,20 +149,21 @@
    (index-eperusteet [oid] execution-id)))
 
 (defn index-oppilaitokset
-  [oids execution-id]
-  (let [get-organisaation-koulutukset (fn [oid] (let [result (map :oid (some-> oid
-                                                                               (hierarkia/get-hierarkia)
-                                                                               (organisaatio-tool/find-oppilaitos-from-hierarkia)
-                                                                               (:oid)
-                                                                               (kouta-backend/get-koulutukset-by-tarjoaja-with-cache execution-id)))] result))
-        entries (oppilaitos/do-index oids execution-id)
-        hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids execution-id)
-        toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids execution-id)]
-    (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
-    (oppilaitos-search/do-index oids execution-id)
-    (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids) execution-id)
-    (toteutus/do-index toteutus-oids execution-id)
-    entries))
+  ([oids execution-id]
+   (index-oppilaitokset oids execution-id true))
+  ([oids execution-id clear-cache-before]
+    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (hierarkia/get-hierarkia-cached) oids)
+          get-organisaation-koulutukset (fn [oid] (map :oid (some-> oid
+                                                                    (hierarkia/find-oppilaitos-by-own-or-child-oid)
+                                                                    (:oid)
+                                                                    (kouta-backend/get-koulutukset-by-tarjoaja-with-cache execution-id))))
+          hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids-to-index execution-id)
+          toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids-to-index execution-id)]
+      (oppilaitos/do-index oids-to-index execution-id clear-cache-before)
+      (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
+      (oppilaitos-search/do-index oids-to-index execution-id clear-cache-before)
+      (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids-to-index) execution-id)
+      (toteutus/do-index toteutus-oids execution-id))))
 
 (defn index-oppilaitos
   [oid]
@@ -275,10 +275,11 @@
 
 (defn index-all-oppilaitokset
   []
-  (let [oppilaitokset (organisaatio-client/get-all-oppilaitos-oids)
+  (hierarkia/clear-all-cached-data)
+  (let [oppilaitokset (hierarkia/get-all-indexable-oppilaitos-oids)
         execution-id (str "MASSA-" (. System (currentTimeMillis)))]
     (log/info "ID:" execution-id " Indeksoidaan " (count oppilaitokset) " oppilaitosta, (o)ids: " oppilaitokset)
-    (index-oppilaitokset oppilaitokset execution-id)))
+    (index-oppilaitokset oppilaitokset execution-id false)))
 
 (defn index-all-lokalisoinnit
   []

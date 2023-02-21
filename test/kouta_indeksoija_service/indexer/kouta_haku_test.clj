@@ -1,5 +1,6 @@
 (ns kouta-indeksoija-service.indexer.kouta-haku-test
   (:require [clojure.test :refer :all]
+            [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
             [kouta-indeksoija-service.fixture.external-services :as mocks]
@@ -76,7 +77,7 @@
      (is (= "tallennettu" (:tila (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid))))
      (is (= toteutus-oid3 (:oid (get-doc toteutus/index-name toteutus-oid3))))
      (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-     (is (= false (search-terms-key-not-empty oppilaitos-search/index-name mocks/Oppilaitos1 :hakutiedot)))
+     (is (= false (search-terms-key-not-empty oppilaitos-search/index-name oppilaitos-oid :hakutiedot)))
      (fixture/update-hakukohde-mock ei-julkaistun-haun-julkaistu-hakukohde-oid :tila "poistettu")
      (fixture/update-haku-mock ei-julkaistu-haku-oid :tila "poistettu")
      (fixture/update-toteutus-mock toteutus-oid3 :tila "poistettu")
@@ -86,7 +87,7 @@
      (is (nil? (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))
      (is (nil? (get-doc toteutus/index-name toteutus-oid3)))
      (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-     (is (= false (search-terms-key-not-empty oppilaitos-search/index-name mocks/Oppilaitos1 :hakutiedot))))))
+     (is (= false (search-terms-key-not-empty oppilaitos-search/index-name oppilaitos-oid :hakutiedot))))))
 
 (deftest delete-nil-haku
   (fixture/with-mocked-indexing

@@ -6,8 +6,8 @@
    [clojure.java.shell :refer [sh]]
    [clojure.java.io :as io]
    [clj-elasticsearch.elastic-utils :as e-utils]
-   [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-   [kouta-indeksoija-service.fixture.external-services :as mocks]))
+   [kouta-indeksoija-service.fixture.common-oids :refer :all]
+   [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]))
 
 (intern 'clj-log.access-log 'service "kouta-indeksoija")
 
@@ -141,8 +141,8 @@
 (defonce punkaharjun-yliopisto    "1.2.246.562.10.000002")
 (defonce punkaharjun-toimipiste-1 "1.2.246.562.10.000003")
 (defonce punkaharjun-toimipiste-2 "1.2.246.562.10.000004")
-(defonce helsingin-yliopisto      "1.2.246.562.10.000005")
-(defonce helsingin-toimipiste     "1.2.246.562.10.000006")
+(defonce helsingin-yliopisto      "1.2.246.562.10.39218317368")
+(defonce helsingin-toimipiste     "1.2.246.562.10.80593660139")
 
 
 (defonce oppilaitoksenOsaOid1  "1.2.246.562.10.001010101011")
@@ -150,52 +150,6 @@
 (defonce oppilaitoksenOsaOid3  "1.2.246.562.10.001010101021")
 (defonce oppilaitoksenOsaOid4  "1.2.246.562.10.001010101022")
 (defonce oppilaitoksenOsaOid5  "1.2.246.562.10.001010101023")
-
-(defonce punkaharju-org
-         (mocks/create-organisaatio-hierarkia
-          {:oid "1.2.246.562.10.000001"
-           :nimi {:fi "Punkaharjun kunta"
-                  :sv "Punkaharjun kunta sv"}
-           :kotipaikka "kunta_618"
-           :kielet ["oppilaitoksenopetuskieli_1#1",
-                    "oppilaitoksenopetuskieli_2#1" ]}
-          {:oid punkaharjun-yliopisto
-           :nimi {:fi "Punkaharjun yliopisto"
-                  :sv "Punkaharjun yliopisto sv"}
-           :kotipaikka "kunta_618"
-           :kielet ["oppilaitoksenopetuskieli_1#1",
-                    "oppilaitoksenopetuskieli_2#1" ]}
-          [{:oid punkaharjun-toimipiste-1
-            :nimi {:fi "Punkaharjun yliopiston toimipiste"
-                   :sv "Punkaharjun yliopiston toimipiste sv "}
-            :kotipaikka "kunta_618"
-            :kielet ["oppilaitoksenopetuskieli_2#1" ]},
-           {:oid punkaharjun-toimipiste-2
-            :nimi {:fi "Punkaharjun yliopiston Karjaan toimipiste"
-                   :sv "Punkaharjun yliopiston Karjaan toimipiste sv "}
-            :kotipaikka "kunta_220"
-            :kielet ["oppilaitoksenopetuskieli_1#1"]}]))
-
-(defonce helsinki-org
-         (mocks/create-organisaatio-hierarkia
-          {:oid "1.2.246.562.10.000001"
-           :nimi {:fi "Helsingin kunta" :sv "Helsingin kunta sv"}
-           :kotipaikka "kunta_091"
-           :kielet [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ]}
-          {:oid helsingin-yliopisto
-           :nimi {:fi "Helsingin yliopisto" :sv "Helsingin yliopisto sv"}
-           :kotipaikka "kunta_091"
-           :kielet [ "oppilaitoksenopetuskieli_1#1", "oppilaitoksenopetuskieli_2#1" ]}
-          [{:oid helsingin-toimipiste
-            :nimi {:fi "Helsingin yliopiston toimipiste" :sv "Helsingin yliopiston toimipiste sv "}
-            :kotipaikka "kunta_091"
-            :kielet [ "oppilaitoksenopetuskieli_2#1" ]}]))
-
-(defn- orgs
-  [x & {:as params}]
-  (cond
-    (or (= x punkaharjun-yliopisto) (= x punkaharjun-toimipiste-1) (= x punkaharjun-toimipiste-2)) punkaharju-org
-    (or (= x helsingin-yliopisto) (= x helsingin-toimipiste)) helsinki-org))
 
 (defonce koulutus-metatieto
           {:tyyppi "amm"
@@ -367,7 +321,7 @@
     (fixture/add-haku-mock kk-haku-oid  :tila "julkaistu"   :nimi "KK-haku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_01#1")
 
 
-    (fixture/add-valintaperuste-mock valintaperusteId1 :tila "julkaistu" :nimi "Valintaperustekuvaus" :organisaatio mocks/Oppilaitos2)
+    (fixture/add-valintaperuste-mock valintaperusteId1 :tila "julkaistu" :nimi "Valintaperustekuvaus" :organisaatio oppilaitos-oid3)
     (fixture/add-valintaperuste-mock valintaperusteId2 :tila "julkaistu" :nimi "Valintaperuste" :muokkaaja "1.2.246.562.24.62301161440")
     (fixture/add-valintaperuste-mock valintaperusteId3 :tila "julkaistu" :nimi "Kiva valintaperustekuvaus" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
     (fixture/add-valintaperuste-mock valintaperusteId4 :tila "arkistoitu" :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
@@ -375,13 +329,13 @@
     (fixture/add-valintaperuste-mock valintaperusteId6 :tila "tallennettu" :esikatselu true :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
 
 
-    (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1 :organisaatio mocks/Oppilaitos2)
+    (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1 :organisaatio oppilaitos-oid3)
     (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid4 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId5)
     (fixture/add-hakukohde-mock hakukohdeOid3 toteutusOid2 hakuOid1 :tila "julkaistu" :esitysnimi "autoalan hakukohde" :valintaperuste valintaperusteId1 :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
     (fixture/add-hakukohde-mock hakukohdeOid4 toteutusOid5 hakuOid1 :tila "arkistoitu" :esitysnimi "Autoalan hakukohde" :valintaperuste valintaperusteId1 :modified "2018-06-05T12:02:23")
     (fixture/add-hakukohde-mock hakukohdeOid5 toteutusOid5 hakuOid1 :tila "tallennettu" :esitysnimi "Autoalan hakukohde" :valintaperuste valintaperusteId6 :modified "2018-06-05T12:02:23" :esikatselu true :hakuaikaPaattyy "2100-04-14T09:58")
     (fixture/add-hakukohde-mock hakukohdeOid6 toteutusOid5 hakuOid1 :tila "tallennettu" :esitysnimi "Autoalan hakukohde" :valintaperuste valintaperusteId6 :modified "2018-06-05T12:02:23" :esikatselu false)
-    (fixture/add-hakukohde-mock hakukohdeOid7 toteutusOid1 hakuOid1 :tila "tallennettu" :nimi "Hakukohde" :organisaatio mocks/Oppilaitos1 :valintaperuste valintaperusteId1 :esikatselu false)
+    (fixture/add-hakukohde-mock hakukohdeOid7 toteutusOid1 hakuOid1 :tila "tallennettu" :nimi "Hakukohde" :organisaatio oppilaitos-oid :valintaperuste valintaperusteId1 :esikatselu false)
     (fixture/add-hakukohde-mock hakukohdeOid8 ponikoulu-oid hakuOid1 :tila "julkaistu"  :nimi "ponikoulun hakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2100-01-01T00:00" :valintaperuste valintaperusteId2)
     (fixture/add-hakukohde-mock hakukohdeOid9 poniosatoteutus-oid hakuOid1 :tila "julkaistu"  :nimi "ponikoulun hakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2000-01-02T00:00" :valintaperuste valintaperusteId2)
     (fixture/add-hakukohde-mock hakukohdeOid10 ponikoulu-oid hakuOid2 :tila "julkaistu"  :nimi "ponikoulun yhteishakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2100-01-01T00:00" :valintaperuste valintaperusteId2)
@@ -415,6 +369,6 @@
 
                  ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
                  (fixture/index-oids-without-related-indices {:koulutukset [traktoriala-oid hevosala-oid traktoriala-oid2 hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
-                                                              :oppilaitokset [punkaharjun-yliopisto helsingin-yliopisto]} orgs)
+                                                              :oppilaitokset [punkaharjun-yliopisto helsingin-yliopisto]})
     (export-elastic-data))
 )
