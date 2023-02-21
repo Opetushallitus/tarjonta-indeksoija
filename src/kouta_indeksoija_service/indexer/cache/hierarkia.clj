@@ -3,11 +3,12 @@
             [clojure.set :refer [rename-keys]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
             [kouta-indeksoija-service.rest.organisaatio :refer [get-all-organisaatiot get-by-oid find-last-changes oph-oid]]
+            [kouta-indeksoija-service.util.conf :refer [env]]
             [clojure.core.memoize :as memoize]))
 
-(defonce hierarkia_cache_time_millis (* 1000 60 45))
+(defonce organisaatio_cache_time_millis (Integer. (:kouta-indeksoija-organisaatio-cache-time-millis env)))
 
-(defn- make-cache-factory [] (cache/ttl-cache-factory {} :ttl hierarkia_cache_time_millis))
+(defn- make-cache-factory [] (cache/ttl-cache-factory {} :ttl organisaatio_cache_time_millis))
 
 (defonce YHTEYSTIETO_CACHE (atom (make-cache-factory)))
 
@@ -83,7 +84,7 @@
     cache))
 
 (def hierarkia-cached
-  (memoize/ttl cache-whole-hierarkia :ttl/threshold (* 1000 60 30))) ;;30 minuutin cache
+  (memoize/ttl cache-whole-hierarkia :ttl/threshold organisaatio_cache_time_millis))
 
 (defn clear-hierarkia-cache []
   (memoize/memo-clear! hierarkia-cached))
@@ -120,14 +121,17 @@
         (o/toimipiste? member)(assoc-toimipisteet (get-hierarkia-item (:parentOid member)))))))
 
 
-(defn get-muutetut-cached
+(defn get-all-muutetut-organisaatiot-cached
   [last-modified]
-  (when-let [muutetut-all (find-last-changes last-modified)]
-    (let [muutetut (filter (fn [m] (or (o/oppilaitos? m) (o/toimipiste? m)))
-                           (map (fn [m] (rename-keys m {:tyypit :organisaatiotyypit})) muutetut-all))]
-      (doseq [muutettu muutetut] (do (swap! YHTEYSTIETO_CACHE cache/evict (:oid muutettu)) (do-cache-yhteystiedot muutettu)))
-      (map :oid muutetut))))
+  (when-let [muutetut-all (->> (find-last-changes last-modified)
+                               (map (fn [m] (rename-keys m {:tyypit :organisaatiotyypit}))))]
+    (let [muutetut-oppilaitokset-and-toimipisteet (filter (fn [m] (or (o/oppilaitos? m) (o/toimipiste? m))) muutetut-all)]
+      (doseq [muutettu muutetut-oppilaitokset-and-toimipisteet] (do (swap! YHTEYSTIETO_CACHE cache/evict (:oid muutettu)) (do-cache-yhteystiedot muutettu)))
+      (map :oid muutetut-all))))
 
 (defn get-all-indexable-oppilaitos-oids
   []
-  (vec (map :oid (filter o/indexable-oppilaitos? (vals @(get-hierarkia-cached))))))
+  (->> (vals @(get-hierarkia-cached))
+       (filter o/indexable-oppilaitos?)
+       (map :oid)
+       vec))
