@@ -176,13 +176,13 @@
       (indexable/->delete-entry (:oid oppilaitos)))))
 
 (defn do-index
+  ([oids execution-id]
+   (do-index oids execution-id true))
   ([oids execution-id clear-cache-before]
    (when (= true clear-cache-before)
       (cache/clear-all-cached-data))
     (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
-      (indexable/do-index index-name oids-to-index create-index-entry execution-id)))
-  ([oids execution-id]
-   (do-index oids execution-id true)))
+      (indexable/do-index index-name oids-to-index create-index-entry execution-id))))
 
 (defn get-from-index
   [oid & query-params]

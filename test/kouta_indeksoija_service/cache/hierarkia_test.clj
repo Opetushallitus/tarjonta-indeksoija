@@ -196,13 +196,17 @@
           (is (= (get-in res [:nimi :en]) "Seinäjoki University of Applied Sciences, SeAMK"))
           (is (= (count (:yhteystiedot res)) 10)))))
     (testing "Fetching changes should"
-      (testing "Fetch only required organisaatiotyypit"
-        (let [changed (cache/get-muutetut-cached (System/currentTimeMillis))]
-          (is (= changed ["1.2.246.562.10.52750255714", "1.2.246.562.10.54453921329", "1.2.246.562.10.197113642410", "1.2.246.562.10.78314029667"]))))
+      (testing "Fetch all changed organisaatiot (of any organisaatiotyyppi)"
+        (let [changed (cache/get-all-muutetut-organisaatiot-cached (System/currentTimeMillis))]
+          (is (= changed ["1.2.246.562.10.52750255714", "1.2.246.562.10.54453921329", "1.2.246.562.10.197113642410", "1.2.246.562.10.78314029667",
+                          "1.2.246.562.10.94791481685", "1.2.246.562.10.67247086191"]))))
       (testing "Refresh data in cache and fetch missing yhteystiedot"
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.52750255714")) "PASSIIVINEN"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.54453921329")) "PASSIIVINEN"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.197113642410")) "AKTIIVINEN"))
         (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.197113642410") [:nimi :fi]) "Pekka Halosen akatemia"))
         (is (= (:status (cache/get-yhteystiedot "1.2.246.562.10.78314029667")) "AKTIIVINEN"))
-        (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.78314029667") [:nimi :fi]) "Pekka Halosen akatemia"))))))
+        (is (= (get-in (cache/get-yhteystiedot "1.2.246.562.10.78314029667") [:nimi :fi]) "Pekka Halosen akatemia")))
+      (testing "Unnecessary organisaatiotyypit not cached")
+        (is (nil? (cache/get-yhteystiedot "1.2.246.562.10.94791481685")))
+        (is (nil? (cache/get-yhteystiedot "1.2.246.562.10.67247086191"))))))
