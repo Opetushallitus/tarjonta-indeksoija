@@ -95,7 +95,7 @@ Ennen indeksoijan ajamista lokaalisti täytyy pyörimässä olla
 2. localstackin sqs-jonot
 
 ---
-#### Elasticsearch-kontin käynnitys
+#### Elasticsearch-kontin käynnistys
 
 Elasticsearchia voi pyörittää docker-kontissa siten että data tallennetaan levylle vaikka kontin 
 sammuttaisi. Tämä onnnistuu ajamalla ensin (ainoastataan ensimmäisellä kerralla):
