@@ -345,14 +345,6 @@
          :summary "Listaa tiedot järjestelmän ajastetuista prosesseista"
          (with-access-logging request (ok (jobs/get-jobs-info))))
 
-       (POST "/pause-dlq" [:as request]
-         :summary "Keskeyttää dlq-jonoa siivoavan prosessin"
-         (with-access-logging request (ok (jobs/pause-dlq-job))))
-
-       (POST "/resume-dlq" [:as request]
-         :summary "Käynnistää dlq-jonoa siivoavan prosessin"
-         (with-access-logging request (ok (jobs/resume-dlq-job))))
-
        (POST "/pause-sqs" [:as request]
          :summary "Keskeyttää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity oppijan puolelle ja esikatseluun!"
          (with-access-logging request (ok (jobs/pause-sqs-job))))
@@ -361,13 +353,6 @@
          :summary "Käynnistää prosessin, joka lukee muutoksia sqs-jonosta indeksoitavaksi"
          (with-access-logging request (ok (jobs/resume-sqs-job))))
 
-       (POST "/pause-notification-dlq" [:as request]
-         :summary "Keskeyttää notifikaatioiden dlq-jonoa siivoavan prosessin"
-         (with-access-logging request (ok (jobs/pause-notification-dlq-job))))
-
-       (POST "/resume-notification-dlq" [:as request]
-         :summary "Käynnistää notifikaatioiden dlq-jonoa siivoavan prosessin"
-         (with-access-logging request (ok (jobs/resume-notification-dlq-job))))
 
        (POST "/pause-notification-sqs" [:as request]
          :summary "Keskeyttää prosessin, joka lukee notifikaatioita sqs-jonosta ja lähettää ne ulkoisille integraatioille. HUOM!! Jos prosessin keskeyttää, kouta-tarjonnan muutokset eivät välity ulkoisille integraatiolle."
