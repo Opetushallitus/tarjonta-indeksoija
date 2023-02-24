@@ -43,7 +43,7 @@
 
 (defn indexable?
   [organisaatio]
-  (and (aktiivinen? organisaatio) (valid-oppilaitostyyppi? organisaatio)))
+  (valid-oppilaitostyyppi? organisaatio))
 
 (defn indexable-oppilaitos?
   [organisaatio]

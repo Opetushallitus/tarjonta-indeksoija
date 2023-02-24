@@ -60,6 +60,20 @@
                     {:fi (str "http://localhost/hakemus/haku/" haku-oid "?lang=fi")
                      :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
                      :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}))))
+(deftest index-oppilaitos-test-3
+  (fixture/with-mocked-indexing
+    (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia (fn [oid]
+                                                                                   (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json"))
+                                                                                             [:organisaatiot 0 :children 0 :organisaatiotyypit]
+                                                                                             (constantly ["organisaatiotyyppi_06"])))
+                  kouta-indeksoija-service.rest.organisaatio/get-hierarkia-v4 (fn [oid]
+                                                                                (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia-v4.json"))
+                                                                                         [:organisaatiot 0 :children 0 :organisaatiotyypit]
+                                                                                         (constantly ["organisaatiotyyppi_06"])))]
+      (testing "Indexer should not index oppilaitos when invalid organisaatiotyyppi"
+       (check-all-nil)
+       (i/index-oppilaitos oppilaitos-oid)
+       (check-all-nil)))))
 
  (deftest index-valintaperuste-test
    (fixture/with-mocked-indexing
