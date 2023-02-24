@@ -217,7 +217,7 @@
   (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
 
 (defn- parse-tarkka-ajankohta [time-str]
-  (if-let [date (f/parse time-str)]
+  (when-let [date (f/parse time-str)]
     {:kausiUri (if (>= (t/month date) 8)
                  "kausi_s#1"
                  "kausi_k#1")
