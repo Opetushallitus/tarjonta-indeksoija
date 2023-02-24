@@ -19,4 +19,5 @@
  :queueing-cron-string "*/15 * * ? * *"
  :notifier-targets ""
  :kouta-indeksoija-kouta-cache-time-seconds 600
- :kouta-indeksoija-massa-kouta-cache-time-seconds 3600}
+ :kouta-indeksoija-massa-kouta-cache-time-seconds 3600
+ :kouta-indeksoija-organisaatio-cache-time-millis 1800000}

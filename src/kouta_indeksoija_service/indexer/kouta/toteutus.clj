@@ -80,8 +80,7 @@
   (assoc toteutus :oppilaitokset
          (->> (:tarjoajat toteutus)
               (map :oid)
-              (map cache/get-hierarkia)
-              (map organisaatio-tool/find-oppilaitos-from-hierarkia)
+              (map #(cache/find-oppilaitos-by-own-or-child-oid %))
               (remove nil?)
               (filter organisaatio-tool/indexable?)
               (map :oid)

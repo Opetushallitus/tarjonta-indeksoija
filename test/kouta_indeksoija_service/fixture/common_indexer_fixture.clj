@@ -4,11 +4,10 @@
    [clojure.test :refer :all]
    [clojure.string :as string]
    [clj-time.format :as format]
-   [clj-time.local :as local]
    [clj-time.core :as time]
    [clojure.walk :refer [postwalk]]
+   [kouta-indeksoija-service.fixture.common-oids :refer :all]
    [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
-   [kouta-indeksoija-service.fixture.external-services :as mocks]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
    [kouta-indeksoija-service.elastic.admin :as admin]
    [kouta-indeksoija-service.indexer.kouta.haku :as haku]
@@ -19,22 +18,6 @@
    [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
    [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
    [kouta-indeksoija-service.indexer.kouta.valintaperuste :as valintaperuste]))
-
-(def koulutus-oid "1.2.246.562.13.00000000000000000001")
-(def koulutus-oid2 "1.2.246.562.13.00000000000000000002")
-(def toteutus-oid "1.2.246.562.17.00000000000000000001")
-(def toteutus-oid2 "1.2.246.562.17.00000000000000000002")
-(def toteutus-oid3 "1.2.246.562.17.00000000000000000003")
-(def haku-oid "1.2.246.562.29.00000000000000000001")
-(def hakukohde-oid "1.2.246.562.20.00000000000000000001")
-(def hakukohde-oid2 "1.2.246.562.20.00000000000000000002")
-(def ei-julkaistu-haku-oid "1.2.246.562.29.00000000000000000099")
-(def ei-julkaistun-haun-julkaistu-hakukohde-oid "1.2.246.562.20.00000000000000000099")
-(def valintaperuste-id "a5e88367-555b-4d9e-aa43-0904e5ea0a13")
-(def sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd")
-(def oppilaitos-oid "1.2.246.562.10.10101010101")
-(def oppilaitoksen-osa-oid "1.2.246.562.10.10101010102")
-(def default-jarjestyspaikka-oid "1.2.246.562.10.67476956288")
 
 (defn no-formatoitu-date
   [json]
@@ -107,11 +90,7 @@
   (is (nil? (get-doc hakukohde/index-name ei-julkaistun-haun-julkaistu-hakukohde-oid)))
   (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))
   (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid)))
-  (is (nil? (get-doc oppilaitos/index-name mocks/Oppilaitos1)))
-  (is (nil? (get-doc oppilaitos/index-name mocks/Oppilaitos2)))
-  (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid)))
-  (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))
-  (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos2))))
+  (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid))))
 
 (defn filter-search-terms-by-key
   [search-index oid key expected]
@@ -134,7 +113,7 @@
                              :sorakuvausId sorakuvaus-id
                              :julkinen true
                              :modified "2019-01-31T09:11:23"
-                             :tarjoajat "1.2.246.562.10.54545454545")
+                             :tarjoajat [oppilaitos-oid])
 
   (fixture/add-koulutus-mock koulutus-oid2
                              :tila "tallennettu"
@@ -143,7 +122,7 @@
                              :sorakuvausId sorakuvaus-id
                              :julkinen "true"
                              :modified "2021-11-16T08:55:23"
-                             :tarjoajat "1.2.246.562.10.55555555555")
+                             :tarjoajat [oppilaitos-oid3])
 
   (fixture/add-toteutus-mock toteutus-oid
                              koulutus-oid
@@ -151,7 +130,7 @@
                              :nimi "Koulutuksen 0 toteutus 0"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16:23"
-                             :tarjoajat (str mocks/Toimipiste1OfOppilaitos1 "," mocks/Toimipiste2OfOppilaitos1))
+                             :tarjoajat [oppilaitoksen-osa-oid oppilaitoksen-osa-oid2])
 
   (fixture/add-toteutus-mock toteutus-oid2
                              koulutus-oid
@@ -159,7 +138,7 @@
                              :nimi "Koulutuksen 0 toteutus 1"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16:23"
-                             :tarjoajat mocks/Toimipiste1OfOppilaitos1)
+                             :tarjoajat [oppilaitoksen-osa-oid])
 
   (fixture/add-toteutus-mock toteutus-oid3
                              koulutus-oid
@@ -167,7 +146,7 @@
                              :nimi "Koulutuksen 0 toteutus 2"
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :modified "2019-02-01T13:16:23"
-                             :tarjoajat mocks/Toimipiste2OfOppilaitos1)
+                             :tarjoajat [oppilaitoksen-osa-oid2])
 
   (fixture/add-haku-mock haku-oid
                          :tila "julkaistu"
@@ -215,7 +194,7 @@
                               :hakuaikaAlkaa "2022-10-10T12:00"
                               :hakuaikaPaattyy "2080-11-10T12:00"
                               :modified "2021-10-27T14:44:44"
-                              :jarjestyspaikkaOid "1.2.246.562.10.54545454545")
+                              :jarjestyspaikkaOid oppilaitos-oid)
 
   (fixture/add-sorakuvaus-mock sorakuvaus-id
                                :tila "arkistoitu"
@@ -240,9 +219,19 @@
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49:23")
 
-  (fixture/add-oppilaitoksen-osa-mock default-jarjestyspaikka-oid
-                                      mocks/Oppilaitos1
+  (fixture/add-oppilaitoksen-osa-mock oppilaitoksen-osa-oid2
+                                      oppilaitos-oid
+                                      :tila "julkaistu"
+                                      :muokkaaja "1.2.246.562.24.62301161440"
+                                      :modified "2019-02-05T09:49:23")
 
+  (fixture/add-oppilaitos-mock oppilaitos-oid2
+                               :tila "julkaistu"
+                               :muokkaaja "1.2.246.562.24.62301161440"
+                               :modified "2019-02-05T09:49:23")
+
+  (fixture/add-oppilaitoksen-osa-mock oppilaitoksen2-osa-oid
+                                      oppilaitos-oid2
                                       :tila "julkaistu"
                                       :muokkaaja "1.2.246.562.24.62301161440"
                                       :modified "2019-02-05T09:49:23"))

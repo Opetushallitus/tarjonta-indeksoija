@@ -1,0 +1,277 @@
+{
+  "maskingActive": false,
+  "oid": "1.2.246.562.10.54453921329",
+  "parentOid": "1.2.246.562.10.2014041511401945349694",
+  "alkuPvm": "1996-08-01",
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_4#2"
+  ],
+  "kotipaikkaUri": "kunta_743",
+  "kuvaus2": {},
+  "maaUri": "maatjavaltiot1_fin",
+  "metadata": {
+    "nimi": {},
+    "yhteystiedot": [
+      {
+        "osoiteTyyppi": "kaynti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_60320",
+        "yhteystietoOid": "1.2.246.562.5.69236860274",
+        "id": "9679596",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Sveitsinpyhtää 228"
+      },
+      {
+        "osoiteTyyppi": "posti",
+        "kieli": "kieli_fi#1",
+        "postinumeroUri": "posti_60101",
+        "yhteystietoOid": "1.2.246.562.5.43227737159",
+        "id": "9679597",
+        "postitoimipaikka": "SEINÄJOKI",
+        "osoite": "Jänishaikulankuja 70"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "yhteystietoOid": "14005639311510.22000858970956183",
+        "id": "9679598",
+        "email": "hakija-21356644@oph.fi"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "www": "http://www.seamk.fi/haku",
+        "yhteystietoOid": "14005639311510.4166279770269956",
+        "id": "9679599"
+      },
+      {
+        "kieli": "kieli_fi#1",
+        "numero": "050 21699531",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.10384187009",
+        "id": "9679600"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_kaynti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.40738481254",
+        "id": "9679601",
+        "osoite": "Palatkannotko 690"
+      },
+      {
+        "osoiteTyyppi": "ulkomainen_posti",
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "1.2.246.562.5.28450965477",
+        "id": "9679602",
+        "osoite": "Kalsaari 967"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "yhteystietoOid": "14406532928830.506683029442077",
+        "id": "9679603",
+        "email": "hakija-57461910@oph.fi"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "www": "http://www.seamk.fi/Admissions",
+        "yhteystietoOid": "14406532928830.14990488756270315",
+        "id": "9679604"
+      },
+      {
+        "kieli": "kieli_en#1",
+        "numero": "050 6481641",
+        "tyyppi": "puhelin",
+        "yhteystietoOid": "1.2.246.562.5.70223265951",
+        "id": "9679605"
+      }
+    ],
+    "hakutoimistoEctsEmail": {},
+    "hakutoimistoEctsNimi": {},
+    "hakutoimistoEctsPuhelin": {},
+    "hakutoimistoEctsTehtavanimike": {},
+    "hakutoimistonNimi": {
+      "kieli_en#1": "Seinäjoki University of Applied Sciences/ Admission Services",
+      "kieli_fi#1": "SeAMK Hakijapalvelut"
+    },
+    "luontiPvm": 1396527645320,
+    "muokkausPvm": 1396527645320,
+    "data": {
+      "KANSAINVALISET_KOULUTUSOHJELMAT": {
+        "kieli_fi#1": "<p>Bachelor of Business Administration International Business, Bachelor of Health Care Nursing, Bachelor of Engineering Agri-food Engineering ja Bachelor of Engineering, Automation Engineering ovat SeAMKin kokonaan AMK-tasoiset englannin kieliset koulutukset. Myös liiketalouden ylempään amk-tutkintoon johtava koulutusohjelma Master's Degree Programme in International Business Management toteutetaan englanniksi.</p>"
+      },
+      "YLEISKUVAUS": {
+        "kieli_fi#1": "<p>Seinäjoen ammattikorkeakoulu on monialainen alueellinen ammattikorkeakoulu, joka tarjoaa koulutusta kuudella alalla. AMK-tutkintoon johtavia tutkinto-ohjelmia on yhteensä 19 ja ylempään AMK-tutkintoon johtavia kahdeksan. Lisäksi tarjolla on avoimen ammattikorkeakoulun opintoja, ammatillisia erikoistumisopintoja ja täydennyskoulutusta. SeAMK toimii kahdella kampuksella Seinäjoella. </p>"
+      },
+      "KIELIOPINNOT": {
+        "kieli_fi#1": "<p>Seinäjoen ammattikorkeakoulun kielten ja viestinnän opetuksen tavoitteena on tarjota opiskelijoille hyvät viestintävalmiudet, jotka tukevat opiskelua sekä auttavat selviytymään asiantuntijatehtävissä ja kansainvälistyvän työelämän haasteissa.</p> <p>SeAMK tarjoaa kielten opintojaksoja englannin, ruotsin, saksan, ranskan, espanjan, venäjän ja japanin kielissä sekä suomen kielen ja kulttuurin ja suomi vieraana kielenä- (S2) opintojaksoja.</p>"
+      },
+      "TERVEYDENHUOLTOPALVELUT": {
+        "kieli_fi#1": "<p>Seinäjoen ammattikorkeakoulun opiskelijaterveydenhuolto on järjestetty yhteistyössä opiskelupaikkakuntien terveyskeskusten kanssa. Opiskelijaterveydenhuolto koskee kaikkia opiskelijoita kotikunnasta riippumatta. Terveydenhuoltoon sisältyvät terveydenhoito, sairaanhoito, opiskeluympäristön terveydellisten olojen valvonta sekä hammashuolto.</p>"
+      },
+      "TEHTAVANIMIKE": {},
+      "SAHKOPOSTIOSOITE": {},
+      "RAHOITUS": {
+        "kieli_fi#1": "<p>Opiskeluun voi hakea monenlaista rahoitusta:</p> <p>- Tyypillisin on Kelan myöntämä opintotuki. Lisätietoja osoitteesta: <a href=\"http://www.kela.fi/opiskelijat\">http://www.kela.fi/opiskelijat</a>  <br />- Aikuisopiskelijoille voidaan myöntää myös Koulutusrahaston aikuiskoulutustukea. Lisätietoa osoitteesta: <a href=\"http://www.koulutusrahasto.fi/\">http://www.koulutusrahasto.fi/</a>  <br />- Työtön työnhakija voi saada opiskelun ajalta työttömyysetuutta tietyin ehdoin. Lisätietoa osoitteesta: <a href=\"http://te-palvelut.fi/te/fi/tyonhakijalle/ammatinvalinta_koulutus/omaehtoinen_opiskelu/\">http://te-palvelut.fi/te/fi/tyonhakijalle/ammatinvalinta_koulutus/omaehtoinen_opiskelu/</a> </p>"
+      },
+      "AIEMMIN_HANKITTU_OSAAMINEN": {
+        "kieli_fi#1": "<p>Sinulla on oikeus hakea aiemmin hankitun osaamisensa hyväksilukemista (tunnustamista), mikäli osaamisesi vastaa tutkinto-ohjelman osaamistavoitteita. Hyväksilukuprosessissa arvioit omaa osaamistasi suhteessa opintojakson osaamistavoitteisiin, suunnittelet itsearvioinnin pohjalta, mitä osaamista pyrit saamaan tunnistetuksi, haet tunnistamista ja annat osaamisestasi tarvittavat näytöt.</p>"
+      },
+      "sosiaalinenmedia_7#1": {},
+      "sosiaalinenmedia_5#1": {},
+      "sosiaalinenmedia_6#1": {},
+      "OPISKELIJALIIKKUVUUS": {
+        "kieli_fi#1": "<p>Ulkomaan opiskelu- ja/tai harjoittelujaksoon on mahdollisuus kaikilla SeAMKin opiskelijoilla. SeAMKilla on yhteistyökorkeakouluja 44 eri maassa: Euroopassa noin 160 sekä Aasiassa, Pohjois- ja Etelä-Amerikassa, Venäjällä, Australiassa ja Afrikassa yhteensä noin 40.</p>"
+      },
+      "VAKUUTUKSET": {
+        "kieli_fi#1": "<p>Seinäjoen ammattikorkeakoulun lakisääteinen tapaturmavakuutus kattaa opiskelijoille sattuvat tapaturmat tai niistä aiheutuneen ammattitaudin käytännön opetuksessa tai työharjoittelussa.</p>"
+      },
+      "OPISKELIJA_JARJESTOT": {
+        "kieli_fi#1": "<p>Seinäjoen ammattikorkeakoulun opiskelijakunta eli tutummin SAMO on SeAMKin opiskelijoiden edunvalvonta- ja palveluorganisaatio. SAMO toimii tiiviissä yhteistyössä SeAMKin henkilökunnan sekä yksiköissä toimivien opiskelijayhdistysten kanssa ja pitää yllä suhteita alueen elinkeinoelämään muiden ammattikorkeakoulujen opiskelijakuntiin sekä kunnan- ja valtionhallintoon. SAMO on Suomen ammattikorkeakouluopiskelijakuntien liitto - SAMOK ry:n jäsen ja sitä kautta myös Opiskelijoiden Liikuntaliiton (OLL) jäsen.</p>"
+      },
+      "VALINTAMENETTELY": {},
+      "sosiaalinenmedia_3#1": {},
+      "sosiaalinenmedia_4#1": {},
+      "sosiaalinenmedia_1#1": {
+        "kieli_fi#1": "https://www.facebook.com/seamk"
+      },
+      "VASTUUHENKILOT": {
+        "kieli_fi#1": "<p>Koulutuksien sisällöstä ja toteutuksesta saa tietoa koulutusohjelmapäälliköiltä. Heidän tietonsa löytyvät opinto-oppaasta ja SeAMKin verkkosivuilta jokaisen koulutuksen yhteydestä.</p>"
+      },
+      "KUSTANNUKSET": {
+        "kieli_fi#1": "<p>Opiskelu Seinäjoen ammattikorkeakoulussa on ilmaista, mutta vastaat itse omista elinkustannuksistasi (asuminen, ruoka, vapaa-aika). Rahaa on varattava myös kirjallisuuden ja muun opiskelumateriaalin hankintaan sekä asunnon ja koulun välisiin matkoihin. Opiskelijakortilla saat alennuksia mm. VR:ltä, Matkahuollosta sekä joistakin ravintoloista ja liikkeistä.</p>"
+      },
+      "OPPIMISYMPARISTO": {
+        "kieli_fi#1": "<p>SeAMK tarjoaa mahdollisuuden opiskella tekniikaltaan ja välineistöltään nykyaikaisissa oppimisympäristöissä. Ajanmukaiset tilat luovat edellytykset monipuoliseen ja aktiiviseen oppimiseen. Opiskellessasi voit myös osallistua tutkimus- ja kehittämistoimintaan sekä hyödyntää ammattikorkeakoulun laajaa kansainvälistä verkostoa ulkomailla opiskellen.</p>"
+      },
+      "sosiaalinenmedia_2#1": {},
+      "PUHELINNUMERO": {},
+      "NIMI": {},
+      "OPISKELIJALIIKUNTA": {
+        "kieli_fi#1": "<p>Seinäjoella voi harrastaa monipuolisesti erilaista liikuntaa kaikkina vuodenaikoina. Kaupungin alueella toimii 60 urheiluseuraa ja heidän edustamansa lajivalikoima on monipuolinen. Salibandyseura Seinäjoen Peli-Veljet (SPV) on kaksinkertainen Suomen mestari. Kaupungissa on monia liikunta- ja kuntosaleja, tekojäärata sekä uimahalli. Kaupunkialueen välittömässä läheisyydessä on useita kuntoreittejä ja luontopolkuja sekä laavuja.</p> <p>Ilmajoen kunnan alueella on yhteensä 75 yleisessä käytössä olevaa liikuntapaikkaa: mm. ulkokenttiä, sisäliikuntatiloja, uimaloita, maastoliikuntapaikkoja ja erityisurheilulaitoksia. Ilmajoki-hallissa on iso liikuntasali, kunto- ja voimailusali, harjoitustiloja painijoille sekä erillinen pienliikuntatila.</p>"
+      },
+      "VUOSIKELLO": {
+        "kieli_fi#1": "<p>Lukuvuosi on 10 kuukautta eli noin 40 viikkoa. Summer School -opinnoista ja muista kesäopinnoista ilmoitetaan SeAMKin opinto-oppaassa aina edeltävän kevään aikana. Lokakuuhun ja helmi-/maaliskuuhun pyritään opiskelijoille järjestämään itsenäisen opiskelun viikko, johon ei pääsääntöisesti sijoiteta läsnäoloa vaativia opintoja. Joulun aikana opinnoissa on noin kahden viikon tauko.</p>"
+      },
+      "OPISKELIJARUOKAILU": {
+        "kieli_fi#1": "<p>SeAMKin opiskelijana voit aterioida opiskelijahintaan opiskelupaikkasi yhteydessä tai sen lähietäisyydellä toimivissa lounasravintoloissa.</p>"
+      },
+      "VAPAA_AIKA": {
+        "kieli_fi#1": "<p>Seinäjoen ammattikorkeakoulun opiskelijakunta SAMO järjestää jäsenilleen monipuolista liikunta- ja kulttuuritoimintaa: salivuoroja, turnauksia, opiskelijabileitä, tapahtumia ym. Lisätietoja löytyy osoitteesta <a href=\"http://www.samo.fi\">www.samo.fi</a> </p> <p>Seinäjoki on tapahtumakaupunki. Kaupungin monipuolisesta vapaa-ajan, kulttuurin ja liikunnan harrastusmahdollisuuksista saat osoitteesta <a href=\"http://www.seinajoki.fi\">www.seinajoki.fi</a>.</p> <p>Provinssirock kerää rock-musiikin ystävät Törnävänsaarelle kesäkuussa ja Vauhtiajot Race&Rock -festivaali Seinäjoen keskustaan heinäkuun lopussa. Tangomarkkinoilla viihtyvät perinteisen tanssi- ja viihdemusiikin ystävät heinäkuussa. Seinäjoen kaupunginteatterin katsojaluvut ovat korkeat. Ilmajoki tunnetaan musiikkijuhlistaan sekä vireästä kulttuurielämästään. Ilmajoen nähtävyyksiä ovat mm. Yli-Lauroselan talomuseo, Ilkan patsas, tyylipuhtaat talonpoikaistalot sekä Alajoki-maisema. Lisätietoja Ilmajoen kunnan kulttuuri-, vapaa-ajan- ja liikuntapalveluista saat osoitteesta <a href=\"http://www.ilmajoki.fi\">www.ilmajoki.fi</a>.</p>"
+      },
+      "ESTEETOMYYS": {
+        "kieli_fi#1": "<p>SeAMKin tavoitteena on tarjota opiskelijoille yhdenvertainen opiskelu- ja oppimisympäristö. Opiskelijoiden erityisen tuen tarve pyritään huomioimaan opiskelun eri vaiheissa sekä opiskelijaksi hakiessa että opetusjärjestelyissä. Tavoitteena on, että opiskelu voisi edetä suunnitelmien mukaan huolimatta opiskelijan oppimisvaikeuksista, sairaudesta tai vammasta tai muista opiskeluun vaikuttavista erityispiirteistä. Käytännössä tuki voi olla esimerkiksi opiskeltavan materiaalin jakamista sopiviin kokonaisuuksiin, lisäaikaa tenttikysymyksiin vastattaessa tai muita opiskelu- ja tenttijärjestelyjä. Seinäjoen ammattikorkeakoulun opinto-ohjaajat toimivat esteettömyysasioiden yhteyshenkilöinä omissa yksiköissään. Jos sinulla on opiskeluun liittyviä oppimisvaikeuksia, on asiaa mahdollista selvittää myös SeAMKin ammatillisen erityisopettajan kanssa.</p>"
+      },
+      "TIETOA_ASUMISESTA": {
+        "kieli_fi#1": "<p>Seinäjoella opiskelijoiden valittavana on runsaasti opiskelija-asuntoja eri puolilla kaupunkia. Opiskelija-asuntoja välittää Seinäjoen kaupungin omistama Kiinteistö Oy Marttilan kortteeri (http://www.marttilankortteeri.fi/).</p> <p>Ilmajoella opiskelijat voivat asua yksikön yhteydessä sijaitsevassa asuntolassa tai Ilmajoen keskustassa Palonkortteeri -opiskelija-asuntolassa.</p>"
+      },
+      "TYOHARJOITTELU": {
+        "kieli_fi#1": "<p>Harjoittelun aikana opiskelija perehtyy työkäytäntöihin, -ympäristöihin sekä ammatilliseen ja asiakasvuorovaikutukseen käytännön läheisesti ohjaajiensa avustuksella. Usein harjoitteluun kytketään myös opinnot päättävä opinnäytetyö, joka saattaa toimia välineenä &quot;sen ensimmäisen&quot; työpaikan löytymiseen.</p> <p>Harjoittelupaikan opiskelija yleensä etsii omatoimisesti ohjaajan avustuksella lukuun ottamatta sosiaali- ja terveysalan sekä maatalousalan paikkoja, joissa paikat välitetään opetusyksikön toimesta. Kaikilla aloilla opiskelijoita tuetaan löytämään ja valitsemaan oman suuntautumisensa ja mielenkiintonsa mukainen harjoittelupaikka - mahdollisuuksien rajoissa. Harjoittelu on iso osa opiskeluasi: ole aktiivinen harjoittelujakson suunnittelussa ja oikean paikan valinnassa!</p>"
+      }
+    }
+  },
+  "nimi": {
+    "fi": "Seinäjoen ammattikorkeakoulu",
+    "sv": "Seinäjoen ammattikorkeakoulu",
+    "en": "Seinäjoki University of Applied Sciences"
+  },
+  "nimet": [
+    {
+      "nimi": {
+        "fi": "Seinäjoen ammattikorkeakoulu",
+        "sv": "Seinäjoen ammattikorkeakoulu",
+        "en": "Seinäjoki University of Applied Sciences"
+      },
+      "alkuPvm": "1996-08-01",
+      "version": 1
+    }
+  ],
+  "oppilaitosKoodi": "02472",
+  "parentOidPath": "|1.2.246.562.10.00000000001|1.2.246.562.10.2014041511401945349694|",
+  "toimipistekoodi": "02472",
+  "tyypit": [
+    "organisaatiotyyppi_02"
+  ],
+  "vuosiluokat": [],
+  "lisatiedot": [],
+  "ryhmatyypit": [],
+  "kayttoryhmat": [],
+  "yhteystiedot": [
+    {
+      "osoiteTyyppi": "kaynti",
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_60320",
+      "yhteystietoOid": "1.2.246.562.5.44626035453",
+      "id": "9679611",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Kouralehto 334"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "yhteystietoOid": "1.2.246.562.5.38237305602",
+      "id": "9679610",
+      "email": "hakija-45140526@oph.fi"
+    },
+    {
+      "osoiteTyyppi": "posti",
+      "kieli": "kieli_fi#1",
+      "postinumeroUri": "posti_60101",
+      "yhteystietoOid": "1.2.246.562.5.16348285103",
+      "id": "9679609",
+      "postitoimipaikka": "SEINÄJOKI",
+      "osoite": "Junttilantie 187"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "numero": "050 79134291",
+      "tyyppi": "puhelin",
+      "yhteystietoOid": "1.2.246.562.5.72585509168",
+      "id": "9679608"
+    },
+    {
+      "kieli": "kieli_fi#1",
+      "www": "http://www.seamk.fi",
+      "yhteystietoOid": "1.2.246.562.5.43474034543",
+      "id": "9679612"
+    }
+  ],
+  "kayntiosoite": {
+    "postinumeroUri": "posti_60320",
+    "osoiteTyyppi": "kaynti",
+    "yhteystietoOid": "1.2.246.562.5.44626035453",
+    "postitoimipaikka": "SEINÄJOKI",
+    "osoite": "Kouralehto 334"
+  },
+  "postiosoite": {
+    "postinumeroUri": "posti_60101",
+    "osoiteTyyppi": "posti",
+    "yhteystietoOid": "1.2.246.562.5.16348285103",
+    "postitoimipaikka": "SEINÄJOKI",
+    "osoite": "Junttilantie 187"
+  },
+  "lyhytNimi": {
+    "fi": "Seinäjoen ammattikorkeakoulu",
+    "sv": "Seinäjoen ammattikorkeakoulu",
+    "en": "Seinäjoki University of Applied Sciences"
+  },
+  "yhteystietoArvos": [
+    {
+      "YhteystietoArvo.arvoText": "hakija-10869437@oph.fi",
+      "YhteystietojenTyyppi.nimi.fi": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
+      "YhteystietojenTyyppi.nimi.sv": "E-postadress för felanmälan i egna uppgifter i KOSKI-tjänsten",
+      "YhteystietoElementti.tyyppi": "Email",
+      "YhteystietojenTyyppi.oid": "1.2.246.562.5.79385887983",
+      "YhteystietoElementti.oid": "1.2.246.562.5.57850489428",
+      "YhteystietoElementti.nimi": "Sähköpostiosoite",
+      "YhteystietoElementti.nimiSv": "Epostadress",
+      "YhteystietoElementti.pakollinen": "false",
+      "YhteystietojenTyyppi.nimi.en": "KOSKI-palvelun omien tietojen virheilmoituksen sähköpostiosoite",
+      "YhteystietoElementti.kaytossa": "true",
+      "YhteystietoArvo.kieli": "kieli_fi#1"
+    }
+  ],
+  "oppilaitosTyyppiUri": "oppilaitostyyppi_41#1",
+  "muutKotipaikatUris": [],
+  "muutOppilaitosTyyppiUris": [],
+  "piilotettu": false,
+  "status": "AKTIIVINEN",
+  "version": 30
+}

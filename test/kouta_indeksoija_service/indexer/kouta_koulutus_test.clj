@@ -1,9 +1,9 @@
 (ns kouta-indeksoija-service.indexer.kouta-koulutus-test
   (:require [clojure.test :refer :all]
+            [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.indexer.indexer :as i]
-            [kouta-indeksoija-service.fixture.external-services :as mocks]
             [kouta-indeksoija-service.indexer.kouta.koulutus-search :as koulutus-search]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
@@ -16,11 +16,11 @@
 (deftest index-tallennettu-koulutus-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index tallennettu koulutus only to koulutus index"
-      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :tarjoajat [mocks/Oppilaitos1])
+      (fixture/update-koulutus-mock koulutus-oid :tila "tallennettu" :tarjoajat [oppilaitos-oid])
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-      (is (nil? (get-doc oppilaitos-search/index-name mocks/Oppilaitos1)))
+      (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid)))
       (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "tallennettu"}))
                     (no-timestamp (get-doc koulutus/index-name koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
@@ -31,7 +31,7 @@
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-      (is (= mocks/Oppilaitos1 (:oid (get-doc oppilaitos-search/index-name mocks/Oppilaitos1))))
+      (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
       (compare-json (no-timestamp (merge (json "kouta-koulutus-result") {:tila "julkaistu"}))
                     (no-timestamp (get-doc koulutus/index-name koulutus-oid))))))
 
@@ -54,12 +54,12 @@
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :koulutusOid koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "arkistoitu")
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (= "arkistoitu" (:tila (get-doc koulutus/index-name koulutus-oid))))
       (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :koulutusOid koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
 
 (deftest delete-non-existing-koulutus
@@ -69,12 +69,12 @@
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (= "julkaistu" (:tila (get-doc koulutus/index-name koulutus-oid))))
       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
-      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid)))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :koulutusOid koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "poistettu")
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (is (nil? (get-doc koulutus/index-name koulutus-oid)))
       (is (nil? (get-doc koulutus-search/index-name koulutus-oid)))
-      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name mocks/Oppilaitos1 :koulutusOid koulutus-oid))))))
+      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :koulutusOid koulutus-oid))))))
 
 (def tutkinnon-osa-koulutusala1
   {:koodiUri "kansallinenkoulutusluokitus2016koulutusalataso1_07"

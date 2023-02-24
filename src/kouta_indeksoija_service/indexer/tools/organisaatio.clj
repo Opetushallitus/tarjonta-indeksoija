@@ -8,6 +8,7 @@
 
 (defonce organisaatiotyyppi-koulutustoimija "organisaatiotyyppi_01")
 (defonce organisaatiotyyppi-oppilaitos      "organisaatiotyyppi_02")
+(defonce organisaatiotyyppi-toimipiste      "organisaatiotyyppi_03")
 
 (defn- recursive-hierarkia-v4-search
   [pred level]
@@ -27,6 +28,10 @@
   [organisaatio]
   (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-koulutustoimija))
 
+(defn toimipiste?
+  [organisaatio]
+  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-toimipiste))
+
 (defn aktiivinen?
   [organisaatio]
   (= "AKTIIVINEN" (:status organisaatio)))
@@ -40,17 +45,48 @@
   [organisaatio]
   (valid-oppilaitostyyppi? organisaatio))
 
+(defn indexable-oppilaitos?
+  [organisaatio]
+  (and (aktiivinen? organisaatio) (oppilaitos? organisaatio)))
+
 (defn get-indexable-children
   [organisaatio]
   (filter indexable? (:children organisaatio)))
 
-(defn find-koulutustoimija-from-hierarkia
-  [hierarkia]
-  (recursive-hierarkia-v4-search koulutustoimija? (:organisaatiot hierarkia)))
-
 (defn find-oppilaitos-from-hierarkia
   [hierarkia]
-  (recursive-hierarkia-v4-search oppilaitos? (:organisaatiot hierarkia)))
+  (recursive-hierarkia-v4-search oppilaitos? [hierarkia]))
+
+(defn find-oppilaitos-from-cache-by-own-or-child-oid
+  [cache-atom oid]
+  (when-let [member (get @cache-atom oid)]
+    (let [get-hierarchy-item (fn [oid] (get @cache-atom oid))
+          assoc-toimipisteet (fn [oppilaitos] (-> oppilaitos
+                                                  (assoc :children (vec (map get-hierarchy-item (:childOids oppilaitos))))
+                                                  (dissoc :childOids)))]
+    (cond
+      (oppilaitos? member)(assoc-toimipisteet member)
+      (toimipiste? member)(assoc-toimipisteet (get-hierarchy-item (:parentOid member)))))))
+
+(defn attach-parent-to-oppilaitos-from-cache
+  [cache-atom oppilaitos]
+  (let [parent-oid (:parentOid oppilaitos)]
+    (if-let [parent (get @cache-atom parent-oid)]
+      (-> parent
+          (assoc :children [oppilaitos])
+          (dissoc :childOids))
+      oppilaitos)))
+
+(defn find-oppilaitos-hierarkia-from-cache
+  [cache-atom own-or-child-oid]
+  (when-let [oppilaitos (find-oppilaitos-from-cache-by-own-or-child-oid cache-atom own-or-child-oid)]
+    (attach-parent-to-oppilaitos-from-cache cache-atom oppilaitos)))
+
+(defn resolve-organisaatio-oids-to-index
+  [cache-atom oids]
+  (let [do-resolve (fn [oid] (when-let [item (get @cache-atom oid)]
+                                       (if (koulutustoimija? item) (:childOids item) [oid])))]
+    (vec (remove nil? (mapcat do-resolve oids)))))
 
 (defn- recursive-hierarkia-v4-get
   [keys level]
@@ -72,11 +108,7 @@
 
 (defn find-from-hierarkia
   [hierarkia oid]
-  (recursive-hierarkia-v4-search #(= (:oid %) oid) (:organisaatiot hierarkia)))
-
-(defn find-oids-from-hierarkia
-  [hierarkia oids]
-  (vec (map #(find-from-hierarkia hierarkia %) oids)))
+  (recursive-hierarkia-v4-search #(= (:oid %) oid) [hierarkia]))
 
 (defn filter-indexable-for-hierarkia
   [hierarkia oids]

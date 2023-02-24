@@ -1,9 +1,8 @@
 (ns kouta-indeksoija-service.notifier.notification-test
   (:require [clj-test-utils.elasticsearch-mock-utils :refer :all]
             [clojure.test :refer :all]
-            [clojure.data :refer [diff]]
             [kouta-indeksoija-service.elastic.admin :as admin]
-            [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
+            [kouta-indeksoija-service.fixture.common-oids :refer :all]
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer :all]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.test-tools :refer [parse compare-json]]
