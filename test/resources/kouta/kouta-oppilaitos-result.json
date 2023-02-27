@@ -251,6 +251,7 @@
         "en": "University of Tanhuala, Faculty of Pharmacy extra"
       },
       "oid": "1.2.246.562.10.10101010109",
+      "parentToimipisteOid": "1.2.246.562.10.10101010102",
       "status": "AKTIIVINEN",
       "opetuskieli": [
         {
