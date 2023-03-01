@@ -197,7 +197,7 @@
                                        :analyzer "finnish_lemmatizer_with_decompound"
                                        :search_analyzer "finnish_lemmatizer"
                                        :norms false
-                                       :fields {:keyword { :type "keyword" :ignore_above 256}
+                                       :fields {:keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}
                                                 :words {:type "text"
                                                              :analyzer "finnish_lemmatizer"
                                                              :search_analyzer "finnish_lemmatizer"}}}}}
@@ -207,7 +207,7 @@
                                        :analyzer "swedish_hunspell_with_decompound"
                                        :search_analyzer "swedish_hunspell"
                                        :norms false
-                                       :fields {:keyword { :type "keyword" :ignore_above 256}
+                                       :fields {:keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}
                                                 :words {:type "text"
                                                              :analyzer "swedish_hunspell"
                                                              :search_analyzer "swedish_hunspell"}}}}}
@@ -217,14 +217,14 @@
                                        :analyzer "english"
                                        :search_analyzer "english_keyword"
                                        :norms false
-                                       :fields {:keyword { :type "keyword" :ignore_above 256}
+                                       :fields {:keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}
                                                 :words { :type "text" :analyzer "english_words"}}}}}
                        {:tila {:match "tila"
                                :match_mapping_type "string"
                                :mapping {:type "text"
                                          :analyzer "finnish"
                                          :norms false
-                                         :fields { :keyword { :type "keyword" :ignore_above 256}}}}}]})
+                                         :fields { :keyword { :type "keyword" :ignore_above 256 :normalizer "case_insensitive"}}}}}]})
 
 (def kouta-mappings
   {:properties {:metadata {:properties {:opintojenLaajuusNumero {:type "float"}
