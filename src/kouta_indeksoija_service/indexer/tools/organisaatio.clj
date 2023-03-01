@@ -47,7 +47,7 @@
 
 (defn indexable-oppilaitos?
   [organisaatio]
-  (and (aktiivinen? organisaatio) (oppilaitos? organisaatio)))
+  (oppilaitos? organisaatio))
 
 (defn get-indexable-children
   [organisaatio]

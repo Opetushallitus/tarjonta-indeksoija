@@ -57,7 +57,7 @@
 
       (testing "queue all oppilaitokset"
         (q/queue-all-oppilaitokset-from-organisaatiopalvelu)
-        (is (= [{:oppilaitokset ["1.2.246.562.10.1", "1.2.246.562.10.4"]}] @test-queue))
+        (is (= [{:oppilaitokset ["1.2.246.562.10.1", "1.2.246.562.10.3", "1.2.246.562.10.4"]}] @test-queue))
         (reset! test-queue []))
 
       (testing "queue changes"

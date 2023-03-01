@@ -32,7 +32,7 @@
                             "1.2.246.562.10.3" {:oid "1.2.246.562.10.3" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "PASSIIVINEN"},
                             "1.2.246.562.10.4" {:oid "1.2.246.562.10.4" :organisaatiotyypit ["organisaatiotyyppi_02"] :status "AKTIIVINEN"}})]
     (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-cached (fn [] cache-atom)]
-      (is (= ["1.2.246.562.10.1", "1.2.246.562.10.4"] (hierarkia/get-all-indexable-oppilaitos-oids)))))))
+      (is (= ["1.2.246.562.10.1", "1.2.246.562.10.3", "1.2.246.562.10.4"] (hierarkia/get-all-indexable-oppilaitos-oids)))))))
 
 (deftest organisaatio-tool-test-fast
   (with-redefs [kouta-indeksoija-service.rest.organisaatio/get-all-organisaatiot mock-get-all-organisaatiot]
