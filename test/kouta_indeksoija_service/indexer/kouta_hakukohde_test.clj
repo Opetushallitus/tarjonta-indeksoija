@@ -29,6 +29,16 @@
      (is (nil? (get-doc koulutus/index-name koulutus-oid)))
      (is (nil? (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid)))))))
 
+(deftest quick-index-hakukohde-test
+  (fixture/with-mocked-indexing
+  (testing "Indexer should quick-index only hakukohde to hakukohde index"
+    (check-all-nil)
+    (i/quick-index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+    (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)
+          toteutus (get-doc toteutus/index-name toteutus-oid)]
+      (is (= (:oid hakukohde) hakukohde-oid))
+      (is (nil? toteutus))))))
+
 (deftest index-lukio-hakukohde-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohde to hakukohde index and update related indexes 2"
