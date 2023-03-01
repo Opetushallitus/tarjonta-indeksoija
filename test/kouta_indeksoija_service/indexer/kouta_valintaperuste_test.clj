@@ -8,6 +8,13 @@
 
 (use-fixtures :each common-indexer-fixture)
 
+(deftest quick-index-valintaperuste-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should quick-index valintaperuste to valintaperuste index"
+     (check-all-nil)
+     (i/quick-index-valintaperusteet [valintaperuste-id] (. System (currentTimeMillis)))
+     (is (= (:id  (get-doc valintaperuste/index-name valintaperuste-id)) valintaperuste-id)))))
+
 (deftest delete-nil-valintaperuste
   (fixture/with-mocked-indexing
     (testing "Indexer should delete valintaperuste that does not exist in kouta"
@@ -17,3 +24,4 @@
       (i/index-valintaperusteet [valintaperuste-id] (. System (currentTimeMillis)))
       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id)))
       )))
+

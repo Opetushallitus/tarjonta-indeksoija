@@ -25,6 +25,14 @@
                     (no-timestamp (get-doc koulutus/index-name koulutus-oid)))
       (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu"))))
 
+(deftest quick-index-koulutus-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should quick-index koulutus to koulutus index"
+     (check-all-nil)
+     (i/quick-index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+     (compare-json (no-timestamp (json "kouta-koulutus-result"))
+                   (no-timestamp (get-doc koulutus/index-name koulutus-oid))))))
+
 (deftest index-julkaistu-koulutus-test
   (fixture/with-mocked-indexing
     (testing "Indexer should index julkaistu koulutus also to search index"

@@ -26,6 +26,13 @@
                :sv "Koulutuksen 0 toteutuksen 2 hakukohde 0 sv"} (:nimi (aget hakukohteet 1))))
        ))))
 
+(deftest quick-index-haku-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should quick-index only haku to haku index"
+     (check-all-nil)
+     (i/quick-index-haut [haku-oid] (. System (currentTimeMillis)))
+     (is (= (:oid  (get-doc haku/index-name haku-oid)) haku-oid)))))
+
 (deftest index-hakukohteet-with-hakukohdekoodiuri-to-haku-test
   (fixture/with-mocked-indexing
    (testing "Indexer should index hakukohteet with hakukohdeKoodiUri to haku-index, if hakukohdeKoodiUri available"

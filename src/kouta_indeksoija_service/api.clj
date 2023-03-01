@@ -158,6 +158,13 @@
                         {notify :- Boolean false}]
          (with-access-logging request (with-notifications :koulutukset notify (indexer/index-koulutus oid))))
 
+       (POST "/koulutus/quick" [:as request]
+         :summary "Indeksoi kevyesti vain koulutuksen tiedot kouta-backendistä, jotta saadaan kouta-ui:n
+         listausnäkymät päivittymään nopeammin. Ei indeksoi muita koulutukseen liittyviä entiteettejä!"
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-access-logging request (with-notifications :koulutukset notify (indexer/quick-index-koulutus oid))))
+
        (POST "/koulutukset" [:as request]
          :summary "Indeksoi kaikki koulutukset kouta-backendistä."
          :query-params [{notify :- Boolean false}]
@@ -168,6 +175,13 @@
          :query-params [oid :- String
                         {notify :- Boolean false}]
          (with-access-logging request (with-notifications :toteutukset notify (indexer/index-toteutus oid))))
+
+       (POST "/toteutus/quick" [:as request]
+         :summary "Indeksoi kevyesti vain toteutuksen tiedot kouta-backendistä, jotta saadaan kouta-ui:n
+         listausnäkymät päivittymään nopeammin. Ei indeksoi muita toteutukseen liittyviä entiteettejä!"
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-access-logging request (with-notifications :toteutukset notify (indexer/quick-index-toteutus oid))))
 
        (POST "/toteutukset" [:as request]
          :summary "Indeksoi kaikki toteutukset kouta-backendistä."
@@ -180,6 +194,13 @@
                         {notify :- Boolean false}]
          (with-access-logging request (with-notifications :hakukohteet notify (indexer/index-hakukohde oid))))
 
+       (POST "/hakukohde/quick" [:as request]
+         :summary "Indeksoi kevyesti vain hakukohteen tiedot kouta-backendistä, jotta saadaan kouta-ui:n
+         listausnäkymät päivittymään nopeammin. Ei indeksoi muita hakukohteeseen liittyviä entiteettejä!"
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-access-logging request (with-notifications :hakukohteet notify (indexer/quick-index-hakukohde oid))))
+
        (POST "/hakukohteet" [:as request]
          :summary "Indeksoi kaikki hakukohteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
@@ -187,6 +208,13 @@
 
        (POST "/haku" [:as request]
          :summary "Indeksoi haun tiedot kouta-backendistä."
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-access-logging request (with-notifications :haku notify (indexer/index-haku oid))))
+
+       (POST "/haku/quick" [:as request]
+         :summary "Indeksoi kevyesti vain haun tiedot kouta-backendistä, jotta saadaan kouta-ui:n
+         listausnäkymät päivittymään nopeammin. Ei indeksoi muita hakuun liittyviä entiteettejä!"
          :query-params [oid :- String
                         {notify :- Boolean false}]
          (with-access-logging request (with-notifications :haku notify (indexer/index-haku oid))))
@@ -202,6 +230,13 @@
                         {notify :- Boolean false}]
          (with-access-logging request (with-notifications :valintaperusteet notify (indexer/index-valintaperuste oid))))
 
+       (POST "/valintaperuste/quick" [:as request]
+         :summary "Indeksoi kevyesti vain valintaperusteen tiedot kouta-backendistä, jotta saadaan kouta-ui:n
+         listausnäkymät päivittymään nopeammin. Ei indeksoi muita valintaperusteeseen liittyviä entiteettejä!"
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-access-logging request (with-notifications :valintaperusteet notify (indexer/quick-index-valintaperuste oid))))
+
        (POST "/valintaperusteet" [:as request]
          :summary "Indeksoi kaikki valintaperusteet kouta-backendistä."
          :query-params [{notify :- Boolean false}]
@@ -212,6 +247,12 @@
          :query-params [oid :- String
                         {notify :- Boolean false}]
          (with-access-logging request (with-notifications :sorakuvaukset notify (indexer/index-sorakuvaus oid))))
+
+       (POST "/sorakuvaus/quick" [:as request]
+         :summary "Indeksoi sorakuvausten tiedot kouta-backendistä."
+         :query-params [oid :- String
+                        {notify :- Boolean false}]
+         (with-access-logging request (with-notifications :sorakuvaukset notify (indexer/quick-index-sorakuvaus oid))))
 
        (POST "/sorakuvaukset" [:as request]
          :summary "Indeksoi kaikki sorakuvaukset kouta-backendistä."

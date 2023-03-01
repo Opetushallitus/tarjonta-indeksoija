@@ -26,6 +26,13 @@
        (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
        (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid)))))))
 
+(deftest quick-index-toteutus-test
+  (fixture/with-mocked-indexing
+   (testing "Indexer should quick-index toteutus to toteutus index"
+     (check-all-nil)
+     (i/quick-index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
+       (is (= (:oid  (get-doc toteutus/index-name toteutus-oid)) toteutus-oid)))))
+
 (deftest index-lukio-toteutus-test
     (fixture/with-mocked-indexing
      (testing "Indexer should index lukio toteutus to toteutus index"
