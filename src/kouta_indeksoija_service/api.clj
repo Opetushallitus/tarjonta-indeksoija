@@ -217,7 +217,7 @@
          listausnäkymät päivittymään nopeammin. Ei indeksoi muita hakuun liittyviä entiteettejä!"
          :query-params [oid :- String
                         {notify :- Boolean false}]
-         (with-access-logging request (with-notifications :haku notify (indexer/index-haku oid))))
+         (with-access-logging request (with-notifications :haku notify (indexer/quick-index-haku oid))))
 
        (POST "/haut" [:as request]
          :summary "Indeksoi kaikki haut kouta-backendistä."
