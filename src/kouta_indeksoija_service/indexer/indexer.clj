@@ -46,6 +46,7 @@
   (set (remove nil? (mapcat tutkinnonosa-ids-on-koulutus entries))))
 
 (defn quick-index-koulutukset [oids execution-id]
+  (log/info (str "Pikaindeksoidaan koulutukset " oids ", execution id " execution-id))
   (koulutus/do-index oids execution-id))
 
 ;;Tässä ja toteutuksen indeksoinnissa pitäisi indeksoida myös hakukohteet sillä
@@ -73,6 +74,7 @@
     (quick-index-koulutukset [oid] execution-id)))
 
 (defn quick-index-toteutukset [oids execution-id]
+  (log/info (str "Pikaindeksoidaan toteutukset " oids ", execution id " execution-id))
   (toteutus/do-index oids execution-id))
 
 (defn index-toteutukset
@@ -104,6 +106,7 @@
 
 (defn quick-index-haut
   [oids execution-id]
+  (log/info (str "Pikaindeksoidaan haut " oids ", execution id " execution-id))
   (haku/do-index oids execution-id))
 
 (defn index-haut
@@ -126,6 +129,7 @@
     (quick-index-haut [oid] execution-id)))
 
 (defn quick-index-hakukohteet [oids execution-id]
+  (log/info (str "Pikaindeksoidaan hakukohteet " oids ", execution id " execution-id))
   (hakukohde/do-index oids execution-id))
 
 (defn index-hakukohteet
@@ -149,6 +153,7 @@
     (quick-index-hakukohteet [oid] execution-id)))
 
 (defn quick-index-valintaperusteet [oids execution-id]
+  (log/info (str "Pikaindeksoidaan valintaperusteet " oids ", execution id " execution-id))
   (valintaperuste/do-index oids execution-id))
 
 (defn index-valintaperusteet
@@ -169,6 +174,7 @@
     (quick-index-valintaperusteet [oid] execution-id)))
 
 (defn quick-index-sorakuvaukset [ids execution-id]
+  (log/info (str "Pikaindeksoidaan sorakuvaukset " ids ", execution id " execution-id))
   (sorakuvaus/do-index ids execution-id))
 
 (defn index-sorakuvaukset
