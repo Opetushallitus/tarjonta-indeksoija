@@ -2,8 +2,8 @@
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.rest.cas.session :refer [init-session cas-authenticated-request-as-json]]
             [kouta-indeksoija-service.rest.util :refer [handle-error]]
-            [clojure.tools.logging :as log]
-            [clojure.core.memoize :as memo]))
+            [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
+            [clojure.tools.logging :as log]))
 
 (defonce cas-session (init-session (resolve-url :oppijanumerorekisteri-service.internal.base) true))
 
@@ -11,19 +11,21 @@
 
 (defonce henkilo_cache_time_millis (* 1000 60 60 2)) ;2 tunnin cache
 
-(defn get-henkilo
+(defonce henkilo_cache_size 1000)
+
+(defn- get-henkilo
   [oid]
   (-> (resolve-url :oppijanumerorekisteri-service.henkilo.oid oid)
       (cas-authenticated-get-as-json)))
-
-(def get-henkilo-with-cache
-  (memo/ttl get-henkilo {} :ttl/threshold henkilo_cache_time_millis))
 
 (defn- parse-henkilo-nimi
   [henkilo]
   (str (or (:kutsumanimi henkilo) (:etunimet henkilo)) " " (:sukunimi henkilo)))
 
-(defn get-henkilo-nimi-with-cache
-  [oid]
-  (when-let [henkilo (get-henkilo-with-cache oid)]
-    (parse-henkilo-nimi henkilo)))
+(def get-henkilo-nimi-with-cache
+  (with-fifo-ttl-cache
+    (fn [oid]
+      (when-let [henkilo (get-henkilo oid)]
+        (parse-henkilo-nimi henkilo)))
+    henkilo_cache_time_millis
+    henkilo_cache_size))
