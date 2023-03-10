@@ -1,7 +1,6 @@
 (ns kouta-indeksoija-service.api
   (:require [kouta-indeksoija-service.elastic.admin :as admin]
             [kouta-indeksoija-service.elastic.tools :refer [init-elastic-client]]
-            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.indexer.indexer :as indexer]
             [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]
             [kouta-indeksoija-service.indexer.kouta.toteutus :as toteutus]
@@ -14,12 +13,9 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :as osaamisalakuvaus]
-            [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-cache]
             [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :as lokalisointi]
             [kouta-indeksoija-service.lokalisointi.service :as lokalisointi-service]
             [clj-log.access-log :refer [with-access-logging]]
-            [clj-log.error-log :refer [with-error-logging]]
-            [ring.middleware.cors :refer [wrap-cors]]
             [compojure.api.sweet :refer :all]
             [compojure.route :as route]
             [ring.util.http-response :refer :all]
@@ -397,8 +393,7 @@
        (POST "/organisaatio" [:as request]
          :summary "Indeksoi oppilaitoksen"
          :query-params [oid :- String]
-         (with-access-logging request (ok {:result (do (queuer/clear-organisaatio-cache [oid])
-                          (indexer/index-oppilaitos oid))})))
+         (with-access-logging request (ok {:result (indexer/index-oppilaitos oid)})))
 
        (POST "/koodistot" [:as request]
          :summary "Indeksoi (filtereissä käytettävien) koodistojen uusimmat versiot."

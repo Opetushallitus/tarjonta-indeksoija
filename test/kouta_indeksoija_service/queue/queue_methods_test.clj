@@ -3,7 +3,6 @@
             [amazonica.core :as amazonica]
             [cheshire.core :as json]
             [clojure.string :as str]
-            [kouta-indeksoija-service.util.conf :refer [env]]
             [kouta-indeksoija-service.queue.queue :refer :all]))
 
 (deftest queue-unit-tests

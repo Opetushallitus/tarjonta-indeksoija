@@ -5,7 +5,21 @@
             [kouta-indeksoija-service.queue.queue :as queue]
             [kouta-indeksoija-service.queue.notification-queue :as notification-queue]
             [kouta-indeksoija-service.queuer.queuer :as queuer]
-            [kouta-indeksoija-service.indexer.indexer :as indexer]))
+            [kouta-indeksoija-service.indexer.indexer :as indexer]
+            [kouta-indeksoija-service.queuer.last-queued :refer [set-last-queued-time get-last-queued-time]]
+            [kouta-indeksoija-service.util.time :refer [long->date-time-string]]
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as organisaatio-hierarkia]
+            [clojure.tools.logging :as log]))
+
+(def elastic-lock? (atom false :error-handler #(log/error %)))
+
+(defmacro wait-for-elastic-lock
+  [& body]
+  `(if-not (compare-and-set! elastic-lock? false true)
+     (log/debug "Already queueing last changes, skipping job.")
+     (try
+       (do ~@body)
+       (finally (reset! elastic-lock? false)))))
 
 (defjob sqs-job [ctx] (queue/index-from-sqs))
 
@@ -23,7 +37,23 @@
   []
   (scheduler/resume-job sqs-job-name))
 
-(defjob queueing-job [ctx] (queuer/queue-changes))
+(defn handle-and-queue-changed-data
+  []
+  (wait-for-elastic-lock
+   (let [now (System/currentTimeMillis)
+         last-modified (get-last-queued-time)
+         organisaatio-changes (organisaatio-hierarkia/get-all-muutetut-organisaatiot-cached last-modified)
+         org-change-count (count organisaatio-changes)
+         eperuste-change-count (queuer/queue-eperuste-changes last-modified)
+         changes-count (+ eperuste-change-count org-change-count)]
+     (when (< 0 org-change-count)
+       (organisaatio-hierarkia/clear-hierarkia-cache)
+       (indexer/index-oppilaitokset organisaatio-changes now false))
+     (when (< 0 changes-count)
+       (log/info "Fetched and indexed last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
+       (set-last-queued-time now)))))
+
+(defjob queueing-job [ctx] (handle-and-queue-changed-data))
 
 (defonce queueing-job-name "queueing")
 

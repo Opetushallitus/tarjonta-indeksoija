@@ -1,6 +1,5 @@
 (ns kouta-indeksoija-service.indexer.kouta.oppilaitos-search
   (:require [clojure.string :as string]
-            [kouta-indeksoija-service.rest.organisaatio :as organisaatio-client]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
@@ -141,20 +140,25 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (let [hierarkia (cache/get-hierarkia oid)]
-    (when-let [oppilaitos-oid (:oid (organisaatio-tool/find-oppilaitos-from-hierarkia hierarkia))]
-      (let [oppilaitos (organisaatio-client/get-hierarkia-for-oid-without-parents oppilaitos-oid)
-            koulutukset (delay
-                          (get-tarjoaja-entries hierarkia
-                                                (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)))]
-        (if (and (organisaatio-tool/indexable? oppilaitos) (seq @koulutukset))
-          (indexable/->index-entry
-            (:oid oppilaitos) (create-oppilaitos-entry-with-hits oppilaitos hierarkia @koulutukset execution-id))
-          (indexable/->delete-entry (:oid oppilaitos)))))))
+  (when-let [oppilaitos (cache/find-oppilaitos-by-own-or-child-oid oid)]
+    (let [oppilaitos-hierarkia (organisaatio-tool/attach-parent-to-oppilaitos-from-cache (cache/get-hierarkia-cached) oppilaitos)
+          oppilaitos-oid (:oid oppilaitos)
+          koulutukset (delay
+                        (get-tarjoaja-entries oppilaitos-hierarkia
+                          (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)))]
+      (if (and (organisaatio-tool/indexable? oppilaitos) (seq @koulutukset))
+        (indexable/->index-entry
+          oppilaitos-oid (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia @koulutukset execution-id))
+        (indexable/->delete-entry oppilaitos-oid)))))
 
 (defn do-index
-  [oids execution-id]
-  (indexable/do-index index-name oids create-index-entry execution-id))
+  ([oids execution-id]
+   (do-index oids execution-id true))
+  ([oids execution-id clear-cache-before]
+   (when (= true clear-cache-before)
+     (cache/clear-all-cached-data))
+    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
+      (indexable/do-index index-name oids-to-index create-index-entry execution-id))))
 
 (defn get-from-index
   [oid]
