@@ -1,6 +1,6 @@
 (ns kouta-indeksoija-service.util.cache
-    (:require [clojure.core.memoize :as memo]
-              [clojure.core.cache :as cache]))
+    (:require [clojure.core.cache :as cache]
+              [clojure.core.memoize :as memo]))
 
 (defn with-fifo-ttl-cache
   ([f ttl-millis fifo-threshold seed]

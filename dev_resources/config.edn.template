@@ -19,5 +19,7 @@
  :queueing-cron-string "*/15 * * ? * *"
  :notifier-targets "{{kouta_indeksoija_notifier_targets}}"
  :kouta-indeksoija-kouta-cache-time-seconds "{{kouta_indeksoija_kouta_cache_time_seconds}}"
+ :kouta-indeksoija-kouta-cache-size "{{kouta_indeksoija_kouta_cache_size}}"
  :kouta-indeksoija-massa-kouta-cache-time-seconds "{{kouta_indeksoija_massa_kouta_cache_time_seconds}}"
+ :kouta-indeksoija-massa-kouta-cache-size "{{kouta_indeksoija_massa_kouta_cache_size}}"
  :kouta-indeksoija-organisaatio-cache-time-millis "{{kouta_indeksoija_organisaatio_cache_time_millis}}"}
