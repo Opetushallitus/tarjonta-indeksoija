@@ -2,6 +2,8 @@
     (:require [clojure.core.cache :as cache]
               [clojure.core.memoize :as memo]))
 
+;yhdistelmä FIFO & TTL cachesta
+;https://github.com/clojure/core.cache/wiki/Composing
 (defn with-fifo-ttl-cache
   ([f ttl-millis fifo-threshold seed]
     (let [cache (-> {}
