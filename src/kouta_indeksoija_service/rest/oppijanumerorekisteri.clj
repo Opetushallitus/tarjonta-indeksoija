@@ -11,7 +11,7 @@
 
 (defonce henkilo_cache_time_millis (* 1000 60 60 2)) ;2 tunnin cache
 
-(defonce henkilo_cache_size 1000)
+(defonce henkilo_cache_size 10000)
 
 (defn- get-henkilo
   [oid]
