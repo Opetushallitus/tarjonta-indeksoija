@@ -69,7 +69,7 @@
 ;lukiolinjakoodi saa olla arvo koodistoista "lukiopainotukset" tai
 ;"lukiolinjaterityinenkoulutustehtava"
 (defn- get-pistehistoria
-  [tarjoaja-oid hakukohdekoodi lukiolinjakoodi]
+  [tarjoaja-oid hakukohdekoodi lukiolinjakoodi execution-id]
   (if (and (nil? hakukohdekoodi) (nil? lukiolinjakoodi))
     []
     (cas-authenticated-get-as-json
