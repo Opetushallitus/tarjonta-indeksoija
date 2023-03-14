@@ -54,7 +54,9 @@
         (when (not (o/oppilaitos? (get @cache-atom parent-oid)))
           (let [parent-oppilaitos-oid (find-parent-oppilaitos-recursively cache-atom parent-oid)]
             (if (not (nil? parent-oppilaitos-oid))
-              (swap! cache-atom assoc oid (assoc toimipiste :parentOid parent-oppilaitos-oid))
+              (swap! cache-atom assoc oid (-> toimipiste
+                                              (assoc :parentToimipisteOid parent-oid)
+                                              (assoc :parentOid parent-oppilaitos-oid)))
               (swap! cache-atom assoc oid (dissoc toimipiste :parentOid)))))))))
 
 (defn- update-children-of-parents

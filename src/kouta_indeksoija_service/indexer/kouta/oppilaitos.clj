@@ -15,7 +15,7 @@
 (defn- organisaatio-entry
   [organisaatio]
   (-> organisaatio
-      (select-keys [:nimi :kieletUris :kotipaikkaUri :status :organisaatiotyypit :oppilaitostyyppi :oid])
+      (select-keys [:nimi :kieletUris :kotipaikkaUri :status :organisaatiotyypit :oppilaitostyyppi :oid :parentToimipisteOid])
       (rename-keys {:kieletUris :opetuskieliKoodiUrit
                     :oppilaitostyyppi :oppilaitostyyppiKoodiUri
                     :kotipaikkaUri :kotipaikkaKoodiUri
