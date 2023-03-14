@@ -1,11 +1,11 @@
 (ns kouta-indeksoija-service.rest.eperuste
   (:refer-clojure :exclude [find])
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+            [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
             [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
             [clojure.string :as s]
-            [clojure.core.memoize :as memo]
             [kouta-indeksoija-service.util.time :as time]))
 
 (defn- get-perusteet-page [page-nr last-modified]
@@ -39,7 +39,7 @@
     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
 
 (def get-doc-with-cache
-  (memo/ttl get-doc {} :ttl/threshold (* 1000 60 5))) ;;5min cache
+  (with-fifo-ttl-cache get-doc (* 1000 60 5) 1000)) ;;5min cache, 1000 entries
 
 (defn get-tutkinnonosa
   [tutkinnonosa-id]
