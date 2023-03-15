@@ -104,7 +104,8 @@
       "koulutustyypit": [
         "amm",
         "koulutustyyppi_01",
-        "koulutustyyppi_02"
+        "koulutustyyppi_02",
+        "muu-amm-tutkinto"
       ],
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": true,
