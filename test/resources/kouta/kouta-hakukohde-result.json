@@ -463,5 +463,17 @@
     "kausiUri": "kausi_k#1",
     "vuosi": 2042,
     "alkamiskausityyppi": "tarkka alkamisajankohta",
-    "source": "1.2.246.562.20.00000000000000000001"}
+    "source": "1.2.246.562.20.00000000000000000001"
+  },
+  "johtaaTutkintoon": true,
+  "opetuskieliKoodiUrit": [
+    "oppilaitoksenopetuskieli_1#1"
+  ],
+  "hakutapaKoodiUri": "hakutapa_03",
+  "koulutusasteKoodiUrit": [
+    "kansallinenkoulutusluokitus2016koulutusastetaso1_01",
+    "kansallinenkoulutusluokitus2016koulutusastetaso1_02",
+    "kansallinenkoulutusluokitus2016koulutusastetaso2_01",
+    "kansallinenkoulutusluokitus2016koulutusastetaso2_02"
+  ]
 }

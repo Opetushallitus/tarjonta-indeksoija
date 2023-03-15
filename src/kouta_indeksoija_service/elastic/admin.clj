@@ -1,27 +1,27 @@
 (ns kouta-indeksoija-service.elastic.admin
-  (:require [kouta-indeksoija-service.elastic.tools :as t]
-            [kouta-indeksoija-service.elastic.settings :refer :all]
-            [kouta-indeksoija-service.indexer.kouta.koulutus-search :refer [index-name] :rename {index-name koulutus-search-index}]
-            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :refer [index-name] :rename {index-name oppilaitos-search-index}]
-            [kouta-indeksoija-service.indexer.kouta.koulutus :refer [index-name] :rename {index-name koulutus-index}]
-            [kouta-indeksoija-service.indexer.kouta.toteutus :refer [index-name] :rename {index-name toteutus-index}]
-            [kouta-indeksoija-service.indexer.kouta.haku :refer [index-name] :rename {index-name haku-index}]
-            [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
-            [kouta-indeksoija-service.indexer.kouta.valintaperuste :refer [index-name] :rename {index-name valintaperuste-index}]
-            [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [index-name] :rename {index-name oppilaitos-index}]
-            [kouta-indeksoija-service.indexer.kouta.sorakuvaus :refer [index-name] :rename {index-name sorakuvaus-index}]
-            [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
-            [kouta-indeksoija-service.indexer.eperuste.tutkinnonosa :refer [index-name] :rename {index-name tutkinnonosa-index}]
-            [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
-            [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
-            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :refer [index-name] :rename {index-name lokalisointi-index}]
-            [kouta-indeksoija-service.queuer.last-queued :refer [index-name] :rename {index-name last-queued-index}]
-            [clj-log.error-log :refer [with-error-logging with-error-logging-value]]
+  (:require [cheshire.core :refer [parse-string]]
             [clj-elasticsearch.elastic-connect :as e]
             [clj-elasticsearch.elastic-utils :as u]
-            [kouta-indeksoija-service.rest.util :as http]
+            [clj-log.error-log :refer [with-error-logging]]
+            [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [cheshire.core :refer [parse-string]]))
+            [kouta-indeksoija-service.elastic.settings :refer :all]
+            [kouta-indeksoija-service.elastic.tools :as t]
+            [kouta-indeksoija-service.indexer.eperuste.eperuste :refer [index-name] :rename {index-name eperuste-index}]
+            [kouta-indeksoija-service.indexer.eperuste.osaamisalakuvaus :refer [index-name] :rename {index-name osaamisalakuvaus-index}]
+            [kouta-indeksoija-service.indexer.eperuste.tutkinnonosa :refer [index-name] :rename {index-name tutkinnonosa-index}]
+            [kouta-indeksoija-service.indexer.koodisto.koodisto :refer [index-name] :rename {index-name koodisto-index}]
+            [kouta-indeksoija-service.indexer.kouta.haku :refer [index-name] :rename {index-name haku-index}]
+            [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [index-name] :rename {index-name hakukohde-index}]
+            [kouta-indeksoija-service.indexer.kouta.koulutus :refer [index-name] :rename {index-name koulutus-index}]
+            [kouta-indeksoija-service.indexer.kouta.koulutus-search :refer [index-name] :rename {index-name koulutus-search-index}]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [index-name] :rename {index-name oppilaitos-index}]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :refer [index-name] :rename {index-name oppilaitos-search-index}]
+            [kouta-indeksoija-service.indexer.kouta.sorakuvaus :refer [index-name] :rename {index-name sorakuvaus-index}]
+            [kouta-indeksoija-service.indexer.kouta.toteutus :refer [index-name] :rename {index-name toteutus-index}]
+            [kouta-indeksoija-service.indexer.kouta.valintaperuste :refer [index-name] :rename {index-name valintaperuste-index}]
+            [kouta-indeksoija-service.indexer.lokalisointi.lokalisointi :refer [index-name] :rename {index-name lokalisointi-index}]
+            [kouta-indeksoija-service.queuer.last-queued :refer [index-name] :rename {index-name last-queued-index}]))
 
 (defn get-cluster-health
   []
@@ -188,31 +188,13 @@
     (create-new-index-with-virkailija-alias index settings mappings)
     (throw (IllegalArgumentException. (str "Unknown index name \"" index-name "\". Valid index names are " (vec (map first indices-settings-and-mappings)))))))
 
-(defn move-oppija-alias-to-virkailija-index
-  [index]
-  (when-let [raw-index-name (e/find-write-index (t/->virkailija-alias index))]
-    (e/move-alias (t/->oppija-alias index) raw-index-name false)
-    raw-index-name))
-
-(defn move-oppija-aliases-to-virkailija-indices
-  []
-  (vec
-   (for [[index settings mappings] indices-settings-and-mappings]
-     (move-oppija-alias-to-virkailija-index index))))
-
 (defn list-indices-and-aliases
   []
   (into (sorted-map) (e/list-aliases)))
 
-(defonce all-virkailija-alias-names
-  (vec (map #(t/->virkailija-alias (first %)) indices-settings-and-mappings)))
-
-(defonce all-oppija-alias-names
-  (vec (map #(t/->oppija-alias (first %)) indices-settings-and-mappings)))
-
 (defn- has-alias?
   [all-indices-with-aliases index]
-  (not (empty? (keys (get-in all-indices-with-aliases [(keyword index) :aliases])))))
+  (not-empty (keys (get-in all-indices-with-aliases [(keyword index) :aliases]))))
 
 (defn- last-queued-index?
   [index]
@@ -220,7 +202,7 @@
 
 (defn- elasticsearch-index?
   [index]
-  (clojure.string/starts-with? (name index) "."))
+  (string/starts-with? (name index) "."))
 
 (defn delete-indices
   [indices]
@@ -274,7 +256,7 @@
 (defn sync-all-aliases
   []
   (vec
-   (for [[index s m] indices-settings-and-mappings]
+   (for [[index] indices-settings-and-mappings]
      (let [real-index (e/move-read-alias-to-write-index (t/->virkailija-alias index) (t/->oppija-alias index))]
        (log/info "Moved" (t/->oppija-alias index) "to" real-index)
        {:alias (t/->oppija-alias index)
