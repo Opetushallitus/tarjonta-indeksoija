@@ -103,16 +103,13 @@
   [koulutus]
   (= "erikoistumiskoulutus" (:koulutustyyppi koulutus)))
 
-(defn any-ammatillinen?
-  [koulutus]
-  (or (ammatillinen? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus)))
-
+;Toimii koulutukselle, jolla on rikastettu tai rikastamaton koulutus-koodiurit
 (defn get-non-korkeakoulu-koodi-uri
   [koulutus]
-  (when (not (korkeakoulutus? koulutus))
-    (-> koulutus
-        (:koulutuksetKoodiUri)
-        (first)))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
+  (let [koulutukset (map :koodiUri (:koulutukset koulutus))
+        koulutus-koodi-urit (if (seq koulutukset) koulutukset (:koulutuksetKoodiUri koulutus))]
+    (when (not (korkeakoulutus? koulutus))
+      (first koulutus-koodi-urit)))) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
 
 (defn asiasana->lng-value-map
   [asiasanat]
@@ -132,3 +129,12 @@
                 path-to-koodiuri
                 (string/replace koodiuri #"#\w+" ""))
       entity)))
+
+;esim. pelastusalan koulutuksille syötetään tiedot käsin, koska ei ole ePerustetta
+(defonce koulutus-koodit-without-eperuste ["koulutus_381501" "koulutus_381502" "koulutus_381503" "koulutus_381521"])
+
+(defn amm-koulutus-with-eperuste? [koulutus]
+  (if (and koulutus (ammatillinen? koulutus))
+    (when-let [koulutus-koodiuri (get-non-korkeakoulu-koodi-uri koulutus)]
+      (boolean (not-any? #(string/starts-with? koulutus-koodiuri %) koulutus-koodit-without-eperuste)))
+    false))
