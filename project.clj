@@ -116,7 +116,8 @@
             "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]
             "elasticdump:kouta-internal" ["with-profile" "+test" ["run" "-m" "mocks.kouta-internal-mocks"]]
             "elasticdump:kouta-external" ["with-profile" "+test" ["run" "-m" "mocks.kouta-external-mocks"]]
-            "elasticdump:konfo-backend" ["with-profile" "+test" ["run" "-m" "mocks.konfo-backend-mocks"]]}
+            "elasticdump:konfo-backend" ["with-profile" "+test" ["run" "-m" "mocks.konfo-backend-mocks"]]
+            "elasticdump:tarjonta-pulssi" ["with-profile" "+test" ["run" "-m" "mocks.tarjonta-pulssi-mocks"]]}
   :resource-paths ["resources"]
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"]
   :zprint {:width 100 :old? false :style :community :map {:comma? false}})
