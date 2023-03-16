@@ -3,11 +3,18 @@
             [clojure.walk :as walk]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id get-eperuste-by-koulutuskoodi]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [aikuisten-perusopetus? amm-muu? amm-ope-erityisope-ja-opo? amm-osaamisala? amm-tutkinnon-osa? ammatillinen? any-ammatillinen? asiasana->lng-value-map erikoislaakari? erikoistumiskoulutus? get-non-korkeakoulu-koodi-uri julkaistu? kk-opintojakso? kk-opintokokonaisuus? korkeakoulutus? lukio? ope-pedag-opinnot? set-hakukohde-tila-by-related-haku telma? tuva? vapaa-sivistystyo-muu? vapaa-sivistystyo-opistovuosi? yo? amk?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [aikuisten-perusopetus? amk? amm-koulutus-with-eperuste? amm-muu? amm-ope-erityisope-ja-opo?
+                                                                    amm-osaamisala? amm-tutkinnon-osa? ammatillinen?
+                                                                    asiasana->lng-value-map erikoislaakari? erikoistumiskoulutus? get-non-korkeakoulu-koodi-uri
+                                                                    julkaistu? kk-opintojakso? kk-opintokokonaisuus? korkeakoulutus? lukio?
+                                                                    ope-pedag-opinnot? set-hakukohde-tila-by-related-haku telma? tuva? vapaa-sivistystyo-muu?
+                                                                    vapaa-sivistystyo-opistovuosi? yo?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [oppilaitostyyppi-uri-to-tyyppi remove-uri-version]]
-            [kouta-indeksoija-service.rest.koodisto :refer [extract-versio get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]))
+            [kouta-indeksoija-service.rest.koodisto :refer [extract-versio
+                                                            get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec
+                                                         get-esitysnimi]]))
 
 (defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
 
@@ -19,7 +26,7 @@
 
 (defn koulutusala-koodi-urit
   [koulutus]
-  (if (any-ammatillinen? koulutus)
+  (if (or (amm-koulutus-with-eperuste? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus))
     (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)]
       (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
                    (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
@@ -35,8 +42,8 @@
 
 (defn tutkintonimike-koodi-urit
   [koulutus]
-  (cond (ammatillinen? koulutus) (when-let [eperuste (get-ammatillinen-eperuste koulutus)]
-                                   (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
+  (cond (amm-koulutus-with-eperuste? koulutus) (when-let [eperuste (get-ammatillinen-eperuste koulutus)]
+                                                 (->distinct-vec (map :tutkintonimikeUri (:tutkintonimikkeet eperuste))))
         (lukio? koulutus) (vector koodisto/koodiuri-ylioppilas-tutkintonimike)
         :else (get-in koulutus [:metadata :tutkintonimikeKoodiUrit] [])))
 
@@ -58,7 +65,7 @@
   (cond
     (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuus :koodiUri]))
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) (get-in [:opintojenLaajuus :koodiUri]))
-    :default nil))
+    :else nil))
 
 (defn number-or-nil
   [koodiarvo]
@@ -69,9 +76,10 @@
 (defn opintojen-laajuus-numero
   [koulutus]
   (cond
-    (ammatillinen? koulutus)            (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
+    (amm-koulutus-with-eperuste? koulutus)            (-> koulutus (get-ammatillinen-eperuste) :opintojenLaajuusNumero)
     (amm-osaamisala? koulutus)          (-> koulutus (get-ammatillinen-eperuste) (get-osaamisala koulutus) :opintojenLaajuusNumero)
     (or
+     (ammatillinen? koulutus) ; ilman ePerustetta
      (amm-muu? koulutus)
      (yo? koulutus)
      (amk? koulutus)
@@ -83,39 +91,41 @@
      (vapaa-sivistystyo-opistovuosi? koulutus)
      (vapaa-sivistystyo-muu? koulutus)
      (aikuisten-perusopetus? koulutus))        (get-in koulutus [:metadata :opintojenLaajuusNumero])
-    :default nil))
+    :else nil))
 
 (defn opintojen-laajuus-numero-min
   [koulutus]
   (cond
     (or
-      (kk-opintojakso? koulutus)
-      (kk-opintokokonaisuus? koulutus)
-      (erikoistumiskoulutus? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
-    :default nil))
+     (kk-opintojakso? koulutus)
+     (kk-opintokokonaisuus? koulutus)
+     (erikoistumiskoulutus? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
+    :else nil))
 
 (defn opintojen-laajuus-numero-max
   [koulutus]
   (cond
     (or
-      (kk-opintojakso? koulutus)
-      (kk-opintokokonaisuus? koulutus)
-      (erikoistumiskoulutus? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])
-    :default nil))
+     (kk-opintojakso? koulutus)
+     (kk-opintokokonaisuus? koulutus)
+     (erikoistumiskoulutus? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])
+    :else nil))
 
 (defn opintojen-laajuusyksikko-koodi-uri
   [koulutus]
   (cond
-    (ammatillinen? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
+    (amm-koulutus-with-eperuste? koulutus)   (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
     (amm-osaamisala? koulutus) (-> koulutus (get-ammatillinen-eperuste) (get-in [:opintojenLaajuusyksikko :koodiUri]))
-    (amm-muu? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
     (and (korkeakoulutus? koulutus) (not (erikoislaakari? koulutus))) koodisto/koodiuri-opintopiste-laajuusyksikko
     (lukio? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
     (tuva? koulutus) koodisto/koodiuri-viikko-laajuusyksikko
     (telma? koulutus) koodisto/koodiuri-osaamispiste-laajuusyksikko
     (vapaa-sivistystyo-opistovuosi? koulutus) koodisto/koodiuri-opintopiste-laajuusyksikko
-    (vapaa-sivistystyo-muu? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
-    (aikuisten-perusopetus? koulutus) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
+    (or
+     (ammatillinen? koulutus) ;ilman ePerustetta
+     (vapaa-sivistystyo-muu? koulutus)
+     (aikuisten-perusopetus? koulutus)
+     (amm-muu? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
     :else nil))
 
 (defn tutkinnon-osat
@@ -249,8 +259,7 @@
 (defn- get-haun-julkaistut-hakukohteet
   [haku]
   (let [hakukohteet (map #(set-hakukohde-tila-by-related-haku % haku) (:hakukohteet haku))]
-    (filter julkaistu? hakukohteet))
-)
+    (filter julkaistu? hakukohteet)))
 
 (defn- filter-hakutiedon-haut-julkaistu-and-not-empty-hakukohteet
   [hakutiedon-haut]
@@ -270,11 +279,11 @@
 (defn- remove-nils-from-search-terms
   [search-terms]
   (walk/postwalk
-    (fn [x]
-      (if (map? x)
-        (not-empty (into {} (remove (comp nil? second)) x))
-        x))
-    search-terms))
+   (fn [x]
+     (if (map? x)
+       (not-empty (into {} (remove (comp nil? second)) x))
+       x))
+   search-terms))
 
 (defn- get-lang-values
   [lang values]
@@ -329,53 +338,52 @@
         maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
         toteutusNimi (get-esitysnimi toteutus)]
     (remove-nils-from-search-terms
-      {:koulutusOid               (:oid koulutus)
-       :koulutusnimi              {:fi (:fi (:nimi koulutus))
-                                   :sv (:sv (:nimi koulutus))
-                                   :en (:en (:nimi koulutus))}
-       :koulutus_organisaationimi {:fi (:fi (:nimi oppilaitos))
-                                   :sv (:sv (:nimi oppilaitos))
-                                   :en (:en (:nimi oppilaitos))}
-       :toteutusOid               (:oid toteutus)
-       :toteutusNimi              {:fi (:fi toteutusNimi)
-                                   :sv (:sv toteutusNimi)
-                                   :en (:en toteutusNimi)}
-       :toteutusHakuaika           toteutusHakuaika
-       :oppilaitosOid             (:oid oppilaitos)
-       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
-                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
-                                   :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
-       :asiasanat                 {:fi (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
-                                   :sv (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
-                                   :en (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
-       :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
-                                   :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
-                                   :en (not-empty (get-lang-values :en tutkintonimikkeet))}
-       :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
-                                   :sv (not-empty (get-lang-values :sv ammattinimikkeet))
-                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}
-       :sijainti                  (clean-uris (concat kunnat maakunnat))
-       :koulutusalat              (not-empty (clean-uris (koulutusala-koodi-urit koulutus)))
-       :hakutiedot                (not-empty (map #(-> %
-                                                       (update :hakutapa remove-uri-version)
-                                                       (update :valintatavat clean-uris)
-                                                       (update :pohjakoulutusvaatimukset clean-uris))
-                                                  hakutiedot))
-       :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
-       :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
-       :koulutustyypit            (clean-uris koulutustyypit)
-       :onkoTuleva                onkoTuleva
-       :kuva                      kuva
-       :nimi                      (not-empty nimi)
-       :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
-       :lukiopainotukset          (clean-uris lukiopainotukset)
-       :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
-       :osaamisalat               (clean-uris osaamisalat)
-       :hasJotpaRahoitus          hasJotpaRahoitus
-       :isTyovoimakoulutus        isTyovoimakoulutus
-       :isTaydennyskoulutus       isTaydennyskoulutus
-       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
-       })))
+     {:koulutusOid               (:oid koulutus)
+      :koulutusnimi              {:fi (:fi (:nimi koulutus))
+                                  :sv (:sv (:nimi koulutus))
+                                  :en (:en (:nimi koulutus))}
+      :koulutus_organisaationimi {:fi (:fi (:nimi oppilaitos))
+                                  :sv (:sv (:nimi oppilaitos))
+                                  :en (:en (:nimi oppilaitos))}
+      :toteutusOid               (:oid toteutus)
+      :toteutusNimi              {:fi (:fi toteutusNimi)
+                                  :sv (:sv toteutusNimi)
+                                  :en (:en toteutusNimi)}
+      :toteutusHakuaika           toteutusHakuaika
+      :oppilaitosOid             (:oid oppilaitos)
+      :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
+                                  :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
+                                  :en (not-empty (get-lang-values :en toteutus-organisaationimi))}
+      :asiasanat                 {:fi (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "fi") asiasanat))))
+                                  :sv (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "sv") asiasanat))))
+                                  :en (not-empty (distinct (map #(get % :arvo) (filter #(= (:kieli %) "en") asiasanat))))}
+      :tutkintonimikkeet         {:fi (not-empty (get-lang-values :fi tutkintonimikkeet))
+                                  :sv (not-empty (get-lang-values :sv tutkintonimikkeet))
+                                  :en (not-empty (get-lang-values :en tutkintonimikkeet))}
+      :ammattinimikkeet          {:fi (not-empty (get-lang-values :fi ammattinimikkeet))
+                                  :sv (not-empty (get-lang-values :sv ammattinimikkeet))
+                                  :en (not-empty (get-lang-values :en ammattinimikkeet))}
+      :sijainti                  (clean-uris (concat kunnat maakunnat))
+      :koulutusalat              (not-empty (clean-uris (koulutusala-koodi-urit koulutus)))
+      :hakutiedot                (not-empty (map #(-> %
+                                                      (update :hakutapa remove-uri-version)
+                                                      (update :valintatavat clean-uris)
+                                                      (update :pohjakoulutusvaatimukset clean-uris))
+                                                 hakutiedot))
+      :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
+      :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
+      :koulutustyypit            (clean-uris koulutustyypit)
+      :onkoTuleva                onkoTuleva
+      :kuva                      kuva
+      :nimi                      (not-empty nimi)
+      :metadata                  (common/decorate-koodi-uris (merge metadata {:kunnat kunnat}))
+      :lukiopainotukset          (clean-uris lukiopainotukset)
+      :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
+      :osaamisalat               (clean-uris osaamisalat)
+      :hasJotpaRahoitus          hasJotpaRahoitus
+      :isTyovoimakoulutus        isTyovoimakoulutus
+      :isTaydennyskoulutus       isTaydennyskoulutus
+      :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta})))
 
 (defn jarjestaako-tarjoaja-urheilijan-amm-koulutusta
   [tarjoaja-oids haut]
@@ -386,10 +394,10 @@
             tarjoaja-hakukohteet (apply concat (for [tarjoaja-oid tarjoaja-oids]
                                                  (get hakukohteet tarjoaja-oid)))]
         (boolean
-          (some
-            true?
-            (for [hakukohde tarjoaja-hakukohteet]
-              (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))
+         (some
+          true?
+          (for [hakukohde tarjoaja-hakukohteet]
+            (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))
       false)))
 
 (defn jarjestaako-toteutus-urheilijan-amm-koulutusta
