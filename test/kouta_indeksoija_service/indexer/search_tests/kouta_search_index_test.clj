@@ -205,26 +205,21 @@
 
   (use-fixtures :each test-data-fixture)
 
-  (defn mock-get-eperuste-by-koulutuskoodi
-    [x]
-    (kouta-indeksoija-service.fixture.external-services/mock-get-eperuste 6942140))
-
    (deftest index-oppilaitos-search-items-test-1
      (fixture/with-mocked-indexing
-      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
         (testing "Do not index oppilaitos in search index when it has no koulutukset"
           (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid1)))
           (i/index-oppilaitos oppilaitos-oid1)
-          (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid1))))))))
+          (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid1)))))))
 
    (deftest index-oppilaitos-search-items-test-2
      (fixture/with-mocked-indexing
-      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
+
         (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
           (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
           (i/index-oppilaitos oppilaitos-oid2)
           (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
-                        (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2)))))))
+                        (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))))))
 
    (deftest index-koulutus-search-items-test-1
      (fixture/with-mocked-indexing
@@ -256,14 +251,13 @@
 
    (deftest index-koulutus-search-items-test-4
      (fixture/with-mocked-indexing
-      (with-redefs [kouta-indeksoija-service.rest.eperuste/get-by-koulutuskoodi mock-get-eperuste-by-koulutuskoodi]
         (testing "Create correct search item when amm-tutkinnon-osa"
           (is (nil? (get-doc koulutus-search/index-name koulutus-oid4)))
           (i/index-koulutus koulutus-oid4)
           (i/index-oppilaitos oppilaitos-oid2)
           ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
           (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
-                        (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4))))))))
+                        (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4)))))))
 
 
 
