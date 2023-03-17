@@ -37,7 +37,11 @@
                                  :metadata metadata)
       (fixture/add-koulutus-mock koulutusOid
                                  :koulutustyyppi koulutustyyppi :tila tila :metadata metadata))
-    (fixture/add-toteutus-mock toteutusOid koulutusOid :tila tila)
+    (cond
+      (= "aikuisten-perusopetus" koulutustyyppi) (fixture/add-toteutus-mock toteutusOid koulutusOid :tila tila :metadata {:hasJotpaRahoitus true})
+      (= "telma" koulutustyyppi) (fixture/add-toteutus-mock toteutusOid koulutusOid :tila tila :metadata {:isTaydennyskoulutus true})
+      (= "tuva" koulutustyyppi) (fixture/add-toteutus-mock toteutusOid koulutusOid :tila tila :metadata {:isTyovoimakoulutus true})
+      :else (fixture/add-toteutus-mock toteutusOid koulutusOid :tila tila))
     (fixture/add-hakukohde-mock hakukohdeOid toteutusOid "1.2.246.562.29.00000000000000000001" :tila tila)))
   (+ oidCounter nbr)))
 
