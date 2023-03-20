@@ -93,7 +93,7 @@
 (defn- get-kouta-oppilaitos
   [oid execution-id]
   (let [oppilaitos (kouta-backend/get-oppilaitos-with-cache oid execution-id)]
-    (when (julkaistu? oppilaitos)
+    (when (some? oppilaitos)
       {:kielivalinta (:kielivalinta oppilaitos)
        :kuvaus       (get-in oppilaitos [:metadata :esittely])
        :logo         (:logo oppilaitos)})))
