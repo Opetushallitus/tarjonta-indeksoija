@@ -6,10 +6,16 @@
   "taiteenalaKoodiUrit": ["taiteenperusopetustaiteenala_sirkustaide#1", "taiteenperusopetustaiteenala_sanataide#1"],
   "kuvaus" : { },
   "ammattinimikkeet" : [ ],
-  "asiasanat" : [ {
-    "kieli" : "fi",
-    "arvo" : "tutkija"
-  } ],
+  "asiasanat" : [
+    {
+      "kieli" : "fi",
+      "arvo" : "tutkija"
+    },
+    {
+      "kieli" : "fi",
+      "arvo" : "asiasana_alaviivalla"
+    }
+  ],
   "hakutermi" : "hakeutuminen",
   "hakulomaketyyppi" : "muu",
   "hakulomakeLinkki" : {

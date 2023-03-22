@@ -338,6 +338,10 @@
       {
         "kieli": "fi",
         "arvo": "tutkija"
+      },
+      {
+        "kieli": "fi",
+        "arvo": "asiasana_alaviivalla"
       }
     ],
     "ammattinimikkeet": [],
