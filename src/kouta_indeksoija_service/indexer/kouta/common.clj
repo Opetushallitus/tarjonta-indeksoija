@@ -32,6 +32,7 @@
 
 (def excluded-fields {:externalId true
                       :tunniste true
+                      :arvo true
                       :fi true
                       :sv true
                       :en true})
