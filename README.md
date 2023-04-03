@@ -65,8 +65,8 @@ Kirjoitushetken esimerkki konfigista, joka toimii untuva-testiympäristöä vast
  :organisaatio-indexing-cron-string "* 0 0 ? * *"
  :queueing-cron-string "*/15 * * ? * *"
  :notifier-targets ""
- :kouta-indeksoija-kouta-cache-time-seconds 600
- :kouta-indeksoija-massa-kouta-cache-time-seconds 3600
+ :kouta-indeksoija-kouta-cache-time-seconds 3600
+ :kouta-indeksoija-kouta-cache-size 1000
  :kouta-indeksoija-organisaatio-cache-time-millis 1800000}
 ```
 

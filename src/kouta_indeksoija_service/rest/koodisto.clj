@@ -1,9 +1,9 @@
 (ns kouta-indeksoija-service.rest.koodisto
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
+            [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
             [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]
             [clojure.tools.logging :as log]
-            [clojure.core.memoize :as memo]
             [clojure.string :as str]))
 
 (defn extract-versio
@@ -27,7 +27,7 @@
     (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodit koodisto))))
 
 (def get-koodit-with-cache
-  (memo/ttl get-koodit {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
+  (with-fifo-ttl-cache get-koodit (* 1000 60 30) 1000)) ;30 minuutin cache, 1000 entryä
 
 (defn get-koodi
   [koodisto koodi-uri]
@@ -36,7 +36,7 @@
       (get-koodi-with-url (resolve-url :koodisto-service.koodisto-koodi koodisto (:koodi with-versio))))))
 
 (def get-koodi-with-cache
-  (memo/ttl get-koodi {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
+  (with-fifo-ttl-cache get-koodi (* 1000 60 30) 10000)) ;30 minuutin cache, 10000 entryä
 
 (defn get-koodi-nimi-with-cache
   ([koodisto koodi-uri]
@@ -55,7 +55,7 @@
         (get-koodi-with-url (resolve-url :koodisto-service.alakoodit (:koodi with-versio)))))))
 
 (def get-alakoodit-with-cache
-  (memo/ttl get-alakoodit {} :ttl/threshold (* 1000 60 30))) ;30 minuutin cache
+  (with-fifo-ttl-cache get-alakoodit (* 1000 60 30) 10000)) ;30 minuutin cache, 10000 entryä
 
 (defn list-alakoodit-with-cache
   [koodi-uri alakoodi-uri]
