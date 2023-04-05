@@ -1,7 +1,7 @@
 (ns kouta-indeksoija-service.indexer.tools.search
   (:require [clojure.set :refer [intersection]]
             [clojure.walk :as walk]
-            [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id get-eperuste-by-koulutuskoodi]]
+            [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [aikuisten-perusopetus? amk? amm-koulutus-with-eperuste? amm-muu? amm-ope-erityisope-ja-opo?
                                                                     amm-osaamisala? amm-tutkinnon-osa? ammatillinen?
@@ -32,13 +32,9 @@
                    (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
     (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
 
-;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
 (defn- get-ammatillinen-eperuste
   [koulutus]
-  (let [eperuste-id (:ePerusteId koulutus)]
-    (if eperuste-id
-      (get-eperuste-by-id eperuste-id)
-      (get-eperuste-by-koulutuskoodi (get-non-korkeakoulu-koodi-uri koulutus)))))
+  (get-eperuste-by-id (:ePerusteId koulutus)))
 
 (defn tutkintonimike-koodi-urit
   [koulutus]

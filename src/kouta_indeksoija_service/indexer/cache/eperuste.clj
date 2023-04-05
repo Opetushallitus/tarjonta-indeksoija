@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.indexer.tools.organisaatio :refer :all]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [clojure.core.cache :as cache]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version eperuste-laajuusyksikko->opintojen-laajuusyksikko]]))
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [eperuste-laajuusyksikko->opintojen-laajuusyksikko]]))
 
 (defonce eperuste_cache_time_millis (* 1000 60 30))
 
@@ -97,20 +97,6 @@
           (not (nil? osaamisalat))                      (assoc :osaamisalat osaamisalat)
           (not (nil? diplomi-sisallot-tavoitteet))      (assoc :diplomiSisallotTavoitteet diplomi-sisallot-tavoitteet)))
       common-props)))
-
-(defn cache-eperuste
-  [koodi]
-  (when-let [eperuste (eperuste-service/get-by-koulutuskoodi koodi)]
-    (let [stripped (strip eperuste)]
-      (swap! EPERUSTE_CACHE cache/through-cache koodi (constantly stripped)))))
-
-(defn get-eperuste-by-koulutuskoodi
-  [koulutuskoodiUri]
-  (let [koodi (remove-uri-version koulutuskoodiUri)]
-    (if-let [eperuste (cache/lookup @EPERUSTE_CACHE koodi)]
-      eperuste
-      (do (cache-eperuste koodi)
-          (cache/lookup @EPERUSTE_CACHE koodi)))))
 
 (defn cache-eperuste-by-id
   [id]
