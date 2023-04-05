@@ -10,7 +10,7 @@
 
 (defn- get-perusteet-page [page-nr last-modified]
   (let [params (cond-> {:sivu page-nr :sivukoko 100 :tuleva true :siirtyma true :voimassaolo true :poistunut true}
-                       (not (nil? last-modified)) (assoc :muokattu last-modified))]
+                 (not (nil? last-modified)) (assoc :muokattu last-modified))]
     (get->json-body (resolve-url :eperusteet-service.perusteet) params)))
 
 (defn- indexable-eperuste?
@@ -35,8 +35,9 @@
 
 (defn get-doc
   [eperuste-id]
-  (get->json-body
-    (resolve-url :eperusteet-service.peruste.kaikki eperuste-id)))
+  (when eperuste-id
+    (get->json-body
+     (resolve-url :eperusteet-service.peruste.kaikki eperuste-id))))
 
 (def get-doc-with-cache
   (with-fifo-ttl-cache get-doc (* 1000 60 5) 1000)) ;;5min cache, 1000 entries
@@ -44,7 +45,7 @@
 (defn get-tutkinnonosa
   [tutkinnonosa-id]
   (get->json-body
-    (resolve-url :eperusteet-service.internal.api.tutkinnonosa tutkinnonosa-id)))
+   (resolve-url :eperusteet-service.internal.api.tutkinnonosa tutkinnonosa-id)))
 
 (defn get-osaamisalakuvaukset-response
   [eperuste-id]
@@ -56,10 +57,10 @@
     (let [suoritustavat (keys res)
           osaamisalat (fn [suoritustapa] (apply concat (-> res suoritustapa vals)))
           assoc-values (fn [suoritustapa osaamisala] (assoc osaamisala :suoritustapa suoritustapa
-                                                                       :type "osaamisalakuvaus"
-                                                                       :oid (:id osaamisala)
-                                                                       :eperuste-oid eperuste-id
-                                                                       :tila eperuste-tila))]
+                                                            :type "osaamisalakuvaus"
+                                                            :oid (:id osaamisala)
+                                                            :eperuste-oid eperuste-id
+                                                            :tila eperuste-tila))]
       (vec (flatten (map (fn [st] (map (partial assoc-values st) (osaamisalat st))) suoritustavat))))))
 
 (defn find-all
