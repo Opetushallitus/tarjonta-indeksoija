@@ -3,6 +3,9 @@
             [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [json]]
             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]))
 
+(defn- mock-koodiuri-fn [koodiuri]
+  (fn [koodi-uri alakoodi-uri] (vector {:koodiUri koodiuri :nimi {:fi "joku nimi" :sv "joku nimi sv"}})))
+
 (defn- mock-koodisto-koulutustyyppi
   [koodi-uri alakoodi-uri]
   (vector
@@ -24,6 +27,14 @@
             toteutus-metadata {:ammatillinenPerustutkintoErityisopetuksena true}
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
         (is (= ["amm" "koulutustyyppi_4"] result))))))
+
+(deftest add-muu-amm-tutkinto-koulutustyyppi
+  (testing "If no known amm koulutuskoodi, add muu-amm-tutkinto"
+    (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache (mock-koodiuri-fn "koulutustyyppi_123")]
+      (let [koulutus {:koulutustyyppi "amm", :koulutuksetKoodiUri []}
+            toteutus-metadata nil
+            result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
+        (is (= ["amm" "koulutustyyppi_123" "muu-amm-tutkinto"] result))))))
 
 (deftest add-tuva-normal-koulutustyyppi
   (testing "If tuva without erityisopetus, add 'tuva-normal' koulutustyyppi"
