@@ -17,25 +17,8 @@
   [uris]
   (vec (map remove-uri-version uris)))
 
-(defn- get-koulutusalatasot-by-koulutus-koodi-uri
-  [koulutusKoodiUri]
-  (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
-               (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
-
-(defn- get-koulutusalatasot-for-amm-tutkinnon-osat
-  [koulutus]
-  (when-let [koulutusKoodiUrit (->> (get-in koulutus [:metadata :tutkinnonOsat])
-                                    (map #(some-> % :koulutusKoodiUri remove-uri-version))
-                                    (->distinct-vec))]
-    (->distinct-vec (mapcat get-koulutusalatasot-by-koulutus-koodi-uri koulutusKoodiUrit))))
-
 (defn koulutusala-koodi-urit
   [koulutus]
-  (if (any-ammatillinen? koulutus)
-    (cond
-      (amm-tutkinnon-osa? koulutus) (get-koulutusalatasot-for-amm-tutkinnon-osat koulutus)
-      :default (get-koulutusalatasot-by-koulutus-koodi-uri (get-non-korkeakoulu-koodi-uri koulutus))))
-
   (if (any-ammatillinen? koulutus)
     (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)]
       (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
@@ -62,14 +45,6 @@
   (if (ammatillinen? koulutus)
     (vec (map :koodiUri (koodisto/koulutustyypit (get-non-korkeakoulu-koodi-uri koulutus))))
     []))
-
-(defn- get-tutkinnon-osa-laajuudet
-  [koulutus eperuste]
-  (let [eperuste-tutkinnon-osat (:tutkinnonOsat eperuste)]
-    (->> (for [tutkinnon-osa (some-> koulutus :metadata :tutkinnonOsat)
-               :let [eperuste-osa (first (filter #(= (:id %) (:tutkinnonosaViite tutkinnon-osa)) eperuste-tutkinnon-osat))]]
-           (some-> eperuste-osa :opintojenLaajuus :koodiUri))
-         (vec))))
 
 (defn- get-osaamisala
   [eperuste koulutus]
