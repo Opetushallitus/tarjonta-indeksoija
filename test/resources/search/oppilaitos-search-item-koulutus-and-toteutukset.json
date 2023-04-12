@@ -14,7 +14,8 @@
       "koulutustyypit": [
         "amm",
         "koulutustyyppi_01",
-        "koulutustyyppi_02"
+        "koulutustyyppi_02",
+        "muu-amm-tutkinto"
       ],
       "koulutus_organisaationimi": {
         "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
@@ -126,7 +127,8 @@
       "koulutustyypit": [
         "amm",
         "koulutustyyppi_01",
-        "koulutustyyppi_02"
+        "koulutustyyppi_02",
+        "muu-amm-tutkinto"
       ],
       "koulutus_organisaationimi": {
         "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
@@ -268,7 +270,8 @@
       "koulutustyypit": [
         "amm",
         "koulutustyyppi_01",
-        "koulutustyyppi_02"
+        "koulutustyyppi_02",
+        "muu-amm-tutkinto"
       ],
       "koulutus_organisaationimi": {
         "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",

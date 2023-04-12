@@ -19,7 +19,4 @@
     (testing "Eperuste cache should return correct data..."
       (testing "when requested by id"
         (let [d (cache/get-eperuste-by-id eperuste-id)]
-          (is (= d expected))))
-      (testing "when requested by koulutus_koodi"
-        (let [d (cache/get-eperuste-by-koulutuskoodi "koulutus_361201#1")]
           (is (= d expected)))))))

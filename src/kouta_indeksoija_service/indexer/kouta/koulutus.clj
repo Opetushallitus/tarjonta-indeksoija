@@ -1,37 +1,32 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus
-  (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id get-eperuste-by-koulutuskoodi]]
+  (:require [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [amm-osaamisala? amm-tutkinnon-osa? ammatillinen? lukio? not-poistettu?]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koodiuri-opintopiste-laajuusyksikko koodiuri-ylioppilas-tutkintonimike koulutusalat koulutusalat-taso1 koulutusasteet]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [amm-koulutus-with-eperuste? amm-osaamisala? amm-tutkinnon-osa? ammatillinen?
+                                                                    get-non-korkeakoulu-koodi-uri lukio? not-poistettu?]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :refer [koodiuri-ylioppilas-tutkintonimike koulutusalat koulutusalat-taso1 koulutusasteet]]
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache
+                                                            list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.util.time :refer [long->indexed-date-time]]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-oids]]
-            ))
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec
+                                                         get-oids]]))
 
 (def index-name "koulutus-kouta")
 
-(defn- get-non-korkeakoulu-koodi-uri
-  [koulutus]
-  (-> koulutus
-      (:koulutukset)
-      (first) ;Ainoastaan korkeakoulutuksilla voi olla useampi kuin yksi koulutusKoodi
-      (:koodiUri)))
-
-;TODO korvaa pelkällä get-eperuste-by-id, kun kaikki tuotantodata käyttää ePeruste id:tä
 (defn- enrich-ammatillinen-metadata
   [koulutus]
   (let [koulutusKoodi (get-non-korkeakoulu-koodi-uri koulutus)
-        eperusteId (:ePerusteId koulutus)
-        eperuste (if eperusteId (get-eperuste-by-id eperusteId) (get-eperuste-by-koulutuskoodi koulutusKoodi))]
-    (-> koulutus
-        (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
-        (assoc-in [:metadata :opintojenLaajuus]        (:opintojenLaajuus eperuste))
-        (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
-        (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi)))))
+        eperuste (get-eperuste-by-id (:ePerusteId koulutus))]
+    (if (amm-koulutus-with-eperuste? koulutus)
+      (-> koulutus
+          (assoc-in [:metadata :tutkintonimike]          (->distinct-vec (map (fn [x] {:koodiUri (:tutkintonimikeUri x) :nimi (:nimi x)}) (:tutkintonimikkeet eperuste))))
+          (assoc-in [:metadata :opintojenLaajuus]        (:opintojenLaajuus eperuste))
+          (assoc-in [:metadata :opintojenLaajuusyksikko] (:opintojenLaajuusyksikko eperuste))
+          (assoc-in [:metadata :koulutusala]             (koulutusalat-taso1 koulutusKoodi)))
+      koulutus)))
 
 (defn- get-enriched-tutkinnon-osat
   [tutkinnon-osat]
@@ -74,12 +69,6 @@
         (assoc-in [:metadata :opintojenLaajuusNumero] (:opintojenLaajuusNumero osaamisala))
         (assoc-in [:metadata :koulutusala] (koulutusalat-taso1 koulutusKoodi)))))
 
-
-
-(defn- get-opintopiste-laajuusyksikko
-  []
-  (get-koodi-nimi-with-cache koodiuri-opintopiste-laajuusyksikko))
-
 (defn- enrich-lukio-metadata
   [koulutus]
   (assoc-in koulutus [:metadata :tutkintonimike] (vector (get-koodi-nimi-with-cache koodiuri-ylioppilas-tutkintonimike))))
@@ -121,7 +110,7 @@
     (amm-tutkinnon-osa? koulutus)     (enrich-tutkinnon-osa-metadata koulutus)
     (amm-osaamisala? koulutus)        (enrich-osaamisala-metadata koulutus)
     (lukio? koulutus)                 (enrich-lukio-metadata koulutus)
-    :default koulutus))
+    :else koulutus))
 
 (defn- enrich-metadata
   [koulutus]
