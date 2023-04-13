@@ -70,7 +70,7 @@
         kielistetyt_osoitteet (merge-with #(str %1 ", " %2)
                                           katuosoite
                                           postinro_ja_toimipaikka)]
-    (if (and (not (:en kielistetyt_osoitteet)) (not (empty? ulkomainen_osoite_en)))
+    (if (and (not (:en kielistetyt_osoitteet)) (not-empty ulkomainen_osoite_en))
       (assoc kielistetyt_osoitteet :en (clojure.string/replace (:osoite (first ulkomainen_osoite_en)) #"\n" ", "))
       kielistetyt_osoitteet)))
 

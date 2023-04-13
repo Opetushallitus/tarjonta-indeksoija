@@ -25,25 +25,9 @@
 (defonce koulutusaste-koodistot ["kansallinenkoulutusluokitus2016koulutusastetaso1"
                                  "kansallinenkoulutusluokitus2016koulutusastetaso2"])
 
-(defn paikkakunta
-  [kuntaKoodiUri]
-  (get-koodi-nimi-with-cache "kunta" kuntaKoodiUri))
-
 (defn maakunta
   [kuntaKoodiUri]
   (get-alakoodi-nimi-with-cache kuntaKoodiUri "maakunta"))
-
-(defn tutkintonimikkeet
-  [koulutusKoodiUri]
-  (list-alakoodi-nimet-with-cache koulutusKoodiUri "tutkintonimikkeet"))
-
-(defn opintojen-laajuus
-  [koulutusKoodiUri]
-  (get-alakoodi-nimi-with-cache koulutusKoodiUri "opintojenlaajuus"))
-
-(defn opintojen-laajuusyksikko
-  [koulutusKoodiUri]
-  (get-alakoodi-nimi-with-cache koulutusKoodiUri "opintojenlaajuusyksikko"))
 
 (defn koulutusalat-taso1
   [koulutusKoodiUri]
@@ -99,5 +83,5 @@
 
 (defn filter-expired [koodit]
   (filter (fn [koodi]
-            (not (if-let [loppu (:voimassaLoppuPvm koodi)]
+            (not (when-let [loppu (:voimassaLoppuPvm koodi)]
                    (date-is-before-now? loppu)))) koodit))
