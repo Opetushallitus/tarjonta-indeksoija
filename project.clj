@@ -105,7 +105,7 @@
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
-  :aliases {"run" ["with-profile" "+dev" "ring" "server"]
+  :aliases {"dev" ["with-profile" "+dev" "ring" "server"]
             "test" ["with-profile" "+test" "test"]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "install" ["with-profile" "+jar-with-test-fixture" "install"]
@@ -113,7 +113,10 @@
             "eastwood" ["eastwood" "{:test-paths []}"]
             "cloverage" ["with-profile" "+test" "cloverage"]
             "uberjar" ["do" "clean" ["ring" "uberjar"]]
-            "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]}
+            "testjar" ["with-profile" "+jar-with-test-fixture" "jar"]
+            "elasticdump:kouta-internal" ["with-profile" "+test" ["run" "-m" "mocks.kouta-internal-mocks"]]
+            "elasticdump:kouta-external" ["with-profile" "+test" ["run" "-m" "mocks.kouta-external-mocks"]]
+            "elasticdump:konfo-backend" ["with-profile" "+test" ["run" "-m" "mocks.konfo-backend-mocks"]]}
   :resource-paths ["resources"]
   :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"]
   :zprint {:width 100 :old? false :style :community :map {:comma? false}})

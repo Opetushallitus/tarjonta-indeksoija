@@ -140,7 +140,7 @@ sellainen tarve tulee.
 
 ---
 
-Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `lein run`
+Kun Elasticsearch ja sqs-jonot ovat pyörimässä indeksoijan saa käyntiin komennolla `lein dev`
 
 Tämä avaa swaggerin selaimeen osoitteeseen `http://localhost:8100/kouta-indeksoija/swagger/index.html`
 
@@ -166,13 +166,24 @@ Voit myös indeksoida vain yksittäisen entiteetin, esimerkiksi ajamalla swagger
 
 ### 3.6 Mock-datan generointi
 
-Muiden palvelujen testien käyttämän mock-datadumpin generointi tapahtuu testeillä, jotka löytyvät hakemistosta test/mocks.
+Muiden palvelujen (kouta-internal, kouta-external, konfo-backend) testien käyttämän Elasticsearch mock-datadumpin generointi tapahtuu skripteillä, jotka löytyvät hakemistosta test/mocks.
 
-palvelunnimi_mocks.clj -tiedostoissa on testi, joka on kommentoitu pois. Kun olet tehnyt tarvittavat muutokset 
-testidatan generointiin, ota (comment ) -kääre pois ja aja testi komennolla lein test :only mocks.palvelunnimi-mocks
-Se luo elasticsearch-testidata-dumpin hakemistoon elasticdump/palvelunnimi
+palvelunnimi_mocks.clj -tiedostoissa on skripti kyseiselle palvelulle. Kun olet tehnyt tarvittavat muutokset 
+testidatan generoivaan skriptiin, aja komento:
 
-Korvaa sitten kyseisen palvelun repositoriossa elastic_dump -hakemiston vastaavat tiedostot tuohon hakemistoon luoduilla tiedostoilla.
+```
+lein elasticdump:<palvelun nimi>
+```
+
+eli esimerkiksi:
+
+```
+lein elasticdump:konfo-backend
+```
+
+Se suorittaa skriptin ja luo elasticsearch-testidata-dumpin hakemistoon elasticdump/palvelunnimi
+
+Korvaa sitten kyseisen palvelun repositoriossa elastic_dump -hakemiston sisältö tiedostot tuohon hakemistoon luoduilla tiedostoilla.
 
 ## 4. Ympäristöt
 
