@@ -5,7 +5,7 @@
 
 (defn- ->not-blank
   [s]
-  (if (not (blank? s))
+  (when (not (blank? s))
     s))
 
 (defonce sqs-endpoint (or (->not-blank (:sqs-endpoint env)) (->not-blank (:sqs-region env))))

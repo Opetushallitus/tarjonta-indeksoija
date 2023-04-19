@@ -1,18 +1,19 @@
 (ns kouta-indeksoija-service.indexer.kouta.hakukohde
-  (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.tools.general :refer [Tallennettu korkeakoulutus? get-non-korkeakoulu-koodi-uri set-hakukohde-tila-by-related-haku not-poistettu? korkeakoulutus?]]
-            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
-            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools]
-            [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
-            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
-            [clojure.tools.logging :as log]
+  (:require [clj-time.core :as t]
+            [clj-time.format :as f]
             [clojure.set :as s]
             [clojure.string :as str]
-            [clj-time.format :as f]
-            [clj-time.core :as t]))
+            [clojure.tools.logging :as log]
+            [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.koodisto.koodisto :as koodisto]
+            [kouta-indeksoija-service.indexer.kouta.common :as common]
+            [kouta-indeksoija-service.indexer.tools.general :refer [get-non-korkeakoulu-koodi-uri korkeakoulutus? korkeakoulutus? not-poistettu?
+                                                                    set-hakukohde-tila-by-related-haku Tallennettu]]
+            [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto-tools :refer [koulutusasteet]]
+            [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
+            [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
+            [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]))
 
 (def index-name "hakukohde-kouta")
 (defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
@@ -30,9 +31,9 @@
 (defn- assoc-valintaperuste
   [hakukohde valintaperuste]
   (cond-> (dissoc hakukohde :valintaperusteId)
-          (some? (:valintaperusteId hakukohde)) (assoc :valintaperuste (-> valintaperuste
-                                                                           (dissoc :metadata)
-                                                                           (common/complete-entry)))))
+    (some? (:valintaperusteId hakukohde)) (assoc :valintaperuste (-> valintaperuste
+                                                                     (dissoc :metadata)
+                                                                     (common/complete-entry)))))
 
 (defn- assoc-toteutus
   [hakukohde toteutus]
@@ -43,10 +44,10 @@
 (defn- assoc-sora-data
   [hakukohde sora-tiedot]
   (assoc
-    hakukohde
-    :sora
-    (when sora-tiedot
-      (select-keys sora-tiedot [:tila]))))
+   hakukohde
+   :sora
+   (when sora-tiedot
+     (select-keys sora-tiedot [:tila]))))
 
 (defn- luonnos?
   [haku-tai-hakukohde]
@@ -86,8 +87,8 @@
 (defn- jatkotutkintohaku-tarkenne?
   [haku]
   (str/starts-with?
-    (:kohdejoukonTarkenneKoodiUri haku)
-    "haunkohdejoukontarkenne_3#"))
+   (:kohdejoukonTarkenneKoodiUri haku)
+   "haunkohdejoukontarkenne_3#"))
 
 (defn- ->ei-yps
   [syy]
@@ -100,30 +101,30 @@
 (defn- assoc-yps
   [hakukohde haku koulutus]
   (assoc
-    hakukohde
-    :yhdenPaikanSaanto
-    (cond (luonnos? haku)
-          (->ei-yps "Haku on luonnos tilassa")
+   hakukohde
+   :yhdenPaikanSaanto
+   (cond (luonnos? haku)
+         (->ei-yps "Haku on luonnos tilassa")
 
-          (luonnos? hakukohde)
-          (->ei-yps "Hakukohde on luonnos tilassa")
+         (luonnos? hakukohde)
+         (->ei-yps "Hakukohde on luonnos tilassa")
 
-          (not (korkeakoulutus? koulutus))
-          (->ei-yps "Ei korkeakoulutus koulutusta")
+         (not (korkeakoulutus? koulutus))
+         (->ei-yps "Ei korkeakoulutus koulutusta")
 
-          (not (johtaa-tutkintoon? koulutus))
-          (->ei-yps "Ei tutkintoon johtavaa koulutusta")
+         (not (johtaa-tutkintoon? koulutus))
+         (->ei-yps "Ei tutkintoon johtavaa koulutusta")
 
-          (alkamiskausi-ennen-syksya-2016? haku hakukohde)
-          (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
+         (alkamiskausi-ennen-syksya-2016? haku hakukohde)
+         (->ei-yps "Koulutuksen alkamiskausi on ennen syksyä 2016")
 
-          (and (some-kohdejoukon-tarkenne? haku)
-               (not (jatkotutkintohaku-tarkenne? haku)))
-          (->ei-yps (str "Haun kohdejoukon tarkenne on "
-                         (:kohdejoukonTarkenneKoodiUri haku)))
+         (and (some-kohdejoukon-tarkenne? haku)
+              (not (jatkotutkintohaku-tarkenne? haku)))
+         (->ei-yps (str "Haun kohdejoukon tarkenne on "
+                        (:kohdejoukonTarkenneKoodiUri haku)))
 
-          :else
-          yps)))
+         :else
+         yps)))
 
 (defn- assoc-hakulomake-linkki
   [hakukohde haku]
@@ -191,32 +192,32 @@
                                                       (nil? (koodisto-tools/harkinnanvaraisuutta-ei-kysyta-lomakkeella koodi-uri)))
         ; Seuraava arvo on tosi esimerkille: "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
         harkinnanvaraisuus-question-allowed (and
-                                              (some? non-korkeakoulu-koodi-uri)
-                                              (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
-                                              (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
-                                              (not (.contains ["telma" "tuva" "vapaa-sivistystyo-opistovuosi"] (:koulutustyyppi koulutus)))
-                                              (or (nil? hakukohde-nimi-koodi-uri)
-                                                  (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))
+                                             (some? non-korkeakoulu-koodi-uri)
+                                             (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri)
+                                             (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
+                                             (not (.contains ["telma" "tuva" "vapaa-sivistystyo-opistovuosi"] (:koulutustyyppi koulutus)))
+                                             (or (nil? hakukohde-nimi-koodi-uri)
+                                                 (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri)))
         ; Seuraava arvo on tosi seuraaville esimerkeille:
         ; - "Hakukohde kuuluu koulutukseen "Hius- ja kauneudenhoitoalan perustutkinto"
         ; - "Hakukohde on "Perustason ensihoidon osaamisala (Sosiaali- ja terveysalan perustutkinto)"
         hakukohde-allows-harkinnanvaraiset-applicants (or harkinnanvaraisuus-question-allowed
                                                           (and
-                                                            (some? non-korkeakoulu-koodi-uri)
-                                                            (and (some? hakukohde-nimi-koodi-uri)
+                                                           (some? non-korkeakoulu-koodi-uri)
+                                                           (and (some? hakukohde-nimi-koodi-uri)
                                                                  ;Jos hakukohteella on relaatio ei-harkinnanvaraisuutta koodiin "Harkinnanvaraisuutta ei kysytä lomakkeella", se on automaattisesti harkinnanvarainen
-                                                                 (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
-                                                                 (or (not (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri))
-                                                                     (not (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri))))))]
+                                                                (not (true? (get-in toteutus [:metadata :ammatillinenPerustutkintoErityisopetuksena])))
+                                                                (or (not (kysytaanko-harkinnanvaraisuutta-lomakkeella non-korkeakoulu-koodi-uri))
+                                                                    (not (kysytaanko-harkinnanvaraisuutta-lomakkeella hakukohde-nimi-koodi-uri))))))]
     (assoc hakukohde :salliikoHakukohdeHarkinnanvaraisuudenKysymisen harkinnanvaraisuus-question-allowed
-                     :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
+           :voikoHakukohteessaOllaHarkinnanvaraisestiHakeneita hakukohde-allows-harkinnanvaraiset-applicants)))
 
 (defn- assoc-nimi-as-esitysnimi
   [hakukohde]
   (assoc hakukohde :nimi (get-esitysnimi hakukohde)))
 
 (defn- parse-tarkka-ajankohta [time-str]
-  (if-let [date (f/parse time-str)]
+  (when-let [date (f/parse time-str)]
     {:kausiUri (if (>= (t/month date) 8)
                  "kausi_s#1"
                  "kausi_k#1")
@@ -243,12 +244,12 @@
 (defn- get-koodiurit-to-complete
   [koodiurit]
   (flatten
-    (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (remove-uri-version (get-in % [:koodiUrit :oppiaine]))) (set koodiurit))))
+   (filter #(contains? painotettavat-oppiaineet-lukiossa-kaikki (remove-uri-version (get-in % [:koodiUrit :oppiaine]))) (set koodiurit))))
 
 (defn- get-koodisto-koodiurit
   [koodiurit koodiurit-to-complete]
   (flatten
-    (seq (s/difference (set koodiurit) (set koodiurit-to-complete)))))
+   (seq (s/difference (set koodiurit) (set koodiurit-to-complete)))))
 
 (defn- replace-with-koodisto-oppiaineet
   [koodiuri]
@@ -260,12 +261,12 @@
 (defn- complete-koodiurit
   [koodiurit-to-complete]
   (flatten
-    (map #(replace-with-koodisto-oppiaineet %) koodiurit-to-complete)))
+   (map #(replace-with-koodisto-oppiaineet %) koodiurit-to-complete)))
 
 (defn- get-matching-painokerroin
   [koodiuri koodiurit-koodisto]
   (first
-    (filter #(= (get-in koodiuri [:koodiUrit :oppiaine]) (get-in % [:koodiUrit :oppiaine])) koodiurit-koodisto)))
+   (filter #(= (get-in koodiuri [:koodiUrit :oppiaine]) (get-in % [:koodiUrit :oppiaine])) koodiurit-koodisto)))
 
 (defn- get-painokerroin-or-use-current
   [koodiuri koodiurit-koodisto]
@@ -274,7 +275,7 @@
 (defn- get-missing-koodiurit
   [koodiurit-koodisto koodiurit-with-painokertoimet]
   (flatten
-    (seq (s/difference (set koodiurit-koodisto) (set koodiurit-with-painokertoimet)))))
+   (seq (s/difference (set koodiurit-koodisto) (set koodiurit-with-painokertoimet)))))
 
 (defn- complete-painotetut-lukioarvosanat-kaikki
   [koodiurit]
@@ -288,7 +289,7 @@
 (defn- complete-painotetut-lukioarvosanat-if-exists
   [hakukohde]
   (if
-    (not (nil? (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])))
+   (not (nil? (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])))
     (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
     hakukohde))
 
@@ -338,8 +339,7 @@
     (and (false? alempi-kk-aste) (true? ylempi-kk-aste)) 2
     (and (true? alempi-kk-aste) (true? ylempi-kk-aste)) 3
     (true? jatkotutkinto) 4
-    :else 5)
-  )
+    :else 5))
 
 (defn- assoc-jarjestaa-urheilijan-ammatillista-koulutusta [hakukohde juak?]
   (if (nil? juak?)
@@ -363,13 +363,15 @@
           kk-tutkinnon-taso (get-odw-kk-tutkinnon-taso alempi-kk-aste ylempi-kk-aste jatkotutkinto (:oid hakukohde))
           kk-tutkinnon-taso-sykli (get-odw-kk-tutkinnon-taso-sykli alempi-kk-aste ylempi-kk-aste jatkotutkinto siirtohaku lääkis (:oid hakukohde))]
       (-> hakukohde
-          (assoc :odwKkTasot {
-                               :alempiKkAste         alempi-kk-aste
-                               :ylempiKkAste         ylempi-kk-aste
-                               :kkTutkinnonTaso      kk-tutkinnon-taso
-                               :kkTutkinnonTasoSykli kk-tutkinnon-taso-sykli
-                               })))
+          (assoc :odwKkTasot {:alempiKkAste         alempi-kk-aste
+                              :ylempiKkAste         ylempi-kk-aste
+                              :kkTutkinnonTaso      kk-tutkinnon-taso
+                              :kkTutkinnonTasoSykli kk-tutkinnon-taso-sykli})))
     hakukohde))
+
+(defn get-koulutusasteet
+  [koulutus]
+  (mapcat koulutusasteet (:koulutuksetKoodiUri koulutus)))
 
 (defn create-index-entry
   [oid execution-id]
@@ -387,7 +389,6 @@
             valintaperusteId (:valintaperusteId hakukohde)
             valintaperuste (when-not (str/blank? valintaperusteId)
                              (kouta-backend/get-valintaperuste-with-cache valintaperusteId execution-id))
-            jarjestyspaikkaOid (get-in hakukohde [:jarjestyspaikka :oid])
             pistehistoria (kouta-backend/get-pistehistoria-for-hakukohde hakukohde-from-kouta execution-id)]
         (indexable/->index-entry-with-forwarded-data oid
                                                      (-> hakukohde
@@ -406,6 +407,10 @@
                                                          (assoc-odw-kk-tasot haku koulutus)
                                                          (assoc-jarjestaa-urheilijan-ammatillista-koulutusta (get-in hakukohde [:metadata :jarjestaaUrheilijanAmmKoulutusta]))
                                                          (assoc-pistehistoria pistehistoria)
+                                                         (assoc :johtaaTutkintoon (johtaa-tutkintoon? koulutus))
+                                                         (assoc :hakutapaKoodiUri (:hakutapaKoodiUri haku))
+                                                         (assoc :opetuskieliKoodiUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit]))
+                                                         (assoc :koulutusasteKoodiUrit (get-koulutusasteet koulutus))
                                                          (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
