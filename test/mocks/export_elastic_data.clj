@@ -1,4 +1,4 @@
-(ns mocks.export-elastic-data 
+(ns mocks.export-elastic-data
   (:require [clj-elasticsearch.elastic-utils :as e-utils]
             [clj-test-utils.generic :refer [run-proc]]
             [clojure.java.io :as io]
