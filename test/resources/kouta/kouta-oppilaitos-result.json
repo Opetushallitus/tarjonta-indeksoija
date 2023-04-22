@@ -1,5 +1,9 @@
 {
-  "koulutusohjelmia": 1,
+  "koulutusohjelmatLkm": {
+    "kaikki": 1,
+    "tutkintoonJohtavat": 1,
+    "eiTutkintoonJohtavat": 0
+  },
   "organisaatiotyyppi": [
     {
       "koodiUri": "organisaatiotyyppi_02",

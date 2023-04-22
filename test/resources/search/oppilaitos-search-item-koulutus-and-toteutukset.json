@@ -1,5 +1,9 @@
 {
-  "koulutusohjelmia": 6,
+  "koulutusohjelmaLkm": {
+    "kaikki": 6,
+    "tutkintoonJohtavat": 6,
+    "eiTutkintoonJohtavat": 0
+  },
   "kuvaus": {
     "fi": "Esittely",
     "sv": "Esittely sv"

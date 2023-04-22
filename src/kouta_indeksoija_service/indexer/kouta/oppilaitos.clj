@@ -22,7 +22,7 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
-(defn- assoc-koulutusohjelmia
+(defn- assoc-koulutusohjelmatLkm
   [organisaatio koulutukset]
   (let [kaikki (count koulutukset)
         tutkintoonJohtavat (count (filter :johtaaTutkintoon koulutukset))]
@@ -33,7 +33,7 @@
 
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]
-  (cond-> (assoc-koulutusohjelmia (organisaatio-entry organisaatio) koulutukset)
+  (cond-> (assoc-koulutusohjelmatLkm (organisaatio-entry organisaatio) koulutukset)
     (seq oppilaitos) (assoc :oppilaitos (-> oppilaitos
                                             (common/complete-entry)
                                             (dissoc :oid)))))
