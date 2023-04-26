@@ -44,6 +44,10 @@
   [entries]
   (set (remove nil? (mapcat tutkinnonosa-ids-on-koulutus entries))))
 
+(defn quick-index-koulutukset [oids execution-id]
+  (log/info (str "Pikaindeksoidaan koulutukset " oids ", execution id " execution-id))
+  (koulutus/do-index oids execution-id))
+
 ;;Tässä ja toteutuksen indeksoinnissa pitäisi indeksoida myös hakukohteet sillä
 ;;hakukohteen indeksoinnissa luetaan koulutuksen ja toteutuksen tietoja ja jos nuo muuttuu
 ;;kouta-backendissä, ei muutos valu tällä hetkellä indeksoidulle hakukohteelle.
@@ -62,6 +66,15 @@
   [oid]
   (let [execution-id (. System (currentTimeMillis))]
     (index-koulutukset [oid] execution-id)))
+
+(defn quick-index-koulutus
+  [oid]
+  (let [execution-id (. System (currentTimeMillis))]
+    (quick-index-koulutukset [oid] execution-id)))
+
+(defn quick-index-toteutukset [oids execution-id]
+  (log/info (str "Pikaindeksoidaan toteutukset " oids ", execution id " execution-id))
+  (toteutus/do-index oids execution-id))
 
 (defn index-toteutukset
   [oids execution-id]
@@ -85,6 +98,16 @@
   (let [execution-id (. System (currentTimeMillis))]
     (index-toteutukset [oid] execution-id)))
 
+(defn quick-index-toteutus
+  [oid]
+  (let [execution-id (. System (currentTimeMillis))]
+    (quick-index-toteutukset [oid] execution-id)))
+
+(defn quick-index-haut
+  [oids execution-id]
+  (log/info (str "Pikaindeksoidaan haut " oids ", execution id " execution-id))
+  (haku/do-index oids execution-id))
+
 (defn index-haut
   [oids execution-id]
   (let [entries           (haku/do-index oids execution-id)
@@ -98,6 +121,15 @@
   [oid]
   (let [execution-id (. System (currentTimeMillis))]
     (index-haut [oid] execution-id)))
+
+(defn quick-index-haku
+  [oid]
+  (let [execution-id (. System (currentTimeMillis))]
+    (quick-index-haut [oid] execution-id)))
+
+(defn quick-index-hakukohteet [oids execution-id]
+  (log/info (str "Pikaindeksoidaan hakukohteet " oids ", execution id " execution-id))
+  (hakukohde/do-index oids execution-id))
 
 (defn index-hakukohteet
   [oids execution-id]
@@ -114,6 +146,15 @@
   (let [execution-id (. System (currentTimeMillis))]
    (index-hakukohteet [oid] execution-id)))
 
+(defn quick-index-hakukohde
+  [oid]
+  (let [execution-id (. System (currentTimeMillis))]
+    (quick-index-hakukohteet [oid] execution-id)))
+
+(defn quick-index-valintaperusteet [oids execution-id]
+  (log/info (str "Pikaindeksoidaan valintaperusteet " oids ", execution id " execution-id))
+  (valintaperuste/do-index oids execution-id))
+
 (defn index-valintaperusteet
   [oids execution-id]
   (let [entries     (valintaperuste/do-index oids execution-id)
@@ -126,6 +167,15 @@
   (let [execution-id (. System (currentTimeMillis))]
     (index-valintaperusteet [oid] execution-id)))
 
+(defn quick-index-valintaperuste
+  [oid]
+  (let [execution-id (. System (currentTimeMillis))]
+    (quick-index-valintaperusteet [oid] execution-id)))
+
+(defn quick-index-sorakuvaukset [ids execution-id]
+  (log/info (str "Pikaindeksoidaan sorakuvaukset " ids ", execution id " execution-id))
+  (sorakuvaus/do-index ids execution-id))
+
 (defn index-sorakuvaukset
   [ids execution-id]
   (let [entries       (sorakuvaus/do-index ids execution-id)
@@ -137,6 +187,11 @@
   [oid]
   (let [execution-id (. System (currentTimeMillis))]
    (index-sorakuvaukset [oid] execution-id)))
+
+(defn quick-index-sorakuvaus
+  [oid]
+  (let [execution-id (. System (currentTimeMillis))]
+    (quick-index-sorakuvaukset [oid] execution-id)))
 
 (defn index-eperusteet
   [oids execution-id]
