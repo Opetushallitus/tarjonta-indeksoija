@@ -132,8 +132,6 @@
       ],
       "koulutustyypit": [
         "amm",
-        "koulutustyyppi_01",
-        "koulutustyyppi_02",
         "muu-amm-tutkinto"
       ],
       "koulutusOid": "1.2.246.562.13.00000000000000000098",
@@ -275,8 +273,6 @@
       ],
       "koulutustyypit": [
         "amm",
-        "koulutustyyppi_01",
-        "koulutustyyppi_02",
         "muu-amm-tutkinto"
       ],
       "koulutusOid": "1.2.246.562.13.00000000000000000098",
