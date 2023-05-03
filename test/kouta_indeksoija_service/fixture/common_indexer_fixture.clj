@@ -53,9 +53,8 @@
 
 (defn get-kausi
   [month]
-  (cond
-    (some #{month} '("8" "9" "10" "11" "12")) "kausi_s#1" 
-    :else "kausi_k#1"))
+  (if (<= month 7) 
+    "kausi_k#1" "kausi_s#1"))
 
 (defn replace-times
   [json-string]
@@ -69,8 +68,7 @@
                                        (.getYear)
                                        (.toString)))
       (string/replace "!!thisKausi" (get-kausi (-> (time/today)
-                                        (.getMonthOfYear)
-                                        (.toString))))))
+                                        (.getMonthOfYear))))))
 
 (defn read-json-as-string
   ([path name]
