@@ -74,6 +74,7 @@
                      :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                      :maksullisuustyyppi (:maksullisuustyyppi opetus)
                      :maksunMaara (:maksunMaara opetus)
+                     :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
                      :koulutustyyppi (:tyyppi toteutus-metadata)
                      :oppilaitosTila (:tila oppilaitos)
                      :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta

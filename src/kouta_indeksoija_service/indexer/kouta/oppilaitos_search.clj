@@ -88,6 +88,7 @@
                                          :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
                                          :maksullisuustyyppi  (:maksullisuustyyppi opetus)
                                          :maksunMaara         (:maksunMaara opetus)
+                                         :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
                                          :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn- get-kouta-oppilaitos
