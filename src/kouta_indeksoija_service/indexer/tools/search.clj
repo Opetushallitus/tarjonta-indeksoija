@@ -403,3 +403,9 @@
     (if (seq hakukohteet)
       (boolean (some #(true? (:jarjestaaUrheilijanAmmKoulutusta %)) hakukohteet))
       false)))
+
+(defn kesto-kuukausina
+  [opetus]
+  (let [vuosia (get opetus :suunniteltuKestoVuodet 0)
+        kuukausia (get opetus :suunniteltuKestoKuukaudet 0)]
+    (+ (* 12 vuosia) kuukausia)))

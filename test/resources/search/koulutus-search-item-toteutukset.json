@@ -172,7 +172,8 @@
         "ammatillinenPerustutkintoErityisopetuksena": false,
         "jarjestaaUrheilijanAmmKoulutusta": true,
         "oppilaitosTila": "julkaistu",
-        "koulutustyyppi": "amm"
+        "koulutustyyppi": "amm",
+        "suunniteltuKestoKuukausina": 0
       }
     },
     {
@@ -330,7 +331,8 @@
         "ammatillinenPerustutkintoErityisopetuksena": false,
         "jarjestaaUrheilijanAmmKoulutusta": true,
         "oppilaitosTila": "julkaistu",
-        "koulutustyyppi": "amm"
+        "koulutustyyppi": "amm",
+        "suunniteltuKestoKuukausina": 46
       }
     }
   ],
