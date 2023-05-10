@@ -216,35 +216,40 @@
 ;   kovakoodattu arvo koulutustyyppi_4 = Ammatillinen perustutkinto erityisopetuksena
 ;
 ;Lopputulos on taulukko stringejä, esim. ["amm" "koulutustyyppi_26"] tai ["yo" "maisteri"]
-(defn- get-koulutustyypit-from-koulutus-koodi
-  [koulutus]
-  (let [koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
-        koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
-        internal-koulutustyyppi (vector (:koulutustyyppi koulutus))
-        result (concat internal-koulutustyyppi koulutustyypit-without-erityisopetus)]
-    (cond
-      (korkeakoulutus? koulutus) (concat result (get-korkeakoulutus-koulutustyyppi koulutus))
-      (muu-ammatillinen-tutkinto-koulutus? koulutus koulutustyyppikoodit) (concat result ["muu-amm-tutkinto"])
-      :else result)))
+(defn- add-korkeakoulutus-tyypit-from-koulutus-koodi
+  [koulutus koulutustyypit]
+  (if (korkeakoulutus? koulutus)
+    (concat koulutustyypit (get-korkeakoulutus-koulutustyyppi koulutus))
+    koulutustyypit))
 
 (defn deduce-koulutustyypit
   ([koulutus toteutus-metadata]
    (let [koulutustyyppi (:koulutustyyppi koulutus)
+         koulutustyyppikoodit (koulutustyyppi-koodi-urit koulutus)
+         koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
          amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
          tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
          avoin-korkeakoulutus? (get-in koulutus [:metadata :isAvoinKorkeakoulutus])]
-     (cond
-       amm-erityisopetuksena? [koulutustyyppi amm-perustutkinto-erityisopetuksena-koulutustyyppi]
-       (and (tuva? koulutus) (not= toteutus-metadata nil)) [koulutustyyppi (if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal")]
-       (vapaa-sivistystyo-opistovuosi? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
-       (vapaa-sivistystyo-muu? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
-       (amm-ope-erityisope-ja-opo? koulutus) ["amk-muu" koulutustyyppi]
-       (kk-opintojakso? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-opintojakso-avoin" "kk-opintojakso-normal")]
-       (erikoislaakari? koulutus) ["kk-muu" koulutustyyppi]
-       (kk-opintokokonaisuus? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-opintokokonaisuus-avoin" "kk-opintokokonaisuus-normal")]
-       (ope-pedag-opinnot? koulutus) ["kk-muu" koulutustyyppi]
-       (erikoistumiskoulutus? koulutus) ["kk-muu" koulutustyyppi]
-       :else (get-koulutustyypit-from-koulutus-koodi koulutus))))
+     (->> (cond
+            (and (tuva? koulutus) (not= toteutus-metadata nil)) [koulutustyyppi (if tuva-erityisopetuksena? "tuva-erityisopetus" "tuva-normal")]
+            (vapaa-sivistystyo-opistovuosi? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
+            (vapaa-sivistystyo-muu? koulutus) ["vapaa-sivistystyo" koulutustyyppi]
+            (amm-ope-erityisope-ja-opo? koulutus) ["amk-muu" koulutustyyppi]
+            (kk-opintojakso? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-opintojakso-avoin" "kk-opintojakso-normal")]
+            (erikoislaakari? koulutus) ["kk-muu" koulutustyyppi]
+            (kk-opintokokonaisuus? koulutus) ["kk-muu" koulutustyyppi (if avoin-korkeakoulutus? "kk-opintokokonaisuus-avoin" "kk-opintokokonaisuus-normal")]
+            (ope-pedag-opinnot? koulutus) ["kk-muu" koulutustyyppi]
+            (erikoistumiskoulutus? koulutus) ["kk-muu" koulutustyyppi]
+            (amm-tutkinnon-osa? koulutus) ["muut-ammatilliset" koulutustyyppi]
+            (amm-osaamisala? koulutus) ["muut-ammatilliset" koulutustyyppi]
+            (telma? koulutus) ["muut-ammatilliset" koulutustyyppi]
+            (amm-muu? koulutus) ["muut-ammatilliset" koulutustyyppi]
+            (ammatillinen? koulutus) (cond
+                                       amm-erityisopetuksena? [koulutustyyppi amm-perustutkinto-erityisopetuksena-koulutustyyppi]
+                                       (muu-ammatillinen-tutkinto-koulutus? koulutus koulutustyyppikoodit) [koulutustyyppi "muu-amm-tutkinto"]
+                                       :else (concat [koulutustyyppi] koulutustyypit-without-erityisopetus))
+            :else [koulutustyyppi])
+          (add-korkeakoulutus-tyypit-from-koulutus-koodi koulutus))))
   ([koulutus]
    (deduce-koulutustyypit koulutus nil)))
 
