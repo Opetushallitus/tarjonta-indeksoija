@@ -51,6 +51,11 @@
 (def far-enough-in-the-future-start-time "2042-03-24T09:49")
 (def far-enough-in-the-future-end-time "2042-03-29T09:49")
 
+(defn get-kausi
+  [month]
+  (if (<= month 7) 
+    "kausi_k#1" "kausi_s#1"))
+
 (defn replace-times
   [json-string]
   (-> json-string
@@ -61,7 +66,9 @@
       (string/replace "!!time3" (test-date "09:58" 3))
       (string/replace "!!thisYear" (-> (time/today)
                                        (.getYear)
-                                       (.toString)))))
+                                       (.toString)))
+      (string/replace "!!thisKausi" (get-kausi (-> (time/today)
+                                        (.getMonthOfYear))))))
 
 (defn read-json-as-string
   ([path name]
