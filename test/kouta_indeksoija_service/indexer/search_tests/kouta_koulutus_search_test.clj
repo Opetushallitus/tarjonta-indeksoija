@@ -34,7 +34,7 @@
       (let [koulutus {:koulutustyyppi "amm", :koulutuksetKoodiUri []}
             toteutus-metadata nil
             result (kouta-indeksoija-service.indexer.tools.search/deduce-koulutustyypit koulutus toteutus-metadata)]
-        (is (= ["amm" "koulutustyyppi_123" "muu-amm-tutkinto"] result))))))
+        (is (= ["amm" "muu-amm-tutkinto"] result))))))
 
 (deftest add-tuva-normal-koulutustyyppi
   (testing "If tuva without erityisopetus, add 'tuva-normal' koulutustyyppi"

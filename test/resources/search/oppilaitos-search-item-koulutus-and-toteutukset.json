@@ -13,8 +13,6 @@
       ],
       "koulutustyypit": [
         "amm",
-        "koulutustyyppi_01",
-        "koulutustyyppi_02",
         "muu-amm-tutkinto"
       ],
       "koulutus_organisaationimi": {
@@ -126,8 +124,6 @@
       ],
       "koulutustyypit": [
         "amm",
-        "koulutustyyppi_01",
-        "koulutustyyppi_02",
         "muu-amm-tutkinto"
       ],
       "koulutus_organisaationimi": {
@@ -269,8 +265,6 @@
       ],
       "koulutustyypit": [
         "amm",
-        "koulutustyyppi_01",
-        "koulutustyyppi_02",
         "muu-amm-tutkinto"
       ],
       "koulutus_organisaationimi": {
@@ -409,6 +403,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "muut-ammatilliset",
         "amm-osaamisala"
       ],
       "koulutus_organisaationimi": {
@@ -479,6 +474,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "muut-ammatilliset",
         "amm-tutkinnon-osa"
       ],
       "koulutus_organisaationimi": {
