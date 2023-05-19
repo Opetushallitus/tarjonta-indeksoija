@@ -106,7 +106,6 @@
       (select-keys [:oid :nimi])
       (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
       (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
-      (assoc :koulutusohjelmia tutkintoonJohtavat) 
       (assoc :koulutusohjelmatLkm {
                                    :kaikki kaikki
                                    :tutkintoonJohtavat tutkintoonJohtavat

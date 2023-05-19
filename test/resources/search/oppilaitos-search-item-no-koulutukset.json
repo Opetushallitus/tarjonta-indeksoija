@@ -22,7 +22,11 @@
       }
     }
   ],
-  "koulutusohjelmia": 0,
+  "koulutusohjelmatLkm": {
+    "kaikki": 0,
+    "tutkintoonJohtavat": 0,
+    "eiTutkintoonJohtavat": 0
+  },
   "search_terms": [
     {
       "koulutus_organisaationimi": {
