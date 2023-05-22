@@ -317,6 +317,7 @@
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
+        "onkoApuraha": true,
         "opetusajat": [
           {
             "koodiUri": "opetusaikakk_1#1",
