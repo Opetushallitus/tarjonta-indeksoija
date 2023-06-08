@@ -315,7 +315,7 @@
     (into [addition] (remove nil? x))
     x))
 
-(defn get-hakutiedon-paatellyt-alkamiskaudet [toteutus hakutieto]
+(defn get-toteutuksen-paatellyt-alkamiskaudet [toteutus hakutieto]
   (->> (filter julkaistu? (:haut hakutieto))
        (mapcat (fn [haku]
                  (->> (filter julkaistu? (:hakukohteet haku))
@@ -323,14 +323,9 @@
                              (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
                                (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
                       (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
-       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))))
-
-(defn get-paatellyt-alkamiskaudet [toteutus hakutiedot]
-  (->> (if (empty? hakutiedot)
-        [(stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]))] 
-        (mapcat #(get-hakutiedon-paatellyt-alkamiskaudet toteutus %) hakutiedot))
-      (remove nil?)
-      distinct))
+       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))
+       (remove nil?)
+       distinct))
 
 (defn- kaytetaanHaunAikatauluaHakukohteessa?
   [hakukohde]
@@ -351,9 +346,8 @@
   (map #(get-hakukohde-hakutieto % haku) (:hakukohteet haku)))
 
 (defn get-search-hakutiedot
-  [hakutiedot]
-  (->> hakutiedot
-       (mapcat :haut)
+  [hakutieto]
+  (->> (:haut hakutieto)
        (map map-haut)
        flatten
        vec))
@@ -442,7 +436,7 @@
       :isTyovoimakoulutus        (get toteutus-metadata :isTyovoimakoulutus false)
       :isTaydennyskoulutus       (get toteutus-metadata :isTaydennyskoulutus false)
       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
-      :paatellytAlkamiskaudet    (get-paatellyt-alkamiskaudet toteutus hakutiedot)})))
+      :paatellytAlkamiskaudet    (get-toteutuksen-paatellyt-alkamiskaudet toteutus hakutiedot)})))
 
 (defn jarjestaako-tarjoaja-urheilijan-amm-koulutusta
   [tarjoaja-oids haut]

@@ -53,7 +53,7 @@
        :toteutus toteutus
        :oppilaitos oppilaitos
        :tarjoajat (:tarjoajat toteutus)
-       :hakutiedot (vector hakutieto)
+       :hakutiedot hakutieto
        :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
        :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)

@@ -72,7 +72,7 @@
                               :tarjoajat tarjoajat
                               :jarjestaa-urheilijan-amm-koulutusta jarjestaa-urheilijan-amm-koulutusta
                               :oppilaitos oppilaitos
-                              :hakutiedot (vector hakutieto)
+                              :hakutiedot hakutieto
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                               :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)

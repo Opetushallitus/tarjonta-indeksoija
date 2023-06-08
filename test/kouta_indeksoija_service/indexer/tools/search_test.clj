@@ -1,69 +1,71 @@
 (ns kouta-indeksoija-service.indexer.tools.search-test
   (:require [clojure.test :refer [deftest testing is]]
+            [kouta-indeksoija-service.fixture.common-indexer-fixture :refer [json]]
             [kouta-indeksoija-service.indexer.tools.search :as search]))
 
 (deftest get-haun-julkaistut-hakukohteet-tests
   (testing "filters hakukohteet with tila luonnos from hakutiedot"
     (let [toteutus {:oid "1.2.246.562.13.00000000000000000009"}
-          hakutiedot [{
-                      :toteutusOid "1.2.246.562.13.00000000000000000009"
-                      :haut [
-                             {:hakuOid "1.2.246.562.29.00000000000000000009",
-                      :tila "julkaistu",
-                      :hakukohteet [{
-                                     :hakukohdeOid "1.2.246.562.20.00000000000000000009",
-                                     :tila "tallennettu"
-                                     }]
-                      }]}]
+          hakutiedot [{:toteutusOid "1.2.246.562.13.00000000000000000009"
+                       :haut [{:hakuOid "1.2.246.562.29.00000000000000000009"
+                               :tila "julkaistu",
+                               :hakukohteet [{:hakukohdeOid "1.2.246.562.20.00000000000000000009"
+                                              :tila "tallennettu"}]}]}]
           julkaistut-hakutiedot (search/get-toteutuksen-julkaistut-hakutiedot hakutiedot toteutus)]
       (is (empty? (:haut julkaistut-hakutiedot))))))
 
-(defonce oppilaitoksen-osat [{:tila "julkaistu"
-                              :oid "1.2.246.562.10.44802853312"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta true}
-                              :organisaatioOid "1.2.246.562.10.44802853312"}
-                             {:tila "julkaistu"
-                              :oid "1.2.246.562.10.34178172895"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta true}
-                              :organisaatioOid "1.2.246.562.10.34178172895"}
-                             {:tila "julkaistu"
-                              :oid "1.2.246.562.10.87939127624"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta true}
-                              :organisaatioOid "1.2.246.562.10.87939127624"}
-                             {:tila "julkaistu"
-                              :oid "1.2.246.562.10.72130231946"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {:fi "Gradia Jyväskylä, Lievestuore"}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta false}
-                              :organisaatioOid "1.2.246.562.10.72130231946"}
-                             {:tila "julkaistu"
-                              :oid "1.2.246.562.10.26426892241"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta true}
-                              :organisaatioOid "1.2.246.562.10.26426892241"}
-                             {:tila "julkaistu"
-                              :oid "1.2.246.562.10.92008999028"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta true}
-                              :organisaatioOid "1.2.246.562.10.92008999028"}
-                             {:tila "julkaistu"
-                              :oid "1.2.246.562.10.25303897067"
-                              :oppilaitosOid "1.2.246.562.10.96162204109"
-                              :metadata {:kampus {}
-                                         :esittely {:fi "<p>Lorem ipsum</p>"}
-                                         :jarjestaaUrheilijanAmmKoulutusta true}
-                              :organisaatioOid "1.2.246.562.10.25303897067"}])
+(deftest get-search-hakutiedot-test
+  (let [hakuaika1     {:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"}
+        hakuaika2     {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}
+        hakuaika3     {:alkaa "2033-04-02T12:00" :paattyy "2033-05-02T12:00"}
+        hakuaika4     {:alkaa "2034-04-02T12:00" :paattyy "2034-05-02T12:00"}
+
+        hakutieto {:haut [{:hakuOid "1.2.246.562.29.00000000000000000001"
+                           :hakutapaKoodiUri "hakutapa_02#1"
+                           :hakuajat [hakuaika1 hakuaika2]
+                           :hakukohteet [{:valintatapaKoodiUrit ["valintatapajono_av#1", "valintatapajono_tv#1"]
+                                          :pohjakoulutusvaatimusKoodiUrit ["pohjakoulutusvaatimuskouta_122#1"]
+                                          :kaytetaanHaunAikataulua true}
+                                         {:valintatapaKoodiUrit ["valintatapajono_cv#1"]
+                                          :kaytetaanHaunAikataulua true}]}
+                          {:hakuOid "1.2.246.562.29.00000000000000000002"
+                           :hakutapaKoodiUri "hakutapa_01#1"
+                           :hakukohteet [{:valintatapaKoodiUrit []
+                                          :pohjakoulutusvaatimusKoodiUrit ["pohjakoulutusvaatimuskouta_117#1", "pohjakoulutusvaatimuskouta_102#1"]
+                                          :kaytetaanHaunAikataulua false
+                                          :hakuajat [hakuaika3]}
+                                         {:valintatapaKoodiUrit ["valintatapajono_cv#1", "valintatapajono_tv#1"]
+                                          :kaytetaanHaunAikataulua false
+                                          :hakuajat [hakuaika4]}]}
+                          {:hakuOid "1.2.246.562.29.00000000000000000003"
+                           :hakutapaKoodiUri "hakutapa_03#1"}]}]
+
+    (testing "get-search-hakutiedot parses hakutiedot properly"
+      (with-redefs
+       [kouta-indeksoija-service.rest.koodisto/get-koodit-with-cache #(json "test/resources/koodisto/" %)
+        kouta-indeksoija-service.rest.koodisto/get-alakoodit-with-cache #(json "test/resources/koodisto/alakoodit/" %)]
+        (is (= (search/get-search-hakutiedot hakutieto)
+               [{:hakuajat [{:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"} {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}]
+                 :hakutapa "hakutapa_02"
+                 :yhteishakuOid nil
+                 :pohjakoulutusvaatimukset ["pohjakoulutusvaatimuskonfo_002" "pohjakoulutusvaatimuskonfo_003"]
+                 :valintatavat ["valintatapajono_av" "valintatapajono_tv"]
+                 :jarjestaaUrheilijanAmmKoulutusta nil}
+                {:hakuajat [{:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"} {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}]
+                 :hakutapa "hakutapa_02"
+                 :yhteishakuOid nil
+                 :pohjakoulutusvaatimukset []
+                 :valintatavat ["valintatapajono_cv"]
+                 :jarjestaaUrheilijanAmmKoulutusta nil}
+                {:hakuajat [{:alkaa "2033-04-02T12:00" :paattyy "2033-05-02T12:00"}]
+                 :hakutapa "hakutapa_01" :yhteishakuOid "1.2.246.562.29.00000000000000000002"
+                 :pohjakoulutusvaatimukset ["pohjakoulutusvaatimuskonfo_007" "pohjakoulutusvaatimuskonfo_006" "pohjakoulutusvaatimuskonfo_005"]
+                 :valintatavat []
+                 :jarjestaaUrheilijanAmmKoulutusta nil}
+                {:hakuajat [{:alkaa "2034-04-02T12:00" :paattyy "2034-05-02T12:00"}]
+                 :hakutapa "hakutapa_01"
+                 :yhteishakuOid "1.2.246.562.29.00000000000000000002"
+                 :pohjakoulutusvaatimukset []
+                 :valintatavat ["valintatapajono_cv" "valintatapajono_tv"]
+                 :jarjestaaUrheilijanAmmKoulutusta nil}]))))))
+
