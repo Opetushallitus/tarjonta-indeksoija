@@ -1,9 +1,9 @@
 (ns kouta-indeksoija-service.indexer.tools.search
-  (:require [clojure.set :refer [intersection]]
+  (:require [clj-time.core :as t]
+            [clj-time.format :refer [parse]]
+            [clojure.set :refer [intersection]]
             [clojure.string :as string]
             [clojure.walk :as walk]
-            [clj-time.format :refer [parse]]
-            [clj-time.core :as t]
             [kouta-indeksoija-service.indexer.cache.eperuste :refer [filter-tutkinnon-osa get-eperuste-by-id]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.tools.general :refer [aikuisten-perusopetus? amk? amm-koulutus-with-eperuste? amm-muu? amm-ope-erityisope-ja-opo?
@@ -293,6 +293,50 @@
   [lang values]
   (distinct (remove nil? (map #(lang %) values))))
 
+(defn- stringify-tarkka-ajankohta [time-str]
+  (when-let [date (parse time-str)]
+    (str (t/year date) "-" (if (>= (t/month date) 8) "syksy" "kevat"))))
+
+(defn- stringify-kausi-ja-vuosi [kausi-ja-vuosi]
+  (when-let [koodiUri (:koulutuksenAlkamiskausiKoodiUri kausi-ja-vuosi)]
+    (let [vuosi (:koulutuksenAlkamisvuosi kausi-ja-vuosi)
+          kausi (if (string/starts-with? koodiUri "kausi_s") "syksy" "kevat")]
+      (str vuosi "-" kausi))))
+
+(defn- stringify-alkamiskausi [alkamiskausi]
+  (case (:alkamiskausityyppi alkamiskausi)
+    "tarkka alkamisajankohta" (stringify-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
+    "alkamiskausi ja -vuosi" (stringify-kausi-ja-vuosi alkamiskausi)
+    "henkilokohtainen suunnitelma" "henkilokohtainen"
+    nil))
+
+(defn- add-if-some-missing [addition x]
+  (if (or (empty? x) (some nil? x))
+    (into [addition] (remove nil? x))
+    x))
+
+(defn get-hakutiedon-paatellyt-alkamiskaudet [toteutus hakutieto]
+  (->> (filter julkaistu? (:haut hakutieto))
+       (mapcat (fn [haku]
+                 (->> (filter julkaistu? (:hakukohteet haku))
+                      (map (fn [hakukohde]
+                             (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
+                               (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
+                      (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
+       distinct
+       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))))
+
+(defn get-paatellyt-alkamiskaudet [toteutukset hakutiedot]
+  (let [hakutiedot-by-toteutus-oid (into {} (map (fn [hakutieto] [(keyword (:toteutusOid hakutieto)) hakutieto]) hakutiedot))]
+    (distinct (->> (filter julkaistu? toteutukset)
+                   (mapcat (fn [toteutus]
+                             (get-hakutiedon-paatellyt-alkamiskaudet
+                              toteutus
+                              (get-in hakutiedot-by-toteutus-oid [(keyword (:oid toteutus))]))))))))
+
+(defn assoc-paatellyt-alkamiskaudet [koulutus toteutukset hakutiedot]
+  (assoc koulutus :paatellytAlkamiskaudet (get-paatellyt-alkamiskaudet toteutukset hakutiedot)))
+
 (defn search-terms
   [& {:keys [koulutus
              toteutus
@@ -387,7 +431,8 @@
       :hasJotpaRahoitus          hasJotpaRahoitus
       :isTyovoimakoulutus        isTyovoimakoulutus
       :isTaydennyskoulutus       isTaydennyskoulutus
-      :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta})))
+      :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
+      :paatellytAlkamiskaudet (get-paatellyt-alkamiskaudet (vec toteutus) hakutiedot)})))
 
 (defn jarjestaako-tarjoaja-urheilijan-amm-koulutusta
   [tarjoaja-oids haut]
@@ -417,45 +462,3 @@
   (let [vuosia (get opetus :suunniteltuKestoVuodet 0)
         kuukausia (get opetus :suunniteltuKestoKuukaudet 0)]
     (+ (* 12 vuosia) kuukausia)))
-
-(defn- stringify-tarkka-ajankohta [time-str]
-  (when-let [date (parse time-str)]
-    (str (t/year date) "-" (if (>= (t/month date) 8) "syksy" "kevat"))))
-
-(defn- stringify-kausi-ja-vuosi [kausi-ja-vuosi]
-  (when-let [koodiUri (:koulutuksenAlkamiskausiKoodiUri kausi-ja-vuosi)]
-    (let [vuosi (:koulutuksenAlkamisvuosi kausi-ja-vuosi)
-          kausi (if (string/starts-with? koodiUri "kausi_s") "syksy" "kevat")]
-      (str vuosi "-" kausi))))
-
-(defn- stringify-alkamiskausi [alkamiskausi]
-  (case (:alkamiskausityyppi alkamiskausi)
-    "tarkka alkamisajankohta" (stringify-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
-    "alkamiskausi ja -vuosi" (stringify-kausi-ja-vuosi alkamiskausi)
-    "henkilokohtainen suunnitelma" "henkilokohtainen"
-    nil))
-
-(defn- add-if-some-missing [addition x]
-  (if (or (empty? x) (some nil? x))
-    (into [addition] (remove nil? x))
-    x))
-
-(defn get-hakutiedon-paatellyt-alkamiskaudet [toteutus hakutieto]
-  (->> (filter julkaistu? (:haut hakutieto))
-       (mapcat (fn [haku]
-                 (->> (filter julkaistu? (:hakukohteet haku))
-                      (map (fn [hakukohde]
-                             (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
-                               (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
-                      (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
-       distinct
-       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))))
-
-(defn assoc-paatellyt-alkamiskaudet [koulutus toteutukset hakutiedot]
-  (assoc koulutus :paatellytAlkamiskaudet
-         (let [hakutiedot-by-toteutus-oid (into {} (map (fn [hakutieto] [(keyword (:toteutusOid hakutieto)) hakutieto]) hakutiedot))]
-           (distinct (->> (filter julkaistu? toteutukset)
-                          (mapcat (fn [toteutus]
-                                    (get-hakutiedon-paatellyt-alkamiskaudet
-                                     toteutus
-                                     (get-in hakutiedot-by-toteutus-oid [(keyword (:oid toteutus))])))))))))

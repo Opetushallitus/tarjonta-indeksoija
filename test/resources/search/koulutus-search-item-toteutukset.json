@@ -190,7 +190,8 @@
         "oppilaitosTila": "julkaistu",
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 0
-      }
+      },
+      "paatellytAlkamiskaudet": []
     },
     {
       "oppilaitosOid": "1.2.246.562.10.77777777799",
@@ -349,7 +350,8 @@
         "oppilaitosTila": "julkaistu",
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 46
-      }
+      },
+      "paatellytAlkamiskaudet": []
     }
   ],
   "nimi": {
