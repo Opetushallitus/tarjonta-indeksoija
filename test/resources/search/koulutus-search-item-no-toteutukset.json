@@ -138,5 +138,6 @@
     "count": 0,
     "nimi": null
   },
-  "isAvoinKorkeakoulutus": null
+  "isAvoinKorkeakoulutus": null,
+  "paatellytAlkamiskaudet": []
 }

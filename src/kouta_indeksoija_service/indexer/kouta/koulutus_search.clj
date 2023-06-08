@@ -1,14 +1,17 @@
 (ns kouta-indeksoija-service.indexer.kouta.koulutus-search
-  (:require [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
-            [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.indexer.tools.general :refer [amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
-            [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
-            [kouta-indeksoija-service.indexer.tools.search :as search-tool]
-            [kouta-indeksoija-service.indexer.indexable :as indexable]
-            [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
+  (:require  [clojure.string :as string]
+             [clj-time.format :refer [parse]]
+             [clj-time.core :as t]
+             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
+             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
+             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
+             [kouta-indeksoija-service.indexer.tools.general :refer [amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
+             [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
+             [kouta-indeksoija-service.indexer.tools.search :as search-tool]
+             [kouta-indeksoija-service.indexer.indexable :as indexable]
+             [kouta-indeksoija-service.indexer.kouta.common :as common]
+             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
+             [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -50,43 +53,42 @@
           :let [opetus (get-in toteutus [:metadata :opetus])]
           :let [toteutus-metadata (:metadata toteutus)]]
       (search-tool/search-terms
-        :koulutus koulutus
-        :toteutus toteutus
-        :oppilaitos oppilaitos
-        :tarjoajat (:tarjoajat toteutus)
-        :hakutiedot (get-search-hakutiedot hakutieto)
-        :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
-        :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
-        :kuva (:logo oppilaitos)
-        :nimi (:nimi oppilaitos)
-        :onkoTuleva false
-        :toteutusHakuaika (:hakuaika toteutus-metadata)
-        :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
-        :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
-        :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
-        :hasJotpaRahoitus (:hasJotpaRahoitus toteutus-metadata)
-        :isTyovoimakoulutus (:isTyovoimakoulutus toteutus-metadata)
-        :isTaydennyskoulutus (:isTaydennyskoulutus toteutus-metadata)
+       :koulutus koulutus
+       :toteutus toteutus
+       :oppilaitos oppilaitos
+       :tarjoajat (:tarjoajat toteutus)
+       :hakutiedot (get-search-hakutiedot hakutieto)
+       :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
+       :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
+       :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
+       :kuva (:logo oppilaitos)
+       :nimi (:nimi oppilaitos)
+       :onkoTuleva false
+       :toteutusHakuaika (:hakuaika toteutus-metadata)
+       :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
+       :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
+       :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
+       :hasJotpaRahoitus (:hasJotpaRahoitus toteutus-metadata)
+       :isTyovoimakoulutus (:isTyovoimakoulutus toteutus-metadata)
+       :isTaydennyskoulutus (:isTaydennyskoulutus toteutus-metadata)
 
-        :metadata (merge
-                    {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
-                     :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                     :maksullisuustyyppi (:maksullisuustyyppi opetus)
-                     :maksunMaara (:maksunMaara opetus)
-                     :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
-                     :koulutustyyppi (:tyyppi toteutus-metadata)
-                     :oppilaitosTila (:tila oppilaitos)
-                     :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
-                                                         (:haut hakutieto))}
-                    (select-keys toteutus-metadata
-                                 [:ammatillinenPerustutkintoErityisopetuksena
-                                  :jarjestetaanErityisopetuksena
-                                  :opintojenLaajuusNumero
-                                  :opintojenLaajuusNumeroMin
-                                  :opintojenLaajuusNumeroMax
-                                  :opintojenLaajuusyksikkoKoodiUri]
-                                 ))))))
+       :metadata (merge
+                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
+                   :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                   :maksullisuustyyppi (:maksullisuustyyppi opetus)
+                   :maksunMaara (:maksunMaara opetus)
+                   :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                   :koulutustyyppi (:tyyppi toteutus-metadata)
+                   :oppilaitosTila (:tila oppilaitos)
+                   :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
+                                                      (:haut hakutieto))}
+                  (select-keys toteutus-metadata
+                               [:ammatillinenPerustutkintoErityisopetuksena
+                                :jarjestetaanErityisopetuksena
+                                :opintojenLaajuusNumero
+                                :opintojenLaajuusNumeroMin
+                                :opintojenLaajuusNumeroMax
+                                :opintojenLaajuusyksikkoKoodiUri]))))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]
@@ -115,6 +117,48 @@
            (apply merge-with concat)
            (merge koulutus)))
     (assoc koulutus :search_terms [(tuleva-jarjestaja-search-terms {} koulutus)])))
+
+
+(defn- stringify-tarkka-ajankohta [time-str]
+  (when-let [date (parse time-str)]
+    (str (t/year date) "-" (if (>= (t/month date) 8) "syksy" "kevat"))))
+
+(defn- stringify-kausi-ja-vuosi [kausi-ja-vuosi]
+  (when-let [koodiUri (:koulutuksenAlkamiskausiKoodiUri kausi-ja-vuosi)]
+    (let [vuosi (:koulutuksenAlkamisvuosi kausi-ja-vuosi)
+          kausi (if (string/starts-with? koodiUri "kausi_s") "syksy" "kevat")]
+      (str vuosi "-" kausi))))
+
+(defn- stringify-alkamiskausi [alkamiskausi]
+  (case (:alkamiskausityyppi alkamiskausi)
+    "tarkka alkamisajankohta" (stringify-tarkka-ajankohta (:koulutuksenAlkamispaivamaara alkamiskausi))
+    "alkamiskausi ja -vuosi" (stringify-kausi-ja-vuosi alkamiskausi)
+    "henkilokohtainen suunnitelma" "henkilokohtainen"
+    nil))
+
+(defn- add-if-some-missing [addition x]
+  (if (or (empty? x) (some nil? x))
+    (conj x addition)
+    x))
+
+(defn get-hakutiedon-paatellyt-alkamiskaudet [toteutus hakutieto]
+  (->> (filter julkaistu? (:haut hakutieto))
+       (mapcat (fn [haku]
+                 (->> (filter julkaistu? (:hakukohteet haku))
+                      (map (fn [hakukohde]
+                             (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi]))))
+                      (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
+       distinct
+       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))
+       (remove nil?)))
+
+(defn- assoc-paatellyt-alkamiskaudet [koulutus toteutukset hakutiedot]
+  (assoc koulutus :paatellytAlkamiskaudet
+         (let [toteutukset-by-oid (into {} (map (fn [toteutus] [(keyword (:oid toteutus)) toteutus]) toteutukset))]
+           (distinct (mapcat (fn [hakutieto]
+                               (get-hakutiedon-paatellyt-alkamiskaudet
+                                (get-in toteutukset-by-oid [(keyword (:toteutusOid hakutieto))])
+                                hakutieto)) hakutiedot)))))
 
 (defn- create-entry
   [koulutus]
@@ -164,6 +208,7 @@
         (indexable/->index-entry oid (-> koulutus
                                          (assoc-jarjestaja-search-terms toteutukset hakutiedot)
                                          (assoc-toteutusten-tarjoajat toteutukset)
+                                         (assoc-paatellyt-alkamiskaudet toteutukset hakutiedot)
                                          (create-entry))))
       (indexable/->delete-entry oid))))
 
