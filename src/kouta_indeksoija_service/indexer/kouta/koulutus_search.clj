@@ -3,7 +3,6 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.general :refer [amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
-            [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
@@ -54,7 +53,7 @@
        :toteutus toteutus
        :oppilaitos oppilaitos
        :tarjoajat (:tarjoajat toteutus)
-       :hakutiedot (get-search-hakutiedot hakutieto)
+       :hakutiedot (vector hakutieto)
        :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
        :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)

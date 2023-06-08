@@ -337,6 +337,33 @@
 (defn assoc-paatellyt-alkamiskaudet [koulutus toteutukset hakutiedot]
   (assoc koulutus :paatellytAlkamiskaudet (get-paatellyt-alkamiskaudet toteutukset hakutiedot)))
 
+
+(defn- kaytetaanHaunAikatauluaHakukohteessa?
+  [hakukohde]
+  (true? (:kaytetaanHaunAikataulua hakukohde)))
+
+(defn- get-hakukohde-hakutieto
+  [hakukohde haku]
+  (-> {}
+      (assoc :hakuajat (:hakuajat (if (kaytetaanHaunAikatauluaHakukohteessa? hakukohde) haku hakukohde)))
+      (assoc :hakutapa (remove-uri-version (:hakutapaKoodiUri haku)))
+      (assoc :yhteishakuOid (when (= koodisto/koodiuri-yhteishaku-hakutapa (remove-uri-version (:hakutapaKoodiUri haku))) (:hakuOid haku)))
+      (assoc :pohjakoulutusvaatimukset (clean-uris (pohjakoulutusvaatimus-koodi-urit hakukohde)))
+      (assoc :valintatavat (clean-uris (:valintatapaKoodiUrit hakukohde)))
+      (assoc :jarjestaaUrheilijanAmmKoulutusta (:jarjestaaUrheilijanAmmKoulutusta hakukohde))))
+
+(defn- map-haut
+  [haku]
+  (map #(get-hakukohde-hakutieto % haku) (:hakukohteet haku)))
+
+(defn get-search-hakutiedot
+  [hakutiedot]
+  (->> hakutiedot
+       (mapcat :haut)
+       (map map-haut)
+       flatten
+       vec))
+
 (defn search-terms
   [& {:keys [koulutus
              toteutus
@@ -390,7 +417,7 @@
       :toteutusNimi              {:fi (:fi toteutus-nimi)
                                   :sv (:sv toteutus-nimi)
                                   :en (:en toteutus-nimi)}
-      :toteutusHakuaika          (:hakuaika toteutus-metadata)
+      :toteutusHakuaika          (get toteutus-metadata :hakuaika {})
       :oppilaitosOid             (:oid oppilaitos)
       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
@@ -406,11 +433,7 @@
                                   :en (not-empty (get-lang-values :en ammattinimikkeet))}
       :sijainti                  (clean-uris (concat kunnat maakunnat))
       :koulutusalat              (not-empty (clean-uris (koulutusala-koodi-urit koulutus)))
-      :hakutiedot                (not-empty (map #(-> %
-                                                      (update :hakutapa remove-uri-version)
-                                                      (update :valintatavat clean-uris)
-                                                      (update :pohjakoulutusvaatimukset clean-uris))
-                                                 hakutiedot))
+      :hakutiedot                (not-empty (get-search-hakutiedot hakutiedot))
       :opetustavat               (not-empty (clean-uris (or (some-> toteutus :metadata :opetus :opetustapaKoodiUrit) [])))
       :opetuskielet              (not-empty (clean-uris opetuskieliUrit))
       :koulutustyypit            (clean-uris koulutustyypit)
@@ -421,11 +444,11 @@
       :lukiopainotukset          (clean-uris lukiopainotukset)
       :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
       :osaamisalat               (clean-uris osaamisalat)
-      :hasJotpaRahoitus          (:hasJotpaRahoitus toteutus-metadata)
-      :isTyovoimakoulutus        (:isTyovoimakoulutus toteutus-metadata)
-      :isTaydennyskoulutus       (:isTaydennyskoulutus toteutus-metadata)
+      :hasJotpaRahoitus          (get toteutus-metadata :hasJotpaRahoitus false)
+      :isTyovoimakoulutus        (get toteutus-metadata :isTyovoimakoulutus false)
+      :isTaydennyskoulutus       (get toteutus-metadata :isTaydennyskoulutus false)
       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
-      :paatellytAlkamiskaudet (get-paatellyt-alkamiskaudet (vec toteutus) hakutiedot)})))
+      :paatellytAlkamiskaudet    (get-paatellyt-alkamiskaudet [toteutus] hakutiedot)})))
 
 (defn jarjestaako-tarjoaja-urheilijan-amm-koulutusta
   [tarjoaja-oids haut]

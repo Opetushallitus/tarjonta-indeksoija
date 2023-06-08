@@ -1,8 +1,7 @@
 (ns kouta-indeksoija-service.test-tools
   (:require [cheshire.core :as cheshire]
             [clojure.test :refer [is]]
-            [clojure.data :refer [diff]]
-            [kouta-indeksoija-service.elastic.admin :as admin]
+            [clojure.walk :as walk]
             [kouta-indeksoija-service.elastic.tools :as tools]))
 
 (defn parse
@@ -36,18 +35,17 @@
   [json]
   (println (cheshire/generate-string json {:pretty true})))
 
+(defn primitive?
+  [x]
+  (or (string? x) (number? x) (boolean? x)))
+
+(defn sort-primitive-array
+  [x]
+  (if (and (vector? x) (seq x) (primitive? (first x))) (sort x) x))
+
 (defn order-primitive-arrays-for-comparison
   [json]
-
-  (defn primitive?
-    [x]
-    (or (string? x) (number? x) (boolean? x)))
-
-  (defn sort-primitive-array
-    [x]
-    (if (and (vector? x) (seq x) (primitive? (first x))) (sort x) x))
-
-  (clojure.walk/postwalk sort-primitive-array json))
+  (walk/postwalk sort-primitive-array json))
 
 (defn compare-json
   [expected actual]

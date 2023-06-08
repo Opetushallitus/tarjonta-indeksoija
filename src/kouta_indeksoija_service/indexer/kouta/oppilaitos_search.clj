@@ -3,7 +3,6 @@
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache list-alakoodi-nimet-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
-            [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
@@ -73,7 +72,7 @@
                               :tarjoajat tarjoajat
                               :jarjestaa-urheilijan-amm-koulutusta jarjestaa-urheilijan-amm-koulutusta
                               :oppilaitos oppilaitos
-                              :hakutiedot (get-search-hakutiedot hakutieto)
+                              :hakutiedot (vector hakutieto)
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
                               :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)

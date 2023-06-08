@@ -142,6 +142,9 @@
       },
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -191,7 +194,7 @@
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 0
       },
-      "paatellytAlkamiskaudet": []
+      "paatellytAlkamiskaudet": ["2042-kevat"]
     },
     {
       "oppilaitosOid": "1.2.246.562.10.77777777799",
@@ -303,6 +306,9 @@
       },
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [
@@ -351,7 +357,7 @@
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 46
       },
-      "paatellytAlkamiskaudet": []
+      "paatellytAlkamiskaudet": ["2042-kevat"]
     }
   ],
   "nimi": {
