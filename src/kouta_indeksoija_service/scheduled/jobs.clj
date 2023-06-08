@@ -41,6 +41,7 @@
   []
   (wait-for-elastic-lock
    (let [now (System/currentTimeMillis)
+         execution-id now
          last-modified (get-last-queued-time)
          organisaatio-changes (organisaatio-hierarkia/get-all-muutetut-organisaatiot-cached last-modified)
          org-change-count (count organisaatio-changes)
@@ -48,7 +49,9 @@
          changes-count (+ eperuste-change-count org-change-count)]
      (when (< 0 org-change-count)
        (organisaatio-hierarkia/clear-hierarkia-cache)
-       (indexer/index-oppilaitokset organisaatio-changes now false))
+       (try (indexer/index-oppilaitokset organisaatio-changes execution-id false)
+            (catch Exception e
+              (log/error e "ID: " execution-id " indeksoinnissa tapahtui virhe."))))
      (when (< 0 changes-count)
        (log/info "Fetched and indexed last-modified since" (long->date-time-string last-modified)", containing" changes-count "changes.")
        (set-last-queued-time now)))))

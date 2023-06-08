@@ -259,7 +259,8 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "suunniteltuKestoKuukausina": 0
       }
     },
     {
@@ -398,7 +399,8 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "suunniteltuKestoKuukausina": 46
       }
     },
     {
