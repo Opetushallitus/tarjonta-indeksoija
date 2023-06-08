@@ -437,7 +437,7 @@
 
 (defn- add-if-some-missing [addition x]
   (if (or (empty? x) (some nil? x))
-    (conj x addition)
+    (into [addition] (remove nil? x))
     x))
 
 (defn get-hakutiedon-paatellyt-alkamiskaudet [toteutus hakutieto]
@@ -445,16 +445,17 @@
        (mapcat (fn [haku]
                  (->> (filter julkaistu? (:hakukohteet haku))
                       (map (fn [hakukohde]
-                             (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi]))))
+                             (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
+                               (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
                       (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
        distinct
-       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))
-       (remove nil?)))
+       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))))
 
 (defn assoc-paatellyt-alkamiskaudet [koulutus toteutukset hakutiedot]
   (assoc koulutus :paatellytAlkamiskaudet
-         (let [toteutukset-by-oid (into {} (map (fn [toteutus] [(keyword (:oid toteutus)) toteutus]) toteutukset))]
-           (distinct (mapcat (fn [hakutieto]
-                               (get-hakutiedon-paatellyt-alkamiskaudet
-                                (get-in toteutukset-by-oid [(keyword (:toteutusOid hakutieto))])
-                                hakutieto)) hakutiedot)))))
+         (let [hakutiedot-by-toteutus-oid (into {} (map (fn [hakutieto] [(keyword (:toteutusOid hakutieto)) hakutieto]) hakutiedot))]
+           (distinct (->> (filter julkaistu? toteutukset)
+                          (mapcat (fn [toteutus]
+                                    (get-hakutiedon-paatellyt-alkamiskaudet
+                                     toteutus
+                                     (get-in hakutiedot-by-toteutus-oid [(keyword (:oid toteutus))])))))))))

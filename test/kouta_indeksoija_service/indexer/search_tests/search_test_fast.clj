@@ -16,157 +16,153 @@
   (testing "returns true for one tarjoaja when one hakukohde in one haku that has corresponding jarjestyspaikkaOid has true for jarjestaaUrheilijanAmmKoulutusta"
     (is (= true
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.96162204109"]
-             [{:tila "julkaistu"
-               :hakukohteet [{:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta true
-                              :organisaatioOid "1.2.246.562.10.96162204109"}]
-               :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
-               :organisaatioOid "1.2.246.562.10.96162204109"}]))))
+            ["1.2.246.562.10.96162204109"]
+            [{:tila "julkaistu"
+              :hakukohteet [{:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta true
+                             :organisaatioOid "1.2.246.562.10.96162204109"}]
+              :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
+              :organisaatioOid "1.2.246.562.10.96162204109"}]))))
 
-    (testing "returns false for one tarjoaja when hakukohde with corresponding jarjestyspaikkaOid has false for jarjestaaUrheilijanAmmKoulutusta"
-      (is (= false
-             (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-               ["1.2.246.562.10.44802853312"]
-               [{:tila "julkaistu"
-                 :hakukohteet [{:tila "julkaistu"
-                                :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
-                                :toteutusOid "1.2.246.562.17.00000000000000006388"
-                                :nimi {:fi "Isännöinnin ammattitutkinto"}
-                                :hakuOid "1.2.246.562.29.00000000000000000045"
-                                :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                                :jarjestaaUrheilijanAmmKoulutusta true
-                                :organisaatioOid "1.2.246.562.10.96162204109"}
-                               {:tila "julkaistu"
-                                :jarjestyspaikkaOid "1.2.246.562.10.44802853312"
-                                :toteutusOid "1.2.246.562.17.00000000000000006388"
-                                :nimi {:fi "Isännöinnin ammattitutkinto 2"}
-                                :hakuOid "1.2.246.562.29.00000000000000000045"
-                                :hakukohdeOid "1.2.246.562.20.00000000000000010665"
-                                :jarjestaaUrheilijanAmmKoulutusta false
-                                :organisaatioOid "1.2.246.562.10.44802853312"}]
-                 :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
-                 :organisaatioOid "1.2.246.562.10.48442622063"}]
-               ))))
+  (testing "returns false for one tarjoaja when hakukohde with corresponding jarjestyspaikkaOid has false for jarjestaaUrheilijanAmmKoulutusta"
+    (is (= false
+           (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
+            ["1.2.246.562.10.44802853312"]
+            [{:tila "julkaistu"
+              :hakukohteet [{:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta true
+                             :organisaatioOid "1.2.246.562.10.96162204109"}
+                            {:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.44802853312"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto 2"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010665"
+                             :jarjestaaUrheilijanAmmKoulutusta false
+                             :organisaatioOid "1.2.246.562.10.44802853312"}]
+              :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
+              :organisaatioOid "1.2.246.562.10.48442622063"}]))))
 
   (testing "returns true if the only hakukohde in the only haku has true for jarjestaaUrheilijanAmmKoulutusta"
     (is (= true
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.96162204109"]
-               [{:tila "julkaistu"
-                 :hakukohteet [{:tila "julkaistu"
-                                :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
-                                :toteutusOid "1.2.246.562.17.00000000000000006388"
-                                :nimi {:fi "Isännöinnin ammattitutkinto"}
-                                :hakuOid "1.2.246.562.29.00000000000000000045"
-                                :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                                :jarjestaaUrheilijanAmmKoulutusta true
-                                :organisaatioOid "1.2.246.562.10.96162204109"}]
-                 :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
-                 :organisaatioOid "1.2.246.562.10.48442622063"}]))))
+            ["1.2.246.562.10.96162204109"]
+            [{:tila "julkaistu"
+              :hakukohteet [{:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta true
+                             :organisaatioOid "1.2.246.562.10.96162204109"}]
+              :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
+              :organisaatioOid "1.2.246.562.10.48442622063"}]))))
 
   (testing "returns false if haut is empty"
     (is (= false
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.96162204109"]
-             []
-             ))))
+            ["1.2.246.562.10.96162204109"]
+            []))))
 
   (testing "returns false if hakukohteet is empty"
     (is (= false
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.96162204109"]
-             [{:tila "julkaistu"
-               :hakukohteet []
-               :nimi {:fi "Jatkuva haku Gradia Jyväskylä"}
-               :organisaatioOid "1.2.246.562.10.48442622063"}]
-             ))))
+            ["1.2.246.562.10.96162204109"]
+            [{:tila "julkaistu"
+              :hakukohteet []
+              :nimi {:fi "Jatkuva haku Gradia Jyväskylä"}
+              :organisaatioOid "1.2.246.562.10.48442622063"}]))))
 
   (testing "returns false if the only hakukohde in the only haku has different jarjestyspaikkaOid than tarjoaja oid"
     (is (= false
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.96162204109"]
-             [{:tila "julkaistu"
-               :hakukohteet [{:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta true
-                              :organisaatioOid "1.2.246.562.10.11111111111"}]
-               :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
-               :organisaatioOid "1.2.246.562.10.48442622063"}]))))
+            ["1.2.246.562.10.96162204109"]
+            [{:tila "julkaistu"
+              :hakukohteet [{:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta true
+                             :organisaatioOid "1.2.246.562.10.11111111111"}]
+              :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
+              :organisaatioOid "1.2.246.562.10.48442622063"}]))))
 
   (testing "returns true when the second hakukohde in the only haku has correct jarjestyspaikkaOid and jarjestaaUrheilijanAmmKoulutusta has true"
     (is (= true
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.96162204109"]
-             [{:tila "julkaistu"
-               :hakukohteet [{:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta false
-                              :organisaatioOid "1.2.246.562.10.11111111111"}
-                             {:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta true
-                              :organisaatioOid "1.2.246.562.10.96162204109"}]
-               :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
-               :organisaatioOid "1.2.246.562.10.48442622063"}]))))
+            ["1.2.246.562.10.96162204109"]
+            [{:tila "julkaistu"
+              :hakukohteet [{:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta false
+                             :organisaatioOid "1.2.246.562.10.11111111111"}
+                            {:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta true
+                             :organisaatioOid "1.2.246.562.10.96162204109"}]
+              :nimi {:fi "Jatkuva haku Joku Oppilaitos"}
+              :organisaatioOid "1.2.246.562.10.48442622063"}]))))
 
   (testing "returns true when some of the tarjoajat has hakukohde that has true for jarjestaaUrheilijanAmmKoulutusta"
     (is (= true
            (search/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-             ["1.2.246.562.10.12121212121" "1.2.246.562.10.96162204109"]
-             [{:tila "julkaistu"
-               :hakukohteet [{:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta false
-                              :organisaatioOid "1.2.246.562.10.11111111111"}
-                             {:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta false
-                              :organisaatioOid "1.2.246.562.10.12121212121"}
-                             {:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.4444444444555"
-                              :toteutusOid "1.2.246.562.17.00000000000000006399"
-                              :nimi {:fi "Hevosammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010666"
-                              :jarjestaaUrheilijanAmmKoulutusta false
-                              :organisaatioOid "1.2.246.562.10.96162204109"}
-                             {:tila "julkaistu"
-                              :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
-                              :toteutusOid "1.2.246.562.17.00000000000000006388"
-                              :nimi {:fi "Isännöinnin ammattitutkinto"}
-                              :hakuOid "1.2.246.562.29.00000000000000000045"
-                              :hakukohdeOid "1.2.246.562.20.00000000000000010664"
-                              :jarjestaaUrheilijanAmmKoulutusta true
-                              :organisaatioOid "1.2.246.562.10.96162204109"}]
-               :nimi {:fi "Yhteishaku"}
-               :organisaatioOid "1.2.246.562.10.48442622063"}]))))
-    )
+            ["1.2.246.562.10.12121212121" "1.2.246.562.10.96162204109"]
+            [{:tila "julkaistu"
+              :hakukohteet [{:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta false
+                             :organisaatioOid "1.2.246.562.10.11111111111"}
+                            {:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.4444444444444"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta false
+                             :organisaatioOid "1.2.246.562.10.12121212121"}
+                            {:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.4444444444555"
+                             :toteutusOid "1.2.246.562.17.00000000000000006399"
+                             :nimi {:fi "Hevosammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010666"
+                             :jarjestaaUrheilijanAmmKoulutusta false
+                             :organisaatioOid "1.2.246.562.10.96162204109"}
+                            {:tila "julkaistu"
+                             :jarjestyspaikkaOid "1.2.246.562.10.96162204109"
+                             :toteutusOid "1.2.246.562.17.00000000000000006388"
+                             :nimi {:fi "Isännöinnin ammattitutkinto"}
+                             :hakuOid "1.2.246.562.29.00000000000000000045"
+                             :hakukohdeOid "1.2.246.562.20.00000000000000010664"
+                             :jarjestaaUrheilijanAmmKoulutusta true
+                             :organisaatioOid "1.2.246.562.10.96162204109"}]
+              :nimi {:fi "Yhteishaku"}
+              :organisaatioOid "1.2.246.562.10.48442622063"}])))))
 
 (deftest opintojen-laajuus
   (testing "returns opintojenLaajuusYksikkoKoodiUri for relevant koulutukset"
@@ -184,8 +180,7 @@
     (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "lk"})))
     (is (= "opintojenlaajuusyksikko_8#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "vapaa-sivistystyo-muu" :metadata fixture/vapaa-sivistystyo-muu-metadata})))
     (is (= "opintojenlaajuusyksikko_4#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata})))
-    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata})))
-  )
+    (is (= "opintojenlaajuusyksikko_2#1" (search/opintojen-laajuusyksikko-koodi-uri {:koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata}))))
 
   (testing "returns laajuusnumero for relevant koulutukset"
     (is (= 11 (search/opintojen-laajuus-numero {:koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata})))
@@ -202,8 +197,7 @@
     (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "erikoislaakari" :metadata {:tyyppi "erikoislaakari" :opintojenLaajuusNumero 60}})))
     (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "kk-opintojakso" :metadata {:tyyppi "kk-opintojakso" :opintojenLaajuusNumero 60}})))
     (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "kk-opintokokonaisuus" :metadata {:tyyppi "kk-opintokokonaisuus" :opintojenLaajuusNumero 60}})))
-    (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "erikoistumiskoulutus" :metadata {:tyyppi "erikoistumiskoulutus" :opintojenLaajuusNumero 60}})))
-  )
+    (is (= nil (search/opintojen-laajuus-numero {:koulutustyyppi "erikoistumiskoulutus" :metadata {:tyyppi "erikoistumiskoulutus" :opintojenLaajuusNumero 60}}))))
 
   (testing "return laajuusnumero min and max for relevant koulutukset"
     (is (= 14 (search/opintojen-laajuus-numero-min {:koulutustyyppi "kk-opintojakso" :metadata fixture/kk-opintojakso-koulutus-metadata})))
@@ -213,6 +207,110 @@
     (is (= 5 (search/opintojen-laajuus-numero-min {:koulutustyyppi "erikoistumiskoulutus" :metadata fixture/erikoistumiskoulutus-metadata})))
     (is (= 10 (search/opintojen-laajuus-numero-max {:koulutustyyppi "erikoistumiskoulutus" :metadata fixture/erikoistumiskoulutus-metadata})))
     (is (= nil (search/opintojen-laajuus-numero-min {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))
-    (is (= nil (search/opintojen-laajuus-numero-max {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))
-  )
-)
+    (is (= nil (search/opintojen-laajuus-numero-max {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))))
+
+(deftest assoc-paatellyt-alkamiskaudet-test
+  (testing "only toteutus, no hakutiedot"
+    (is (= {:paatellytAlkamiskaudet ["2023-kevat"]}
+           (search/assoc-paatellyt-alkamiskaudet
+            {}
+            [{:oid "1"
+              :tila "julkaistu"
+              :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+            []))))
+
+  (testing "toteutus and hakutiedot haku"
+    (is (= {:paatellytAlkamiskaudet ["2024-syksy"]}
+           (search/assoc-paatellyt-alkamiskaudet
+            {}
+            [{:oid "1"
+              :tila "julkaistu"
+              :metadata {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                             :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+            [{:toteutusOid "1"
+              :haut [{:tila "julkaistu"
+                      :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                                                :koulutuksenAlkamisvuosi 2024}}]}]))))
+
+
+  (testing "toteutus and hakukohde-hakutieto"
+    (is (= {:paatellytAlkamiskaudet ["henkilokohtainen"]}
+           (search/assoc-paatellyt-alkamiskaudet
+            {}
+            [{:oid "1"
+              :tila "julkaistu"
+              :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+            [{:toteutusOid "1"
+              :haut [{:tila "julkaistu"
+                      :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                                                :koulutuksenAlkamisvuosi 2024}
+                      :hakukohteet [{:tila "julkaistu"
+                                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}]))))
+
+  (testing "hakutieto-hakukohde where alkamiskausi from haku"
+    (is (= {:paatellytAlkamiskaudet ["2024-syksy" "henkilokohtainen"]}
+           (search/assoc-paatellyt-alkamiskaudet
+            {}
+            [{:oid "1"
+              :tila "julkaistu"
+              :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+            [{:toteutusOid "1"
+              :haut [{:tila "julkaistu"
+                      :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                                :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                                                :koulutuksenAlkamisvuosi 2024}
+                      :hakukohteet [{:tila "julkaistu"
+                                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}
+                                    {:tila "julkaistu"
+                                     :kaytetaanHaunAlkamiskautta true}]}]}]))))
+
+  (testing "hakutieto-hakukohde where alkamiskausi from toteutus"
+    (is (= {:paatellytAlkamiskaudet ["2023-kevat" "henkilokohtainen"]}
+           (search/assoc-paatellyt-alkamiskaudet
+            {}
+            [{:oid "1"
+              :tila "julkaistu"
+              :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+            [{:toteutusOid "1"
+              :haut [{:tila "julkaistu"
+                      :hakukohteet [{:tila "julkaistu"
+                                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}
+                                    {:tila "julkaistu"
+                                     :kaytetaanHaunAlkamiskautta true}]}]}]))))
+
+  (testing "distinct values"
+    (is (= {:paatellytAlkamiskaudet ["henkilokohtainen"]}
+           (search/assoc-paatellyt-alkamiskaudet
+            {}
+            [{:oid "1"
+              :tila "julkaistu"
+              :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+            [{:toteutusOid "1"
+              :haut [{:tila "julkaistu"
+                      :hakukohteet [{:tila "julkaistu"
+                                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}
+                                    {:tila "julkaistu"
+                                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}])))))
+
+(testing "no published hakutieto-hakukohde"
+  (is (= {:paatellytAlkamiskaudet ["2024-syksy"]}
+         (search/assoc-paatellyt-alkamiskaudet
+          {}
+          [{:oid "1"
+            :tila "julkaistu"
+            :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                            :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+          [{:toteutusOid "1"
+            :haut [{:tila "julkaistu"
+                    :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                              :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                                              :koulutuksenAlkamisvuosi 2024}
+                    :hakukohteet [{:tila "tallennettu"
+                                   :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}]))))
