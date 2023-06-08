@@ -323,16 +323,14 @@
                              (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
                                (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
                       (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
-       distinct
        (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))))
 
-(defn get-paatellyt-alkamiskaudet [toteutukset hakutiedot]
-  (let [hakutiedot-by-toteutus-oid (into {} (map (fn [hakutieto] [(keyword (:toteutusOid hakutieto)) hakutieto]) hakutiedot))]
-    (distinct (->> (filter julkaistu? toteutukset)
-                   (mapcat (fn [toteutus]
-                             (get-hakutiedon-paatellyt-alkamiskaudet
-                              toteutus
-                              (get-in hakutiedot-by-toteutus-oid [(keyword (:oid toteutus))]))))))))
+(defn get-paatellyt-alkamiskaudet [toteutus hakutiedot]
+  (->> (if (empty? hakutiedot)
+        [(stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]))] 
+        (mapcat #(get-hakutiedon-paatellyt-alkamiskaudet toteutus %) hakutiedot))
+      (remove nil?)
+      distinct))
 
 (defn- kaytetaanHaunAikatauluaHakukohteessa?
   [hakukohde]
@@ -444,7 +442,7 @@
       :isTyovoimakoulutus        (get toteutus-metadata :isTyovoimakoulutus false)
       :isTaydennyskoulutus       (get toteutus-metadata :isTaydennyskoulutus false)
       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
-      :paatellytAlkamiskaudet    (get-paatellyt-alkamiskaudet [toteutus] hakutiedot)})))
+      :paatellytAlkamiskaudet    (get-paatellyt-alkamiskaudet toteutus hakutiedot)})))
 
 (defn jarjestaako-tarjoaja-urheilijan-amm-koulutusta
   [tarjoaja-oids haut]

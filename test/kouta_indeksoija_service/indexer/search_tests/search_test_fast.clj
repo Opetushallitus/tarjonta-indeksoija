@@ -213,19 +213,19 @@
   (testing "only toteutus, no hakutiedot"
     (is (= ["2023-kevat"]
            (search/get-paatellyt-alkamiskaudet
-            [{:oid "1"
+            {:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
             []))))
 
   (testing "toteutus and hakutiedot haku"
     (is (= ["2024-syksy"]
            (search/get-paatellyt-alkamiskaudet
-            [{:oid "1"
+            {:oid "1"
               :tila "julkaistu"
               :metadata {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                             :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                             :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
             [{:toteutusOid "1"
               :haut [{:tila "julkaistu"
                       :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
@@ -236,10 +236,10 @@
   (testing "toteutus and hakukohde-hakutieto"
     (is (= ["henkilokohtainen"]
            (search/get-paatellyt-alkamiskaudet
-            [{:oid "1"
+            {:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
             [{:toteutusOid "1"
               :haut [{:tila "julkaistu"
                       :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
@@ -251,10 +251,10 @@
   (testing "hakutieto-hakukohde where alkamiskausi from haku"
     (is (= ["2024-syksy" "henkilokohtainen"]
            (search/get-paatellyt-alkamiskaudet
-            [{:oid "1"
+            {:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
             [{:toteutusOid "1"
               :haut [{:tila "julkaistu"
                       :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
@@ -268,10 +268,10 @@
   (testing "hakutieto-hakukohde where alkamiskausi from toteutus"
     (is (= ["2023-kevat" "henkilokohtainen"]
            (search/get-paatellyt-alkamiskaudet
-            [{:oid "1"
+            {:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
             [{:toteutusOid "1"
               :haut [{:tila "julkaistu"
                       :hakukohteet [{:tila "julkaistu"
@@ -282,10 +282,10 @@
   (testing "distinct values"
     (is (= ["henkilokohtainen"]
            (search/get-paatellyt-alkamiskaudet
-            [{:oid "1"
+            {:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                              :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
             [{:toteutusOid "1"
               :haut [{:tila "julkaistu"
                       :hakukohteet [{:tila "julkaistu"
@@ -296,10 +296,10 @@
 (testing "no published hakutieto-hakukohde"
   (is (= ["2024-syksy"]
          (search/get-paatellyt-alkamiskaudet
-          [{:oid "1"
+          {:oid "1"
             :tila "julkaistu"
             :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                            :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}]
+                                                            :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
           [{:toteutusOid "1"
             :haut [{:tila "julkaistu"
                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
