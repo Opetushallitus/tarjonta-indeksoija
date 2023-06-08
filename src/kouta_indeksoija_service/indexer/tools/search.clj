@@ -345,7 +345,6 @@
              jarjestaa-urheilijan-amm-koulutusta
              hakutiedot
              toteutus-organisaationimi
-             toteutusHakuaika
              opetuskieliUrit
              koulutustyypit
              kuva
@@ -354,9 +353,6 @@
              lukiopainotukset
              lukiolinjat_er
              osaamisalat
-             hasJotpaRahoitus
-             isTyovoimakoulutus
-             isTaydennyskoulutus
              metadata]
       :or   {koulutus                  []
              toteutus                  []
@@ -365,7 +361,6 @@
              jarjestaa-urheilijan-amm-koulutusta nil
              hakutiedot                []
              toteutus-organisaationimi {}
-             toteutusHakuaika          {}
              opetuskieliUrit           []
              koulutustyypit            []
              kuva                      nil
@@ -374,17 +369,15 @@
              lukiopainotukset          []
              lukiolinjat_er            []
              osaamisalat               []
-             hasJotpaRahoitus          false
-             isTyovoimakoulutus        false
-             isTaydennyskoulutus       false
              metadata                  {}}}]
 
   (let [tutkintonimikkeet (vec (map #(-> % get-koodi-nimi-with-cache :nimi) (tutkintonimike-koodi-urit koulutus)))
-        ammattinimikkeet (asiasana->lng-value-map (get-in toteutus [:metadata :ammattinimikkeet]))
-        asiasanat (flatten (get-in toteutus [:metadata :asiasanat]))
+        toteutus-metadata (:metadata toteutus)
+        ammattinimikkeet (asiasana->lng-value-map (get-in toteutus-metadata [:ammattinimikkeet]))
+        asiasanat (flatten (get-in toteutus-metadata [:asiasanat]))
         kunnat (remove nil? (distinct (map :kotipaikkaUri tarjoajat)))
         maakunnat (remove nil? (distinct (map #(:koodiUri (koodisto/maakunta %)) kunnat)))
-        toteutusNimi (get-esitysnimi toteutus)]
+        toteutus-nimi (get-esitysnimi toteutus)]
     (remove-nils-from-search-terms
      {:koulutusOid               (:oid koulutus)
       :koulutusnimi              {:fi (:fi (:nimi koulutus))
@@ -394,10 +387,10 @@
                                   :sv (:sv (:nimi oppilaitos))
                                   :en (:en (:nimi oppilaitos))}
       :toteutusOid               (:oid toteutus)
-      :toteutusNimi              {:fi (:fi toteutusNimi)
-                                  :sv (:sv toteutusNimi)
-                                  :en (:en toteutusNimi)}
-      :toteutusHakuaika           toteutusHakuaika
+      :toteutusNimi              {:fi (:fi toteutus-nimi)
+                                  :sv (:sv toteutus-nimi)
+                                  :en (:en toteutus-nimi)}
+      :toteutusHakuaika          (:hakuaika toteutus-metadata)
       :oppilaitosOid             (:oid oppilaitos)
       :toteutus_organisaationimi {:fi (not-empty (get-lang-values :fi toteutus-organisaationimi))
                                   :sv (not-empty (get-lang-values :sv toteutus-organisaationimi))
@@ -428,9 +421,9 @@
       :lukiopainotukset          (clean-uris lukiopainotukset)
       :lukiolinjaterityinenkoulutustehtava (clean-uris lukiolinjat_er)
       :osaamisalat               (clean-uris osaamisalat)
-      :hasJotpaRahoitus          hasJotpaRahoitus
-      :isTyovoimakoulutus        isTyovoimakoulutus
-      :isTaydennyskoulutus       isTaydennyskoulutus
+      :hasJotpaRahoitus          (:hasJotpaRahoitus toteutus-metadata)
+      :isTyovoimakoulutus        (:isTyovoimakoulutus toteutus-metadata)
+      :isTaydennyskoulutus       (:isTaydennyskoulutus toteutus-metadata)
       :jarjestaaUrheilijanAmmKoulutusta jarjestaa-urheilijan-amm-koulutusta
       :paatellytAlkamiskaudet (get-paatellyt-alkamiskaudet (vec toteutus) hakutiedot)})))
 
