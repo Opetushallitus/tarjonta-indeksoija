@@ -157,7 +157,6 @@
         (indexable/->index-entry oid (-> koulutus
                                          (assoc-jarjestaja-search-terms toteutukset hakutiedot)
                                          (assoc-toteutusten-tarjoajat toteutukset)
-                                         (search-tool/assoc-paatellyt-alkamiskaudet toteutukset hakutiedot)
                                          (create-entry))))
       (indexable/->delete-entry oid))))
 

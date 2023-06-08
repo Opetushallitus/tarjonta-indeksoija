@@ -209,11 +209,10 @@
     (is (= nil (search/opintojen-laajuus-numero-min {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))
     (is (= nil (search/opintojen-laajuus-numero-max {:koulutustyyppi "yo" :metadata fixture/yo-koulutus-metadata})))))
 
-(deftest assoc-paatellyt-alkamiskaudet-test
+(deftest get-paatellyt-alkamiskaudet-test
   (testing "only toteutus, no hakutiedot"
-    (is (= {:paatellytAlkamiskaudet ["2023-kevat"]}
-           (search/assoc-paatellyt-alkamiskaudet
-            {}
+    (is (= ["2023-kevat"]
+           (search/get-paatellyt-alkamiskaudet
             [{:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -221,9 +220,8 @@
             []))))
 
   (testing "toteutus and hakutiedot haku"
-    (is (= {:paatellytAlkamiskaudet ["2024-syksy"]}
-           (search/assoc-paatellyt-alkamiskaudet
-            {}
+    (is (= ["2024-syksy"]
+           (search/get-paatellyt-alkamiskaudet
             [{:oid "1"
               :tila "julkaistu"
               :metadata {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -236,9 +234,8 @@
 
 
   (testing "toteutus and hakukohde-hakutieto"
-    (is (= {:paatellytAlkamiskaudet ["henkilokohtainen"]}
-           (search/assoc-paatellyt-alkamiskaudet
-            {}
+    (is (= ["henkilokohtainen"]
+           (search/get-paatellyt-alkamiskaudet
             [{:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -252,9 +249,8 @@
                                      :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}]))))
 
   (testing "hakutieto-hakukohde where alkamiskausi from haku"
-    (is (= {:paatellytAlkamiskaudet ["2024-syksy" "henkilokohtainen"]}
-           (search/assoc-paatellyt-alkamiskaudet
-            {}
+    (is (= ["2024-syksy" "henkilokohtainen"]
+           (search/get-paatellyt-alkamiskaudet
             [{:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -270,9 +266,8 @@
                                      :kaytetaanHaunAlkamiskautta true}]}]}]))))
 
   (testing "hakutieto-hakukohde where alkamiskausi from toteutus"
-    (is (= {:paatellytAlkamiskaudet ["2023-kevat" "henkilokohtainen"]}
-           (search/assoc-paatellyt-alkamiskaudet
-            {}
+    (is (= ["2023-kevat" "henkilokohtainen"]
+           (search/get-paatellyt-alkamiskaudet
             [{:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -285,9 +280,8 @@
                                      :kaytetaanHaunAlkamiskautta true}]}]}]))))
 
   (testing "distinct values"
-    (is (= {:paatellytAlkamiskaudet ["henkilokohtainen"]}
-           (search/assoc-paatellyt-alkamiskaudet
-            {}
+    (is (= ["henkilokohtainen"]
+           (search/get-paatellyt-alkamiskaudet
             [{:oid "1"
               :tila "julkaistu"
               :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
@@ -300,9 +294,8 @@
                                      :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}])))))
 
 (testing "no published hakutieto-hakukohde"
-  (is (= {:paatellytAlkamiskaudet ["2024-syksy"]}
-         (search/assoc-paatellyt-alkamiskaudet
-          {}
+  (is (= ["2024-syksy"]
+         (search/get-paatellyt-alkamiskaudet
           [{:oid "1"
             :tila "julkaistu"
             :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"

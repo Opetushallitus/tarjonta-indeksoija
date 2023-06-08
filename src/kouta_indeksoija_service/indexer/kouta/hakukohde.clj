@@ -13,7 +13,8 @@
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
-            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]))
+            [kouta-indeksoija-service.util.tools :refer [get-esitysnimi
+                                                         kevat-date?]]))
 
 (def index-name "hakukohde-kouta")
 (defonce amm-perustutkinto-erityisopetus-koulutustyyppi "koulutustyyppi_4")
@@ -218,9 +219,9 @@
 
 (defn- parse-tarkka-ajankohta [time-str]
   (when-let [date (f/parse time-str)]
-    {:kausiUri (if (>= (t/month date) 8)
-                 "kausi_s#1"
-                 "kausi_k#1")
+    {:kausiUri (if (kevat-date? date)
+                 "kausi_k#1"
+                 "kausi_s#1")
      :vuosi    (t/year date)}))
 
 (defn- parse-alkamiskausi [alkamiskausi oid]
@@ -234,8 +235,8 @@
              {:alkamiskausityyppi tyyppi
               :source             oid}))))
 
-(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde hakukoude-source haku toteutus]
-  (if-let [result (or (parse-alkamiskausi (get-in hakukoude-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
+(defn- assoc-paatelty-alkamiskausi-for-hakukohde [hakukohde hakukohde-source haku toteutus]
+  (if-let [result (or (parse-alkamiskausi (get-in hakukohde-source [:metadata :koulutuksenAlkamiskausi]) (:oid hakukohde))
                       (parse-alkamiskausi (get-in haku [:metadata :koulutuksenAlkamiskausi]) (:oid haku))
                       (parse-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi]) (:oid toteutus)))]
     (assoc hakukohde :paateltyAlkamiskausi result)

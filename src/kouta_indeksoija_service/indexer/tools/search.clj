@@ -17,7 +17,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [extract-versio
                                                             get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec
-                                                         get-esitysnimi]]))
+                                                         get-esitysnimi kevat-date?]]))
 
 (defonce amm-perustutkinto-erityisopetuksena-koulutustyyppi "koulutustyyppi_4")
 
@@ -295,7 +295,7 @@
 
 (defn- stringify-tarkka-ajankohta [time-str]
   (when-let [date (parse time-str)]
-    (str (t/year date) "-" (if (>= (t/month date) 8) "syksy" "kevat"))))
+    (str (t/year date) "-" (if (kevat-date? date) "kevat" "syksy"))))
 
 (defn- stringify-kausi-ja-vuosi [kausi-ja-vuosi]
   (when-let [koodiUri (:koulutuksenAlkamiskausiKoodiUri kausi-ja-vuosi)]
@@ -333,10 +333,6 @@
                              (get-hakutiedon-paatellyt-alkamiskaudet
                               toteutus
                               (get-in hakutiedot-by-toteutus-oid [(keyword (:oid toteutus))]))))))))
-
-(defn assoc-paatellyt-alkamiskaudet [koulutus toteutukset hakutiedot]
-  (assoc koulutus :paatellytAlkamiskaudet (get-paatellyt-alkamiskaudet toteutukset hakutiedot)))
-
 
 (defn- kaytetaanHaunAikatauluaHakukohteessa?
   [hakukohde]

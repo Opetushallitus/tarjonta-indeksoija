@@ -400,8 +400,5 @@
       "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
     }
   },
-  "isAvoinKorkeakoulutus": null,
-  "paatellytAlkamiskaudet": [
-    "2042-kevat"
-  ]
+  "isAvoinKorkeakoulutus": null
 }
