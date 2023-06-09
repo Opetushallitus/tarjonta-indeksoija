@@ -268,11 +268,34 @@
   [oid execution-id]
   (get @koulutukset oid))
 
+;; aloin korjata tätä mockausta uuden tietomallin mukaiseksi, mutta tämä alkoi mennä liian
+;; monimutkaiseksi logiikaltaan, kun yrittää simuloida postgresin vastausta monimutkaisempaan kyselyyn.
+;; jos joutuu tekemään paljon monimutkaista logiikkaa testin mockaukseen, niin pian menee se
+;; mockaus pieleen ja testi on täysin hyödytön, kun mockaus ei toimi samalla tavalla kuin alkup. koodi
+;; selkeintä olis vain kovakoodata se haluttu mock 
 (defn mock-get-koulutukset-by-tarjoaja
   [oid execution-id]
   (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
-        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
-    (filter pred (vals @koulutukset))))
+        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))
+        find-koulutuksen-toteutukset (fn [koulutus-oid toteutus] (= (:koulutusOid (last toteutus))
+                                                                    koulutus-oid))]
+    (vec (for [koulutus (let [tarjoajan-koulutukset (filter pred (vals @koulutukset))
+                              koulutus-with-toteutukset (for [koulutus tarjoajan-koulutukset]
+                                                          (assoc koulutus
+                                                                 :toteutukset
+                                                                 (map #(last %)
+                                                                      (filter #(and (= (:koulutusOid (last %)) (:oid koulutus))
+                                                                                    (= (:tila (last %)) "julkaistu"))
+                                                                              @toteutukset))))]
+                          koulutus-with-toteutukset)]
+           {(:oid koulutus) koulutus}))))
+
+(defn mock-get-koulutus-oids-by-tarjoajat
+  [tarjoaja-oids]
+  (map #(:oid %)
+       (filter
+        #(some (set tarjoaja-oids) (:tarjoajat %))
+        (vals @koulutukset))))
 
 (defn mock-get-hakukohde-oids-by-jarjestyspaikat
   [oids execution-id]
@@ -731,6 +754,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
+
+                 kouta-indeksoija-service.rest.kouta/get-koulutus-oids-by-tarjoajat-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutus-oids-by-tarjoajat
 
                  kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikat
