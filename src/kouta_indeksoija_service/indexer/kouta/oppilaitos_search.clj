@@ -56,7 +56,7 @@
                                                :opintojenLaajuusNumeroMax       (search-tool/opintojen-laajuus-numero-max koulutus)
                                                :koulutustyypitKoodiUrit         (search-tool/koulutustyyppi-koodi-urit koulutus)
                                                :koulutustyyppi                  (:koulutustyyppi koulutus)}
-                                              (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
+                                        (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus)))))
 
 (defn toteutus-search-terms
   [oppilaitos koulutus hakutiedot toteutus]
@@ -65,8 +65,8 @@
         tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))
         opetus (get-in toteutus [:metadata :opetus])
         jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-                                              (:tarjoajat toteutus)
-                                              (:haut hakutieto))]
+                                             (:tarjoajat toteutus)
+                                             (:haut hakutieto))]
     (search-tool/search-terms :koulutus koulutus
                               :toteutus toteutus
                               :tarjoajat tarjoajat
@@ -86,6 +86,57 @@
                                          :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
                                          :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
+(defn search-terms
+  [oppilaitos koulutus toteutus]
+  (let [params (if (nil? koulutus)
+                 {:tarjoajat (vector oppilaitos)
+                  :nimi (:nimi oppilaitos)
+                  :koulutustyypit (vector (search-tool/koulutustyyppi-for-organisaatio oppilaitos))}
+                 (if (nil? toteutus)
+                   {:tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
+                    :nimi (:nimi koulutus)
+                    :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)
+                    :kuva (:teemakuva koulutus)}
+                   (let [tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))]
+                     {:tarjoajat tarjoajat
+                      :nimi (get-esitysnimi toteutus)
+                      :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:metadata toteutus))
+                      :kuva (:teemakuva toteutus)
+                      :jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
+                                                            (:tarjoajat toteutus)
+                                                            nil)
+                      :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))})))
+        opetus (get-in toteutus [:metadata :opetus])]
+    (search-tool/search-terms :koulutus koulutus
+                              :toteutus toteutus
+                              :tarjoajat (get params :tarjoajat)
+                              :jarjestaa-urheilijan-amm-koulutusta (get params :jarjestaa-urheilijan-amm-koulutusta)
+                              :oppilaitos oppilaitos
+                              :toteutus-organisaationimi (get params :toteutus-organisaationimi)
+                              :opetuskieliUrit (:kieletUris oppilaitos)
+                              :koulutustyypit (get params :koulutustyypit)
+                              :kuva (get params :kuva)
+                              :nimi (get params :nimi)
+                              :onkoTuleva (if (nil? koulutus)
+                                            nil
+                                            (nil? toteutus)) ;;koulutus on tuleva, jos sillä ei ole toteutuksia
+                              :metadata (cond-> {:opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                                                 :maksullisuustyyppi (:maksullisuustyyppi opetus)
+                                                 :maksunMaara (:maksunMaara opetus)
+                                                 :koulutustyyppi (:koulutustyyppi koulutus)}
+                                          (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus))
+                                          (and (not (nil? koulutus)) (nil? toteutus))
+                                          (assoc
+                                           :tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
+                                           :opintojenLaajuusKoodiUri (search-tool/opintojen-laajuus-koodi-uri koulutus)
+                                           :opintojenLaajuusyksikkoKoodiUri (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus)
+                                           :opintojenLaajuusNumero (search-tool/opintojen-laajuus-numero koulutus)
+                                           :opintojenLaajuusNumeroMin (search-tool/opintojen-laajuus-numero-min koulutus)
+                                           :opintojenLaajuusNumeroMax (search-tool/opintojen-laajuus-numero-max koulutus)
+
+                                           :koulutustyypitKoodiUrit (search-tool/koulutustyyppi-koodi-urit koulutus))
+                                          (not (nil? toteutus)) (assoc :tutkintonimikkeet (tutkintonimikkeet-for-toteutus toteutus))))))
+
 (defn- get-kouta-oppilaitos
   [oid execution-id]
   (let [oppilaitos (kouta-backend/get-oppilaitos-with-cache oid execution-id)]
@@ -98,14 +149,13 @@
   [oppilaitos koulutukset execution-id]
   (let [kaikki (count koulutukset)
         tutkintoonJohtavat (count (filter :johtaaTutkintoon koulutukset))]
-  (-> oppilaitos
-      (select-keys [:oid :nimi])
-      (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
-      (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
-      (assoc :koulutusohjelmatLkm {
-                                   :kaikki kaikki
-                                   :tutkintoonJohtavat tutkintoonJohtavat
-                                   :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)}))))
+    (-> oppilaitos
+        (select-keys [:oid :nimi])
+        (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
+        (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
+        (assoc :koulutusohjelmatLkm {:kaikki kaikki
+                                     :tutkintoonJohtavat tutkintoonJohtavat
+                                     :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)}))))
 
 (defn- assoc-paikkakunnat
   [entry]
@@ -152,7 +202,7 @@
                         (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oid execution-id))]
       (if (and (organisaatio-tool/indexable? oppilaitos) (seq @koulutukset))
         (indexable/->index-entry
-          oppilaitos-oid (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia @koulutukset execution-id))
+         oppilaitos-oid (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia @koulutukset execution-id))
         (indexable/->delete-entry oppilaitos-oid)))))
 
 (defn do-index
@@ -161,8 +211,8 @@
   ([oids execution-id clear-cache-before]
    (when (= true clear-cache-before)
      (cache/clear-all-cached-data))
-    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
-      (indexable/do-index index-name oids-to-index create-index-entry execution-id))))
+   (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
+     (indexable/do-index index-name oids-to-index create-index-entry execution-id))))
 
 (defn get-from-index
   [oid]
