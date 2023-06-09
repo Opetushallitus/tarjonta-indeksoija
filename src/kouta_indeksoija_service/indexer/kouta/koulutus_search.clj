@@ -3,7 +3,6 @@
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [kouta-indeksoija-service.indexer.tools.general :refer [amm-tutkinnon-osa? amm-osaamisala? julkaistu?]]
-            [kouta-indeksoija-service.indexer.tools.hakutieto :refer [get-search-hakutiedot]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
@@ -50,43 +49,37 @@
           :let [opetus (get-in toteutus [:metadata :opetus])]
           :let [toteutus-metadata (:metadata toteutus)]]
       (search-tool/search-terms
-        :koulutus koulutus
-        :toteutus toteutus
-        :oppilaitos oppilaitos
-        :tarjoajat (:tarjoajat toteutus)
-        :hakutiedot (get-search-hakutiedot hakutieto)
-        :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
-        :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-        :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
-        :kuva (:logo oppilaitos)
-        :nimi (:nimi oppilaitos)
-        :onkoTuleva false
-        :toteutusHakuaika (:hakuaika toteutus-metadata)
-        :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
-        :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
-        :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
-        :hasJotpaRahoitus (:hasJotpaRahoitus toteutus-metadata)
-        :isTyovoimakoulutus (:isTyovoimakoulutus toteutus-metadata)
-        :isTaydennyskoulutus (:isTaydennyskoulutus toteutus-metadata)
-
-        :metadata (merge
-                    {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
-                     :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                     :maksullisuustyyppi (:maksullisuustyyppi opetus)
-                     :maksunMaara (:maksunMaara opetus)
-                     :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
-                     :koulutustyyppi (:tyyppi toteutus-metadata)
-                     :oppilaitosTila (:tila oppilaitos)
-                     :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
-                                                         (:haut hakutieto))}
-                    (select-keys toteutus-metadata
-                                 [:ammatillinenPerustutkintoErityisopetuksena
-                                  :jarjestetaanErityisopetuksena
-                                  :opintojenLaajuusNumero
-                                  :opintojenLaajuusNumeroMin
-                                  :opintojenLaajuusNumeroMax
-                                  :opintojenLaajuusyksikkoKoodiUri]
-                                 ))))))
+       :koulutus koulutus
+       :toteutus toteutus
+       :oppilaitos oppilaitos
+       :tarjoajat (:tarjoajat toteutus)
+       :hakutiedot hakutieto
+       :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
+       :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
+       :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
+       :kuva (:logo oppilaitos)
+       :nimi (:nimi oppilaitos)
+       :onkoTuleva false
+       :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
+       :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
+       :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
+       :metadata (merge
+                  {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
+                   :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
+                   :maksullisuustyyppi (:maksullisuustyyppi opetus)
+                   :maksunMaara (:maksunMaara opetus)
+                   :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                   :koulutustyyppi (:tyyppi toteutus-metadata)
+                   :oppilaitosTila (:tila oppilaitos)
+                   :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
+                                                      (:haut hakutieto))}
+                  (select-keys toteutus-metadata
+                               [:ammatillinenPerustutkintoErityisopetuksena
+                                :jarjestetaanErityisopetuksena
+                                :opintojenLaajuusNumero
+                                :opintojenLaajuusNumeroMin
+                                :opintojenLaajuusNumeroMax
+                                :opintojenLaajuusyksikkoKoodiUri]))))))
 
 (defn- tuleva-jarjestaja-search-terms
   [hierarkia koulutus]

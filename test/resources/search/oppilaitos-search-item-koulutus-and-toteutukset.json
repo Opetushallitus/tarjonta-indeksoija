@@ -119,7 +119,8 @@
             }
           }
         ]
-      }
+      },
+      "paatellytAlkamiskaudet": []
     },
     {
       "sijainti": [
@@ -232,6 +233,9 @@
       },
       "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -261,7 +265,8 @@
           }
         ],
         "suunniteltuKestoKuukausina": 0
-      }
+      },
+      "paatellytAlkamiskaudet": ["2042-kevat"]
     },
     {
       "sijainti": [
@@ -372,6 +377,9 @@
       },
       "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
       "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
@@ -401,7 +409,8 @@
           }
         ],
         "suunniteltuKestoKuukausina": 46
-      }
+      },
+      "paatellytAlkamiskaudet": ["2042-kevat"]
     },
     {
       "sijainti": [
@@ -472,7 +481,8 @@
             }
           }
         ]
-      }
+      },
+      "paatellytAlkamiskaudet": []
     },
     {
       "sijainti": [
@@ -562,7 +572,8 @@
             }
           }
         ]
-      }
+      },
+      "paatellytAlkamiskaudet": []
     }
   ],
   "nimi": {

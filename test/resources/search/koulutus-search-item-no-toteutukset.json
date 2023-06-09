@@ -130,7 +130,8 @@
           }
         ],
         "koulutustyyppi": "yo"
-      }
+      },
+      "paatellytAlkamiskaudet": []
     }
   ],
   "timestamp": 1571294237902,

@@ -142,37 +142,59 @@
       },
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisalat": ["osaamisala_1"],
+      "osaamisalat": [
+        "osaamisala_1"
+      ],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
-        "opetusajat":
-        [{"koodiUri": "opetusaikakk_1#1",
-          "nimi":
-          {"fi": "opetusaikakk_1#1 nimi fi",
-           "sv": "opetusaikakk_1#1 nimi sv"}}],
-        "kunnat":
-        [{"koodiUri": "kunta_091",
-          "nimi":
-          {"fi": "kunta_091 nimi fi", "sv": "kunta_091 nimi sv"}}],
-        "tutkintonimikkeet":
-        [{"koodiUri": "tutkintonimikkeet_01",
-          "nimi":
-          {"fi": "tutkintonimikkeet_01 nimi fi",
-           "sv": "tutkintonimikkeet_01 nimi sv"}},
-         {"koodiUri": "tutkintonimikkeet_02",
-          "nimi":
-          {"fi": "tutkintonimikkeet_02 nimi fi",
-           "sv": "tutkintonimikkeet_02 nimi sv"}}],
+        "opetusajat": [
+          {
+            "koodiUri": "opetusaikakk_1#1",
+            "nimi": {
+              "fi": "opetusaikakk_1#1 nimi fi",
+              "sv": "opetusaikakk_1#1 nimi sv"
+            }
+          }
+        ],
+        "kunnat": [
+          {
+            "koodiUri": "kunta_091",
+            "nimi": {
+              "fi": "kunta_091 nimi fi",
+              "sv": "kunta_091 nimi sv"
+            }
+          }
+        ],
+        "tutkintonimikkeet": [
+          {
+            "koodiUri": "tutkintonimikkeet_01",
+            "nimi": {
+              "fi": "tutkintonimikkeet_01 nimi fi",
+              "sv": "tutkintonimikkeet_01 nimi sv"
+            }
+          },
+          {
+            "koodiUri": "tutkintonimikkeet_02",
+            "nimi": {
+              "fi": "tutkintonimikkeet_02 nimi fi",
+              "sv": "tutkintonimikkeet_02 nimi sv"
+            }
+          }
+        ],
         "ammatillinenPerustutkintoErityisopetuksena": false,
         "jarjestaaUrheilijanAmmKoulutusta": true,
         "oppilaitosTila": "julkaistu",
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 0
-      }
+      },
+      "paatellytAlkamiskaudet": ["2042-kevat"]
     },
     {
       "oppilaitosOid": "1.2.246.562.10.77777777799",
@@ -284,9 +306,14 @@
       },
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
       "onkoTuleva": false,
+      "hasJotpaRahoitus": false,
+      "isTyovoimakoulutus": false,
+      "isTaydennyskoulutus": false,
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisalat": ["osaamisala_0001"],
+      "osaamisalat": [
+        "osaamisala_0001"
+      ],
       "metadata": {
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
@@ -329,7 +356,8 @@
         "oppilaitosTila": "julkaistu",
         "koulutustyyppi": "amm",
         "suunniteltuKestoKuukausina": 46
-      }
+      },
+      "paatellytAlkamiskaudet": ["2042-kevat"]
     }
   ],
   "nimi": {
