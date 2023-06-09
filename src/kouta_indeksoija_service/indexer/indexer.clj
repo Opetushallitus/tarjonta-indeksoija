@@ -210,7 +210,7 @@
    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (hierarkia/get-hierarkia-cached) oids)
          hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids-to-index execution-id)
          toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids-to-index execution-id)
-         koulutus-oids (map :oid (mapcat #(kouta-backend/get-koulutukset-by-tarjoaja-with-cache % execution-id) oids-to-index))]
+         koulutus-oids (kouta-backend/get-koulutus-oids-by-tarjoajat-with-cache oids-to-index)]
      (oppilaitos/do-index oids-to-index execution-id clear-cache-before)
      (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
      (oppilaitos-search/do-index oids-to-index execution-id clear-cache-before)
