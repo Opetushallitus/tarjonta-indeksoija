@@ -145,8 +145,7 @@
     (let [oppilaitos-hierarkia (organisaatio-tool/attach-parent-to-oppilaitos-from-cache (cache/get-hierarkia-cached) oppilaitos)
           oppilaitos-oid (:oid oppilaitos)
           koulutukset (delay
-                        (get-tarjoaja-entries oppilaitos-hierarkia
-                          (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)))]
+                        (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id))]
       (if (and (organisaatio-tool/indexable? oppilaitos) (seq @koulutukset))
         (indexable/->index-entry
           oppilaitos-oid (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia @koulutukset execution-id))
