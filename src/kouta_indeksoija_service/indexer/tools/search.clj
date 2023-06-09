@@ -310,8 +310,8 @@
     "henkilokohtainen suunnitelma" "henkilokohtainen"
     nil))
 
-(defn- add-if-some-missing [addition x]
-  (if (or (empty? x) (some nil? x))
+(defn- prepend-if [condition addition x]
+  (if (condition x)
     (into [addition] (remove nil? x))
     x))
 
@@ -319,11 +319,11 @@
   (->> (filter julkaistu? (:haut hakutieto))
        (mapcat (fn [haku]
                  (->> (filter julkaistu? (:hakukohteet haku))
-                      (map (fn [hakukohde]
+                      (map (fn [hakukohde] 
                              (when (not (:kaytetaanHaunAlkamiskautta hakukohde))
                                (stringify-alkamiskausi (get-in hakukohde [:koulutuksenAlkamiskausi])))))
-                      (add-if-some-missing (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
-       (add-if-some-missing (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))
+                      (prepend-if #(some nil? %) (stringify-alkamiskausi (get-in haku [:koulutuksenAlkamiskausi]))))))
+       (prepend-if #(or (empty? %) (some nil? %)) (stringify-alkamiskausi (get-in toteutus [:metadata :opetus :koulutuksenAlkamiskausi])))
        (remove nil?)
        distinct))
 

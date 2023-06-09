@@ -220,7 +220,8 @@
             nil))))
 
   (testing "toteutus and hakutiedot haku"
-    (is (= ["2024-syksy"]
+    ; Ei hakukohteita -> ei linkitystä toteutuksen ja haun välilllä!
+    (is (= ["2023-kevat"]
            (search/get-toteutuksen-paatellyt-alkamiskaudet
             {:oid "1"
              :tila "julkaistu"
@@ -291,21 +292,21 @@
                      :hakukohteet [{:tila "julkaistu"
                                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}
                                    {:tila "julkaistu"
-                                    :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]})))))
+                                    :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}))))
 
-(testing "no published hakutieto-hakukohde"
-  ; Jos hakutiedon haku on julkaistu, mutta hakukohde ei, hakutietoa ei voida käyttää alkamiskauden päättelyyn, 
-  ; koska julkaistua linkitystä toteutuksen ja haun välillä ei oikeasti ole. Käytetään toteutuksen alkamiskautta.
-  (is (= ["2023-kevat"]
-         (search/get-toteutuksen-paatellyt-alkamiskaudet
-          {:oid "1"
-           :tila "julkaistu"
-           :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
-                                                           :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
-          {:toteutusOid "1"
-           :haut [{:tila "julkaistu"
-                   :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
-                                             :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
-                                             :koulutuksenAlkamisvuosi 2024}
-                   :hakukohteet [{:tila "tallennettu"
-                                  :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]}))))
+  (testing "no published hakutieto-hakukohde"
+    ; Jos hakutiedon haku on julkaistu, mutta hakukohde ei, hakutietoa ei voida käyttää alkamiskauden päättelyyn, 
+    ; koska julkaistua linkitystä toteutuksen ja haun välillä ei oikeasti ole. Käytetään toteutuksen alkamiskautta.
+    (is (= ["2023-kevat"]
+           (search/get-toteutuksen-paatellyt-alkamiskaudet
+            {:oid "1"
+             :tila "julkaistu"
+             :metadata  {:opetus  {:koulutuksenAlkamiskausi {:alkamiskausityyppi "tarkka alkamisajankohta"
+                                                             :koulutuksenAlkamispaivamaara "2023-01-01T12:00:00"}}}}
+            {:toteutusOid "1"
+             :haut [{:tila "julkaistu"
+                     :koulutuksenAlkamiskausi {:alkamiskausityyppi "alkamiskausi ja -vuosi"
+                                               :koulutuksenAlkamiskausiKoodiUri "kausi_s#1"
+                                               :koulutuksenAlkamisvuosi 2024}
+                     :hakukohteet [{:tila "tallennettu"
+                                    :koulutuksenAlkamiskausi {:alkamiskausityyppi "henkilokohtainen suunnitelma"}}]}]})))))
