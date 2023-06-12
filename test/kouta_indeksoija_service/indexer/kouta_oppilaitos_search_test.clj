@@ -1,23 +1,33 @@
 (ns kouta-indeksoija-service.indexer.kouta-oppilaitos-search-test
-  (:require [clojure.test :refer [deftest testing is run-tests]]
+  (:require [clojure.test :refer [deftest testing is]]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]))
+
+(defn- mock-list-alakoodi-nimet
+  [koodi-uri alakoodi-uri]
+  (vector
+   {:koodiUri (str alakoodi-uri "_1") :nimi {:fi (str alakoodi-uri "_1 fi") :sv (str alakoodi-uri "_1 sv")}}
+   {:koodiUri (str alakoodi-uri "_2") :nimi {:fi (str alakoodi-uri "_2 fi") :sv (str alakoodi-uri "_2 sv")}}))
+
+(defn- mock-get-koodi-nimi
+  [koodi-uri]
+  {:koodiUri koodi-uri :nimi {:fi (str koodi-uri " fi") :sv (str koodi-uri " sv")}})
 
 (def oppilaitos
   {:children [{:oid "1.2.246.562.10.50472236657"
                :status "AKTIIVINEN"
                :organisaatiotyypit ["organisaatiotyyppi_03"]
                :parentOid "1.2.246.562.10.31756159625"
-               :nimi {:fi "Opisto"
-                      :sv "Opisto"
-                      :en "Opisto"}
+               :nimi {:fi "Opisto toimipiste"
+                      :sv "Opisto toimipiste"
+                      :en "Opisto toimipiste"}
                :kotipaikkaUri "kunta_086"
                :kieletUris ["oppilaitoksenopetuskieli_1#1"]}]
    :kieletUris ["oppilaitoksenopetuskieli_1#1"]
    :organisaatiotyypit ["organisaatiotyyppi_02"]
    :parentOid "1.2.246.562.10.69445412302"
-   :nimi {:sv "Opisto"
-          :fi "Opisto"
-          :en "Opisto"}
+   :nimi {:sv "Opisto oppilaitos"
+          :fi "Opisto oppilaitos"
+          :en "Opisto oppilaitos"}
    :oid "1.2.246.562.10.31756159625"
    :oppilaitostyyppi "oppilaitostyyppi_63#1"
    :status "AKTIIVINEN"
@@ -97,71 +107,70 @@
    :organisaatioOid "1.2.246.562.10.31756159625"})
 
 (def oppilaitos-search-terms-result
-  {:sijainti ["kunta_086" "maakunta_05"]
+  {:sijainti ["kunta_086" "maakunta_1"]
    :koulutustyypit ["muu"]
    :lukiopainotukset []
-   :koulutus_organisaationimi {:fi "Opisto"
-                               :sv "Opisto"
-                               :en "Opisto"}
+   :koulutus_organisaationimi {:fi "Opisto oppilaitos"
+                               :sv "Opisto oppilaitos"
+                               :en "Opisto oppilaitos"}
    :opetuskielet ["oppilaitoksenopetuskieli_1"]
    :lukiolinjaterityinenkoulutustehtava []
    :osaamisalat []
-   :nimi {:fi "Opisto"
-          :sv "Opisto"
-          :en "Opisto"}
+   :nimi {:fi "Opisto oppilaitos"
+          :sv "Opisto oppilaitos"
+          :en "Opisto oppilaitos"}
    :oppilaitosOid "1.2.246.562.10.31756159625",
    :isTyovoimakoulutus false
    :hasJotpaRahoitus false
    :isTaydennyskoulutus false
    :metadata {:kunnat
               [{:koodiUri "kunta_086",
-                :nimi {:sv "Hausjärvi", :fi "Hausjärvi"}}]}})
+                :nimi {:sv "kunta_086 sv", :fi "kunta_086 fi"}}]}
+   :paatellytAlkamiskaudet []})
 
 (def koulutus-search-terms-result
-  {:sijainti ["kunta_086" "maakunta_05"]
+  {:sijainti ["kunta_086" "maakunta_1"]
    :koulutustyypit ["vapaa-sivistystyo" "vapaa-sivistystyo-opistovuosi"]
    :lukiopainotukset []
-   :koulutus_organisaationimi {:fi "Opisto"
-                               :sv "Opisto"
-                               :en "Opisto"}
+   :koulutus_organisaationimi {:fi "Opisto oppilaitos"
+                               :sv "Opisto oppilaitos"
+                               :en "Opisto oppilaitos"}
    :opetuskielet ["oppilaitoksenopetuskieli_1"]
    :lukiolinjaterityinenkoulutustehtava []
    :osaamisalat []
    :koulutusOid "1.2.246.562.13.00000000000000002123"
    :nimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
           :sv "Folkhögskoleåret för läropliktiga"}
-   :koulutusalat
-   ["kansallinenkoulutusluokitus2016koulutusalataso2_001"]
-   :kuva
-   "https://konfo-files.opintopolku.fi/koulutus-teemakuva/1.2.246.562.13.00000000000000002123/08e7d481-e5f5-432e-bbd7-9272be936ddc.jpg"
+   :koulutusalat ["kansallinenkoulutusluokitus2016koulutusalataso2_001"]
+   :kuva "https://konfo-files.opintopolku.fi/koulutus-teemakuva/1.2.246.562.13.00000000000000002123/08e7d481-e5f5-432e-bbd7-9272be936ddc.jpg"
    :onkoTuleva true
    :oppilaitosOid "1.2.246.562.10.31756159625"
    :isTyovoimakoulutus false
    :hasJotpaRahoitus false
    :isTaydennyskoulutus false
-   :koulutusnimi
-   {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
-    :sv "Folkhögskoleåret för läropliktiga"}
+   :koulutusnimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
+                  :sv "Folkhögskoleåret för läropliktiga"}
    :metadata {:koulutustyypit []
               :opintojenLaajuusyksikko
               {:koodiUri "opintojenlaajuusyksikko_2#1"
                :nimi
-               {:en "ECTS credits"
-                :fi "opintopistettä"
-                :sv "studiepoäng"}}
+               {:sv "opintojenlaajuusyksikko_2#1 sv"
+                :fi "opintojenlaajuusyksikko_2#1 fi"}}
               :opintojenLaajuusNumero 53.0
               :kunnat
               [{:koodiUri "kunta_086"
-                :nimi {:sv "Hausjärvi" :fi "Hausjärvi"}}]
+                :nimi {:sv "kunta_086 sv" :fi "kunta_086 fi"}}]
               :tutkintonimikkeet []
-              :koulutustyyppi "vapaa-sivistystyo-opistovuosi"}})
+              :koulutustyyppi "vapaa-sivistystyo-opistovuosi"}
+   :paatellytAlkamiskaudet []})
+
 (def toteutus-search-terms-result
-  {:sijainti ["kunta_086" "maakunta_05"]
+  {:sijainti ["kunta_086" "maakunta_1"]
    :koulutustyypit ["vapaa-sivistystyo" "vapaa-sivistystyo-opistovuosi"]
    :lukiopainotukset []
-   :koulutus_organisaationimi {:fi "Opisto"
-                               :sv "Opisto"
-                               :en "Opisto"}
+   :koulutus_organisaationimi {:fi "Opisto oppilaitos"
+                               :sv "Opisto oppilaitos"
+                               :en "Opisto oppilaitos"}
    :opetuskielet ["oppilaitoksenopetuskieli_1"]
    :lukiolinjaterityinenkoulutustehtava []
    :osaamisalat []
@@ -174,9 +183,9 @@
    :opetustavat ["opetuspaikkakk_1"]
    :onkoTuleva false
    :oppilaitosOid "1.2.246.562.10.31756159625"
-   :toteutus_organisaationimi {:fi ["Opisto"]
-                               :sv ["Opisto"]
-                               :en ["Opisto"]}
+   :toteutus_organisaationimi {:fi ["Opisto oppilaitos" "Opisto toimipiste"]
+                               :sv ["Opisto oppilaitos" "Opisto toimipiste"]
+                               :en ["Opisto oppilaitos" "Opisto toimipiste"]}
    :isTyovoimakoulutus false
    :hasJotpaRahoitus false
    :isTaydennyskoulutus false
@@ -185,40 +194,47 @@
    :jarjestaaUrheilijanAmmKoulutusta false
    :metadata {:tutkintonimikkeet []
               :opetusajat [{:koodiUri "opetusaikakk_1#1"
-                            :nimi {:sv "Dagundervisning"
-                                   :en "Day time teaching"
-                                   :fi "Päiväopetus"}}]
+                            :nimi {:fi "opetusaikakk_1#1 fi"
+                                   :sv "opetusaikakk_1#1 sv"}}]
               :maksullisuustyyppi "maksuton"
               :koulutustyyppi "vapaa-sivistystyo-opistovuosi"
               :kunnat [{:koodiUri "kunta_086"
-                        :nimi {:sv "Hausjärvi" :fi "Hausjärvi"}}]}
-   :toteutusNimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"}})
+                        :nimi {:fi "kunta_086 fi" :sv "kunta_086 sv"}}]}
+   :toteutusNimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"}
+   :paatellytAlkamiskaudet ["2023-syksy"]})
 
 (deftest oppilaitos-search-terms
-  (testing "returns search-terms for oppilaitos without koulutukset"
-    (is (= oppilaitos-search-terms-result
-           (oppilaitos-search/oppilaitos-search-terms oppilaitos)))))
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (testing "returns search-terms for oppilaitos without koulutukset"
+      (is (= oppilaitos-search-terms-result
+             (oppilaitos-search/oppilaitos-search-terms oppilaitos))))))
 
 (deftest koulutus-search-terms
-  (testing "returns empty map if empty list given as a parameter"
-    (is (= koulutus-search-terms-result
-           (oppilaitos-search/koulutus-search-terms oppilaitos koulutus)))))
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (testing "returns empty map if empty list given as a parameter"
+      (is (= koulutus-search-terms-result
+             (oppilaitos-search/koulutus-search-terms oppilaitos koulutus))))))
 
 (deftest toteutus-search-terms
-  (testing "returns empty map if empty list given as a parameter"
-    (is (= toteutus-search-terms-result
-           (oppilaitos-search/toteutus-search-terms oppilaitos koulutus [] toteutus)))))
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (testing "returns empty map if empty list given as a parameter"
+      (is (= (merge toteutus-search-terms-result {:metadata (merge (:metadata toteutus-search-terms-result) {:suunniteltuKestoKuukausina 12})})
+             (oppilaitos-search/toteutus-search-terms oppilaitos koulutus [] toteutus))))))
 
 (deftest search-terms
-  (testing "returns a search-term for oppilaitos without any koulutus"
-    (is (= oppilaitos-search-terms-result
-           (oppilaitos-search/search-terms oppilaitos nil nil))))
+  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
+    (testing "returns a search-term for oppilaitos without any koulutus"
+      (is (= oppilaitos-search-terms-result
+             (oppilaitos-search/search-terms oppilaitos nil nil))))
 
-  (testing "returns a search-term for oppilaitos with one koulutus"
-    (is (= koulutus-search-terms-result
-           (oppilaitos-search/search-terms oppilaitos koulutus nil))))
+    (testing "returns a search-term for oppilaitos with one koulutus"
+      (is (= koulutus-search-terms-result
+             (oppilaitos-search/search-terms oppilaitos koulutus nil))))
 
-  (testing "returns empty map if empty list given as a parameter"
-    (is (= toteutus-search-terms-result
-           (oppilaitos-search/search-terms oppilaitos koulutus toteutus)))))
-(run-tests)
+    (testing "returns empty map if empty list given as a parameter"
+      (is (= toteutus-search-terms-result
+             (oppilaitos-search/search-terms oppilaitos koulutus toteutus))))))
