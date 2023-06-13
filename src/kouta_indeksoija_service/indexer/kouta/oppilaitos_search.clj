@@ -167,14 +167,6 @@
   (let [paikkakuntaKoodiUrit (vec (distinct (filter #(string/starts-with? % "kunta") (mapcat :sijainti (:search_terms entry)))))]
     (assoc entry :paikkakunnat (vec (map get-koodi-nimi-with-cache paikkakuntaKoodiUrit)))))
 
-(defn get-tarjoaja-entries
-  [hierarkia entries]
-  (->> (for [entry entries]
-         (when-let [indexable-oids (seq (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry)))]
-           (assoc entry :tarjoajat indexable-oids)))
-       (remove nil?)
-       (vec)))
-
 (defn- create-koulutus-search-terms
   [execution-id oppilaitos hierarkia koulutus]
   (let [[koulutus-oid koulutus-with-toteutukset] koulutus
