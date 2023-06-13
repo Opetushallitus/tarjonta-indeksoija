@@ -60,9 +60,9 @@
        :kuva (:logo oppilaitos)
        :nimi (:nimi oppilaitos)
        :onkoTuleva false
-       :lukiopainotukset (remove nil? (distinct (map (fn [painotus] (:koodiUri painotus)) (:painotukset toteutus-metadata))))
-       :lukiolinjat_er (remove nil? (distinct (map (fn [er_linja] (:koodiUri er_linja)) (:erityisetKoulutustehtavat toteutus-metadata))))
-       :osaamisalat (remove nil? (distinct (map (fn [osaamisala] (:koodiUri osaamisala)) (:osaamisalat toteutus-metadata))))
+       :lukiopainotukset (remove nil? (distinct (map :koodiUri (:painotukset toteutus-metadata))))
+       :lukiolinjat_er (remove nil? (distinct (map :koodiUri (:erityisetKoulutustehtavat toteutus-metadata))))
+       :osaamisalat (remove nil? (distinct (map :koodiUri (:osaamisalat toteutus-metadata))))
        :metadata (merge
                   {:tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
                    :opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
