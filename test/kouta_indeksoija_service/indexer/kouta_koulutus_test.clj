@@ -118,6 +118,18 @@
           (is (-> koulutusalat first :nimi :fi) "Tekniikan alat")
           (is (-> koulutusalat last :nimi :fi) "Palvelualat"))))))
 
+(deftest index-amm-tutkinnon-osa-koulutus-with-eperuste-not-yet-voimassa
+  (fixture/with-mocked-indexing
+   (testing "Indexer should index esitysnimi as nimi for koulutus if it is defined, relevant for future eperusteet"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalat-taso1 mock-koulutusalat-taso1]
+       (fixture/update-koulutus-mock koulutus-oid
+                                     :_enrichedData fixture/amm-tutkinnon-osa-enriched-data)
+       (check-all-nil)
+       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
+       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
+             nimi-fi (get-in koulutus [:nimi :fi])]
+         (is (= nimi-fi "Autoalan perustutkinto 0 fi (voimaantulo 6.6.2025)")))))))
+
 (deftest eperuste-data-enrichment
   (fixture/with-mocked-indexing
     (testing "Indexer should enrich eperuste data to metadata"
