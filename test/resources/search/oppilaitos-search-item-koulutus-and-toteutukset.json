@@ -398,6 +398,7 @@
         ],
         "maksullisuustyyppi": "maksullinen",
         "maksunMaara": 200.5,
+        "onkoApuraha": true,
         "koulutustyyppi": "amm",
         "kunnat": [
           {

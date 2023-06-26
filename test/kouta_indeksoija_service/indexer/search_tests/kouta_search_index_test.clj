@@ -214,7 +214,6 @@
 
    (deftest index-oppilaitos-search-items-test-2
      (fixture/with-mocked-indexing
-
         (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
           (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
           (i/index-oppilaitos oppilaitos-oid2)
