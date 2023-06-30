@@ -187,13 +187,19 @@
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_01"]
             :opetustapaKoodiUrit ["opetuspaikkakk_01"]
             :koulutuksenTarkkaAlkamisaika true
-            :koulutuksenAlkamisvuosi 2019}})
+            :koulutuksenAlkamisvuosi 2019
+            :suunniteltuKestoVuodet 3
+            :suunniteltuKestoKuukaudet 4
+            :maksullisuustyyppi "lukuvuosimaksu"}})
 
 (defonce amm-osaamisala-toteutus-metatieto
   {:tyyppi "amm-osaamisala"
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
             :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
-            :opetusaikaKoodiUrit ["opetusaikakk_1"]}})
+            :opetusaikaKoodiUrit ["opetusaikakk_1"]
+            :maksullisuustyyppi "lukuvuosimaksu"
+            :maksunMaara 500
+            :onkoApuraha false}})
 
 (defonce yo-toteutus-metatieto
   (merge (dissoc (:metadata fixture/default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
