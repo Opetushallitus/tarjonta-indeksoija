@@ -130,6 +130,7 @@
    :koulutusalaKoodiUrit (koulutusalat koodiuri)
    :koulutusasteKoodiUrit (koulutusasteet koodiuri)})
 
+;odw requires :koulutuskoodienAlatJaAsteet information (OY-3710)
 (defn- assoc-koulutusala-and-koulutusaste
   [koulutus]
   (let [koulutusAlaJaAstekoodiUrit (->> (:koulutukset koulutus)
