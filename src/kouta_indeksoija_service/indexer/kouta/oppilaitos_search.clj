@@ -7,7 +7,7 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :refer [create-sort-names]]
-            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? not-arkistoitu? luonnos?]]
+            [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? luonnos?]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
 
 (def index-name "oppilaitos-kouta-search")
@@ -86,7 +86,6 @@
                                          :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
                                          :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
-;; tätä funktiota oli tarkoitus siistiä sen jälkeen kun oon saanu testit korjattua
 (defn search-terms
   [oppilaitos koulutus toteutus hakutiedot]
   (when (not (nil? koulutus))
@@ -145,34 +144,17 @@
                            (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
       (assoc-paikkakunnat)))
 
-;; oli tarkoitus ehkä yhdistää nämä kaksi seuraavaa funktiota lopuksi
-(defn- create-entry-for-oppilaitos [oppilaitos oppilaitos-hierarkia execution-id]
-  (let [koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache
-                      ;; jos toimipiste, haetaan koulutukset parentin oidilla,
-                      ;; koska toimipiste ei ole välttämättä koulutuksen tarjoaja
-                      ;; vaikka sillä olisikin toteutuksia
-                     (:oid oppilaitos) execution-id)]
-    (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia koulutukset execution-id)))
-
-(defn- create-entry-for-toimipiste [oppilaitos oppilaitos-hierarkia execution-id]
-  (let [koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache
-                      ;; jos toimipiste, haetaan koulutukset parentin oidilla,
-                      ;; koska toimipiste ei ole välttämättä koulutuksen tarjoaja
-                      ;; vaikka sillä olisikin toteutuksia
-                      (:parentOid oppilaitos) execution-id)]
-    (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia koulutukset execution-id)))
-
 (defn create-index-entry
   [oid execution-id]
   (when-let [oppilaitos (cache/find-oppilaitos-by-oid oid)]
     (let [oppilaitos-hierarkia (organisaatio-tool/attach-parent-to-oppilaitos-from-cache
-                                (cache/get-hierarkia-cached)
-                                oppilaitos)
-          entry (if (organisaatio-tool/toimipiste? oppilaitos)
-                  (create-entry-for-toimipiste oppilaitos oppilaitos-hierarkia execution-id)
-                  (create-entry-for-oppilaitos oppilaitos oppilaitos-hierarkia execution-id)
-                  ;; jos toimipiste eikä toteutuksia tai koulutuksia, niin pitäis deletoida?
-                  )]
+                                 (cache/get-hierarkia-cached)
+                                 oppilaitos)
+          oppilaitos-oid (if (organisaatio-tool/toimipiste? oppilaitos) (:parentOid oppilaitos) (:oid oppilaitos))
+          ;; jos toimipiste, haetaan koulutukset parentin oidilla, koska toimipiste ei ole välttämättä
+          ;; koulutuksen tarjoaja vaikka sillä olisikin toteutuksia
+          koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)
+          entry (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia koulutukset execution-id)]
       (if (and (organisaatio-tool/indexable? oppilaitos) (> (get-in entry [:koulutusohjelmatLkm :kaikki]) 0))
         (indexable/->index-entry (:oid entry) entry)
         (indexable/->delete-entry (:oid entry))))))
