@@ -227,14 +227,14 @@
 (deftest search-terms
   (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
                 kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
-    (testing "returns a search-term for oppilaitos without any koulutus"
-      (is (= oppilaitos-search-terms-result
-             (oppilaitos-search/search-terms oppilaitos nil nil))))
+    (testing "returns nil for oppilaitos without any koulutus"
+      (is (= nil
+             (oppilaitos-search/search-terms oppilaitos nil nil nil))))
 
-    (testing "returns a search-term for oppilaitos with one koulutus"
+    (testing "returns a search-term for oppilaitos with a koulutus"
       (is (= koulutus-search-terms-result
-             (oppilaitos-search/search-terms oppilaitos koulutus nil))))
+             (oppilaitos-search/search-terms oppilaitos koulutus nil nil))))
 
-    (testing "returns empty map if empty list given as a parameter"
-      (is (= toteutus-search-terms-result
-             (oppilaitos-search/search-terms oppilaitos koulutus toteutus))))))
+    (testing "returns a search-term for oppilaitos with a koulutus and a toteutus"
+      (is (= (merge toteutus-search-terms-result {:metadata (merge (:metadata toteutus-search-terms-result) {:suunniteltuKestoKuukausina 12})})
+             (oppilaitos-search/search-terms oppilaitos koulutus toteutus nil))))))

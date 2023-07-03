@@ -6,9 +6,8 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
-            [kouta-indeksoija-service.test-tools :refer [debug-pretty]]
+            [kouta-indeksoija-service.test-tools :refer [compare-json debug-pretty]]
             [kouta-indeksoija-service.elastic.admin :as admin]
-            [kouta-indeksoija-service.test-tools :refer [compare-json]]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
 (defonce json-path "test/resources/search/")
@@ -214,7 +213,6 @@
 
    (deftest index-oppilaitos-search-items-test-2
      (fixture/with-mocked-indexing
-
         (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
           (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
           (i/index-oppilaitos oppilaitos-oid2)
@@ -226,7 +224,6 @@
       (testing "Create correct search item when koulutus has no toteutukset"
         (is (nil? (get-doc koulutus-search/index-name koulutus-oid1)))
         (i/index-koulutus koulutus-oid1)
-        (i/index-oppilaitos oppilaitos-oid2)
         (compare-json (no-timestamp (json json-path "koulutus-search-item-no-toteutukset"))
                       (no-timestamp (get-doc koulutus-search/index-name koulutus-oid1))))))
 

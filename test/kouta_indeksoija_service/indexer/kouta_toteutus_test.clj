@@ -74,25 +74,30 @@
 
 (deftest delete-non-existing-toteutus
   (fixture/with-mocked-indexing
-   (testing "Indexer should delete non-existing toteutus from all related indexes"
-     (check-all-nil)
-     (fixture/update-toteutus-mock toteutus-oid :tila "julkaistu")
-     (i/index-toteutukset [toteutus-oid toteutus-oid2] (. System (currentTimeMillis)))
-     (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-     (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid2))))
-     (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid)))
-     (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
-     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid2)))
-     (fixture/update-toteutus-mock toteutus-oid2 :tila "tallennettu")
-     (fixture/update-toteutus-mock toteutus-oid2 :tila "poistettu")
-     (i/index-toteutukset [toteutus-oid toteutus-oid2] (. System (currentTimeMillis)))
-     (is (nil? (get-doc toteutus/index-name toteutus-oid2)))
-     (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
-     (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
-     (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid)))
-     (is (= 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
-     (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid2))))))
+    (testing "Indexer should delete non-existing toteutus from all related indexes"
+      (check-all-nil)
+      (fixture/update-toteutus-mock toteutus-oid :tila "julkaistu")
+      (i/index-toteutukset [toteutus-oid
+                            toteutus-oid2] (. System (currentTimeMillis)))
+      (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
+      (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid2))))
+      (is (not (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid))))
+      (is (not (nil? (get-doc oppilaitos-search/index-name oppilaitoksen-osa-oid))))
+      (is (not (nil? (get-doc oppilaitos-search/index-name oppilaitoksen-osa-oid2))))
+      (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid)))
+      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitoksen-osa-oid :toteutusOid toteutus-oid3)))
+      (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid2)))
+      (fixture/update-toteutus-mock toteutus-oid2 :tila "tallennettu")
+      (fixture/update-toteutus-mock toteutus-oid2 :tila "poistettu")
+      (i/index-toteutukset [toteutus-oid toteutus-oid2] (. System (currentTimeMillis)))
+      (is (nil? (get-doc toteutus/index-name toteutus-oid2)))
+      (is (= "julkaistu" (:tila (get-doc toteutus/index-name toteutus-oid))))
+      (is (< 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid)))
+      (is (< 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid)))
+      (is (= 0 (count-search-terms-by-key koulutus-search/index-name koulutus-oid :toteutusOid toteutus-oid2)))
+      (is (= 0 (count-search-terms-by-key oppilaitos-search/index-name oppilaitos-oid :toteutusOid toteutus-oid2))))))
 
 (deftest delete-nil-toteutus
   (fixture/with-mocked-indexing

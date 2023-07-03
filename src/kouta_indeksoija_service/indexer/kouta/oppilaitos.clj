@@ -25,11 +25,11 @@
 (defn- assoc-koulutusohjelmatLkm
   [organisaatio koulutukset]
   (let [kaikki (count koulutukset)
-        tutkintoonJohtavat (count (filter :johtaaTutkintoon koulutukset))]
-  (assoc organisaatio :koulutusohjelmatLkm {
-                                       :kaikki kaikki 
-                                       :tutkintoonJohtavat tutkintoonJohtavat
-                                       :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)})))
+        tutkintoonJohtavat (count (for [koulutus koulutukset]
+                                    (filter :johtaaTutkintoon (val (first koulutus)))))]
+    (assoc organisaatio :koulutusohjelmatLkm {:kaikki kaikki
+                                              :tutkintoonJohtavat tutkintoonJohtavat
+                                              :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)})))
 
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]

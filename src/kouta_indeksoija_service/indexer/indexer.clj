@@ -55,11 +55,15 @@
 (defn index-koulutukset
   [oids execution-id]
   (let [entries (koulutus/do-index oids execution-id)
-        not-poistetut (filter not-poistettu? entries)]
+        not-poistetut (filter not-poistettu? entries)
+        koulutus-oids-to-index (get-oids :oid (mapcat :tarjoajat entries))
+        oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
+                                   (hierarkia/get-hierarkia-cached)
+                                   koulutus-oids-to-index)]
     (koulutus-search/do-index oids execution-id)
     (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut) execution-id)
     (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut) execution-id)
-    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)) execution-id)
+    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id)
     entries))
 
 (defn index-koulutus

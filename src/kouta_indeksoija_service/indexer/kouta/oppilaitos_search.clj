@@ -88,59 +88,11 @@
 
 ;; tätä funktiota oli tarkoitus siistiä sen jälkeen kun oon saanu testit korjattua
 (defn search-terms
-  [oppilaitos koulutus toteutus]
-  (let [params (if (nil? koulutus)
-                 {:tarjoajat (vector oppilaitos)
-                  :nimi (:nimi oppilaitos)
-                  :koulutustyypit (vector (search-tool/koulutustyyppi-for-organisaatio oppilaitos))
-                  :kuva (:logo oppilaitos)
-                  :opetuskieliUrit (:kieletUris oppilaitos)}
-                 (if (nil? toteutus)
-                   {:tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
-                    :nimi (:nimi koulutus)
-                    :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)
-                    :kuva (:teemakuva koulutus)
-                    :opetuskieliUrit (:kieletUris oppilaitos)}
-                   (let [tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat toteutus))]
-                     {:tarjoajat tarjoajat
-                      :nimi (get-esitysnimi toteutus)
-                      :koulutustyypit (search-tool/deduce-koulutustyypit koulutus (:metadata toteutus))
-                      :kuva (:teemakuva toteutus)
-                      :jarjestaa-urheilijan-amm-koulutusta (search-tool/jarjestaako-tarjoaja-urheilijan-amm-koulutusta
-                                                            (:tarjoajat toteutus)
-                                                            nil)
-                      :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
-                      :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])})))
-        opetus (get-in toteutus [:metadata :opetus])]
-    (search-tool/search-terms :koulutus koulutus
-                              :toteutus toteutus
-                              :tarjoajat (get params :tarjoajat)
-                              :jarjestaa-urheilijan-amm-koulutusta (get params :jarjestaa-urheilijan-amm-koulutusta)
-                              :oppilaitos oppilaitos
-                              :toteutus-organisaationimi (get params :toteutus-organisaationimi)
-                              :opetuskieliUrit (get params :opetuskieliUrit)
-                              :koulutustyypit (get params :koulutustyypit)
-                              :kuva (get params :kuva)
-                              :nimi (get params :nimi)
-                              :onkoTuleva (if (nil? koulutus)
-                                            nil
-                                            (nil? toteutus)) ;;koulutus on tuleva, jos sillä ei ole toteutuksia
-                              :metadata (cond-> {:opetusajatKoodiUrit (:opetusaikaKoodiUrit opetus)
-                                                 :maksullisuustyyppi (:maksullisuustyyppi opetus)
-                                                 :maksunMaara (:maksunMaara opetus)
-                                                 :koulutustyyppi (:koulutustyyppi koulutus)}
-                                          (amm-tutkinnon-osa? koulutus) (assoc :tutkinnonOsat (search-tool/tutkinnon-osat koulutus))
-                                          (and (not (nil? koulutus)) (nil? toteutus))
-                                          (assoc
-                                           :tutkintonimikkeetKoodiUrit (search-tool/tutkintonimike-koodi-urit koulutus)
-                                           :opintojenLaajuusKoodiUri (search-tool/opintojen-laajuus-koodi-uri koulutus)
-                                           :opintojenLaajuusyksikkoKoodiUri (search-tool/opintojen-laajuusyksikko-koodi-uri koulutus)
-                                           :opintojenLaajuusNumero (search-tool/opintojen-laajuus-numero koulutus)
-                                           :opintojenLaajuusNumeroMin (search-tool/opintojen-laajuus-numero-min koulutus)
-                                           :opintojenLaajuusNumeroMax (search-tool/opintojen-laajuus-numero-max koulutus)
-
-                                           :koulutustyypitKoodiUrit (search-tool/koulutustyyppi-koodi-urit koulutus))
-                                          (not (nil? toteutus)) (assoc :tutkintonimikkeet (tutkintonimikkeet-for-toteutus toteutus))))))
+  [oppilaitos koulutus toteutus hakutiedot]
+  (when (not (nil? koulutus))
+    (if (or (nil? toteutus) (luonnos? toteutus))
+      (koulutus-search-terms oppilaitos koulutus)
+      (toteutus-search-terms oppilaitos koulutus hakutiedot toteutus))))
 
 (defn- get-kouta-oppilaitos
   [oid execution-id]
@@ -153,7 +105,8 @@
 (defn- create-base-entry
   [oppilaitos koulutukset execution-id]
   (let [kaikki (count koulutukset)
-        tutkintoonJohtavat (count (filter :johtaaTutkintoon koulutukset))]
+        tutkintoonJohtavat (count (for [koulutus koulutukset]
+                                    (filter :johtaaTutkintoon (val (first koulutus)))))]
     (-> oppilaitos
         (select-keys [:oid :nimi])
         (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
@@ -167,24 +120,30 @@
   (let [paikkakuntaKoodiUrit (vec (distinct (filter #(string/starts-with? % "kunta") (mapcat :sijainti (:search_terms entry)))))]
     (assoc entry :paikkakunnat (vec (map get-koodi-nimi-with-cache paikkakuntaKoodiUrit)))))
 
-(defn- create-koulutus-search-terms
-  [execution-id oppilaitos hierarkia koulutus]
-  (let [[koulutus-oid koulutus-with-toteutukset] koulutus
-        hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache koulutus-oid execution-id)]
-    (vec (map #(toteutus-search-terms oppilaitos koulutus-with-toteutukset hakutiedot %) (:toteutukset koulutus-with-toteutukset)))))
+(defn get-tarjoaja-entries
+  [hierarkia entries]
+  (->> (for [entry entries]
+         (when-let [indexable-oids (seq (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry)))]
+           (assoc entry :tarjoajat indexable-oids)))
+       (remove nil?)
+       (vec)))
 
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos hierarkia koulutukset execution-id]
-  (let [koulutus-search-terms (partial create-koulutus-search-terms execution-id oppilaitos hierarkia)]
-    (-> oppilaitos
-        (create-base-entry koulutukset execution-id)
-        (assoc :search_terms (flatten (for [koulutus-map koulutukset
-                                            :let [koulutus (first (vals koulutus-map))
-                                                  koulutuksen-toteutukset (:toteutukset koulutus)]]
-                                        (if (seq koulutuksen-toteutukset)
-                                          (map #(search-terms oppilaitos koulutus %) koulutuksen-toteutukset)
-                                          (search-terms oppilaitos koulutus nil)))))
-        (assoc-paikkakunnat))))
+  (-> oppilaitos
+      (create-base-entry koulutukset execution-id)
+      (assoc :search_terms
+             (remove nil?
+                     (flatten
+                       (for [koulutus-map koulutukset
+                             :let [koulutus (first (vals koulutus-map))
+                                   koulutuksen-toteutukset (get-tarjoaja-entries hierarkia (:toteutukset koulutus))
+                                   hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache
+                                                (:oid koulutus)
+                                                execution-id)]]
+                         (when (seq koulutuksen-toteutukset)
+                           (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
+      (assoc-paikkakunnat)))
 
 ;; oli tarkoitus ehkä yhdistää nämä kaksi seuraavaa funktiota lopuksi
 (defn- create-entry-for-oppilaitos [oppilaitos oppilaitos-hierarkia execution-id]
@@ -197,10 +156,10 @@
 
 (defn- create-entry-for-toimipiste [oppilaitos oppilaitos-hierarkia execution-id]
   (let [koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache
-                                              ;; jos toimipiste, haetaan koulutukset parentin oidilla,
-                                              ;; koska toimipiste ei ole välttämättä koulutuksen tarjoaja
-                                              ;; vaikka sillä olisikin toteutuksia
-                     (:parentOid oppilaitos) execution-id)]
+                      ;; jos toimipiste, haetaan koulutukset parentin oidilla,
+                      ;; koska toimipiste ei ole välttämättä koulutuksen tarjoaja
+                      ;; vaikka sillä olisikin toteutuksia
+                      (:parentOid oppilaitos) execution-id)]
     (create-oppilaitos-entry-with-hits oppilaitos oppilaitos-hierarkia koulutukset execution-id)))
 
 (defn create-index-entry
@@ -212,11 +171,10 @@
           entry (if (organisaatio-tool/toimipiste? oppilaitos)
                   (create-entry-for-toimipiste oppilaitos oppilaitos-hierarkia execution-id)
                   (create-entry-for-oppilaitos oppilaitos oppilaitos-hierarkia execution-id)
-                  ;; jos toimipiste eikä toteutuksia tai koulutuksia, niin pitäis deletoida
+                  ;; jos toimipiste eikä toteutuksia tai koulutuksia, niin pitäis deletoida?
                   )]
-      (if (and (organisaatio-tool/indexable? oppilaitos) entry)
-        (indexable/->index-entry
-         (:oid entry) entry)
+      (if (and (organisaatio-tool/indexable? oppilaitos) (> (get-in entry [:koulutusohjelmatLkm :kaikki]) 0))
+        (indexable/->index-entry (:oid entry) entry)
         (indexable/->delete-entry (:oid entry))))))
 
 

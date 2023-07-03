@@ -233,7 +233,7 @@
       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
 
  (deftest index-all-toteutukset-test
-   (fixture/with-mocked-indexing
+  (fixture/with-mocked-indexing
     (testing "Indexer should index all toteutukset"
       (check-all-nil)
       (i/index-all-toteutukset)
@@ -243,6 +243,8 @@
       (is (= koulutus-oid (:oid (get-doc koulutus/index-name koulutus-oid))))
       (is (= koulutus-oid (:oid (get-doc koulutus-search/index-name koulutus-oid))))
       (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid))))
+      (is (= oppilaitoksen-osa-oid (:oid (get-doc oppilaitos-search/index-name oppilaitoksen-osa-oid))))
+      (is (= oppilaitoksen-osa-oid2 (:oid (get-doc oppilaitos-search/index-name oppilaitoksen-osa-oid2))))
       (is (nil? (get-doc valintaperuste/index-name valintaperuste-id))))))
 
  (defonce koulutus-oid-extra "1.2.246.562.13.00000000000000000099")

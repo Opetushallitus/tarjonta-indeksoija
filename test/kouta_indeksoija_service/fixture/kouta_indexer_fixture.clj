@@ -285,7 +285,8 @@
                                                                  :toteutukset
                                                                  (map #(last %)
                                                                       (filter #(and (= (:koulutusOid (last %)) (:oid koulutus))
-                                                                                    (= (:tila (last %)) "julkaistu"))
+                                                                                    (or (= (:tila (last %)) "julkaistu")
+                                                                                        (= (:tila (last %)) "tallennettu")))
                                                                               @toteutukset))))]
                           koulutus-with-toteutukset)]
            {(:oid koulutus) koulutus}))))
