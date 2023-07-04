@@ -55,7 +55,7 @@
 
 (defn koulutusalan-ylakoulutusalat
   [koulutusalaKoodiUri]
-  (get-koodiurit-from-yla-koodistot koulutusalaKoodiUri [koulutusalat-taso1 koulutusalat-taso2]))
+  (get-koodiurit-from-yla-koodistot koulutusalaKoodiUri [koodiuri-koulutusalataso1 koodiuri-koulutusalataso2]))
 
 (defn koulutusasteet
   [koulutusKoodiUri]
