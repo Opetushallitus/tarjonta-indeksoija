@@ -756,6 +756,9 @@
                  kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-alakoodit
 
+                 kouta-indeksoija-service.rest.koodisto/list-ylakoodit-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-ylakoodit
+
                  kouta-indeksoija-service.rest.eperuste/get-doc
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste
 
