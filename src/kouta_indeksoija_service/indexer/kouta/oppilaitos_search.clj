@@ -7,8 +7,10 @@
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :refer [create-sort-names]]
+            [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [assoc-koulutusohjelmatLkm]]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? luonnos?]]
-            [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
+            [kouta-indeksoija-service.indexer.tools.search :as search-tool]
+            [kouta-indeksoija-service.indexer.kouta.koulutus :as koulutus]))
 
 (def index-name "oppilaitos-kouta-search")
 
@@ -103,16 +105,11 @@
 
 (defn- create-base-entry
   [oppilaitos koulutukset execution-id]
-  (let [kaikki (count koulutukset)
-        tutkintoonJohtavat (count (for [koulutus koulutukset]
-                                    (filter :johtaaTutkintoon (val (first koulutus)))))]
-    (-> oppilaitos
-        (select-keys [:oid :nimi])
-        (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
-        (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
-        (assoc :koulutusohjelmatLkm {:kaikki kaikki
-                                     :tutkintoonJohtavat tutkintoonJohtavat
-                                     :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)}))))
+  (-> oppilaitos
+      (select-keys [:oid :nimi])
+      (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
+      (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
+      (assoc-koulutusohjelmatLkm koulutukset)))
 
 (defn- assoc-paikkakunnat
   [entry]
@@ -129,20 +126,29 @@
 
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos hierarkia koulutukset execution-id]
-  (-> oppilaitos
-      (create-base-entry koulutukset execution-id)
-      (assoc :search_terms
-             (remove nil?
-                     (flatten
-                       (for [koulutus-map koulutukset
-                             :let [koulutus (first (vals koulutus-map))
-                                   koulutuksen-toteutukset (get-tarjoaja-entries hierarkia (:toteutukset koulutus))
-                                   hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache
-                                                (:oid koulutus)
-                                                execution-id)]]
-                         (when (seq koulutuksen-toteutukset)
-                           (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
-      (assoc-paikkakunnat)))
+  (let [oppilaitoksen-koulutukset (if (organisaatio-tool/toimipiste? oppilaitos)
+                                    (into {} (for [[koulutus-oid koulutus] koulutukset
+                                                   ;; filtteröidään pois koulutukset, joiden toteutuksen tarjoaja
+                                                   ;; ei ole indeksoitavana oleva toimipiste
+                                                   :let [tarjoaja-entries (get-tarjoaja-entries hierarkia (:toteutukset koulutus))
+                                                         koulutus-with-tarjoaja-entries (assoc koulutus :toteutukset tarjoaja-entries)]
+                                                   :when (seq tarjoaja-entries)]
+                                               [koulutus-oid koulutus-with-tarjoaja-entries]))
+                                    koulutukset)]
+    (-> oppilaitos
+        (create-base-entry oppilaitoksen-koulutukset execution-id)
+        (assoc :search_terms
+               (remove nil?
+                       (flatten
+                         (for [koulutus-vector oppilaitoksen-koulutukset
+                               :let [koulutus (second koulutus-vector)
+                                     koulutuksen-toteutukset (:toteutukset koulutus)
+                                     hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache
+                                                  (:oid koulutus)
+                                                  execution-id)]]
+                           (when (seq koulutuksen-toteutukset)
+                               (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
+        (assoc-paikkakunnat))))
 
 (defn create-index-entry
   [oid execution-id]

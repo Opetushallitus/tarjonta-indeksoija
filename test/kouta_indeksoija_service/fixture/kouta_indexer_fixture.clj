@@ -276,20 +276,19 @@
 (defn mock-get-koulutukset-by-tarjoaja
   [oid execution-id]
   (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
-        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))
-        find-koulutuksen-toteutukset (fn [koulutus-oid toteutus] (= (:koulutusOid (last toteutus))
-                                                                    koulutus-oid))]
-    (vec (for [koulutus (let [tarjoajan-koulutukset (filter pred (vals @koulutukset))
-                              koulutus-with-toteutukset (for [koulutus tarjoajan-koulutukset]
-                                                          (assoc koulutus
-                                                                 :toteutukset
-                                                                 (map #(last %)
-                                                                      (filter #(and (= (:koulutusOid (last %)) (:oid koulutus))
-                                                                                    (or (= (:tila (last %)) "julkaistu")
-                                                                                        (= (:tila (last %)) "tallennettu")))
-                                                                              @toteutukset))))]
-                          koulutus-with-toteutukset)]
-           {(:oid koulutus) koulutus}))))
+        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
+    (into {}
+          (for [koulutus (let [tarjoajan-koulutukset (filter pred (vals @koulutukset))
+                               koulutus-with-toteutukset (for [koulutus tarjoajan-koulutukset]
+                                                           (assoc koulutus
+                                                                  :toteutukset
+                                                                  (map #(last %)
+                                                                       (filter #(and (= (:koulutusOid (last %)) (:oid koulutus))
+                                                                                     (or (= (:tila (last %)) "julkaistu")
+                                                                                         (= (:tila (last %)) "tallennettu")))
+                                                                               @toteutukset))))]
+                           koulutus-with-toteutukset)]
+            [(:oid koulutus) koulutus]))))
 
 (defn mock-get-koulutus-oids-by-tarjoajat
   [tarjoaja-oids]

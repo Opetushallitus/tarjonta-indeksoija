@@ -215,7 +215,6 @@
          hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids-to-index execution-id)
          toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids-to-index execution-id)
          koulutus-oids (kouta-backend/get-koulutus-oids-by-tarjoajat-with-cache oids-to-index)]
-     ;; jos oppilaitos on koulutustoimija niin ei indeksoida oppilaitos-searchiin?
      (oppilaitos/do-index oids-to-index execution-id clear-cache-before)
      (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
      (oppilaitos-search/do-index oids-to-index execution-id clear-cache-before)

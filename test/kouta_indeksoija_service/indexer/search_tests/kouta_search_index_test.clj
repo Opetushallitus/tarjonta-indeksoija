@@ -90,7 +90,7 @@
                                :sorakuvausId sorakuvaus-id
                                :ePerusteId nil
                                :koulutuksetKoodiUri []
-                               :tarjoajat [oppilaitos-oid2]
+                               :tarjoajat [oppilaitos-oid1]
                                :metadata
                                {:tyyppi "amm-tutkinnon-osa"
                                 :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]

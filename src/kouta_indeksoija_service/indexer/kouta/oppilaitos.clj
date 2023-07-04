@@ -22,14 +22,17 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
-(defn- assoc-koulutusohjelmatLkm
+(defn assoc-koulutusohjelmatLkm
   [organisaatio koulutukset]
-  (let [kaikki (count koulutukset)
-        tutkintoonJohtavat (count (for [koulutus koulutukset]
-                                    (filter :johtaaTutkintoon (val (first koulutus)))))]
-    (assoc organisaatio :koulutusohjelmatLkm {:kaikki kaikki
+  (let [koulutukset-lkm (count koulutukset)
+        tutkintoonJohtavat (if (< 0 koulutukset-lkm)
+                             (count
+                              (for [koulutus koulutukset]
+                                (filter :johtaaTutkintoon (second koulutus))))
+                             0)]
+    (assoc organisaatio :koulutusohjelmatLkm {:kaikki koulutukset-lkm
                                               :tutkintoonJohtavat tutkintoonJohtavat
-                                              :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)})))
+                                              :eiTutkintoonJohtavat (- koulutukset-lkm tutkintoonJohtavat)})))
 
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]
@@ -175,7 +178,7 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (when-let [oppilaitos (cache/find-oppilaitos-by-own-or-child-oid  oid)]
+  (when-let [oppilaitos (cache/find-oppilaitos-by-oid oid)]
     (if (organisaatio-tool/indexable? oppilaitos)
       (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos execution-id))
       (indexable/->delete-entry (:oid oppilaitos)))))
