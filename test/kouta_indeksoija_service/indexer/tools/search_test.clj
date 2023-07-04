@@ -43,7 +43,8 @@
     (testing "get-search-hakutiedot parses hakutiedot properly"
       (with-redefs
        [kouta-indeksoija-service.rest.koodisto/get-koodit-with-cache #(json "test/resources/koodisto/" %)
-        kouta-indeksoija-service.rest.koodisto/get-alakoodit-with-cache #(json "test/resources/koodisto/alakoodit/" %)]
+        kouta-indeksoija-service.rest.koodisto/get-alakoodit-with-cache #(json "test/resources/koodisto/alakoodit/" %)
+        kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache #([])]
         (is (= (search/get-search-hakutiedot hakutieto)
                [{:hakuajat [{:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"} {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}]
                  :hakutapa "hakutapa_02"

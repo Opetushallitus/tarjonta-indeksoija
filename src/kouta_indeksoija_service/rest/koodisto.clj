@@ -1,9 +1,7 @@
 (ns kouta-indeksoija-service.rest.koodisto
   (:require [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.cache :refer [with-fifo-ttl-cache]]
-            [clj-log.error-log :refer [with-error-logging]]
             [kouta-indeksoija-service.rest.util :refer [get->json-body]]
-            [clojure.tools.logging :as log]
             [clojure.string :as str]))
 
 (defn extract-versio
