@@ -26,9 +26,7 @@
   [organisaatio koulutukset]
   (let [koulutukset-lkm (count koulutukset)
         tutkintoonJohtavat (if (< 0 koulutukset-lkm)
-                             (count
-                              (for [koulutus koulutukset]
-                                (filter :johtaaTutkintoon (second koulutus))))
+                             (count (filter #(:johtaaTutkintoon (second %)) koulutukset))
                              0)]
     (assoc organisaatio :koulutusohjelmatLkm {:kaikki koulutukset-lkm
                                               :tutkintoonJohtavat tutkintoonJohtavat
