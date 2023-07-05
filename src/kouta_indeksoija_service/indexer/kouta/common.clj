@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [clojure.string :refer [replace]]
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
@@ -239,3 +240,10 @@
            (not-empty (:fi nimi))
            (not-empty (:sv nimi)))})
 
+(defn get-tarjoaja-entries
+  [hierarkia entries]
+  (->> (for [entry entries]
+         (when-let [indexable-oids (seq (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry)))]
+           (assoc entry :tarjoajat indexable-oids)))
+       (remove nil?)
+       (vec)))
