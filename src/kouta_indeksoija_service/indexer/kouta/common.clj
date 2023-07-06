@@ -240,10 +240,25 @@
            (not-empty (:fi nimi))
            (not-empty (:sv nimi)))})
 
-(defn get-tarjoaja-entries
-  [hierarkia entries]
-  (->> (for [entry entries]
-         (when-let [indexable-oids (seq (organisaatio-tool/filter-indexable-oids-for-hierarkia hierarkia (:tarjoajat entry)))]
-           (assoc entry :tarjoajat indexable-oids)))
+(defn get-toimipisteen-toteutukset
+  [organisaatio-oid toteutukset]
+  (->> (for [toteutus toteutukset]
+         (when-let [indexable-oids (filter #(= organisaatio-oid %) (:tarjoajat toteutus))]
+           (when (seq indexable-oids)
+               (assoc toteutus :tarjoajat indexable-oids))))
        (remove nil?)
        (vec)))
+
+(defn get-oppilaitoksen-koulutukset
+  [organisaatio koulutukset]
+  (if (organisaatio-tool/toimipiste? organisaatio)
+    (into {} (for [[koulutus-oid koulutus] koulutukset
+                   ;; filtteröidään pois koulutukset, joiden toteutuksen tarjoaja
+                   ;; ei ole indeksoitavana oleva toimipiste
+                   :let [toimipisteen-toteutukset (get-toimipisteen-toteutukset (:oid organisaatio)
+                                                                                (:toteutukset koulutus))
+                         koulutus-with-toimipisteen-toteutukset (assoc koulutus :toteutukset toimipisteen-toteutukset)]
+                   :when (seq toimipisteen-toteutukset)]
+               [koulutus-oid koulutus-with-toimipisteen-toteutukset]))
+    koulutukset))
+
