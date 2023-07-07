@@ -56,7 +56,7 @@
        :hakutiedot hakutieto
        :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten (:tarjoajat toteutus)))))
        :opetuskieliUrit (:opetuskieliKoodiUrit opetus)
-       :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
+       :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos toteutus-metadata)
        :kuva (:logo oppilaitos)
        :nimi (:nimi oppilaitos)
        :onkoTuleva false
@@ -90,7 +90,7 @@
      :tarjoajat tarjoajat
      :oppilaitos oppilaitos
      :toteutus-organisaationimi (remove nil? (distinct (map :nimi (flatten tarjoajat))))
-     :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)
+     :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos)
      :kuva (:logo oppilaitos)
      :nimi (:nimi oppilaitos)
      :onkoTuleva true
