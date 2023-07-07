@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.indexer.kouta.oppilaitos-search :as oppilaitos-search]))
 
 (defn- mock-list-alakoodi-nimet
-  [koodi-uri alakoodi-uri]
+  [_ alakoodi-uri]
   (vector
    {:koodiUri (str alakoodi-uri "_1") :nimi {:fi (str alakoodi-uri "_1 fi") :sv (str alakoodi-uri "_1 sv")}}
    {:koodiUri (str alakoodi-uri "_2") :nimi {:fi (str alakoodi-uri "_2 fi") :sv (str alakoodi-uri "_2 sv")}}))
@@ -106,28 +106,6 @@
               :tyyppi "vapaa-sivistystyo-opistovuosi"}
    :organisaatioOid "1.2.246.562.10.31756159625"})
 
-(def oppilaitos-search-terms-result
-  {:sijainti ["kunta_086" "maakunta_1"]
-   :koulutustyypit ["muu"]
-   :lukiopainotukset []
-   :koulutus_organisaationimi {:fi "Opisto oppilaitos"
-                               :sv "Opisto oppilaitos"
-                               :en "Opisto oppilaitos"}
-   :opetuskielet ["oppilaitoksenopetuskieli_1"]
-   :lukiolinjaterityinenkoulutustehtava []
-   :osaamisalat []
-   :nimi {:fi "Opisto oppilaitos"
-          :sv "Opisto oppilaitos"
-          :en "Opisto oppilaitos"}
-   :oppilaitosOid "1.2.246.562.10.31756159625",
-   :isTyovoimakoulutus false
-   :hasJotpaRahoitus false
-   :isTaydennyskoulutus false
-   :metadata {:kunnat
-              [{:koodiUri "kunta_086",
-                :nimi {:sv "kunta_086 sv", :fi "kunta_086 fi"}}]}
-   :paatellytAlkamiskaudet []})
-
 (def koulutus-search-terms-result
   {:sijainti ["kunta_086" "maakunta_1"]
    :koulutustyypit ["vapaa-sivistystyo" "vapaa-sivistystyo-opistovuosi"]
@@ -203,13 +181,6 @@
    :toteutusNimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"}
    :paatellytAlkamiskaudet ["2023-syksy"]})
 
-(deftest oppilaitos-search-terms
-  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
-                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
-    (testing "returns search-terms for oppilaitos without koulutukset"
-      (is (= oppilaitos-search-terms-result
-             (oppilaitos-search/oppilaitos-search-terms oppilaitos))))))
-
 (deftest koulutus-search-terms
   (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
                 kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
@@ -223,18 +194,3 @@
     (testing "returns empty map if empty list given as a parameter"
       (is (= (merge toteutus-search-terms-result {:metadata (merge (:metadata toteutus-search-terms-result) {:suunniteltuKestoKuukausina 12})})
              (oppilaitos-search/toteutus-search-terms oppilaitos koulutus [] toteutus))))))
-
-(deftest search-terms
-  (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
-                kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
-    (testing "returns nil for oppilaitos without any koulutus"
-      (is (= nil
-             (oppilaitos-search/search-terms oppilaitos nil nil nil))))
-
-    (testing "returns a search-term for oppilaitos with a koulutus"
-      (is (= koulutus-search-terms-result
-             (oppilaitos-search/search-terms oppilaitos koulutus nil nil))))
-
-    (testing "returns a search-term for oppilaitos with a koulutus and a toteutus"
-      (is (= (merge toteutus-search-terms-result {:metadata (merge (:metadata toteutus-search-terms-result) {:suunniteltuKestoKuukausina 12})})
-             (oppilaitos-search/search-terms oppilaitos koulutus toteutus nil))))))

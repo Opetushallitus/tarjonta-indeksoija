@@ -32,15 +32,6 @@
          (->distinct-vec))
     []))
 
-(defn oppilaitos-search-terms
-  [oppilaitos]
-  (search-tool/search-terms :tarjoajat (vector oppilaitos)
-                            :oppilaitos oppilaitos
-                            :opetuskieliUrit (:kieletUris oppilaitos)
-                            :koulutustyypit (vector (search-tool/koulutustyyppi-for-organisaatio oppilaitos))
-                            :kuva (:logo oppilaitos)
-                            :nimi (:nimi oppilaitos)))
-
 (defn koulutus-search-terms
   [oppilaitos koulutus]
   (search-tool/search-terms :koulutus koulutus
