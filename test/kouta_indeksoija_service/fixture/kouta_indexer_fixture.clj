@@ -268,11 +268,6 @@
   [oid execution-id]
   (get @koulutukset oid))
 
-;; aloin korjata tätä mockausta uuden tietomallin mukaiseksi, mutta tämä alkoi mennä liian
-;; monimutkaiseksi logiikaltaan, kun yrittää simuloida postgresin vastausta monimutkaisempaan kyselyyn.
-;; jos joutuu tekemään paljon monimutkaista logiikkaa testin mockaukseen, niin pian menee se
-;; mockaus pieleen ja testi on täysin hyödytön, kun mockaus ei toimi samalla tavalla kuin alkup. koodi
-;; selkeintä olis vain kovakoodata se haluttu mock 
 (defn mock-get-koulutukset-by-tarjoaja
   [oid execution-id]
   (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}

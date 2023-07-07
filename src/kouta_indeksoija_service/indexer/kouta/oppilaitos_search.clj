@@ -115,22 +115,24 @@
   (let [paikkakuntaKoodiUrit (vec (distinct (filter #(string/starts-with? % "kunta") (mapcat :sijainti (:search_terms entry)))))]
     (assoc entry :paikkakunnat (vec (map get-koodi-nimi-with-cache paikkakuntaKoodiUrit)))))
 
+(defn create-search-terms
+  [oppilaitos koulutukset execution-id]
+  (remove nil?
+          (flatten
+           (for [[_ koulutus] koulutukset
+                 :let [koulutuksen-toteutukset (:toteutukset koulutus)
+                       hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache
+                                   (:oid koulutus)
+                                   execution-id)]]
+             (when (seq koulutuksen-toteutukset)
+               (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
+
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos koulutukset execution-id]
   (let [oppilaitoksen-koulutukset (get-oppilaitoksen-koulutukset oppilaitos koulutukset)]
     (-> oppilaitos
         (create-base-entry oppilaitoksen-koulutukset execution-id)
-        (assoc :search_terms
-               (remove nil?
-                       (flatten
-                        (for [koulutus-vector oppilaitoksen-koulutukset
-                              :let [koulutus (second koulutus-vector)
-                                    koulutuksen-toteutukset (:toteutukset koulutus)
-                                    hakutiedot (kouta-backend/get-hakutiedot-for-koulutus-with-cache
-                                                (:oid koulutus)
-                                                execution-id)]]
-                          (when (seq koulutuksen-toteutukset)
-                            (map #(search-terms oppilaitos koulutus % hakutiedot) koulutuksen-toteutukset))))))
+        (assoc :search_terms (create-search-terms oppilaitos oppilaitoksen-koulutukset execution-id))
         (assoc-paikkakunnat))))
 
 (defn create-index-entry
