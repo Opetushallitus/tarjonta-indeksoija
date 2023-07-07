@@ -168,8 +168,9 @@
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
         ;; organisaatio-servicen /jalkelaiset-rajapinta palauttaa lyhytNimen oppilaitoksen osille
         ;; käytetään org yhteystietojen mukana tulevaa kokonimeä
-        oppilaitoksen-nimi (:nimi oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
-        organisaatio-with-updated-nimi (assoc organisaatio :nimi oppilaitoksen-nimi)
+        organisaatio-with-updated-nimi (common/assoc-nimi-from-oppilaitoksen-yhteystiedot
+                                         organisaatio
+                                         oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
         oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %)
                                 (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
         oppilaitoksen-koulutukset (common/get-oppilaitoksen-koulutukset organisaatio koulutukset)

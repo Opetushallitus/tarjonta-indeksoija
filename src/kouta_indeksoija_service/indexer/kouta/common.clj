@@ -262,3 +262,8 @@
                [koulutus-oid koulutus-with-toimipisteen-toteutukset]))
     koulutukset))
 
+(defn assoc-nimi-from-oppilaitoksen-yhteystiedot
+  [oppilaitos yhteystiedot]
+  (if-let [oppilaitoksen-nimi (:nimi yhteystiedot)]
+    (assoc oppilaitos :nimi oppilaitoksen-nimi)
+    oppilaitos))
