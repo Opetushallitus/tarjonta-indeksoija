@@ -160,6 +160,9 @@
    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
 
+(defonce amm-tutkinnon-osa-enriched-data
+         {:esitysnimi {:fi "Autoalan perustutkinto 0 fi (voimaantulo 6.6.2025)", :sv "Autoalan perustutkinto 0 sv (voimaantulo 6.6.2025)"}})
+
 (defonce amm-tutkinnon-osa-koulutus-metadata
   {:tyyppi "amm-tutkinnon-osa"
    :tutkinnonOsat [{:koulutusKoodiUri "koulutus_123123#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}
