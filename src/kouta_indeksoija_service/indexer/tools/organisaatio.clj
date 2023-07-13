@@ -23,8 +23,8 @@
 
 (defn oppilaitos?
   [organisaatio]
-  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppilaitos)
-  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppisopimustoimipiste))
+  (or (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppilaitos)
+      (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppisopimustoimipiste)))
 
 (defn koulutustoimija?
   [organisaatio]
