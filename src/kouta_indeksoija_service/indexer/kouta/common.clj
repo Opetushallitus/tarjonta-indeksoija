@@ -104,7 +104,7 @@
 (defn assoc-tarjoajat
   [entry]
   (if-let [oids (:tarjoajat entry)]
-    (assoc entry :tarjoajat (map #(get-tarjoaja %1) oids))
+    (assoc entry :tarjoajat (remove nil? (map #(get-tarjoaja %1) oids)))
     entry))
 
 (defn assoc-organisaatiot
