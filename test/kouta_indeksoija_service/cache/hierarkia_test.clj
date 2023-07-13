@@ -27,9 +27,9 @@
   (testing "Fetching hierarkia via cache should"
     (testing "return hierarkia with correct organisation data"
       (let [res (cache/get-hierarkia-cached)]
-        (is (= (count (keys @res)) 91))
+        (is (= (count (keys @res)) 92))
         (is (= (count (filter #(o/toimipiste? %) (vals @res))) 56))
-        (is (= (count (filter #(o/oppilaitos? %) (vals @res))) 28))
+        (is (= (count (filter #(o/oppilaitos? %) (vals @res))) 29))
         (is (= (count (filter #(o/koulutustoimija? %) (vals @res))) 7))))
     (testing "return correct koulutustoimijat"
       (let [res (cache/get-hierarkia-cached)
@@ -44,7 +44,7 @@
         (is (= (get @res "1.2.246.562.10.2014041511401945349694") {:oid "1.2.246.562.10.2014041511401945349694" :kotipaikkaUri "kunta_743" :nimi {:en "Seinäjoen Ammattikorkeakoulu Oy" :fi "Seinäjoen Ammattikorkeakoulu Oy" :sv "Seinäjoen Ammattikorkeakoulu Oy"}
                                                                    :status "AKTIIVINEN" :organisaatiotyypit ["organisaatiotyyppi_01"] :childOids ["1.2.246.562.10.54453921329"]}))
         (is (= (get @res "1.2.246.562.10.55867603791") {:oid "1.2.246.562.10.55867603791" :kotipaikkaUri "kunta_186" :nimi {:en "Keski-Uudenmaan koulutuskuntayhtymä" :fi "Keski-Uudenmaan koulutuskuntayhtymä" :sv "Keski-Uudenmaan koulutuskuntayhtymä"}
-                                                        :status "AKTIIVINEN" :organisaatiotyypit ["organisaatiotyyppi_01", "organisaatiotyyppi_07"] :childOids ["1.2.246.562.10.197113642410", "1.2.246.562.10.32506551657"]}))))
+                                                        :status "AKTIIVINEN" :organisaatiotyypit ["organisaatiotyyppi_01", "organisaatiotyyppi_07"] :childOids ["1.2.246.562.10.197113642410", "1.2.246.562.10.32506551657" "1.2.246.562.10.31186964119"]}))))
     (testing "return correct oppilaitokset"
       (let [res (cache/get-hierarkia-cached)
             oppilaitokset (filter #(o/oppilaitos? (get @res %)) (keys @res))]
@@ -53,7 +53,7 @@
                                                          "1.2.246.562.10.32506551657", "1.2.246.562.10.66634895871", "1.2.246.562.10.81934895871", "1.2.246.562.10.000002", "1.2.246.562.10.99999999999",
                                                          "1.2.246.562.10.00101010101", "1.2.246.562.10.00101010102", "1.2.246.562.10.00101010103", "1.2.246.562.10.00101010104", "1.2.246.562.10.00101010105",
                                                          "1.2.246.562.10.00101010106", "1.2.246.562.10.00101010107", "1.2.246.562.10.0000011", "1.2.246.562.10.0000012", "1.2.246.562.10.0000013",
-                                                         "1.2.246.562.10.0000014", "1.2.246.562.10.0000015", "1.2.246.562.10.55555555555"] oppilaitokset))
+                                                         "1.2.246.562.10.0000014", "1.2.246.562.10.0000015", "1.2.246.562.10.55555555555", "1.2.246.562.10.31186964119"] oppilaitokset))
         (is (= (get @res "1.2.246.562.10.53670619591") {:childOids []
                                                         :oid "1.2.246.562.10.53670619591"
                                                         :kieletUris ["oppilaitoksenopetuskieli_1#2"] :kotipaikkaUri "kunta_759"
