@@ -6,9 +6,10 @@
                                       "organisaatiotyyppi_07",
                                       "organisaatiotyyppi_08"})
 
-(defonce organisaatiotyyppi-koulutustoimija "organisaatiotyyppi_01")
-(defonce organisaatiotyyppi-oppilaitos      "organisaatiotyyppi_02")
-(defonce organisaatiotyyppi-toimipiste      "organisaatiotyyppi_03")
+(defonce organisaatiotyyppi-koulutustoimija            "organisaatiotyyppi_01")
+(defonce organisaatiotyyppi-oppilaitos                 "organisaatiotyyppi_02")
+(defonce organisaatiotyyppi-toimipiste                 "organisaatiotyyppi_03")
+(defonce organisaatiotyyppi-oppisopimustoimipiste      "organisaatiotyyppi_04")
 
 (defn- recursive-hierarkia-v4-search
   [pred level]
@@ -22,7 +23,8 @@
 
 (defn oppilaitos?
   [organisaatio]
-  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppilaitos))
+  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppilaitos)
+  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppisopimustoimipiste))
 
 (defn koulutustoimija?
   [organisaatio]
