@@ -27,13 +27,26 @@
   [uris]
   (vec (map remove-uri-version uris)))
 
+
+(defn combine-koulutusala-koodi-urit-with-yla-koulutusala
+  [koulutusala]
+  (concat [koulutusala] (koodisto/koulutusalan-ylakoulutusalat koulutusala)))
+
 (defn koulutusala-koodi-urit
   [koulutus]
   (if (or (amm-koulutus-with-eperuste? koulutus) (amm-osaamisala? koulutus) (amm-tutkinnon-osa? koulutus))
-    (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)]
-      (vec (concat (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))
-                   (map :koodiUri (koodisto/koulutusalat-taso2 koulutusKoodiUri)))))
-    (get-in koulutus [:metadata :koulutusalaKoodiUrit])))
+    (let [koulutusKoodiUri (get-non-korkeakoulu-koodi-uri koulutus)
+          koulutusalataso1koodit (map :koodiUri (koodisto/koulutusalat-taso1 koulutusKoodiUri))]
+      (->> (koodisto/koulutusalat-taso2 koulutusKoodiUri)
+           (map :koodiUri)
+           (mapcat combine-koulutusala-koodi-urit-with-yla-koulutusala)
+           (concat koulutusalataso1koodit)
+           distinct
+           vec))
+    (->> (get-in koulutus [:metadata :koulutusalaKoodiUrit])
+         (mapcat combine-koulutusala-koodi-urit-with-yla-koulutusala)
+         distinct
+         vec)))
 
 (defn- get-ammatillinen-eperuste
   [koulutus]

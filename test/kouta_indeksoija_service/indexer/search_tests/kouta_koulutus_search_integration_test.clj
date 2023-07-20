@@ -42,6 +42,10 @@
     (= koulutus-koodi-uri farmasian-tohtori-koulutuskoodi) [tohtori-tutkintotyyppi]
     (= koulutus-koodi-uri fil-tohtori-englannin-kieli-koulutuskoodi) [tohtori-tutkintotyyppi]))
 
+(defn- mock-ylakoulutusala
+  [koulutus-koodi]
+  ["ylakoulutusala1"])
+
 (defn- get-koulutustyypit
   [koulutus]
   (-> koulutus
@@ -158,3 +162,13 @@
        (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
              koulutustyypit (get-koulutustyypit koulutus)]
          (is (= koulutustyypit ["yo" "tohtori"])))))))
+
+(deftest lisaa-ylakoulutusalan-koulutusalaan
+  (fixture/with-mocked-indexing
+   (testing "lisaa ylakoulutusalan koulutusalaan"
+     (with-redefs [kouta-indeksoija-service.indexer.tools.koodisto/koulutusalan-ylakoulutusalat mock-ylakoulutusala]
+       (koulutus-search/do-index [koulutus-oid] (. System (currentTimeMillis)))
+       (let [koulutus (get-doc koulutus-search/index-name koulutus-oid)
+             koulutus-alat (get-in koulutus [:search_terms 0 :koulutusalat])]
+         (is (= 5 (count koulutus-alat)))
+         (is (contains? (set koulutus-alat) "ylakoulutusala1")))))))
