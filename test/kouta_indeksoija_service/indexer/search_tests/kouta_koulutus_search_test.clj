@@ -25,7 +25,7 @@
     (with-redefs [list-alakoodi-nimet-with-cache mock-koodisto-koulutustyyppi]
       (let [koulutus {:koulutustyyppi "amm"}
             toteutus-metadata {:ammatillinenPerustutkintoErityisopetuksena true}
-            result (deduce-koulutustyypit koulutus toteutus-metadata)]
+            result (deduce-koulutustyypit koulutus nil toteutus-metadata)]
         (is (= ["amm" "koulutustyyppi_4"] result))))))
 
 (deftest add-muu-amm-tutkinto-koulutustyyppi
@@ -40,14 +40,14 @@
   (testing "If tuva without erityisopetus, add 'tuva-normal' koulutustyyppi"
       (let [koulutus {:koulutustyyppi "tuva"}
             toteutus-metadata {:jarjestetaanErityisopetuksena false}
-            result (deduce-koulutustyypit koulutus toteutus-metadata)]
+            result (deduce-koulutustyypit koulutus nil toteutus-metadata)]
         (is (= ["tuva" "tuva-normal"] result)))))
 
 (deftest add-tuva-erityisopetus-koulutustyyppi
   (testing "If tuva erityisopetuksena, add 'tuva-erityisopetus' koulutustyyppi"
       (let [koulutus {:koulutustyyppi "tuva"}
             toteutus-metadata {:jarjestetaanErityisopetuksena true}
-            result (deduce-koulutustyypit koulutus toteutus-metadata)]
+            result (deduce-koulutustyypit koulutus nil toteutus-metadata)]
         (is (= ["tuva" "tuva-erityisopetus"] result)))))
 
 (deftest add-vapaa-sivistystyo-koulutustyyppi-when-opistovuosi
@@ -80,14 +80,42 @@
           result (deduce-koulutustyypit koulutus)]
       (is (= ["kk-muu" "erikoistumiskoulutus"] result)))))
 
+(deftest add-amk-when-amk-erikoistumiskoulutus
+  (testing "If amk-erikoistumiskoulutus, add 'amk-erikoistumiskoulutus' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "erikoistumiskoulutus"}
+          oppilaitos {:oppilaitostyyppi "oppilaitostyyppi_41"}
+          result (deduce-koulutustyypit koulutus oppilaitos)]
+      (is (= ["kk-muu" "erikoistumiskoulutus" "amk-erikoistumiskoulutus"] result)))))
+
+(deftest add-yo-when-yo-erikoistumiskoulutus
+  (testing "If yo-erikoistumiskoulutus, add 'yo-erikoistumiskoulutus' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "erikoistumiskoulutus"}
+          oppilaitos {:oppilaitostyyppi "oppilaitostyyppi_42"}
+          result (deduce-koulutustyypit koulutus oppilaitos)]
+      (is (= ["kk-muu" "erikoistumiskoulutus" "yo-erikoistumiskoulutus"] result)))))
+
 (deftest add-kk-muu-when-kk-opintojakso
   (testing "If kk-opintojakso, add 'kk-muu' koulutustyyppi"
     (let [koulutus {:koulutustyyppi "kk-opintojakso"}
           result (deduce-koulutustyypit koulutus)]
-      (is (= ["kk-muu" "kk-opintojakso" "kk-opintojakso-normal"] result)))))
+      (is (= ["kk-muu" "kk-opintojakso"] result)))))
+
+(deftest add-avoin-amk-when-avoin-amk-opintojakso
+  (testing "If avoin amk-opintojakso, add 'amk-opintojakso-avoin' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "kk-opintojakso" :metadata {:isAvoinKorkeakoulutus true}}
+          oppilaitos {:oppilaitostyyppi "oppilaitostyyppi_41"}
+          result (deduce-koulutustyypit koulutus oppilaitos)]
+      (is (= ["kk-muu" "kk-opintojakso" "amk-opintojakso-avoin"] result)))))
+
+(deftest add-yo-when-yo-opintokokonaisuus
+  (testing "If yo-opintokokonaisuus, add 'yo-opintokokonaisuus' koulutustyyppi"
+    (let [koulutus {:koulutustyyppi "kk-opintokokonaisuus"}
+          oppilaitos {:oppilaitostyyppi "oppilaitostyyppi_43"}
+          result (deduce-koulutustyypit koulutus oppilaitos)]
+      (is (= ["kk-muu" "kk-opintokokonaisuus" "yo-opintokokonaisuus"] result)))))
 
 (deftest add-kk-muu-when-kk-opintokokonaisuus
   (testing "If kk-opintokokonaisuus, add 'kk-muu' koulutustyyppi"
     (let [koulutus {:koulutustyyppi "kk-opintokokonaisuus"}
           result (deduce-koulutustyypit koulutus)]
-      (is (= ["kk-muu" "kk-opintokokonaisuus" "kk-opintokokonaisuus-normal"] result)))))
+      (is (= ["kk-muu" "kk-opintokokonaisuus"] result)))))
