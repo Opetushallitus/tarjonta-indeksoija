@@ -98,7 +98,7 @@
 (defn- create-base-entry
   [oppilaitos koulutukset execution-id]
   (-> oppilaitos
-      (select-keys [:oid :nimi])
+      (select-keys [:oid :nimi :organisaatiotyypit])
       (merge (get-kouta-oppilaitos (:oid oppilaitos) execution-id))
       (assoc :nimi_sort (create-sort-names (:nimi oppilaitos)))
       (assoc-koulutusohjelmatLkm koulutukset)))

@@ -9,6 +9,7 @@
     "sv": "Esittely sv"
   },
   "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+  "organisaatiotyypit": ["organisaatiotyyppi_02"],
   "search_terms": [
     {
       "sijainti": [
