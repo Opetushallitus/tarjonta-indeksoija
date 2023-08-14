@@ -135,6 +135,66 @@
 (defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
 (defonce tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteen-perusopetus-toteutus-metadata.json")))
 
+(defonce koulutus-metatieto
+  {:tyyppi "amm"
+
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_01#1"
+                          "kansallinenkoulutusluokitus2016koulutusalataso1_02#1"]
+   :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
+   :lisatiedot [{:otsikkoKoodiUri "koulutuksenlisatiedot_03#1"
+                 :teksti {:fi "Opintojen lisätieto"
+                          :sv "Opintojen lisätieto sv"}}]})
+
+(defonce oletus-toteutus-metatieto
+  {:tyyppi           "amm"
+   :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+   :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
+   :ammatillinenPerustutkintoErityisopetuksena false
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_02"]
+            :opetusaikaKoodiUrit []}})
+
+(defonce aikuisten-perusopetus-toteutus-metatieto
+  {:tyyppi           "aikuisten-perusopetus"
+   :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+   :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
+   :ammatillinenPerustutkintoErityisopetuksena false
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_02"]
+            :opetusaikaKoodiUrit []}})
+
+
+(defonce amm-toteutus-metatieto
+  (merge (:metadata default-toteutus-map)
+         {:tyyppi           "amm"
+          :asiasanat        [{:kieli "fi" :arvo "traktori"}]
+          :ammattinimikkeet [{:kieli "fi" :arvo "korjaaja"}]
+          :ammatillinenPerustutkintoErityisopetuksena false
+          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
+
+(defonce amk-toteutus-metatieto
+  {:tyyppi           "amk"
+   :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+   :ammattinimikkeet [{:kieli "fi" :arvo "ponipoika"}]
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_01"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_01"]
+            :koulutuksenTarkkaAlkamisaika true
+            :koulutuksenAlkamisvuosi 2019}})
+
+(defonce amm-osaamisala-toteutus-metatieto
+  {:tyyppi "amm-osaamisala"
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
+            :opetusaikaKoodiUrit ["opetusaikakk_1"]}})
+
+(defonce yo-toteutus-metatieto
+  (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
+         {:tyyppi           "yo"
+          :asiasanat        []
+          :ammattinimikkeet []
+          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
+
+
 (defonce yo-koulutus-metadata
    {:tyyppi "yo"
     :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
