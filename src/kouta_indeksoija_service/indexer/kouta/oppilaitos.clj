@@ -173,7 +173,7 @@
                                          oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
         oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %)
                                 (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
-        oppilaitoksen-koulutukset (common/get-oppilaitoksen-koulutukset organisaatio koulutukset)
+        oppilaitoksen-koulutukset (common/get-organisaation-koulutukset organisaatio koulutukset)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
     (as-> (oppilaitos-entry organisaatio-with-updated-nimi enriched-oppilaitos oppilaitoksen-koulutukset) o
       (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)

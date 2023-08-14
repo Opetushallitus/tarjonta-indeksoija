@@ -8,7 +8,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :refer [assoc-nimi-from-oppilaitoksen-yhteystiedot
                                                                    create-sort-names
-                                                                   get-oppilaitoksen-koulutukset]]
+                                                                   get-organisaation-koulutukset]]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :refer [assoc-koulutusohjelmatLkm]]
             [kouta-indeksoija-service.indexer.tools.general :refer [ammatillinen? amm-tutkinnon-osa? julkaistu? luonnos?]]
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]))
@@ -122,7 +122,7 @@
 
 (defn- create-oppilaitos-entry-with-hits
   [oppilaitos koulutukset execution-id]
-  (let [oppilaitoksen-koulutukset (get-oppilaitoksen-koulutukset oppilaitos koulutukset)]
+  (let [oppilaitoksen-koulutukset (get-organisaation-koulutukset oppilaitos koulutukset)]
     (-> oppilaitos
         (create-base-entry oppilaitoksen-koulutukset execution-id)
         (assoc :search_terms (create-search-terms oppilaitos oppilaitoksen-koulutukset execution-id))

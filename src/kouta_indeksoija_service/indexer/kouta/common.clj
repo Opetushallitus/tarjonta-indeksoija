@@ -249,7 +249,7 @@
        (remove nil?)
        (vec)))
 
-(defn get-oppilaitoksen-koulutukset
+(defn get-organisaation-koulutukset
   [organisaatio koulutukset]
   (if (organisaatio-tool/toimipiste? organisaatio)
     (into {} (for [[koulutus-oid koulutus] koulutukset
