@@ -328,22 +328,42 @@
   [oid execution-id]
   (get @koulutukset oid))
 
+(defn get-organisaation-koulutukset-ja-toteutukset
+  [koulutus-oids organisaatio-and-child-oids]
+  (let [koulutus-oids-set (set koulutus-oids)
+        koulutukset (filter
+                      #(contains? koulutus-oids-set (:oid %))
+                      (vals @koulutukset))
+        koulutusten-toteutukset (filter
+                                  #(contains? koulutus-oids-set (:koulutusOid %))
+                                  (vals @toteutukset))
+        oppilaitoksen-ja-toimipisteiden-toteutukset (filter
+                                                      #(some (set organisaatio-and-child-oids) (:tarjoajat %))
+                                                      koulutusten-toteutukset)]
+    (into {} (for [koulutus koulutukset]
+               [(:oid koulutus) (assoc koulutus
+                                       :toteutukset (filter #(= (:oid koulutus) (:koulutusOid %))
+                                                            oppilaitoksen-ja-toimipisteiden-toteutukset))]))))
+
 (defn mock-get-koulutukset-by-tarjoaja
   [oid execution-id]
-  (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
-        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
-    (into {}
-          (for [koulutus (let [tarjoajan-koulutukset (filter pred (vals @koulutukset))
-                               koulutus-with-toteutukset (for [koulutus tarjoajan-koulutukset]
-                                                           (assoc koulutus
-                                                                  :toteutukset
-                                                                  (map #(last %)
-                                                                       (filter #(and (= (:koulutusOid (last %)) (:oid koulutus))
-                                                                                     (or (= (:tila (last %)) "julkaistu")
-                                                                                         (= (:tila (last %)) "tallennettu")))
-                                                                               @toteutukset))))]
-                           koulutus-with-toteutukset)]
-            [(:oid koulutus) koulutus]))))
+  (cond (= oid helsingin-yliopisto) (get-organisaation-koulutukset-ja-toteutukset [traktoriala-oid hevosala-oid] [helsingin-yliopisto helsingin-toimipiste])
+        (= oid punkaharjun-yliopisto) (get-organisaation-koulutukset-ja-toteutukset
+                                        [traktoriala-oid hevosala-oid hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
+                                        [punkaharjun-yliopisto punkaharjun-toimipiste-1 punkaharjun-toimipiste-2])
+        :else (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
+                    pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
+                (into {}
+                      (for [koulutus (let [tarjoajan-koulutukset (filter pred (vals @koulutukset))
+                                           koulutus-with-toteutukset (for [koulutus tarjoajan-koulutukset]
+                                                                       (assoc koulutus
+                                                                              :toteutukset
+                                                                              (filter #(and (= (:koulutusOid %) (:oid koulutus))
+                                                                                            (or (= (:tila %) "julkaistu")
+                                                                                                (= (:tila %) "tallennettu")))
+                                                                                      (vals @toteutukset))))]
+                                       koulutus-with-toteutukset)]
+                        [(:oid koulutus) koulutus])))))
 
 (defn mock-get-koulutus-oids-by-tarjoajat
   [tarjoaja-oids]
