@@ -58,11 +58,12 @@
         not-poistetut (filter not-poistettu? entries)
         koulutus-oids-to-index (get-oids :oid (mapcat :tarjoajat entries))
         oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
-                                   (hierarkia/get-hierarkia-cached)
-                                   koulutus-oids-to-index)]
+                                  (hierarkia/get-hierarkia-cached)
+                                  koulutus-oids-to-index)]
     (koulutus-search/do-index oids execution-id)
     (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut) execution-id)
     (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut) execution-id)
+    (oppilaitos/do-index oppilaitos-oids-to-index execution-id)
     (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id)
     entries))
 
@@ -84,17 +85,19 @@
   [oids execution-id]
   (let [toteutus-entries (toteutus/do-index oids execution-id)
         opintokokonaisuus-oids (map
-                                 #(get % :oid)
-                                 (kouta-backend/get-opintokokonaisuudet-by-toteutus-oids-with-cache oids execution-id))
+                                #(get % :oid)
+                                (kouta-backend/get-opintokokonaisuudet-by-toteutus-oids-with-cache oids execution-id))
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
         haut    (mapcat #(kouta-backend/list-haut-by-toteutus-with-cache % execution-id) oids)
-        koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))]
+        koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))
+        tarjoaja-organisaatiot (get-oids :oid (mapcat :tarjoajat toteutus-entries))]
     (when (seq opintokokonaisuus-oids)
       (toteutus/do-index opintokokonaisuus-oids execution-id))
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
     (osaamisalakuvaus/do-index (eperuste-ids-on-koulutukset koulutus-entries) execution-id)
-    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat toteutus-entries)) execution-id)
+    (oppilaitos/do-index tarjoaja-organisaatiot execution-id)
+    (oppilaitos-search/do-index tarjoaja-organisaatiot execution-id)
     toteutus-entries))
 
 (defn index-toteutus
