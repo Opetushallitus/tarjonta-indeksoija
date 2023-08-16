@@ -12,7 +12,7 @@
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.util.time :refer [long->indexed-date-time]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec
-                                                         get-oids]]))
+                                                         get-oids get-esitysnimi]]))
 
 (def index-name "koulutus-kouta")
 
@@ -130,6 +130,7 @@
    :koulutusalaKoodiUrit (koulutusalat koodiuri)
    :koulutusasteKoodiUrit (koulutusasteet koodiuri)})
 
+;odw requires :koulutuskoodienAlatJaAsteet information (OY-3710)
 (defn- assoc-koulutusala-and-koulutusaste
   [koulutus]
   (let [koulutusAlaJaAstekoodiUrit (->> (:koulutukset koulutus)
@@ -154,6 +155,7 @@
                                   (assoc-sorakuvaus execution-id)
                                   (assoc :haut haku-oids)
                                   (assoc :toteutukset (map common/toteutus->list-item toteutukset))
+                                  (assoc :nimi (get-esitysnimi koulutus))
                                   (assoc-koulutusala-and-koulutusaste)
                                   (common/localize-dates))]
         (indexable/->index-entry-with-forwarded-data oid koulutus-enriched koulutus-intermediate))

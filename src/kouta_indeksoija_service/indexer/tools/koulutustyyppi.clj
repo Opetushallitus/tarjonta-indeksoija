@@ -5,7 +5,7 @@
 (defn assoc-koulutustyyppi-path
   ([entity koulutus toteutus-metadata]
    (let [kouta-koulutustyyppi (:koulutustyyppi koulutus)
-         konfo-koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
+         konfo-koulutustyypit (search-tool/deduce-koulutustyypit koulutus nil toteutus-metadata)
          avoin-korkeakoulutus? (get-in koulutus [:metadata :isAvoinKorkeakoulutus])]
      (assoc entity :koulutustyyppiPath
             (cond (some #{"koulutustyyppi_1" "koulutustyyppi_4" "koulutustyyppi_26"} konfo-koulutustyypit) "amm/ammatillinen-perustutkinto"

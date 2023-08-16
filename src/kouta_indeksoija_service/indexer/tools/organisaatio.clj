@@ -6,9 +6,10 @@
                                       "organisaatiotyyppi_07",
                                       "organisaatiotyyppi_08"})
 
-(defonce organisaatiotyyppi-koulutustoimija "organisaatiotyyppi_01")
-(defonce organisaatiotyyppi-oppilaitos      "organisaatiotyyppi_02")
-(defonce organisaatiotyyppi-toimipiste      "organisaatiotyyppi_03")
+(defonce organisaatiotyyppi-koulutustoimija            "organisaatiotyyppi_01")
+(defonce organisaatiotyyppi-oppilaitos                 "organisaatiotyyppi_02")
+(defonce organisaatiotyyppi-toimipiste                 "organisaatiotyyppi_03")
+(defonce organisaatiotyyppi-oppisopimustoimipiste      "organisaatiotyyppi_04")
 
 (defn- recursive-hierarkia-v4-search
   [pred level]
@@ -22,7 +23,8 @@
 
 (defn oppilaitos?
   [organisaatio]
-  (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppilaitos))
+  (or (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppilaitos)
+      (contains-organisaatiotyyppi? organisaatio organisaatiotyyppi-oppisopimustoimipiste)))
 
 (defn koulutustoimija?
   [organisaatio]
@@ -87,12 +89,6 @@
   (let [do-resolve (fn [oid] (when-let [item (get @cache-atom oid)]
                                        (if (koulutustoimija? item) (:childOids item) [oid])))]
     (vec (remove nil? (mapcat do-resolve oids)))))
-
-(defn- recursive-hierarkia-v4-get
-  [keys level]
-  (when (not (empty? level))
-    (concat (map #(select-keys % keys) level)
-            (recursive-hierarkia-v4-get keys (mapcat :children level)))))
 
 (defn find-from-organisaatio-and-children
   [organisaatio oid]
