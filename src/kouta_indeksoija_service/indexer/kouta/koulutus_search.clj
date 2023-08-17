@@ -7,7 +7,7 @@
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.kouta.oppilaitos :as oppilaitos]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -157,6 +157,7 @@
         (indexable/->index-entry oid (-> koulutus
                                          (assoc-jarjestaja-search-terms toteutukset hakutiedot)
                                          (assoc-toteutusten-tarjoajat toteutukset)
+                                         (assoc :nimi (get-esitysnimi koulutus))
                                          (create-entry))))
       (indexable/->delete-entry oid))))
 
