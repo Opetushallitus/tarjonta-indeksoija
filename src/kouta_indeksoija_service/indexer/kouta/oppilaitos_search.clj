@@ -78,6 +78,7 @@
                                          :maksullisuustyyppi  (:maksullisuustyyppi opetus)
                                          :maksunMaara         (:maksunMaara opetus)
                                          :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                                         :onkoApuraha         (:onkoApuraha opetus)
                                          :koulutustyyppi      (:koulutustyyppi koulutus)})))
 
 (defn search-terms

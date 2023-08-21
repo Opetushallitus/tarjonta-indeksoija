@@ -179,13 +179,19 @@
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_01"]
             :opetustapaKoodiUrit ["opetuspaikkakk_01"]
             :koulutuksenTarkkaAlkamisaika true
-            :koulutuksenAlkamisvuosi 2019}})
+            :koulutuksenAlkamisvuosi 2019
+            :suunniteltuKestoVuodet 3
+            :suunniteltuKestoKuukaudet 4
+            :maksullisuustyyppi "lukuvuosimaksu"}})
 
 (defonce amm-osaamisala-toteutus-metatieto
   {:tyyppi "amm-osaamisala"
    :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
             :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
-            :opetusaikaKoodiUrit ["opetusaikakk_1"]}})
+            :opetusaikaKoodiUrit ["opetusaikakk_1"]
+            :maksullisuustyyppi "lukuvuosimaksu"
+            :maksunMaara 500
+            :onkoApuraha false}})
 
 (defonce yo-toteutus-metatieto
   (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
@@ -219,6 +225,9 @@
    :tutkintonimikeKoodiUrit ["tutkintonimikekk_033#1" "tutkintonimikekk_031#1"]
    :kuvauksenNimi {:fi "kuvaus", :sv "kuvaus sv"}})
 
+
+(defonce amm-tutkinnon-osa-enriched-data
+         {:esitysnimi {:fi "Autoalan perustutkinto 0 fi (voimaantulo 6.6.2025)", :sv "Autoalan perustutkinto 0 sv (voimaantulo 6.6.2025)"}})
 
 (defonce amm-tutkinnon-osa-koulutus-metadata
   {:tyyppi "amm-tutkinnon-osa"
@@ -856,6 +865,9 @@
 
                  kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-alakoodit
+
+                 kouta-indeksoija-service.rest.koodisto/list-ylakoodit-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-ylakoodit
 
                  kouta-indeksoija-service.rest.eperuste/get-doc
                  kouta-indeksoija-service.fixture.external-services/mock-get-eperuste

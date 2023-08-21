@@ -8,6 +8,15 @@
    {:koodiUri (str alakoodi-uri "_1") :nimi {:fi (str alakoodi-uri "_1 fi") :sv (str alakoodi-uri "_1 sv")}}
    {:koodiUri (str alakoodi-uri "_2") :nimi {:fi (str alakoodi-uri "_2 fi") :sv (str alakoodi-uri "_2 sv")}}))
 
+(defn- mock-get-ylakoodisto
+  [_]
+  [{:koodisto {:koodistoUri "kansallinenkoulutusluokitus2016koulutusalataso1"}
+    :koodiUri "ylataso1uri"}
+   {:koodisto {:koodistoUri "kansallinenkoulutusluokitus2016koulutusalataso2"}
+    :koodiUri "ylataso2uri"}
+   {:koodisto {:koodistoUri "kansallinenkoulutusluokitus2016koulutusalataso3"}
+    :koodiUri "ylataso3uri"}])
+
 (defn- mock-get-koodi-nimi
   [koodi-uri]
   {:koodiUri koodi-uri :nimi {:fi (str koodi-uri " fi") :sv (str koodi-uri " sv")}})
@@ -119,7 +128,7 @@
    :koulutusOid "1.2.246.562.13.00000000000000002123"
    :nimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"
           :sv "Folkhögskoleåret för läropliktiga"}
-   :koulutusalat ["kansallinenkoulutusluokitus2016koulutusalataso2_001"]
+   :koulutusalat ["kansallinenkoulutusluokitus2016koulutusalataso2_001" "ylataso1uri" "ylataso2uri"]
    :kuva "https://konfo-files.opintopolku.fi/koulutus-teemakuva/1.2.246.562.13.00000000000000002123/08e7d481-e5f5-432e-bbd7-9272be936ddc.jpg"
    :onkoTuleva true
    :oppilaitosOid "1.2.246.562.10.31756159625"
@@ -156,7 +165,7 @@
    :toteutusOid "1.2.246.562.17.00000000000000010979"
    :asiasanat {:fi ["oppivelvollinen" "opistovuosi oppivelvollisille"]}
    :nimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"}
-   :koulutusalat ["kansallinenkoulutusluokitus2016koulutusalataso2_001"]
+   :koulutusalat ["kansallinenkoulutusluokitus2016koulutusalataso2_001" "ylataso1uri" "ylataso2uri"]
    :kuva "https://konfo-files.opintopolku.fi/toteutus-teemakuva/1.2.246.562.17.00000000000000010979/ed43e1d1-7aa5-4b2b-a4b5-6d20581eeffb.jpg"
    :opetustavat ["opetuspaikkakk_1"]
    :onkoTuleva false
@@ -177,12 +186,14 @@
               :maksullisuustyyppi "maksuton"
               :koulutustyyppi "vapaa-sivistystyo-opistovuosi"
               :kunnat [{:koodiUri "kunta_086"
-                        :nimi {:fi "kunta_086 fi" :sv "kunta_086 sv"}}]}
+                        :nimi {:fi "kunta_086 fi" :sv "kunta_086 sv"}}]
+              :onkoApuraha false}
    :toteutusNimi {:fi "Opistovuosi oppivelvollisille kansanopistoissa"}
    :paatellytAlkamiskaudet ["2023-syksy"]})
 
 (deftest koulutus-search-terms
   (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache mock-get-ylakoodisto
                 kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
     (testing "returns empty map if empty list given as a parameter"
       (is (= koulutus-search-terms-result
@@ -190,6 +201,7 @@
 
 (deftest toteutus-search-terms
   (with-redefs [kouta-indeksoija-service.rest.koodisto/list-alakoodi-nimet-with-cache mock-list-alakoodi-nimet
+                kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache mock-get-ylakoodisto
                 kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache mock-get-koodi-nimi]
     (testing "returns empty map if empty list given as a parameter"
       (is (= (merge toteutus-search-terms-result {:metadata (merge (:metadata toteutus-search-terms-result) {:suunniteltuKestoKuukausina 12})})

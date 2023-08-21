@@ -6,7 +6,7 @@
             [kouta-indeksoija-service.indexer.tools.search :as search-tool]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
-            [kouta-indeksoija-service.util.tools :refer [->distinct-vec]]))
+            [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi]]))
 
 (def index-name "koulutus-kouta-search")
 
@@ -68,6 +68,7 @@
                    :maksullisuustyyppi (:maksullisuustyyppi opetus)
                    :maksunMaara (:maksunMaara opetus)
                    :suunniteltuKestoKuukausina (search-tool/kesto-kuukausina opetus)
+                   :onkoApuraha (:onkoApuraha opetus)
                    :koulutustyyppi (:tyyppi toteutus-metadata)
                    :oppilaitosTila (:tila oppilaitos)
                    :jarjestaaUrheilijanAmmKoulutusta (search-tool/jarjestaako-toteutus-urheilijan-amm-koulutusta
@@ -120,7 +121,7 @@
   [koulutus]
   (let [entry (-> koulutus
                   (assoc :oid (:oid koulutus))
-                  (assoc :nimi (:nimi koulutus))
+                  (assoc :nimi (get-esitysnimi koulutus))
                   (assoc :nimi_sort (common/create-sort-names (:nimi koulutus)))
                   (assoc :kielivalinta (:kielivalinta koulutus))
                   (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid :ePerusteId)

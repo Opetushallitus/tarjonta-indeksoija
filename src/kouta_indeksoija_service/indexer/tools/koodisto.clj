@@ -43,9 +43,19 @@
        (mapcat #(list-alakoodi-nimet-with-cache koulutusKoodiUri %))
        (map :koodiUri)))
 
+(defn- get-koodiurit-from-yla-koodistot
+  [koulutusKoodiUri koodistot]
+  (->> koodistot
+       (mapcat #(list-ylakoodit-with-cache koulutusKoodiUri %))
+       (map :koodiUri)))
+
 (defn koulutusalat
   [koulutusKoodiUri]
   (get-koodiurit-from-ala-koodistot koulutusKoodiUri koulutusalataso-koodistot))
+
+(defn koulutusalan-ylakoulutusalat
+  [koulutusalaKoodiUri]
+  (get-koodiurit-from-yla-koodistot koulutusalaKoodiUri [koodiuri-koulutusalataso1 koodiuri-koulutusalataso2]))
 
 (defn koulutusasteet
   [koulutusKoodiUri]
