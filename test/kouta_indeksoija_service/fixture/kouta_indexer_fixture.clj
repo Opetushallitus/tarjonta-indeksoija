@@ -354,7 +354,7 @@
                             (map #(-> %
                                       (assoc :tarjoaja tarjoajaOid)
                                       (assoc :hakukohdekoodi hakukohdekoodi))
-                                 [{:vuosi "2022" :pisteet 6} {:vuosi "2021" :pisteet 8}])))
+                                 [{:vuosi "2022" :pisteet 6 :valintatapajonotyyppi "valintatapajono_yp"} {:vuosi "2021" :pisteet 8 :valintatapajonotyyppi "valintatapajono_yp"}])))
 
 (defn mock-get-haku
   [oid execution-id]
