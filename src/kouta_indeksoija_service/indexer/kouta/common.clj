@@ -243,9 +243,8 @@
 (defn get-toimipisteen-toteutukset
   [organisaatio-oid toteutukset]
   (->> (for [toteutus toteutukset]
-         (when-let [indexable-oids (filter #(= organisaatio-oid %) (:tarjoajat toteutus))]
-           (when (seq indexable-oids)
-               (assoc toteutus :tarjoajat indexable-oids))))
+         (when-let [indexable-oids (not-empty (filter #(= organisaatio-oid %) (:tarjoajat toteutus)))]
+           (assoc toteutus :tarjoajat indexable-oids)))
        (remove nil?)
        (vec)))
 
