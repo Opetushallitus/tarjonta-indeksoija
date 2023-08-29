@@ -49,7 +49,8 @@
 
 (defn indexable-oppilaitos?
   [organisaatio]
-  (and (aktiivinen? organisaatio) (oppilaitos? organisaatio)))
+  (and (aktiivinen? organisaatio) (or (oppilaitos? organisaatio)
+                                      (toimipiste? organisaatio))))
 
 (defn get-indexable-children
   [organisaatio]
@@ -87,8 +88,12 @@
 (defn resolve-organisaatio-oids-to-index
   [cache-atom oids]
   (let [do-resolve (fn [oid] (when-let [item (get @cache-atom oid)]
-                                       (if (koulutustoimija? item) (:childOids item) [oid])))]
-    (vec (remove nil? (mapcat do-resolve oids)))))
+                               (if (koulutustoimija? item)
+                                 (:childOids item)
+                                 (if (toimipiste? item)
+                                   [(:parentOid item) oid]
+                                   [oid]))))]
+    (distinct (vec (remove nil? (mapcat do-resolve oids))))))
 
 (defn- recursive-hierarkia-v4-get
   [keys level]

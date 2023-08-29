@@ -55,11 +55,16 @@
 (defn index-koulutukset
   [oids execution-id]
   (let [entries (koulutus/do-index oids execution-id)
-        not-poistetut (filter not-poistettu? entries)]
+        not-poistetut (filter not-poistettu? entries)
+        koulutus-oids-to-index (get-oids :oid (mapcat :tarjoajat entries))
+        oppilaitos-oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index
+                                  (hierarkia/get-hierarkia-cached)
+                                  koulutus-oids-to-index)]
     (koulutus-search/do-index oids execution-id)
     (eperuste/do-index (eperuste-ids-on-koulutukset not-poistetut) execution-id)
     (tutkinnonosa/do-index (tutkinnonosa-ids-on-koulutukset not-poistetut) execution-id)
-    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat entries)) execution-id)
+    (oppilaitos/do-index oppilaitos-oids-to-index execution-id)
+    (oppilaitos-search/do-index oppilaitos-oids-to-index execution-id)
     entries))
 
 (defn index-koulutus
@@ -80,17 +85,19 @@
   [oids execution-id]
   (let [toteutus-entries (toteutus/do-index oids execution-id)
         opintokokonaisuus-oids (map
-                                 #(get % :oid)
-                                 (kouta-backend/get-opintokokonaisuudet-by-toteutus-oids-with-cache oids execution-id))
+                                #(get % :oid)
+                                (kouta-backend/get-opintokokonaisuudet-by-toteutus-oids-with-cache oids execution-id))
         koulutus-oids (get-oids :koulutusOid toteutus-entries)
         haut    (mapcat #(kouta-backend/list-haut-by-toteutus-with-cache % execution-id) oids)
-        koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))]
+        koulutus-entries (filter not-poistettu? (koulutus/do-index koulutus-oids execution-id))
+        tarjoaja-organisaatiot (get-oids :oid (mapcat :tarjoajat toteutus-entries))]
     (when (seq opintokokonaisuus-oids)
       (toteutus/do-index opintokokonaisuus-oids execution-id))
     (koulutus-search/do-index koulutus-oids execution-id)
     (haku/do-index (get-oids :oid haut) execution-id)
     (osaamisalakuvaus/do-index (eperuste-ids-on-koulutukset koulutus-entries) execution-id)
-    (oppilaitos-search/do-index (get-oids :oid (mapcat :tarjoajat toteutus-entries)) execution-id)
+    (oppilaitos/do-index tarjoaja-organisaatiot execution-id)
+    (oppilaitos-search/do-index tarjoaja-organisaatiot execution-id)
     toteutus-entries))
 
 (defn index-toteutus
@@ -207,18 +214,15 @@
   ([oids execution-id]
    (index-oppilaitokset oids execution-id true))
   ([oids execution-id clear-cache-before]
-    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (hierarkia/get-hierarkia-cached) oids)
-          get-organisaation-koulutukset (fn [oid] (map :oid (some-> oid
-                                                                    (hierarkia/find-oppilaitos-by-own-or-child-oid)
-                                                                    (:oid)
-                                                                    (kouta-backend/get-koulutukset-by-tarjoaja-with-cache execution-id))))
-          hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids-to-index execution-id)
-          toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids-to-index execution-id)]
-      (oppilaitos/do-index oids-to-index execution-id clear-cache-before)
-      (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
-      (oppilaitos-search/do-index oids-to-index execution-id clear-cache-before)
-      (koulutus-search/do-index (mapcat get-organisaation-koulutukset oids-to-index) execution-id)
-      (toteutus/do-index toteutus-oids execution-id))))
+   (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (hierarkia/get-hierarkia-cached) oids)
+         hakukohde-oids (kouta-backend/get-hakukohde-oids-by-jarjestyspaikat-with-cache oids-to-index execution-id)
+         toteutus-oids (kouta-backend/get-toteutus-oids-by-tarjoajat-with-cache oids-to-index execution-id)
+         koulutus-oids (kouta-backend/get-koulutus-oids-by-tarjoajat-with-cache oids-to-index)]
+     (oppilaitos/do-index oids-to-index execution-id clear-cache-before)
+     (when (not-empty hakukohde-oids) (hakukohde/do-index hakukohde-oids execution-id))
+     (oppilaitos-search/do-index oids-to-index execution-id clear-cache-before)
+     (koulutus-search/do-index koulutus-oids execution-id)
+     (toteutus/do-index toteutus-oids execution-id))))
 
 (defn index-oppilaitos
   [oid]

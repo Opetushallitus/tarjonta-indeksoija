@@ -135,6 +135,72 @@
 (defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
 (defonce tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteen-perusopetus-toteutus-metadata.json")))
 
+(defonce koulutus-metatieto
+  {:tyyppi "amm"
+
+   :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso1_01#1"
+                          "kansallinenkoulutusluokitus2016koulutusalataso1_02#1"]
+   :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}
+   :lisatiedot [{:otsikkoKoodiUri "koulutuksenlisatiedot_03#1"
+                 :teksti {:fi "Opintojen lisätieto"
+                          :sv "Opintojen lisätieto sv"}}]})
+
+(defonce oletus-toteutus-metatieto
+  {:tyyppi           "amm"
+   :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+   :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
+   :ammatillinenPerustutkintoErityisopetuksena false
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_02"]
+            :opetusaikaKoodiUrit []}})
+
+(defonce aikuisten-perusopetus-toteutus-metatieto
+  {:tyyppi           "aikuisten-perusopetus"
+   :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+   :ammattinimikkeet [{:kieli "fi" :arvo "ponityttö"}]
+   :ammatillinenPerustutkintoErityisopetuksena false
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_02"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_02"]
+            :opetusaikaKoodiUrit []}})
+
+
+(defonce amm-toteutus-metatieto
+  (merge (:metadata default-toteutus-map)
+         {:tyyppi           "amm"
+          :asiasanat        [{:kieli "fi" :arvo "traktori"}]
+          :ammattinimikkeet [{:kieli "fi" :arvo "korjaaja"}]
+          :ammatillinenPerustutkintoErityisopetuksena false
+          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
+
+(defonce amk-toteutus-metatieto
+  {:tyyppi           "amk"
+   :asiasanat        [{:kieli "fi" :arvo "hevonen"}]
+   :ammattinimikkeet [{:kieli "fi" :arvo "ponipoika"}]
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_01"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_01"]
+            :koulutuksenTarkkaAlkamisaika true
+            :koulutuksenAlkamisvuosi 2019
+            :suunniteltuKestoVuodet 3
+            :suunniteltuKestoKuukaudet 4
+            :maksullisuustyyppi "lukuvuosimaksu"}})
+
+(defonce amm-osaamisala-toteutus-metatieto
+  {:tyyppi "amm-osaamisala"
+   :opetus {:opetuskieliKoodiUrit ["oppilaitoksenopetuskieli_1", "oppilaitoksenopetuskieli_2"]
+            :opetustapaKoodiUrit ["opetuspaikkakk_1", "opetuspaikkakk_2"]
+            :opetusaikaKoodiUrit ["opetusaikakk_1"]
+            :maksullisuustyyppi "lukuvuosimaksu"
+            :maksunMaara 500
+            :onkoApuraha false}})
+
+(defonce yo-toteutus-metatieto
+  (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
+         {:tyyppi           "yo"
+          :asiasanat        []
+          :ammattinimikkeet []
+          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
+
+
 (defonce yo-koulutus-metadata
    {:tyyppi "yo"
     :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
@@ -271,11 +337,49 @@
   [oid execution-id]
   (get @koulutukset oid))
 
+(defn get-organisaation-koulutukset-ja-toteutukset
+  [koulutus-oids organisaatio-and-child-oids]
+  (let [koulutus-oids-set (set koulutus-oids)
+        koulutukset (filter
+                      #(contains? koulutus-oids-set (:oid %))
+                      (vals @koulutukset))
+        koulutusten-toteutukset (filter
+                                  #(contains? koulutus-oids-set (:koulutusOid %))
+                                  (vals @toteutukset))
+        oppilaitoksen-ja-toimipisteiden-toteutukset (filter
+                                                      #(some (set organisaatio-and-child-oids) (:tarjoajat %))
+                                                      koulutusten-toteutukset)]
+    (into {} (for [koulutus koulutukset]
+               [(:oid koulutus) (assoc koulutus
+                                       :toteutukset (filter #(= (:oid koulutus) (:koulutusOid %))
+                                                            oppilaitoksen-ja-toimipisteiden-toteutukset))]))))
+
 (defn mock-get-koulutukset-by-tarjoaja
   [oid execution-id]
-  (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
-        pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
-    (filter pred (vals @koulutukset))))
+  (cond (= oid helsingin-yliopisto) (get-organisaation-koulutukset-ja-toteutukset [traktoriala-oid hevosala-oid] [helsingin-yliopisto helsingin-toimipiste])
+        (= oid punkaharjun-yliopisto) (get-organisaation-koulutukset-ja-toteutukset
+                                        [traktoriala-oid hevosala-oid hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
+                                        [punkaharjun-yliopisto punkaharjun-toimipiste-1 punkaharjun-toimipiste-2])
+        :else (let [oids #{oid, (str oid "1"), (str oid "2"), (str oid "3")}
+                    pred (fn [e] (and (= (:tila e) "julkaistu") (some oids (:tarjoajat e))))]
+                (into {}
+                      (for [koulutus (let [tarjoajan-koulutukset (filter pred (vals @koulutukset))
+                                           koulutus-with-toteutukset (for [koulutus tarjoajan-koulutukset]
+                                                                       (assoc koulutus
+                                                                              :toteutukset
+                                                                              (filter #(and (= (:koulutusOid %) (:oid koulutus))
+                                                                                            (or (= (:tila %) "julkaistu")
+                                                                                                (= (:tila %) "tallennettu")))
+                                                                                      (vals @toteutukset))))]
+                                       koulutus-with-toteutukset)]
+                        [(:oid koulutus) koulutus])))))
+
+(defn mock-get-koulutus-oids-by-tarjoajat
+  [tarjoaja-oids]
+  (map #(:oid %)
+       (filter
+        #(some (set tarjoaja-oids) (:tarjoajat %))
+        (vals @koulutukset))))
 
 (defn mock-get-hakukohde-oids-by-jarjestyspaikat
   [oids execution-id]
@@ -734,6 +838,9 @@
 
                  kouta-indeksoija-service.rest.kouta/get-koulutukset-by-tarjoaja-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutukset-by-tarjoaja
+
+                 kouta-indeksoija-service.rest.kouta/get-koulutus-oids-by-tarjoajat-with-cache
+                 kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-koulutus-oids-by-tarjoajat
 
                  kouta-indeksoija-service.rest.kouta/get-hakukohde-oids-by-jarjestyspaikat-with-cache
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-get-hakukohde-oids-by-jarjestyspaikat

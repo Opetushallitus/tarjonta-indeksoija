@@ -121,6 +121,18 @@
                        kouta-cache-time-millis
                        kouta-cache-size))
 
+(defn- get-koulutus-oids-by-tarjoajat
+  [oids]
+  (cas-authenticated-post-as-json
+   (resolve-url :kouta-backend.tarjoajat.koulutus-oids)
+   {:body (json/generate-string oids) :content-type :json}))
+
+(def get-koulutus-oids-by-tarjoajat-with-cache
+  (with-fifo-ttl-cache
+    get-koulutus-oids-by-tarjoajat
+    kouta-cache-time-millis
+    kouta-cache-size))
+
 (defn get-valintaperuste-with-cache
   [id execution-id]
   (get-doc-with-cache "valintaperuste" id execution-id))
@@ -159,8 +171,8 @@
 
 (def get-toteutus-list-for-koulutus-with-cache
   (with-fifo-ttl-cache get-toteutus-list-for-koulutus
-                       kouta-cache-time-millis
-                       kouta-cache-size))
+    kouta-cache-time-millis
+    kouta-cache-size))
 
 (defn- get-koulutukset-by-tarjoaja
   [oppilaitos-oid execution-id]

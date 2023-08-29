@@ -122,6 +122,12 @@
         (o/oppilaitos? member)(assoc-toimipisteet member)
         (o/toimipiste? member)(assoc-toimipisteet (get-hierarkia-item (:parentOid member)))))))
 
+(defn find-oppilaitos-by-oid
+  [oid]
+  (when-let [member (get-hierarkia-item oid)]
+    (-> member
+        (assoc :children (vec (map get-hierarkia-item (sort (:childOids member)))))
+        (dissoc :childOids))))
 
 (defn get-all-muutetut-organisaatiot-cached
   [last-modified]

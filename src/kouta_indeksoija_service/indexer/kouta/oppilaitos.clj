@@ -22,14 +22,16 @@
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
-(defn- assoc-koulutusohjelmatLkm
+(defn assoc-koulutusohjelmatLkm
   [organisaatio koulutukset]
-  (let [kaikki (count koulutukset)
-        tutkintoonJohtavat (count (filter :johtaaTutkintoon koulutukset))]
-  (assoc organisaatio :koulutusohjelmatLkm {
-                                       :kaikki kaikki 
-                                       :tutkintoonJohtavat tutkintoonJohtavat
-                                       :eiTutkintoonJohtavat (- kaikki tutkintoonJohtavat)})))
+  (let [koulutukset-lkm (count koulutukset)
+        tutkintoonJohtavat (if (< 0 koulutukset-lkm)
+                             (count (filter #(:johtaaTutkintoon (second %)) koulutukset))
+                             0)]
+    (assoc organisaatio
+           :koulutusohjelmatLkm {:kaikki koulutukset-lkm
+                                 :tutkintoonJohtavat tutkintoonJohtavat
+                                 :eiTutkintoonJohtavat (- koulutukset-lkm tutkintoonJohtavat)})))
 
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]
@@ -151,34 +153,45 @@
         (assoc-in [:metadata :yhteystiedot] yhteystiedot))))
 
 (defn- oppilaitos-entry-with-osat
-  [organisaatio execution-id]
+  [organisaatio koulutukset execution-id]
   (let [oppilaitos-oid (:oid organisaatio)
         oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid execution-id) {})
-        oppilaitos-from-organisaatiopalvelu (cache/get-yhteystiedot oppilaitos-oid)
-        yhteystiedot (parse-yhteystiedot oppilaitos-from-organisaatiopalvelu languages)
+        oppilaitoksen-yhteystiedot-from-organisaatiopalvelu (cache/get-yhteystiedot oppilaitos-oid)
+        yhteystiedot (parse-yhteystiedot oppilaitoksen-yhteystiedot-from-organisaatiopalvelu languages)
         hakijapalveluiden-yhteystiedot (-> (get-in oppilaitos [:metadata :hakijapalveluidenYhteystiedot])
                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                                            (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
         oppilaitos-metadata (assoc
-                              (get-in oppilaitos [:metadata])
-                              :yhteystiedot yhteystiedot
-                              :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
+                             (get-in oppilaitos [:metadata])
+                             :yhteystiedot yhteystiedot
+                             :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
-        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %) (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
-        koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache (:oid organisaatio) execution-id)
+        ;; organisaatio-servicen /jalkelaiset-rajapinta palauttaa lyhytNimen oppilaitoksen osille
+        ;; käytetään org yhteystietojen mukana tulevaa kokonimeä
+        organisaatio-with-updated-nimi (common/assoc-nimi-from-oppilaitoksen-yhteystiedot
+                                         organisaatio
+                                         oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
+        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %)
+                                (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
+        oppilaitoksen-koulutukset (common/get-organisaation-koulutukset organisaatio koulutukset)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
-    (as-> (oppilaitos-entry organisaatio enriched-oppilaitos koulutukset) o
-          (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
-                         (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
-                         (vec)))
-          (assoc o :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? o)))))
+    (as-> (oppilaitos-entry organisaatio-with-updated-nimi enriched-oppilaitos oppilaitoksen-koulutukset) o
+      (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
+                          (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
+                          (vec)))
+      (assoc o :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? o)))))
 
 (defn create-index-entry
   [oid execution-id]
-  (when-let [oppilaitos (cache/find-oppilaitos-by-own-or-child-oid  oid)]
-    (if (organisaatio-tool/indexable? oppilaitos)
-      (indexable/->index-entry (:oid oppilaitos) (oppilaitos-entry-with-osat oppilaitos execution-id))
-      (indexable/->delete-entry (:oid oppilaitos)))))
+  (when-let [oppilaitos (cache/find-oppilaitos-by-oid oid)]
+    (let [;; jos toimipiste, haetaan koulutukset parentin oidilla, koska toimipiste ei ole
+          ;; koulutuksen vaan toteutuksen tarjoaja
+          oppilaitos-oid (if (organisaatio-tool/toimipiste? oppilaitos) (:parentOid oppilaitos) (:oid oppilaitos))
+          koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)
+          entry (oppilaitos-entry-with-osat oppilaitos koulutukset execution-id)]
+      (if (organisaatio-tool/indexable? oppilaitos)
+        (indexable/->index-entry (:oid oppilaitos) entry)
+        (indexable/->delete-entry (:oid oppilaitos))))))
 
 (defn do-index
   ([oids execution-id]

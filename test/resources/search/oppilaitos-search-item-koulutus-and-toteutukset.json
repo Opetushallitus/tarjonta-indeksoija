@@ -1,7 +1,7 @@
 {
   "koulutusohjelmatLkm": {
-    "kaikki": 6,
-    "tutkintoonJohtavat": 6,
+    "kaikki": 5,
+    "tutkintoonJohtavat": 5,
     "eiTutkintoonJohtavat": 0
   },
   "kuvaus": {
@@ -9,6 +9,7 @@
     "sv": "Esittely sv"
   },
   "logo": "https://testi.fi/oppilaitos-logo/oid/logo.png",
+  "organisaatiotyypit": ["organisaatiotyyppi_02"],
   "search_terms": [
     {
       "sijainti": [

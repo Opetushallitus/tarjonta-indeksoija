@@ -5,6 +5,7 @@
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
+            [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
             [clojure.string :refer [replace]]
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
@@ -239,3 +240,29 @@
            (not-empty (:fi nimi))
            (not-empty (:sv nimi)))})
 
+(defn get-toimipisteen-toteutukset
+  [organisaatio-oid toteutukset]
+  (->> (for [toteutus toteutukset]
+         (when-let [indexable-oids (not-empty (filter #(= organisaatio-oid %) (:tarjoajat toteutus)))]
+           (assoc toteutus :tarjoajat indexable-oids)))
+       (remove nil?)
+       (vec)))
+
+(defn get-organisaation-koulutukset
+  [organisaatio koulutukset]
+  (if (organisaatio-tool/toimipiste? organisaatio)
+    (into {} (for [[koulutus-oid koulutus] koulutukset
+                   ;; filtteröidään pois koulutukset, joiden toteutuksen tarjoaja
+                   ;; ei ole indeksoitavana oleva toimipiste
+                   :let [toimipisteen-toteutukset (get-toimipisteen-toteutukset (:oid organisaatio)
+                                                                                (:toteutukset koulutus))
+                         koulutus-with-toimipisteen-toteutukset (assoc koulutus :toteutukset toimipisteen-toteutukset)]
+                   :when (seq toimipisteen-toteutukset)]
+               [koulutus-oid koulutus-with-toimipisteen-toteutukset]))
+    koulutukset))
+
+(defn assoc-nimi-from-oppilaitoksen-yhteystiedot
+  [oppilaitos yhteystiedot]
+  (if-let [oppilaitoksen-nimi (:nimi yhteystiedot)]
+    (assoc oppilaitos :nimi oppilaitoksen-nimi)
+    oppilaitos))
