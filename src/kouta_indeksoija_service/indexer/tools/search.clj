@@ -246,7 +246,7 @@
          amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
          tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
          avoin-korkeakoulutus? (get-in koulutus [:metadata :isAvoinKorkeakoulutus])
-         korkeakoulutus-tyypit (get-in koulutus [:metadata :korkeakoulutusTyypit] [])
+         korkeakoulutus-tyypit (get-in koulutus [:metadata :korkeakoulutustyypit] [])
          related-to-korkeakoulutustyyppi (fn [tyyppi oppilaitos-oid] (let [tyyppi-item (some #(when (= (:koulutustyyppi %) tyyppi) %) korkeakoulutus-tyypit)]
                                                                        (and tyyppi-item (or (empty? (:tarjoajat tyyppi-item)) (some #(= oppilaitos-oid %) (:tarjoajat tyyppi-item))))))
          is-amk? (related-to-korkeakoulutustyyppi "amk" (:oid oppilaitos))
