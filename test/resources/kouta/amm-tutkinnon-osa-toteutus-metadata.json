@@ -1,6 +1,6 @@
 {
   "aloituspaikat" : 22,
-  "kuvaus" : {
+  "aloituspaikkakuvaus" : {
     "fi" : "Kuvaus",
     "sv" : "Kuvaus sv"
   },
