@@ -134,6 +134,7 @@
 (defonce lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
 (defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
 (defonce tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteen-perusopetus-toteutus-metadata.json")))
+(defonce muu-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/muu-toteutus-metadata.json")))
 
 (defonce koulutus-metatieto
   {:tyyppi "amm"

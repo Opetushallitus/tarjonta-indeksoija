@@ -369,24 +369,7 @@
         }
       }
     ],
-    "hakutermi" : "hakeutuminen",
-    "hakulomaketyyppi" : "muu",
-    "hakulomakeLinkki" : {
-      "fi" : "http://www.linkki.fi",
-      "sv" : "http://www.linkki.se"
-    },
-    "hakuaika" : {
-      "alkaa" : "2022-02-07T09:58",
-      "paattyy" : "2022-02-07T10:07"
-    },
-    "lisatietoaValintaperusteista" : {
-      "fi" : "Lisätieto",
-      "sv" : "Lisätieto sv"
-    },
-    "lisatietoaHakeutumisesta" : {
-      "fi" : "Lisätieto",
-      "sv" : "Lisätieto sv"
-    }
+    "isHakukohteetKaytossa" : true
   },
   "koulutustyyppi": "taiteen-perusopetus",
   "koulutustyyppiPath": "taiteen-perusopetus",

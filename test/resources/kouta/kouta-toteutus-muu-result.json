@@ -1,7 +1,8 @@
 {
-  "tila": "julkaistu",
+  "tila": "tallennettu",
   "externalId": "1122334455",
-  "haut": ["1.2.246.562.29.00000000000000000001"],
+  "haut": [],
+  "hakutiedot": [],
   "tarjoajat": [
     {
       "nimi": {
@@ -52,127 +53,6 @@
     "sv"
   ],
   "teemakuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
-  "hakutiedot": [
-    {
-      "hakuOid": "1.2.246.562.29.00000000000000000001",
-      "nimi": {
-        "fi": "Haku 0 fi",
-        "sv": "Haku 0 sv"
-      },
-      "hakutapa": {
-        "koodiUri": "hakutapa_03",
-        "nimi": {
-          "fi": "hakutapa_03 nimi fi",
-          "sv": "hakutapa_03 nimi sv"
-        }
-      },
-      "koulutuksenAlkamiskausi": {
-        "alkamiskausityyppi": "alkamiskausi ja -vuosi",
-        "henkilokohtaisenSuunnitelmanLisatiedot": {},
-        "koulutuksenAlkamiskausi": {
-          "koodiUri": "kausi_k",
-          "nimi": {
-            "fi": "kausi_k nimi fi",
-            "sv": "kausi_k nimi sv"
-          }
-        },
-        "koulutuksenAlkamisvuosi": "!!thisYear"
-      },
-      "hakukohteet": [
-        {
-          "hakulomakeKuvaus": {
-            "fi": "Hakulomake tulostetaan ja toimitetaan postitse fi",
-            "sv": "Hakulomake tulostetaan ja toimitetaan postitse sv"
-          },
-          "pohjakoulutusvaatimusTarkenne": {
-            "fi": "Pohjakoulutusvaatimuksen tarkenne fi",
-            "sv": "Pohjakoulutusvaatimuksen tarkenne sv"
-          },
-          "hakulomaketyyppi": "ei sähköistä",
-          "koulutuksenAlkamiskausi": {
-            "alkamiskausityyppi": "tarkka alkamisajankohta",
-            "henkilokohtaisenSuunnitelmanLisatiedot": {},
-            "koulutuksenAlkamispaivamaara": "!!startTime1hc",
-            "koulutuksenPaattymispaivamaara": "!!endTime1hc"
-          },
-          "pohjakoulutusvaatimus": [
-            {
-              "koodiUri": "pohjakoulutusvaatimuskouta_104#1",
-              "nimi": {
-                "fi": "pohjakoulutusvaatimuskouta_104#1 nimi fi",
-                "sv": "pohjakoulutusvaatimuskouta_104#1 nimi sv"
-              }
-            },
-            {
-              "koodiUri": "pohjakoulutusvaatimuskouta_109#1",
-              "nimi": {
-                "fi": "pohjakoulutusvaatimuskouta_109#1 nimi fi",
-                "sv": "pohjakoulutusvaatimuskouta_109#1 nimi sv"
-              }
-            }
-          ],
-          "hakulomakeLinkki": {
-            "fi": "https://koulu.test/hakemusinfo fi",
-            "sv": "https://koulu.test/hakemusinfo sv"
-          },
-          "hakulomakeAtaruId": "369221b1-07d0-4b7a-89bc-04b670d8cff2",
-          "aloituspaikat": {
-            "lukumaara": 100,
-            "ensikertalaisille": 50,
-            "kuvaus": {
-              "fi": "aloituspaikkojen kuvaus fi",
-              "sv": "aloituspaikkojen kuvaus sv"
-            }
-          },
-          "nimi": {
-            "fi": "Koulutuksen 0 toteutuksen 0 hakukohde 0 fi",
-            "sv": "Koulutuksen 0 toteutuksen 0 hakukohde 0 sv"
-          },
-          "hakuajat": [
-            {
-              "alkaa": "!!startTime1",
-              "paattyy": "!!endTime1"
-            }
-          ],
-          "hakukohdeOid": "1.2.246.562.20.00000000000000000001",
-          "organisaatio": {
-            "paikkakunta": {
-              "koodiUri": "kunta_091",
-              "nimi": {
-                "fi": "kunta_091 nimi fi",
-                "sv": "kunta_091 nimi sv"
-              }
-            },
-            "nimi": {
-              "fi": "Kiva ammattikorkeakoulu",
-              "sv": "Kiva ammattikorkeakoulu sv"
-            },
-            "oid": "1.2.246.562.10.54545454545"
-          },
-          "valintaperusteId": "a5e88367-555b-4d9e-aa43-0904e5ea0a13",
-          "jarjestyspaikka": {
-            "paikkakunta": {
-              "koodiUri": "kunta_297",
-              "nimi": {
-                "fi": "kunta_297 nimi fi",
-                "sv": "kunta_297 nimi sv"
-              }
-            },
-            "nimi": {
-              "fi": "Jokin järjestyspaikka",
-              "sv": "Jokin järjestyspaikka sv"
-            },
-            "oid": "1.2.246.562.10.67476956288",
-            "jarjestaaUrheilijanAmmKoulutusta": true
-          },
-          "tila": "julkaistu",
-          "modified": "2019-02-05T09:49:23",
-          "esikatselu": false,
-          "hasValintaperustekuvausData": false
-        }
-      ]
-    }
-  ],
   "timestamp": 1549364610909,
   "organisaatio": {
     "paikkakunta": {
@@ -194,28 +74,17 @@
     "1.2.246.562.10.54545454522"
   ],
   "metadata": {
-    "tyyppi": "amm",
+    "tyyppi": "muu-koulutus",
     "kuvaus": {},
-    "osaamisalat": [
-      {
-        "koodi": {
-          "koodiUri": "osaamisala_0001#1",
-          "nimi": {
-            "fi": "osaamisala_0001#1 nimi fi",
-            "sv": "osaamisala_0001#1 nimi sv"
-          }
-        },
-        "linkki": {
-          "fi": "http://osaamisala.fi/linkki/fi",
-          "sv": "http://osaamisala.fi/linkki/sv"
-        },
-        "otsikko": {
-          "fi": "Katso osaamisalan tarkempi kuvaus tästä",
-          "sv": "Katso osaamisalan tarkempi kuvaus tästä sv"
-        }
+    "opintojenLaajuusyksikko": {
+      "koodiUri": "opintojenlaajuusyksikko_2#1",
+      "nimi": {
+        "fi": "opintojenlaajuusyksikko_2#1 nimi fi",
+        "sv": "opintojenlaajuusyksikko_2#1 nimi sv"
       }
-    ],
-    "ammatillinenPerustutkintoErityisopetuksena": false,
+    },
+    "opintojenLaajuusNumeroMin": 14,
+    "opintojenLaajuusNumeroMax": 20,
     "opetus": {
       "maksunMaara": 200.5,
       "opetuskieli": [
@@ -332,23 +201,14 @@
     "asiasanat": [
       {
         "kieli": "fi",
-        "arvo": "robotiikka"
+        "arvo": "tutkija"
       },
       {
         "kieli": "fi",
-        "arvo": "robottiautomatiikka"
+        "arvo": "asiasana_alaviivalla"
       }
     ],
-    "ammattinimikkeet": [
-      {
-        "kieli": "fi",
-        "arvo": "insinööri"
-      },
-      {
-        "kieli": "fi",
-        "arvo": "koneinsinööri"
-      }
-    ],
+    "ammattinimikkeet": [],
     "yhteyshenkilot": [
       {
         "nimi": {
@@ -372,10 +232,34 @@
           "sv": "http://studieinfo.fi"
         }
       }
-    ]
+    ],
+    "aloituspaikat" : 22,
+    "aloituspaikkakuvaus" : {
+      "fi" : "Kuvaus",
+      "sv" : "Kuvaus sv"
+    },
+    "isHakukohteetKaytossa" : false,
+    "hakutermi" : "hakeutuminen",
+    "hakulomaketyyppi" : "muu",
+    "hakulomakeLinkki" : {
+      "fi" : "http://www.linkki.fi",
+      "sv" : "http://www.linkki.se"
+    },
+    "hakuaika" : {
+      "alkaa" : "2022-02-07T09:58",
+      "paattyy" : "2022-02-07T10:07"
+    },
+    "lisatietoaValintaperusteista" : {
+      "fi" : "Lisätieto",
+      "sv" : "Lisätieto sv"
+    },
+    "lisatietoaHakeutumisesta" : {
+      "fi" : "Lisätieto",
+      "sv" : "Lisätieto sv"
+    }
   },
-  "koulutustyyppi": "amm",
-  "koulutustyyppiPath": "amm/muu-amm-tutkintoon-johtava",
+  "koulutustyyppi": "muu-koulutus",
+  "koulutustyyppiPath": "muu-koulutus",
   "liitetytOpintojaksot": [],
   "kuuluuOpintokokonaisuuksiin": null
 }
