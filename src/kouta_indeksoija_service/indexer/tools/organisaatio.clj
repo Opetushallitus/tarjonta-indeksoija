@@ -95,12 +95,6 @@
                                    [oid]))))]
     (distinct (vec (remove nil? (mapcat do-resolve oids))))))
 
-(defn- recursive-hierarkia-v4-get
-  [keys level]
-  (when (not (empty? level))
-    (concat (map #(select-keys % keys) level)
-            (recursive-hierarkia-v4-get keys (mapcat :children level)))))
-
 (defn find-from-organisaatio-and-children
   [organisaatio oid]
   (recursive-hierarkia-v4-search #(= (:oid %) oid) (vector organisaatio)))

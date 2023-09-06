@@ -38,7 +38,7 @@
                             :tarjoajat (tarjoaja-organisaatiot oppilaitos (:tarjoajat koulutus))
                             :oppilaitos oppilaitos
                             :opetuskieliUrit (:kieletUris oppilaitos)
-                            :koulutustyypit (search-tool/deduce-koulutustyypit koulutus)
+                            :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos)
                             :kuva (:teemakuva koulutus)
                             :nimi (:nimi koulutus)
                             :onkoTuleva true
@@ -69,7 +69,7 @@
                               :hakutiedot hakutieto
                               :toteutus-organisaationimi (remove nil? (distinct (map :nimi tarjoajat)))
                               :opetuskieliUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit])
-                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus toteutus-metadata)
+                              :koulutustyypit (search-tool/deduce-koulutustyypit koulutus oppilaitos toteutus-metadata)
                               :kuva (:teemakuva toteutus)
                               :nimi (get-esitysnimi toteutus)
                               :onkoTuleva false
