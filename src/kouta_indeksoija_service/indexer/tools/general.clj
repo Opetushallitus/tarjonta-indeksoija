@@ -86,6 +86,9 @@
 (defn kk-opintojakso?
   [koulutus]
   (= "kk-opintojakso" (:koulutustyyppi koulutus)))
+(defn muu-opintojakso?
+  [koulutus]
+  (= "muu" (:koulutustyyppi koulutus)))
 
 (defn erikoislaakari?
   [koulutus]

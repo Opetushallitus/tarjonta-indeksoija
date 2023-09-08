@@ -9,7 +9,7 @@
             [kouta-indeksoija-service.indexer.tools.general :refer [aikuisten-perusopetus? amk? amm-koulutus-with-eperuste? amm-muu? amm-ope-erityisope-ja-opo?
                                                                     amm-osaamisala? amm-tutkinnon-osa? ammatillinen? asiasana->lng-value-map erikoislaakari?
                                                                     erikoistumiskoulutus? get-non-korkeakoulu-koodi-uri julkaistu? kk-opintojakso?
-                                                                    kk-opintokokonaisuus? korkeakoulutus? lukio? ope-pedag-opinnot?
+                                                                    kk-opintokokonaisuus? korkeakoulutus? lukio? muu-opintojakso? ope-pedag-opinnot?
                                                                     set-hakukohde-tila-by-related-haku telma? tuva? vapaa-sivistystyo-muu?
                                                                     vapaa-sivistystyo-opistovuosi? yo?]]
             [kouta-indeksoija-service.indexer.tools.koodisto :as koodisto]
@@ -111,7 +111,8 @@
     (or
      (kk-opintojakso? koulutus)
      (kk-opintokokonaisuus? koulutus)
-     (erikoistumiskoulutus? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
+     (erikoistumiskoulutus? koulutus)
+     (muu-opintojakso? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMin])
     :else nil))
 
 (defn opintojen-laajuus-numero-max
@@ -120,7 +121,8 @@
     (or
      (kk-opintojakso? koulutus)
      (kk-opintokokonaisuus? koulutus)
-     (erikoistumiskoulutus? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])
+     (erikoistumiskoulutus? koulutus)
+     (muu-opintojakso? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusNumeroMax])
     :else nil))
 
 (defn opintojen-laajuusyksikko-koodi-uri
@@ -137,7 +139,8 @@
      (ammatillinen? koulutus) ;ilman ePerustetta
      (vapaa-sivistystyo-muu? koulutus)
      (aikuisten-perusopetus? koulutus)
-     (amm-muu? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
+     (amm-muu? koulutus)
+     (muu-opintojakso? koulutus)) (get-in koulutus [:metadata :opintojenLaajuusyksikkoKoodiUri])
     :else nil))
 
 (defn tutkinnon-osat
