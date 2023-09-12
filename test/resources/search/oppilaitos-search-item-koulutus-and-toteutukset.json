@@ -420,6 +420,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "muut-ammatilliset",
         "amm-osaamisala"
       ],
       "koulutus_organisaationimi": {
@@ -491,6 +492,7 @@
         "maakunta_01"
       ],
       "koulutustyypit": [
+        "muut-ammatilliset",
         "amm-tutkinnon-osa"
       ],
       "koulutus_organisaationimi": {

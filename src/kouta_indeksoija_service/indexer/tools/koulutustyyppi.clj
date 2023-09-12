@@ -15,8 +15,8 @@
                   (= kouta-koulutustyyppi "yo") "kk/yo"
                   (= kouta-koulutustyyppi "kk-opintojakso") (str "kk-muu/" (if avoin-korkeakoulutus? "kk-opintojakso-avoin" "kk-opintojakso"))
                   (= kouta-koulutustyyppi "kk-opintokokonaisuus") (str "kk-muu/" (if avoin-korkeakoulutus? "kk-opintokokonaisuus-avoin" "kk-opintokokonaisuus"))
-                  (some #{"erikoislaakari" "erikoistumiskoulutus" "ope-pedag-opinnot"} [kouta-koulutustyyppi]) (str "kk-muu/" kouta-koulutustyyppi)
-                  (some #{"vapaa-sivistystyo-opistovuosi" "vapaa-sivistystyo-muu"} [kouta-koulutustyyppi]) "vapaa-sivistystyo"
+                  (some #{"kk-muu"} konfo-koulutustyypit) (str "kk-muu/" kouta-koulutustyyppi)
+                  (some #{"vapaa-sivistystyo"} konfo-koulutustyypit) "vapaa-sivistystyo"
                   (some #{"amm-muu" "amm-osaamisala" "amm-tutkinnon-osa" "telma"} [kouta-koulutustyyppi]) (str "amm-tutkintoon-johtamaton/" kouta-koulutustyyppi)
                   (ammatillinen? koulutus) "amm/muu-amm-tutkintoon-johtava"
                   :else kouta-koulutustyyppi))))
