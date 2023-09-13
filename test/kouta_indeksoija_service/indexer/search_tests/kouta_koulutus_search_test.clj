@@ -87,7 +87,7 @@
                                :korkeakoulutustyypit [{:koulutustyyppi "amk" :tarjoajat []}]}}
           oppilaitos {:oid "1.2.246.562.10.54453921329"}
           result (deduce-koulutustyypit koulutus oppilaitos)]
-      (is (= ["kk-opintojakso" "kk-muu" "kk-opintojakso-avoin" "amk-opintojakso-avoin"] result)))))
+      (is (= ["kk-opintojakso" "amk-opintojakso-avoin" "kk-muu" "kk-opintojakso-avoin"] result)))))
 
 (deftest add-koulutustyyppi-when-kk-opintokokonaisuus
   (testing "If kk-opintokokonaisuus, add 'kk-muu' koulutustyyppi"
@@ -101,7 +101,7 @@
                     :metadata {:korkeakoulutustyypit [{:koulutustyyppi "yo" :tarjoajat []}]}}
           oppilaitos {:oid "1.2.246.562.10.39218317368"}
           result (deduce-koulutustyypit koulutus oppilaitos)]
-      (is (= ["kk-opintokokonaisuus" "kk-muu" "kk-opintokokonaisuus-normal" "yo-opintokokonaisuus"] result)))))
+      (is (= ["kk-opintokokonaisuus" "yo-opintokokonaisuus" "kk-muu" "kk-opintokokonaisuus-normal"] result)))))
 
 (deftest add-koulutustyyppi-when-erikoistumiskoulutus
   (testing "If erikoistumiskoulutus, add 'kk-muu' koulutustyyppi"
