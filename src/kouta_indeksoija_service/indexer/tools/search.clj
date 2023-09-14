@@ -241,6 +241,23 @@
     (concat koulutustyypit (get-korkeakoulutus-koulutustyyppi koulutus))
     koulutustyypit))
 
+(defn- avoin-korkeakoulutus?
+  [koulutus]
+  (get-in koulutus [:metadata :isAvoinKorkeakoulutus]))
+
+;Lisätään mukaan ennen OPHJOD-66:ta (9/2023) käytössä olleet koulutustyypit. Nämä tarvitaan että konfo-backendin
+;external -rajapinta (hakuehtona käytetyt koulutustyypit) olisi taaksepäin yhteensopiva.
+(defn- add-legacy-koulutustyypit
+  [koulutus koulutustyypit]
+  (cond
+    (or (vapaa-sivistystyo-opistovuosi? koulutus)(vapaa-sivistystyo-muu? koulutus)) (concat ["vapaa-sivistystyo"] koulutustyypit)
+    (amm-ope-erityisope-ja-opo? koulutus) (concat ["amk-muu"] koulutustyypit )
+    (kk-opintojakso? koulutus) (concat koulutustyypit ["kk-muu" (if (avoin-korkeakoulutus? koulutus) "kk-opintojakso-avoin" "kk-opintojakso-normal")])
+    (kk-opintokokonaisuus? koulutus) (concat koulutustyypit ["kk-muu" (if (avoin-korkeakoulutus? koulutus) "kk-opintokokonaisuus-avoin" "kk-opintokokonaisuus-normal")])
+    (or (erikoistumiskoulutus? koulutus)(erikoislaakari? koulutus)(ope-pedag-opinnot? koulutus)) (concat ["kk-muu"] koulutustyypit)
+    (or (amm-osaamisala? koulutus)(amm-tutkinnon-osa? koulutus)(telma? koulutus)(amm-muu? koulutus)) (concat ["muut-ammatilliset"] koulutustyypit)
+    :else koulutustyypit))
+
 (defn deduce-koulutustyypit
   ([koulutus oppilaitos toteutus-metadata]
    (let [koulutustyyppi (:koulutustyyppi koulutus)
@@ -248,7 +265,6 @@
          koulutustyypit-without-erityisopetus (filter #(not= % amm-perustutkinto-erityisopetuksena-koulutustyyppi) koulutustyyppikoodit)
          amm-erityisopetuksena? (:ammatillinenPerustutkintoErityisopetuksena toteutus-metadata)
          tuva-erityisopetuksena? (:jarjestetaanErityisopetuksena toteutus-metadata)
-         avoin-korkeakoulutus? (get-in koulutus [:metadata :isAvoinKorkeakoulutus])
          korkeakoulutus-tyypit (get-in koulutus [:metadata :korkeakoulutustyypit] [])
          related-to-korkeakoulutustyyppi (fn [tyyppi oppilaitos-oid] (let [tyyppi-item (some #(when (= (:koulutustyyppi %) tyyppi) %) korkeakoulutus-tyypit)]
                                                                        (and tyyppi-item (or (empty? (:tarjoajat tyyppi-item)) (some #(= oppilaitos-oid %) (:tarjoajat tyyppi-item))))))
@@ -261,16 +277,16 @@
             (vapaa-sivistystyo-muu? koulutus) [koulutustyyppi]
             (amm-ope-erityisope-ja-opo? koulutus) [koulutustyyppi]
             (kk-opintojakso? koulutus) (cond
-                                         (and avoin-korkeakoulutus? is-amk?) [koulutustyyppi "amk-opintojakso-avoin"]
-                                         (and (not avoin-korkeakoulutus?) is-amk?) [koulutustyyppi "amk-opintojakso"]
-                                         (and avoin-korkeakoulutus? is-yo?) [koulutustyyppi "yo-opintojakso-avoin"]
-                                         (and (not avoin-korkeakoulutus?) is-yo?) [koulutustyyppi "yo-opintojakso"]
+                                         (and (avoin-korkeakoulutus? koulutus) is-amk?) [koulutustyyppi "amk-opintojakso-avoin"]
+                                         (and (not (avoin-korkeakoulutus? koulutus)) is-amk?) [koulutustyyppi "amk-opintojakso"]
+                                         (and (avoin-korkeakoulutus? koulutus) is-yo?) [koulutustyyppi "yo-opintojakso-avoin"]
+                                         (and (not (avoin-korkeakoulutus? koulutus)) is-yo?) [koulutustyyppi "yo-opintojakso"]
                                          :else [koulutustyyppi])
             (kk-opintokokonaisuus? koulutus) (cond
-                                               (and avoin-korkeakoulutus? is-amk?) [koulutustyyppi "amk-opintokokonaisuus-avoin"]
-                                               (and (not avoin-korkeakoulutus?) is-amk?) [koulutustyyppi "amk-opintokokonaisuus"]
-                                               (and avoin-korkeakoulutus? is-yo?) [koulutustyyppi "yo-opintokokonaisuus-avoin"]
-                                               (and (not avoin-korkeakoulutus?) is-yo?) [koulutustyyppi "yo-opintokokonaisuus"]
+                                               (and (avoin-korkeakoulutus? koulutus) is-amk?) [koulutustyyppi "amk-opintokokonaisuus-avoin"]
+                                               (and (not (avoin-korkeakoulutus? koulutus)) is-amk?) [koulutustyyppi "amk-opintokokonaisuus"]
+                                               (and (avoin-korkeakoulutus? koulutus) is-yo?) [koulutustyyppi "yo-opintokokonaisuus-avoin"]
+                                               (and (not (avoin-korkeakoulutus? koulutus)) is-yo?) [koulutustyyppi "yo-opintokokonaisuus"]
                                                :else [koulutustyyppi])
             (erikoistumiskoulutus? koulutus) (cond
                                                is-amk? [koulutustyyppi "amk-erikoistumiskoulutus"]
@@ -287,6 +303,7 @@
                                        (muu-ammatillinen-tutkinto-koulutus? koulutus koulutustyyppikoodit) [koulutustyyppi "muu-amm-tutkinto"]
                                        :else (concat [koulutustyyppi] koulutustyypit-without-erityisopetus))
             :else [koulutustyyppi])
+          (add-legacy-koulutustyypit koulutus)
           (add-korkeakoulutus-tyypit-from-koulutus-koodi koulutus))))
   ([koulutus oppilaitos]
    (deduce-koulutustyypit koulutus oppilaitos nil))

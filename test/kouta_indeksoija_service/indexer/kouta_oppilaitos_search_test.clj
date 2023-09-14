@@ -117,7 +117,7 @@
 
 (def koulutus-search-terms-result
   {:sijainti ["kunta_086" "maakunta_1"]
-   :koulutustyypit ["vapaa-sivistystyo-opistovuosi"]
+   :koulutustyypit ["vapaa-sivistystyo" "vapaa-sivistystyo-opistovuosi"]
    :lukiopainotukset []
    :koulutus_organisaationimi {:fi "Opisto oppilaitos"
                                :sv "Opisto oppilaitos"
@@ -153,7 +153,7 @@
 
 (def toteutus-search-terms-result
   {:sijainti ["kunta_086" "maakunta_1"]
-   :koulutustyypit ["vapaa-sivistystyo-opistovuosi"]
+   :koulutustyypit ["vapaa-sivistystyo" "vapaa-sivistystyo-opistovuosi"]
    :lukiopainotukset []
    :koulutus_organisaationimi {:fi "Opisto oppilaitos"
                                :sv "Opisto oppilaitos"
