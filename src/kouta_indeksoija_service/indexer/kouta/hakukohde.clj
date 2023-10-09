@@ -289,10 +289,9 @@
 
 (defn- complete-painotetut-lukioarvosanat-if-exists
   [hakukohde]
-  (if
-   (not (nil? (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])))
-    (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanatOppiaineittain]
-               complete-painotetut-lukioarvosanat-kaikki)
+  (if-let [painotetut-oppiaineet (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])]
+    (assoc-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanatOppiaineittain]
+               (complete-painotetut-lukioarvosanat-kaikki painotetut-oppiaineet))
     hakukohde))
 
 (defn- odw-alempi-kk-aste?
