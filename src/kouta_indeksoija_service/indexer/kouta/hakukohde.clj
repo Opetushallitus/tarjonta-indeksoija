@@ -291,7 +291,8 @@
   [hakukohde]
   (if
    (not (nil? (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])))
-    (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat] complete-painotetut-lukioarvosanat-kaikki)
+    (update-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanatOppiaineittain]
+               complete-painotetut-lukioarvosanat-kaikki)
     hakukohde))
 
 (defn- odw-alempi-kk-aste?
