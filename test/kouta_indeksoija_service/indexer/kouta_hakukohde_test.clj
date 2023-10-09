@@ -70,7 +70,11 @@
                                                   :koulutuksenAlkamiskausi    {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
         (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
         (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-          (is (= {:painotetutArvosanat     [{:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_b2en#1",
+          (is (= {:painotetutArvosanat [{:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1it#1"}, :painokerroin 7},
+                                        {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1"}, :painokerroin 2},
+                                        {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1en#1"}, :painokerroin 99},
+                                        {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_b2en#1"}, :painokerroin 5}]
+                  :painotetutArvosanatOppiaineittain     [{:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_b2en#1",
                                                                  :nimi     {:fi "painotettavatoppiaineetlukiossa_b2en#1 nimi fi",
                                                                             :sv "painotettavatoppiaineetlukiossa_b2en#1 nimi sv"}}}, :painokerroin 5}
                                             {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1lv#1",
@@ -145,7 +149,9 @@
                                                   :koulutuksenAlkamiskausi    {:alkamiskausityyppi "henkilokohtainen suunnitelma"}})
         (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
         (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
-          (is (= {:painotetutArvosanat     [{:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_b2en#1",
+          (is (= {:painotetutArvosanat [{:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1it#1"}, :painokerroin 666},
+                                        {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_b2en#1"}, :painokerroin 999}]
+                  :painotetutArvosanatOppiaineittain     [{:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_b2en#1",
                                                                  :nimi     {:fi "painotettavatoppiaineetlukiossa_b2en#1 nimi fi",
                                                                             :sv "painotettavatoppiaineetlukiossa_b2en#1 nimi sv"}}}, :painokerroin 999}
                                             {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1it#1",
