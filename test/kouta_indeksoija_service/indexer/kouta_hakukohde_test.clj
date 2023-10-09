@@ -62,7 +62,7 @@
         (fixture/update-toteutus-mock toteutus-oid :tila "tallennettu" :metadata fixture/lk-toteutus-metadata)
         (fixture/update-hakukohde-mock hakukohde-oid
                                        :metadata {:hakukohteenLinja           {:painotetutArvosanat     [{:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1it#1"}, :painokerroin 7},
-                                                                                                         {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1"}, :painokerroin 7},
+                                                                                                         {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1"}, :painokerroin 2},
                                                                                                          {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_a1en#1"}, :painokerroin 99},
                                                                                                          {:koodiUrit {:oppiaine "painotettavatoppiaineetlukiossa_b2en#1"}, :painokerroin 5}]
                                                                                :alinHyvaksyttyKeskiarvo 6.5 :lisatietoa {:fi "fi-str", :sv "sv-str"}}
@@ -76,7 +76,7 @@
                                          {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1",
                                                               :nimi
                                                               {:fi "painotettavatoppiaineetlukiossa_a1 nimi fi",
-                                                               :sv "painotettavatoppiaineetlukiossa_a1 nimi sv"}}}, :painokerroin 7}
+                                                               :sv "painotettavatoppiaineetlukiossa_a1 nimi sv"}}}, :painokerroin 2}
                                          {:koodit {:oppiaine {:koodiUri "painotettavatoppiaineetlukiossa_a1en#1",
                                                               :nimi {:fi "painotettavatoppiaineetlukiossa_a1en#1 nimi fi",
                                                                      :sv "painotettavatoppiaineetlukiossa_a1en#1 nimi sv"}}}, :painokerroin 99}
