@@ -278,7 +278,7 @@
   (flatten
    (seq (s/difference (set koodiurit-koodisto) (set koodiurit-with-painokertoimet)))))
 
-(defn- complete-painotetut-lukioarvosanat-kaikki
+(defn complete-painotetut-lukioarvosanat-kaikki
   [koodiurit]
   (let [koodiurit-to-complete (get-koodiurit-to-complete koodiurit)
         koodiurit-koodisto (get-koodisto-koodiurit koodiurit koodiurit-to-complete)
@@ -289,9 +289,9 @@
 
 (defn- complete-painotetut-lukioarvosanat-if-exists
   [hakukohde]
-  (if-let [painotetut-oppiaineet (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])]
+  (if-let [painotetut-arvosanat (get-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanat])]
     (assoc-in hakukohde [:metadata :hakukohteenLinja :painotetutArvosanatOppiaineittain]
-               (complete-painotetut-lukioarvosanat-kaikki painotetut-oppiaineet))
+               (complete-painotetut-lukioarvosanat-kaikki painotetut-arvosanat))
     hakukohde))
 
 (defn- odw-alempi-kk-aste?
