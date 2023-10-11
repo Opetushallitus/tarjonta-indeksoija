@@ -448,6 +448,7 @@
           ],
           "hakukohteenLinja": {
             "painotetutArvosanat": [],
+            "painotetutArvosanatOppiaineittain": [],
             "alinHyvaksyttyKeskiarvo": 6.5,
             "lisatietoa": {
               "fi": "fi-str",
