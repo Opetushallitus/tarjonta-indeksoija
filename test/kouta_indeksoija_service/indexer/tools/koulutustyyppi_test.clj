@@ -8,16 +8,16 @@
   (deftest koulutustyyppi-path
     (testing "returns correct koulutustyyppiPath for avoin opintojakso toteutus"
       (let [toteutus (assoc-koulutustyyppi-path {} (assoc-in opintojakso-koulutus [:metadata :isAvoinKorkeakoulutus] true))]
-        (is (= (:koulutustyyppiPath toteutus) "kk-muu/kk-opintojakso-avoin"))))
+        (is (= "kk-muu/kk-opintojakso-avoin" (:koulutustyyppiPath toteutus)))))
     (testing "returns correct koulutustyyppiPath for avoin opintokokonaisuus toteutus"
       (let [toteutus (assoc-koulutustyyppi-path {} (assoc-in opintokokonaisuus-koulutus [:metadata :isAvoinKorkeakoulutus] true))]
-        (is (= (:koulutustyyppiPath toteutus) "kk-muu/kk-opintokokonaisuus-avoin"))))
+        (is (= "kk-muu/kk-opintokokonaisuus-avoin" (:koulutustyyppiPath toteutus)))))
     (testing "returns correct koulutustyyppiPath for non-avoin opintokojakso toteutus"
       (let [toteutus (assoc-koulutustyyppi-path {} opintojakso-koulutus)]
-        (is (= (:koulutustyyppiPath toteutus) "kk-muu/kk-opintojakso"))))
+        (is (= "kk-muu/kk-opintojakso" (:koulutustyyppiPath toteutus)))))
     (testing "returns correct koulutustyyppiPath for non-avoin opintokokonaisuus toteutus"
       (let [toteutus (assoc-koulutustyyppi-path {} opintokokonaisuus-koulutus)]
-        (is (= (:koulutustyyppiPath toteutus) "kk-muu/kk-opintokokonaisuus"))))
+        (is (= "kk-muu/kk-opintokokonaisuus" (:koulutustyyppiPath toteutus)))))
     (testing "returns correct koulutustyyppiPath for any kk-muu toteutus"
       (let [toteutus (assoc-koulutustyyppi-path {} erikoislaakari-koulutus)]
-        (is (= (:koulutustyyppiPath toteutus) "kk-muu/erikoislaakari"))))))
+        (is (= "kk-muu/erikoislaakari" (:koulutustyyppiPath toteutus)))))))

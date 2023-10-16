@@ -45,8 +45,7 @@
        [kouta-indeksoija-service.rest.koodisto/get-koodit-with-cache #(json "test/resources/koodisto/" %)
         kouta-indeksoija-service.rest.koodisto/get-alakoodit-with-cache #(json "test/resources/koodisto/alakoodit/" %)
         kouta-indeksoija-service.rest.koodisto/get-ylakoodit-with-cache #([])]
-        (is (= (search/get-search-hakutiedot hakutieto)
-               [{:hakuajat [{:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"} {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}]
+        (is (= [{:hakuajat [{:alkaa "2031-04-02T12:00" :paattyy "2031-05-02T12:00"} {:alkaa "2032-04-02T12:00" :paattyy "2032-05-02T12:00"}]
                  :hakutapa "hakutapa_02"
                  :yhteishakuOid nil
                  :pohjakoulutusvaatimukset ["pohjakoulutusvaatimuskonfo_002" "pohjakoulutusvaatimuskonfo_003"]
@@ -68,5 +67,6 @@
                  :yhteishakuOid "1.2.246.562.29.00000000000000000002"
                  :pohjakoulutusvaatimukset []
                  :valintatavat ["valintatapajono_cv" "valintatapajono_tv"]
-                 :jarjestaaUrheilijanAmmKoulutusta nil}]))))))
+                 :jarjestaaUrheilijanAmmKoulutusta nil}]
+               (search/get-search-hakutiedot hakutieto)))))))
 
