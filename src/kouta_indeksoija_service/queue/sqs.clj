@@ -15,11 +15,14 @@
     (amazonica/with-credential {:endpoint conf/sqs-endpoint} (f))
     (f)))
 
-(defn find-queue
+(defn- find-queue
   [name]
-  (if-let [q (with-endpoint #(sqs/find-queue name))]
-    q
-    (throw (QueueDoesNotExistException. (str "No queue '" name "' found")))))
+  ; sqs/find-queue ei löydä jonoa oikeaa "notifications":lle, koska "notifications-dlq" sisältyy siihen.
+  ; Toteutetaan siis jonon hakeminen tarkalla nimellä.
+  (let [qs (with-endpoint (fn [] (:queue-urls (sqs/list-queues name))))]
+    (if-let [q (first (filter #(.endsWith % (str "/" name)) qs))]
+      q
+      (throw (QueueDoesNotExistException. (str "No queue '" name "' found"))))))
 
 (defn queue
   [priority]
@@ -28,23 +31,23 @@
 (defn delete-message
   [& {:keys [queue-url receipt-handle]}]
   (with-endpoint #(sqs/delete-message
-                    :queue-url queue-url
-                    :receipt-handle receipt-handle)))
+                   :queue-url queue-url
+                   :receipt-handle receipt-handle)))
 
 (defn long-poll
   [queue]
   (with-endpoint #(sqs/receive-message
-                    :queue-url queue
-                    :max-number-of-messages max-number-of-messages
-                    :delete false
-                    :wait-time-seconds long-poll-wait-time)))
+                   :queue-url queue
+                   :max-number-of-messages max-number-of-messages
+                   :delete false
+                   :wait-time-seconds long-poll-wait-time)))
 
 (defn short-poll
   [queue]
   (with-endpoint #(sqs/receive-message
-                    :queue-url queue
-                    :max-number-of-messages max-number-of-messages
-                    :delete false)))
+                   :queue-url queue
+                   :max-number-of-messages max-number-of-messages
+                   :delete false)))
 
 (defn send-message
   [queue message]
@@ -56,3 +59,7 @@
 (defn get-queue-attributes
   [priority & attr]
   (with-endpoint #(sqs/get-queue-attributes (queue priority) attr)))
+
+(defn purge-queue
+  [queue]
+  (with-endpoint #(sqs/purge-queue :queue-url queue)))

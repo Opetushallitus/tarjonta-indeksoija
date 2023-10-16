@@ -6,13 +6,13 @@
          :virkailija-internal "http://localhost"
          :cas "http://localhost"
          :ataru-hakija "http://localhost"}
- :queue {:priority {:name "priority-indexing-queue" :health-threshold 10}
-         :fast {:name "fast-indexing-queue" :health-threshold 10}
-         :slow {:name "slow-indexing-queue" :health-threshold 10}
-         :dlq {:name "indexing-dql" :health-threshold 10}
-         :notifications {:name "notifications-queue" :health-threshold 10}
-         :notifications-dlq {:name "notifications-dlq" :health-threshold 10}}
- :sqs-region ""
+ :queue {:priority {:name "koutaIndeksoijaPriority" :health-threshold 10}
+         :fast {:name "koutaIndeksoijaFast" :health-threshold 10}
+         :slow {:name "koutaIndeksoijaSlow" :health-threshold 10}
+         :dlq {:name "koutaIndeksoijaDlq" :health-threshold 10}
+         :notifications {:name "koutaIndeksoijaNotifications" :health-threshold 10}
+         :notifications-dlq {:name "koutaIndeksoijaNotificationsDlq" :health-threshold 10}}
+ :sqs-region "http://localhost:4566"
  :sqs-endpoint ""
  :lokalisaatio-indexing-cron-string "* 0/30 * ? * *"
  :organisaatio-indexing-cron-string "* 0 * ? * *"
