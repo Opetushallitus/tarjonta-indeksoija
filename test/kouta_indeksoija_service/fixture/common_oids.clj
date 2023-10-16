@@ -156,3 +156,4 @@
 (defonce oppilaitoksenOsaOid3  "1.2.246.562.10.001010101021")
 (defonce oppilaitoksenOsaOid4  "1.2.246.562.10.001010101022")
 (defonce oppilaitoksenOsaOid5  "1.2.246.562.10.001010101023")
+(defonce jokin-jarjestyspaikka "1.2.246.562.10.67476956288")

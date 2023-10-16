@@ -12,7 +12,6 @@
   (fixture/init)
   (fixture/add-sorakuvaus-mock sorakuvausId :tila "julkaistu" :nimi "Kiva SORA-kuvaus")
 
-
   (fixture/add-koulutus-mock koulutusOid1 :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock koulutusOid2 :koulutustyyppi "amm" :tila "julkaistu" :nimi "Hevosalan koulutus" :modified "2018-05-05T12:02:23" :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock koulutusOid3 :koulutustyyppi "amm" :tila "julkaistu" :nimi "ICT esiopinnot" :muokkaaja "1.2.246.562.24.55555555555" :sorakuvausId sorakuvausId)
@@ -65,12 +64,12 @@
   (fixture/add-koulutus-mock keyword-koulutus-oid18 :koulutustyyppi "amk" :tile "julkaistu" :nimi "Moottorialan perustutkinto" :sorakuvausId sorakuvausId)
 
 
-  (fixture/add-toteutus-mock toteutusOid1       koulutusOid3 :tila "julkaistu" :nimi "Traktorialan alkuopinnot" :metadata fixture/amm-toteutus-metatieto)
-  (fixture/add-toteutus-mock toteutusOid2       koulutusOid3 :tila "julkaistu" :nimi "Pneumatiikan alkuopinnot" :metadata fixture/amm-toteutus-metatieto)
-  (fixture/add-toteutus-mock toteutusOid3       koulutusOid3 :tila "julkaistu" :nimi "Traktorialan alkuopinnot" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555" :metadata fixture/amm-toteutus-metatieto)
-  (fixture/add-toteutus-mock toteutusOid4       koulutusOid3  :tila "arkistoitu"  :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu true)
-  (fixture/add-toteutus-mock toteutusOid5       koulutusOid3  :tila "tallennettu" :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu true)
-  (fixture/add-toteutus-mock toteutusOid6       koulutusOid3  :tila "tallennettu" :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu false)
+  (fixture/add-toteutus-mock toteutusOid1 koulutusOid3 :tila "julkaistu" :nimi "Traktorialan alkuopinnot" :metadata fixture/amm-toteutus-metatieto)
+  (fixture/add-toteutus-mock toteutusOid2 koulutusOid3 :tila "julkaistu" :nimi "Pneumatiikan alkuopinnot" :metadata fixture/amm-toteutus-metatieto)
+  (fixture/add-toteutus-mock toteutusOid3 koulutusOid3 :tila "julkaistu" :nimi "Traktorialan alkuopinnot" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555" :metadata fixture/amm-toteutus-metatieto)
+  (fixture/add-toteutus-mock toteutusOid4 koulutusOid3 :tila "arkistoitu" :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu true)
+  (fixture/add-toteutus-mock toteutusOid5 koulutusOid3 :tila "tallennettu" :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu true)
+  (fixture/add-toteutus-mock toteutusOid6 koulutusOid3 :tila "tallennettu" :nimi "Traktorialan alkuopinnot" :modified "2018-06-05T12:02:23" :esikatselu false)
 
   (fixture/add-toteutus-mock lukio-toteutus-oid lukio-oid     :tila "julkaistu" :nimi "Lukio" :modified "2018-06-05T12:02:23" :metadata fixture/lk-toteutus-metadata)
   (fixture/add-toteutus-mock kk-toteutus-oid    kk-koulutus-oid     :tila "julkaistu" :nimi "Korkeakoulu" :modified "2018-06-05T12:02:23" :metadata fixture/yo-toteutus-metatieto)
@@ -133,7 +132,7 @@
   (fixture/add-oppilaitos-mock oppilaitosOid3 :tila "tallennettu" :esikatselu false :organisaatio oppilaitosOid2)
   (fixture/add-oppilaitos-mock oppilaitosOid4 :tila "tallennettu" :esikatselu true :organisaatio oppilaitosOid4)
   (fixture/add-oppilaitos-mock oppilaitosOid7 :tila "julkaistu" :organisaatio oppilaitosOid7)
-
+  (fixture/add-oppilaitos-mock jokin-jarjestyspaikka :tila "julkaistu" :organisaatio jokin-jarjestyspaikka)
 
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid1 oppilaitosOid1 :tila "julkaistu" :organisaatio oppilaitoksenOsaOid1)
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid2 oppilaitosOid1 :tila "arkistoitu" :organisaatio oppilaitoksenOsaOid2)
@@ -151,9 +150,10 @@
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3 hakukohdeOid4 hakukohdeOid5 hakukohdeOid6 hakukohdeOid7 kk-hakukohde-oid]
                                                :valintaperusteet [valintaperusteId1 valintaperusteId2 valintaperusteId3 valintaperusteId4 valintaperusteId5 valintaperusteId6]
                                                :oppilaitokset [oppilaitosOid1 oppilaitosOid2 oppilaitosOid3 oppilaitosOid4 oppilaitosOid5 oppilaitosOid6 oppilaitosOid7
-                                                               aakkostus-oppilaitos-oid1 aakkostus-oppilaitos-oid2 aakkostus-oppilaitos-oid3 aakkostus-oppilaitos-oid4 aakkostus-oppilaitos-oid5]})
+                                                               aakkostus-oppilaitos-oid1 aakkostus-oppilaitos-oid2 aakkostus-oppilaitos-oid3 aakkostus-oppilaitos-oid4 aakkostus-oppilaitos-oid5
+                                                               jokin-jarjestyspaikka]})
 
-                 ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
+   ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
   (fixture/index-oids-without-related-indices {:koulutukset [traktoriala-oid hevosala-oid traktoriala-oid2 hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
                                                :oppilaitokset [punkaharjun-yliopisto helsingin-yliopisto]})
   (export-elastic-data "konfo-backend")
