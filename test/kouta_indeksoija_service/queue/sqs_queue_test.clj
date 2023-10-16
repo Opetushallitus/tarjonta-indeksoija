@@ -18,6 +18,8 @@
 
 (defn- message-bodies [response] (seq (map #(:body %) (:messages response))))
 
+(defn- empty-queues [] (doseq [q (map queue (keys (:queue env)))] (purge-queue q)))
+
 (defn localstack-fixture
   [tests]
   (run-proc "./tools/start_localstack")
@@ -25,8 +27,6 @@
   (run-proc "./tools/stop_localstack"))
 
 (use-fixtures :once localstack-fixture)
-
-(defn empty-queues [] (doseq [q (map queue (keys (:queue env)))] (purge-queue q)))
 
 (defmacro testing-with-queues-fixture
   [name & test]
