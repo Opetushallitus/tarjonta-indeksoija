@@ -254,7 +254,8 @@
 
 (defn- replace-with-koodisto-oppiaineet
   [koodiuri]
-  (let [koodisto-oppiaineet (filter #(str/starts-with? % (get-in koodiuri [:koodiUrit :oppiaine]))
+  (let [koodisto-oppiaineet (filter #(and (str/starts-with? % (get-in koodiuri [:koodiUrit :oppiaine]))
+                                          (not= % (get-in koodiuri [:koodiUrit :oppiaine])))
                                     (koodisto-tools/painotettavatoppiaineetlukiossa-koodiurit))
         painokerroin (get koodiuri :painokerroin)]
     (map #(assoc {} :koodiUrit {:oppiaine %}, :painokerroin painokerroin) koodisto-oppiaineet)))
