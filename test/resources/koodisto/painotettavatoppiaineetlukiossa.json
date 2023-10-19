@@ -2565,6 +2565,114 @@
     ]
   },
   {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a2",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a2",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "a2",
+    "paivitysPvm": "2023-10-09",
+    "paivittajaOid": "1.2.246.562.24.67130825240",
+    "voimassaAlkuPvm": "2023-10-09",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A2 (Alla)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "A2 (All)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "A2 (Kaikki)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b1",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "b1",
+    "paivitysPvm": "2023-10-09",
+    "paivittajaOid": "1.2.246.562.24.67130825240",
+    "voimassaAlkuPvm": "2023-10-09",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B1 (Alla)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "B1 (All)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "B1 (Kaikki)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
     "koodiUri": "painotettavatoppiaineetlukiossa_fy",
     "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_fy",
     "version": 0,
@@ -2599,6 +2707,60 @@
         "nimi": "Fysik",
         "kuvaus": "Fysik",
         "lyhytNimi": "Fysik",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_a1",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_a1",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "a1",
+    "paivitysPvm": "2023-10-09",
+    "paivittajaOid": "1.2.246.562.24.67130825240",
+    "voimassaAlkuPvm": "2023-10-09",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "A1 (Kaikki)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "A1 (All)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "A1 (Alla)",
+        "kuvaus": null,
         "kayttoohje": null,
         "kasite": null,
         "sisaltaaMerkityksen": null,
@@ -3510,6 +3672,60 @@
     ]
   },
   {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b2",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b2",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "b2",
+    "paivitysPvm": "2023-10-09",
+    "paivittajaOid": "1.2.246.562.24.67130825240",
+    "voimassaAlkuPvm": "2023-10-09",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B2 (Kaikki)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B2 (All)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "B2 (Alla)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
     "koodiUri": "painotettavatoppiaineetlukiossa_b1ja",
     "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b1ja",
     "version": 0,
@@ -3544,6 +3760,60 @@
         "nimi": "B1 japanska",
         "kuvaus": "B1 japanska",
         "lyhytNimi": "B1 japanska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "painotettavatoppiaineetlukiossa_b3",
+    "resourceUri": "https://virkailija.opintopolku.fi/koodisto-service/rest/codeelement/painotettavatoppiaineetlukiossa_b3",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "painotettavatoppiaineetlukiossa",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "b3",
+    "paivitysPvm": "2023-10-09",
+    "paivittajaOid": "1.2.246.562.24.67130825240",
+    "voimassaAlkuPvm": "2023-10-09",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "B3 (Kaikki)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "B3 (All)",
+        "kuvaus": null,
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "B3 (Alla)",
+        "kuvaus": null,
         "kayttoohje": null,
         "kasite": null,
         "sisaltaaMerkityksen": null,
