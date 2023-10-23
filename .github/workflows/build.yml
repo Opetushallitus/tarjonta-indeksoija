@@ -28,7 +28,7 @@ jobs:
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
-          docker pull localstack/localstack:1.0.4
+          docker pull localstack/localstack:2.3.0
           lein -U ci-test
 
   build:

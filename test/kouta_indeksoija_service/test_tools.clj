@@ -25,12 +25,6 @@
    (= (count actual) (count expected))
    (every? #(in? % expected) actual)))
 
-(defn contains-elements-in-any-order?
-  [expected actual]
-  (and
-   (not-empty actual)
-   (every? #(in? % expected) actual)))
-
 (defn debug-pretty
   [json]
   (println (cheshire/generate-string json {:pretty true})))

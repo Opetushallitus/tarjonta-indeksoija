@@ -67,8 +67,7 @@
 
 (deftest test-organisaatio-tools
   (testing "Find hierarkia for organisaatio from everything"
-    (is (= (tool/find-hierarkia everything "1.1.1.1.1")
-           {:organisaatiot [{:oid "1.1.1",
+    (is (= {:organisaatiot [{:oid "1.1.1",
                              :organisaatiotyypit ["organisaatiotyyppi_01"],
                              :parentOid "1.2.246.562.10.00000000001",
                              :parentOidPath "|1.2.246.562.10.00000000001|",
@@ -88,4 +87,5 @@
                                                                  :status "AKTIIVINEN"}],
                                                      :status "AKTIIVINEN"}],
                                          :status "AKTIIVINEN"}],
-                             :status "AKTIIVINEN"}]}))))
+                             :status "AKTIIVINEN"}]}
+           (tool/find-hierarkia everything "1.1.1.1.1")))))

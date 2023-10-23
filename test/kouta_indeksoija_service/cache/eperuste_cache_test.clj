@@ -19,4 +19,4 @@
     (testing "Eperuste cache should return correct data..."
       (testing "when requested by id"
         (let [d (cache/get-eperuste-by-id eperuste-id)]
-          (is (= d expected)))))))
+          (is (= expected d)))))))
