@@ -45,12 +45,12 @@
                  ;Cas
                  [clj-soup/clojure-soup "0.1.3"]
                  ;;Logging
-                 [oph/clj-log "0.3.1-SNAPSHOT"]
+                 [oph/clj-log "0.3.2-SNAPSHOT"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [org.apache.logging.log4j/log4j-slf4j-impl "2.17.0"]
-                 [org.apache.logging.log4j/log4j-api "2.17.0"]
-                 [org.apache.logging.log4j/log4j-core "2.17.0"]
-                 [clj-log4j2 "0.3.0"]
+                 [org.apache.logging.log4j/log4j-slf4j-impl "2.20.0"]
+                 [org.apache.logging.log4j/log4j-api "2.20.0"]
+                 [org.apache.logging.log4j/log4j-core "2.20.0"]
+                 [clj-log4j2 "0.4.0"]
                  [ring-cors "0.1.11"]
                  ;;SQS Handling
                  [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
