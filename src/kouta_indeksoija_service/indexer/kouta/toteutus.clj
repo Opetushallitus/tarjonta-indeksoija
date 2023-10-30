@@ -144,7 +144,6 @@
                                   (assoc-koulutustyyppi-path koulutus (:metadata toteutus))
                                   (assoc :nimi (get-esitysnimi toteutus))
                                   (assoc :haut haku-oids)
-                                  (dissoc :_enrichedData)
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
                                   (assoc-hakutiedot hakutiedot)

@@ -172,7 +172,7 @@
       (postwalk dissoc-langs form)
       form)))
 
-(defn- clean-personal-info
+(defn- clean-enriched-data
   [map]
   (walk/postwalk #(if (map? %) (dissoc % :_enrichedData) %) map))
 
@@ -180,7 +180,7 @@
   [entry]
   (-> entry
       (clean-langs-not-in-kielivalinta)
-      (clean-personal-info)
+      (clean-enriched-data)
       (decorate-koodi-uris)
       (assoc-organisaatio)
       (assoc-tarjoajat)
