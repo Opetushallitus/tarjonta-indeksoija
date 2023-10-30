@@ -174,7 +174,7 @@
 
 (defn- clean-enriched-data
   [map]
-  (walk/postwalk #(if (map? %) (dissoc % :_enrichedData) %) map))
+  (postwalk #(if (map? %) (dissoc % :_enrichedData) %) map))
 
 (defn complete-entry
   [entry]
