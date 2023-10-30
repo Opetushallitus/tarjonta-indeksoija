@@ -85,9 +85,11 @@
     get-pistehistoria kouta-cache-time-millis kouta-cache-size))
 
 ;Käytännössä tällä löytyy tietoa vain toisen asteen hakukohteille
+;HUOM! Hakukohde voi olla koutan hakukohde tai hakutiedon hakukohde!
 (defn get-pistehistoria-for-hakukohde [hakukohde execution-id]
   (let [jarjestyspaikkaOid (:jarjestyspaikkaOid hakukohde)
-        lukiolinja (:hakukohteenLinja hakukohde)
+        lukiolinja (get-in hakukohde [:metadata :hakukohteenLinja]
+                           (:hakukohteenLinja hakukohde))
         lukiolinjaKoodiUri (:linja lukiolinja)
         hakukohdeKoodiUri (or (:hakukohdeKoodiUri hakukohde)
                               (when (and (some? lukiolinja)
