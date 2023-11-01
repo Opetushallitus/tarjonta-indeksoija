@@ -412,7 +412,6 @@
                                                          (assoc :hakutapaKoodiUri (:hakutapaKoodiUri haku))
                                                          (assoc :opetuskieliKoodiUrit (get-in toteutus [:metadata :opetus :opetuskieliKoodiUrit]))
                                                          (assoc :koulutusasteKoodiUrit (get-koulutusasteet koulutus))
-                                                         (dissoc :_enrichedData)
                                                          (common/localize-dates)) hakukohde))
       (indexable/->delete-entry-with-forwarded-data oid hakukohde-from-kouta))))
 
