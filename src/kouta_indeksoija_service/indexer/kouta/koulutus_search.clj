@@ -124,7 +124,7 @@
                   (assoc :nimi (get-esitysnimi koulutus))
                   (assoc :nimi_sort (common/create-sort-names (:nimi koulutus)))
                   (assoc :kielivalinta (:kielivalinta koulutus))
-                  (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid :ePerusteId)
+                  (dissoc :johtaaTutkintoon :esikatselu :modified :muokkaaja :_enrichedData :externalId :julkinen :tila :metadata :tarjoajat :sorakuvausId :organisaatioOid :ePerusteId)
                   (assoc :eperuste                (:ePerusteId koulutus))
                   (assoc :koulutukset             (:koulutuksetKoodiUri koulutus))
                   (assoc :tutkintonimikkeet       (search-tool/tutkintonimike-koodi-urit koulutus))
