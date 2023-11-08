@@ -1,9 +1,8 @@
 {
-  "tyyppi" : "taiteen-perusopetus",
+  "tyyppi" : "muu-koulutus",
   "opintojenLaajuusyksikkoKoodiUri": "opintojenlaajuusyksikko_2#1",
   "opintojenLaajuusNumeroMin": 14,
   "opintojenLaajuusNumeroMax": 20,
-  "taiteenalaKoodiUrit": ["taiteenperusopetustaiteenala_sirkustaide#1", "taiteenperusopetustaiteenala_sanataide#1"],
   "kuvaus" : { },
   "ammattinimikkeet" : [ ],
   "asiasanat" : [
@@ -16,7 +15,30 @@
       "arvo" : "asiasana_alaviivalla"
     }
   ],
-  "isHakukohteetKaytossa" : true,
+  "aloituspaikat" : 22,
+  "aloituspaikkakuvaus" : {
+    "fi" : "Kuvaus",
+    "sv" : "Kuvaus sv"
+  },
+  "isHakukohteetKaytossa" : false,
+  "hakutermi" : "hakeutuminen",
+  "hakulomaketyyppi" : "muu",
+  "hakulomakeLinkki" : {
+    "fi" : "http://www.linkki.fi",
+    "sv" : "http://www.linkki.se"
+  },
+  "hakuaika" : {
+    "alkaa" : "2022-02-07T09:58",
+    "paattyy" : "2022-02-07T10:07"
+  },
+  "lisatietoaValintaperusteista" : {
+    "fi" : "Lisätieto",
+    "sv" : "Lisätieto sv"
+  },
+  "lisatietoaHakeutumisesta" : {
+    "fi" : "Lisätieto",
+    "sv" : "Lisätieto sv"
+  },
   "opetus" : {
     "opetustapaKoodiUrit" : [ "opetuspaikkakk_1#1", "opetuspaikkakk_2#1" ],
     "maksullisuustyyppi" : "maksullinen",
