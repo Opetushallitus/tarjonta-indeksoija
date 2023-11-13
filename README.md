@@ -253,7 +253,18 @@ Jos törmäät seuraavaan virheeseen esimerkiksi testejä ajaessasi:
 
 Aja seuraava loitsu (mahdollisesti joutuu myös ajamaan `aws configure` ennen tätä):
 
+AWS CLI v1:
+
 `aws ecr get-login --no-include-email --region eu-west-1 --profile oph-utility`
+
+AWS CLI v2:
+
+`aws ecr get-login-password --region eu-west-1 --profile oph-utility | docker login --username AWS --password-stdin 190073735177.dkr.ecr.eu-west-1.amazonaws.com`
+
+ARM-arkkitehtuurilla elasticsearchin docker kontti buildattava itse.
+
+`elastic/create-bundles.sh`
+`elastic/build.sh`
 
 ## 6. Lisätietoa
 

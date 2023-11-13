@@ -8,7 +8,8 @@
             [kouta-indeksoija-service.indexer.tools.tyyppi :refer [remove-uri-version]]
             [kouta-indeksoija-service.util.tools :refer [->distinct-vec get-esitysnimi get-oids]]
             [kouta-indeksoija-service.indexer.tools.koulutustyyppi :refer [assoc-koulutustyyppi-path]]
-            [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]))
+            [kouta-indeksoija-service.indexer.tools.general :refer [not-poistettu?]]
+            [kouta-indeksoija-service.indexer.kouta.hakukohde :refer [complete-painotetut-lukioarvosanat-kaikki]]))
 
 (def index-name "toteutus-kouta")
 
@@ -36,6 +37,13 @@
         valintakoe-ids (:valintakoeIds ht-hakukohde)]
     (assoc ht-hakukohde :hasValintaperustekuvausData (boolean (or (seq kynnysehto) (seq valintakoe-ids))))))
 
+(defn- complete-painotetut-lukioarvosanat-if-exists
+  [hakukohde]
+  (if-let [painotetut-arvosanat (get-in hakukohde [:hakukohteenLinja :painotetutArvosanat])]
+    (assoc-in hakukohde [:hakukohteenLinja :painotetutArvosanatOppiaineittain]
+              (complete-painotetut-lukioarvosanat-kaikki painotetut-arvosanat))
+    hakukohde))
+
 (defn- create-hakukohteiden-hakutiedot
   [ht-haku]
   (for [ht-hakukohde (:hakukohteet ht-haku)]
@@ -56,6 +64,7 @@
                       :hasValintaperustekuvausData
                       :jarjestaaUrheilijanAmmKoulutusta
                       :metadata])
+        (complete-painotetut-lukioarvosanat-if-exists)
         (merge (determine-correct-aikataulu-and-hakulomake ht-haku ht-hakukohde))
         (common/decorate-koodi-uris)
         (common/assoc-jarjestyspaikka)
