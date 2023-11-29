@@ -15,24 +15,24 @@
 (let [oppilaitos-oid1 "1.2.246.562.10.10101010199"
       oppilaitos-oid2 "1.2.246.562.10.77777777799"
       oppilaitos-oid3 "1.2.246.562.10.39218317368" ;; Helsingin Yliopisto
-      koulutus-oid1   "1.2.246.562.13.00000000000000000099"
-      koulutus-oid2   "1.2.246.562.13.00000000000000000098"
-      koulutus-oid3   "1.2.246.562.13.00000000000000000097"
-      koulutus-oid4   "1.2.246.562.13.00000000000000000096"
-      koulutus-oid5   "1.2.246.562.13.00000000000000000095"
-      koulutus-oid6   "1.2.246.562.13.00000000000000000094"
-      toteutus-oid1   "1.2.246.562.17.00000000000000000099"
-      toteutus-oid2   "1.2.246.562.17.00000000000000000098"
-      toteutus-oid3   "1.2.246.562.17.00000000000000000195"
-      toteutus-oid4   "1.2.246.562.17.00000000000000000196"
-      toteutus-oid5   "1.2.246.562.17.00000000000000000197"
-      toteutus-oid6   "1.2.246.562.17.00000000000000000198"
-      toteutus-oid7   "1.2.246.562.17.00000000000000000199"
-      haku-oid1       "1.2.246.562.29.00000000000000000001"
-      haku-oid2       "1.2.246.562.29.00000000000000000002"
-      hakukohde-oid1  "1.2.246.562.20.00000000000000000001"
-      hakukohde-oid2  "1.2.246.562.20.00000000000000000002"
-      hakukohde-oid3  "1.2.246.562.20.00000000000000000003"
+      koulutus-oid1 "1.2.246.562.13.00000000000000000099"
+      koulutus-oid2 "1.2.246.562.13.00000000000000000098"
+      koulutus-oid3 "1.2.246.562.13.00000000000000000097"
+      koulutus-oid4 "1.2.246.562.13.00000000000000000096"
+      koulutus-oid5 "1.2.246.562.13.00000000000000000095"
+      koulutus-oid6 "1.2.246.562.13.00000000000000000094"
+      toteutus-oid1 "1.2.246.562.17.00000000000000000099"
+      toteutus-oid2 "1.2.246.562.17.00000000000000000098"
+      toteutus-oid3 "1.2.246.562.17.00000000000000000195"
+      toteutus-oid4 "1.2.246.562.17.00000000000000000196"
+      toteutus-oid5 "1.2.246.562.17.00000000000000000197"
+      toteutus-oid6 "1.2.246.562.17.00000000000000000198"
+      toteutus-oid7 "1.2.246.562.17.00000000000000000199"
+      haku-oid1 "1.2.246.562.29.00000000000000000001"
+      haku-oid2 "1.2.246.562.29.00000000000000000002"
+      hakukohde-oid1 "1.2.246.562.20.00000000000000000001"
+      hakukohde-oid2 "1.2.246.562.20.00000000000000000002"
+      hakukohde-oid3 "1.2.246.562.20.00000000000000000003"
       valintaperuste-id1 "a5e88367-555b-4d9e-aa43-0904e5ea0a13"
       sorakuvaus-id "ffa8c6cf-a962-4bb2-bf61-fe8fc741fabd"]
 
@@ -64,7 +64,7 @@
                                :nimi "Hevosalan osaamisala"
                                :koulutustyyppi "amm-osaamisala"
                                :sorakuvausId sorakuvaus-id
-                               :johtaaTutkintoon "false"
+                               :johtaaTutkintoon nil
                                :tarjoajat [oppilaitos-oid2]
                                :metadata fixture/amm-osaamisala-koulutus-metadata)
 
@@ -78,9 +78,9 @@
                                :koulutuksetKoodiUri []
                                :tarjoajat [oppilaitos-oid2]
                                :metadata
-                                {:tyyppi "amm-tutkinnon-osa"
+                               {:tyyppi "amm-tutkinnon-osa"
                                 :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]
-                                :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+                                :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}})
 
     (fixture/add-koulutus-mock koulutus-oid5
                                :tila "julkaistu"
@@ -94,7 +94,7 @@
                                :metadata
                                {:tyyppi "amm-tutkinnon-osa"
                                 :tutkinnonOsat [{:ePerusteId 123 :koulutusKoodiUri "koulutus_371101#1" :tutkinnonosaId 1234 :tutkinnonosaViite 5678}]
-                                :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}})
+                                :kuvaus {:fi "kuvaus", :sv "kuvaus sv"}})
 
     (fixture/add-koulutus-mock koulutus-oid6
                                :tila "julkaistu"
@@ -125,7 +125,7 @@
 
     (fixture/add-toteutus-mock toteutus-oid4
                                koulutus-oid3
-                               :tila "tallennettu"
+                               :tila "julkaistu"
                                :nimi "Hevostoteutus 3"
                                :tarjoajat [(str oppilaitos-oid2 "2")])
 
@@ -204,22 +204,22 @@
 
   (use-fixtures :each test-data-fixture)
 
-   (deftest index-oppilaitos-search-items-test-1
+  (deftest index-oppilaitos-search-items-test-1
      (fixture/with-mocked-indexing
-        (testing "Do not index oppilaitos in search index when it has no koulutukset"
-          (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid1)))
-          (i/index-oppilaitos oppilaitos-oid1)
-          (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid1)))))))
+      (testing "Do not index oppilaitos in search index when it has no koulutukset"
+        (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid1)))
+        (i/index-oppilaitos oppilaitos-oid1)
+        (is (= nil (:oid (get-doc oppilaitos/index-name oppilaitos-oid1)))))))
 
-   (deftest index-oppilaitos-search-items-test-2
-     (fixture/with-mocked-indexing
-        (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
-          (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
-          (i/index-oppilaitos oppilaitos-oid2)
-          (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
-                        (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))))))
+  (deftest index-oppilaitos-search-items-test-2
+    (fixture/with-mocked-indexing
+     (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
+       (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
+       (i/index-oppilaitos oppilaitos-oid2)
+       (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
+                     (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))))))
 
-   (deftest index-koulutus-search-items-test-1
+  (deftest index-koulutus-search-items-test-1
      (fixture/with-mocked-indexing
       (testing "Create correct search item when koulutus has no toteutukset"
         (is (nil? (get-doc koulutus-search/index-name koulutus-oid1)))
@@ -248,13 +248,13 @@
 
    (deftest index-koulutus-search-items-test-4
      (fixture/with-mocked-indexing
-        (testing "Create correct search item when amm-tutkinnon-osa"
-          (is (nil? (get-doc koulutus-search/index-name koulutus-oid4)))
-          (i/index-koulutus koulutus-oid4)
-          (i/index-oppilaitos oppilaitos-oid2)
-          ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
-          (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
-                        (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4)))))))
+      (testing "Create correct search item when amm-tutkinnon-osa"
+        (is (nil? (get-doc koulutus-search/index-name koulutus-oid4)))
+        (i/index-koulutus koulutus-oid4)
+        (i/index-oppilaitos oppilaitos-oid2)
+        ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
+        (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
+                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4)))))))
 
 
 

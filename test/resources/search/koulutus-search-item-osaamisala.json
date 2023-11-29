@@ -21,6 +21,7 @@
   "search_terms": [
     {
       "koulutusOid": "1.2.246.562.13.00000000000000000097",
+      "toteutusOid": "1.2.246.562.17.00000000000000000196",
       "nimi": {
         "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
         "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
@@ -35,10 +36,10 @@
       },
       "toteutus_organisaationimi": {
         "fi": [
-          "Oppilaitos fi 1.2.246.562.10.77777777799"
+          "Toimipiste fi 1.2.246.562.10.777777777992"
         ],
         "sv": [
-          "Oppilaitos sv 1.2.246.562.10.77777777799"
+          "Toimipiste sv 1.2.246.562.10.777777777992"
         ]
       },
       "sijainti": [
@@ -56,16 +57,36 @@
         "amm-osaamisala"
       ],
       "kuva": "https://testi.fi/oppilaitos-logo/oid/logo.png",
-      "onkoTuleva": true,
+      "onkoTuleva": false,
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
       "oppilaitosOid": "1.2.246.562.10.77777777799",
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
-      "osaamisalat": [],
+      "opetuskielet": ["oppilaitoksenopetuskieli_1"],
+      "osaamisalat": ["osaamisala_0001"],
+      "ammattinimikkeet": {
+        "fi": [
+          "insinööri",
+          "koneinsinööri"
+        ]
+      },
+      "asiasanat": {
+        "fi": [
+          "robotiikka",
+          "robottiautomatiikka"
+        ]
+      },
+      "opetustavat": [
+        "opetuspaikkakk_1",
+        "opetuspaikkakk_2"
+      ],
+      "paatellytAlkamiskaudet": ["2023-kevat"],
+      "toteutusNimi":
+      {"fi": "Hevostoteutus 3 fi", "sv": "Hevostoteutus 3 sv"},
       "metadata": {
-        "koulutustyyppi": "yo",
+        "koulutustyyppi": "amm",
         "oppilaitosTila": "julkaistu",
         "kunnat": [
           {
@@ -75,9 +96,24 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
-      },
-      "paatellytAlkamiskaudet": []
+        ],
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5,
+        "opetusajat": [
+          {
+            "koodiUri": "opetusaikakk_1#1",
+            "nimi": {
+              "fi": "opetusaikakk_1#1 nimi fi",
+              "sv": "opetusaikakk_1#1 nimi sv"
+            }
+          }
+        ],
+        "onkoApuraha": true,
+        "suunniteltuKestoKuukausina": 46,
+        "tutkintonimikkeet": [],
+        "ammatillinenPerustutkintoErityisopetuksena": false,
+        "jarjestaaUrheilijanAmmKoulutusta": false
+      }
     }
   ],
   "nimi": {
@@ -118,8 +154,11 @@
   "eperuste": 1234,
   "koulutustyyppi": "amm-osaamisala",
   "toteutustenTarjoajat": {
-    "count": 0,
-    "nimi": null
+    "count": 1,
+    "nimi": {
+      "fi": "Oppilaitos fi 1.2.246.562.10.77777777799",
+      "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
+    }
   },
   "isAvoinKorkeakoulutus": null
 }
