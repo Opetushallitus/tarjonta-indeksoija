@@ -182,6 +182,34 @@
 
 (defn complete-entry
   [entry]
+(comment  (println "entry = " + entry))
+
+
+(if (get-in entry [:valintakokeet]) ; tää if ei toimi
+(do
+  (comment "valintakokeet =  [{:id 572e354e-61ae-4ff1-9737-cbf12cadcc09, :tyyppiKoodiUri valintakokeentyyppi_6#1, :nimi {:en Jannen \"näkyvä nimi\", ei tekstiä},
+  :metadata {:tietoja {:en <p>jannen lisänäyttö</p>}, :ohjeetEnnakkovalmistautumiseen {}, :ohjeetErityisjarjestelyihin {}}, :tilaisuudet []}]\n2")
+
+(println "valintakokeet = "  (get-in entry [:valintakokeet]))
+  (doseq [koe (get-in entry [:valintakokeet])]
+    (println "koe = " koe)
+    (println "koe metadata tietoja en = " (get-in koe [ :metadata :tietoja :en]))
+    )
+  )
+) ; // if(...)
+
+  (comment "nämä kaksi on hakukohde indeksoinnista"
+  (println ":metadata :kynnysehto = " (get-in entry [:metadata :kynnysehto]) )
+  (println ":en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) )
+  (println ":fi = " (get-in entry [:pohjakoulutusvaatimusTarkenne :fi]) )
+  (println ":sv = " (get-in entry [:pohjakoulutusvaatimusTarkenne :sv]) )
+
+  (if (= (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) "<p></p>")
+
+(println ":en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) )
+(comment "tämä ei toimi" (assoc entry :pohjakoulutusvaatimusTarkenne {:en "BLAAA"}))
+)
+           )
   (-> entry
       (clean-langs-not-in-kielivalinta)
       (clean-enriched-data)
