@@ -182,34 +182,84 @@
 
 (defn complete-entry
   [entry]
-(comment  (println "entry = " + entry))
+  (comment (println "entry = " + entry))
+  ;  (log/info "entry = " + entry)
 
-
-(if (get-in entry [:valintakokeet]) ; tää if ei toimi
-(do
-  (comment "valintakokeet =  [{:id 572e354e-61ae-4ff1-9737-cbf12cadcc09, :tyyppiKoodiUri valintakokeentyyppi_6#1, :nimi {:en Jannen \"näkyvä nimi\", ei tekstiä},
+  (comment
+    (log/info "Testing kohta 3")
+    (if (get-in entry [:valintakokeet])                       ; tää if ei toimi
+  (do
+    (comment "valintakokeet =  [{:id 572e354e-61ae-4ff1-9737-cbf12cadcc09, :tyyppiKoodiUri valintakokeentyyppi_6#1, :nimi {:en Jannen \"näkyvä nimi\", ei tekstiä},
   :metadata {:tietoja {:en <p>jannen lisänäyttö</p>}, :ohjeetEnnakkovalmistautumiseen {}, :ohjeetErityisjarjestelyihin {}}, :tilaisuudet []}]\n2")
 
-(println "valintakokeet = "  (get-in entry [:valintakokeet]))
-  (doseq [koe (get-in entry [:valintakokeet])]
-    (println "koe = " koe)
-    (println "koe metadata tietoja en = " (get-in koe [ :metadata :tietoja :en]))
+
+    (comment "kohta 3")
+    (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
+
+    (log/info "valintakokeet = " (get-in entry [:valintakokeet]))
+    (doseq [koe (get-in entry [:valintakokeet])]
+      (log/info "koe = " koe)
+      (log/info "kohta 3 koe metadata tietoja en = " (get-in koe [:metadata :tietoja :en]))
+      )
+    ))              )
+  ; // if(...) do(...
+
+
+  (comment "kohta 2")
+  (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
+  (comment "http://localhost:8100/kouta-indeksoija/swagger/index.html#!/kouta/post_kouta_indeksoija_api_kouta_valintaperuste"
+           "swaggeriin oid = 5e7539d5-780f-46f2-b2a3-269b0a75f98c")
+  (comment "entry -> metadata -> valintatavat (tämä on lista) -> listan elementti -> kynnysehto en/fi/sv " )
+
+  ;(entry-metadata (get-in entry [:metadata]))
+  ;(println ("entry-metadata = ") entry-metadata)
+  (def entry-metadata (get-in entry [:metadata]))
+  (def entry-metadata-valintatavat (get-in entry [:metadata :valintatavat]))
+  ;  (def l (get-in entry1 [:lista]))
+  (if (some? entry-metadata-valintatavat )
+    (do
+      (log/info "############## Testing kohta 2 ##############")
+      ;      (log/info "entry = " + entry)
+      ;  (log/info "entry-metadata = " entry-metadata)
+       (log/info "entry-metadata-valintatavat = " entry-metadata-valintatavat)
+      ;(println "kohta 2 metadata tietoja en = " (get-in entry-metadata [:metadata :tietoja :en]))
+      (doseq [valintatapa entry-metadata-valintatavat ]
+        (log/info "valintatapa -> kynnysehto = " (get-in valintatapa [:kynnysehto]))
+        (if (= (get-in valintatapa [:kynnysehto :en]) "<p></p>")
+          (log/info "Tämä en-kentän arvo pitää vaihtaa tyhjäksi")
+          )
+        )
     )
+    (println "Ei metadataa")
+    )
+
+
+
+
+
+(comment
+  (comment "nämä kaksi on hakukohde indeksoinnista")
+           (comment "kohta 1")
+
+           (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
+           (println "tiketin kohta 1 :metadata :kynnysehto = " (get-in entry [:metadata :kynnysehto]))
+
+           (comment "kohta 4")
+    (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/hakukohde?oid=1.2.246.562.20.00000000000000041329")
+           (println "tiketin kohta 4 :en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]))
+           (println "tiketin kohta 4 :fi = " (get-in entry [:pohjakoulutusvaatimusTarkenne :fi]))
+           (println "tiketin kohta 4 :sv = " (get-in entry [:pohjakoulutusvaatimusTarkenne :sv]))
+
+           (if (= (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) "<p></p>")
+
+            (do
+              (println ":en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]))
+              (comment "tämä if toimii, mutta assoc ei koska unmutable")
+              (comment "tämä ei toimi" (assoc entry :pohjakoulutusvaatimusTarkenne {:en "BLAAA"}))
+            ))
+
   )
-) ; // if(...)
 
-  (comment "nämä kaksi on hakukohde indeksoinnista"
-  (println ":metadata :kynnysehto = " (get-in entry [:metadata :kynnysehto]) )
-  (println ":en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) )
-  (println ":fi = " (get-in entry [:pohjakoulutusvaatimusTarkenne :fi]) )
-  (println ":sv = " (get-in entry [:pohjakoulutusvaatimusTarkenne :sv]) )
-
-  (if (= (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) "<p></p>")
-
-(println ":en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) )
-(comment "tämä ei toimi" (assoc entry :pohjakoulutusvaatimusTarkenne {:en "BLAAA"}))
-)
-           )
   (-> entry
       (clean-langs-not-in-kielivalinta)
       (clean-enriched-data)
