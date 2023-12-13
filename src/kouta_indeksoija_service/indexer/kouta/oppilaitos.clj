@@ -6,6 +6,7 @@
             [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
+            [kouta-indeksoija-service.indexer.tools.general :refer [julkaistu?]]
             [kouta-indeksoija-service.util.tools :refer [oppilaitos-jarjestaa-urheilijan-amm-koulutusta?]]
             [clojure.string :as s]))
 
@@ -24,15 +25,16 @@
 
 (defn assoc-koulutusohjelmatLkm
   [organisaatio koulutukset]
-  (let [koulutukset-lkm (count koulutukset)
-        tutkintoonJohtavat (if (< 0 koulutukset-lkm)
-                             (count (filter #(:johtaaTutkintoon (second %)) koulutukset))
+  (let [koulutus-objects (map second koulutukset)
+        julkaistut-toteutukset-count (fn [koulutus-object] (count (filter julkaistu? (:toteutukset koulutus-object))))
+        koulutusohjelmat-lkm (reduce + (map julkaistut-toteutukset-count  koulutus-objects))
+        tutkintoonJohtavat (if (< 0 koulutusohjelmat-lkm)
+                             (reduce + (map julkaistut-toteutukset-count (filter #(:johtaaTutkintoon  %) koulutus-objects)))
                              0)]
     (assoc organisaatio
-           :koulutusohjelmatLkm {:kaikki koulutukset-lkm
-                                 :tutkintoonJohtavat tutkintoonJohtavat
-                                 :eiTutkintoonJohtavat (- koulutukset-lkm tutkintoonJohtavat)})))
-
+      :koulutusohjelmatLkm {:kaikki koulutusohjelmat-lkm
+                            :tutkintoonJohtavat tutkintoonJohtavat
+                            :eiTutkintoonJohtavat (- koulutusohjelmat-lkm tutkintoonJohtavat)})))
 (defn- oppilaitos-entry
   [organisaatio oppilaitos koulutukset]
   (cond-> (assoc-koulutusohjelmatLkm (organisaatio-entry organisaatio) koulutukset)

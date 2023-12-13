@@ -114,7 +114,14 @@
                              :muokkaaja "1.2.246.562.24.62301161440"
                              :julkinen "true"
                              :modified "2019-01-31T09:11:23"
-                             :tarjoajat oppilaitos-oid2))
+                             :tarjoajat oppilaitos-oid2)
+  (fixture/add-toteutus-mock "1.2.246.562.17.00000000000000000001"
+                             "1.2.246.562.13.00000000000000000002"
+                             :tila "julkaistu"
+                             :nimi "Autoalan perustutkinto 1"
+                             :tarjoajat oppilaitos-oid2
+                             )
+  )
 
 (deftest index-oppilaitos-test
   (fixture/with-mocked-indexing

@@ -1,8 +1,8 @@
 {
   "koulutusohjelmatLkm": {
-    "kaikki": 5,
-    "tutkintoonJohtavat": 5,
-    "eiTutkintoonJohtavat": 0
+    "kaikki": 3,
+    "tutkintoonJohtavat": 2,
+    "eiTutkintoonJohtavat": 1
   },
   "kuvaus": {
     "fi": "Esittely",
@@ -428,26 +428,52 @@
         "sv": "Oppilaitos sv 1.2.246.562.10.77777777799"
       },
       "opetuskielet": [
-        "oppilaitoksenopetuskieli_1",
-        "oppilaitoksenopetuskieli_2"
+        "oppilaitoksenopetuskieli_1"
       ],
+      "ammattinimikkeet": {
+        "fi": [
+          "insinööri",
+          "koneinsinööri"
+        ]
+      },
+      "asiasanat": {
+        "fi": [
+          "robotiikka",
+          "robottiautomatiikka"
+        ]
+      },
+      "toteutusNimi":
+      {"fi": "Hevostoteutus 3 fi", "sv": "Hevostoteutus 3 sv"},
       "koulutusalat": [
         "kansallinenkoulutusluokitus2016koulutusalataso1_01",
         "kansallinenkoulutusluokitus2016koulutusalataso1_02",
         "kansallinenkoulutusluokitus2016koulutusalataso2_01",
         "kansallinenkoulutusluokitus2016koulutusalataso2_02"
       ],
+      "opetustavat": [
+        "opetuspaikkakk_1",
+        "opetuspaikkakk_2"
+      ],
+      "toteutus_organisaationimi": {
+        "fi": [
+          "Toimipiste fi 1.2.246.562.10.777777777992"
+        ],
+        "sv": [
+          "Toimipiste sv 1.2.246.562.10.777777777992"
+        ]
+      },
       "koulutusnimi": {
         "fi": "Hevosalan osaamisala fi",
         "sv": "Hevosalan osaamisala sv"
       },
       "koulutusOid": "1.2.246.562.13.00000000000000000097",
+      "toteutusOid": "1.2.246.562.17.00000000000000000196",
       "nimi": {
-        "fi": "Hevosalan osaamisala fi",
-        "sv": "Hevosalan osaamisala sv"
+        "fi": "Hevostoteutus 3 fi",
+        "sv": "Hevostoteutus 3 sv"
       },
-      "kuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
-      "onkoTuleva": true,
+      "kuva": "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
+      "onkoTuleva": false,
       "hasJotpaRahoitus": false,
       "isTyovoimakoulutus": false,
       "isTaydennyskoulutus": false,
@@ -455,24 +481,21 @@
       "lukiopainotukset": [],
       "lukiolinjaterityinenkoulutustehtava": [],
       "osaamisalat": [],
+      "jarjestaaUrheilijanAmmKoulutusta": false,
       "metadata": {
         "tutkintonimikkeet": [],
-        "opintojenLaajuus": {
-          "koodiUri": "opintojenlaajuus_30",
-          "nimi": {
-            "fi": "opintojenlaajuus_30 nimi fi",
-            "sv": "opintojenlaajuus_30 nimi sv"
+        "opetusajat": [
+          {
+            "koodiUri": "opetusaikakk_1#1",
+            "nimi": {
+              "fi": "opetusaikakk_1#1 nimi fi",
+              "sv": "opetusaikakk_1#1 nimi sv"
+            }
           }
-        },
-        "opintojenLaajuusyksikko": {
-          "koodiUri": "opintojenlaajuusyksikko_6",
-          "nimi": {
-            "fi": "opintojenlaajuusyksikko_6 nimi fi",
-            "sv": "opintojenlaajuusyksikko_6 nimi sv"
-          }
-        },
-        "opintojenLaajuusNumero": 30,
-        "koulutustyypit": [],
+        ],
+        "maksullisuustyyppi": "maksullinen",
+        "maksunMaara": 200.5,
+        "onkoApuraha": true,
         "koulutustyyppi": "amm-osaamisala",
         "kunnat": [
           {
@@ -482,9 +505,10 @@
               "sv": "kunta_091 nimi sv"
             }
           }
-        ]
+        ],
+        "suunniteltuKestoKuukausina": 46
       },
-      "paatellytAlkamiskaudet": []
+      "paatellytAlkamiskaudet": ["2023-kevat"]
     },
     {
       "sijainti": [
