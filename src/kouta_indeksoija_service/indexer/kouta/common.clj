@@ -182,83 +182,78 @@
 
 (defn complete-entry
   [entry]
-  (comment (println "entry = " + entry))
-  ;  (log/info "entry = " + entry)
 
-  (comment
-    (log/info "Testing kohta 3")
-    (if (get-in entry [:valintakokeet])                       ; tää if ei toimi
-  (do
+  (log/info "Testing case 12.10. Tämä tulee valintaperusteen indeksoinnista")
     (comment "valintakokeet =  [{:id 572e354e-61ae-4ff1-9737-cbf12cadcc09, :tyyppiKoodiUri valintakokeentyyppi_6#1, :nimi {:en Jannen \"näkyvä nimi\", ei tekstiä},
   :metadata {:tietoja {:en <p>jannen lisänäyttö</p>}, :ohjeetEnnakkovalmistautumiseen {}, :ohjeetErityisjarjestelyihin {}}, :tilaisuudet []}]\n2")
-
-
-    (comment "kohta 3")
     (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
 
-    (log/info "valintakokeet = " (get-in entry [:valintakokeet]))
-    (doseq [koe (get-in entry [:valintakokeet])]
-      (log/info "koe = " koe)
-      (log/info "kohta 3 koe metadata tietoja en = " (get-in koe [:metadata :tietoja :en]))
+           ;    (log/info "valintakokeet = " (get-in entry [:valintakokeet]))
+    (if (some? (get-in entry [:valintakokeet]))
+      (doseq [koe (get-in entry [:valintakokeet])]
+      (if (= (get-in koe [:metadata :tietoja :en]) "<p></p>")
+        (do  ;(log/info "koe = " koe)
+          (log/info " 12.10. koe metadata tietoja en = " (get-in koe [:metadata :tietoja :en]))
+          (log/info "Tämä en-kentän arvo pitää vaihtaa tyhjäksi. Samat fi ja sv tarkistukset pitää olla")
+          (comment "tämä assoc ei toimi, koska immutable. Pitäisi luoda uusi elementti, mutta mikä on best practice?"
+            (assoc entry :metadata :tietoja :en)
+          )
+        )
       )
-    ))              )
-  ; // if(...) do(...
+    ))
 
 
-  (comment "kohta 2")
+
+
   (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
   (comment "http://localhost:8100/kouta-indeksoija/swagger/index.html#!/kouta/post_kouta_indeksoija_api_kouta_valintaperuste"
            "swaggeriin oid = 5e7539d5-780f-46f2-b2a3-269b0a75f98c")
   (comment "entry -> metadata -> valintatavat (tämä on lista) -> listan elementti -> kynnysehto en/fi/sv " )
 
-  ;(entry-metadata (get-in entry [:metadata]))
-  ;(println ("entry-metadata = ") entry-metadata)
+  (log/info "Testing case 25.9. Tämä tulee valintaperusteen indeksoinnista")
   (def entry-metadata (get-in entry [:metadata]))
   (def entry-metadata-valintatavat (get-in entry [:metadata :valintatavat]))
-  ;  (def l (get-in entry1 [:lista]))
   (if (some? entry-metadata-valintatavat )
     (do
-      (log/info "############## Testing kohta 2 ##############")
-      ;      (log/info "entry = " + entry)
+      ;(log/info "############## Testing lisäys 25.9. ##############")
       ;  (log/info "entry-metadata = " entry-metadata)
        (log/info "entry-metadata-valintatavat = " entry-metadata-valintatavat)
       ;(println "kohta 2 metadata tietoja en = " (get-in entry-metadata [:metadata :tietoja :en]))
       (doseq [valintatapa entry-metadata-valintatavat ]
-        (log/info "valintatapa -> kynnysehto = " (get-in valintatapa [:kynnysehto]))
         (if (= (get-in valintatapa [:kynnysehto :en]) "<p></p>")
-          (log/info "Tämä en-kentän arvo pitää vaihtaa tyhjäksi")
+          (do
+            (log/info "entry = " + entry)
+            (log/info "entry->metadata -> valintatavat (lista) -> valintatapa -> kynnysehto = " (get-in valintatapa [:kynnysehto :en]))
+            (log/info "Tämä en-kentän arvo pitää vaihtaa tyhjäksi. Samat fi ja sv tarkistukset myös")
           )
         )
+      )
     )
-    (println "Ei metadataa")
-    )
+  )
 
-
-
-
-
-(comment
-  (comment "nämä kaksi on hakukohde indeksoinnista")
-           (comment "kohta 1")
-
-           (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
-           (println "tiketin kohta 1 :metadata :kynnysehto = " (get-in entry [:metadata :kynnysehto]))
-
-           (comment "kohta 4")
-    (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/hakukohde?oid=1.2.246.562.20.00000000000000041329")
-           (println "tiketin kohta 4 :en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]))
-           (println "tiketin kohta 4 :fi = " (get-in entry [:pohjakoulutusvaatimusTarkenne :fi]))
-           (println "tiketin kohta 4 :sv = " (get-in entry [:pohjakoulutusvaatimusTarkenne :sv]))
-
-           (if (= (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) "<p></p>")
-
+           (comment "#### Alkuperäinen virhe ####")
+           (if (= (get-in entry [:metadata :kynnysehto]) "<p></p>")
             (do
-              (println ":en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]))
-              (comment "tämä if toimii, mutta assoc ei koska unmutable")
-              (comment "tämä ei toimi" (assoc entry :pohjakoulutusvaatimusTarkenne {:en "BLAAA"}))
+              (log/info "############## Testing Alkuperäinen virhe ##############")
+              (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/valintaperuste?id=5e7539d5-780f-46f2-b2a3-269b0a75f98c")
+              (println "entry :metadata :kynnysehto = " (get-in entry [:metadata :kynnysehto :en]))
+              (log/info "Tämä en-kentän arvo pitää vaihtaa tyhjäksi. Samat fi ja sv tarkistukset pitää olla"))
+            (comment "tämä ei toimi, koska immutable" (assoc entry :metadata :kynnysehto {:en ""}))
+           )
+
+           (comment "Lisäys 25.10.")
+           (comment "https://virkailija.testiopintopolku.fi/kouta-indeksoija/api/indexed/hakukohde?oid=1.2.246.562.20.00000000000000041329")
+           (comment "http://localhost:8100/kouta-indeksoija/swagger/index.html#!/kouta/post_kouta_indeksoija_api_kouta_valintaperuste"
+                    "swaggerissa oid 5e7539d5-780f-46f2-b2a3-269b0a75f98c")
+           (if (= (get-in entry [:pohjakoulutusvaatimusTarkenne :en]) "<p></p>")
+            (do
+              (log/info "tiketin kohta 4 25.10. :pohjakoulutusvaatimusTarkenne :en = " (get-in entry [:pohjakoulutusvaatimusTarkenne :en]))
+              ;(log/info "entry = " + entry)
+              (log/info "Tämä en-kentän arvo pitää vaihtaa tyhjäksi. Samat fi ja sv tarkistukset pitää olla")
+              (comment "tämä ei toimi, koska immutable" (assoc entry :pohjakoulutusvaatimusTarkenne {:en ""}))
             ))
 
-  )
+
 
   (-> entry
       (clean-langs-not-in-kielivalinta)
