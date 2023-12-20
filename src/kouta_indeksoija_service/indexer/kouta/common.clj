@@ -15,7 +15,6 @@
             [clojure.tools.logging :as log]
             [clojure.set :as set]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]))
-(use 'clojure.walk)
 
 (defn- strip-koodi-uri-key
   [key]
