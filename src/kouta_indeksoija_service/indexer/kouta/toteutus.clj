@@ -158,7 +158,8 @@
                                   (assoc-hakutiedot hakutiedot)
                                   (assoc-opintojaksot opintojaksot)
                                   (assoc :kuuluuOpintokokonaisuuksiin opintokokonaisuudet)
-                                  (common/localize-dates))]
+                                  (common/localize-dates)
+                                  (common/remove-empty-p-tags))]
         (indexable/->index-entry-with-forwarded-data oid toteutus-enriched toteutus-enriched))
       (indexable/->delete-entry-with-forwarded-data oid toteutus))))
 
