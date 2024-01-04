@@ -180,9 +180,17 @@
       %)
     map))
 
+(defn remove-empty-p-tags [entry]
+  (clojure.walk/postwalk
+    #(if (map? %)
+       (into {} (filter (fn [[key val]] (not= "<p></p>" val)) %))
+       %)
+    entry))
+
 (defn complete-entry
   [entry]
   (-> entry
+      (remove-empty-p-tags)
       (clean-langs-not-in-kielivalinta)
       (clean-enriched-data)
       (decorate-koodi-uris)
