@@ -185,15 +185,15 @@
 
 (defn create-index-entry
   [oid execution-id]
-  (when-let [oppilaitos (cache/find-oppilaitos-by-oid oid)]
+  (when-let [organisaatio (cache/find-oppilaitos-by-oid oid)]
     (let [;; jos toimipiste, haetaan koulutukset parentin oidilla, koska toimipiste ei ole
           ;; koulutuksen vaan toteutuksen tarjoaja
-          oppilaitos-oid (if (organisaatio-tool/toimipiste? oppilaitos) (:parentOid oppilaitos) (:oid oppilaitos))
+          oppilaitos-oid (if (organisaatio-tool/toimipiste? organisaatio) (:parentOid organisaatio) (:oid organisaatio))
           koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)
-          entry (oppilaitos-entry-with-osat oppilaitos koulutukset execution-id)]
-      (if (organisaatio-tool/indexable? oppilaitos)
-        (indexable/->index-entry (:oid oppilaitos) entry)
-        (indexable/->delete-entry (:oid oppilaitos))))))
+          entry (oppilaitos-entry-with-osat organisaatio koulutukset execution-id)]
+      (if (organisaatio-tool/indexable? organisaatio)
+        (indexable/->index-entry (:oid organisaatio) entry)
+        (indexable/->delete-entry (:oid organisaatio))))))
 
 (defn do-index
   ([oids execution-id]
