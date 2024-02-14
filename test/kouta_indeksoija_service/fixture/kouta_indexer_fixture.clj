@@ -861,6 +861,9 @@
                  kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-koodisto
 
+                 kouta-indeksoija-service.rest.koodisto/get-koodi-nimi-and-arvo-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-koodi-nimi-and-arvo-with-cache
+
                  kouta-indeksoija-service.rest.oppijanumerorekisteri/get-henkilo-nimi-with-cache
                  kouta-indeksoija-service.fixture.external-services/mock-get-henkilo-nimi-with-cache
 

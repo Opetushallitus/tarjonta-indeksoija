@@ -5,7 +5,7 @@
 (def koodi-uri-lock (Object.))
 
 (defn mock-koodisto
-  ([koodisto koodi-uri]
+  ([_ koodi-uri]
    (locking koodi-uri-lock
      (if koodi-uri
        {:koodiUri koodi-uri :nimi {:fi (str koodi-uri " nimi fi") :sv (str koodi-uri " nimi sv")}})))
@@ -13,6 +13,12 @@
    (locking koodi-uri-lock
      (if koodi-uri
        (mock-koodisto (subs koodi-uri 0 (string/index-of koodi-uri "_")) koodi-uri)))))
+
+(defn mock-koodi-nimi-and-arvo-with-cache
+  [koodi-uri]
+  (if koodi-uri
+    {:koodiUri koodi-uri :koodiArvo (re-find #"\d{5}" koodi-uri) :nimi {:fi (str koodi-uri " nimi fi") :sv (str koodi-uri " nimi sv")}}
+    nil))
 
 (defn mock-alakoodit
   [koodi-uri alakoodisto-uri]

@@ -3,7 +3,7 @@
             [kouta-indeksoija-service.rest.kouta :as kouta-backend]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-and-arvo-with-cache]]
             [kouta-indeksoija-service.indexer.kouta.common :as common]
             [kouta-indeksoija-service.indexer.indexable :as indexable]
             [kouta-indeksoija-service.indexer.tools.general :refer [julkaistu?]]
@@ -125,7 +125,7 @@
     (if-let [postinumeroKoodiUri (or (get-in osoite [:postinumeroKoodiUri])
                                      (get-in osoite [:postinumero :koodiUri]))]
       (let [postinumero (re-find #"\d{5}" postinumeroKoodiUri)
-            postitoimipaikka (get-koodi-nimi-with-cache postinumeroKoodiUri)
+            postitoimipaikka (get-koodi-nimi-and-arvo-with-cache postinumeroKoodiUri)
             osoite-str (create-osoite-str-for-hakijapalvelut (get-in osoite [:osoite]) postinumero (:nimi postitoimipaikka))]
         (assoc yhteystiedot-from-oppilaitos-metadata json-key osoite-str))
       yhteystiedot-from-oppilaitos-metadata)
