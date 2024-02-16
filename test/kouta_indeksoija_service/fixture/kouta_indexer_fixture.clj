@@ -135,6 +135,8 @@
 (defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
 (defonce tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteen-perusopetus-toteutus-metadata.json")))
 (defonce muu-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/muu-toteutus-metadata.json")))
+(def default-oppilaitos-map (merge (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json"))
+                                       {:_enrichedData {:organisaatio (->keywordized-json (slurp "test/resources/kouta/default-kouta-organisaatio.json"))}}))
 
 (defonce koulutus-metatieto
   {:tyyppi "amm"
@@ -552,8 +554,10 @@
     (swap! oppilaitokset assoc oid oppilaitos)))
 
 (defn mock-get-oppilaitos
-  [oid execution-id]
-  (get @oppilaitokset oid))
+  ([oid _ _]
+   (get @oppilaitokset oid))
+  ([oid _]
+   (get @oppilaitokset oid)))
 
 (defn add-oppilaitoksen-osa-mock
   [oid oppilaitosOid & {:as params}]

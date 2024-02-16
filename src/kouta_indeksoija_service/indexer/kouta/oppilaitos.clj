@@ -58,9 +58,8 @@
 
 (defn create-kielistetty-osoitetieto
   [osoitetieto languages]
-  (let [postinumeroKoodiUri (:postinumeroUri (first (filter (fn [os] (get-in os [:postinumeroUri])) osoitetieto)))]
-    {:osoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
-     :postinumeroKoodiUri (when (not (s/blank? postinumeroKoodiUri)) postinumeroKoodiUri)}))
+  {:osoite (create-kielistetty-yhteystieto osoitetieto :osoite languages)
+   :postinumeroKoodiUri (create-kielistetty-yhteystieto osoitetieto :postinumeroUri languages)})
 
 (defn create-kielistetty-osoite-str
   [osoitetieto ulkomainen_osoite_en languages]
@@ -107,26 +106,36 @@
       :kayntiosoiteStr (create-kielistetty-osoite-str kayntiosoitteet ulkomainen_kaynti_en languages)}]))
 
 (defn create-osoite-str-for-hakijapalvelut
-  [katuosoite-map postinumero toimipaikat]
-  (let [toimipaikat-with-default (into {} (for [[k, v] katuosoite-map]
-                                            (if (not (contains? toimipaikat k))
-                                              [k (or (:fi toimipaikat) (:sv toimipaikat) (:en toimipaikat))]
-                                              [k (k toimipaikat)])))
+  [katuosoite-map toimipaikat]
+  (let [toimipaikat-with-default (into {} (for [[kieli _] katuosoite-map]
+                                            (let [toimipaikan-nimet (get-in toimipaikat [kieli :nimi])]
+                                              (if (contains? toimipaikan-nimet kieli)
+                                                [kieli (get toimipaikan-nimet kieli)]
+                                                (if (get-in toimipaikat [kieli])
+                                                  [kieli (or (get toimipaikan-nimet :fi) (get toimipaikan-nimet :sv) (get toimipaikan-nimet :en))]
+                                                  nil)))))
         capitalized_toimipaikat (zipmap
-                                  (keys toimipaikat-with-default)
-                                  (map #(clojure.string/capitalize %) (vals toimipaikat-with-default)))]
-   (merge-with #(str %1 " " %2)
-               (into {} (for [[k v] katuosoite-map] [k (str v ", " postinumero)]))
-               capitalized_toimipaikat)))
+                                 (keys toimipaikat-with-default)
+                                 (map #(if (not (nil? %))
+                                         (clojure.string/capitalize %)
+                                         %)
+                                      (vals toimipaikat-with-default)))]
+    (merge-with #(str %1 " " %2)
+                (into {} (for [[kieli v] katuosoite-map] [kieli (if (get-in toimipaikat [kieli])
+                                                                  (str v ", " (or (get-in toimipaikat [kieli :koodiArvo]) ""))
+                                                                  (str v))]))
+                capitalized_toimipaikat)))
 
 (defn add-osoite-str-to-yhteystiedot
   [yhteystiedot-from-oppilaitos-metadata osoitetyyppi json-key]
   (if-let [osoite (get-in yhteystiedot-from-oppilaitos-metadata [osoitetyyppi])]
-    (if-let [postinumeroKoodiUri (or (get-in osoite [:postinumeroKoodiUri])
+    (if-let [postinumeroKoodiUrit (or (get-in osoite [:postinumeroKoodiUri])
                                      (get-in osoite [:postinumero :koodiUri]))]
-      (let [postinumero (re-find #"\d{5}" postinumeroKoodiUri)
-            postitoimipaikka (get-koodi-nimi-and-arvo-with-cache postinumeroKoodiUri)
-            osoite-str (create-osoite-str-for-hakijapalvelut (get-in osoite [:osoite]) postinumero (:nimi postitoimipaikka))]
+      (let [postitoimipaikat (doall (into {} (for [[kieli v] postinumeroKoodiUrit]
+                                               (if (seq v)
+                                                   [kieli (get-koodi-nimi-and-arvo-with-cache "posti" v)]
+                                                   nil))))
+            osoite-str (create-osoite-str-for-hakijapalvelut (get-in osoite [:osoite]) postitoimipaikat)]
         (assoc yhteystiedot-from-oppilaitos-metadata json-key osoite-str))
       yhteystiedot-from-oppilaitos-metadata)
     yhteystiedot-from-oppilaitos-metadata))
@@ -141,42 +150,73 @@
                                                                                (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                                                                                (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))))))]
     (cond-> (organisaatio-entry organisaatio)
-            (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
-                                                                 (common/complete-entry)
-                                                                 (update-yhteystiedot-fn)
-                                                                 (dissoc :oppilaitosOid :oid))))))
+      (seq oppilaitoksen-osa) (assoc :oppilaitoksenOsa (-> oppilaitoksen-osa
+                                                           (common/complete-entry)
+                                                           (update-yhteystiedot-fn)
+                                                           (dissoc :oppilaitosOid :oid))))))
 
 (defn- add-data-from-organisaatio-palvelu
-  [organisaatio]
-  (let [org-from-organisaatio-palvelu (cache/get-yhteystiedot (:oid organisaatio))
-        yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)]
-    (-> organisaatio
+  [oppilaitoksen-osa organisaatio]
+  (prn "organisaatio")
+  (prn organisaatio)
+  (prn oppilaitoksen-osa)
+  (let [org-from-organisaatio-palvelu (cache/get-yhteystiedot (:oid oppilaitoksen-osa))
+        ;; yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)
+        yhteystiedot (-> (get-in organisaatio [:yhteystiedot])
+                         (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                         (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
+        hakijapalveluiden-yhteystiedot (-> (get-in oppilaitoksen-osa [:metadata :hakijapalveluidenYhteystiedot])
+                                           (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                                           (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))]
+    (prn "yhteystiedot")
+    (prn yhteystiedot)
+    (-> oppilaitoksen-osa
         (assoc :status (:status org-from-organisaatio-palvelu))
-        (assoc-in [:metadata :yhteystiedot] yhteystiedot))))
+        (assoc-in [:metadata :yhteystiedot] yhteystiedot)
+        (assoc-in [:metadata :hakijapalveluidenYhteystiedot] hakijapalveluiden-yhteystiedot))))
+
+(defn- find-child-from-organisaatio-children
+  [oid oppilaitos-organisaatio]
+  (or
+    (first (filter #(= oid (:oid %)) (get-in
+                                       oppilaitos-organisaatio
+                                       [:children])))
+    {}))
 
 (defn- oppilaitos-entry-with-osat
   [organisaatio koulutukset execution-id]
+  ;; (prn "organisaatio")
+  ;; (prn organisaatio)
   (let [oppilaitos-oid (:oid organisaatio)
-        oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid execution-id) {})
+        oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid true execution-id) {})
+        oppilaitos-organisaatio-with-children (get-in oppilaitos [:_enrichedData :organisaatio])
         oppilaitoksen-yhteystiedot-from-organisaatiopalvelu (cache/get-yhteystiedot oppilaitos-oid)
-        yhteystiedot (parse-yhteystiedot oppilaitoksen-yhteystiedot-from-organisaatiopalvelu languages)
+        yhteystiedot (-> (get-in oppilaitos [:_enrichedData :organisaatio :yhteystiedot])
+                         (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
+                         (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
         hakijapalveluiden-yhteystiedot (-> (get-in oppilaitos [:metadata :hakijapalveluidenYhteystiedot])
                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                                            (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
         oppilaitos-metadata (assoc
-                             (get-in oppilaitos [:metadata])
-                             :yhteystiedot yhteystiedot
-                             :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
+                              (get-in oppilaitos [:metadata])
+                              :yhteystiedot yhteystiedot
+                              :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
         ;; organisaatio-servicen /jalkelaiset-rajapinta palauttaa lyhytNimen oppilaitoksen osille
         ;; käytetään org yhteystietojen mukana tulevaa kokonimeä
         organisaatio-with-updated-nimi (common/assoc-nimi-from-oppilaitoksen-yhteystiedot
                                          organisaatio
                                          oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
-        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %)
+        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu % (find-child-from-organisaatio-children
+                                                                         (get-in % [:oid])
+                                                                         oppilaitos-organisaatio-with-children))
                                 (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
         oppilaitoksen-koulutukset (common/get-organisaation-koulutukset organisaatio koulutukset)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
+    (prn "oppilaitos")
+    (prn oppilaitos)
+    ;; (prn "oppilaitoksen-osat")
+    ;; (prn oppilaitoksen-osat)
     (as-> (oppilaitos-entry organisaatio-with-updated-nimi enriched-oppilaitos oppilaitoksen-koulutukset) o
       (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
@@ -191,6 +231,8 @@
           oppilaitos-oid (if (organisaatio-tool/toimipiste? organisaatio) (:parentOid organisaatio) (:oid organisaatio))
           koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)
           entry (oppilaitos-entry-with-osat organisaatio koulutukset execution-id)]
+      ;; (prn "entry")
+      ;; (prn entry)
       (if (organisaatio-tool/indexable? organisaatio)
         (indexable/->index-entry (:oid organisaatio) entry)
         (indexable/->delete-entry (:oid organisaatio))))))

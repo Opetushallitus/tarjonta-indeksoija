@@ -45,9 +45,8 @@
      (get-koodi-nimi-with-cache (subs koodi-uri 0 (str/index-of koodi-uri "_")) koodi-uri))))
 
 (defn get-koodi-nimi-and-arvo-with-cache
-  [koodi-uri]
-   (let [koodisto (subs koodi-uri 0 (str/index-of koodi-uri "_"))
-         koodi (get-koodi-with-cache koodisto koodi-uri)]
+  [koodisto koodi-uri]
+   (let [koodi (get-koodi-with-cache koodisto koodi-uri)]
      {:koodiUri koodi-uri
       :koodiArvo (get-in koodi [:koodiArvo])
       :nimi (extract-koodi-nimi koodi)}))
