@@ -245,7 +245,7 @@
 
 (defn common-indexer-fixture
   [tests]
+  (fixture/teardown)
   (admin/initialize-indices)
   (add-mock-kouta-data)
-  (tests)
-  (fixture/teardown))
+  (tests))

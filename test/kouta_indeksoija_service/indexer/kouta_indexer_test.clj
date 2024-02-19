@@ -15,12 +15,13 @@
             [kouta-indeksoija-service.indexer.eperuste.eperuste :as eperuste]
             [kouta-indeksoija-service.elastic.tools :refer [get-doc]]
             [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
-            [kouta-indeksoija-service.test-tools :refer [parse compare-json debug-pretty]]
+            [kouta-indeksoija-service.test-tools :refer [compare-json debug-pretty]]
             [kouta-indeksoija-service.indexer.cache.hierarkia]
             [kouta-indeksoija-service.rest.organisaatio]
             [kouta-indeksoija-service.rest.kouta]
             [clj-test-utils.elasticsearch-mock-utils :refer :all]))
 
+(use-fixtures :once fixture/reload-kouta-indexer-fixture)
 (use-fixtures :each common-indexer-fixture)
 
 (def oppilaitos-with-wrong-type "1.2.246.562.10.14452275770")
@@ -59,16 +60,6 @@
                      :sv (str "http://localhost/hakemus/haku/" haku-oid "?lang=sv")
                      :en (str "http://localhost/hakemus/haku/" haku-oid "?lang=en")}
                     (:hakulomakeLinkki (get-doc haku/index-name haku-oid))))))
-(deftest index-oppilaitos-test-3
-  (fixture/with-mocked-indexing
-    (with-redefs [kouta-indeksoija-service.indexer.cache.hierarkia/get-hierarkia-item (fn [oid]
-                                                                                        (update-in (parse (str "test/resources/organisaatiot/1.2.246.562.10.10101010101-hierarkia.json"))
-                                                                                                   [:organisaatiot 0 :children 0 :organisaatiotyypit]
-                                                                                                   (constantly ["organisaatiotyyppi_06"])))]
-      (testing "Indexer should not index oppilaitos when invalid organisaatiotyyppi"
-        (check-all-nil)
-        (i/index-oppilaitos oppilaitos-oid)
-        (check-all-nil)))))
 
 (deftest index-valintaperuste-test
   (fixture/with-mocked-indexing

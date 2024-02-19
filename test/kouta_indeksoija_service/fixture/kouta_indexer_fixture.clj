@@ -13,8 +13,17 @@
             [clj-elasticsearch.elastic-utils :as u]
             [clojure.walk :refer [keywordize-keys stringify-keys postwalk]]
             [clj-time.core :as time]
-            [clj-time.format :as time-format])
-  (:import (java.util NoSuchElementException)))
+            [clj-time.format :as time-format]
+            [clj-test-utils.elasticsearch-docker-utils :refer [start-elasticsearch stop-elasticsearch]]))
+
+(defn reload-kouta-indexer-fixture [f]
+  (require 'kouta-indeksoija-service.fixture.kouta-indexer-fixture :reload)
+  (f))
+
+(defn restart-elasticsearch [tests]
+  (stop-elasticsearch)
+  (start-elasticsearch)
+  (tests))
 
 (defonce koulutukset (atom {}))
 (defonce toteutukset (atom {}))
@@ -122,21 +131,20 @@
   [e]
   (and (not-arkistoitu? e) (not-poistettu? e)))
 
-(defonce default-koulutus-map (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json")))
-(defonce default-toteutus-map (->keywordized-json (slurp "test/resources/kouta/default-toteutus.json")))
-(defonce default-haku-map (->keywordized-json (slurp "test/resources/kouta/default-haku.json")))
-(defonce default-hakukohde-map (->keywordized-json (slurp "test/resources/kouta/default-hakukohde.json")))
-(defonce default-valintaperuste-map (->keywordized-json (slurp "test/resources/kouta/default-valintaperuste.json")))
-(defonce default-sorakuvaus-map (->keywordized-json (slurp "test/resources/kouta/default-sorakuvaus.json")))
-(defonce default-oppilaitos-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json")))
-(defonce default-oppilaitoksen-osa-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
-
-(defonce lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
-(defonce amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
-(defonce tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteen-perusopetus-toteutus-metadata.json")))
-(defonce muu-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/muu-toteutus-metadata.json")))
+(def default-koulutus-map (->keywordized-json (slurp "test/resources/kouta/default-koulutus.json")))
+(def default-toteutus-map (->keywordized-json (slurp "test/resources/kouta/default-toteutus.json")))
+(def default-haku-map (->keywordized-json (slurp "test/resources/kouta/default-haku.json")))
+(def default-hakukohde-map (->keywordized-json (slurp "test/resources/kouta/default-hakukohde.json")))
+(def default-valintaperuste-map (->keywordized-json (slurp "test/resources/kouta/default-valintaperuste.json")))
+(def default-sorakuvaus-map (->keywordized-json (slurp "test/resources/kouta/default-sorakuvaus.json")))
 (def default-oppilaitos-map (merge (->keywordized-json (slurp "test/resources/kouta/default-oppilaitos.json"))
                                        {:_enrichedData {:organisaatio (->keywordized-json (slurp "test/resources/kouta/default-kouta-organisaatio.json"))}}))
+(def default-oppilaitoksen-osa-map (->keywordized-json (slurp "test/resources/kouta/default-oppilaitoksen-osa.json")))
+
+(def lk-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/lk-toteutus-metadata.json")))
+(def amm-tutkinnon-osa-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/amm-tutkinnon-osa-toteutus-metadata.json")))
+(def tpo-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/taiteen-perusopetus-toteutus-metadata.json")))
+(def muu-toteutus-metadata (->keywordized-json (slurp "test/resources/kouta/muu-toteutus-metadata.json")))
 
 (defonce koulutus-metatieto
   {:tyyppi "amm"
