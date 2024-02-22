@@ -85,13 +85,13 @@
     (assoc (dissoc entry :organisaatioOid) :organisaatio (get-tarjoaja oid))
     entry))
 
-(defn- jarjestyspaikka-enriched
+(defn- jarjestyspaikka-hierarkia-nimi
   [oid name]
   (let [tarjoaja (cache/get-hierarkia-item oid)]
     (if (o/oppilaitos? tarjoaja)
       name
       (if-let [parent (cache/get-hierarkia-item (:parentOid tarjoaja))]
-        (jarjestyspaikka-enriched
+        (jarjestyspaikka-hierarkia-nimi
           (:parentOid tarjoaja)
           (reduce
             #(assoc %1 %2 (str
@@ -112,7 +112,7 @@
           (assoc :jarjestyspaikka (assoc tarjoaja
                                     :jarjestaaUrheilijanAmmKoulutusta
                                     (get-in entry [:jarjestaaUrheilijanAmmKoulutusta])))
-          (assoc :jarjestyspaikkaEnriched (jarjestyspaikka-enriched oid (:nimi tarjoaja)))
+          (assoc :jarjestyspaikkaHierarkiaNimi (jarjestyspaikka-hierarkia-nimi oid (:nimi tarjoaja)))
           (dissoc entry :jarjestyspaikkaOid :jarjestaaUrheilijanAmmKoulutusta)))
     entry))
 

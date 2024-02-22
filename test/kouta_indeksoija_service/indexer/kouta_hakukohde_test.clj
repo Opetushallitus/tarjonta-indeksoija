@@ -426,4 +426,4 @@
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (= "Oppilaitos fi 1.2.246.562.10.77777777799, Toimipiste fi 1.2.246.562.10.777777777991"
-               (get-in hakukohde [:jarjestyspaikkaEnriched :fi])))))))
+               (get-in hakukohde [:jarjestyspaikkaHierarkiaNimi :fi])))))))
