@@ -155,6 +155,16 @@
                                                            (update-yhteystiedot-fn)
                                                            (dissoc :oppilaitosOid :oid))))))
 
+(defn find-parent-oppilaitos-oid-in-hierarkia
+  [toimipiste-oid hierarkia last-seen-oppilaitos-oid]
+  (if (= toimipiste-oid (:oid hierarkia))
+    last-seen-oppilaitos-oid
+    (let [oppilaitos-oid (if (organisaatio-tool/oppilaitos? hierarkia)
+                           (:oid hierarkia)
+                           last-seen-oppilaitos-oid)]
+      (some #(find-parent-oppilaitos-oid-in-hierarkia toimipiste-oid % oppilaitos-oid)
+            (:children hierarkia)))))
+
 (defn- add-data-from-organisaatio-palvelu
   [oppilaitoksen-osa organisaatio]
   (prn "organisaatio")

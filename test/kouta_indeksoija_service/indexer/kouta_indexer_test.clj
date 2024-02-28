@@ -349,3 +349,187 @@
           (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid)))))
         (doseq [oppilaitos-oid (filter (fn [oid] (not (some #(= oid %) oppilaitokset-with-koulutukset))) all-oppilaitokset)]
           (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid))))))))
+(deftest find-parent-oppilaitos-oid-in-hierarkia
+  (testing "it should return nil when toimipiste has no oppilaitos parent in hierarkia"
+    (let [hierarkia {:oid "1.2.246.562.10.10101010101"
+                     :parentOid "1.2.246.562.10.10101010100"
+                     :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                     :children []
+                     :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+      (is (= nil (oppilaitos/find-parent-oppilaitos-oid-in-hierarkia
+                  "1.2.246.562.10.10101010122"
+                  hierarkia
+                  nil)))))
+
+  (testing "it should return parent oppilaitos oid for toimipiste"
+    (let [child-toimipiste-oid "1.2.246.562.10.10101010102"
+          child-toimipiste {:oid child-toimipiste-oid
+                            :parentOid "1.2.246.562.10.10101010101"
+                            :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                            :children []
+                            :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          hierarkia {:oid "1.2.246.562.10.10101010101"
+                     :parentOid "1.2.246.562.10.10101010100"
+                     :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                     :children [child-toimipiste]
+                     :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+      (is (= "1.2.246.562.10.10101010101" (oppilaitos/find-parent-oppilaitos-oid-in-hierarkia
+                                           "1.2.246.562.10.10101010102"
+                                           hierarkia
+                                           nil)))))
+
+  (testing "it should return closest parent oppilaitos oid for toimipiste"
+    (let [child-toimipiste-oid "1.2.246.562.10.10101010102"
+          child-toimipiste {:oid child-toimipiste-oid
+                            :parentOid "1.2.246.562.10.10101010101"
+                            :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                            :children []
+                            :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          parent-oppilaitos {:oid "1.2.246.562.10.10101010101"
+                             :parentOid "1.2.246.562.10.10101010100"
+                             :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                             :children [child-toimipiste]
+                             :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          outer-oppilaitos {:oid "1.2.246.562.10.10101010100"
+                            :parentOid "1.2.246.562.10.10101010100"
+                            :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                            :children [parent-oppilaitos]
+                            :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+      (is (= "1.2.246.562.10.10101010101" (oppilaitos/find-parent-oppilaitos-oid-in-hierarkia
+                                           "1.2.246.562.10.10101010102"
+                                           outer-oppilaitos
+                                           nil)))))
+
+  (testing "it should return when toimipiste is reached"
+    (let [koulutustoimija-oid "1.2.246.562.10.10101010100"
+          oppilaitos-oid1 "1.2.246.562.10.10101010101"
+          extra-toimipiste-oid "1.2.246.562.10.10101010109"
+          farmasia-toimipiste-oid "1.2.246.562.10.10101010103"
+          hierarkia {:oid koulutustoimija-oid
+                     :parentOid "1.2.246.562.10.00000000001"
+                     :nimi {"fi" "Tanhualan Yliopisto"}
+                     :organisaatiotyyppiUris ["organisaatiotyyppi_01"]
+                     :children
+                     [{:children
+                       [{:children
+                         [{:oid extra-toimipiste-oid
+                           :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                                  :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                                  :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                           :parentOid farmasia-toimipiste-oid
+                           :children []
+                           :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                         :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten"
+                                :fi "Tanhualan yliopisto, Farmasian tiedekunta"
+                                :en "University of Tanhuala, Faculty of Pharmacy"}
+                         :parentOid oppilaitos-oid1
+                         :oid farmasia-toimipiste-oid
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                       :nimi {:sv "Tanhuala universitet"
+                              :fi "Tanhualan Yliopisto"
+                              :en "University of Tanhuala"}
+                       :parentOid koulutustoimija-oid
+                       :oid oppilaitos-oid1
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+                     }]
+      (is (= oppilaitos-oid1 (oppilaitos/find-parent-oppilaitos-oid-in-hierarkia
+                              extra-toimipiste-oid
+                              hierarkia
+                              nil)))))
+
+  (testing "it should return the right parent oppilaitos oid for toimipiste when hierarkia tree has two oppilaitos"
+    (let [koulutustoimija-oid "1.2.246.562.10.10101010100"
+          oppilaitos-oid1 "1.2.246.562.10.10101010101"
+          oppilaitos-oid2 "1.2.246.562.10.10101010102"
+          extra-toimipiste-oid "1.2.246.562.10.10101010109"
+          farmasia-toimipiste-oid "1.2.246.562.10.10101010103"
+          foobar-oid "1.2.246.562.10.10101010104"
+          joku-toinen-toimipiste-oid "1.2.246.562.10.10101010105"
+          hierarkia {:oid koulutustoimija-oid
+                     :parentOid "1.2.246.562.10.00000000001"
+                     :nimi {"fi" "Tanhualan Yliopisto"}
+                     :organisaatiotyyppiUris ["organisaatiotyyppi_01"]
+                     :children
+                     [{:children
+                       [{:children
+                         [{:oid extra-toimipiste-oid
+                           :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                                  :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                                  :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                           :parentOid farmasia-toimipiste-oid
+                           :children []
+                           :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                         :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten"
+                                :fi "Tanhualan yliopisto, Farmasian tiedekunta"
+                                :en "University of Tanhuala, Faculty of Pharmacy"}
+                         :parentOid oppilaitos-oid1
+                         :oid farmasia-toimipiste-oid
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                       :nimi {:sv "Tanhuala universitet"
+                              :fi "Tanhualan Yliopisto"
+                              :en "University of Tanhuala"}
+                       :parentOid koulutustoimija-oid
+                       :oid oppilaitos-oid1
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+                      {:children
+                       [{:oid foobar-oid
+                         :nimi {:sv "foo" :fi "bar" :en "foobar"}
+                         :parentOid oppilaitos-oid2
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_06"]}
+                        {:oid joku-toinen-toimipiste-oid
+                         :nimi {:sv "Joku toinen yliopisto, toimipiste fi"
+                                :fi "Joku toinen universitet, toimipiste sv"
+                                :en "University of Joku toinen, toimipiste en"}
+                         :parentOid oppilaitos-oid2
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                       :nimi {:sv "Joku toinen universitet"
+                              :fi "Joku toinen Yliopisto"
+                              :en "University of Joku toinen"}
+                       :parentOid koulutustoimija-oid
+                       :oid oppilaitos-oid2
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+                      {:oid extra-toimipiste-oid
+                       :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                              :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                              :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                       :parentOid farmasia-toimipiste-oid
+                       :children []
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                      {:children
+                       [{:oid extra-toimipiste-oid
+                         :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                                :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                                :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                         :parentOid farmasia-toimipiste-oid
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                       :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten"
+                              :fi "Tanhualan yliopisto, Farmasian tiedekunta"
+                              :en "University of Tanhuala, Faculty of Pharmacy"}
+                       :parentOid oppilaitos-oid1
+                       :oid farmasia-toimipiste-oid
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                      {:oid foobar-oid
+                       :nimi {:sv "foo" :fi "bar" :en "foobar"}
+                       :parentOid oppilaitos-oid2
+                       :children []
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_06"]}
+                      {:oid joku-toinen-toimipiste-oid
+                       :nimi {:sv "Joku toinen yliopisto, toimipiste fi"
+                              :fi "Joku toinen universitet, toimipiste sv"
+                              :en "University of Joku toinen, toimipiste en"}
+                       :parentOid oppilaitos-oid2
+                       :children []
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]}]
+      (is (= oppilaitos-oid1 (oppilaitos/find-parent-oppilaitos-oid-in-hierarkia
+                              extra-toimipiste-oid
+                              hierarkia
+                              nil)))
+      (is (= oppilaitos-oid2 (oppilaitos/find-parent-oppilaitos-oid-in-hierarkia
+                              foobar-oid
+                              hierarkia
+                              nil)))))
+  )
+
