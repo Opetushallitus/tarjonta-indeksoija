@@ -417,3 +417,13 @@
       (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
       (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
         (is (false? (:jarjestaaUrheilijanAmmKoulutusta hakukohde)))))))
+
+(deftest index-hakukohde-jarjestyspaikka-toimipiste
+  (fixture/with-mocked-indexing
+    (testing "Indexer should index jarjestaaUrheilijanAmmKoulutusta=false to hakukohde from hakukohde metadata"
+      (check-all-nil)
+      (fixture/update-hakukohde-mock hakukohde-oid :jarjestyspaikkaOid "1.2.246.562.10.777777777991")
+      (i/index-hakukohteet [hakukohde-oid] (. System (currentTimeMillis)))
+      (let [hakukohde (get-doc hakukohde/index-name hakukohde-oid)]
+        (is (= "Oppilaitos fi 1.2.246.562.10.77777777799, Toimipiste fi 1.2.246.562.10.777777777991"
+               (get-in hakukohde [:jarjestyspaikkaHierarkiaNimi :fi])))))))

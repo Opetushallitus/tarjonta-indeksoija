@@ -165,6 +165,10 @@
             "oid": "1.2.246.562.10.67476956288",
             "jarjestaaUrheilijanAmmKoulutusta": true
           },
+          "jarjestyspaikkaHierarkiaNimi": {
+            "fi": "Jokin järjestyspaikka",
+            "sv": "Jokin järjestyspaikka sv"
+          },
           "tila": "julkaistu",
           "modified": "2019-02-05T09:49:23",
           "esikatselu": false,
