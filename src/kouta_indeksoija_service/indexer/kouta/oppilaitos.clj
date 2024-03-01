@@ -167,12 +167,14 @@
                              (get-in oppilaitos [:metadata])
                              :yhteystiedot yhteystiedot
                              :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
-        enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
+        enriched-oppilaitos (-> oppilaitos
+                             (assoc :metadata oppilaitos-metadata)
+                             (dissoc :_enrichedData))
         ;; organisaatio-servicen /jalkelaiset-rajapinta palauttaa lyhytNimen oppilaitoksen osille
         ;; käytetään org yhteystietojen mukana tulevaa kokonimeä
         organisaatio-with-updated-nimi (common/assoc-nimi-from-oppilaitoksen-yhteystiedot
-                                         organisaatio
-                                         oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
+                                        organisaatio
+                                        oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
         oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu %)
                                 (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
         oppilaitoksen-koulutukset (common/get-organisaation-koulutukset organisaatio koulutukset)
