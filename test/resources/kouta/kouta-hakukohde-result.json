@@ -450,6 +450,10 @@
     "oid": "1.2.246.562.10.67476956288",
     "jarjestaaUrheilijanAmmKoulutusta": null
   },
+  "jarjestyspaikkaHierarkiaNimi": {
+    "fi": "Jokin järjestyspaikka",
+    "sv": "Jokin järjestyspaikka sv"
+  },
   "sora": {
     "tila": "arkistoitu"
   },

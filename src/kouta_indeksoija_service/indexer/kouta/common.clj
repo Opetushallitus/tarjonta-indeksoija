@@ -1,6 +1,7 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
   (:refer-clojure :exclude [replace])
-  (:require [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
+  (:require [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
+            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
@@ -84,14 +85,35 @@
     (assoc (dissoc entry :organisaatioOid) :organisaatio (get-tarjoaja oid))
     entry))
 
+(defn- jarjestyspaikka-hierarkia-nimi
+  [oid name]
+  (let [tarjoaja (cache/get-hierarkia-item oid)]
+    (if (o/oppilaitos? tarjoaja)
+      name
+      (if-let [parent (cache/get-hierarkia-item (:parentOid tarjoaja))]
+        (jarjestyspaikka-hierarkia-nimi
+          (:parentOid tarjoaja)
+          (reduce
+            #(assoc %1 %2 (str
+                            (or (get-in parent [:nimi %2])
+                                (get-in parent [:nimi :fi]))
+                            ", "
+                            (or (get %1 %2)
+                                (get name :fi))))
+            name
+            [:fi :sv :en]))
+        name))))
+
 (defn assoc-jarjestyspaikka
   [entry]
   (if-let [oid (:jarjestyspaikkaOid entry)]
-    (assoc (dissoc entry :jarjestyspaikkaOid :jarjestaaUrheilijanAmmKoulutusta)
-           :jarjestyspaikka
-           (assoc (get-tarjoaja oid)
-                  :jarjestaaUrheilijanAmmKoulutusta
-                  (get-in entry [:jarjestaaUrheilijanAmmKoulutusta])))
+    (let [tarjoaja (get-tarjoaja oid)]
+      (-> entry
+          (assoc :jarjestyspaikka (assoc tarjoaja
+                                    :jarjestaaUrheilijanAmmKoulutusta
+                                    (get-in entry [:jarjestaaUrheilijanAmmKoulutusta])))
+          (assoc :jarjestyspaikkaHierarkiaNimi (jarjestyspaikka-hierarkia-nimi oid (:nimi tarjoaja)))
+          (dissoc entry :jarjestyspaikkaOid :jarjestaaUrheilijanAmmKoulutusta)))
     entry))
 
 (defn assoc-muokkaaja
