@@ -9,7 +9,7 @@ runs:
         java-version: '11'
         distribution: 'corretto'
 
-    - uses: szenius/set-timezone@v1.1
+    - uses: szenius/set-timezone@v1.2
       with:
         timezoneLinux: "Europe/Helsinki"
 

@@ -6,17 +6,15 @@ on:
     paths-ignore:
       - '**.md'
 
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-  ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
@@ -35,7 +33,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Prepare clojure env
         uses: ./.github/actions/prepare-clojure-env
@@ -43,7 +41,7 @@ jobs:
       - name: Build jar
         run: lein uberjar
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: restore-build
         with:
           path: target
@@ -51,34 +49,11 @@ jobs:
 
   deploy:
     needs: [ test, build ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
-        id: restore-build
-        with:
-          path: target
-          key: ${{ github.sha }}
-
-      - name: Build and deploy Docker containers
-        shell: bash
-        run: |
-          git clone https://github.com/Opetushallitus/ci-tools.git
-          source ci-tools/common/setup-tools.sh
-
-          mv target/kouta-indeksoija-*-standalone.jar $DOCKER_BUILD_DIR/artifact/kouta-indeksoija.jar
-          cp -vr oph-configuration $DOCKER_BUILD_DIR/config/
-
-          export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
-
-          ./ci-tools/common/pull-image.sh
-          ./ci-tools/github-build/build-fatjar.sh kouta-indeksoija
-          ./ci-tools/common/clean-docker-build-dir.sh
-
-          ./ci-tools/github-build/upload-image.sh kouta-indeksoija
-
-      - name: Deploy jar-libraries
-        if: github.ref == 'refs/heads/master'
-        shell: bash
-        run: lein deploy
+    uses: Opetushallitus/.github/.github/workflows/push-scan-java-ecr.yml@main
+    with:
+      application: kouta-indeksoija
+      base-image: baseimage-fatjar-openjdk11:master
+      configfolder: oph-configuration
+      jarfile: kouta-indeksoija-*-standalone.jar
+    secrets:
+      AWS_UTILITY_ROLE_ARN: ${{ secrets.AWS_OPH_UTILITY_ROLE_ARN }}
