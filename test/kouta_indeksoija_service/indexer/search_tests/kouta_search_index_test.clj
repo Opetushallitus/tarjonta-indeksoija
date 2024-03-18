@@ -207,7 +207,7 @@
   (use-fixtures :each test-data-fixture)
 
   (deftest index-oppilaitos-search-items-test-1
-     (fixture/with-mocked-indexing
+    (fixture/with-mocked-indexing
       (testing "Do not index oppilaitos in search index when it has no koulutukset"
         (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid1)))
         (i/index-oppilaitos oppilaitos-oid1)
@@ -215,22 +215,26 @@
 
   (deftest index-oppilaitos-search-items-test-2
     (fixture/with-mocked-indexing
-     (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
-       (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
-       (i/index-oppilaitos oppilaitos-oid2)
-       (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
-                     (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))))))
+      (testing "Create correct search item when oppilaitos has koulutukset and toteutukset"
+        (is (nil? (get-doc oppilaitos/index-name oppilaitos-oid2)))
+        (i/index-oppilaitos oppilaitos-oid2)
+        (compare-json (no-timestamp (json json-path "oppilaitos-search-item-koulutus-and-toteutukset"))
+                      (no-timestamp (get-doc oppilaitos/index-name oppilaitos-oid2))
+                      [:search_terms]
+                      [:fi :nimi]))))
 
   (deftest index-koulutus-search-items-test-1
-     (fixture/with-mocked-indexing
+    (fixture/with-mocked-indexing
       (testing "Create correct search item when koulutus has no toteutukset"
         (is (nil? (get-doc koulutus-search/index-name koulutus-oid1)))
         (i/index-koulutus koulutus-oid1)
         (compare-json (no-timestamp (json json-path "koulutus-search-item-no-toteutukset"))
-                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid1))))))
+                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid1))
+                      [:search_terms]
+                      [:fi :toteutusNimi]))))
 
-   (deftest index-koulutus-search-items-test-2
-     (fixture/with-mocked-indexing
+  (deftest index-koulutus-search-items-test-2
+    (fixture/with-mocked-indexing
       (testing "Create correct search item when koulutus has toteutukset"
         (is (nil? (get-doc koulutus-search/index-name koulutus-oid2)))
         (i/index-koulutus koulutus-oid2)
@@ -240,25 +244,29 @@
                       [:search_terms]
                       [:fi :toteutusNimi]))))
 
-   (deftest index-koulutus-search-items-test-3
-     (fixture/with-mocked-indexing
+  (deftest index-koulutus-search-items-test-3
+    (fixture/with-mocked-indexing
       (testing "Create correct search item when amm-osaamisala"
         (is (nil? (get-doc koulutus-search/index-name koulutus-oid3)))
         (i/index-koulutus koulutus-oid3)
         (i/index-oppilaitos oppilaitos-oid2)
         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid3))
         (compare-json (no-timestamp (json json-path "koulutus-search-item-osaamisala"))
-                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid3))))))
+                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid3))
+                      [:search_terms]
+                      [:fi :toteutusNimi]))))
 
-   (deftest index-koulutus-search-items-test-4
-     (fixture/with-mocked-indexing
+  (deftest index-koulutus-search-items-test-4
+    (fixture/with-mocked-indexing
       (testing "Create correct search item when amm-tutkinnon-osa"
         (is (nil? (get-doc koulutus-search/index-name koulutus-oid4)))
         (i/index-koulutus koulutus-oid4)
         (i/index-oppilaitos oppilaitos-oid2)
         ;(debug-pretty (get-doc koulutus/index-name koulutus-oid4))
         (compare-json (no-timestamp (json json-path "koulutus-search-item-tutkinnon-osa"))
-                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4)))))))
+                      (no-timestamp (get-doc koulutus-search/index-name koulutus-oid4))
+                      [:search_terms]
+                      [:fi :toteutusNimi])))))
 
 
 
