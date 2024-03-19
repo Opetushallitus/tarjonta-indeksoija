@@ -16,10 +16,21 @@
 (defn- organisaatio-entry
   [organisaatio]
   (-> organisaatio
-      (select-keys [:nimi :kieletUris :kotipaikkaUri :status :organisaatiotyypit :oppilaitostyyppi :oid :parentToimipisteOid])
+      (select-keys [:nimi
+                    :kieletUris
+                    :kotipaikkaUri
+                    :status
+                    :organisaatiotyypit
+                    :organisaatiotyyppiUris
+                    :oppilaitostyyppiUri
+                    :oppilaitostyyppi
+                    :oid
+                    :parentToimipisteOid])
       (rename-keys {:kieletUris :opetuskieliKoodiUrit
                     :oppilaitostyyppi :oppilaitostyyppiKoodiUri
+                    :oppilaitostyyppiUri :oppilaitostyyppiKoodiUri
                     :kotipaikkaUri :kotipaikkaKoodiUri
+                    :organisaatiotyyppiUris :organisaatiotyyppiKoodiUrit
                     :organisaatiotyypit :organisaatiotyyppiKoodiUrit})
       (common/complete-entry)))
 
@@ -156,32 +167,65 @@
                                                            (dissoc :oppilaitosOid :oid))))))
 
 (defn find-parent-oppilaitos-oid-in-hierarkia
-  [toimipiste-oid hierarkia last-seen-oppilaitos-oid]
-  (if (= toimipiste-oid (:oid hierarkia))
-    last-seen-oppilaitos-oid
-    (let [oppilaitos-oid (if (organisaatio-tool/oppilaitos? hierarkia)
-                           (:oid hierarkia)
-                           last-seen-oppilaitos-oid)]
-      (some #(find-parent-oppilaitos-oid-in-hierarkia toimipiste-oid % oppilaitos-oid)
-            (:children hierarkia)))))
+  ([toimipiste-oid hierarkia]
+   (find-parent-oppilaitos-oid-in-hierarkia toimipiste-oid hierarkia nil))
+
+  ([toimipiste-oid hierarkia last-seen-oppilaitos-oid]
+   (if (= toimipiste-oid (:oid hierarkia))
+     last-seen-oppilaitos-oid
+     (let [oppilaitos-oid (if (organisaatio-tool/oppilaitos? hierarkia)
+                            (:oid hierarkia)
+                            last-seen-oppilaitos-oid)]
+       (some #(find-parent-oppilaitos-oid-in-hierarkia toimipiste-oid % oppilaitos-oid)
+             (:children hierarkia))))))
+
+(defn find-parent-toimipiste-oid-in-hierarkia
+  ([toimipiste-oid hierarkia]
+   (find-parent-toimipiste-oid-in-hierarkia toimipiste-oid hierarkia nil))
+
+  ([toimipiste-oid hierarkia last-seen-oppilaitos-oid]
+   (if (= toimipiste-oid (:oid hierarkia))
+     last-seen-oppilaitos-oid
+     (let [oppilaitos-oid (if (organisaatio-tool/toimipiste? hierarkia)
+                            (:oid hierarkia)
+                            last-seen-oppilaitos-oid)]
+       (some #(find-parent-toimipiste-oid-in-hierarkia toimipiste-oid % oppilaitos-oid)
+             (:children hierarkia))))))
+
+(defn fix-toimipiste-parents
+  ([organisaatio orig-hierarkia latest-oppilaitos-oid]
+   (if (organisaatio-tool/toimipiste? organisaatio)
+     (let [parent-oppilaitos-oid (find-parent-oppilaitos-oid-in-hierarkia
+                                   (:oid organisaatio) orig-hierarkia)
+           parent-toimipiste-oid (find-parent-toimipiste-oid-in-hierarkia
+                                   (:oid organisaatio) orig-hierarkia)]
+       (-> organisaatio
+           (assoc-in [:children]
+                     (map
+                       #(fix-toimipiste-parents % orig-hierarkia parent-oppilaitos-oid)
+                       (:children organisaatio)))
+           (cond->
+               (not (nil? parent-oppilaitos-oid)) (assoc-in [:parentOid] parent-oppilaitos-oid)
+               (nil? parent-oppilaitos-oid) (dissoc :parentOid)
+               (not (nil? parent-toimipiste-oid)) (assoc-in [:parentToimipisteOid] parent-toimipiste-oid))))
+     (assoc-in organisaatio
+               [:children]
+               (map
+                 #(fix-toimipiste-parents % orig-hierarkia latest-oppilaitos-oid)
+                 (:children organisaatio)))))
+  ([organisaatio]
+   (fix-toimipiste-parents organisaatio organisaatio nil)))
 
 (defn- add-data-from-organisaatio-palvelu
   [oppilaitoksen-osa organisaatio]
-  (prn "organisaatio")
-  (prn organisaatio)
-  (prn oppilaitoksen-osa)
-  (let [org-from-organisaatio-palvelu (cache/get-yhteystiedot (:oid oppilaitoksen-osa))
-        ;; yhteystiedot (parse-yhteystiedot org-from-organisaatio-palvelu languages)
-        yhteystiedot (-> (get-in organisaatio [:yhteystiedot])
+  (let [yhteystiedot (-> (get-in organisaatio [:yhteystiedot])
                          (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                          (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
         hakijapalveluiden-yhteystiedot (-> (get-in oppilaitoksen-osa [:metadata :hakijapalveluidenYhteystiedot])
                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                                            (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))]
-    (prn "yhteystiedot")
-    (prn yhteystiedot)
     (-> oppilaitoksen-osa
-        (assoc :status (:status org-from-organisaatio-palvelu))
+        (assoc :status (:status organisaatio))
         (assoc-in [:metadata :yhteystiedot] yhteystiedot)
         (assoc-in [:metadata :hakijapalveluidenYhteystiedot] hakijapalveluiden-yhteystiedot))))
 
@@ -194,13 +238,9 @@
     {}))
 
 (defn- oppilaitos-entry-with-osat
-  [organisaatio koulutukset execution-id]
-  ;; (prn "organisaatio")
-  ;; (prn organisaatio)
-  (let [oppilaitos-oid (:oid organisaatio)
-        oppilaitos (or (kouta-backend/get-oppilaitos-with-cache oppilaitos-oid true execution-id) {})
-        oppilaitos-organisaatio-with-children (get-in oppilaitos [:_enrichedData :organisaatio])
-        oppilaitoksen-yhteystiedot-from-organisaatiopalvelu (cache/get-yhteystiedot oppilaitos-oid)
+  [oppilaitos koulutukset execution-id]
+  (let [oppilaitos-oid (:oid oppilaitos)
+        oppilaitos-organisaatio-with-children (fix-toimipiste-parents (get-in oppilaitos [:_enrichedData :organisaatio]))
         yhteystiedot (-> (get-in oppilaitos [:_enrichedData :organisaatio :yhteystiedot])
                          (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                          (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
@@ -212,37 +252,32 @@
                               :yhteystiedot yhteystiedot
                               :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
         enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
-        ;; organisaatio-servicen /jalkelaiset-rajapinta palauttaa lyhytNimen oppilaitoksen osille
-        ;; käytetään org yhteystietojen mukana tulevaa kokonimeä
-        organisaatio-with-updated-nimi (common/assoc-nimi-from-oppilaitoksen-yhteystiedot
-                                         organisaatio
-                                         oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
-        oppilaitoksen-osat (map #(add-data-from-organisaatio-palvelu % (find-child-from-organisaatio-children
-                                                                         (get-in % [:oid])
-                                                                         oppilaitos-organisaatio-with-children))
-                                (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
-        oppilaitoksen-koulutukset (common/get-organisaation-koulutukset organisaatio koulutukset)
+        oppilaitoksen-osat (map
+                             #(add-data-from-organisaatio-palvelu
+                                %
+                                (find-child-from-organisaatio-children
+                                  (get-in % [:oid])
+                                  oppilaitos-organisaatio-with-children))
+                             (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
+        oppilaitoksen-koulutukset (common/get-organisaation-koulutukset oppilaitos-organisaatio-with-children koulutukset)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
-    (prn "oppilaitos")
-    (prn oppilaitos)
-    ;; (prn "oppilaitoksen-osat")
-    ;; (prn oppilaitoksen-osat)
-    (as-> (oppilaitos-entry organisaatio-with-updated-nimi enriched-oppilaitos oppilaitoksen-koulutukset) o
-      (assoc o :osat (->> (organisaatio-tool/get-indexable-children organisaatio)
+    (as-> (oppilaitos-entry oppilaitos-organisaatio-with-children
+                            enriched-oppilaitos
+                            oppilaitoksen-koulutukset) o
+      (assoc o :osat (->> (organisaatio-tool/get-indexable-children oppilaitos-organisaatio-with-children)
                           (map #(oppilaitoksen-osa-entry % (find-oppilaitoksen-osa %)))
                           (vec)))
       (assoc o :jarjestaaUrheilijanAmmKoulutusta (oppilaitos-jarjestaa-urheilijan-amm-koulutusta? o)))))
 
 (defn create-index-entry
   [oid execution-id]
-  (when-let [organisaatio (cache/find-oppilaitos-by-oid oid)]
-    (let [;; jos toimipiste, haetaan koulutukset parentin oidilla, koska toimipiste ei ole
+  (when-let [oppilaitos (kouta-backend/get-oppilaitos-with-cache oid true execution-id)]
+    (let [organisaatio (get-in oppilaitos [:_enrichedData :organisaatio])
+          ;; jos toimipiste, haetaan koulutukset parentin oidilla, koska toimipiste ei ole
           ;; koulutuksen vaan toteutuksen tarjoaja
           oppilaitos-oid (if (organisaatio-tool/toimipiste? organisaatio) (:parentOid organisaatio) (:oid organisaatio))
           koulutukset (kouta-backend/get-koulutukset-by-tarjoaja-with-cache oppilaitos-oid execution-id)
-          entry (oppilaitos-entry-with-osat organisaatio koulutukset execution-id)]
-      ;; (prn "entry")
-      ;; (prn entry)
+          entry (oppilaitos-entry-with-osat oppilaitos koulutukset execution-id)]
       (if (organisaatio-tool/indexable? organisaatio)
         (indexable/->index-entry (:oid organisaatio) entry)
         (indexable/->delete-entry (:oid organisaatio))))))
@@ -253,8 +288,7 @@
   ([oids execution-id clear-cache-before]
    (when (= true clear-cache-before)
       (cache/clear-all-cached-data))
-    (let [oids-to-index (organisaatio-tool/resolve-organisaatio-oids-to-index (cache/get-hierarkia-cached) oids)]
-      (indexable/do-index index-name oids-to-index create-index-entry execution-id))))
+    (indexable/do-index index-name oids create-index-entry execution-id)))
 
 (defn get-from-index
   [oid & query-params]

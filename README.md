@@ -80,7 +80,7 @@ Jos et tiedä mitä tämä tarkoittaa, kysy neuvoa kehitystiimiltä tai OPH:n yl
 Testit ajetaan [Kaocha test runnerilla](https://cljdoc.org/d/lambdaisland/kaocha/1.87.1366/doc/readme).
 Kaikki testit saa ajettua komentoriviltä komennolla `lein test`.
 
-Yksittäisen testitiedoston saa ajettua lisäämällä `^:focus`-tagi testitiedoston namespace-määrittelyn alkuun, esim.
+Yksittäisen testitiedoston saa ajettua lisäämällä `^:focus`-tagin testitiedoston namespace-määrittelyn alkuun, esim.
 `ns ^:focus kouta-indeksoija-service.indexer.kouta-indexer-test`.
 
 Yksittäisen testin saa ajettua lisäämällä `^:focus`-tagi ennen ajettavan testin nimeä, esim.

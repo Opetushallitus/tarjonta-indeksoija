@@ -26,18 +26,6 @@
 
 (def oppilaitos-with-wrong-type "1.2.246.562.10.14452275770")
 
-(defn mock-organisaatio-hierarkia-passive
-  []
-  {:organisaatiotyypit ["organisaatiotyyppi_02"]
-   :status "PASSIIVINEN"
-   :children []
-   :oid "1.2.246.562.10.10101010101"
-   :parentOid  "1.2.246.562.10.10101010100"
-   :oppilaitostyyppi "oppilaitostyyppi_42#1"
-   :nimi {:sv "Tanhuala universitet"
-          :fi "Tanhualan Yliopisto"
-          :en "University of Tanhuala"}})
-
 (deftest index-haku-test-1
   (fixture/with-mocked-indexing
     (testing "Indexer should index haku to haku index and update related indexes"
@@ -110,9 +98,7 @@
                              "1.2.246.562.13.00000000000000000002"
                              :tila "julkaistu"
                              :nimi "Autoalan perustutkinto 1"
-                             :tarjoajat oppilaitos-oid2
-                             )
-  )
+                             :tarjoajat oppilaitos-oid2))
 
 (deftest index-oppilaitos-test
   (fixture/with-mocked-indexing
@@ -174,9 +160,9 @@
     (testing "Indexer should index all"
       (let [eperuste-id 12321]
         (fixture/update-koulutus-mock
-         koulutus-oid
-         :ePerusteId eperuste-id
-         :tarjoajat ["1.2.246.562.10.54545454545"])
+          koulutus-oid
+          :ePerusteId eperuste-id
+          :tarjoajat ["1.2.246.562.10.54545454545"])
         (check-all-nil)
         (is (nil? (eperuste/get-from-index eperuste-id)))
         (i/index-all-kouta)
@@ -333,22 +319,91 @@
       (is (= valintaperuste-id (:id (get-doc valintaperuste/index-name valintaperuste-id)))))))
 
 (deftest index-all-oppilaitokset-test
-  (fixture/with-mocked-indexing
-    (testing "Indexer should index all oppilaitokset"
-      (let [all-oppilaitokset ["1.2.246.562.10.10101010101", "1.2.246.562.10.53670619591", "1.2.246.562.10.54545454545",
-                               "1.2.246.562.10.197113642410", "1.2.246.562.10.77777777799", "1.2.246.562.10.112212847610",
-                               "1.2.246.562.10.67476956288", "1.2.246.562.10.54453921329", "1.2.246.562.10.81927839589",
-                               "1.2.246.562.10.39218317368", "1.2.246.562.10.32506551657", "1.2.246.562.10.66634895871",
-                               "1.2.246.562.10.81934895871", "1.2.246.562.10.000002", "1.2.246.562.10.99999999999"]
-            oppilaitokset-with-koulutukset ["1.2.246.562.10.54545454545"]]
-        (check-all-nil)
-        (i/index-all-oppilaitokset)
-        (doseq [oppilaitos-oid all-oppilaitokset]
-          (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid)))))
-        (doseq [oppilaitos-oid oppilaitokset-with-koulutukset]
-          (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid)))))
-        (doseq [oppilaitos-oid (filter (fn [oid] (not (some #(= oid %) oppilaitokset-with-koulutukset))) all-oppilaitokset)]
-          (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid))))))))
+  (let [oppilaitos-oid999 "1.2.246.562.10.99999999999"
+        oppilaitos-oid71 "1.2.246.562.10.66634895871"
+        oppilaitos-oid57 "1.2.246.562.10.32506551657"
+        oppilaitos-oid68 "1.2.246.562.10.39218317368"
+        oppilaitos-oid89 "1.2.246.562.10.81927839589"
+        oppilaitos-oid88 "1.2.246.562.10.67476956288"
+        oppilaitos-oid610 "1.2.246.562.10.112212847610"
+        oppilaitos-oid799 "1.2.246.562.10.77777777799"
+        oppilaitos-oid410 "1.2.246.562.10.197113642410"
+        oppilaitos-oid45 "1.2.246.562.10.54545454545"
+        oppilaitos-oid91 "1.2.246.562.10.53670619591"
+        oppilaitos-oid29 "1.2.246.562.10.54453921329"]
+    (fixture/with-mocked-indexing
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid999 :oid oppilaitos-oid999})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid999)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid71 :oid oppilaitos-oid71})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid71)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid57 :oid oppilaitos-oid57})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid57)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid68 :oid oppilaitos-oid68})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid68)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid89 :oid oppilaitos-oid89})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid89)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid88 :oid oppilaitos-oid88})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid88)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid29 :oid oppilaitos-oid29})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid29)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid610 :oid oppilaitos-oid610})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid610)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid799 :oid oppilaitos-oid799})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid799)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid410 :oid oppilaitos-oid410})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid410)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid45 :oid oppilaitos-oid45})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid45)))
+      (fixture/add-oppilaitos-mock
+        (-> fixture/default-oppilaitos-map
+            (merge {:organisaatio oppilaitos-oid91 :oid oppilaitos-oid91})
+            (assoc-in [:_enrichedData :organisaatio :oid] oppilaitos-oid91)))
+      (testing "Indexer should index all oppilaitokset"
+        (let [all-oppilaitokset ["1.2.246.562.10.10101010101",
+                                 "1.2.246.562.10.53670619591",
+                                 "1.2.246.562.10.54545454545",
+                                 "1.2.246.562.10.197113642410",
+                                 "1.2.246.562.10.77777777799",
+                                 "1.2.246.562.10.112212847610",
+                                 "1.2.246.562.10.67476956288",
+                                 "1.2.246.562.10.54453921329",
+                                 "1.2.246.562.10.81927839589",
+                                 "1.2.246.562.10.39218317368",
+                                 "1.2.246.562.10.32506551657",
+                                 "1.2.246.562.10.66634895871",
+                                 "1.2.246.562.10.99999999999"]
+              oppilaitokset-with-koulutukset ["1.2.246.562.10.54545454545"]]
+          (check-all-nil)
+          (i/index-all-oppilaitokset)
+          (doseq [oppilaitos-oid all-oppilaitokset]
+            (is (= oppilaitos-oid (:oid (get-doc oppilaitos/index-name oppilaitos-oid)))))
+          (doseq [oppilaitos-oid oppilaitokset-with-koulutukset]
+            (is (= oppilaitos-oid (:oid (get-doc oppilaitos-search/index-name oppilaitos-oid)))))
+          (doseq [oppilaitos-oid (filter (fn [oid] (not (some #(= oid %) oppilaitokset-with-koulutukset))) all-oppilaitokset)]
+            (is (nil? (get-doc oppilaitos-search/index-name oppilaitos-oid)))))))))
+
 (deftest find-parent-oppilaitos-oid-in-hierarkia
   (testing "it should return nil when toimipiste has no oppilaitos parent in hierarkia"
     (let [hierarkia {:oid "1.2.246.562.10.10101010101"
@@ -533,3 +588,504 @@
                               nil)))))
   )
 
+(deftest fix-toimipiste-parents
+  (testing "it should not add parentToimipisteOid for organisaatio that isn't toimipiste"
+    (let [organisaatio {:oid "1.2.246.562.10.10101010104"
+                        :parentOid  "1.2.246.562.10.10101010105"
+                        :nimi {:sv "foo" :fi "bar" :en "foobar"}
+                        :children []
+                        :organisaatiotyyppiUris ["organisaatiotyyppi_06"]
+                        :status "AKTIIVINEN"}]
+      (is (= organisaatio (oppilaitos/fix-toimipiste-parents organisaatio)))))
+
+  (testing "it should change child-toimipiste's :parentOid to oppilaitos-oid and add toimipiste-oid as :parentToimipisteOid"
+    (let [toimipiste-oid "1.2.246.562.10.10101010102"
+          oppilaitos-oid "1.2.246.562.10.10101010101"
+          child-toimipiste-org {:oid "1.2.246.562.10.10101010103"
+                                :parentOid toimipiste-oid
+                                :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                :children []
+                                :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          toimipiste-org {:oid toimipiste-oid
+                          :parentOid oppilaitos-oid
+                          :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                          :children [child-toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org {:oid oppilaitos-oid
+                          :parentOid "1.2.246.562.10.10101010100"
+                          :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                          :children [toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          result {:oid oppilaitos-oid
+                  :parentOid "1.2.246.562.10.10101010100"
+                  :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                  :children [{:oid toimipiste-oid
+                              :parentOid oppilaitos-oid
+                              :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                              :children [{:oid "1.2.246.562.10.10101010103"
+                                          :parentOid oppilaitos-oid
+                                          :parentToimipisteOid toimipiste-oid
+                                          :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                          :children []
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents oppilaitos-org)))))
+
+  (testing "it should not add parentToimipisteOid for organisaatio that has oppilaitos as a parent"
+    (let [oppilaitos-oid "1.2.246.562.10.10101010101"
+          toimipiste-org {:oid "1.2.246.562.10.10101010104"
+                          :parentOid oppilaitos-oid
+                          :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                          :children []
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org {:oid oppilaitos-oid
+                          :parentOid "1.2.246.562.10.10101010100"
+                          :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                          :children [toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+      (is (= oppilaitos-org
+             (oppilaitos/fix-toimipiste-parents oppilaitos-org)))))
+
+  (testing "it should not add parentToimipisteOid for nested toimipiste-organisaatio that has oppilaitos as a parent"
+    (let [oppilaitos-oid "1.2.246.562.10.10101010101"
+          koulutustoimija-oid "1.2.246.562.10.10101010100"
+          toimipiste-org {:oid "1.2.246.562.10.10101010102"
+                          :parentOid oppilaitos-oid
+                          :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                          :children []
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org {:oid oppilaitos-oid
+                          :parentOid koulutustoimija-oid
+                          :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                          :children [toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          koulutustoimija-org {:oid koulutustoimija-oid
+                               :parentOid "1.2.246.562.10.101010101010000"
+                               :nimi {:sv "koulutustoimija sv" :fi "koulutustoimija fi"}
+                               :children [oppilaitos-org]
+                               :organisaatiotyyppiUris ["organisaatiotyyppi_01"]}]
+      (is (= koulutustoimija-org
+             (oppilaitos/fix-toimipiste-parents koulutustoimija-org)))))
+
+  (testing "it should change child-toimipiste's :parentOid to oppilaitos-oid and add toimipiste-oid as :parentToimipisteOid"
+    (let [toimipiste-oid "1.2.246.562.10.10101010102"
+          oppilaitos-oid "1.2.246.562.10.10101010101"
+          koulutustoimija-oid "1.2.246.562.10.10101010100"
+          child-toimipiste-org {:oid "1.2.246.562.10.10101010103"
+                                :parentOid toimipiste-oid
+                                :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                :children []
+                                :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          toimipiste-org {:oid toimipiste-oid
+                          :parentOid oppilaitos-oid
+                          :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                          :children [child-toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org {:oid oppilaitos-oid
+                          :parentOid koulutustoimija-oid
+                          :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                          :children [toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          koulutustoimija-org {:oid koulutustoimija-oid
+                               :parentOid "1.2.246.562.10.101010101010000"
+                               :nimi {:sv "koulutustoimija sv" :fi "koulutustoimija fi"}
+                               :children [oppilaitos-org]
+                               :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          result {:oid koulutustoimija-oid
+                  :parentOid "1.2.246.562.10.101010101010000"
+                  :nimi {:sv "koulutustoimija sv" :fi "koulutustoimija fi"}
+                  :children [{:oid oppilaitos-oid
+                              :parentOid koulutustoimija-oid
+                              :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                              :children [{:oid toimipiste-oid
+                                          :parentOid oppilaitos-oid
+                                          :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                                          :children [{:oid "1.2.246.562.10.10101010103"
+                                                      :parentOid oppilaitos-oid
+                                                      :parentToimipisteOid toimipiste-oid
+                                                      :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                                      :children []
+                                                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents koulutustoimija-org)))))
+
+  (testing "it should change :parentOid to oppilaitos-oid and add child-toimipiste-oid as :parentToimipisteOid for both grandchild toimipiste"
+    (let [oppilaitos-oid "1.2.246.562.10.10101010101"
+          child-toimipiste-oid "1.2.246.562.10.10101010104"
+          grandchild-toimipiste1-oid "1.2.246.562.10.10101010105"
+          grandchild-toimipiste2-oid "1.2.246.562.10.10101010107"
+          grandchild-toimipiste1 {:oid grandchild-toimipiste1-oid
+                                  :parentOid child-toimipiste-oid
+                                  :nimi {:sv "grandchild toimipiste sv" :fi "grandchild toimipiste fi"}
+                                  :children []
+                                  :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          grandchild-toimipiste2 {:oid grandchild-toimipiste2-oid
+                                  :parentOid child-toimipiste-oid
+                                  :nimi {:sv "grandchild toimipiste2 sv"
+                                         :fi "grandchild toimipiste2 fi"}
+                                  :children []
+                                  :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          child-toimipiste {:oid child-toimipiste-oid
+                            :parentOid oppilaitos-oid
+                            :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                            :children [grandchild-toimipiste1
+                                       grandchild-toimipiste2]
+                            :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos {:oid oppilaitos-oid
+                      :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                      :children [child-toimipiste]
+                      :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          result {:oid oppilaitos-oid
+                  :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                  :children [{:oid child-toimipiste-oid
+                              :parentOid oppilaitos-oid
+                              :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                              :children [{:oid grandchild-toimipiste1-oid
+                                          :parentOid oppilaitos-oid
+                                          :nimi {:sv "grandchild toimipiste sv" :fi "grandchild toimipiste fi"}
+                                          :children []
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]
+                                          :parentToimipisteOid child-toimipiste-oid}
+                                         {:oid grandchild-toimipiste2-oid
+                                          :parentOid oppilaitos-oid
+                                          :nimi {:sv "grandchild toimipiste2 sv"
+                                                 :fi "grandchild toimipiste2 fi"}
+                                          :children []
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]
+                                          :parentToimipisteOid child-toimipiste-oid}]
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents oppilaitos)))))
+
+  (testing "it should change :parentOid to oppilaitos-oid and add child-toimipiste-oid as :parentToimipisteOid for one grandchild toimipiste (not for other because it is not toimipiste)"
+    (let [oppilaitos-oid "1.2.246.562.10.10101010101"
+          child-toimipiste-oid "1.2.246.562.10.10101010104"
+          grandchild-ei-toimipiste-oid "1.2.246.562.10.10101010105"
+          grandchild-toimipiste-oid "1.2.246.562.10.10101010107"
+          grandchild-ei-toimipiste-org {:oid grandchild-ei-toimipiste-oid
+                                        :parentOid child-toimipiste-oid
+                                        :nimi {:sv "grandchild ei toimipiste sv" :fi "grandchild ei toimipiste fi"}
+                                        :children []
+                                        :organisaatiotyyppiUris ["organisaatiotyyppi_08"]}
+          grandchild-toimipiste-org {:oid grandchild-toimipiste-oid
+                                     :parentOid child-toimipiste-oid
+                                     :nimi {:sv "grandchild toimipiste sv"
+                                            :fi "grandchild toimipiste fi"}
+                                     :children []
+                                     :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          child-toimipiste-org {:oid child-toimipiste-oid
+                                :parentOid oppilaitos-oid
+                                :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                :children [grandchild-ei-toimipiste-org
+                                           grandchild-toimipiste-org]
+                                :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org {:oid oppilaitos-oid
+                          :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                          :children [child-toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          result {:oid oppilaitos-oid
+                  :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                  :children [{:oid child-toimipiste-oid
+                              :parentOid oppilaitos-oid
+                              :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                              :children [{:oid grandchild-ei-toimipiste-oid
+                                          :parentOid child-toimipiste-oid
+                                          :nimi {:sv "grandchild ei toimipiste sv" :fi "grandchild ei toimipiste fi"}
+                                          :children []
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_08"]}
+                                         {:oid grandchild-toimipiste-oid
+                                          :parentOid oppilaitos-oid
+                                          :nimi {:sv "grandchild toimipiste sv"
+                                                 :fi "grandchild toimipiste fi"}
+                                          :children []
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]
+                                          :parentToimipisteOid child-toimipiste-oid}]
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents oppilaitos-org)))))
+
+  (testing "it should remove parentOid from toimipiste when its oppilaitos parent is not found from the tree"
+    (let [toimipiste-oid "1.2.246.562.10.10101010101"
+          child-toimipiste-oid "1.2.246.562.10.10101010102"
+          child-toimipiste-org {:oid child-toimipiste-oid
+                                :parentOid toimipiste-oid
+                                :nimi {:sv "child toimipiste sv"
+                                       :fi "child toimipiste fi"}
+                                :children []
+                                :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          toimipiste-org {:oid toimipiste-oid
+                          :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                          :children [child-toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          result {:oid toimipiste-oid
+                  :nimi {:sv "toimipiste sv" :fi "toimipiste fi"}
+                  :children [{:oid child-toimipiste-oid
+                              :parentToimipisteOid toimipiste-oid
+                              :nimi {:sv "child toimipiste sv"
+                                     :fi "child toimipiste fi"}
+                              :children []
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents toimipiste-org)))))
+
+  (testing "it should update parentOid and parentToimipisteOid for whole hierarkia"
+    (let [koulutustoimija-oid "1.2.246.562.10.10101010100"
+          oppilaitos-oid "1.2.246.562.10.10101010101"
+          oppilaitos-oid2 "1.2.246.562.10.10101010102"
+          child-toimipiste-oid "1.2.246.562.10.1010101010111"
+          random-toimipiste-oid "1.2.246.562.10.1010101010666"
+          child-toimipiste-oid2 "1.2.246.562.10.1010101010222"
+          grandchild-ei-toimipiste-oid "1.2.246.562.10.10101010105"
+          grandchild-toimipiste-oid "1.2.246.562.10.10101010107"
+          grandchild-toimipiste-oid2 "1.2.246.562.10.10101010101222"
+          grandchild-toimipiste-oid3 "1.2.246.562.10.10101010101333"
+          grandchild-ei-toimipiste-org {:oid grandchild-ei-toimipiste-oid
+                                        :parentOid child-toimipiste-oid
+                                        :nimi {:sv "grandchild ei toimipiste sv"
+                                               :fi "grandchild ei toimipiste fi"}
+                                        :children []
+                                        :organisaatiotyyppiUris ["organisaatiotyyppi_08"]}
+          grandchild-toimipiste-org {:oid grandchild-toimipiste-oid
+                                     :parentOid child-toimipiste-oid
+                                     :nimi {:sv "grandchild toimipiste sv"
+                                            :fi "grandchild toimipiste fi"}
+                                     :children []
+                                     :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          child-toimipiste-org {:oid child-toimipiste-oid
+                                :parentOid oppilaitos-oid
+                                :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                :children [grandchild-ei-toimipiste-org
+                                           grandchild-toimipiste-org]
+                                :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org {:oid oppilaitos-oid
+                          :parentOid koulutustoimija-oid
+                          :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                          :children [child-toimipiste-org]
+                          :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          grandchild-toimipiste-org2 {:oid grandchild-toimipiste-oid2
+                                      :parentOid child-toimipiste-oid2
+                                      :nimi {:sv "grandchild toimipiste 2 sv"
+                                             :fi "grandchild toimipiste 2 fi"}
+                                      :children []
+                                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          grandchild-toimipiste-org3 {:oid grandchild-toimipiste-oid3
+                                      :parentOid child-toimipiste-oid2
+                                      :nimi {:sv "grandchild toimipiste 3 sv"
+                                             :fi "grandchild toimipiste 3 fi"}
+                                      :children []
+                                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          child-toimipiste-org2 {:oid child-toimipiste-oid2
+                                 :parentOid oppilaitos-oid2
+                                 :nimi {:sv "child toimipiste 2 sv" :fi "child toimipiste 2 fi"}
+                                 :children [grandchild-toimipiste-org2
+                                            grandchild-toimipiste-org3]
+                                 :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          random-toimipiste-org {:oid random-toimipiste-oid
+                                 :parentOid koulutustoimija-oid
+                                 :nimi {:sv "random toimipiste sv" :fi "random toimipiste fi"}
+                                 :children []
+                                 :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+          oppilaitos-org2 {:oid oppilaitos-oid2
+                           :parentOid koulutustoimija-oid
+                           :nimi {:sv "oppilaitos 2 sv" :fi "oppilaitos 2 fi"}
+                           :children [child-toimipiste-org2]
+                           :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+          koulutustoimija-org {:oid koulutustoimija-oid
+                               :parentOid "1.2.246.562.10.101010101010000"
+                               :nimi {:sv "koulutustoimija sv" :fi "koulutustoimija fi"}
+                               :children [oppilaitos-org
+                                          oppilaitos-org2
+                                          random-toimipiste-org]
+                               :organisaatiotyyppiUris ["organisaatiotyyppi_01"]}
+          result {:oid koulutustoimija-oid
+                  :parentOid "1.2.246.562.10.101010101010000"
+                  :nimi {:sv "koulutustoimija sv" :fi "koulutustoimija fi"}
+                  :children [{:oid oppilaitos-oid
+                              :parentOid koulutustoimija-oid
+                              :nimi {:sv "oppilaitos sv" :fi "oppilaitos fi"}
+                              :children [{:oid child-toimipiste-oid
+                                          :parentOid oppilaitos-oid
+                                          :nimi {:sv "child toimipiste sv" :fi "child toimipiste fi"}
+                                          :children [{:oid grandchild-ei-toimipiste-oid
+                                                      :parentOid child-toimipiste-oid
+                                                      :nimi {:sv "grandchild ei toimipiste sv" :fi "grandchild ei toimipiste fi"}
+                                                      :children []
+                                                      :organisaatiotyyppiUris ["organisaatiotyyppi_08"]}
+                                                     {:oid grandchild-toimipiste-oid
+                                                      :parentOid oppilaitos-oid
+                                                      :nimi {:sv "grandchild toimipiste sv"
+                                                             :fi "grandchild toimipiste fi"}
+                                                      :children []
+                                                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]
+                                                      :parentToimipisteOid child-toimipiste-oid}]
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+                             {:oid oppilaitos-oid2
+                              :parentOid koulutustoimija-oid
+                              :nimi {:sv "oppilaitos 2 sv" :fi "oppilaitos 2 fi"}
+                              :children [{:oid child-toimipiste-oid2
+                                          :parentOid oppilaitos-oid2
+                                          :nimi {:sv "child toimipiste 2 sv" :fi "child toimipiste 2 fi"}
+                                          :children [{:oid grandchild-toimipiste-oid2
+                                                      :parentOid oppilaitos-oid2
+                                                      :nimi {:sv "grandchild toimipiste 2 sv" :fi "grandchild toimipiste 2 fi"}
+                                                      :children []
+                                                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]
+                                                      :parentToimipisteOid child-toimipiste-oid2}
+                                                     {:oid grandchild-toimipiste-oid3
+                                                      :parentOid oppilaitos-oid2
+                                                      :nimi {:sv "grandchild toimipiste 3 sv"
+                                                             :fi "grandchild toimipiste 3 fi"}
+                                                      :children []
+                                                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]
+                                                      :parentToimipisteOid child-toimipiste-oid2}]
+                                          :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}
+                             {:oid random-toimipiste-oid
+                              :nimi {:sv "random toimipiste sv" :fi "random toimipiste fi"}
+                              :children []
+                              :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_01"]}]
+
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents koulutustoimija-org)))))
+
+  (testing "it should"
+    (let [koulutustoimija-oid "1.2.246.562.10.10101010100"
+          oppilaitos-oid "1.2.246.562.10.10101010101"
+          extra-toimipiste-oid "1.2.246.562.10.10101010109"
+          farmasia-toimipiste-oid "1.2.246.562.10.10101010102"
+          ell-toimipiste-oid "1.2.246.562.10.10101010103"
+          foobar-oid "1.2.246.562.10.10101010104"
+          extran-lapsi-toimipiste-oid "1.2.246.562.10.1010101010999"
+          hierarkia {:oid koulutustoimija-oid
+                     :parentOid "1.2.246.562.10.00000000001"
+                     :nimi {"fi" "Tanhualan Yliopisto"}
+                     :organisaatiotyyppiUris ["organisaatiotyyppi_01"]
+                     :children
+                     [{:children
+                       [{:children
+                         [{:oid extra-toimipiste-oid
+                           :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                                  :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                                  :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                           :parentOid farmasia-toimipiste-oid
+                           :children [{:oid extran-lapsi-toimipiste-oid
+                                       :nimi {:sv "Tanhuala universitet, extran lapsi"
+                                              :fi "Tanhualan yliopisto, extran lapsi"
+                                              :en "University of Tanhuala, extran lapsi"}
+                                       :parentOid extra-toimipiste-oid
+                                       :children []
+                                       :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                           :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                         :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten"
+                                :fi "Tanhualan yliopisto, Farmasian tiedekunta"
+                                :en "University of Tanhuala, Faculty of Pharmacy"}
+                         :parentOid oppilaitos-oid
+                         :oid farmasia-toimipiste-oid
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                        {:oid ell-toimipiste-oid
+                         :nimi {:sv "Tanhuala universitet, Veterinärmedicinska fakulteten"
+                                :fi "Tanhualan yliopisto, Eläinlääketieteellinen tiedekunta"
+                                :en "University of Tanhuala, Faculty of Veterinary Medicine"}
+                         :parentOid oppilaitos-oid
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                        {:oid foobar-oid
+                         :nimi {:sv "foo" :fi "bar" :en "foobar"}
+                         :parentOid oppilaitos-oid
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_06"]}
+                        {:oid "1.2.246.562.10.10101010109"
+                         :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                                :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                                :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                         :parentOid farmasia-toimipiste-oid
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                        {:oid extran-lapsi-toimipiste-oid
+                         :nimi {:sv "Tanhuala universitet, extran lapsi"
+                                :fi "Tanhualan yliopisto, extran lapsi"
+                                :en "University of Tanhuala, extran lapsi"}
+                         :parentOid extra-toimipiste-oid
+                         :children []
+                         :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                       :nimi {:sv "Tanhuala universitet"
+                              :fi "Tanhualan Yliopisto"
+                              :en "University of Tanhuala"}
+                       :parentOid koulutustoimija-oid
+                       :oid oppilaitos-oid
+                       :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]}
+          result {:oid koulutustoimija-oid
+                  :parentOid "1.2.246.562.10.00000000001"
+                  :nimi {"fi" "Tanhualan Yliopisto"}
+                  :organisaatiotyyppiUris ["organisaatiotyyppi_01"]
+                  :children
+                  [{:children
+                    [{:children
+                      [{:oid extra-toimipiste-oid
+                        :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                               :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                               :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                        :parentOid oppilaitos-oid
+                        :parentToimipisteOid farmasia-toimipiste-oid
+                        :children [{:oid extran-lapsi-toimipiste-oid
+                                    :nimi {:sv "Tanhuala universitet, extran lapsi"
+                                           :fi "Tanhualan yliopisto, extran lapsi"
+                                           :en "University of Tanhuala, extran lapsi"}
+                                    :parentOid oppilaitos-oid
+                                    :parentToimipisteOid extra-toimipiste-oid
+                                    :children []
+                                    :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                        :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                      :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten"
+                             :fi "Tanhualan yliopisto, Farmasian tiedekunta"
+                             :en "University of Tanhuala, Faculty of Pharmacy"}
+                      :parentOid oppilaitos-oid
+                      :oid farmasia-toimipiste-oid
+                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                     {:oid ell-toimipiste-oid
+                      :nimi {:sv "Tanhuala universitet, Veterinärmedicinska fakulteten"
+                             :fi "Tanhualan yliopisto, Eläinlääketieteellinen tiedekunta"
+                             :en "University of Tanhuala, Faculty of Veterinary Medicine"}
+                      :parentOid oppilaitos-oid
+                      :children []
+                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                     {:oid foobar-oid
+                      :nimi {:sv "foo" :fi "bar" :en "foobar"}
+                      :parentOid oppilaitos-oid
+                      :children []
+                      :organisaatiotyyppiUris ["organisaatiotyyppi_06"]}
+                     {:oid extra-toimipiste-oid
+                      :nimi {:sv "Tanhuala universitet, Farmaceutiska fakulteten extra"
+                             :fi "Tanhualan yliopisto, Farmasian tiedekunta extra"
+                             :en "University of Tanhuala, Faculty of Pharmacy extra"}
+                      :parentOid oppilaitos-oid
+                      :parentToimipisteOid farmasia-toimipiste-oid
+                      :children []
+                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}
+                     {:oid extran-lapsi-toimipiste-oid
+                      :nimi {:sv "Tanhuala universitet, extran lapsi"
+                             :fi "Tanhualan yliopisto, extran lapsi"
+                             :en "University of Tanhuala, extran lapsi"}
+                      :parentOid oppilaitos-oid
+                      :parentToimipisteOid extra-toimipiste-oid
+                      :children []
+                      :organisaatiotyyppiUris ["organisaatiotyyppi_03"]}]
+                    :nimi {:sv "Tanhuala universitet"
+                           :fi "Tanhualan Yliopisto"
+                           :en "University of Tanhuala"}
+                    :parentOid koulutustoimija-oid
+                    :oid oppilaitos-oid
+                    :organisaatiotyyppiUris ["organisaatiotyyppi_02"]}]}]
+      (is (= result
+             (oppilaitos/fix-toimipiste-parents hierarkia))))))

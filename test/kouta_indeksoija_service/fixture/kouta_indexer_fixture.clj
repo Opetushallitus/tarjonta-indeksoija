@@ -552,9 +552,15 @@
     ))
 
 (defn add-oppilaitos-mock
-  [oid & {:as params}]
-  (let [oppilaitos (fix-default-format (merge default-oppilaitos-map {:organisaatio oppilaitos-oid :oid oid} params))]
-    (swap! oppilaitokset assoc oid oppilaitos)))
+  ([oid & {:as params}]
+   (let [oppilaitos (fix-default-format (merge default-oppilaitos-map {:organisaatio oppilaitos-oid :oid oid} params))]
+     (swap! oppilaitokset assoc oid oppilaitos)))
+  ([oppilaitos]
+   (let [oid (:oid oppilaitos)]
+     (swap! oppilaitokset assoc oid (fix-default-format
+                                      (merge
+                                        oppilaitos
+                                        {:organisaatio oppilaitos-oid :oid oid}))))))
 
 (defn update-oppilaitos-mock
   [oid & {:as params}]
@@ -568,9 +574,11 @@
    (get @oppilaitokset oid)))
 
 (defn add-oppilaitoksen-osa-mock
-  [oid oppilaitosOid & {:as params}]
-  (let [oppilaitoksen-osa (fix-default-format (merge default-oppilaitoksen-osa-map {:organisaatio oppilaitos-oid :oppilaitosOid oppilaitosOid :oid oid} params))]
-    (swap! oppilaitoksen-osat assoc oid oppilaitoksen-osa)))
+  ([oid oppilaitosOid & {:as params}]
+   (let [oppilaitoksen-osa (fix-default-format (merge default-oppilaitoksen-osa-map {:organisaatio oppilaitos-oid :oppilaitosOid oppilaitosOid :oid oid} params))]
+     (swap! oppilaitoksen-osat assoc oid oppilaitoksen-osa)))
+  ([oppilaitoksen-osa]
+   (swap! oppilaitokset assoc (:oid oppilaitoksen-osa) (fix-default-format oppilaitoksen-osa))))
 
 (defn update-oppilaitoksen-osa-mock
   [oid & {:as params}]
