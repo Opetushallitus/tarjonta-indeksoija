@@ -14,7 +14,6 @@ logs/
 resources/public/buildversion.txt
 dev_resources/config.edn
 .localstack
-pom.xml
 .eastwood
 .lsp
 .calva
@@ -22,3 +21,4 @@ pom.xml
 elasticdump/*
 hunspell.zip
 decompound.zip
+.DS_Store
