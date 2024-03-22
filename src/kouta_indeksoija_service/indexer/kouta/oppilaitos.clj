@@ -247,18 +247,17 @@
         hakijapalveluiden-yhteystiedot (-> (get-in oppilaitos [:metadata :hakijapalveluidenYhteystiedot])
                                            (add-osoite-str-to-yhteystiedot :postiosoite :postiosoiteStr)
                                            (add-osoite-str-to-yhteystiedot :kayntiosoite :kayntiosoiteStr))
-        oppilaitos-metadata (assoc
-                              (get-in oppilaitos [:metadata])
-                              :yhteystiedot yhteystiedot
-                              :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot)
-        enriched-oppilaitos (assoc oppilaitos :metadata oppilaitos-metadata)
+        enriched-oppilaitos (assoc oppilaitos :metadata (assoc
+                                                         (get-in oppilaitos [:metadata])
+                                                         :yhteystiedot yhteystiedot
+                                                         :hakijapalveluidenYhteystiedot hakijapalveluiden-yhteystiedot))
         oppilaitoksen-osat (map
-                             #(add-data-from-organisaatio-palvelu
-                                %
-                                (find-child-from-organisaatio-children
-                                  (get-in % [:oid])
-                                  oppilaitos-organisaatio-with-children))
-                             (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
+                            #(add-data-from-organisaatio-palvelu
+                              %
+                              (find-child-from-organisaatio-children
+                               (get-in % [:oid])
+                               oppilaitos-organisaatio-with-children))
+                            (kouta-backend/get-oppilaitoksen-osat-with-cache oppilaitos-oid execution-id))
         oppilaitoksen-koulutukset (common/get-organisaation-koulutukset oppilaitos-organisaatio-with-children koulutukset)
         find-oppilaitoksen-osa (fn [child] (or (first (filter #(= (:oid %) (:oid child)) oppilaitoksen-osat)) {}))]
     (as-> (oppilaitos-entry oppilaitos-organisaatio-with-children
