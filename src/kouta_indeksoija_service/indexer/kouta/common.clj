@@ -30,6 +30,9 @@
 
 (def excluded-fields {:externalId true
                       :tunniste true
+                      :fi true
+                      :sv true
+                      :en true
                       :arvo true})
 
 (defn- processable-as-koodi-uri? [v]
@@ -64,6 +67,33 @@
 (defn decorate-koodi-uris
   [x]
   (postwalk #(-> % strip-koodi-uri-key enrich-koodi-values) x))
+
+(defn is-postinumerokoodiuri?
+  [value]
+  (boolean
+   (re-find
+    (re-pattern "^posti_\\d+#?\\d?")
+    value)))
+
+(defn- process-map-entry-for-postinumerokoodis [map-entry]
+  (let [[k v] map-entry]
+    (if (and (string? v) (processable-as-koodi-uri? v) (is-postinumerokoodiuri? v))
+      (let [koodi (process-koodi-values v)
+            nimet (get koodi :nimi)
+            nimi (or (get nimet k) (get nimet :fi) (get nimet :sv) (get nimet :en))
+            koodiUri (get koodi :koodiUri)]
+        [k {:koodiUri koodiUri
+            :nimi nimi}])
+      map-entry)))
+
+(defn- enrich-postinumerokoodi-values [value]
+  (if (map-entry? value)
+    (process-map-entry-for-postinumerokoodis value)
+    value))
+
+(defn decorate-postinumerokoodiuris
+  [x]
+  (postwalk #(-> % enrich-postinumerokoodi-values) x))
 
 (defn- get-tarjoaja
   [oid]
@@ -209,6 +239,7 @@
       (clean-langs-not-in-kielivalinta)
       (clean-enriched-data)
       (decorate-koodi-uris)
+      (decorate-postinumerokoodiuris)
       (assoc-organisaatio)
       (assoc-tarjoajat)
       (assoc-jarjestyspaikka)

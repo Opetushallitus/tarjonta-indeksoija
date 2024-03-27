@@ -435,17 +435,12 @@
             "postinumero": {
               "sv": {
                 "koodiUri": "posti_04230#2",
-                "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
-                }
+                "nimi": "posti_04230#2 nimi sv"
               },
               "fi": {
                 "koodiUri": "posti_04230#2",
-                "nimi": {
-                  "fi": "posti_04230#2 nimi fi",
-                  "sv": "posti_04230#2 nimi sv"
-                }
+                "nimi": "posti_04230#2 nimi fi"
+
               }
             }
           },

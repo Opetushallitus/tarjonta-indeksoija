@@ -160,9 +160,9 @@
     (testing "Indexer should index all"
       (let [eperuste-id 12321]
         (fixture/update-koulutus-mock
-          koulutus-oid
-          :ePerusteId eperuste-id
-          :tarjoajat ["1.2.246.562.10.54545454545"])
+         koulutus-oid
+         :ePerusteId eperuste-id
+         :tarjoajat ["1.2.246.562.10.54545454545"])
         (check-all-nil)
         (is (nil? (eperuste/get-from-index eperuste-id)))
         (i/index-all-kouta)

@@ -88,10 +88,7 @@
               "postinumero": {
                 "fi": {
                   "koodiUri": "posti_00100#2",
-                  "nimi": {
-                    "fi": "posti_00100#2 nimi fi",
-                    "sv": "posti_00100#2 nimi sv"
-                  }
+                  "nimi": "posti_00100#2 nimi fi"
                 }
               }
             },
@@ -102,10 +99,7 @@
               "postinumero": {
                 "fi": {
                   "koodiUri": "posti_00220#2",
-                  "nimi": {
-                    "fi": "posti_00220#2 nimi fi",
-                    "sv": "posti_00220#2 nimi sv"
-                  }
+                  "nimi": "posti_00220#2 nimi fi"
                 }
               }
             },
@@ -135,17 +129,11 @@
               "postinumero": {
                 "sv": {
                   "koodiUri": "posti_04230#2",
-                  "nimi": {
-                    "fi": "posti_04230#2 nimi fi",
-                    "sv": "posti_04230#2 nimi sv"
-                  }
+                  "nimi": "posti_04230#2 nimi sv"
                 },
                 "fi": {
                   "koodiUri": "posti_04230#2",
-                  "nimi": {
-                    "fi": "posti_04230#2 nimi fi",
-                    "sv": "posti_04230#2 nimi sv"
-                  }
+                  "nimi": "posti_04230#2 nimi fi"
                 }
               }
             },
@@ -161,17 +149,11 @@
               "postinumero": {
                 "sv": {
                   "koodiUri": "posti_04230#2",
-                  "nimi": {
-                    "fi": "posti_04230#2 nimi fi",
-                    "sv": "posti_04230#2 nimi sv"
-                  }
+                  "nimi": "posti_04230#2 nimi sv"
                 },
                 "fi": {
                   "koodiUri": "posti_04230#2",
-                  "nimi": {
-                    "fi": "posti_04230#2 nimi fi",
-                    "sv": "posti_04230#2 nimi sv"
-                  }
+                  "nimi": "posti_04230#2 nimi fi"
                 }
               }
             },
@@ -359,17 +341,11 @@
           "postinumero": {
             "fi": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi fi"
             },
             "sv": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi sv"
             }
           }
         },
@@ -385,17 +361,11 @@
           "postinumero": {
             "sv": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi sv"
             },
             "fi": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi fi"
             }
           }
         },
@@ -425,17 +395,11 @@
           "postinumero": {
             "sv": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi sv"
             },
             "fi": {
               "koodiUri": "posti_04230#2",
-              "nimi": {
-                "fi": "posti_04230#2 nimi fi",
-                "sv": "posti_04230#2 nimi sv"
-              }
+              "nimi": "posti_04230#2 nimi fi"
             }
           }
         },
