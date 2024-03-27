@@ -1,21 +1,17 @@
 (ns kouta-indeksoija-service.indexer.kouta.common
   (:refer-clojure :exclude [replace])
-  (:require [kouta-indeksoija-service.indexer.tools.organisaatio :as o]
-            [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
-            [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia]
+  (:require [kouta-indeksoija-service.rest.koodisto :refer [get-koodi-nimi-with-cache]]
             [kouta-indeksoija-service.rest.oppijanumerorekisteri :refer [get-henkilo-nimi-with-cache]]
             [kouta-indeksoija-service.util.urls :refer [resolve-url]]
             [kouta-indeksoija-service.util.tools :refer [get-esitysnimi]]
             [kouta-indeksoija-service.indexer.tools.organisaatio :as organisaatio-tool]
-            [clojure.string :refer [replace]]
+            [clojure.string :refer [capitalize replace trim]]
             [clojure.tools.logging :as log]
             [clj-time.core :as t]
             [clj-time.format :as f]
             [clojure.walk :refer [postwalk]]
-            [clojure.string :as string]
-            [clojure.tools.logging :as log]
             [clojure.set :as set]
-            [kouta-indeksoija-service.indexer.cache.hierarkia :as cache]))
+            [kouta-indeksoija-service.indexer.cache.hierarkia :as hierarkia-cache]))
 
 (defn- strip-koodi-uri-key
   [key]
@@ -30,7 +26,7 @@
 
 (defn koodi-uri? ;Etsitään koodiUria kaavalla KIRJAIMIANUMEROITA_NONWHITESPACEMERKKEJÄ#NUMERO
   [value]         ;Numeroita voi olla 1-3 kpl
-  (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (string/trim value)))
+  (re-find (re-pattern "^\\w+_\\S+(#\\d{1,3})?$") (trim value)))
 
 (def excluded-fields {:externalId true
                       :tunniste true
@@ -71,7 +67,7 @@
 
 (defn- get-tarjoaja
   [oid]
-  (when-let [tarjoaja (cache/get-hierarkia-item oid)]
+  (when-let [tarjoaja (hierarkia-cache/get-hierarkia-item oid)]
     (-> tarjoaja
       (assoc :paikkakunta (get-koodi-nimi-with-cache "kunta" (:kotipaikkaUri tarjoaja)))
       (select-keys [:oid :nimi :paikkakunta]))))
@@ -84,10 +80,10 @@
 
 (defn- jarjestyspaikka-hierarkia-nimi
   [oid name]
-  (let [tarjoaja (cache/get-hierarkia-item oid)]
-    (if (o/oppilaitos? tarjoaja)
+  (let [tarjoaja (hierarkia-cache/get-hierarkia-item oid)]
+    (if (organisaatio-tool/oppilaitos? tarjoaja)
       name
-      (if-let [parent (cache/get-hierarkia-item (:parentOid tarjoaja))]
+      (if-let [parent (hierarkia-cache/get-hierarkia-item (:parentOid tarjoaja))]
         (jarjestyspaikka-hierarkia-nimi
           (:parentOid tarjoaja)
           (reduce
@@ -171,7 +167,7 @@
                                 (if-let [date (first d)]
                                   (if-let [aika (date t)]
                                     (recur (rest d)
-                                           (assoc t (keyword (str "formatoitu" (string/capitalize (name date)))) (format-date aika)))
+                                           (assoc t (keyword (str "formatoitu" (capitalize (name date)))) (format-date aika)))
                                     (recur (rest d)
                                            t))
                                   t)))]
