@@ -49,11 +49,18 @@
         (seq? input) (doall (map safe-get-koodi-for-value input))
         :else (safe-get-koodi-for-value input)))
 
+(defn is-postinumerokoodiuri?
+  [value]
+  (boolean
+   (re-find
+    (re-pattern "^posti_\\d+#?\\d?")
+    value)))
+
 (defn- process-map-entry-for-koodis [map-entry]
   (let [[k v]               map-entry
         allowed-key?        (not (get excluded-fields (keyword k)))
         interesting-values? (processable-as-koodi-uri? v)]
-    (when (and interesting-values? (not allowed-key?))
+    (when (and interesting-values? (not allowed-key?) (not (is-postinumerokoodiuri? v)))
       (log/warn (str "Skip processing for map entry because of disallowed key" map-entry)))
     (if (and allowed-key? interesting-values?)
       [k (process-koodi-values v)]
@@ -67,13 +74,6 @@
 (defn decorate-koodi-uris
   [x]
   (postwalk #(-> % strip-koodi-uri-key enrich-koodi-values) x))
-
-(defn is-postinumerokoodiuri?
-  [value]
-  (boolean
-   (re-find
-    (re-pattern "^posti_\\d+#?\\d?")
-    value)))
 
 (defn- process-map-entry-for-postinumerokoodis [map-entry]
   (let [[k v] map-entry]
