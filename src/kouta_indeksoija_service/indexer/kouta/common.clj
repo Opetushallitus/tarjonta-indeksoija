@@ -30,10 +30,10 @@
 
 (def excluded-fields {:externalId true
                       :tunniste true
+                      :arvo true
                       :fi true
                       :sv true
-                      :en true
-                      :arvo true})
+                      :en true})
 
 (defn- processable-as-koodi-uri? [v]
   (boolean (or (and (string? v) (koodi-uri? v))
