@@ -26,7 +26,7 @@ jobs:
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
-          docker pull localstack/localstack:2.3.2
+          docker pull localstack/localstack:3.0.0
           aws --version
           lein -U ci-test
 
@@ -54,6 +54,6 @@ jobs:
       application: kouta-indeksoija
       base-image: baseimage-fatjar-openjdk11:master
       configfolder: oph-configuration
-      jarfile: kouta-indeksoija-*-standalone.jar
+      jarfile: kouta-indeksoija-*-standalone
     secrets:
       AWS_UTILITY_ROLE_ARN: ${{ secrets.AWS_OPH_UTILITY_ROLE_ARN }}

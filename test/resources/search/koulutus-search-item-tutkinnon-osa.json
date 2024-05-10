@@ -8,6 +8,7 @@
     "sv": "kuvaus sv"
   },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "hakutuloslistauksenKuvake": null,
   "tutkinnonOsat": [
     {
       "eperuste": 123,
