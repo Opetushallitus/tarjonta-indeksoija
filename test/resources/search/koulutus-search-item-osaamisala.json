@@ -18,6 +18,7 @@
     "sv": "kuvaus sv"
   },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "hakutuloslistauksenKuvake": null,
   "search_terms": [
     {
       "koulutusOid": "1.2.246.562.13.00000000000000000097",

@@ -4,6 +4,7 @@
     "sv": "Kiva kuvaus sv"
   },
   "teemakuva": "https://testi.fi/koulutus-teemakuva/oid/kuva.jpg",
+  "hakutuloslistauksenKuvake": null,
   "koulutukset": [
     {
       "koodiUri": "koulutus_361104#1",
