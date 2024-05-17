@@ -144,6 +144,7 @@
 (defonce indices-settings-and-mappings
   (into [] (concat kouta-indices-settings-and-mappings
                    eperuste-indices-settings-and-mappings
+                   osaamismerkki-indices-settings-and-mappings
                    koodisto-indices-settings-and-mappings
                    lokalisointi-indices-settings-and-mappings)))
 
