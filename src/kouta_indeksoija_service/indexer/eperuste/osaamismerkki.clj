@@ -7,7 +7,7 @@
 (defn create-index-entry
   [koodi-uri _]
   (when-let [osaamismerkki (osaamismerkki-client/get-doc-with-cache koodi-uri)]
-    (let [id (str (:koodiUri osaamismerkki))]
+    (let [id (:koodiUri osaamismerkki)]
       (indexable/->index-entry id (assoc osaamismerkki :tyyppi "osaamismerkki")))))
 
 (defn do-index
