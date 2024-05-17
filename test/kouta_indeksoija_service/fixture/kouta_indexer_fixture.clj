@@ -879,6 +879,15 @@
                  kouta-indeksoija-service.rest.eperuste/get-osaamisalakuvaukset
                  kouta-indeksoija-service.fixture.external-services/mock-get-osaamisalakuvaukset
 
+                 kouta-indeksoija-service.rest.osaamismerkki/get-doc
+                 kouta-indeksoija-service.fixture.external-services/mock-get-osaamismerkki
+
+                 kouta-indeksoija-service.rest.osaamismerkki/get-doc-with-cache
+                 kouta-indeksoija-service.fixture.external-services/mock-get-osaamismerkki
+
+                 kouta-indeksoija-service.rest.osaamismerkki/fetch-all
+                 kouta-indeksoija-service.fixture.external-services/mock-fetch-all-osaamismerkit
+
                  kouta-indeksoija-service.indexer.tools.search/pohjakoulutusvaatimus-koodi-urit
                  kouta-indeksoija-service.fixture.kouta-indexer-fixture/mock-pohjakoulutusvaatimus-koodi-urit
 
