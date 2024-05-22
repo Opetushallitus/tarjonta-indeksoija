@@ -133,7 +133,7 @@
    [osaamisalakuvaus-index index-settings eperuste-mappings]])
 
 (defonce osaamismerkki-indices-settings-and-mappings
-  [[osaamismerkki-index index-settings-eperuste eperuste-mappings]])
+  [[osaamismerkki-index index-settings-eperuste osaamismerkki-mappings]])
 
 (defonce koodisto-indices-settings-and-mappings
   [[koodisto-index index-settings koodisto-mappings]])
