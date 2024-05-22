@@ -37,7 +37,8 @@
                       :arvo true
                       :fi true
                       :sv true
-                      :en true})
+                      :en true
+                      :osaamismerkki true})
 
 (defn- processable-as-koodi-uri? [v]
   (boolean (or (and (string? v) (koodi-uri? v))
