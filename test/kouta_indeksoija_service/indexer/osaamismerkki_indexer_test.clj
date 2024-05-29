@@ -1,4 +1,4 @@
-(ns ^:focus kouta-indeksoija-service.indexer.osaamismerkki-indexer-test
+(ns kouta-indeksoija-service.indexer.osaamismerkki-indexer-test
   (:require [clojure.test :refer :all]
             [kouta-indeksoija-service.indexer.eperuste.osaamismerkki :as osaamismerkki]
             [kouta-indeksoija-service.indexer.indexer :as i]
