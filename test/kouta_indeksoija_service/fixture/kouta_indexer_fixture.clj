@@ -321,6 +321,13 @@
           :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
           :lisatiedot []})
 
+(defonce osaamismerkki-metadata
+  {:tyyppi "vapaa-sivistystyo-osaamismerkki"
+   :osaamismerkkiKoodiUri "osaamismerkit_1022#2"
+   :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
+   :opintojenLaajuusNumero 1}
+  )
+
 (defn add-koulutus-mock
   [oid & {:as params}]
   (let [koulutus (fix-default-format (merge default-koulutus-map {:oid oid :organisaatioOid oppilaitos-oid} params))]
