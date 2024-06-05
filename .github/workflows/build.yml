@@ -54,6 +54,6 @@ jobs:
       application: kouta-indeksoija
       base-image: baseimage-fatjar-openjdk11:master
       configfolder: oph-configuration
-      jarfile: kouta-indeksoija-*-standalone.jar
+      jarfile: kouta-indeksoija-*-standalone
     secrets:
       AWS_UTILITY_ROLE_ARN: ${{ secrets.AWS_OPH_UTILITY_ROLE_ARN }}
