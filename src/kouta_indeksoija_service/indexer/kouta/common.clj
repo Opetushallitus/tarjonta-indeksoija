@@ -51,10 +51,12 @@
 
 (defn is-postinumerokoodiuri?
   [value]
-  (boolean
-   (re-find
-    (re-pattern "^posti_\\d+#?\\d?")
-    value)))
+  (and
+    (string? value)
+    (boolean
+      (re-find
+        (re-pattern "^posti_\\d+#?\\d?")
+        value))))
 
 (defn- process-map-entry-for-koodis [map-entry]
   (let [[k v]               map-entry
