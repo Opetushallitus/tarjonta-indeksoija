@@ -22,7 +22,7 @@
   (fixture/add-koulutus-mock lukio-oid :tila "julkaistu" :koulutustyyppi "lk" :nimi "Lukio" :metadata fixture/lukio-koulutus-metadata :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock kk-koulutus-oid :tila "julkaistu" :koulutustyyppi "yo" :nimi "Korkeakoulu" :metadata fixture/yo-koulutus-metadata :sorakuvausId sorakuvausId)
 
-     ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
+  ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
   (fixture/add-koulutus-mock traktoriala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock hevosala-oid :koulutustyyppi "amm" :tila "julkaistu" :nimi "Hevosalan koulutus" :modified "2018-05-05T12:02:23" :tarjoajat [punkaharjun-yliopisto helsingin-yliopisto] :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock traktoriala-oid2 :koulutustyyppi "amm" :tila "julkaistu" :nimi "Traktorialan koulutus" :metadata fixture/koulutus-metatieto :sorakuvausId sorakuvausId :tarjoajat [])
@@ -75,7 +75,7 @@
   (fixture/add-toteutus-mock lukio-toteutus-oid lukio-oid     :tila "julkaistu" :nimi "Lukio" :modified "2018-06-05T12:02:23" :metadata fixture/lk-toteutus-metadata)
   (fixture/add-toteutus-mock kk-toteutus-oid    kk-koulutus-oid     :tila "julkaistu" :nimi "Korkeakoulu" :modified "2018-06-05T12:02:23" :metadata fixture/yo-toteutus-metatieto)
 
-     ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt toteutukset
+  ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt toteutukset
   (fixture/add-toteutus-mock ponikoulu-oid hevosala-oid               :koulutustyyppi "amm"             :tila "julkaistu" :nimi "Ponikoulu" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/oletus-toteutus-metatieto)
   (fixture/add-toteutus-mock valtrakoulu-oid traktoriala-oid          :koulutustyyppi "amm"             :tila "julkaistu" :nimi "Valtrakoulutus" :tarjoajat [punkaharjun-toimipiste-2] :metadata fixture/oletus-toteutus-metatieto)
   (fixture/add-toteutus-mock massikkakoulu-oid traktoriala-oid        :koulutustyyppi "amk"             :tila "julkaistu" :nimi "Massikkakoulutus" :tarjoajat [helsingin-toimipiste] :metadata fixture/amk-toteutus-metatieto)
@@ -88,16 +88,15 @@
   (fixture/add-toteutus-mock aakkostus-toteutus-oid4 aakkostus-koulutus-oid4 :tila "julkaistu" :nimi "Aakkosissa vasta neljäs toteutus" :tarjoajat aakkostus-oppilaitos-oid4 :metadata fixture/aikuisten-perusopetus-toteutus-metatieto)
   (fixture/add-toteutus-mock aakkostus-toteutus-oid5 aakkostus-koulutus-oid5 :tila "julkaistu" :nimi "Aakkosissa viides toteutus" :tarjoajat aakkostus-oppilaitos-oid5 :metadata fixture/aikuisten-perusopetus-toteutus-metatieto)
 
-  (fixture/add-toteutus-mock keyword-toteutus-oid1 keyword-koulutus-oid1  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid1 :metadata {:tyyppi "yo" :ammattinimikkeet [{:kieli "fi" :arvo "lääkäri"}, {:kieli "fi" :arvo "esimies"}]})
+  (fixture/add-toteutus-mock keyword-toteutus-oid1 keyword-koulutus-oid1  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid1 :metadata {:tyyppi "yo" :ammattinimikkeet [{:kieli "fi" :arvo "lääkäri"} {:kieli "fi" :arvo "esimies"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid2 keyword-koulutus-oid2  :koulutustyyppi "yo"  :tila "julkaistu" :tarjoajat oppilaitosOid2 :metadata {:tyyppi "yo" :ammattinimikkeet [{:kieli "fi" :arvo "psykologi"}] :asiasanat [{:kieli "fi" :arvo "ammattikorkeakoulu"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid3 keyword-koulutus-oid4  :koulutustyyppi "amm" :tila "julkaistu" :tarjoajat oppilaitosOid4 :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "automaatioinsinööri"}] :asiasanat [{:kieli "fi" :arvo "ammattioppilaitos"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid4 keyword-koulutus-oid5  :koulutustyyppi "amm" :tila "julkaistu" :tarjoajat oppilaitosOid5 :metadata {:tyyppi "amm" :asiasanat [{:kieli "fi" :arvo "musiikkioppilaitokset"}]})
-  (fixture/add-toteutus-mock keyword-toteutus-oid5 keyword-koulutus-oid8  :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "maalari"}, {:kieli "fi" :arvo "merimies"}]})
+  (fixture/add-toteutus-mock keyword-toteutus-oid5 keyword-koulutus-oid8  :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "maalari"} {:kieli "fi" :arvo "merimies"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid6 keyword-koulutus-oid12 :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "automaalari"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid7 keyword-koulutus-oid14 :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "eläintenhoitaja"}]})
-  (fixture/add-toteutus-mock keyword-toteutus-oid8 keyword-koulutus-oid17 :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "hevostenhoitaja"}, {:kieli "fi" :arvo "seppä"}]})
+  (fixture/add-toteutus-mock keyword-toteutus-oid8 keyword-koulutus-oid17 :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "hevostenhoitaja"} {:kieli "fi" :arvo "seppä"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid9 keyword-koulutus-oid18 :koulutustyyppi "amk" :tila "julkaistu" :metadata {:tyyppi "amk" :ammattinimikkeet [{:kieli "fi" :arvo "virittäjä"}]})
-
 
   (fixture/add-haku-mock hakuOid1     :tila "julkaistu"   :nimi "Hevoshaku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_03#1")
   (fixture/add-haku-mock hakuOid2     :tila "julkaistu"   :nimi "Yhteishaku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_01#1")
@@ -106,14 +105,12 @@
   (fixture/add-haku-mock hakuOid5     :tila "tallennettu" :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23" :esikatselu false)
   (fixture/add-haku-mock kk-haku-oid  :tila "julkaistu"   :nimi "KK-haku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_01#1")
 
-
   (fixture/add-valintaperuste-mock valintaperusteId1 :tila "julkaistu" :nimi "Valintaperustekuvaus" :organisaatio oppilaitos-oid3)
   (fixture/add-valintaperuste-mock valintaperusteId2 :tila "julkaistu" :nimi "Valintaperuste" :muokkaaja "1.2.246.562.24.62301161440")
   (fixture/add-valintaperuste-mock valintaperusteId3 :tila "julkaistu" :nimi "Kiva valintaperustekuvaus" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
   (fixture/add-valintaperuste-mock valintaperusteId4 :tila "arkistoitu" :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
   (fixture/add-valintaperuste-mock valintaperusteId5 :tila "tallennettu" :esikatselu false :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
   (fixture/add-valintaperuste-mock valintaperusteId6 :tila "tallennettu" :esikatselu true :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
-
 
   (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1 :organisaatio oppilaitos-oid3)
   (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid4 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId5)
@@ -122,11 +119,10 @@
   (fixture/add-hakukohde-mock hakukohdeOid5 toteutusOid5 hakuOid1 :tila "tallennettu" :esitysnimi "Autoalan hakukohde" :valintaperuste valintaperusteId6 :modified "2018-06-05T12:02:23" :esikatselu true :hakuaikaPaattyy "2100-04-14T09:58")
   (fixture/add-hakukohde-mock hakukohdeOid6 toteutusOid5 hakuOid1 :tila "tallennettu" :esitysnimi "Autoalan hakukohde" :valintaperuste valintaperusteId6 :modified "2018-06-05T12:02:23" :esikatselu false)
   (fixture/add-hakukohde-mock hakukohdeOid7 toteutusOid1 hakuOid1 :tila "tallennettu" :nimi "Hakukohde" :organisaatio oppilaitos-oid :valintaperuste valintaperusteId1 :esikatselu false)
-  (fixture/add-hakukohde-mock hakukohdeOid8 ponikoulu-oid hakuOid1 :tila "julkaistu"  :nimi "ponikoulun hakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2100-01-01T00:00" :valintaperuste valintaperusteId2)
-  (fixture/add-hakukohde-mock hakukohdeOid9 poniosatoteutus-oid hakuOid1 :tila "julkaistu"  :nimi "ponikoulun hakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2000-01-02T00:00" :valintaperuste valintaperusteId2)
-  (fixture/add-hakukohde-mock hakukohdeOid10 ponikoulu-oid hakuOid2 :tila "julkaistu"  :nimi "ponikoulun yhteishakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2100-01-01T00:00" :valintaperuste valintaperusteId2)
+  (fixture/add-hakukohde-mock hakukohdeOid8 ponikoulu-oid hakuOid1 :tila "julkaistu" :nimi "ponikoulun hakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2100-01-01T00:00" :valintaperuste valintaperusteId2)
+  (fixture/add-hakukohde-mock hakukohdeOid9 poniosatoteutus-oid hakuOid1 :tila "julkaistu" :nimi "ponikoulun hakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2000-01-02T00:00" :valintaperuste valintaperusteId2)
+  (fixture/add-hakukohde-mock hakukohdeOid10 ponikoulu-oid hakuOid2 :tila "julkaistu" :nimi "ponikoulun yhteishakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2020-01-01T00:00" :valintaperuste valintaperusteId2)
   (fixture/add-hakukohde-mock kk-hakukohde-oid kk-toteutus-oid kk-haku-oid :tila "julkaistu" :esitysnimi "KK-hakukohde")
-
 
   (fixture/add-oppilaitos-mock oppilaitosOid1 :tila "julkaistu" :organisaatio oppilaitosOid1)
   (fixture/add-oppilaitos-mock oppilaitosOid2 :tila "julkaistu" :organisaatio oppilaitosOid2)
