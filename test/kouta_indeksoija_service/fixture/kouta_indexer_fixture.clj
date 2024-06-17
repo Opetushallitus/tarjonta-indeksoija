@@ -562,6 +562,10 @@
                                         oppilaitos
                                         {:organisaatio oppilaitos-oid :oid oid}))))))
 
+(defn add-oppilaitos-mock-without-kouta-oppilaitos
+  [oid organisaatio-data]
+  (swap! oppilaitokset assoc oid (fix-default-format organisaatio-data)))
+
 (defn update-oppilaitos-mock
   [oid & {:as params}]
   (let [oppilaitos (merge (get @oppilaitokset oid) params)]

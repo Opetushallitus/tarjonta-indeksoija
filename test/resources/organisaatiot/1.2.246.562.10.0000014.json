@@ -1,0 +1,24 @@
+{
+  "children": [],
+  "oid": "1.2.246.562.10.0000014",
+  "parentOid": "1.2.246.562.10.11111111111",
+  "parentOids": [
+    "1.2.246.562.10.0000014",
+    "1.2.246.562.10.11111111111",
+    "1.2.246.562.10.00000000001"
+  ],
+  "status": "AKTIIVINEN",
+  "organisaatiotyypit": [
+    "organisaatiotyyppi_02"
+  ],
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_2#1"
+  ],
+  "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+  "kotipaikkaUri": "kunta_618",
+  "nimi": {
+    "fi": "Aakkosissa vasta neljäs",
+    "sv": "Aakkosissa vasta neljäs"
+  }
+}
