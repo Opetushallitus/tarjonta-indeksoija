@@ -1,0 +1,56 @@
+{
+  "children": [],
+  "oid": "1.2.246.562.10.0000011",
+  "parentOid": "1.2.246.562.10.11111111111",
+      "parentOids": [
+        "1.2.246.562.10.000001",
+        "1.2.246.562.10.11111111111",
+        "1.2.246.562.10.00000000001"
+      ],
+  "status": "AKTIIVINEN",
+  "organisaatiotyypit": [
+    "organisaatiotyyppi_02"
+  ],
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_2#1"
+  ],
+  "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+  "kotipaikkaUri": "kunta_618",
+  "nimi": {
+    "fi": "Aakkosissa ensimmäinen",
+    "sv": "Aakkosissa ensimmäinen"
+  },
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Aakkosissa ensimmäinen",
+      "sv": "Aakkosissa ensimmäinen"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Testipolku 293",
+        "en": "Testiraitti 939"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_33100"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Testiranta 846"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_33100"
+      }
+    },
+    "puhelinnumero": {},
+    "sahkoposti": {
+      "fi": "hakija-60171217@oph.fi",
+      "en": "hakija-23021406@oph.fi"
+    },
+    "www": {
+      "en": "https://www.oppilaitos.fi/en",
+      "fi": "https://www.oppilaitos.fi"
+    }
+  }
+}

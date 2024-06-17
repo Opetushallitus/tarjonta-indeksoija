@@ -134,8 +134,8 @@
   (when-let [oppilaitos (cache/find-oppilaitos-by-oid oid)]
     (let [oppilaitoksen-yhteystiedot-from-organisaatiopalvelu (cache/get-yhteystiedot oid)
           oppilaitos-with-updated-nimi (assoc-nimi-from-oppilaitoksen-yhteystiedot
-                                         oppilaitos
-                                         oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
+                                        oppilaitos
+                                        oppilaitoksen-yhteystiedot-from-organisaatiopalvelu)
           oppilaitos-oid (if (organisaatio-tool/toimipiste? oppilaitos) (:parentOid oppilaitos) (:oid oppilaitos))
           ;; jos toimipiste, haetaan koulutukset parentin oidilla, koska toimipiste ei ole
           ;; koulutuksen vaan toteutuksen tarjoaja

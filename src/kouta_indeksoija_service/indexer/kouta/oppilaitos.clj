@@ -196,23 +196,23 @@
   ([organisaatio orig-hierarkia latest-oppilaitos-oid]
    (if (organisaatio-tool/toimipiste? organisaatio)
      (let [parent-oppilaitos-oid (find-parent-oppilaitos-oid-in-hierarkia
-                                   (:oid organisaatio) orig-hierarkia)
+                                  (:oid organisaatio) orig-hierarkia)
            parent-toimipiste-oid (find-parent-toimipiste-oid-in-hierarkia
-                                   (:oid organisaatio) orig-hierarkia)]
+                                  (:oid organisaatio) orig-hierarkia)]
        (-> organisaatio
            (assoc-in [:children]
                      (map
-                       #(fix-toimipiste-parents % orig-hierarkia parent-oppilaitos-oid)
-                       (:children organisaatio)))
+                      #(fix-toimipiste-parents % orig-hierarkia parent-oppilaitos-oid)
+                      (:children organisaatio)))
            (cond->
-               (not (nil? parent-oppilaitos-oid)) (assoc-in [:parentOid] parent-oppilaitos-oid)
-               (nil? parent-oppilaitos-oid) (dissoc :parentOid)
-               (not (nil? parent-toimipiste-oid)) (assoc-in [:parentToimipisteOid] parent-toimipiste-oid))))
+            (not (nil? parent-oppilaitos-oid)) (assoc-in [:parentOid] parent-oppilaitos-oid)
+            (nil? parent-oppilaitos-oid) (dissoc :parentOid)
+            (not (nil? parent-toimipiste-oid)) (assoc-in [:parentToimipisteOid] parent-toimipiste-oid))))
      (assoc-in organisaatio
                [:children]
                (map
-                 #(fix-toimipiste-parents % orig-hierarkia latest-oppilaitos-oid)
-                 (:children organisaatio)))))
+                #(fix-toimipiste-parents % orig-hierarkia latest-oppilaitos-oid)
+                (:children organisaatio)))))
   ([organisaatio]
    (fix-toimipiste-parents organisaatio organisaatio nil)))
 
