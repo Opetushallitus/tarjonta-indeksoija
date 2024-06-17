@@ -1,0 +1,154 @@
+{
+  "children": [
+    {
+      "oid": "1.2.246.562.10.001010101011",
+      "parentOid": "1.2.246.562.10.00101010101",
+      "parentOids": [
+        "1.2.246.562.10.001010101011",
+        "1.2.246.562.10.00101010101",
+        "1.2.246.562.10.11111111111",
+        "1.2.246.562.10.00000000001"
+      ],
+      "status": "AKTIIVINEN",
+      "kotipaikkaUri": "kunta_091",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_03"
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1",
+        "oppilaitoksenopetuskieli_2#1"
+      ],
+      "nimi": {
+        "fi": "Toimipiste fi 1.2.246.562.10.001010101011",
+        "sv": "Toimipiste sv 1.2.246.562.10.001010101011"
+      },
+      "yhteystiedot": {
+        "nimi": {
+          "fi": "Toimipiste fi 1.2.246.562.10.001010101011",
+          "sv": "Toimipiste sv 1.2.246.562.10.001010101011",
+          "en": "Toimipiste en 1.2.246.562.10.001010101011"
+        },
+        "postiosoite": {
+          "osoite": {
+            "fi": "Leipeekorpi 769"
+          },
+          "postinumeroKoodiUri": {
+            "fi": "posti_33820"
+          }
+        },
+        "kayntiosoite": {
+          "osoite": {
+            "fi": "Yläpääntie 743"
+          },
+          "postinumeroKoodiUri": {
+            "fi": "posti_33820"
+          }
+        },
+        "puhelinnumero": {
+          "fi": "050 75657861"
+        },
+        "sahkoposti": {
+          "fi": "hakija-50938239@oph.fi"
+        },
+        "www": {
+          "fi": "https://toimipiste.fi"
+        }
+      }
+    },
+    {
+      "oid": "1.2.246.562.10.001010101012",
+      "parentOid": "1.2.246.562.10.00101010101",
+      "parentOids": [
+        "1.2.246.562.10.001010101012",
+        "1.2.246.562.10.00101010101",
+        "1.2.246.562.10.11111111111",
+        "1.2.246.562.10.00000000001"
+      ],
+      "status": "AKTIIVINEN",
+      "kotipaikkaUri": "kunta_091",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_03"
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1",
+        "oppilaitoksenopetuskieli_2#1"
+      ],
+      "nimi": {
+        "fi": "Toimipiste fi 1.2.246.562.10.001010101012",
+        "sv": "Toimipiste sv 1.2.246.562.10.001010101012"
+      },
+      "yhteystiedot": {
+        "nimi": {
+          "fi": "Toimipiste fi 1.2.246.562.10.001010101012",
+          "sv": "Toimipiste sv 1.2.246.562.10.001010101012",
+          "en": "Toimipiste en 1.2.246.562.10.001010101012"
+        },
+        "postiosoite": {},
+        "kayntiosoite": {},
+        "puhelinnumero": {
+          "fi": "050 75657862"
+        },
+        "sahkoposti": {
+          "fi": "hakija-50938230@oph.fi"
+        },
+        "www": {
+          "fi": "https://ahlmanedu.fi"
+        }
+      }
+    }
+  ],
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
+      "sv": "Oppilaitos sv 1.2.246.562.10.00101010101",
+      "en": "Oppilaitos en 1.2.246.562.10.00101010101"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Muhkuripolku 293",
+        "en": "Katinhännänraitti 939"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_33100"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Rämsöönranta 846"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_33100"
+      }
+    },
+    "puhelinnumero": {},
+    "sahkoposti": {
+      "fi": "hakija-60171217@oph.fi",
+      "en": "hakija-23021406@oph.fi"
+    },
+    "www": {
+      "en": "https://www.oppilaitos.fi/en",
+      "fi": "https://www.oppilaitos.fi"
+    }
+  },
+  "oid": "1.2.246.562.10.00101010101",
+  "parentOid": "1.2.246.562.10.11111111111",
+  "status": "AKTIIVINEN",
+  "parentOids": [
+    "1.2.246.562.10.00101010101",
+    "1.2.246.562.10.11111111111",
+    "1.2.246.562.10.00000000001"
+  ],
+  "organisaatiotyypit": [
+    "organisaatiotyyppi_02"
+  ],
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_2#1"
+  ],
+  "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+  "kotipaikkaUri": "kunta_618",
+  "nimi": {
+    "fi": "Oppilaitos fi 1.2.246.562.10.00101010101",
+    "sv": "Oppilaitos sv 1.2.246.562.10.00101010101"
+  }
+}

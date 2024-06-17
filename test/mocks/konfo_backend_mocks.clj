@@ -63,7 +63,6 @@
   (fixture/add-koulutus-mock keyword-koulutus-oid17 :koulutustyyppi "amm" :tile "julkaistu" :nimi "Hevostalouden perustutkinto" :sorakuvausId sorakuvausId)
   (fixture/add-koulutus-mock keyword-koulutus-oid18 :koulutustyyppi "amk" :tile "julkaistu" :nimi "Moottorialan perustutkinto" :sorakuvausId sorakuvausId)
 
-
   (fixture/add-toteutus-mock toteutusOid1 koulutusOid3 :tila "julkaistu" :nimi "Traktorialan alkuopinnot" :metadata fixture/amm-toteutus-metatieto)
   (fixture/add-toteutus-mock toteutusOid2 koulutusOid3 :tila "julkaistu" :nimi "Pneumatiikan alkuopinnot" :metadata fixture/amm-toteutus-metatieto)
   (fixture/add-toteutus-mock toteutusOid3 koulutusOid3 :tila "julkaistu" :nimi "Traktorialan alkuopinnot" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555" :metadata fixture/amm-toteutus-metatieto)
@@ -97,7 +96,6 @@
   (fixture/add-toteutus-mock keyword-toteutus-oid8 keyword-koulutus-oid17 :koulutustyyppi "amm" :tila "julkaistu" :metadata {:tyyppi "amm" :ammattinimikkeet [{:kieli "fi" :arvo "hevostenhoitaja"}, {:kieli "fi" :arvo "seppä"}]})
   (fixture/add-toteutus-mock keyword-toteutus-oid9 keyword-koulutus-oid18 :koulutustyyppi "amk" :tila "julkaistu" :metadata {:tyyppi "amk" :ammattinimikkeet [{:kieli "fi" :arvo "virittäjä"}]})
 
-
   (fixture/add-haku-mock hakuOid1     :tila "julkaistu"   :nimi "Hevoshaku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_03#1")
   (fixture/add-haku-mock hakuOid2     :tila "julkaistu"   :nimi "Yhteishaku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_01#1")
   (fixture/add-haku-mock hakuOid3     :tila "julkaistu"   :nimi "Jatkuva haku" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
@@ -105,14 +103,12 @@
   (fixture/add-haku-mock hakuOid5     :tila "tallennettu" :nimi "Jatkuva haku" :modified "2018-06-05T12:02:23" :esikatselu false)
   (fixture/add-haku-mock kk-haku-oid  :tila "julkaistu"   :nimi "KK-haku" :muokkaaja "1.2.246.562.24.62301161440" :hakutapaKoodiUri "hakutapa_01#1")
 
-
   (fixture/add-valintaperuste-mock valintaperusteId1 :tila "julkaistu" :nimi "Valintaperustekuvaus" :organisaatio oppilaitos-oid3)
   (fixture/add-valintaperuste-mock valintaperusteId2 :tila "julkaistu" :nimi "Valintaperuste" :muokkaaja "1.2.246.562.24.62301161440")
   (fixture/add-valintaperuste-mock valintaperusteId3 :tila "julkaistu" :nimi "Kiva valintaperustekuvaus" :modified "2018-05-05T12:02:23" :muokkaaja "1.2.246.562.24.55555555555")
   (fixture/add-valintaperuste-mock valintaperusteId4 :tila "arkistoitu" :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
   (fixture/add-valintaperuste-mock valintaperusteId5 :tila "tallennettu" :esikatselu false :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
   (fixture/add-valintaperuste-mock valintaperusteId6 :tila "tallennettu" :esikatselu true :nimi "Kiva valintaperustekuvaus" :modified "2018-06-05T12:02:23")
-
 
   (fixture/add-hakukohde-mock hakukohdeOid1 toteutusOid1 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId1 :organisaatio oppilaitos-oid3)
   (fixture/add-hakukohde-mock hakukohdeOid2 toteutusOid4 hakuOid1 :tila "julkaistu" :esitysnimi "Hakukohde" :valintaperuste valintaperusteId5)
@@ -126,13 +122,28 @@
   (fixture/add-hakukohde-mock hakukohdeOid10 ponikoulu-oid hakuOid2 :tila "julkaistu"  :nimi "ponikoulun yhteishakukohde" :muokkaaja "1.2.246.562.24.62301161440" :hakuaikaAlkaa "2000-01-01T00:00" :hakuaikaPaattyy "2100-01-01T00:00" :valintaperuste valintaperusteId2)
   (fixture/add-hakukohde-mock kk-hakukohde-oid kk-toteutus-oid kk-haku-oid :tila "julkaistu" :esitysnimi "KK-hakukohde")
 
+  (fixture/add-oppilaitos-mock oppilaitosOid1 :tila "julkaistu" :organisaatio oppilaitosOid1
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid1 ".json")))})
 
-  (fixture/add-oppilaitos-mock oppilaitosOid1 :tila "julkaistu" :organisaatio oppilaitosOid1)
-  (fixture/add-oppilaitos-mock oppilaitosOid2 :tila "julkaistu" :organisaatio oppilaitosOid2)
-  (fixture/add-oppilaitos-mock oppilaitosOid3 :tila "tallennettu" :esikatselu false :organisaatio oppilaitosOid2)
-  (fixture/add-oppilaitos-mock oppilaitosOid4 :tila "tallennettu" :esikatselu true :organisaatio oppilaitosOid4)
-  (fixture/add-oppilaitos-mock oppilaitosOid7 :tila "julkaistu" :organisaatio oppilaitosOid7)
-  (fixture/add-oppilaitos-mock jokin-jarjestyspaikka :tila "julkaistu" :organisaatio jokin-jarjestyspaikka)
+  (fixture/add-oppilaitos-mock oppilaitosOid2 :tila "julkaistu" :organisaatio oppilaitosOid2
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid2 ".json")))})
+  (fixture/add-oppilaitos-mock oppilaitosOid3 :tila "tallennettu" :esikatselu false :organisaatio oppilaitosOid2
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid3 ".json")))})
+  (fixture/add-oppilaitos-mock oppilaitosOid4 :tila "tallennettu" :esikatselu true :organisaatio oppilaitosOid4
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid4 ".json")))})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos oppilaitosOid5 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid5 ".json")))}})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos oppilaitosOid6 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid6 ".json")))}})
+  (fixture/add-oppilaitos-mock oppilaitosOid7 :tila "julkaistu" :organisaatio oppilaitosOid7
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" oppilaitosOid7 ".json")))})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos aakkostus-oppilaitos-oid1 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" aakkostus-oppilaitos-oid1 ".json")))}})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos aakkostus-oppilaitos-oid2 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" aakkostus-oppilaitos-oid2 ".json")))}})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos aakkostus-oppilaitos-oid3 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" aakkostus-oppilaitos-oid3 ".json")))}})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos aakkostus-oppilaitos-oid4 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" aakkostus-oppilaitos-oid4 ".json")))}})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos aakkostus-oppilaitos-oid5 {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" aakkostus-oppilaitos-oid5 ".json")))}})
+  (fixture/add-oppilaitos-mock jokin-jarjestyspaikka :tila "julkaistu" :organisaatio jokin-jarjestyspaikka
+                               :_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" jokin-jarjestyspaikka ".json")))})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos punkaharjun-yliopisto {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" punkaharjun-yliopisto ".json")))}})
+  (fixture/add-oppilaitos-mock-without-kouta-oppilaitos helsingin-yliopisto {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" punkaharjun-yliopisto ".json")))}})
 
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid1 oppilaitosOid1 :tila "julkaistu" :organisaatio oppilaitoksenOsaOid1)
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid2 oppilaitosOid1 :tila "arkistoitu" :organisaatio oppilaitoksenOsaOid2)
@@ -149,11 +160,15 @@
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 kk-haku-oid]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3 hakukohdeOid4 hakukohdeOid5 hakukohdeOid6 hakukohdeOid7 kk-hakukohde-oid]
                                                :valintaperusteet [valintaperusteId1 valintaperusteId2 valintaperusteId3 valintaperusteId4 valintaperusteId5 valintaperusteId6]
-                                               :oppilaitokset [oppilaitosOid1 oppilaitosOid2 oppilaitosOid3 oppilaitosOid4 oppilaitosOid5 oppilaitosOid6 oppilaitosOid7
+                                               :oppilaitokset [
+                                                               oppilaitosOid1 oppilaitosOid2
+                                                               oppilaitosOid3
+                                                               oppilaitosOid4
+                                                               oppilaitosOid5 oppilaitosOid6 oppilaitosOid7
                                                                aakkostus-oppilaitos-oid1 aakkostus-oppilaitos-oid2 aakkostus-oppilaitos-oid3 aakkostus-oppilaitos-oid4 aakkostus-oppilaitos-oid5
                                                                jokin-jarjestyspaikka]})
 
-   ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
+;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
   (fixture/index-oids-without-related-indices {:koulutukset [traktoriala-oid hevosala-oid traktoriala-oid2 hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
                                                :oppilaitokset [punkaharjun-yliopisto helsingin-yliopisto]})
   (export-elastic-data "konfo-backend")

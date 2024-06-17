@@ -1,0 +1,69 @@
+{
+  "children": [
+    {
+      "oid": "1.2.246.562.10.000003",
+      "parentOid": "1.2.246.562.10.000002",
+      "parentOids": [
+        "1.2.246.562.10.000003",
+        "1.2.246.562.10.000002",
+        "1.2.246.562.10.11111111111",
+        "1.2.246.562.10.00000000001"
+      ],
+      "status": "AKTIIVINEN",
+      "kotipaikkaUri": "kunta_618",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_03"
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_2#1"
+      ],
+      "nimi": {
+        "fi": "Punkaharjun yliopiston toimipiste",
+        "sv": "Punkaharjun yliopiston toimipiste sv"
+      }
+    },
+    {
+      "oid": "1.2.246.562.10.000004",
+      "parentOid": "1.2.246.562.10.000002",
+      "parentOids": [
+        "1.2.246.562.10.000004",
+        "1.2.246.562.10.000002",
+        "1.2.246.562.10.11111111111",
+        "1.2.246.562.10.00000000001"
+      ],
+      "status": "AKTIIVINEN",
+      "kotipaikkaUri": "kunta_220",
+      "organisaatiotyypit": [
+        "organisaatiotyyppi_03"
+      ],
+      "kieletUris": [
+        "oppilaitoksenopetuskieli_1#1"
+      ],
+      "nimi": {
+        "fi": "Punkaharjun yliopiston Karjaan toimipiste",
+        "sv": "Punkaharjun yliopiston Karjaan toimipiste sv"
+      }
+    }
+  ],
+  "oid": "1.2.246.562.10.000002",
+  "parentOid": "1.2.246.562.10.11111111111",
+  "parentOids": [
+    "1.2.246.562.10.000002",
+    "1.2.246.562.10.11111111111",
+    "1.2.246.562.10.00000000001"
+  ],
+  "status": "AKTIIVINEN",
+  "organisaatiotyypit": [
+    "organisaatiotyyppi_02"
+  ],
+  "oppilaitostyyppi": "oppilaitostyyppi_42#1",
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1",
+    "oppilaitoksenopetuskieli_2#1"
+  ],
+  "kotipaikkaUri": "kunta_618",
+  "nimi": {
+    "fi": "Punkaharjun yliopisto",
+    "sv": "Punkaharjun yliopisto sv"
+  }
+}
