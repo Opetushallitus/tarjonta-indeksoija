@@ -3,6 +3,7 @@
    [clj-log.access-log]
    [mocks.export-elastic-data :refer [export-elastic-data]]
    [kouta-indeksoija-service.fixture.kouta-indexer-fixture :as fixture]
+   [kouta-indeksoija-service.test-tools :refer [set-fixed-time]]
    [clj-test-utils.elasticsearch-docker-utils :as ed-utils]))
 
 (defonce OphOid             "1.2.246.562.10.00000000001")
@@ -43,6 +44,7 @@
 
 (defn -main []
   (ed-utils/start-elasticsearch)
+  (set-fixed-time "2023-02-27T09:50:00")
   (fixture/init)
   (fixture/add-sorakuvaus-mock sorakuvausId1 :organisaatio ChildOid)
   (fixture/add-sorakuvaus-mock sorakuvausId2 :organisaatio OphOid)
@@ -54,7 +56,7 @@
   (fixture/add-koulutus-mock koulutusOid5 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "amm-muu" :metadata fixture/amm-muu-koulutus-metadata)
   (fixture/add-koulutus-mock koulutusOid6 :tila "julkaistu" :organisaatio ChildOid :koulutustyyppi "aikuisten-perusopetus" :metadata fixture/aikuisten-perusopetus-koulutus-metadata)
 
-  (fixture/add-toteutus-mock toteutusOid1 koulutusOid1 :tila "julkaistu" :organisaatio ChildOid :tarjoajat [LonelyOid])
+  (fixture/add-toteutus-mock toteutusOid1 koulutusOid1 :tila "julkaistu" :organisaatio ChildOid)
   (fixture/add-toteutus-mock toteutusOid2 koulutusOid1 :tila "julkaistu" :organisaatio LonelyOid :tarjoajat [ChildOid])
 
   (fixture/add-valintaperuste-mock valintaPerusteId1 :organisaatio ChildOid)

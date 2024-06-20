@@ -1,7 +1,7 @@
 {
   "tila" : "julkaistu",
   "teemakuva" : "https://testi.fi/toteutus-teemakuva/oid/kuva.jpg",
-  "tarjoajat" : "1.2.246.562.10.67476956288, 1.2.246.562.10.594252633210",
+  "tarjoajat" : ["1.2.246.562.10.67476956288", "1.2.246.562.10.594252633210"],
   "esikatselu" : false,
   "modified" : "2022-01-26T11:58:40",
   "nimi" : "nimi",
