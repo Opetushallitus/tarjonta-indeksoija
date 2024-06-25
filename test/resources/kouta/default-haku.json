@@ -1,6 +1,7 @@
 {
   "tila" : "julkaistu",
   "hakukohteenMuokkaamisenTakaraja" : "2022-01-27T09:58",
+  "hakukohteenLiittajaOrganisaatiot": [],
   "hakulomakeKuvaus" : "Hakulomake tulostetaan ja toimitetaan postitse",
   "kohdejoukkoKoodiUri" : "haunkohdejoukko_02#2",
   "kohdejoukonTarkenneKoodiUri" : "haunkohdejoukontarkenne_1#11",
