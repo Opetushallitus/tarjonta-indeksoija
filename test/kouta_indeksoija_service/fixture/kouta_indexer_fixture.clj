@@ -331,12 +331,18 @@
           :linkkiEPerusteisiin {:fi "http://testilinkki.fi" :sv "http://testilinkki.fi/sv"}
           :lisatiedot []})
 
-(defonce osaamismerkki-metadata
+(defonce osaamismerkki-koulutus-metadata
   {:tyyppi "vapaa-sivistystyo-osaamismerkki"
    :osaamismerkkiKoodiUri "osaamismerkit_1022#2"
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
-   :opintojenLaajuusNumero 1}
-  )
+   :opintojenLaajuusNumero 1})
+
+(defonce osaamismerkki-toteutus-metatieto
+  (merge (dissoc (:metadata default-toteutus-map) :osaamisalat :ammatillinenPerustutkintoErityisopetuksena)
+         {:tyyppi           "vapaa-sivistystyo-osaamismerkki"
+          :asiasanat        []
+          :ammattinimikkeet []
+          :kuvaus  {:fi "kuvaus", :sv "kuvaus sv"}}))
 
 (defn add-koulutus-mock
   [oid & {:as params}]

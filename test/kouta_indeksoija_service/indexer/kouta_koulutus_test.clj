@@ -334,7 +334,7 @@
 (deftest index-osaamismerkkikoulutus
   (fixture/with-mocked-indexing
     (testing "Indexer should index osaamismerkki specific metadata"
-      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "vapaa-sivistystyo-osaamismerkki" :metadata fixture/osaamismerkki-metadata)
+      (fixture/update-koulutus-mock koulutus-oid :tila "julkaistu" :johtaaTutkintoon "false" :koulutustyyppi "vapaa-sivistystyo-osaamismerkki" :metadata fixture/osaamismerkki-koulutus-metadata)
       (check-all-nil)
       (i/index-koulutukset [koulutus-oid] (. System (currentTimeMillis)))
       (let [koulutus (get-doc koulutus/index-name koulutus-oid)
