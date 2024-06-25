@@ -333,6 +333,7 @@
 
 (defonce osaamismerkki-koulutus-metadata
   {:tyyppi "vapaa-sivistystyo-osaamismerkki"
+   :kuvaus {:fi "kuvausteksti" :sv "kuvausteksti sv"}
    :osaamismerkkiKoodiUri "osaamismerkit_1022#2"
    :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_4"
    :opintojenLaajuusNumero 1})
