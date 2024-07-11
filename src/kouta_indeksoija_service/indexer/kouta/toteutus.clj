@@ -96,8 +96,8 @@
               (->distinct-vec))))
 
 
-(defn assoc-opintojaksot
-  [toteutus opintojaksot]
+(defn assoc-liitetyt
+  [toteutus opintojaksot key-for-liitetyt]
   (let [liitetyt-opintojaksot (for [opintojakso opintojaksot]
                                 (common/decorate-koodi-uris
                                   {:nimi (:nimi opintojakso)
@@ -105,7 +105,7 @@
                                    :metadata {:kuvaus (get-in opintojakso [:metadata :kuvaus])
                                               :opintojenLaajuusNumero (get-in opintojakso [:metadata :opintojenLaajuusNumero])
                                               :opintojenLaajuusyksikkoKoodiUri (get-in opintojakso [:metadata :opintojenLaajuusyksikkoKoodiUri])}}))]
-    (assoc toteutus :liitetytOpintojaksot liitetyt-opintojaksot)))
+    (assoc toteutus key-for-liitetyt liitetyt-opintojaksot)))
 
 
 ;Palauttaa toteutuksen johon on rikastettu lukiodiplomeiden sisällöt ja tavoitteet eperusteista
@@ -139,13 +139,17 @@
             haut       (kouta-backend/list-haut-by-toteutus-with-cache oid execution-id)
             haku-oids  (get-oids :oid haut)
             opintojaksot (when-let [liitetyt-opintojaksot (get-in toteutus [:metadata :liitetytOpintojaksot])]
-                                    (kouta-backend/get-toteutukset-with-cache
-                                      liitetyt-opintojaksot
-                                      execution-id))
+                           (kouta-backend/get-toteutukset-with-cache
+                            liitetyt-opintojaksot
+                            execution-id))
             opintokokonaisuudet (when (= "kk-opintojakso" (get-in toteutus [:metadata :tyyppi]))
                                   (kouta-backend/get-opintokokonaisuudet-by-toteutus-oids-with-cache
-                                    [(:oid toteutus)]
-                                    execution-id))
+                                   [(:oid toteutus)]
+                                   execution-id))
+            osaamismerkit (when-let [liitetyt-osaamismerkit (get-in toteutus [:metadata :liitetytOsaamismerkit])]
+                            (kouta-backend/get-koulutukset-with-cache
+                             liitetyt-osaamismerkit
+                             execution-id))
             toteutus-enriched (-> toteutus
                                   (common/complete-entry)
                                   (common/assoc-organisaatiot)
@@ -156,7 +160,8 @@
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
                                   (assoc-hakutiedot hakutiedot)
-                                  (assoc-opintojaksot opintojaksot)
+                                  (assoc-liitetyt opintojaksot :liitetytOpintojaksot)
+                                  (assoc-liitetyt osaamismerkit :liitetytOsaamismerkit)
                                   (assoc :kuuluuOpintokokonaisuuksiin opintokokonaisuudet)
                                   (common/localize-dates)
                                   (common/remove-empty-p-tags))]

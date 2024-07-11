@@ -119,7 +119,7 @@
       (i/index-toteutukset [toteutus-oid] (. System (currentTimeMillis)))
       (is (nil? (get-doc toteutus/index-name toteutus-oid))))))
 
-(deftest assoc-opintojaksot
+(deftest assoc-liitetyt
   (testing "returns toteutus with two liitetty opintojakso attached"
     (fixture/with-mocked-indexing
       (let [toteutus {:tila "julkaistu"
@@ -174,4 +174,4 @@
                                                                   :opintojenLaajuusyksikko {:koodiUri "opintojenlaajuusyksikko_1#1"
                                                                                             :nimi {:sv "opintojenlaajuusyksikko_1#1 nimi sv"
                                                                                                    :fi "opintojenlaajuusyksikko_1#1 nimi fi"}}}}]}]
-        (is (= enriched-toteutus (toteutus/assoc-opintojaksot toteutus liitetyt-opintojaksot)))))))
+        (is (= enriched-toteutus (toteutus/assoc-liitetyt toteutus liitetyt-opintojaksot :liitetytOpintojaksot)))))))
