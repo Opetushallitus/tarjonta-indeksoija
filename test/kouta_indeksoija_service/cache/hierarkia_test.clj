@@ -29,9 +29,9 @@
     (testing "Fetching hierarkia via cache should"
       (testing "return hierarkia with correct organisation data"
         (let [res (cache/get-hierarkia-cached)]
-          (is (= 92 (count (keys @res))))
-          (is (= 56 (count (filter #(o/toimipiste? %) (vals @res)))))
-          (is (= 29 (count (filter #(o/oppilaitos? %) (vals @res)))))
+          (is (= 96 (count (keys @res))))
+          (is (= 59 (count (filter #(o/toimipiste? %) (vals @res)))))
+          (is (= 30 (count (filter #(o/oppilaitos? %) (vals @res)))))
           (is (= 7 (count (filter #(o/koulutustoimija? %) (vals @res)))))))
       (testing "return correct koulutustoimijat"
         (let [res (cache/get-hierarkia-cached)
