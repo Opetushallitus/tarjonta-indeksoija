@@ -1,0 +1,53 @@
+{
+  "oid": "1.2.246.562.10.52129572656",
+  "parentOid": "1.2.246.562.10.65987152505",
+  "parentOids": [
+    "1.2.246.562.10.00000000001",
+    "1.2.246.562.10.240484683010",
+    "1.2.246.562.10.38515028629",
+    "1.2.246.562.10.65987152505"
+  ],
+  "nimi": {
+    "fi": "Itä-Suomen yliopisto, Avoin yliopisto, Joensuun kampus",
+    "sv": "Östra Finlands Universitet, Öppna universitet, Joensuu kampus",
+    "en": "University of Eastern Finland, Open University, Joensuu campus"
+  },
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1"
+  ],
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Itä-Suomen yliopisto, Avoin yliopisto, Joensuun kampus",
+      "sv": "Östra Finlands Universitet, Öppna universitet, Joensuu kampus",
+      "en": "University of Eastern Finland, Open University, Joensuu campus"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Öllölänraitti 176"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_80101"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Pomovaara 20"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_80100"
+      }
+    },
+    "puhelinnumero": {},
+    "sahkoposti": {
+      "fi": "hakija-5116922@oph.fi"
+    },
+    "www": {
+      "fi": "https://www.uef.fi/fi/avoin-yliopisto"
+    }
+  },
+  "status": "AKTIIVINEN",
+  "kotipaikkaUri": "kunta_167",
+  "organisaatiotyyppiUris": [
+    "organisaatiotyyppi_03"
+  ]
+}

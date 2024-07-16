@@ -2652,64 +2652,7 @@
           "parentOid": "1.2.246.562.10.38515028629",
           "parentOidPath": "1.2.246.562.10.00000000001/1.2.246.562.10.240484683010/1.2.246.562.10.38515028629",
           "status": "AKTIIVINEN",
-          "subRows": [
-            {
-              "aliOrganisaatioMaara": 0,
-              "alkuPvm": 1262296800000,
-              "children": [],
-              "kieletUris": [
-                "oppilaitoksenopetuskieli_1#1"
-              ],
-              "kotipaikkaUri": "kunta_167",
-              "lyhytNimi": {},
-              "match": true,
-              "nimi": {
-                "sv": "Joensuu kampus",
-                "fi": "Joensuun kampus",
-                "en": "Joensuu campus"
-              },
-              "oid": "1.2.246.562.10.52129572656",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "parentOid": "1.2.246.562.10.65987152505",
-              "parentOidPath": "1.2.246.562.10.00000000001/1.2.246.562.10.240484683010/1.2.246.562.10.38515028629/1.2.246.562.10.65987152505",
-              "status": "AKTIIVINEN",
-              "subRows": [],
-              "toimipistekoodi": "1008806",
-              "tyypit": [
-                "organisaatiotyyppi_03"
-              ]
-            },
-            {
-              "aliOrganisaatioMaara": 0,
-              "alkuPvm": 1262296800000,
-              "children": [],
-              "kieletUris": [
-                "oppilaitoksenopetuskieli_1#1"
-              ],
-              "kotipaikkaUri": "kunta_297",
-              "lyhytNimi": {},
-              "match": true,
-              "nimi": {
-                "fi": "Kuopion kampus",
-                "sv": "Kuopio kampus",
-                "en": "Kuopio campus"
-              },
-              "oid": "1.2.246.562.10.71579636385",
-              "organisaatiotyypit": [
-                "organisaatiotyyppi_03"
-              ],
-              "parentOid": "1.2.246.562.10.65987152505",
-              "parentOidPath": "1.2.246.562.10.00000000001/1.2.246.562.10.240484683010/1.2.246.562.10.38515028629/1.2.246.562.10.65987152505",
-              "status": "AKTIIVINEN",
-              "subRows": [],
-              "toimipistekoodi": "1008807",
-              "tyypit": [
-                "organisaatiotyyppi_03"
-              ]
-            }
-          ],
+          "subRows": [],
           "toimipistekoodi": "1008805",
           "tyypit": [
             "organisaatiotyyppi_03"
