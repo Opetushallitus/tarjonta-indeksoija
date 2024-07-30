@@ -63,6 +63,13 @@
   (fixture/add-toteutus-mock ammOsaamisalaToteutusOid ammOsaamisalaOid :tila "julkaistu" :organisaatioOid ChildOid :tarjoajat ChildOid
                              :metadata {:tyyppi "amm-osaamisala"})
 
+  (fixture/add-haku-mock hakuOid1 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+  (fixture/add-haku-mock hakuOid2 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+  (fixture/add-haku-mock hakuOid3 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId2)
+  (fixture/add-haku-mock hakuOid4 :tila "julkaistu" :organisaatioOid ChildOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId2)
+  (fixture/add-haku-mock hakuOid5 :tila "julkaistu" :organisaatioOid ParentOid :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+  (fixture/add-haku-mock hakuOid6 :tila "julkaistu" :organisaatioOid EvilChild :hakulomaketyyppi "ataru" :hakulomakeAtaruId ataruId1)
+
   (fixture/add-valintaperuste-mock valintaPerusteId1 :organisaatioOid ChildOid)
   (fixture/add-hakukohde-mock hakukohdeOid1 ammToteutusOid hakuOid1 :valintaperuste valintaPerusteId1 :organisaatioOid ChildOid :jarjestyspaikkaOid ChildOid)
   (fixture/add-hakukohde-mock hakukohdeOid2 ammToteutusOid hakuOid1 :valintaperuste valintaPerusteId1 :organisaatioOid GrandChildOid :jarjestyspaikkaOid OphOid)
