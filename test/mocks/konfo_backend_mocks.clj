@@ -146,6 +146,11 @@
   (fixture/add-oppilaitos-mock-without-kouta-oppilaitos punkaharjun-yliopisto {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" punkaharjun-yliopisto ".json")))}})
   (fixture/add-oppilaitos-mock-without-kouta-oppilaitos helsingin-yliopisto {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" punkaharjun-yliopisto ".json")))}})
 
+  (fixture/add-oppilaitos-mock ita-suomen-yliopisto :tila "julkaistu" :organisaatio ita-suomen-yliopisto {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" ita-suomen-yliopisto ".json")))}})
+  (fixture/add-oppilaitoksen-osa-mock ita-suomen-yliopisto-avoin ita-suomen-yliopisto :tila "julkaistu" :organisaatio ita-suomen-yliopisto-avoin {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" ita-suomen-yliopisto-avoin ".json")))}})
+  (fixture/add-oppilaitoksen-osa-mock ita-suomen-yliopisto-avoin-kuopio ita-suomen-yliopisto :tila "julkaistu" :organisaatio ita-suomen-yliopisto-avoin-kuopio {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" ita-suomen-yliopisto-avoin-kuopio ".json")))}})
+  (fixture/add-oppilaitoksen-osa-mock ita-suomen-yliopisto-avoin-joensuu ita-suomen-yliopisto :tila "julkaistu" :organisaatio ita-suomen-yliopisto-avoin-joensuu {:_enrichedData {:organisaatio (fixture/->keywordized-json (slurp (str "test/resources/organisaatiot/" ita-suomen-yliopisto-avoin-joensuu ".json")))}})
+
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid1 oppilaitosOid1 :tila "julkaistu" :organisaatio oppilaitoksenOsaOid1)
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid2 oppilaitosOid1 :tila "arkistoitu" :organisaatio oppilaitoksenOsaOid2)
   (fixture/add-oppilaitoksen-osa-mock oppilaitoksenOsaOid3 oppilaitosOid2 :tila "julkaistu" :organisaatio oppilaitoksenOsaOid3)
@@ -161,15 +166,15 @@
                                                :haut [hakuOid1 hakuOid2 hakuOid3 hakuOid4 hakuOid5 kk-haku-oid]
                                                :hakukohteet [hakukohdeOid1 hakukohdeOid2 hakukohdeOid3 hakukohdeOid4 hakukohdeOid5 hakukohdeOid6 hakukohdeOid7 kk-hakukohde-oid]
                                                :valintaperusteet [valintaperusteId1 valintaperusteId2 valintaperusteId3 valintaperusteId4 valintaperusteId5 valintaperusteId6]
-                                               :oppilaitokset [
-                                                               oppilaitosOid1 oppilaitosOid2
+                                               :oppilaitokset [oppilaitosOid1 oppilaitosOid2
                                                                oppilaitosOid3
                                                                oppilaitosOid4
                                                                oppilaitosOid5 oppilaitosOid6 oppilaitosOid7
                                                                aakkostus-oppilaitos-oid1 aakkostus-oppilaitos-oid2 aakkostus-oppilaitos-oid3 aakkostus-oppilaitos-oid4 aakkostus-oppilaitos-oid5
-                                                               jokin-jarjestyspaikka]})
+                                                               jokin-jarjestyspaikka
+                                                               ita-suomen-yliopisto]})
 
-;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
+  ;; Punkaharjun ja Helsingin yliopistoihin kiinnitetyt koulutukset
   (fixture/index-oids-without-related-indices {:koulutukset [traktoriala-oid hevosala-oid traktoriala-oid2 hevostutkinnon-osa-oid hevososaamisala-oid yo-koulutus-oid amk-oid lukio-oid2 amm-muu-oid]
                                                :oppilaitokset [punkaharjun-yliopisto helsingin-yliopisto]})
   (export-elastic-data "konfo-backend")
