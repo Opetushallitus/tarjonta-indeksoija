@@ -1,0 +1,58 @@
+{
+  "oid": "1.2.246.562.10.71579636385",
+  "parentOid": "1.2.246.562.10.65987152505",
+  "parentOids": [
+    "1.2.246.562.10.00000000001",
+    "1.2.246.562.10.240484683010",
+    "1.2.246.562.10.38515028629",
+    "1.2.246.562.10.65987152505"
+  ],
+  "nimi": {
+    "fi": "Itä-Suomen yliopisto, Avoin yliopisto, Kuopion kampus",
+    "sv": "Östra Finlands Universitet, Öppna universitet, Kuopio kampus",
+    "en": "University of Eastern Finland, Open University, Kuopio campus"
+  },
+  "kieletUris": [
+    "oppilaitoksenopetuskieli_1#1"
+  ],
+  "yhteystiedot": {
+    "nimi": {
+      "fi": "Itä-Suomen yliopisto, Avoin yliopisto, Kuopion kampus",
+      "sv": "Östra Finlands Universitet, Öppna universitet, Kuopio kampus",
+      "en": "University of Eastern Finland, Open University, Kuopio campus"
+    },
+    "postiosoite": {
+      "osoite": {
+        "fi": "Junttilantie 224"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_70211"
+      }
+    },
+    "kayntiosoite": {
+      "osoite": {
+        "fi": "Takapajulanraitti 26"
+      },
+      "postinumeroKoodiUri": {
+        "fi": "posti_70150"
+      }
+    },
+    "puhelinnumero": {
+      "fi": "050 97660501",
+      "en": "050 76326241"
+    },
+    "sahkoposti": {
+      "fi": "hakija-15587513@oph.fi",
+      "en": "hakija-10347738@oph.fi"
+    },
+    "www": {
+      "fi": "https://www.uef.fi/fi/avoin-yliopisto",
+      "en": "http://www.uef.fi/en/web/aducate/avoin-yliopisto"
+    }
+  },
+  "status": "AKTIIVINEN",
+  "kotipaikkaUri": "kunta_297",
+  "organisaatiotyyppiUris": [
+    "organisaatiotyyppi_03"
+  ]
+}
