@@ -97,15 +97,21 @@
 
 
 (defn assoc-liitetyt
-  [toteutus opintojaksot key-for-liitetyt]
-  (let [liitetyt-opintojaksot (for [opintojakso opintojaksot]
-                                (common/decorate-koodi-uris
-                                  {:nimi (:nimi opintojakso)
-                                   :oid (:oid opintojakso)
-                                   :metadata {:kuvaus (get-in opintojakso [:metadata :kuvaus])
-                                              :opintojenLaajuusNumero (get-in opintojakso [:metadata :opintojenLaajuusNumero])
-                                              :opintojenLaajuusyksikkoKoodiUri (get-in opintojakso [:metadata :opintojenLaajuusyksikkoKoodiUri])}}))]
-    (assoc toteutus key-for-liitetyt liitetyt-opintojaksot)))
+  ([toteutus liitetyt key-for-liitetyt]
+   (assoc-liitetyt toteutus liitetyt key-for-liitetyt false))
+
+  ([toteutus liitetyt key-for-liitetyt with-metadata]
+   (assoc toteutus
+          key-for-liitetyt
+          (for [liitetty liitetyt]
+            (let [base {:nimi (:nimi liitetty)
+                        :oid (:oid liitetty)}]
+              (if with-metadata
+                (merge base (common/decorate-koodi-uris
+                              {:metadata {:kuvaus (get-in liitetty [:metadata :kuvaus])
+                                          :opintojenLaajuusNumero (get-in liitetty [:metadata :opintojenLaajuusNumero])
+                                          :opintojenLaajuusyksikkoKoodiUri (get-in liitetty [:metadata :opintojenLaajuusyksikkoKoodiUri])}}))
+                base))))))
 
 
 ;Palauttaa toteutuksen johon on rikastettu lukiodiplomeiden sisällöt ja tavoitteet eperusteista
@@ -160,7 +166,7 @@
                                   (enrich-metadata)
                                   (assoc-tarjoajien-oppilaitokset)
                                   (assoc-hakutiedot hakutiedot)
-                                  (assoc-liitetyt opintojaksot :liitetytOpintojaksot)
+                                  (assoc-liitetyt opintojaksot :liitetytOpintojaksot true)
                                   (assoc-liitetyt osaamismerkit :liitetytOsaamismerkit)
                                   (assoc :kuuluuOpintokokonaisuuksiin opintokokonaisuudet)
                                   (common/localize-dates)
