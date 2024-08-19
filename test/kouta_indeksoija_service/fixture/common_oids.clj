@@ -111,8 +111,6 @@
 (defonce keyword-toteutus-oid9  "1.2.246.562.17.000028")
 (defonce osaamismerkki-toteutus-oid "1.2.246.562.17.000029")
 
-
-
 (defonce hakukohdeOid1     "1.2.246.562.20.0000001")
 (defonce hakukohdeOid2     "1.2.246.562.20.0000002")
 (defonce hakukohdeOid3     "1.2.246.562.20.0000003")
@@ -153,10 +151,14 @@
 (defonce helsingin-yliopisto      "1.2.246.562.10.39218317368")
 (defonce helsingin-toimipiste     "1.2.246.562.10.80593660139")
 
-
 (defonce oppilaitoksenOsaOid1  "1.2.246.562.10.001010101011")
 (defonce oppilaitoksenOsaOid2  "1.2.246.562.10.001010101012")
 (defonce oppilaitoksenOsaOid3  "1.2.246.562.10.001010101021")
 (defonce oppilaitoksenOsaOid4  "1.2.246.562.10.001010101022")
 (defonce oppilaitoksenOsaOid5  "1.2.246.562.10.001010101023")
 (defonce jokin-jarjestyspaikka "1.2.246.562.10.67476956288")
+
+(defonce ita-suomen-yliopisto               "1.2.246.562.10.38515028629")
+(defonce ita-suomen-yliopisto-avoin         "1.2.246.562.10.65987152505")
+(defonce ita-suomen-yliopisto-avoin-joensuu "1.2.246.562.10.52129572656") ;toimipisteen toimipiste
+(defonce ita-suomen-yliopisto-avoin-kuopio  "1.2.246.562.10.71579636385") ;toimipisteen toimipiste
