@@ -131,7 +131,6 @@
                   (assoc :tutkintonimikkeet       (search-tool/tutkintonimike-koodi-urit koulutus))
                   (assoc :kuvaus                  (get-in koulutus [:metadata :kuvaus]))
                   (assoc :teemakuva               (:teemakuva koulutus))
-                  (assoc :hakutuloslistauksenKuvake (:hakutuloslistauksenKuvake koulutus))
                   (assoc :koulutustyyppi          (:koulutustyyppi koulutus))
                   (assoc :isAvoinKorkeakoulutus   (get-in koulutus [:metadata :isAvoinKorkeakoulutus]))
                   (assoc :opintojenLaajuus        (search-tool/opintojen-laajuus-koodi-uri koulutus))
