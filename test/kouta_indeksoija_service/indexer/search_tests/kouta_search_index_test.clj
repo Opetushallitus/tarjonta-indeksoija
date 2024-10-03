@@ -115,7 +115,6 @@
                                :nimi "Osaamismerkki"
                                :ePerusteId nil
                                :koulutuksetKoodiUri []
-                               :hakutuloslistauksenKuvake "https://konfo-files.hahtuvaopintopolku.fi/koulutus-hakutuloslistauksen-kuvake/1.2.246.562.13.00000000000000008797/4d773fa0-44e7-4efe-89af-a46107cc3962.png"
                                :tarjoajat [oppilaitos-oid4]
                                :metadata {:linkkiEPerusteisiin {}
                                           :kuvaus {}
