@@ -79,7 +79,7 @@
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"} :dependencies [[net.java.dev.jna/jna "5.12.1"]
-                                                       [oph/clj-test-utils "0.5.5-SNAPSHOT"]
+                                                       [oph/clj-test-utils "0.5.7-SNAPSHOT"]
                                                        [lambdaisland/kaocha "1.87.1366"]]
                     :resource-paths ["test_resources"]
                     :jvm-opts ["-Daws.accessKeyId=randomKeyIdForLocalstack"
@@ -90,7 +90,7 @@
              :ci-test {:env {:test "true"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [net.java.dev.jna/jna "5.12.1"]
-                                      [oph/clj-test-utils "0.5.5-SNAPSHOT"]
+                                      [oph/clj-test-utils "0.5.7-SNAPSHOT"]
                                       [lambdaisland/kaocha "1.87.1366"]]
                        :jvm-opts ["-Dlog4j.configurationFile=dev_resources/log4j2.properties"
                                   "-Dconf=ci_resources/config.edn"

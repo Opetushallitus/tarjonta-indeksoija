@@ -107,4 +107,4 @@
           (let [result (bulk-upsert test-data)]
             (is (= 2 (count result)))
             (is (= 1 (count (filter #(= (:result %) "not_found") result))))
-            (is (= 1 (count (filter #(= (get-in % [:error :type]) "mapper_parsing_exception") result))))))))
+            (is (= 1 (count (filter #(= (get-in % [:error :type]) "document_parsing_exception") result))))))))
