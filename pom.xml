@@ -11,7 +11,7 @@
     <url>https://github.com/Opetushallitus/kouta-indeksoija</url>
     <connection>scm:git:git://github.com/Opetushallitus/kouta-indeksoija.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Opetushallitus/kouta-indeksoija.git</developerConnection>
-    <tag>7d29cf7bd6471462ce3f86d77aea71f510f8a4f0</tag>
+    <tag>92772d414a25c864e15ba9259b3c68bb033138b9</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -317,7 +317,13 @@
     <dependency>
       <groupId>oph</groupId>
       <artifactId>clj-test-utils</artifactId>
-      <version>0.5.5-SNAPSHOT</version>
+      <version>0.5.7-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>lambdaisland</groupId>
+      <artifactId>kaocha</artifactId>
+      <version>1.87.1366</version>
       <scope>test</scope>
     </dependency>
     <dependency>
