@@ -80,7 +80,6 @@
                                 (pjstadig.humane-test-output/activate!)]}
              :test {:env {:test "true"}
                     :env-vars {:AWS_REGION "us-east-1"}
-
                     :dependencies [[net.java.dev.jna/jna "5.12.1"]
                                                        [oph/clj-test-utils "0.5.7-SNAPSHOT"]
                                                        [lambdaisland/kaocha "1.87.1366"]]
@@ -111,7 +110,7 @@
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
   :aliases {"dev" ["with-profile" "+dev" "ring" "server"]
-            "test" [ "with-profile" "+test" ["run" "-m" "kouta-indeksoija-service.kaocha/run"]]
+            "test" ["with-profile" "+test" ["run" "-m" "kouta-indeksoija-service.kaocha/run"]]
             "deploy" ["with-profile" "+jar-with-test-fixture" "deploy"]
             "install" ["with-profile" "+jar-with-test-fixture" "install"]
             "ci-test" ["with-profile" "+test" ["run" "-m" "kouta-indeksoija-service.kaocha/run"]]
