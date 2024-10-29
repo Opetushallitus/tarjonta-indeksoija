@@ -26,7 +26,7 @@
                                                               org.clojure/core.cache
                                                               org.clojure/core.memoize]]
                  [com.fasterxml.jackson.core/jackson-annotations "2.12.4"]
-                 [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
+                 [clojurewerkz/quartzite "2.2.0" :exclusions [clj-time]]
                  [cheshire "5.10.0"]
                  [clj-http "2.3.0" :exclusions [org.apache.httpcomponents/httpclient]]
                  [mount "0.1.11"]
@@ -51,10 +51,10 @@
                  [clj-log4j2 "0.4.0"]
                  [ring-cors "0.1.11"]
                  ;;SQS Handling
-                 [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
+                 [amazonica "0.3.167" :exclusions [com.amazonaws/aws-java-sdk
                                                   com.amazonaws/amazon-kinesis-client]]
-                 [com.amazonaws/aws-java-sdk-core "1.11.916"]
-                 [com.amazonaws/aws-java-sdk-sqs "1.11.916"]]
+                 [com.amazonaws/aws-java-sdk-core "1.12.777"]
+                 [com.amazonaws/aws-java-sdk-sqs "1.12.777"]]
   :ring {:handler kouta-indeksoija-service.api/app
          :init kouta-indeksoija-service.api/init
          :destroy kouta-indeksoija-service.api/stop
