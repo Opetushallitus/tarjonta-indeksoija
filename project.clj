@@ -25,9 +25,9 @@
                                                               joda-time
                                                               org.clojure/core.cache
                                                               org.clojure/core.memoize]]
-                 [com.fasterxml.jackson.core/jackson-annotations "2.12.4"]
-                 [clojurewerkz/quartzite "2.0.0" :exclusions [clj-time]]
-                 [cheshire "5.10.0"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.17.2"]
+                 [clojurewerkz/quartzite "2.2.0" :exclusions [clj-time]]
+                 [cheshire "5.13.0"]
                  [clj-http "2.3.0" :exclusions [org.apache.httpcomponents/httpclient]]
                  [mount "0.1.11"]
                  [environ "1.1.0"]
@@ -51,10 +51,10 @@
                  [clj-log4j2 "0.4.0"]
                  [ring-cors "0.1.11"]
                  ;;SQS Handling
-                 [amazonica "0.3.48" :exclusions [com.amazonaws/aws-java-sdk
+                 [amazonica "0.3.167" :exclusions [com.amazonaws/aws-java-sdk
                                                   com.amazonaws/amazon-kinesis-client]]
-                 [com.amazonaws/aws-java-sdk-core "1.11.916"]
-                 [com.amazonaws/aws-java-sdk-sqs "1.11.916"]]
+                 [com.amazonaws/aws-java-sdk-core "1.12.777"]
+                 [com.amazonaws/aws-java-sdk-sqs "1.12.777"]]
   :ring {:handler kouta-indeksoija-service.api/app
          :init kouta-indeksoija-service.api/init
          :destroy kouta-indeksoija-service.api/stop
@@ -78,7 +78,9 @@
                               "-Daws.secretKey=randomKeyForLocalstack"]
                    :injections [(require 'pjstadig.humane-test-output)
                                 (pjstadig.humane-test-output/activate!)]}
-             :test {:env {:test "true"} :dependencies [[net.java.dev.jna/jna "5.12.1"]
+             :test {:env {:test "true"}
+                    :env-vars {:AWS_REGION "us-east-1"}
+                    :dependencies [[net.java.dev.jna/jna "5.12.1"]
                                                        [oph/clj-test-utils "0.5.7-SNAPSHOT"]
                                                        [lambdaisland/kaocha "1.87.1366"]]
                     :resource-paths ["test_resources"]
@@ -86,8 +88,11 @@
                                "-Daws.secretKey=randomKeyForLocalstack"]
                     :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                  (utils/global-docker-elastic-fixture)]
-                    :plugins [[lein-test-report "0.2.0"]]}
+                    :hooks [leiningen.with-env-vars/auto-inject]
+                    :plugins [[lein-with-env-vars "0.2.0"]
+                              [lein-test-report "0.2.0"]]}
              :ci-test {:env {:test "true"}
+                       :env-vars {:AWS_REGION "us-east-1"}
                        :dependencies [[ring/ring-mock "0.3.2"]
                                       [net.java.dev.jna/jna "5.12.1"]
                                       [oph/clj-test-utils "0.5.7-SNAPSHOT"]
@@ -98,7 +103,9 @@
                                   "-Daws.secretKey=randomKeyForLocalstack"]
                        :injections [(require '[clj-test-utils.elasticsearch-docker-utils :as utils])
                                     (utils/global-docker-elastic-fixture)]
-                       :plugins [[lein-test-report "0.2.0"]]}
+                       :hooks [leiningen.with-env-vars/auto-inject]
+                       :plugins [[lein-with-env-vars "0.2.0"]
+                                 [lein-test-report "0.2.0"]]}
              :uberjar {:ring {:port 8080}}
              :jar-with-test-fixture {:source-paths ["src", "test"]
                                      :jar-exclusions [#"perf|resources|mocks"]}} ;TODO: Better exclusion
