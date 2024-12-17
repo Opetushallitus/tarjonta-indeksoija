@@ -61,8 +61,8 @@
               :lisatiedot []
               :kuvaus {:fi "Kuvaus fi"
                        :sv "Kuvaus sv"}
-              :linkkiEPerusteisiin {:fi "https://eperusteet.opintopolku.fi/beta/#/fi/vapaasivistystyo/7512390/tiedot"
-                                    :sv "https://eperusteet.opintopolku.fi/beta/#/sv/vapaasivistystyo/7512390/tiedot"}
+              :linkkiEPerusteisiin {:fi "https://eperusteet.opintopolku.fi/#/fi/vapaasivistystyo/7512390/tiedot"
+                                    :sv "https://eperusteet.opintopolku.fi/#/sv/vapaasivistystyo/7512390/tiedot"}
               :koulutusalaKoodiUrit ["kansallinenkoulutusluokitus2016koulutusalataso2_001#1"]
               :opintojenLaajuusNumero 53.0
               :opintojenLaajuusyksikkoKoodiUri "opintojenlaajuusyksikko_2#1"
